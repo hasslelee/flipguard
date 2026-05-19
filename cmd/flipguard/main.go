@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"log"
 	"math"
+	"path/filepath"
 
 	"github.com/hasslelee/flipguard/internal/analysis"
 	"github.com/hasslelee/flipguard/internal/benchmarks"
 	"github.com/hasslelee/flipguard/internal/ir"
+	"github.com/hasslelee/flipguard/internal/report"
 	"github.com/hasslelee/flipguard/internal/runtime"
 	"github.com/hasslelee/flipguard/internal/scheduler"
 )
@@ -179,27 +181,54 @@ func main() {
 		"avg_bits",
 	)
 
+	summaryRows := make([]report.SummaryRow, 0, len(methods))
+
 	for _, m := range methods {
 		stats, err := evaluateMethod(g, samples, threshold, gamma, marginFloor, m.schedule)
 		if err != nil {
 			log.Fatalf("method %s failed: %v", m.name, err)
 		}
 
+		row := report.NewSummaryRow(m.name, stats, m.schedule)
+		summaryRows = append(summaryRows, row)
+
 		fmt.Printf("%-24s %8d %8d %10.4f %10d %10d %15d %15.4f %15d %15.4f %12.6f %10.2f\n",
-			m.name,
-			stats.Count,
-			stats.FlipCount,
-			stats.FlipRate,
-			stats.BoundaryCount,
-			stats.AmbiguousCount,
-			stats.BoundaryFlipCount,
-			stats.BoundaryFlipRate,
-			stats.StableBoundaryFlipCount,
-			stats.StableBoundaryFlipRate,
-			stats.MaxError,
-			averageBits(m.schedule),
+			row.Method,
+			row.Samples,
+			row.Flips,
+			row.FlipRate,
+			row.BoundaryCount,
+			row.AmbiguousCount,
+			row.BoundaryFlips,
+			row.BoundaryRate,
+			row.StableBoundaryFlips,
+			row.StableBoundaryRate,
+			row.MaxError,
+			row.AvgBits,
 		)
 	}
+
+	if err := exportResults("results/logreg_small", summaryRows, flipCases); err != nil {
+		log.Fatalf("export results failed: %v", err)
+	}
+
+	fmt.Println()
+	fmt.Println("Exported CSV files to results/logreg_small/")
+}
+
+func exportResults(outputDir string, summaryRows []report.SummaryRow, flipCases []flipGuardCase) error {
+	if err := report.WriteSummaryCSV(filepath.Join(outputDir, "summary.csv"), summaryRows); err != nil {
+		return err
+	}
+
+	for _, c := range flipCases {
+		path := filepath.Join(outputDir, fmt.Sprintf("schedule_%s.csv", c.name))
+		if err := report.WriteScheduleCSV(path, c.result); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func buildFlipGuard(
@@ -266,7 +295,7 @@ func printFlipGuardResult(
 		result.Feasible,
 		analysisResult.ProtectedMargin,
 		analysisResult.ProtectedPercentile,
-		averageBits(result.Schedule),
+		report.AverageBits(result.Schedule),
 	)
 
 	printFlipGuardSchedule(result)
@@ -321,19 +350,6 @@ func printFlipGuardSchedule(result *scheduler.FlipGuardResult) {
 	}
 
 	fmt.Println()
-}
-
-func averageBits(schedule runtime.PrecisionSchedule) float64 {
-	if len(schedule) == 0 {
-		return 0
-	}
-
-	total := 0
-	for _, bits := range schedule {
-		total += int(bits)
-	}
-
-	return float64(total) / float64(len(schedule))
 }
 
 func evaluateMethod(
