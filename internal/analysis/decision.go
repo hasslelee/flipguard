@@ -27,6 +27,12 @@ type DecisionRecord struct {
 	Threshold   float64
 	Gamma       float64
 
+	// MarginFloor defines the ambiguous region around the threshold.
+	// If MarginFloor > 0 and Margin <= MarginFloor, the sample is marked
+	// as ambiguous because no nonzero approximation error can reliably
+	// preserve the threshold decision.
+	MarginFloor float64
+
 	Margin      float64
 	OutputError float64
 
@@ -35,6 +41,10 @@ type DecisionRecord struct {
 
 	Flip     bool
 	Boundary bool
+
+	// Ambiguous is true when the plaintext output is too close to the
+	// decision threshold. Such samples are reported separately.
+	Ambiguous bool
 }
 
 // AnalyzeDecision compares a reference plaintext score and an approximate score.
@@ -46,12 +56,37 @@ type DecisionRecord struct {
 // Flip is defined by:
 //
 //	Classify(plain_score, threshold) != Classify(approx_score, threshold)
+//
+// This function does not mark ambiguous samples. Use
+// AnalyzeDecisionWithMarginFloor when ambiguous boundary handling is needed.
 func AnalyzeDecision(index int, plainScore float64, approxScore float64, threshold float64, gamma float64) DecisionRecord {
+	return AnalyzeDecisionWithMarginFloor(index, plainScore, approxScore, threshold, gamma, 0)
+}
+
+// AnalyzeDecisionWithMarginFloor compares a reference plaintext score and an
+// approximate score while marking samples with margin <= marginFloor as
+// ambiguous.
+//
+// Ambiguous samples are not removed from the overall flip count. Instead,
+// SummarizeDecisions reports both overall metrics and stable-region metrics.
+func AnalyzeDecisionWithMarginFloor(
+	index int,
+	plainScore float64,
+	approxScore float64,
+	threshold float64,
+	gamma float64,
+	marginFloor float64,
+) DecisionRecord {
 	margin := math.Abs(plainScore - threshold)
 	outputError := math.Abs(approxScore - plainScore)
 
 	plainDecision := Classify(plainScore, threshold)
 	approxDecision := Classify(approxScore, threshold)
+
+	ambiguous := false
+	if marginFloor > 0 && margin <= marginFloor {
+		ambiguous = true
+	}
 
 	return DecisionRecord{
 		Index: index,
@@ -61,6 +96,8 @@ func AnalyzeDecision(index int, plainScore float64, approxScore float64, thresho
 		Threshold:   threshold,
 		Gamma:       gamma,
 
+		MarginFloor: marginFloor,
+
 		Margin:      margin,
 		OutputError: outputError,
 
@@ -69,6 +106,8 @@ func AnalyzeDecision(index int, plainScore float64, approxScore float64, thresho
 
 		Flip:     plainDecision != approxDecision,
 		Boundary: margin <= gamma,
+
+		Ambiguous: ambiguous,
 	}
 }
 
@@ -83,6 +122,22 @@ type DecisionStats struct {
 
 	BoundaryFlipCount int
 	BoundaryFlipRate  float64
+
+	// AmbiguousCount counts samples whose plaintext score is too close to the
+	// decision threshold under a chosen margin floor.
+	AmbiguousCount int
+
+	// StableCount excludes ambiguous samples.
+	StableCount int
+
+	StableFlipCount int
+	StableFlipRate  float64
+
+	// StableBoundaryCount counts boundary-zone samples excluding ambiguous ones.
+	StableBoundaryCount int
+
+	StableBoundaryFlipCount int
+	StableBoundaryFlipRate  float64
 
 	MaxError float64
 	P95Error float64
@@ -111,6 +166,22 @@ func SummarizeDecisions(records []DecisionRecord) DecisionStats {
 				stats.BoundaryFlipCount++
 			}
 		}
+
+		if r.Ambiguous {
+			stats.AmbiguousCount++
+		} else {
+			stats.StableCount++
+			if r.Flip {
+				stats.StableFlipCount++
+			}
+			if r.Boundary {
+				stats.StableBoundaryCount++
+				if r.Flip {
+					stats.StableBoundaryFlipCount++
+				}
+			}
+		}
+
 		if r.OutputError > stats.MaxError {
 			stats.MaxError = r.OutputError
 		}
@@ -121,6 +192,14 @@ func SummarizeDecisions(records []DecisionRecord) DecisionStats {
 
 	if stats.BoundaryCount > 0 {
 		stats.BoundaryFlipRate = float64(stats.BoundaryFlipCount) / float64(stats.BoundaryCount)
+	}
+
+	if stats.StableCount > 0 {
+		stats.StableFlipRate = float64(stats.StableFlipCount) / float64(stats.StableCount)
+	}
+
+	if stats.StableBoundaryCount > 0 {
+		stats.StableBoundaryFlipRate = float64(stats.StableBoundaryFlipCount) / float64(stats.StableBoundaryCount)
 	}
 
 	sortFloat64s(errors)

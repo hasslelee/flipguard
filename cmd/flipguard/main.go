@@ -31,6 +31,7 @@ func main() {
 
 	threshold := sampleOpts.Threshold
 	gamma := sampleOpts.Gamma
+	marginFloor := 1e-4
 
 	analysisInputs := make([]map[ir.NodeID]float64, 0, len(samples))
 	for _, sample := range samples {
@@ -61,7 +62,7 @@ func main() {
 	// We exclude margins below the floor when constructing the conservative min policy.
 	analysisMinFloor := cloneAnalysisWithProtectedMargin(
 		analysisP5,
-		minPositiveMarginAboveFloor(analysisP5.Margins, 1e-4),
+		minPositiveMarginAboveFloor(analysisP5.Margins, marginFloor),
 		0.0,
 	)
 
@@ -109,7 +110,7 @@ func main() {
 	}
 
 	fmt.Println("FlipGuard demo: logreg_small decision-stability simulation")
-	fmt.Printf("threshold=%.4f gamma=%.4f samples=%d\n", threshold, gamma, len(samples))
+	fmt.Printf("threshold=%.4f gamma=%.4f margin_floor=%.6f samples=%d\n", threshold, gamma, marginFloor, len(samples))
 	fmt.Println()
 
 	for _, c := range flipCases {
@@ -163,32 +164,38 @@ func main() {
 		},
 	}
 
-	fmt.Printf("%-24s %8s %8s %10s %10s %15s %15s %12s %10s\n",
+	fmt.Printf("%-24s %8s %8s %10s %10s %10s %15s %15s %15s %15s %12s %10s\n",
 		"method",
 		"samples",
 		"flips",
 		"flip_rate",
 		"boundary",
+		"ambig",
 		"boundary_flips",
 		"boundary_rate",
+		"stable_b_flips",
+		"stable_b_rate",
 		"max_error",
 		"avg_bits",
 	)
 
 	for _, m := range methods {
-		stats, err := evaluateMethod(g, samples, threshold, gamma, m.schedule)
+		stats, err := evaluateMethod(g, samples, threshold, gamma, marginFloor, m.schedule)
 		if err != nil {
 			log.Fatalf("method %s failed: %v", m.name, err)
 		}
 
-		fmt.Printf("%-24s %8d %8d %10.4f %10d %15d %15.4f %12.6f %10.2f\n",
+		fmt.Printf("%-24s %8d %8d %10.4f %10d %10d %15d %15.4f %15d %15.4f %12.6f %10.2f\n",
 			m.name,
 			stats.Count,
 			stats.FlipCount,
 			stats.FlipRate,
 			stats.BoundaryCount,
+			stats.AmbiguousCount,
 			stats.BoundaryFlipCount,
 			stats.BoundaryFlipRate,
+			stats.StableBoundaryFlipCount,
+			stats.StableBoundaryFlipRate,
 			stats.MaxError,
 			averageBits(m.schedule),
 		)
@@ -334,6 +341,7 @@ func evaluateMethod(
 	samples []benchmarks.LogRegSmallSample,
 	threshold float64,
 	gamma float64,
+	marginFloor float64,
 	schedule runtime.PrecisionSchedule,
 ) (analysis.DecisionStats, error) {
 	records := make([]analysis.DecisionRecord, 0, len(samples))
@@ -353,12 +361,13 @@ func evaluateMethod(
 			approxScore = quantized.Output
 		}
 
-		record := analysis.AnalyzeDecision(
+		record := analysis.AnalyzeDecisionWithMarginFloor(
 			i,
 			plain.Output,
 			approxScore,
 			threshold,
 			gamma,
+			marginFloor,
 		)
 		records = append(records, record)
 	}
