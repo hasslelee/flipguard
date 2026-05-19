@@ -60,8 +60,6 @@ func main() {
 		log.Fatalf("p1 analysis failed: %v", err)
 	}
 
-	// Extremely small margins are practically ambiguous in approximate inference.
-	// We exclude margins below the floor when constructing the conservative min policy.
 	analysisMinFloor := cloneAnalysisWithProtectedMargin(
 		analysisP5,
 		minPositiveMarginAboveFloor(analysisP5.Margins, marginFloor),
@@ -182,15 +180,19 @@ func main() {
 	)
 
 	summaryRows := make([]report.SummaryRow, 0, len(methods))
+	recordsByMethod := make(map[string][]analysis.DecisionRecord)
 
 	for _, m := range methods {
-		stats, err := evaluateMethod(g, samples, threshold, gamma, marginFloor, m.schedule)
+		records, err := evaluateMethodRecords(g, samples, threshold, gamma, marginFloor, m.schedule)
 		if err != nil {
 			log.Fatalf("method %s failed: %v", m.name, err)
 		}
 
+		stats := analysis.SummarizeDecisions(records)
 		row := report.NewSummaryRow(m.name, stats, m.schedule)
+
 		summaryRows = append(summaryRows, row)
+		recordsByMethod[m.name] = records
 
 		fmt.Printf("%-24s %8d %8d %10.4f %10d %10d %15d %15.4f %15d %15.4f %12.6f %10.2f\n",
 			row.Method,
@@ -208,7 +210,7 @@ func main() {
 		)
 	}
 
-	if err := exportResults("results/logreg_small", summaryRows, flipCases); err != nil {
+	if err := exportResults("results/logreg_small", summaryRows, recordsByMethod, flipCases); err != nil {
 		log.Fatalf("export results failed: %v", err)
 	}
 
@@ -216,7 +218,12 @@ func main() {
 	fmt.Println("Exported CSV files to results/logreg_small/")
 }
 
-func exportResults(outputDir string, summaryRows []report.SummaryRow, flipCases []flipGuardCase) error {
+func exportResults(
+	outputDir string,
+	summaryRows []report.SummaryRow,
+	recordsByMethod map[string][]analysis.DecisionRecord,
+	flipCases []flipGuardCase,
+) error {
 	if err := report.WriteSummaryCSV(filepath.Join(outputDir, "summary.csv"), summaryRows); err != nil {
 		return err
 	}
@@ -224,6 +231,13 @@ func exportResults(outputDir string, summaryRows []report.SummaryRow, flipCases 
 	for _, c := range flipCases {
 		path := filepath.Join(outputDir, fmt.Sprintf("schedule_%s.csv", c.name))
 		if err := report.WriteScheduleCSV(path, c.result); err != nil {
+			return err
+		}
+	}
+
+	for method, records := range recordsByMethod {
+		path := filepath.Join(outputDir, fmt.Sprintf("records_%s.csv", method))
+		if err := report.WriteDecisionRecordsCSV(path, method, records); err != nil {
 			return err
 		}
 	}
@@ -352,27 +366,27 @@ func printFlipGuardSchedule(result *scheduler.FlipGuardResult) {
 	fmt.Println()
 }
 
-func evaluateMethod(
+func evaluateMethodRecords(
 	g *ir.Graph,
 	samples []benchmarks.LogRegSmallSample,
 	threshold float64,
 	gamma float64,
 	marginFloor float64,
 	schedule runtime.PrecisionSchedule,
-) (analysis.DecisionStats, error) {
+) ([]analysis.DecisionRecord, error) {
 	records := make([]analysis.DecisionRecord, 0, len(samples))
 
 	for i, sample := range samples {
 		plain, err := runtime.EvalPlain(g, sample.Inputs())
 		if err != nil {
-			return analysis.DecisionStats{}, err
+			return nil, err
 		}
 
 		approxScore := plain.Output
 		if schedule != nil {
 			quantized, err := runtime.EvalQuantized(g, sample.Inputs(), schedule)
 			if err != nil {
-				return analysis.DecisionStats{}, err
+				return nil, err
 			}
 			approxScore = quantized.Output
 		}
@@ -388,5 +402,5 @@ func evaluateMethod(
 		records = append(records, record)
 	}
 
-	return analysis.SummarizeDecisions(records), nil
+	return records, nil
 }

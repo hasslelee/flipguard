@@ -204,6 +204,72 @@ func WriteScheduleCSV(path string, result *scheduler.FlipGuardResult) error {
 	return nil
 }
 
+// WriteDecisionRecordsCSV writes sample-level decision records for one method.
+func WriteDecisionRecordsCSV(path string, method string, records []analysis.DecisionRecord) error {
+	if err := ensureParentDir(path); err != nil {
+		return err
+	}
+
+	f, err := os.Create(path)
+	if err != nil {
+		return fmt.Errorf("create decision records csv: %w", err)
+	}
+	defer f.Close()
+
+	w := csv.NewWriter(f)
+	defer w.Flush()
+
+	header := []string{
+		"method",
+		"index",
+		"plain_score",
+		"approx_score",
+		"threshold",
+		"gamma",
+		"margin_floor",
+		"margin",
+		"output_error",
+		"plain_decision",
+		"approx_decision",
+		"flip",
+		"boundary",
+		"ambiguous",
+	}
+
+	if err := w.Write(header); err != nil {
+		return fmt.Errorf("write decision records header: %w", err)
+	}
+
+	for _, r := range records {
+		record := []string{
+			method,
+			strconv.Itoa(r.Index),
+			formatFloat(r.PlainScore),
+			formatFloat(r.ApproxScore),
+			formatFloat(r.Threshold),
+			formatFloat(r.Gamma),
+			formatFloat(r.MarginFloor),
+			formatFloat(r.Margin),
+			formatFloat(r.OutputError),
+			strconv.Itoa(int(r.PlainDecision)),
+			strconv.Itoa(int(r.ApproxDecision)),
+			strconv.FormatBool(r.Flip),
+			strconv.FormatBool(r.Boundary),
+			strconv.FormatBool(r.Ambiguous),
+		}
+
+		if err := w.Write(record); err != nil {
+			return fmt.Errorf("write decision record for method %s index %d: %w", method, r.Index, err)
+		}
+	}
+
+	if err := w.Error(); err != nil {
+		return fmt.Errorf("flush decision records csv: %w", err)
+	}
+
+	return nil
+}
+
 func ensureParentDir(path string) error {
 	dir := filepath.Dir(path)
 	if dir == "." || dir == "" {
