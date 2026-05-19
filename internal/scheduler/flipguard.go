@@ -41,7 +41,7 @@ type FlipGuardOptions struct {
 func DefaultFlipGuardOptions() FlipGuardOptions {
 	return FlipGuardOptions{
 		MinBits: 0,
-		MaxBits: 8,
+		MaxBits: 12,
 
 		GlobalTolerance:    0.02,
 		SafetyFactor:       0.5,
@@ -118,10 +118,10 @@ func BuildFlipGuardSchedule(
 		EstimatedError: currentError,
 		Feasible:       currentError <= budget,
 		BudgetSource:   source,
+		Nodes:          buildNodeReports(selected, analysisResult.Sensitivity, schedule),
 	}
 
 	if !result.Feasible {
-		result.Nodes = buildNodeReports(selected, analysisResult.Sensitivity, schedule)
 		return result, nil
 	}
 
@@ -168,7 +168,7 @@ func BuildFlipGuardSchedule(
 
 func normalizeFlipGuardOptions(opts *FlipGuardOptions) {
 	if opts.MaxBits <= 0 {
-		opts.MaxBits = 8
+		opts.MaxBits = 12
 	}
 	if opts.MinBits < 0 {
 		opts.MinBits = 0

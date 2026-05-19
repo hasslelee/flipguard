@@ -15,7 +15,17 @@ const (
 //	z = 0.8*x1 - 0.5*x2 + 1.2*x3 - 0.3
 //	y = 0.5 + 0.197*z - 0.004*z^3
 //
-// The output node is "y".
+// Unlike a single polynomial node, this graph expands the cubic approximation
+// into explicit program points:
+//
+//	z2  = z * z
+//	z3  = z2 * z
+//	lin = 0.197 * z
+//	cub = -0.004 * z3
+//	y   = 0.5 + lin + cub
+//
+// The explicit form is useful for FlipGuard because it exposes program points
+// with different output sensitivities.
 func NewLogRegSmallGraph() *ir.Graph {
 	g := ir.NewGraph()
 
@@ -33,12 +43,16 @@ func NewLogRegSmallGraph() *ir.Graph {
 	g.MustAddNode(ir.NewConst("bias", "-0.3", -0.3))
 	g.MustAddNode(ir.NewBinary("z", "linear score z", ir.OpAdd, "s2", "bias"))
 
-	g.MustAddNode(ir.NewPoly("y", "cubic sigmoid approximation", "z", []float64{
-		0.5,    // c0
-		0.197,  // c1
-		0.0,    // c2
-		-0.004, // c3
-	}))
+	// Explicit cubic sigmoid approximation:
+	// y = 0.5 + 0.197*z - 0.004*z^3
+	g.MustAddNode(ir.NewBinary("z2", "z^2", ir.OpMul, "z", "z"))
+	g.MustAddNode(ir.NewBinary("z3", "z^3", ir.OpMul, "z2", "z"))
+	g.MustAddNode(ir.NewMulConst("lin", "0.197*z", "z", 0.197))
+	g.MustAddNode(ir.NewMulConst("cub", "-0.004*z^3", "z3", -0.004))
+
+	g.MustAddNode(ir.NewConst("half", "0.5", 0.5))
+	g.MustAddNode(ir.NewBinary("s3", "0.5+0.197z", ir.OpAdd, "half", "lin"))
+	g.MustAddNode(ir.NewBinary("y", "0.5+0.197z-0.004z^3", ir.OpAdd, "s3", "cub"))
 
 	g.MustSetOutput("y")
 

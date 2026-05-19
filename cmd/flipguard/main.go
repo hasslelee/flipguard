@@ -67,6 +67,10 @@ func main() {
 			schedule: nil,
 		},
 		{
+			name:     "uniform_bits_12",
+			schedule: scheduler.UniformSchedule(g, runtime.PrecisionBits(12), scheduler.DefaultIntermediateOptions()),
+		},
+		{
 			name:     "uniform_bits_8",
 			schedule: scheduler.UniformSchedule(g, runtime.PrecisionBits(8), scheduler.DefaultIntermediateOptions()),
 		},

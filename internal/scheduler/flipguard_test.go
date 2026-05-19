@@ -35,7 +35,7 @@ func TestBuildFlipGuardSchedule(t *testing.T) {
 
 	fg, err := BuildFlipGuardSchedule(g, analysisResult, FlipGuardOptions{
 		MinBits: runtime.PrecisionBits(0),
-		MaxBits: runtime.PrecisionBits(8),
+		MaxBits: runtime.PrecisionBits(12),
 
 		GlobalTolerance:    0.02,
 		SafetyFactor:       0.5,
