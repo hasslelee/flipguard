@@ -17,6 +17,12 @@ type method struct {
 	schedule runtime.PrecisionSchedule
 }
 
+type flipGuardCase struct {
+	name     string
+	result   *scheduler.FlipGuardResult
+	analysis *analysis.BoundSensitivityResult
+}
+
 func main() {
 	g := benchmarks.NewLogRegSmallGraph()
 
@@ -51,51 +57,73 @@ func main() {
 		log.Fatalf("p1 analysis failed: %v", err)
 	}
 
-	analysisMin := cloneAnalysisWithProtectedMargin(
+	// Extremely small margins are practically ambiguous in approximate inference.
+	// We exclude margins below the floor when constructing the conservative min policy.
+	analysisMinFloor := cloneAnalysisWithProtectedMargin(
 		analysisP5,
-		minPositiveMargin(analysisP5.Margins),
+		minPositiveMarginAboveFloor(analysisP5.Margins, 1e-4),
 		0.0,
 	)
 
-	flipGuardP5, err := scheduler.BuildFlipGuardSchedule(
-		g,
-		analysisP5,
-		scheduler.DefaultFlipGuardOptions(),
-	)
+	flipGuardP5M12, err := buildFlipGuard(g, analysisP5, 12)
 	if err != nil {
-		log.Fatalf("FlipGuard p5 scheduling failed: %v", err)
+		log.Fatalf("FlipGuard p5 max12 scheduling failed: %v", err)
 	}
 
-	flipGuardP1, err := scheduler.BuildFlipGuardSchedule(
-		g,
-		analysisP1,
-		scheduler.DefaultFlipGuardOptions(),
-	)
+	flipGuardP5M16, err := buildFlipGuard(g, analysisP5, 16)
 	if err != nil {
-		log.Fatalf("FlipGuard p1 scheduling failed: %v", err)
+		log.Fatalf("FlipGuard p5 max16 scheduling failed: %v", err)
 	}
 
-	flipGuardMin, err := scheduler.BuildFlipGuardSchedule(
-		g,
-		analysisMin,
-		scheduler.DefaultFlipGuardOptions(),
-	)
+	flipGuardP1M16, err := buildFlipGuard(g, analysisP1, 16)
 	if err != nil {
-		log.Fatalf("FlipGuard min scheduling failed: %v", err)
+		log.Fatalf("FlipGuard p1 max16 scheduling failed: %v", err)
+	}
+
+	flipGuardMinM16, err := buildFlipGuard(g, analysisMinFloor, 16)
+	if err != nil {
+		log.Fatalf("FlipGuard min-floor max16 scheduling failed: %v", err)
+	}
+
+	flipCases := []flipGuardCase{
+		{
+			name:     "flipguard_p5_m12",
+			result:   flipGuardP5M12,
+			analysis: analysisP5,
+		},
+		{
+			name:     "flipguard_p5_m16",
+			result:   flipGuardP5M16,
+			analysis: analysisP5,
+		},
+		{
+			name:     "flipguard_p1_m16",
+			result:   flipGuardP1M16,
+			analysis: analysisP1,
+		},
+		{
+			name:     "flipguard_minfloor_m16",
+			result:   flipGuardMinM16,
+			analysis: analysisMinFloor,
+		},
 	}
 
 	fmt.Println("FlipGuard demo: logreg_small decision-stability simulation")
 	fmt.Printf("threshold=%.4f gamma=%.4f samples=%d\n", threshold, gamma, len(samples))
 	fmt.Println()
 
-	printFlipGuardResult("flipguard_p5", flipGuardP5, analysisP5)
-	printFlipGuardResult("flipguard_p1", flipGuardP1, analysisP1)
-	printFlipGuardResult("flipguard_min", flipGuardMin, analysisMin)
+	for _, c := range flipCases {
+		printFlipGuardResult(c.name, c.result, c.analysis)
+	}
 
 	methods := []method{
 		{
 			name:     "plain",
 			schedule: nil,
+		},
+		{
+			name:     "uniform_bits_16",
+			schedule: scheduler.UniformSchedule(g, runtime.PrecisionBits(16), scheduler.DefaultIntermediateOptions()),
 		},
 		{
 			name:     "uniform_bits_12",
@@ -118,20 +146,24 @@ func main() {
 			schedule: scheduler.UniformSchedule(g, runtime.PrecisionBits(0), scheduler.DefaultIntermediateOptions()),
 		},
 		{
-			name:     "flipguard_p5",
-			schedule: flipGuardP5.Schedule,
+			name:     "flipguard_p5_m12",
+			schedule: flipGuardP5M12.Schedule,
 		},
 		{
-			name:     "flipguard_p1",
-			schedule: flipGuardP1.Schedule,
+			name:     "flipguard_p5_m16",
+			schedule: flipGuardP5M16.Schedule,
 		},
 		{
-			name:     "flipguard_min",
-			schedule: flipGuardMin.Schedule,
+			name:     "flipguard_p1_m16",
+			schedule: flipGuardP1M16.Schedule,
+		},
+		{
+			name:     "flipguard_minfloor_m16",
+			schedule: flipGuardMinM16.Schedule,
 		},
 	}
 
-	fmt.Printf("%-16s %8s %8s %10s %10s %15s %15s %12s %10s\n",
+	fmt.Printf("%-24s %8s %8s %10s %10s %15s %15s %12s %10s\n",
 		"method",
 		"samples",
 		"flips",
@@ -149,7 +181,7 @@ func main() {
 			log.Fatalf("method %s failed: %v", m.name, err)
 		}
 
-		fmt.Printf("%-16s %8d %8d %10.4f %10d %15d %15.4f %12.6f %10.2f\n",
+		fmt.Printf("%-24s %8d %8d %10.4f %10d %15d %15.4f %12.6f %10.2f\n",
 			m.name,
 			stats.Count,
 			stats.FlipCount,
@@ -161,6 +193,22 @@ func main() {
 			averageBits(m.schedule),
 		)
 	}
+}
+
+func buildFlipGuard(
+	g *ir.Graph,
+	analysisResult *analysis.BoundSensitivityResult,
+	maxBits runtime.PrecisionBits,
+) (*scheduler.FlipGuardResult, error) {
+	opts := scheduler.DefaultFlipGuardOptions()
+	opts.MaxBits = maxBits
+	opts.MinBits = 0
+	opts.GlobalTolerance = 0.02
+	opts.SafetyFactor = 0.5
+	opts.UseProtectedMargin = true
+	opts.ScheduleOptions = scheduler.DefaultIntermediateOptions()
+
+	return scheduler.BuildFlipGuardSchedule(g, analysisResult, opts)
 }
 
 func cloneAnalysisWithProtectedMargin(
@@ -182,11 +230,11 @@ func cloneAnalysisWithProtectedMargin(
 	}
 }
 
-func minPositiveMargin(margins []float64) float64 {
+func minPositiveMarginAboveFloor(margins []float64, floor float64) float64 {
 	minMargin := math.Inf(1)
 
 	for _, margin := range margins {
-		if margin > 0 && margin < minMargin {
+		if margin > floor && margin < minMargin {
 			minMargin = margin
 		}
 	}
