@@ -59,6 +59,8 @@ func main() {
 		analysisResult.ProtectedMargin,
 	)
 
+	printFlipGuardSchedule(flipGuardResult)
+
 	methods := []method{
 		{
 			name:     "plain",
@@ -114,6 +116,57 @@ func main() {
 			stats.MaxError,
 		)
 	}
+}
+
+func printFlipGuardSchedule(result *scheduler.FlipGuardResult) {
+	fmt.Println("FlipGuard schedule:")
+	fmt.Printf("%-8s %-12s %12s %6s %12s %12s %15s\n",
+		"node",
+		"op",
+		"sensitivity",
+		"bits",
+		"step",
+		"delta",
+		"contribution",
+	)
+
+	totalBits := 0
+	minBits := 1 << 30
+	maxBits := -1
+
+	for _, n := range result.Nodes {
+		bits := int(n.Bits)
+		totalBits += bits
+		if bits < minBits {
+			minBits = bits
+		}
+		if bits > maxBits {
+			maxBits = bits
+		}
+
+		fmt.Printf("%-8s %-12s %12.6f %6d %12.8f %12.8f %15.8f\n",
+			n.NodeID,
+			n.Op,
+			n.Sensitivity,
+			bits,
+			n.Step,
+			n.Delta,
+			n.Contribution,
+		)
+	}
+
+	if len(result.Nodes) > 0 {
+		avgBits := float64(totalBits) / float64(len(result.Nodes))
+		fmt.Printf("\nSchedule summary: nodes=%d avg_bits=%.2f min_bits=%d max_bits=%d\n\n",
+			len(result.Nodes),
+			avgBits,
+			minBits,
+			maxBits,
+		)
+		return
+	}
+
+	fmt.Println()
 }
 
 func evaluateMethod(
