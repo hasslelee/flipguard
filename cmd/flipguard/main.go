@@ -18,11 +18,46 @@ type method struct {
 
 func main() {
 	g := benchmarks.NewLogRegSmallGraph()
+
 	sampleOpts := benchmarks.DefaultBoundaryFocusedOptions()
 	samples := benchmarks.GenerateLogRegSmallSamples(sampleOpts)
 
 	threshold := sampleOpts.Threshold
 	gamma := sampleOpts.Gamma
+
+	analysisInputs := make([]map[ir.NodeID]float64, 0, len(samples))
+	for _, sample := range samples {
+		analysisInputs = append(analysisInputs, sample.Inputs())
+	}
+
+	analysisResult, err := analysis.AnalyzeBoundsAndSensitivity(
+		g,
+		analysisInputs,
+		threshold,
+		0.05,
+	)
+	if err != nil {
+		log.Fatalf("analysis failed: %v", err)
+	}
+
+	flipGuardResult, err := scheduler.BuildFlipGuardSchedule(
+		g,
+		analysisResult,
+		scheduler.DefaultFlipGuardOptions(),
+	)
+	if err != nil {
+		log.Fatalf("FlipGuard scheduling failed: %v", err)
+	}
+
+	fmt.Println("FlipGuard demo: logreg_small decision-stability simulation")
+	fmt.Printf("threshold=%.4f gamma=%.4f samples=%d\n", threshold, gamma, len(samples))
+	fmt.Printf("FlipGuard budget=%.8f source=%s estimated_error=%.8f feasible=%v protected_margin=%.8f\n\n",
+		flipGuardResult.Budget,
+		flipGuardResult.BudgetSource,
+		flipGuardResult.EstimatedError,
+		flipGuardResult.Feasible,
+		analysisResult.ProtectedMargin,
+	)
 
 	methods := []method{
 		{
@@ -45,10 +80,11 @@ func main() {
 			name:     "uniform_bits_0",
 			schedule: scheduler.UniformSchedule(g, runtime.PrecisionBits(0), scheduler.DefaultIntermediateOptions()),
 		},
+		{
+			name:     "flipguard",
+			schedule: flipGuardResult.Schedule,
+		},
 	}
-
-	fmt.Println("FlipGuard demo: logreg_small decision-stability simulation")
-	fmt.Printf("threshold=%.4f gamma=%.4f samples=%d\n\n", threshold, gamma, len(samples))
 
 	fmt.Printf("%-16s %8s %8s %10s %10s %15s %15s %12s\n",
 		"method",
