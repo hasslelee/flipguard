@@ -18,10 +18,11 @@ type method struct {
 
 func main() {
 	g := benchmarks.NewLogRegSmallGraph()
-	samples := benchmarks.DefaultLogRegSmallSamples()
+	sampleOpts := benchmarks.DefaultBoundaryFocusedOptions()
+	samples := benchmarks.GenerateLogRegSmallSamples(sampleOpts)
 
-	threshold := benchmarks.LogRegSmallThreshold
-	gamma := 0.05
+	threshold := sampleOpts.Threshold
+	gamma := sampleOpts.Gamma
 
 	methods := []method{
 		{

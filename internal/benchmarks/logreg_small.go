@@ -1,6 +1,8 @@
 package benchmarks
 
 import (
+	"math"
+
 	"github.com/hasslelee/flipguard/internal/ir"
 )
 
@@ -43,6 +45,17 @@ func NewLogRegSmallGraph() *ir.Graph {
 	return g
 }
 
+// LogRegSmallScore evaluates the running example directly over plaintext values.
+func LogRegSmallScore(s LogRegSmallSample) float64 {
+	z := 0.8*s.X1 - 0.5*s.X2 + 1.2*s.X3 - 0.3
+	return 0.5 + 0.197*z - 0.004*z*z*z
+}
+
+// LogRegSmallMargin returns |score - threshold|.
+func LogRegSmallMargin(s LogRegSmallSample, threshold float64) float64 {
+	return math.Abs(LogRegSmallScore(s) - threshold)
+}
+
 // LogRegSmallSample represents one input sample for the running example.
 type LogRegSmallSample struct {
 	X1 float64
@@ -61,7 +74,7 @@ func (s LogRegSmallSample) Inputs() map[ir.NodeID]float64 {
 
 // DefaultLogRegSmallSamples returns a small deterministic sample set.
 //
-// Later, we will replace or extend this with generated boundary-focused samples.
+// This is mainly used for unit tests and sanity checks.
 func DefaultLogRegSmallSamples() []LogRegSmallSample {
 	return []LogRegSmallSample{
 		{X1: 1.0, X2: 2.0, X3: 0.5},
@@ -70,4 +83,93 @@ func DefaultLogRegSmallSamples() []LogRegSmallSample {
 		{X1: -1.0, X2: 0.5, X3: 1.5},
 		{X1: 0.5, X2: -1.0, X3: 0.25},
 	}
+}
+
+// LogRegSmallSampleGenOptions controls deterministic sample generation.
+type LogRegSmallSampleGenOptions struct {
+	RangeMin float64
+	RangeMax float64
+	Step     float64
+
+	Threshold float64
+	Gamma     float64
+
+	MaxBoundary    int
+	MaxNonBoundary int
+}
+
+// DefaultBoundaryFocusedOptions returns a deterministic configuration that
+// intentionally collects many samples near the decision boundary.
+func DefaultBoundaryFocusedOptions() LogRegSmallSampleGenOptions {
+	return LogRegSmallSampleGenOptions{
+		RangeMin: -2.0,
+		RangeMax: 2.0,
+		Step:     0.05,
+
+		Threshold: LogRegSmallThreshold,
+		Gamma:     0.05,
+
+		MaxBoundary:    100,
+		MaxNonBoundary: 100,
+	}
+}
+
+// GenerateLogRegSmallSamples generates a deterministic sample set with both
+// boundary and non-boundary samples.
+//
+// Boundary samples satisfy:
+//
+//	|f_plain(x) - threshold| <= gamma
+//
+// The generator uses a grid scan for reproducibility.
+func GenerateLogRegSmallSamples(opts LogRegSmallSampleGenOptions) []LogRegSmallSample {
+	if opts.Step <= 0 {
+		opts.Step = 0.1
+	}
+	if opts.RangeMax < opts.RangeMin {
+		opts.RangeMin, opts.RangeMax = opts.RangeMax, opts.RangeMin
+	}
+	if opts.Threshold == 0 {
+		opts.Threshold = LogRegSmallThreshold
+	}
+
+	boundary := make([]LogRegSmallSample, 0, opts.MaxBoundary)
+	nonBoundary := make([]LogRegSmallSample, 0, opts.MaxNonBoundary)
+
+	steps := int(math.Round((opts.RangeMax - opts.RangeMin) / opts.Step))
+
+	for i := 0; i <= steps; i++ {
+		x1 := roundGrid(opts.RangeMin + float64(i)*opts.Step)
+
+		for j := 0; j <= steps; j++ {
+			x2 := roundGrid(opts.RangeMin + float64(j)*opts.Step)
+
+			for k := 0; k <= steps; k++ {
+				x3 := roundGrid(opts.RangeMin + float64(k)*opts.Step)
+
+				s := LogRegSmallSample{X1: x1, X2: x2, X3: x3}
+				margin := LogRegSmallMargin(s, opts.Threshold)
+
+				if margin <= opts.Gamma {
+					if len(boundary) < opts.MaxBoundary {
+						boundary = append(boundary, s)
+					}
+				} else {
+					if len(nonBoundary) < opts.MaxNonBoundary {
+						nonBoundary = append(nonBoundary, s)
+					}
+				}
+
+				if len(boundary) >= opts.MaxBoundary && len(nonBoundary) >= opts.MaxNonBoundary {
+					return append(boundary, nonBoundary...)
+				}
+			}
+		}
+	}
+
+	return append(boundary, nonBoundary...)
+}
+
+func roundGrid(x float64) float64 {
+	return math.Round(x*1e12) / 1e12
 }

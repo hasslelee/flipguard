@@ -40,4 +40,48 @@ func TestLogRegSmallFirstSample(t *testing.T) {
 	if math.Abs(result.Output-want) > 1e-12 {
 		t.Fatalf("unexpected output: got %.12f, want %.12f", result.Output, want)
 	}
+
+	direct := LogRegSmallScore(samples[0])
+	if math.Abs(direct-want) > 1e-12 {
+		t.Fatalf("direct score mismatch: got %.12f, want %.12f", direct, want)
+	}
+}
+
+func TestGenerateLogRegSmallSamples(t *testing.T) {
+	opts := LogRegSmallSampleGenOptions{
+		RangeMin: -1.0,
+		RangeMax: 1.0,
+		Step:     0.1,
+
+		Threshold: LogRegSmallThreshold,
+		Gamma:     0.05,
+
+		MaxBoundary:    10,
+		MaxNonBoundary: 10,
+	}
+
+	samples := GenerateLogRegSmallSamples(opts)
+
+	if len(samples) == 0 {
+		t.Fatalf("expected generated samples")
+	}
+
+	boundaryCount := 0
+	nonBoundaryCount := 0
+
+	for _, s := range samples {
+		margin := LogRegSmallMargin(s, opts.Threshold)
+		if margin <= opts.Gamma {
+			boundaryCount++
+		} else {
+			nonBoundaryCount++
+		}
+	}
+
+	if boundaryCount == 0 {
+		t.Fatalf("expected at least one boundary sample")
+	}
+	if nonBoundaryCount == 0 {
+		t.Fatalf("expected at least one non-boundary sample")
+	}
 }
