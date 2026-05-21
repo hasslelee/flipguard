@@ -13,8 +13,6 @@ import (
 	"github.com/hasslelee/flipguard/internal/scheduler"
 )
 
-const safetyFactor = 0.5
-
 type method struct {
 	name     string
 	schedule runtime.PrecisionSchedule
@@ -26,8 +24,15 @@ type scheduleCase struct {
 	analysis *analysis.BoundSensitivityResult
 }
 
-// RunLogRegSmall runs the logreg_small decision-stability experiment.
+// RunLogRegSmall runs the logreg_small decision-stability experiment with the
+// default configuration.
 func RunLogRegSmall() error {
+	return RunLogRegSmallWithConfig(DefaultLogRegSmallConfig())
+}
+
+// RunLogRegSmallWithConfig runs the logreg_small decision-stability experiment
+// with an explicit configuration.
+func RunLogRegSmallWithConfig(cfg LogRegSmallConfig) error {
 	g := benchmarks.NewLogRegSmallGraph()
 
 	sampleOpts := benchmarks.DefaultBoundaryFocusedOptions()
@@ -35,7 +40,7 @@ func RunLogRegSmall() error {
 
 	threshold := sampleOpts.Threshold
 	gamma := sampleOpts.Gamma
-	marginFloor := 1e-4
+	marginFloor := cfg.MarginFloor
 
 	analysisInputs := make([]map[ir.NodeID]float64, 0, len(samples))
 	for _, sample := range samples {
@@ -46,7 +51,7 @@ func RunLogRegSmall() error {
 		g,
 		analysisInputs,
 		threshold,
-		0.05,
+		cfg.P5Percentile,
 	)
 	if err != nil {
 		return fmt.Errorf("p5 analysis failed: %w", err)
@@ -56,7 +61,7 @@ func RunLogRegSmall() error {
 		g,
 		analysisInputs,
 		threshold,
-		0.01,
+		cfg.P1Percentile,
 	)
 	if err != nil {
 		return fmt.Errorf("p1 analysis failed: %w", err)
@@ -68,39 +73,77 @@ func RunLogRegSmall() error {
 		0.0,
 	)
 
-	flipGuardP5M12, err := buildFlipGuard(g, analysisP5, 12)
+	flipGuardP5M12, err := buildFlipGuard(
+		g,
+		analysisP5,
+		runtime.PrecisionBits(cfg.FlipGuardP5MaxBits),
+		cfg,
+	)
 	if err != nil {
 		return fmt.Errorf("FlipGuard p5 max12 scheduling failed: %w", err)
 	}
 
-	flipGuardP5M16, err := buildFlipGuard(g, analysisP5, 16)
+	flipGuardP5M16, err := buildFlipGuard(
+		g,
+		analysisP5,
+		runtime.PrecisionBits(cfg.FlipGuardConservativeMaxBits),
+		cfg,
+	)
 	if err != nil {
 		return fmt.Errorf("FlipGuard p5 max16 scheduling failed: %w", err)
 	}
 
-	flipGuardP1M16, err := buildFlipGuard(g, analysisP1, 16)
+	flipGuardP1M16, err := buildFlipGuard(
+		g,
+		analysisP1,
+		runtime.PrecisionBits(cfg.FlipGuardConservativeMaxBits),
+		cfg,
+	)
 	if err != nil {
 		return fmt.Errorf("FlipGuard p1 max16 scheduling failed: %w", err)
 	}
 
-	flipGuardMinM16, err := buildFlipGuard(g, analysisMinFloor, 16)
+	flipGuardMinM16, err := buildFlipGuard(
+		g,
+		analysisMinFloor,
+		runtime.PrecisionBits(cfg.FlipGuardConservativeMaxBits),
+		cfg,
+	)
 	if err != nil {
 		return fmt.Errorf("FlipGuard min-floor max16 scheduling failed: %w", err)
 	}
 
-	accuracyOnlyTol002M12, err := buildAccuracyOnly(g, analysisP5, 12, 0.02)
+	accuracyOnlyTol002M12, err := buildAccuracyOnly(
+		g,
+		analysisP5,
+		runtime.PrecisionBits(cfg.AccuracyOnlyLooseMaxBits),
+		cfg.AccuracyOnlyLooseTolerance,
+		cfg,
+	)
 	if err != nil {
-		return fmt.Errorf("accuracy-only tol0.02 max12 scheduling failed: %w", err)
+		return fmt.Errorf("accuracy-only loose max12 scheduling failed: %w", err)
 	}
 
-	accuracyOnlyTol002M16, err := buildAccuracyOnly(g, analysisP5, 16, 0.02)
+	accuracyOnlyTol002M16, err := buildAccuracyOnly(
+		g,
+		analysisP5,
+		runtime.PrecisionBits(cfg.FlipGuardConservativeMaxBits),
+		cfg.AccuracyOnlyLooseTolerance,
+		cfg,
+	)
 	if err != nil {
-		return fmt.Errorf("accuracy-only tol0.02 max16 scheduling failed: %w", err)
+		return fmt.Errorf("accuracy-only loose max16 scheduling failed: %w", err)
 	}
 
-	accuracyOnlyTol0005M16, err := buildAccuracyOnly(g, analysisP5, 16, 0.005)
+	accuracyOnlyTol0005M16, err := buildAccuracyOnly(
+		g,
+		analysisP5,
+		runtime.PrecisionBits(cfg.AccuracyOnlyStrictMaxBits),
+		cfg.AccuracyOnlyStrictTolerance,
+		cfg,
+	)
 	if err != nil {
-		return fmt.Errorf("accuracy-only tol0.005 max16 scheduling failed: %w", err)
+		return fmt.Errorf("accuracy-only strict max16 scheduling failed: %w", err)
 	}
 
 	scheduleCases := []scheduleCase{
@@ -144,9 +187,9 @@ func RunLogRegSmall() error {
 	fmt.Println("FlipGuard demo: logreg_small decision-stability simulation")
 	fmt.Printf("threshold=%.4f gamma=%.4f margin_floor=%.6f samples=%d\n", threshold, gamma, marginFloor, len(samples))
 	fmt.Printf("p5_budget=%.8f p1_budget=%.8f safety_factor=%.2f\n\n",
-		certBudget(analysisP5),
-		certBudget(analysisP1),
-		safetyFactor,
+		certBudget(analysisP5, cfg),
+		certBudget(analysisP1, cfg),
+		cfg.SafetyFactor,
 	)
 
 	for _, c := range scheduleCases {
@@ -237,7 +280,7 @@ func RunLogRegSmall() error {
 		}
 
 		stats := analysis.SummarizeDecisions(records)
-		cert := certifySchedule(analysisP5, analysisP1, m.schedule)
+		cert := certifySchedule(analysisP5, analysisP1, m.schedule, cfg)
 		row := report.NewSummaryRow(m.name, stats, m.schedule, cert)
 
 		summaryRows = append(summaryRows, row)
@@ -263,12 +306,12 @@ func RunLogRegSmall() error {
 		)
 	}
 
-	if err := exportResults("results/logreg_small", summaryRows, recordsByMethod, scheduleCases, threshold, gamma, marginFloor, len(samples)); err != nil {
+	if err := exportResults(cfg.OutputDir, summaryRows, recordsByMethod, scheduleCases, threshold, gamma, marginFloor, len(samples)); err != nil {
 		return fmt.Errorf("export results failed: %w", err)
 	}
 
 	fmt.Println()
-	fmt.Println("Exported CSV and Markdown files to results/logreg_small/")
+	fmt.Printf("Exported CSV and Markdown files to %s/\n", cfg.OutputDir)
 
 	return nil
 }
@@ -338,12 +381,13 @@ func buildFlipGuard(
 	g *ir.Graph,
 	analysisResult *analysis.BoundSensitivityResult,
 	maxBits runtime.PrecisionBits,
+	cfg LogRegSmallConfig,
 ) (*scheduler.FlipGuardResult, error) {
 	opts := scheduler.DefaultFlipGuardOptions()
 	opts.MaxBits = maxBits
 	opts.MinBits = 0
-	opts.GlobalTolerance = 0.02
-	opts.SafetyFactor = safetyFactor
+	opts.GlobalTolerance = cfg.FlipGuardGlobalTolerance
+	opts.SafetyFactor = cfg.SafetyFactor
 	opts.UseProtectedMargin = true
 	opts.ScheduleOptions = scheduler.DefaultIntermediateOptions()
 
@@ -355,12 +399,13 @@ func buildAccuracyOnly(
 	analysisResult *analysis.BoundSensitivityResult,
 	maxBits runtime.PrecisionBits,
 	globalTolerance float64,
+	cfg LogRegSmallConfig,
 ) (*scheduler.FlipGuardResult, error) {
 	opts := scheduler.DefaultFlipGuardOptions()
 	opts.MaxBits = maxBits
 	opts.MinBits = 0
 	opts.GlobalTolerance = globalTolerance
-	opts.SafetyFactor = safetyFactor
+	opts.SafetyFactor = cfg.SafetyFactor
 	opts.UseProtectedMargin = false
 	opts.ScheduleOptions = scheduler.DefaultIntermediateOptions()
 
@@ -402,23 +447,24 @@ func minPositiveMarginAboveFloor(margins []float64, floor float64) float64 {
 	return minMargin
 }
 
-func certBudget(r *analysis.BoundSensitivityResult) float64 {
+func certBudget(r *analysis.BoundSensitivityResult, cfg LogRegSmallConfig) float64 {
 	if r == nil || r.ProtectedMargin <= 0 {
 		return 0
 	}
 
-	return safetyFactor * r.ProtectedMargin
+	return cfg.SafetyFactor * r.ProtectedMargin
 }
 
 func certifySchedule(
 	p5 *analysis.BoundSensitivityResult,
 	p1 *analysis.BoundSensitivityResult,
 	schedule runtime.PrecisionSchedule,
+	cfg LogRegSmallConfig,
 ) report.Certification {
 	estimated := estimateScheduleError(p5, schedule)
 
-	p5Budget := certBudget(p5)
-	p1Budget := certBudget(p1)
+	p5Budget := certBudget(p5, cfg)
+	p1Budget := certBudget(p1, cfg)
 
 	return report.Certification{
 		EstimatedError: estimated,
