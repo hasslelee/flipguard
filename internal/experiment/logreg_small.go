@@ -337,6 +337,10 @@ func exportResults(
 		}
 	}
 
+	if err := exportCKKSScalePlans(outputDir, scheduleCases); err != nil {
+		return err
+	}
+
 	for method, records := range recordsByMethod {
 		path := filepath.Join(outputDir, fmt.Sprintf("records_%s.csv", method))
 		if err := report.WriteDecisionRecordsCSV(path, method, records); err != nil {
