@@ -12,6 +12,17 @@ import (
 	"github.com/hasslelee/flipguard/internal/scheduler"
 )
 
+// Certification summarizes whether a schedule satisfies decision-margin budgets.
+type Certification struct {
+	EstimatedError float64
+
+	P5Budget    float64
+	P5Certified bool
+
+	P1Budget    float64
+	P1Certified bool
+}
+
 // SummaryRow represents one row in the experiment summary CSV.
 type SummaryRow struct {
 	Method string
@@ -35,11 +46,24 @@ type SummaryRow struct {
 	P95Error float64
 	P99Error float64
 
+	EstimatedError float64
+
+	P5Budget    float64
+	P5Certified bool
+
+	P1Budget    float64
+	P1Certified bool
+
 	AvgBits float64
 }
 
 // NewSummaryRow creates a summary row from decision statistics.
-func NewSummaryRow(method string, stats analysis.DecisionStats, schedule runtime.PrecisionSchedule) SummaryRow {
+func NewSummaryRow(
+	method string,
+	stats analysis.DecisionStats,
+	schedule runtime.PrecisionSchedule,
+	cert Certification,
+) SummaryRow {
 	return SummaryRow{
 		Method: method,
 
@@ -61,6 +85,14 @@ func NewSummaryRow(method string, stats analysis.DecisionStats, schedule runtime
 		MaxError: stats.MaxError,
 		P95Error: stats.P95Error,
 		P99Error: stats.P99Error,
+
+		EstimatedError: cert.EstimatedError,
+
+		P5Budget:    cert.P5Budget,
+		P5Certified: cert.P5Certified,
+
+		P1Budget:    cert.P1Budget,
+		P1Certified: cert.P1Certified,
 
 		AvgBits: AverageBits(schedule),
 	}
@@ -109,6 +141,11 @@ func WriteSummaryCSV(path string, rows []SummaryRow) error {
 		"max_error",
 		"p95_error",
 		"p99_error",
+		"estimated_error",
+		"p5_budget",
+		"p5_certified",
+		"p1_budget",
+		"p1_certified",
 		"avg_bits",
 	}
 
@@ -131,6 +168,11 @@ func WriteSummaryCSV(path string, rows []SummaryRow) error {
 			formatFloat(row.MaxError),
 			formatFloat(row.P95Error),
 			formatFloat(row.P99Error),
+			formatFloat(row.EstimatedError),
+			formatFloat(row.P5Budget),
+			strconv.FormatBool(row.P5Certified),
+			formatFloat(row.P1Budget),
+			strconv.FormatBool(row.P1Certified),
 			formatFloat(row.AvgBits),
 		}
 

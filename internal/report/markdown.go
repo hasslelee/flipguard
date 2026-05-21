@@ -7,7 +7,7 @@ import (
 	"github.com/hasslelee/flipguard/internal/scheduler"
 )
 
-// ScheduleSummary summarizes one FlipGuard schedule for Markdown reporting.
+// ScheduleSummary summarizes one schedule for Markdown reporting.
 type ScheduleSummary struct {
 	Name string
 
@@ -23,7 +23,7 @@ type ScheduleSummary struct {
 	Nodes   int
 }
 
-// NewScheduleSummary creates a compact schedule summary from a FlipGuard result.
+// NewScheduleSummary creates a compact schedule summary from a scheduler result.
 func NewScheduleSummary(name string, result *scheduler.FlipGuardResult, protectedMargin float64) ScheduleSummary {
 	s := ScheduleSummary{
 		Name:            name,
@@ -100,24 +100,26 @@ func WriteMarkdownReport(path string, r MarkdownReport) error {
 	fmt.Fprintf(f, "- Samples: `%d`\n\n", r.Samples)
 
 	fmt.Fprintf(f, "## Summary\n\n")
-	fmt.Fprintf(f, "| Method | Samples | Flips | Boundary Flips | Stable Boundary Flips | Max Error | Avg Bits |\n")
-	fmt.Fprintf(f, "|---|---:|---:|---:|---:|---:|---:|\n")
+	fmt.Fprintf(f, "| Method | Samples | Flips | Stable Boundary Flips | Est. Error | P5 Certified | P1 Certified | Max Error | Avg Bits |\n")
+	fmt.Fprintf(f, "|---|---:|---:|---:|---:|---:|---:|---:|---:|\n")
 
 	for _, row := range r.SummaryRows {
 		fmt.Fprintf(
 			f,
-			"| %s | %d | %d | %d | %d | %.10f | %.2f |\n",
+			"| %s | %d | %d | %d | %.10f | %t | %t | %.10f | %.2f |\n",
 			row.Method,
 			row.Samples,
 			row.Flips,
-			row.BoundaryFlips,
 			row.StableBoundaryFlips,
+			row.EstimatedError,
+			row.P5Certified,
+			row.P1Certified,
 			row.MaxError,
 			row.AvgBits,
 		)
 	}
 
-	fmt.Fprintf(f, "\n## FlipGuard Schedule Summary\n\n")
+	fmt.Fprintf(f, "\n## Schedule Summary\n\n")
 	fmt.Fprintf(f, "| Schedule | Feasible | Budget Source | Budget | Estimated Error | Protected Margin | Avg Bits | Min Bits | Max Bits |\n")
 	fmt.Fprintf(f, "|---|---:|---|---:|---:|---:|---:|---:|---:|\n")
 
@@ -139,8 +141,10 @@ func WriteMarkdownReport(path string, r MarkdownReport) error {
 
 	fmt.Fprintf(f, "\n## Key Observations\n\n")
 	fmt.Fprintf(f, "- `stable_boundary_flips` excludes ambiguous samples with margin less than or equal to the configured margin floor.\n")
-	fmt.Fprintf(f, "- A remaining boundary flip with `ambiguous=true` indicates an inherently unstable near-threshold sample rather than a stable-region scheduling failure.\n")
-	fmt.Fprintf(f, "- Compare `avg_bits` under the same `stable_boundary_flips` level to estimate precision-saving behavior.\n")
+	fmt.Fprintf(f, "- `estimated_error` is computed from the node-wise schedule and output sensitivity bound.\n")
+	fmt.Fprintf(f, "- `p5_certified` means `estimated_error <= 0.5 * p5_margin`.\n")
+	fmt.Fprintf(f, "- `p1_certified` means `estimated_error <= 0.5 * p1_margin`.\n")
+	fmt.Fprintf(f, "- Accuracy-only schedules can empirically avoid flips, but they are not necessarily certified under decision-margin budgets.\n")
 
 	return nil
 }

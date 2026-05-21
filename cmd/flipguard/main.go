@@ -14,6 +14,8 @@ import (
 	"github.com/hasslelee/flipguard/internal/scheduler"
 )
 
+const safetyFactor = 0.5
+
 type method struct {
 	name     string
 	schedule runtime.PrecisionSchedule
@@ -141,7 +143,11 @@ func main() {
 
 	fmt.Println("FlipGuard demo: logreg_small decision-stability simulation")
 	fmt.Printf("threshold=%.4f gamma=%.4f margin_floor=%.6f samples=%d\n", threshold, gamma, marginFloor, len(samples))
-	fmt.Println()
+	fmt.Printf("p5_budget=%.8f p1_budget=%.8f safety_factor=%.2f\n\n",
+		certBudget(analysisP5),
+		certBudget(analysisP1),
+		safetyFactor,
+	)
 
 	for _, c := range scheduleCases {
 		printScheduleResult(c.name, c.result, c.analysis)
@@ -206,18 +212,16 @@ func main() {
 		},
 	}
 
-	fmt.Printf("%-28s %8s %8s %10s %10s %10s %15s %15s %15s %15s %12s %10s\n",
+	fmt.Printf("%-28s %8s %8s %10s %15s %15s %12s %8s %8s %10s\n",
 		"method",
 		"samples",
 		"flips",
 		"flip_rate",
-		"boundary",
-		"ambig",
-		"boundary_flips",
-		"boundary_rate",
 		"stable_b_flips",
 		"stable_b_rate",
-		"max_error",
+		"est_error",
+		"p5_cert",
+		"p1_cert",
 		"avg_bits",
 	)
 
@@ -231,23 +235,22 @@ func main() {
 		}
 
 		stats := analysis.SummarizeDecisions(records)
-		row := report.NewSummaryRow(m.name, stats, m.schedule)
+		cert := certifySchedule(analysisP5, analysisP1, m.schedule)
+		row := report.NewSummaryRow(m.name, stats, m.schedule, cert)
 
 		summaryRows = append(summaryRows, row)
 		recordsByMethod[m.name] = records
 
-		fmt.Printf("%-28s %8d %8d %10.4f %10d %10d %15d %15.4f %15d %15.4f %12.6f %10.2f\n",
+		fmt.Printf("%-28s %8d %8d %10.4f %15d %15.4f %12.6f %8t %8t %10.2f\n",
 			row.Method,
 			row.Samples,
 			row.Flips,
 			row.FlipRate,
-			row.BoundaryCount,
-			row.AmbiguousCount,
-			row.BoundaryFlips,
-			row.BoundaryRate,
 			row.StableBoundaryFlips,
 			row.StableBoundaryRate,
-			row.MaxError,
+			row.EstimatedError,
+			row.P5Certified,
+			row.P1Certified,
 			row.AvgBits,
 		)
 	}
@@ -322,7 +325,7 @@ func buildFlipGuard(
 	opts.MaxBits = maxBits
 	opts.MinBits = 0
 	opts.GlobalTolerance = 0.02
-	opts.SafetyFactor = 0.5
+	opts.SafetyFactor = safetyFactor
 	opts.UseProtectedMargin = true
 	opts.ScheduleOptions = scheduler.DefaultIntermediateOptions()
 
@@ -339,7 +342,7 @@ func buildAccuracyOnly(
 	opts.MaxBits = maxBits
 	opts.MinBits = 0
 	opts.GlobalTolerance = globalTolerance
-	opts.SafetyFactor = 0.5
+	opts.SafetyFactor = safetyFactor
 	opts.UseProtectedMargin = false
 	opts.ScheduleOptions = scheduler.DefaultIntermediateOptions()
 
@@ -379,6 +382,60 @@ func minPositiveMarginAboveFloor(margins []float64, floor float64) float64 {
 	}
 
 	return minMargin
+}
+
+func certBudget(r *analysis.BoundSensitivityResult) float64 {
+	if r == nil || r.ProtectedMargin <= 0 {
+		return 0
+	}
+
+	return safetyFactor * r.ProtectedMargin
+}
+
+func certifySchedule(
+	p5 *analysis.BoundSensitivityResult,
+	p1 *analysis.BoundSensitivityResult,
+	schedule runtime.PrecisionSchedule,
+) report.Certification {
+	estimated := estimateScheduleError(p5, schedule)
+
+	p5Budget := certBudget(p5)
+	p1Budget := certBudget(p1)
+
+	return report.Certification{
+		EstimatedError: estimated,
+
+		P5Budget:    p5Budget,
+		P5Certified: p5Budget > 0 && estimated <= p5Budget,
+
+		P1Budget:    p1Budget,
+		P1Certified: p1Budget > 0 && estimated <= p1Budget,
+	}
+}
+
+func estimateScheduleError(
+	analysisResult *analysis.BoundSensitivityResult,
+	schedule runtime.PrecisionSchedule,
+) float64 {
+	if analysisResult == nil || len(schedule) == 0 {
+		return 0
+	}
+
+	sum := 0.0
+
+	for nodeID, bits := range schedule {
+		sensitivity := analysisResult.Sensitivity[nodeID]
+		if sensitivity <= 0 {
+			continue
+		}
+
+		step := runtime.StepFromBits(bits)
+		delta := step / 2.0
+
+		sum += sensitivity * delta
+	}
+
+	return sum
 }
 
 func printScheduleResult(
