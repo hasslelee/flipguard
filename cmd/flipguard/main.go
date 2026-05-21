@@ -210,12 +210,12 @@ func main() {
 		)
 	}
 
-	if err := exportResults("results/logreg_small", summaryRows, recordsByMethod, flipCases); err != nil {
+	if err := exportResults("results/logreg_small", summaryRows, recordsByMethod, flipCases, threshold, gamma, marginFloor, len(samples)); err != nil {
 		log.Fatalf("export results failed: %v", err)
 	}
 
 	fmt.Println()
-	fmt.Println("Exported CSV files to results/logreg_small/")
+	fmt.Println("Exported CSV and Markdown files to results/logreg_small/")
 }
 
 func exportResults(
@@ -223,6 +223,10 @@ func exportResults(
 	summaryRows []report.SummaryRow,
 	recordsByMethod map[string][]analysis.DecisionRecord,
 	flipCases []flipGuardCase,
+	threshold float64,
+	gamma float64,
+	marginFloor float64,
+	samples int,
 ) error {
 	if err := report.WriteSummaryCSV(filepath.Join(outputDir, "summary.csv"), summaryRows); err != nil {
 		return err
@@ -240,6 +244,28 @@ func exportResults(
 		if err := report.WriteDecisionRecordsCSV(path, method, records); err != nil {
 			return err
 		}
+	}
+
+	scheduleSummaries := make([]report.ScheduleSummary, 0, len(flipCases))
+	for _, c := range flipCases {
+		scheduleSummaries = append(
+			scheduleSummaries,
+			report.NewScheduleSummary(c.name, c.result, c.analysis.ProtectedMargin),
+		)
+	}
+
+	md := report.MarkdownReport{
+		Title:             "FlipGuard logreg_small Experiment Report",
+		Threshold:         threshold,
+		Gamma:             gamma,
+		MarginFloor:       marginFloor,
+		Samples:           samples,
+		SummaryRows:       summaryRows,
+		ScheduleSummaries: scheduleSummaries,
+	}
+
+	if err := report.WriteMarkdownReport(filepath.Join(outputDir, "report.md"), md); err != nil {
+		return err
 	}
 
 	return nil
