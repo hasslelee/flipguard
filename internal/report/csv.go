@@ -50,9 +50,11 @@ type SummaryRow struct {
 
 	P5Budget    float64
 	P5Certified bool
+	P5Usage     float64
 
 	P1Budget    float64
 	P1Certified bool
+	P1Usage     float64
 
 	AvgBits float64
 
@@ -93,9 +95,11 @@ func NewSummaryRow(
 
 		P5Budget:    cert.P5Budget,
 		P5Certified: cert.P5Certified,
+		P5Usage:     usageRatio(cert.EstimatedError, cert.P5Budget),
 
 		P1Budget:    cert.P1Budget,
 		P1Certified: cert.P1Certified,
+		P1Usage:     usageRatio(cert.EstimatedError, cert.P1Budget),
 
 		AvgBits: AverageBits(schedule),
 	}
@@ -147,8 +151,10 @@ func WriteSummaryCSV(path string, rows []SummaryRow) error {
 		"estimated_error",
 		"p5_budget",
 		"p5_certified",
+		"p5_usage",
 		"p1_budget",
 		"p1_certified",
+		"p1_usage",
 		"avg_bits",
 		"saving_vs_uniform12_pct",
 		"saving_vs_uniform16_pct",
@@ -176,8 +182,10 @@ func WriteSummaryCSV(path string, rows []SummaryRow) error {
 			formatFloat(row.EstimatedError),
 			formatFloat(row.P5Budget),
 			strconv.FormatBool(row.P5Certified),
+			formatFloat(row.P5Usage),
 			formatFloat(row.P1Budget),
 			strconv.FormatBool(row.P1Certified),
+			formatFloat(row.P1Usage),
 			formatFloat(row.AvgBits),
 			formatFloat(row.SavingVsUniform12Pct),
 			formatFloat(row.SavingVsUniform16Pct),
@@ -317,6 +325,14 @@ func WriteDecisionRecordsCSV(path string, method string, records []analysis.Deci
 	}
 
 	return nil
+}
+
+func usageRatio(estimated float64, budget float64) float64 {
+	if budget <= 0 {
+		return 0
+	}
+
+	return estimated / budget
 }
 
 func ensureParentDir(path string) error {

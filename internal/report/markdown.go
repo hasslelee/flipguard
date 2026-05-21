@@ -100,17 +100,19 @@ func WriteMarkdownReport(path string, r MarkdownReport) error {
 	fmt.Fprintf(f, "- Samples: `%d`\n\n", r.Samples)
 
 	fmt.Fprintf(f, "## Summary\n\n")
-	fmt.Fprintf(f, "| Method | Stable Boundary Flips | Est. Error | P5 Certified | P1 Certified | Avg Bits | Saving vs U12 | Saving vs U16 |\n")
-	fmt.Fprintf(f, "|---|---:|---:|---:|---:|---:|---:|---:|\n")
+	fmt.Fprintf(f, "| Method | Stable Boundary Flips | Est. Error | P5 Usage | P5 Certified | P1 Usage | P1 Certified | Avg Bits | Saving vs U12 | Saving vs U16 |\n")
+	fmt.Fprintf(f, "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n")
 
 	for _, row := range r.SummaryRows {
 		fmt.Fprintf(
 			f,
-			"| %s | %d | %.10f | %t | %t | %.2f | %.2f%% | %.2f%% |\n",
+			"| %s | %d | %.10f | %.2fx | %t | %.2fx | %t | %.2f | %.2f%% | %.2f%% |\n",
 			row.Method,
 			row.StableBoundaryFlips,
 			row.EstimatedError,
+			row.P5Usage,
 			row.P5Certified,
+			row.P1Usage,
 			row.P1Certified,
 			row.AvgBits,
 			row.SavingVsUniform12Pct,
@@ -141,8 +143,8 @@ func WriteMarkdownReport(path string, r MarkdownReport) error {
 	fmt.Fprintf(f, "\n## Key Observations\n\n")
 	fmt.Fprintf(f, "- `stable_boundary_flips` excludes ambiguous samples with margin less than or equal to the configured margin floor.\n")
 	fmt.Fprintf(f, "- `estimated_error` is computed from the node-wise schedule and output sensitivity bound.\n")
-	fmt.Fprintf(f, "- `p5_certified` means `estimated_error <= 0.5 * p5_margin`.\n")
-	fmt.Fprintf(f, "- `p1_certified` means `estimated_error <= 0.5 * p1_margin`.\n")
+	fmt.Fprintf(f, "- `p5_usage = estimated_error / p5_budget`; values below or equal to `1.0x` satisfy the p5 certificate.\n")
+	fmt.Fprintf(f, "- `p1_usage = estimated_error / p1_budget`; values below or equal to `1.0x` satisfy the p1 certificate.\n")
 	fmt.Fprintf(f, "- `saving_vs_uniform12_pct` and `saving_vs_uniform16_pct` compare average scheduled bits against uniform 12-bit and uniform 16-bit baselines.\n")
 	fmt.Fprintf(f, "- Accuracy-only schedules can empirically avoid flips, but they are not necessarily certified under decision-margin budgets.\n")
 
@@ -171,42 +173,48 @@ func WritePaperTableMarkdown(path string, title string, rows []SummaryRow) error
 
 	methods := []paperMethod{
 		{
-			Name:      "uniform_bits_12",
-			Role:      "Uniform high-precision baseline",
-			Reference: "U12",
+			Name:          "uniform_bits_12",
+			Role:          "Uniform high-precision baseline",
+			SavingRef:     "U12",
+			Certification: "P5",
 		},
 		{
-			Name:      "uniform_bits_16",
-			Role:      "Uniform conservative baseline",
-			Reference: "U16",
+			Name:          "uniform_bits_16",
+			Role:          "Uniform conservative baseline",
+			SavingRef:     "U16",
+			Certification: "P1",
 		},
 		{
-			Name:      "accuracy_only_tol002_m12",
-			Role:      "Accuracy-only loose tolerance",
-			Reference: "U12",
+			Name:          "accuracy_only_tol002_m12",
+			Role:          "Accuracy-only loose tolerance",
+			SavingRef:     "U12",
+			Certification: "P5",
 		},
 		{
-			Name:      "accuracy_only_tol0005_m16",
-			Role:      "Accuracy-only strict tolerance",
-			Reference: "U16",
+			Name:          "accuracy_only_tol0005_m16",
+			Role:          "Accuracy-only strict tolerance",
+			SavingRef:     "U16",
+			Certification: "P1",
 		},
 		{
-			Name:      "flipguard_p5_m12",
-			Role:      "FlipGuard p5-certified schedule",
-			Reference: "U12",
+			Name:          "flipguard_p5_m12",
+			Role:          "FlipGuard p5-certified schedule",
+			SavingRef:     "U12",
+			Certification: "P5",
 		},
 		{
-			Name:      "flipguard_p1_m16",
-			Role:      "FlipGuard p1-certified schedule",
-			Reference: "U16",
+			Name:          "flipguard_p1_m16",
+			Role:          "FlipGuard p1-certified schedule",
+			SavingRef:     "U16",
+			Certification: "P1",
 		},
 	}
 
 	rowByMethod := indexSummaryRows(rows)
 
 	fmt.Fprintf(f, "## Main Comparison\n\n")
-	fmt.Fprintf(f, "| Method | Role | Stable Boundary Flips | Certification | Avg Bits | Reference | Saving |\n")
-	fmt.Fprintf(f, "|---|---|---:|---|---:|---|---:|\n")
+	fmt.Fprintf(f, "| Method | Role | Stable Boundary Flips | Certification | Usage | Avg Bits | Saving Target | Saving |\n")
+	fmt.Fprintf(f, "|---|---|---:|---|---:|---:|---|---:|\n")
 
 	for _, m := range methods {
 		row, ok := rowByMethod[m.Name]
@@ -216,14 +224,15 @@ func WritePaperTableMarkdown(path string, title string, rows []SummaryRow) error
 
 		fmt.Fprintf(
 			f,
-			"| %s | %s | %d | %s | %.2f | %s | %.2f%% |\n",
+			"| %s | %s | %d | %s | %.2fx | %.2f | %s | %.2f%% |\n",
 			row.Method,
 			m.Role,
 			row.StableBoundaryFlips,
 			certificationLabel(row),
+			selectedUsage(row, m.Certification),
 			row.AvgBits,
-			m.Reference,
-			selectedSaving(row, m.Reference),
+			m.SavingRef,
+			selectedSaving(row, m.SavingRef),
 		)
 	}
 
@@ -232,25 +241,27 @@ func WritePaperTableMarkdown(path string, title string, rows []SummaryRow) error
 	if row, ok := rowByMethod["accuracy_only_tol002_m12"]; ok {
 		fmt.Fprintf(
 			f,
-			"- `accuracy_only_tol002_m12` uses low average precision (`%.2f` bits), but it leaves `%d` stable-boundary flip(s) and does not satisfy the decision-margin certificate.\n",
+			"- `accuracy_only_tol002_m12` uses low average precision (`%.2f` bits), but it leaves `%d` stable-boundary flip(s) and exceeds the p5 decision-margin budget by `%.2fx`.\n",
 			row.AvgBits,
 			row.StableBoundaryFlips,
+			row.P5Usage,
 		)
 	}
 
 	if row, ok := rowByMethod["accuracy_only_tol0005_m16"]; ok {
 		fmt.Fprintf(
 			f,
-			"- `accuracy_only_tol0005_m16` can empirically achieve `%d` stable-boundary flip(s), but its certification status is `%s`; therefore it should be treated as an empirical accuracy baseline, not a decision-certified schedule.\n",
+			"- `accuracy_only_tol0005_m16` can empirically achieve `%d` stable-boundary flip(s), but it exceeds the p1 decision-margin budget by `%.2fx`; therefore it should be treated as an empirical accuracy baseline, not a decision-certified schedule.\n",
 			row.StableBoundaryFlips,
-			certificationLabel(row),
+			row.P1Usage,
 		)
 	}
 
 	if row, ok := rowByMethod["flipguard_p5_m12"]; ok {
 		fmt.Fprintf(
 			f,
-			"- `flipguard_p5_m12` satisfies the p5 decision-margin certificate while reducing average precision by `%.2f%%` against the U12 baseline.\n",
+			"- `flipguard_p5_m12` satisfies the p5 decision-margin certificate with `%.2fx` budget usage while reducing average precision by `%.2f%%` against the U12 baseline.\n",
+			row.P5Usage,
 			row.SavingVsUniform12Pct,
 		)
 	}
@@ -258,14 +269,17 @@ func WritePaperTableMarkdown(path string, title string, rows []SummaryRow) error
 	if row, ok := rowByMethod["flipguard_p1_m16"]; ok {
 		fmt.Fprintf(
 			f,
-			"- `flipguard_p1_m16` satisfies both p5 and p1 certificates while reducing average precision by `%.2f%%` against the U16 baseline.\n",
+			"- `flipguard_p1_m16` satisfies both p5 and p1 certificates with `%.2fx` p1 budget usage while reducing average precision by `%.2f%%` against the U16 baseline.\n",
+			row.P1Usage,
 			row.SavingVsUniform16Pct,
 		)
 	}
 
 	fmt.Fprintf(f, "\n## Paper Claim Draft\n\n")
-	fmt.Fprintf(f, "> FlipGuard reduces average precision while satisfying decision-margin certification. In the logreg_small benchmark, the p5-certified schedule reduces average precision by %.2f%% compared with the U12 baseline, and the p1-certified schedule reduces average precision by %.2f%% compared with the U16 baseline.\n",
+	fmt.Fprintf(f, "> FlipGuard reduces average precision while satisfying decision-margin certification. In the logreg_small benchmark, the p5-certified schedule uses %.2fx of the p5 budget and reduces average precision by %.2f%% compared with the U12 baseline, while the p1-certified schedule uses %.2fx of the p1 budget and reduces average precision by %.2f%% compared with the U16 baseline.\n",
+		usageFor(rowByMethod, "flipguard_p5_m12", "P5"),
 		savingFor(rowByMethod, "flipguard_p5_m12", "U12"),
+		usageFor(rowByMethod, "flipguard_p1_m16", "P1"),
 		savingFor(rowByMethod, "flipguard_p1_m16", "U16"),
 	)
 
@@ -273,9 +287,10 @@ func WritePaperTableMarkdown(path string, title string, rows []SummaryRow) error
 }
 
 type paperMethod struct {
-	Name      string
-	Role      string
-	Reference string
+	Name          string
+	Role          string
+	SavingRef     string
+	Certification string
 }
 
 func indexSummaryRows(rows []SummaryRow) map[string]SummaryRow {
@@ -311,6 +326,17 @@ func selectedSaving(row SummaryRow, reference string) float64 {
 	}
 }
 
+func selectedUsage(row SummaryRow, certification string) float64 {
+	switch certification {
+	case "P5":
+		return row.P5Usage
+	case "P1":
+		return row.P1Usage
+	default:
+		return 0
+	}
+}
+
 func savingFor(rows map[string]SummaryRow, method string, reference string) float64 {
 	row, ok := rows[method]
 	if !ok {
@@ -318,4 +344,13 @@ func savingFor(rows map[string]SummaryRow, method string, reference string) floa
 	}
 
 	return selectedSaving(row, reference)
+}
+
+func usageFor(rows map[string]SummaryRow, method string, certification string) float64 {
+	row, ok := rows[method]
+	if !ok {
+		return 0
+	}
+
+	return selectedUsage(row, certification)
 }
