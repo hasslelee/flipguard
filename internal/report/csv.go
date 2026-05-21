@@ -48,6 +48,9 @@ type SummaryRow struct {
 
 	EstimatedError float64
 
+	BoundOverMaxError float64
+	MaxErrorOverBound float64
+
 	P5Budget    float64
 	P5Certified bool
 	P5Usage     float64
@@ -92,6 +95,9 @@ func NewSummaryRow(
 		P99Error: stats.P99Error,
 
 		EstimatedError: cert.EstimatedError,
+
+		BoundOverMaxError: boundOverMaxError(cert.EstimatedError, stats.MaxError),
+		MaxErrorOverBound: maxErrorOverBound(stats.MaxError, cert.EstimatedError),
 
 		P5Budget:    cert.P5Budget,
 		P5Certified: cert.P5Certified,
@@ -149,6 +155,8 @@ func WriteSummaryCSV(path string, rows []SummaryRow) error {
 		"p95_error",
 		"p99_error",
 		"estimated_error",
+		"bound_over_max_error",
+		"max_error_over_bound",
 		"p5_budget",
 		"p5_certified",
 		"p5_usage",
@@ -180,6 +188,8 @@ func WriteSummaryCSV(path string, rows []SummaryRow) error {
 			formatFloat(row.P95Error),
 			formatFloat(row.P99Error),
 			formatFloat(row.EstimatedError),
+			formatFloat(row.BoundOverMaxError),
+			formatFloat(row.MaxErrorOverBound),
 			formatFloat(row.P5Budget),
 			strconv.FormatBool(row.P5Certified),
 			formatFloat(row.P5Usage),
@@ -333,6 +343,22 @@ func usageRatio(estimated float64, budget float64) float64 {
 	}
 
 	return estimated / budget
+}
+
+func boundOverMaxError(estimated float64, maxError float64) float64 {
+	if estimated <= 0 || maxError <= 0 {
+		return 0
+	}
+
+	return estimated / maxError
+}
+
+func maxErrorOverBound(maxError float64, estimated float64) float64 {
+	if estimated <= 0 || maxError <= 0 {
+		return 0
+	}
+
+	return maxError / estimated
 }
 
 func ensureParentDir(path string) error {

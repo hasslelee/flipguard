@@ -100,23 +100,23 @@ func WriteMarkdownReport(path string, r MarkdownReport) error {
 	fmt.Fprintf(f, "- Samples: `%d`\n\n", r.Samples)
 
 	fmt.Fprintf(f, "## Summary\n\n")
-	fmt.Fprintf(f, "| Method | Stable Boundary Flips | Est. Error | P5 Usage | P5 Certified | P1 Usage | P1 Certified | Avg Bits | Saving vs U12 | Saving vs U16 |\n")
+	fmt.Fprintf(f, "| Method | Stable Boundary Flips | Est. Error | Max Error | Bound/Max | P5 Usage | P5 Certified | P1 Usage | P1 Certified | Avg Bits |\n")
 	fmt.Fprintf(f, "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n")
 
 	for _, row := range r.SummaryRows {
 		fmt.Fprintf(
 			f,
-			"| %s | %d | %.10f | %.2fx | %t | %.2fx | %t | %.2f | %.2f%% | %.2f%% |\n",
+			"| %s | %d | %.10f | %.10f | %.2fx | %.2fx | %t | %.2fx | %t | %.2f |\n",
 			row.Method,
 			row.StableBoundaryFlips,
 			row.EstimatedError,
+			row.MaxError,
+			row.BoundOverMaxError,
 			row.P5Usage,
 			row.P5Certified,
 			row.P1Usage,
 			row.P1Certified,
 			row.AvgBits,
-			row.SavingVsUniform12Pct,
-			row.SavingVsUniform16Pct,
 		)
 	}
 
@@ -143,9 +143,9 @@ func WriteMarkdownReport(path string, r MarkdownReport) error {
 	fmt.Fprintf(f, "\n## Key Observations\n\n")
 	fmt.Fprintf(f, "- `stable_boundary_flips` excludes ambiguous samples with margin less than or equal to the configured margin floor.\n")
 	fmt.Fprintf(f, "- `estimated_error` is computed from the node-wise schedule and output sensitivity bound.\n")
+	fmt.Fprintf(f, "- `bound_over_max_error = estimated_error / observed_max_error`; this quantifies how conservative the sufficient bound is on this sample set.\n")
 	fmt.Fprintf(f, "- `p5_usage = estimated_error / p5_budget`; values below or equal to `1.0x` satisfy the p5 certificate.\n")
 	fmt.Fprintf(f, "- `p1_usage = estimated_error / p1_budget`; values below or equal to `1.0x` satisfy the p1 certificate.\n")
-	fmt.Fprintf(f, "- `saving_vs_uniform12_pct` and `saving_vs_uniform16_pct` compare average scheduled bits against uniform 12-bit and uniform 16-bit baselines.\n")
 	fmt.Fprintf(f, "- Accuracy-only schedules can empirically avoid flips, but they are not necessarily certified under decision-margin budgets.\n")
 
 	return nil
@@ -213,8 +213,8 @@ func WritePaperTableMarkdown(path string, title string, rows []SummaryRow) error
 	rowByMethod := indexSummaryRows(rows)
 
 	fmt.Fprintf(f, "## Main Comparison\n\n")
-	fmt.Fprintf(f, "| Method | Role | Stable Boundary Flips | Certification | Usage | Avg Bits | Saving Target | Saving |\n")
-	fmt.Fprintf(f, "|---|---|---:|---|---:|---:|---|---:|\n")
+	fmt.Fprintf(f, "| Method | Role | Stable Boundary Flips | Certification | Usage | Bound/Max | Avg Bits | Saving Target | Saving |\n")
+	fmt.Fprintf(f, "|---|---|---:|---|---:|---:|---:|---|---:|\n")
 
 	for _, m := range methods {
 		row, ok := rowByMethod[m.Name]
@@ -224,12 +224,13 @@ func WritePaperTableMarkdown(path string, title string, rows []SummaryRow) error
 
 		fmt.Fprintf(
 			f,
-			"| %s | %s | %d | %s | %.2fx | %.2f | %s | %.2f%% |\n",
+			"| %s | %s | %d | %s | %.2fx | %.2fx | %.2f | %s | %.2f%% |\n",
 			row.Method,
 			m.Role,
 			row.StableBoundaryFlips,
 			certificationLabel(row),
 			selectedUsage(row, m.Certification),
+			row.BoundOverMaxError,
 			row.AvgBits,
 			m.SavingRef,
 			selectedSaving(row, m.SavingRef),
@@ -260,27 +261,31 @@ func WritePaperTableMarkdown(path string, title string, rows []SummaryRow) error
 	if row, ok := rowByMethod["flipguard_p5_m12"]; ok {
 		fmt.Fprintf(
 			f,
-			"- `flipguard_p5_m12` satisfies the p5 decision-margin certificate with `%.2fx` budget usage while reducing average precision by `%.2f%%` against the U12 baseline.\n",
+			"- `flipguard_p5_m12` satisfies the p5 decision-margin certificate with `%.2fx` budget usage while reducing average precision by `%.2f%%` against the U12 baseline. Its sufficient bound is `%.2fx` larger than the observed maximum error.\n",
 			row.P5Usage,
 			row.SavingVsUniform12Pct,
+			row.BoundOverMaxError,
 		)
 	}
 
 	if row, ok := rowByMethod["flipguard_p1_m16"]; ok {
 		fmt.Fprintf(
 			f,
-			"- `flipguard_p1_m16` satisfies both p5 and p1 certificates with `%.2fx` p1 budget usage while reducing average precision by `%.2f%%` against the U16 baseline.\n",
+			"- `flipguard_p1_m16` satisfies both p5 and p1 certificates with `%.2fx` p1 budget usage while reducing average precision by `%.2f%%` against the U16 baseline. Its sufficient bound is `%.2fx` larger than the observed maximum error.\n",
 			row.P1Usage,
 			row.SavingVsUniform16Pct,
+			row.BoundOverMaxError,
 		)
 	}
 
 	fmt.Fprintf(f, "\n## Paper Claim Draft\n\n")
-	fmt.Fprintf(f, "> FlipGuard reduces average precision while satisfying decision-margin certification. In the logreg_small benchmark, the p5-certified schedule uses %.2fx of the p5 budget and reduces average precision by %.2f%% compared with the U12 baseline, while the p1-certified schedule uses %.2fx of the p1 budget and reduces average precision by %.2f%% compared with the U16 baseline.\n",
+	fmt.Fprintf(f, "> FlipGuard reduces average precision while satisfying decision-margin certification. In the logreg_small benchmark, the p5-certified schedule uses %.2fx of the p5 budget and reduces average precision by %.2f%% compared with the U12 baseline, while the p1-certified schedule uses %.2fx of the p1 budget and reduces average precision by %.2f%% compared with the U16 baseline. The sufficient error bound is conservative by %.2fx and %.2fx over the observed maximum error for the p5 and p1 schedules, respectively.\n",
 		usageFor(rowByMethod, "flipguard_p5_m12", "P5"),
 		savingFor(rowByMethod, "flipguard_p5_m12", "U12"),
 		usageFor(rowByMethod, "flipguard_p1_m16", "P1"),
 		savingFor(rowByMethod, "flipguard_p1_m16", "U16"),
+		boundOverFor(rowByMethod, "flipguard_p5_m12"),
+		boundOverFor(rowByMethod, "flipguard_p1_m16"),
 	)
 
 	return nil
@@ -353,4 +358,13 @@ func usageFor(rows map[string]SummaryRow, method string, certification string) f
 	}
 
 	return selectedUsage(row, certification)
+}
+
+func boundOverFor(rows map[string]SummaryRow, method string) float64 {
+	row, ok := rows[method]
+	if !ok {
+		return 0
+	}
+
+	return row.BoundOverMaxError
 }
