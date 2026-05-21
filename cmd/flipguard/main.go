@@ -19,7 +19,7 @@ type method struct {
 	schedule runtime.PrecisionSchedule
 }
 
-type flipGuardCase struct {
+type scheduleCase struct {
 	name     string
 	result   *scheduler.FlipGuardResult
 	analysis *analysis.BoundSensitivityResult
@@ -86,7 +86,22 @@ func main() {
 		log.Fatalf("FlipGuard min-floor max16 scheduling failed: %v", err)
 	}
 
-	flipCases := []flipGuardCase{
+	accuracyOnlyTol002M12, err := buildAccuracyOnly(g, analysisP5, 12, 0.02)
+	if err != nil {
+		log.Fatalf("accuracy-only tol0.02 max12 scheduling failed: %v", err)
+	}
+
+	accuracyOnlyTol002M16, err := buildAccuracyOnly(g, analysisP5, 16, 0.02)
+	if err != nil {
+		log.Fatalf("accuracy-only tol0.02 max16 scheduling failed: %v", err)
+	}
+
+	accuracyOnlyTol0005M16, err := buildAccuracyOnly(g, analysisP5, 16, 0.005)
+	if err != nil {
+		log.Fatalf("accuracy-only tol0.005 max16 scheduling failed: %v", err)
+	}
+
+	scheduleCases := []scheduleCase{
 		{
 			name:     "flipguard_p5_m12",
 			result:   flipGuardP5M12,
@@ -107,14 +122,29 @@ func main() {
 			result:   flipGuardMinM16,
 			analysis: analysisMinFloor,
 		},
+		{
+			name:     "accuracy_only_tol002_m12",
+			result:   accuracyOnlyTol002M12,
+			analysis: analysisP5,
+		},
+		{
+			name:     "accuracy_only_tol002_m16",
+			result:   accuracyOnlyTol002M16,
+			analysis: analysisP5,
+		},
+		{
+			name:     "accuracy_only_tol0005_m16",
+			result:   accuracyOnlyTol0005M16,
+			analysis: analysisP5,
+		},
 	}
 
 	fmt.Println("FlipGuard demo: logreg_small decision-stability simulation")
 	fmt.Printf("threshold=%.4f gamma=%.4f margin_floor=%.6f samples=%d\n", threshold, gamma, marginFloor, len(samples))
 	fmt.Println()
 
-	for _, c := range flipCases {
-		printFlipGuardResult(c.name, c.result, c.analysis)
+	for _, c := range scheduleCases {
+		printScheduleResult(c.name, c.result, c.analysis)
 	}
 
 	methods := []method{
@@ -147,6 +177,18 @@ func main() {
 			schedule: scheduler.UniformSchedule(g, runtime.PrecisionBits(0), scheduler.DefaultIntermediateOptions()),
 		},
 		{
+			name:     "accuracy_only_tol002_m12",
+			schedule: accuracyOnlyTol002M12.Schedule,
+		},
+		{
+			name:     "accuracy_only_tol002_m16",
+			schedule: accuracyOnlyTol002M16.Schedule,
+		},
+		{
+			name:     "accuracy_only_tol0005_m16",
+			schedule: accuracyOnlyTol0005M16.Schedule,
+		},
+		{
 			name:     "flipguard_p5_m12",
 			schedule: flipGuardP5M12.Schedule,
 		},
@@ -164,7 +206,7 @@ func main() {
 		},
 	}
 
-	fmt.Printf("%-24s %8s %8s %10s %10s %10s %15s %15s %15s %15s %12s %10s\n",
+	fmt.Printf("%-28s %8s %8s %10s %10s %10s %15s %15s %15s %15s %12s %10s\n",
 		"method",
 		"samples",
 		"flips",
@@ -194,7 +236,7 @@ func main() {
 		summaryRows = append(summaryRows, row)
 		recordsByMethod[m.name] = records
 
-		fmt.Printf("%-24s %8d %8d %10.4f %10d %10d %15d %15.4f %15d %15.4f %12.6f %10.2f\n",
+		fmt.Printf("%-28s %8d %8d %10.4f %10d %10d %15d %15.4f %15d %15.4f %12.6f %10.2f\n",
 			row.Method,
 			row.Samples,
 			row.Flips,
@@ -210,7 +252,7 @@ func main() {
 		)
 	}
 
-	if err := exportResults("results/logreg_small", summaryRows, recordsByMethod, flipCases, threshold, gamma, marginFloor, len(samples)); err != nil {
+	if err := exportResults("results/logreg_small", summaryRows, recordsByMethod, scheduleCases, threshold, gamma, marginFloor, len(samples)); err != nil {
 		log.Fatalf("export results failed: %v", err)
 	}
 
@@ -222,7 +264,7 @@ func exportResults(
 	outputDir string,
 	summaryRows []report.SummaryRow,
 	recordsByMethod map[string][]analysis.DecisionRecord,
-	flipCases []flipGuardCase,
+	scheduleCases []scheduleCase,
 	threshold float64,
 	gamma float64,
 	marginFloor float64,
@@ -232,7 +274,7 @@ func exportResults(
 		return err
 	}
 
-	for _, c := range flipCases {
+	for _, c := range scheduleCases {
 		path := filepath.Join(outputDir, fmt.Sprintf("schedule_%s.csv", c.name))
 		if err := report.WriteScheduleCSV(path, c.result); err != nil {
 			return err
@@ -246,8 +288,8 @@ func exportResults(
 		}
 	}
 
-	scheduleSummaries := make([]report.ScheduleSummary, 0, len(flipCases))
-	for _, c := range flipCases {
+	scheduleSummaries := make([]report.ScheduleSummary, 0, len(scheduleCases))
+	for _, c := range scheduleCases {
 		scheduleSummaries = append(
 			scheduleSummaries,
 			report.NewScheduleSummary(c.name, c.result, c.analysis.ProtectedMargin),
@@ -282,6 +324,23 @@ func buildFlipGuard(
 	opts.GlobalTolerance = 0.02
 	opts.SafetyFactor = 0.5
 	opts.UseProtectedMargin = true
+	opts.ScheduleOptions = scheduler.DefaultIntermediateOptions()
+
+	return scheduler.BuildFlipGuardSchedule(g, analysisResult, opts)
+}
+
+func buildAccuracyOnly(
+	g *ir.Graph,
+	analysisResult *analysis.BoundSensitivityResult,
+	maxBits runtime.PrecisionBits,
+	globalTolerance float64,
+) (*scheduler.FlipGuardResult, error) {
+	opts := scheduler.DefaultFlipGuardOptions()
+	opts.MaxBits = maxBits
+	opts.MinBits = 0
+	opts.GlobalTolerance = globalTolerance
+	opts.SafetyFactor = 0.5
+	opts.UseProtectedMargin = false
 	opts.ScheduleOptions = scheduler.DefaultIntermediateOptions()
 
 	return scheduler.BuildFlipGuardSchedule(g, analysisResult, opts)
@@ -322,7 +381,7 @@ func minPositiveMarginAboveFloor(margins []float64, floor float64) float64 {
 	return minMargin
 }
 
-func printFlipGuardResult(
+func printScheduleResult(
 	name string,
 	result *scheduler.FlipGuardResult,
 	analysisResult *analysis.BoundSensitivityResult,
@@ -338,10 +397,10 @@ func printFlipGuardResult(
 		report.AverageBits(result.Schedule),
 	)
 
-	printFlipGuardSchedule(result)
+	printSchedule(result)
 }
 
-func printFlipGuardSchedule(result *scheduler.FlipGuardResult) {
+func printSchedule(result *scheduler.FlipGuardResult) {
 	fmt.Println("Schedule:")
 	fmt.Printf("%-8s %-12s %12s %6s %12s %12s %15s\n",
 		"node",
