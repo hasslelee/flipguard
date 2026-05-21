@@ -55,6 +55,9 @@ type SummaryRow struct {
 	P1Certified bool
 
 	AvgBits float64
+
+	SavingVsUniform12Pct float64
+	SavingVsUniform16Pct float64
 }
 
 // NewSummaryRow creates a summary row from decision statistics.
@@ -147,6 +150,8 @@ func WriteSummaryCSV(path string, rows []SummaryRow) error {
 		"p1_budget",
 		"p1_certified",
 		"avg_bits",
+		"saving_vs_uniform12_pct",
+		"saving_vs_uniform16_pct",
 	}
 
 	if err := w.Write(header); err != nil {
@@ -174,6 +179,8 @@ func WriteSummaryCSV(path string, rows []SummaryRow) error {
 			formatFloat(row.P1Budget),
 			strconv.FormatBool(row.P1Certified),
 			formatFloat(row.AvgBits),
+			formatFloat(row.SavingVsUniform12Pct),
+			formatFloat(row.SavingVsUniform16Pct),
 		}
 
 		if err := w.Write(record); err != nil {

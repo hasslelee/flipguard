@@ -212,7 +212,7 @@ func main() {
 		},
 	}
 
-	fmt.Printf("%-28s %8s %8s %10s %15s %15s %12s %8s %8s %10s\n",
+	fmt.Printf("%-28s %8s %8s %10s %15s %15s %12s %8s %8s %10s %10s %10s\n",
 		"method",
 		"samples",
 		"flips",
@@ -223,6 +223,8 @@ func main() {
 		"p5_cert",
 		"p1_cert",
 		"avg_bits",
+		"save_u12",
+		"save_u16",
 	)
 
 	summaryRows := make([]report.SummaryRow, 0, len(methods))
@@ -240,8 +242,12 @@ func main() {
 
 		summaryRows = append(summaryRows, row)
 		recordsByMethod[m.name] = records
+	}
 
-		fmt.Printf("%-28s %8d %8d %10.4f %15d %15.4f %12.6f %8t %8t %10.2f\n",
+	summaryRows = attachSavingRates(summaryRows)
+
+	for _, row := range summaryRows {
+		fmt.Printf("%-28s %8d %8d %10.4f %15d %15.4f %12.6f %8t %8t %10.2f %10.2f %10.2f\n",
 			row.Method,
 			row.Samples,
 			row.Flips,
@@ -252,6 +258,8 @@ func main() {
 			row.P5Certified,
 			row.P1Certified,
 			row.AvgBits,
+			row.SavingVsUniform12Pct,
+			row.SavingVsUniform16Pct,
 		)
 	}
 
@@ -436,6 +444,36 @@ func estimateScheduleError(
 	}
 
 	return sum
+}
+
+func attachSavingRates(rows []report.SummaryRow) []report.SummaryRow {
+	uniform12 := findAvgBits(rows, "uniform_bits_12")
+	uniform16 := findAvgBits(rows, "uniform_bits_16")
+
+	for i := range rows {
+		rows[i].SavingVsUniform12Pct = savingPercent(rows[i].AvgBits, uniform12)
+		rows[i].SavingVsUniform16Pct = savingPercent(rows[i].AvgBits, uniform16)
+	}
+
+	return rows
+}
+
+func findAvgBits(rows []report.SummaryRow, method string) float64 {
+	for _, row := range rows {
+		if row.Method == method {
+			return row.AvgBits
+		}
+	}
+
+	return 0
+}
+
+func savingPercent(avgBits float64, baselineBits float64) float64 {
+	if avgBits <= 0 || baselineBits <= 0 {
+		return 0
+	}
+
+	return (baselineBits - avgBits) / baselineBits * 100.0
 }
 
 func printScheduleResult(

@@ -100,22 +100,21 @@ func WriteMarkdownReport(path string, r MarkdownReport) error {
 	fmt.Fprintf(f, "- Samples: `%d`\n\n", r.Samples)
 
 	fmt.Fprintf(f, "## Summary\n\n")
-	fmt.Fprintf(f, "| Method | Samples | Flips | Stable Boundary Flips | Est. Error | P5 Certified | P1 Certified | Max Error | Avg Bits |\n")
-	fmt.Fprintf(f, "|---|---:|---:|---:|---:|---:|---:|---:|---:|\n")
+	fmt.Fprintf(f, "| Method | Stable Boundary Flips | Est. Error | P5 Certified | P1 Certified | Avg Bits | Saving vs U12 | Saving vs U16 |\n")
+	fmt.Fprintf(f, "|---|---:|---:|---:|---:|---:|---:|---:|\n")
 
 	for _, row := range r.SummaryRows {
 		fmt.Fprintf(
 			f,
-			"| %s | %d | %d | %d | %.10f | %t | %t | %.10f | %.2f |\n",
+			"| %s | %d | %.10f | %t | %t | %.2f | %.2f%% | %.2f%% |\n",
 			row.Method,
-			row.Samples,
-			row.Flips,
 			row.StableBoundaryFlips,
 			row.EstimatedError,
 			row.P5Certified,
 			row.P1Certified,
-			row.MaxError,
 			row.AvgBits,
+			row.SavingVsUniform12Pct,
+			row.SavingVsUniform16Pct,
 		)
 	}
 
@@ -144,6 +143,7 @@ func WriteMarkdownReport(path string, r MarkdownReport) error {
 	fmt.Fprintf(f, "- `estimated_error` is computed from the node-wise schedule and output sensitivity bound.\n")
 	fmt.Fprintf(f, "- `p5_certified` means `estimated_error <= 0.5 * p5_margin`.\n")
 	fmt.Fprintf(f, "- `p1_certified` means `estimated_error <= 0.5 * p1_margin`.\n")
+	fmt.Fprintf(f, "- `saving_vs_uniform12_pct` and `saving_vs_uniform16_pct` compare average scheduled bits against uniform 12-bit and uniform 16-bit baselines.\n")
 	fmt.Fprintf(f, "- Accuracy-only schedules can empirically avoid flips, but they are not necessarily certified under decision-margin budgets.\n")
 
 	return nil
