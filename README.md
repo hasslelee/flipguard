@@ -252,30 +252,30 @@ This repository is currently a research prototype. A license will be added later
 
 ## 1. 개요
 
-FlipGuard는 CKKS 기반 암호화 추론에서 **판정 안정성(decision stability)** 을 고려한 정밀도 스케줄링을 연구하기 위한 프로토타입입니다.
+FlipGuard는 CKKS 기반 암호화 추론에서 **판정 안정성(decision stability)** 을 고려한 정밀도 스케줄링을 연구하기 위한 프로토타입이다.
 
-CKKS는 암호화된 실수 데이터에 대해 근사 연산을 수행할 수 있다는 장점이 있지만, 근사 오차로 인해 모델 출력값이 임계값 근처에 있을 때 최종 판정이 뒤집힐 수 있습니다.
+CKKS는 암호화된 실수 데이터에 대해 근사 연산을 수행할 수 있다는 장점이 있지만, 근사 오차로 인해 모델 출력값이 임계값 근처에 있을 때 최종 판정이 뒤집힐 수 있다.
 
-예를 들어 다음과 같은 임계값 기반 추론 규칙이 있다고 가정합니다.
+예를 들어 다음과 같은 임계값 기반 추론 규칙이 있다고 가정한다.
 
 ```text
 decision = 1 if f(x) >= T
 decision = 0 otherwise
 ```
 
-이때 `f(x)`가 임계값 `T`에 가까우면 작은 근사 오차만으로도 최종 판정이 바뀔 수 있습니다. 본 연구에서는 이를 **decision flip**, 즉 판정 뒤집힘 문제로 다룹니다.
+이때 `f(x)`가 임계값 `T`에 가까우면 작은 근사 오차만으로도 최종 판정이 바뀔 수 있다. 본 연구에서는 이를 **decision flip**, 즉 판정 뒤집힘 문제로 다룹니다.
 
-FlipGuard는 이 문제를 정밀도 스케줄링 문제로 바라봅니다. 단순히 평균 출력 오차를 줄이는 것이 아니라, 다음과 같은 decision-margin-aware 충분조건을 이용합니다.
+FlipGuard는 이 문제를 정밀도 스케줄링 문제로 바라본다. 단순히 평균 출력 오차를 줄이는 것이 아니라, 다음과 같은 decision-margin-aware 충분조건을 이용한다.
 
 ```text
 estimated_error <= safety_factor * protected_margin
 ```
 
-여기서 `protected_margin`은 평문 기준 출력값과 판정 임계값 사이의 거리에서 유도됩니다.
+여기서 `protected_margin`은 평문 기준 출력값과 판정 임계값 사이의 거리에서 유도된다.
 
 ## 2. 주요 기능
 
-현재 FlipGuard에는 다음 기능이 구현되어 있습니다.
+현재 FlipGuard 구현 기능.
 
 - 소규모 암호화 추론 workload를 위한 계산 그래프 IR
 - 평문 evaluator
@@ -301,7 +301,7 @@ estimated_error <= safety_factor * protected_margin
 logreg_small
 ```
 
-이 실험은 작은 logistic-style polynomial inference 그래프를 사용합니다.
+이 실험은 작은 logistic-style polynomial inference 그래프를 사용한다.
 
 ```text
 z = 0.8*x1 - 0.5*x2 + 1.2*x3 - 0.3
@@ -354,7 +354,7 @@ go test ./...
 
 ## 5. 출력 파일
 
-`logreg_small` 실험을 실행하면 다음 경로에 결과 파일이 생성됩니다.
+`logreg_small` 실험을 실행하면 다음 경로에 결과 파일이 생성된다.
 
 ```text
 results/logreg_small/
@@ -370,11 +370,11 @@ schedule_*.csv
 records_*.csv
 ```
 
-생성된 결과 파일은 Git에 포함하지 않도록 설정되어 있습니다.
+생성된 결과 파일은 Git에 포함하지 않도록 설정되어 있다.
 
 ## 6. 현재 핵심 결과
 
-현재 `logreg_small` benchmark에서 FlipGuard는 다음과 같은 예비 결과를 보입니다.
+현재 `logreg_small` benchmark에서 FlipGuard는 다음과 같은 예비 결과를 보이다.
 
 ```text
 flipguard_p5_m12:
@@ -390,13 +390,13 @@ flipguard_p1_m16:
   saving vs uniform_bits_16 = 28.98%
 ```
 
-논문 표에 바로 옮길 수 있는 결과표는 다음 경로에 생성됩니다.
+논문 표에 바로 옮길 수 있는 결과표는 다음 경로에 생성된다.
 
 ```text
 results/logreg_small/paper_table.md
 ```
 
-현재 결과에 대한 상세 요약은 다음 문서에 정리되어 있습니다.
+현재 결과 상세 요약 문서.
 
 ```text
 docs/RESULTS_LOGREG_SMALL.md
@@ -406,7 +406,7 @@ docs/RESULTS_LOGREG_SMALL.md
 
 현재 프로토타입은 완성된 CKKS 컴파일러라고 주장하지 않습니다.
 
-현재 결과는 다음과 같은 제한된 예비 주장을 뒷받침합니다.
+현재 결과는 다음과 같은 제한된 예비 주장을 뒷받침한다.
 
 ```text
 FlipGuard는 통제된 시뮬레이션 환경에서 stable boundary sample에 대한
@@ -480,9 +480,9 @@ FlipGuard: CKKS 기반 암호화 추론의 판정 안정성 보장을 위한 오
 
 ## 11. 인용
 
-첫 번째 기술보고서 또는 논문 초안이 공개된 이후 정식 citation entry를 추가할 예정입니다.
+첫 번째 기술보고서 또는 논문 초안이 공개된 이후 정식 citation entry를 추가할 예정이다.
 
-현재는 다음과 같이 인용할 수 있습니다.
+현재는 다음과 같이 인용할 수 있다.
 
 ```text
 Lee, G. FlipGuard: Decision-Stability-Aware Error-Budgeted Precision Scheduling for CKKS-Based Encrypted Inference. Research prototype, 2026.
@@ -490,4 +490,4 @@ Lee, G. FlipGuard: Decision-Stability-Aware Error-Budgeted Precision Scheduling 
 
 ## 12. 라이선스
 
-현재 이 저장소는 연구 프로토타입 단계입니다. 라이선스는 추후 추가할 예정입니다.
+현재 이 저장소는 연구 프로토타입 단계이다. 라이선스는 추후 추가할 예정이다.

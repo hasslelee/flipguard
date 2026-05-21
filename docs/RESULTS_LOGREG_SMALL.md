@@ -115,9 +115,9 @@ These will be added in later stages.
 
 # 한국어
 
-이 문서는 현재 `logreg_small` 실험 결과를 요약합니다.
+이 문서는 현재 `logreg_small` 실험 결과를 요약한다.
 
-실험 결과는 다음 명령으로 생성됩니다.
+실험 결과 생성 명령.
 
 ```bash
 ./scripts/run_logreg_small.sh
@@ -125,7 +125,7 @@ These will be added in later stages.
 
 ## 1. 실험 구성
 
-`logreg_small` benchmark는 다음 polynomial inference graph를 사용합니다.
+`logreg_small` benchmark는 다음 polynomial inference graph를 사용한다.
 
 ```text
 z = 0.8*x1 - 0.5*x2 + 1.2*x3 - 0.3
@@ -133,11 +133,11 @@ y = 0.5 + 0.197*z - 0.004*z^3
 T = 0.5
 ```
 
-이 benchmark는 decision threshold 근처의 sample에 초점을 둡니다.
+이 benchmark는 decision threshold 근처의 sample에 초점을 둔다.
 
 ## 2. 비교 방법
 
-현재 실험은 다음 방법들을 비교합니다.
+현재 실험은 다음 방법들을 비교한다.
 
 - uniform precision schedule
 - accuracy-only schedule
@@ -178,9 +178,9 @@ flipguard_p1_m16:
 
 ## 4. 결과 해석
 
-현재 결과는 FlipGuard가 decision-margin certification을 만족하면서 평균 scheduled precision을 줄일 수 있음을 보여줍니다.
+현재 결과는 FlipGuard가 decision-margin certification을 만족하면서 평균 scheduled precision을 줄일 수 있음을 보여준다.
 
-Accuracy-only scheduling은 특정 sample set에서는 stable-boundary flip을 경험적으로 피할 수 있지만, decision-margin certification을 만족하지 못할 수 있습니다. 현재 결과에서는 다음과 같습니다.
+Accuracy-only scheduling은 특정 sample set에서는 stable-boundary flip을 경험적으로 피할 수 있지만, decision-margin certification을 만족하지 못할 수 있다. 현재 결과에서는 다음과 같습니다.
 
 ```text
 accuracy_only_tol0005_m16:
@@ -189,11 +189,11 @@ accuracy_only_tol0005_m16:
   p1 usage = 10.06x
 ```
 
-이는 현재 sample set에서는 경험적으로 flip이 발생하지 않았지만, estimated error가 p1 decision-margin budget을 초과한다는 의미입니다.
+이는 현재 sample set에서는 경험적으로 flip이 발생하지 않았지만, estimated error가 p1 decision-margin budget을 초과한다는 의미이다.
 
 ## 5. Bound 보수성
 
-FlipGuard는 node-wise sensitivity와 scheduled quantization error에 기반한 충분조건 error bound를 사용합니다.
+FlipGuard는 node-wise sensitivity와 scheduled quantization error에 기반한 충분조건 error bound를 사용한다.
 
 현재 관측된 보수성은 다음과 같습니다.
 
@@ -205,11 +205,11 @@ flipguard_p1_m16:
   bound/max = 2.77x
 ```
 
-이는 현재 toy benchmark에서 충분조건 bound가 보수적이지만, 관측 최대 오차 대비 측정 가능한 유한한 범위 안에 있음을 의미합니다.
+이는 현재 toy benchmark에서 충분조건 bound가 보수적이지만, 관측 최대 오차 대비 측정 가능한 유한한 범위 안에 있음을 의미한다.
 
 ## 6. 한계
 
-현재 결과는 통제된 평문 기반 시뮬레이션 benchmark에 기반합니다.
+현재 결과는 통제된 평문 기반 시뮬레이션 benchmark에 기반한다.
 
 아직 다음 항목은 측정하지 않았습니다.
 
@@ -220,4 +220,4 @@ flipguard_p1_m16:
 - bootstrapping impact
 - real dataset behavior
 
-이 항목들은 이후 단계에서 추가될 예정입니다.
+이 항목들은 이후 단계에서 추가될 예정이다.

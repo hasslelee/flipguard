@@ -117,7 +117,7 @@ Goals:
 
 # 한국어
 
-이 문서는 FlipGuard의 개발 로드맵을 정리합니다.
+이 문서는 FlipGuard의 개발 로드맵을 정리한다.
 
 ## Stage 1. 평문 기반 시뮬레이션 프로토타입
 
@@ -174,7 +174,7 @@ Goals:
 - fraud-detection style binary classification
 - medical-risk style threshold inference
 
-저장소의 핵심 방향은 특정 도메인에 한정되지 않는 범용성입니다. 금융 데이터셋은 평가 workload로 사용할 수 있지만, 핵심 방법론은 일반적인 CKKS 기반 암호화 추론을 대상으로 합니다.
+저장소의 핵심 방향은 특정 도메인에 한정되지 않는 범용성이다. 금융 데이터셋은 평가 workload로 사용할 수 있지만, 핵심 방법론은 일반적인 CKKS 기반 암호화 추론을 대상으로 한다.
 
 ## Stage 4. CKKS Backend
 

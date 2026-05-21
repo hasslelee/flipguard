@@ -120,7 +120,7 @@ Planned next steps:
 
 # 한국어
 
-이 문서는 현재 FlipGuard의 개발 workflow를 설명합니다.
+이 문서는 현재 FlipGuard의 개발 workflow를 설명한다.
 
 ## 1. 기본 명령어
 
@@ -150,13 +150,13 @@ go run ./cmd/flipguard -list
 
 ## 2. Git Workflow
 
-초기 연구 프로토타입 단계에서는 다음 흐름을 사용합니다.
+초기 연구 프로토타입 단계에서는 다음 흐름을 사용한다.
 
-- 작고 의미 있는 단위로 로컬 commit을 생성합니다.
-- 너무 작은 수정마다 push하지 않고, 여러 step을 묶어서 push합니다.
-- `main` branch는 항상 build 가능한 상태로 유지합니다.
-- commit 전 `go test ./...`를 실행합니다.
-- milestone push 전 재현성 스크립트를 실행합니다.
+- 작고 의미 있는 단위로 로컬 commit을 생성한다.
+- 너무 작은 수정마다 push하지 않고, 여러 step을 묶어서 push한다.
+- `main` branch는 항상 build 가능한 상태로 유지한다.
+- commit 전 `go test ./...`를 실행한다.
+- milestone push 전 재현성 스크립트를 실행한다.
 
 권장 로컬 workflow:
 
@@ -177,13 +177,13 @@ git push
 
 ## 3. 결과 파일
 
-생성된 결과 파일은 다음 경로에 저장됩니다.
+생성 결과 파일 경로.
 
 ```text
 results/logreg_small/
 ```
 
-이 파일들은 Git에 포함하지 않도록 설정되어 있습니다.
+이 파일들은 Git에 포함하지 않도록 설정되어 있다.
 
 중요한 생성 파일은 다음과 같습니다.
 
@@ -197,24 +197,24 @@ records_*.csv
 
 ## 4. 코딩 가이드라인
 
-일반 규칙:
+일반 규칙.
 
-- package는 작고 목적이 명확하게 유지합니다.
-- `cmd/flipguard/main.go`는 CLI entry point 역할만 수행하도록 유지합니다.
-- 실험 로직은 `internal/experiment`에 둡니다.
-- benchmark graph 정의는 `internal/benchmarks`에 둡니다.
-- 분석 로직은 `internal/analysis`에 둡니다.
-- scheduling logic은 `internal/scheduler`에 둡니다.
-- 결과 writer는 `internal/report`에 둡니다.
+- package는 작고 목적이 명확하게 유지한다.
+- `cmd/flipguard/main.go`는 CLI entry point 역할만 수행하도록 유지한다.
+- 실험 로직은 `internal/experiment`에 둔다.
+- benchmark graph 정의는 `internal/benchmarks`에 둔다.
+- 분석 로직은 `internal/analysis`에 둔다.
+- scheduling logic은 `internal/scheduler`에 둔다.
+- 결과 writer는 `internal/report`에 둔다.
 
-commit 전:
+commit 전.
 
 ```bash
 gofmt -w <changed-go-files>
 go test ./...
 ```
 
-milestone push 전:
+milestone push 전.
 
 ```bash
 ./scripts/run_logreg_small.sh
