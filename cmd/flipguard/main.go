@@ -321,6 +321,14 @@ func exportResults(
 		return err
 	}
 
+	if err := report.WritePaperTableMarkdown(
+		filepath.Join(outputDir, "paper_table.md"),
+		"Paper-Ready FlipGuard Result Table",
+		summaryRows,
+	); err != nil {
+		return err
+	}
+
 	return nil
 }
 

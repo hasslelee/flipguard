@@ -148,3 +148,174 @@ func WriteMarkdownReport(path string, r MarkdownReport) error {
 
 	return nil
 }
+
+// WritePaperTableMarkdown writes a focused, paper-ready result table.
+// It keeps only the representative baselines and FlipGuard variants that are
+// useful for the main evaluation table.
+func WritePaperTableMarkdown(path string, title string, rows []SummaryRow) error {
+	if err := ensureParentDir(path); err != nil {
+		return err
+	}
+
+	f, err := os.Create(path)
+	if err != nil {
+		return fmt.Errorf("create paper table markdown: %w", err)
+	}
+	defer f.Close()
+
+	if title == "" {
+		title = "Paper-Ready FlipGuard Result Table"
+	}
+
+	fmt.Fprintf(f, "# %s\n\n", title)
+
+	methods := []paperMethod{
+		{
+			Name:      "uniform_bits_12",
+			Role:      "Uniform high-precision baseline",
+			Reference: "U12",
+		},
+		{
+			Name:      "uniform_bits_16",
+			Role:      "Uniform conservative baseline",
+			Reference: "U16",
+		},
+		{
+			Name:      "accuracy_only_tol002_m12",
+			Role:      "Accuracy-only loose tolerance",
+			Reference: "U12",
+		},
+		{
+			Name:      "accuracy_only_tol0005_m16",
+			Role:      "Accuracy-only strict tolerance",
+			Reference: "U16",
+		},
+		{
+			Name:      "flipguard_p5_m12",
+			Role:      "FlipGuard p5-certified schedule",
+			Reference: "U12",
+		},
+		{
+			Name:      "flipguard_p1_m16",
+			Role:      "FlipGuard p1-certified schedule",
+			Reference: "U16",
+		},
+	}
+
+	rowByMethod := indexSummaryRows(rows)
+
+	fmt.Fprintf(f, "## Main Comparison\n\n")
+	fmt.Fprintf(f, "| Method | Role | Stable Boundary Flips | Certification | Avg Bits | Reference | Saving |\n")
+	fmt.Fprintf(f, "|---|---|---:|---|---:|---|---:|\n")
+
+	for _, m := range methods {
+		row, ok := rowByMethod[m.Name]
+		if !ok {
+			continue
+		}
+
+		fmt.Fprintf(
+			f,
+			"| %s | %s | %d | %s | %.2f | %s | %.2f%% |\n",
+			row.Method,
+			m.Role,
+			row.StableBoundaryFlips,
+			certificationLabel(row),
+			row.AvgBits,
+			m.Reference,
+			selectedSaving(row, m.Reference),
+		)
+	}
+
+	fmt.Fprintf(f, "\n## Interpretation Notes\n\n")
+
+	if row, ok := rowByMethod["accuracy_only_tol002_m12"]; ok {
+		fmt.Fprintf(
+			f,
+			"- `accuracy_only_tol002_m12` uses low average precision (`%.2f` bits), but it leaves `%d` stable-boundary flip(s) and does not satisfy the decision-margin certificate.\n",
+			row.AvgBits,
+			row.StableBoundaryFlips,
+		)
+	}
+
+	if row, ok := rowByMethod["accuracy_only_tol0005_m16"]; ok {
+		fmt.Fprintf(
+			f,
+			"- `accuracy_only_tol0005_m16` can empirically achieve `%d` stable-boundary flip(s), but its certification status is `%s`; therefore it should be treated as an empirical accuracy baseline, not a decision-certified schedule.\n",
+			row.StableBoundaryFlips,
+			certificationLabel(row),
+		)
+	}
+
+	if row, ok := rowByMethod["flipguard_p5_m12"]; ok {
+		fmt.Fprintf(
+			f,
+			"- `flipguard_p5_m12` satisfies the p5 decision-margin certificate while reducing average precision by `%.2f%%` against the U12 baseline.\n",
+			row.SavingVsUniform12Pct,
+		)
+	}
+
+	if row, ok := rowByMethod["flipguard_p1_m16"]; ok {
+		fmt.Fprintf(
+			f,
+			"- `flipguard_p1_m16` satisfies both p5 and p1 certificates while reducing average precision by `%.2f%%` against the U16 baseline.\n",
+			row.SavingVsUniform16Pct,
+		)
+	}
+
+	fmt.Fprintf(f, "\n## Paper Claim Draft\n\n")
+	fmt.Fprintf(f, "> FlipGuard reduces average precision while satisfying decision-margin certification. In the logreg_small benchmark, the p5-certified schedule reduces average precision by %.2f%% compared with the U12 baseline, and the p1-certified schedule reduces average precision by %.2f%% compared with the U16 baseline.\n",
+		savingFor(rowByMethod, "flipguard_p5_m12", "U12"),
+		savingFor(rowByMethod, "flipguard_p1_m16", "U16"),
+	)
+
+	return nil
+}
+
+type paperMethod struct {
+	Name      string
+	Role      string
+	Reference string
+}
+
+func indexSummaryRows(rows []SummaryRow) map[string]SummaryRow {
+	indexed := make(map[string]SummaryRow, len(rows))
+
+	for _, row := range rows {
+		indexed[row.Method] = row
+	}
+
+	return indexed
+}
+
+func certificationLabel(row SummaryRow) string {
+	if row.P5Certified && row.P1Certified {
+		return "p5+p1"
+	}
+
+	if row.P5Certified {
+		return "p5"
+	}
+
+	return "none"
+}
+
+func selectedSaving(row SummaryRow, reference string) float64 {
+	switch reference {
+	case "U12":
+		return row.SavingVsUniform12Pct
+	case "U16":
+		return row.SavingVsUniform16Pct
+	default:
+		return 0
+	}
+}
+
+func savingFor(rows map[string]SummaryRow, method string, reference string) float64 {
+	row, ok := rows[method]
+	if !ok {
+		return 0
+	}
+
+	return selectedSaving(row, reference)
+}
