@@ -33,6 +33,11 @@ func main() {
 			Description: "Encrypted CKKS evaluation of the logreg_small linear expression",
 			Run:         experiment.RunCKKSLinear,
 		},
+		"ckks_scale_probe": {
+			Name:        "ckks_scale_probe",
+			Description: "Diagnostic probe for CKKS scalar multiplication scale behavior",
+			Run:         experiment.RunCKKSScaleProbe,
+		},
 	}
 
 	experimentName := flag.String("experiment", "logreg_small", "experiment name to run")
@@ -69,6 +74,6 @@ func printExperiments(experiments map[string]experimentEntry) {
 	fmt.Println("Available experiments:")
 	for _, name := range names {
 		entry := experiments[name]
-		fmt.Printf("  %-16s %s\n", entry.Name, entry.Description)
+		fmt.Printf("  %-18s %s\n", entry.Name, entry.Description)
 	}
 }
