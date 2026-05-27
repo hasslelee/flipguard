@@ -22,7 +22,19 @@ type LinearLogRegResult struct {
 	Input LogRegSmallInput
 
 	PlainZ float64
-	CKKSZ  float64
+
+	// RawCKKSZ is the directly decoded first slot before scale correction.
+	//
+	// With the current simple scalar-multiplication path, Lattigo's scalar
+	// operand handling leaves the decoded value scaled by approximately the
+	// default CKKS scale. The corrected CKKSZ value divides this raw decoded
+	// value by DecodeScaleCorrection.
+	RawCKKSZ float64
+
+	// CKKSZ is the scale-corrected decoded value used for comparison with PlainZ.
+	CKKSZ float64
+
+	DecodeScaleCorrection float64
 
 	AbsError float64
 
@@ -39,6 +51,15 @@ func EvalLogRegSmallLinearPlain(input LogRegSmallInput) float64 {
 
 // EvalLogRegSmallLinearEncrypted evaluates the linear part of logreg_small
 // using Lattigo CKKS ciphertext operations.
+//
+// Note:
+//
+// This is still an early CKKS backend probe. The current implementation uses
+// simple scalar operands for ciphertext-constant multiplication. In this path,
+// the directly decoded value is empirically scaled by the default CKKS scale,
+// so the first-slot output is corrected by 2^LogDefaultScale before comparison.
+// A later step should replace this correction with an explicit scale/rescale
+// management path.
 func (c Context) EvalLogRegSmallLinearEncrypted(input LogRegSmallInput) (LinearLogRegResult, error) {
 	encoder := ckks.NewEncoder(c.Params)
 
@@ -97,10 +118,13 @@ func (c Context) EvalLogRegSmallLinearEncrypted(input LogRegSmallInput) (LinearL
 		return LinearLogRegResult{}, fmt.Errorf("add bias -0.3: %w", err)
 	}
 
-	zDecoded, err := c.decryptFirstSlot(encoder, decryptor, zCipher)
+	rawZ, err := c.decryptFirstSlot(encoder, decryptor, zCipher)
 	if err != nil {
 		return LinearLogRegResult{}, fmt.Errorf("decrypt z: %w", err)
 	}
+
+	correction := math.Exp2(float64(c.LogDefaultScale()))
+	zDecoded := rawZ / correction
 
 	plainZ := EvalLogRegSmallLinearPlain(input)
 
@@ -108,7 +132,11 @@ func (c Context) EvalLogRegSmallLinearEncrypted(input LogRegSmallInput) (LinearL
 		Input: input,
 
 		PlainZ: plainZ,
-		CKKSZ:  zDecoded,
+
+		RawCKKSZ: rawZ,
+		CKKSZ:    zDecoded,
+
+		DecodeScaleCorrection: correction,
 
 		AbsError: math.Abs(zDecoded - plainZ),
 
