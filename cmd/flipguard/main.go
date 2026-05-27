@@ -23,6 +23,11 @@ func main() {
 			Description: "Boundary-focused polynomial logistic-style decision-stability simulation",
 			Run:         experiment.RunLogRegSmall,
 		},
+		"ckks_roundtrip": {
+			Name:        "ckks_roundtrip",
+			Description: "Minimal Lattigo CKKS encode-encrypt-decrypt-decode probe",
+			Run:         experiment.RunCKKSRoundTrip,
+		},
 	}
 
 	experimentName := flag.String("experiment", "logreg_small", "experiment name to run")
