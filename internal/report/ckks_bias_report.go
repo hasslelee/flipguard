@@ -102,22 +102,12 @@ func WriteCKKSBiasProbeMarkdown(path string, pairs []ckksbackend.BiasAdditionPro
 
 	fmt.Fprintf(f, "# CKKS Bias Addition Probe\n\n")
 
-	fmt.Fprintf(f, "## English\n\n")
+	fmt.Fprintf(f, "## Overview\n\n")
 	fmt.Fprintf(f, "This report compares two ways of adding scalar bias terms in the current CKKS backend.\n\n")
 	fmt.Fprintf(f, "Compared methods:\n\n")
 	fmt.Fprintf(f, "- `scalar_bias`: `AddNew(ciphertext, float64_bias)`\n")
 	fmt.Fprintf(f, "- `plaintext_bias`: encode the bias as CKKS plaintext and call `AddNew(ciphertext, plaintext_bias)`\n\n")
-	fmt.Fprintf(f, "The goal is to determine whether plaintext bias addition avoids the temporary decode-scale correction currently used by the linear probe.\n\n")
-
-	writeBiasProbeMarkdownTable(f, pairs)
-
-	fmt.Fprintf(f, "\n---\n\n")
-	fmt.Fprintf(f, "## 한국어\n\n")
-	fmt.Fprintf(f, "이 문서는 현재 CKKS backend에서 scalar bias term을 더하는 두 방식 비교.\n\n")
-	fmt.Fprintf(f, "비교 방식:\n\n")
-	fmt.Fprintf(f, "- `scalar_bias`: `AddNew(ciphertext, float64_bias)`\n")
-	fmt.Fprintf(f, "- `plaintext_bias`: bias를 CKKS plaintext로 encode한 뒤 `AddNew(ciphertext, plaintext_bias)` 호출\n\n")
-	fmt.Fprintf(f, "목표는 plaintext bias addition이 현재 linear probe의 임시 decode-scale correction을 피할 수 있는지 확인하는 것이다.\n\n")
+	fmt.Fprintf(f, "The goal is to determine whether plaintext bias addition avoids the temporary decode-scale correction previously used by the linear probe.\n\n")
 
 	writeBiasProbeMarkdownTable(f, pairs)
 
@@ -125,7 +115,7 @@ func WriteCKKSBiasProbeMarkdown(path string, pairs []ckksbackend.BiasAdditionPro
 }
 
 func writeBiasProbeMarkdownTable(f *os.File, pairs []ckksbackend.BiasAdditionProbePair) {
-	fmt.Fprintf(f, "### Results\n\n")
+	fmt.Fprintf(f, "## Results\n\n")
 	fmt.Fprintf(f, "| Case | Method | Plain | Raw | Scaled | Selected | Mode | Error |\n")
 	fmt.Fprintf(f, "|---:|---|---:|---:|---:|---:|---|---:|\n")
 
