@@ -140,48 +140,6 @@ func WriteCKKSScaleProbeMarkdown(path string, results []ckksbackend.ScalarScaleP
 			result.SelectedAbsError,
 		)
 	}
-
-	fmt.Fprintf(f, "\n---\n\n")
-	fmt.Fprintf(f, "## 한국어\n\n")
-	fmt.Fprintf(f, "이 문서는 현재 Lattigo CKKS scalar multiplication 및 scalar-bias addition 경로의 scale behavior 관측 결과 요약.\n\n")
-	fmt.Fprintf(f, "Probe 대상 수식:\n\n")
-	fmt.Fprintf(f, "```text\n")
-	fmt.Fprintf(f, "y = scalar * input + bias\n")
-	fmt.Fprintf(f, "```\n\n")
-	fmt.Fprintf(f, "현재 backend에서는 두 가지 해석이 관측된다.\n\n")
-	fmt.Fprintf(f, "- scalar bias가 없을 때 raw decoded value가 plaintext-domain value와 직접 일치\n")
-	fmt.Fprintf(f, "- scalar bias가 있을 때 raw decoded value가 대략 `2^log_default_scale`만큼 scaling\n\n")
-	fmt.Fprintf(f, "진단을 위해 probe는 raw 해석과 scaled 해석을 모두 기록하고, absolute error가 더 작은 해석을 선택한다.\n\n")
-	fmt.Fprintf(f, "이 문서는 diagnostic artifact이며, 최종 CKKS scale-management 설계가 아니다.\n\n")
-
-	fmt.Fprintf(f, "### Aggregate Selected Error\n\n")
-	fmt.Fprintf(f, "| 항목 | 값 |\n")
-	fmt.Fprintf(f, "|---|---:|\n")
-	fmt.Fprintf(f, "| samples | %d |\n", len(results))
-	fmt.Fprintf(f, "| max_selected_abs_error | %.10f |\n", maxError)
-	fmt.Fprintf(f, "| mean_selected_abs_error | %.10f |\n", meanError)
-
-	fmt.Fprintf(f, "\n### Results\n\n")
-	fmt.Fprintf(f, "| Index | Input | Scalar | Bias | Plain | Raw | Scaled | Selected | Mode | Error |\n")
-	fmt.Fprintf(f, "|---:|---:|---:|---:|---:|---:|---:|---:|---|---:|\n")
-
-	for i, result := range results {
-		fmt.Fprintf(
-			f,
-			"| %d | %.6f | %.6f | %.6f | %.10f | %.4f | %.10f | %.10f | %s | %.10f |\n",
-			i,
-			result.Input,
-			result.Scalar,
-			result.Bias,
-			result.PlainValue,
-			result.RawDecodedValue,
-			result.ScaledDecodedValue,
-			result.SelectedValue,
-			result.SelectedInterpretation,
-			result.SelectedAbsError,
-		)
-	}
-
 	return nil
 }
 

@@ -38,6 +38,11 @@ func main() {
 			Description: "Diagnostic probe for CKKS scalar multiplication scale behavior",
 			Run:         experiment.RunCKKSScaleProbe,
 		},
+		"ckks_bias_probe": {
+			Name:        "ckks_bias_probe",
+			Description: "Diagnostic probe comparing scalar-bias and plaintext-bias CKKS addition",
+			Run:         experiment.RunCKKSBiasProbe,
+		},
 	}
 
 	experimentName := flag.String("experiment", "logreg_small", "experiment name to run")
