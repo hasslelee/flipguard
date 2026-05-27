@@ -23,17 +23,23 @@ type LinearLogRegResult struct {
 
 	PlainZ float64
 
-	// RawCKKSZ is the directly decoded first slot before scale correction.
+	// RawCKKSZ is the directly decoded first slot.
 	//
-	// With the current simple scalar-multiplication path, Lattigo's scalar
-	// operand handling leaves the decoded value scaled by approximately the
-	// default CKKS scale. The corrected CKKSZ value divides this raw decoded
-	// value by DecodeScaleCorrection.
+	// After the bias-addition probe, the linear evaluator now adds the bias as a
+	// CKKS plaintext rather than as a float64 scalar operand. Therefore RawCKKSZ
+	// is expected to already be in the plaintext domain.
 	RawCKKSZ float64
 
-	// CKKSZ is the scale-corrected decoded value used for comparison with PlainZ.
+	// CKKSZ is the decoded value used for comparison with PlainZ.
+	//
+	// In the current plaintext-bias implementation, CKKSZ equals RawCKKSZ.
 	CKKSZ float64
 
+	// DecodeScaleCorrection records any post-decode correction factor.
+	//
+	// The old scalar-bias path used 2^LogDefaultScale as a temporary correction.
+	// The current plaintext-bias path should not require post-decode correction,
+	// so this value is 1.
 	DecodeScaleCorrection float64
 
 	AbsError float64
@@ -52,14 +58,9 @@ func EvalLogRegSmallLinearPlain(input LogRegSmallInput) float64 {
 // EvalLogRegSmallLinearEncrypted evaluates the linear part of logreg_small
 // using Lattigo CKKS ciphertext operations.
 //
-// Note:
-//
-// This is still an early CKKS backend probe. The current implementation uses
-// simple scalar operands for ciphertext-constant multiplication. In this path,
-// the directly decoded value is empirically scaled by the default CKKS scale,
-// so the first-slot output is corrected by 2^LogDefaultScale before comparison.
-// A later step should replace this correction with an explicit scale/rescale
-// management path.
+// The constant bias term is encoded as a CKKS plaintext and then added to the
+// ciphertext expression. This avoids the temporary decode-scale correction that
+// was required when using evaluator.AddNew(ciphertext, float64_bias).
 func (c Context) EvalLogRegSmallLinearEncrypted(input LogRegSmallInput) (LinearLogRegResult, error) {
 	encoder := ckks.NewEncoder(c.Params)
 
@@ -113,18 +114,20 @@ func (c Context) EvalLogRegSmallLinearEncrypted(input LogRegSmallInput) (LinearL
 		return LinearLogRegResult{}, fmt.Errorf("add t3: %w", err)
 	}
 
-	zCipher, err := evaluator.AddNew(sum123, -0.3)
+	biasPlaintext, err := c.encodeReplicatedPlaintextAtLevel(encoder, -0.3, sum123.Level())
 	if err != nil {
-		return LinearLogRegResult{}, fmt.Errorf("add bias -0.3: %w", err)
+		return LinearLogRegResult{}, fmt.Errorf("encode bias plaintext: %w", err)
 	}
 
-	rawZ, err := c.decryptFirstSlot(encoder, decryptor, zCipher)
+	zCipher, err := evaluator.AddNew(sum123, biasPlaintext)
+	if err != nil {
+		return LinearLogRegResult{}, fmt.Errorf("add plaintext bias -0.3: %w", err)
+	}
+
+	zDecoded, err := c.decryptFirstSlot(encoder, decryptor, zCipher)
 	if err != nil {
 		return LinearLogRegResult{}, fmt.Errorf("decrypt z: %w", err)
 	}
-
-	correction := math.Exp2(float64(c.LogDefaultScale()))
-	zDecoded := rawZ / correction
 
 	plainZ := EvalLogRegSmallLinearPlain(input)
 
@@ -133,10 +136,10 @@ func (c Context) EvalLogRegSmallLinearEncrypted(input LogRegSmallInput) (LinearL
 
 		PlainZ: plainZ,
 
-		RawCKKSZ: rawZ,
+		RawCKKSZ: zDecoded,
 		CKKSZ:    zDecoded,
 
-		DecodeScaleCorrection: correction,
+		DecodeScaleCorrection: 1.0,
 
 		AbsError: math.Abs(zDecoded - plainZ),
 

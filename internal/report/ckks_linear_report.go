@@ -93,8 +93,8 @@ func WriteCKKSLinearMarkdown(path string, results []ckksbackend.LinearLogRegResu
 	fmt.Fprintf(f, "```text\n")
 	fmt.Fprintf(f, "z = 0.8*x1 - 0.5*x2 + 1.2*x3 - 0.3\n")
 	fmt.Fprintf(f, "```\n\n")
-	fmt.Fprintf(f, "This is not the full polynomial inference path yet. It validates ciphertext-constant multiplication, ciphertext addition, decryption, decoding, and comparison against the plaintext linear reference.\n\n")
-	fmt.Fprintf(f, "The current implementation uses a temporary decode-scale correction for scalar multiplication output. A later step should replace this with explicit CKKS scale and rescale management.\n\n")
+	fmt.Fprintf(f, "This is not the full polynomial inference path yet. It validates ciphertext-constant multiplication, ciphertext addition, plaintext-bias addition, decryption, decoding, and comparison against the plaintext linear reference.\n\n")
+	fmt.Fprintf(f, "The current implementation adds the bias term as a CKKS plaintext. Therefore the decoded linear output is expected to be directly in the plaintext domain, without the previous post-decode scale correction.\n\n")
 
 	fmt.Fprintf(f, "### Aggregate Error\n\n")
 	fmt.Fprintf(f, "| Field | Value |\n")
@@ -104,13 +104,13 @@ func WriteCKKSLinearMarkdown(path string, results []ckksbackend.LinearLogRegResu
 	fmt.Fprintf(f, "| mean_abs_error | %.10f |\n", meanError)
 
 	fmt.Fprintf(f, "\n### Per-Sample Results\n\n")
-	fmt.Fprintf(f, "| Index | x1 | x2 | x3 | Plain z | CKKS z | Abs Error | Initial Level | Final Level |\n")
-	fmt.Fprintf(f, "|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n")
+	fmt.Fprintf(f, "| Index | x1 | x2 | x3 | Plain z | CKKS z | Abs Error | Correction | Initial Level | Final Level |\n")
+	fmt.Fprintf(f, "|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n")
 
 	for i, result := range results {
 		fmt.Fprintf(
 			f,
-			"| %d | %.6f | %.6f | %.6f | %.10f | %.10f | %.10f | %d | %d |\n",
+			"| %d | %.6f | %.6f | %.6f | %.10f | %.10f | %.10f | %.1f | %d | %d |\n",
 			i,
 			result.Input.X1,
 			result.Input.X2,
@@ -118,43 +118,7 @@ func WriteCKKSLinearMarkdown(path string, results []ckksbackend.LinearLogRegResu
 			result.PlainZ,
 			result.CKKSZ,
 			result.AbsError,
-			result.InitialLevel,
-			result.FinalLevel,
-		)
-	}
-
-	fmt.Fprintf(f, "\n---\n\n")
-	fmt.Fprintf(f, "## 한국어\n\n")
-	fmt.Fprintf(f, "이 문서는 현재 `logreg_small` benchmark의 linear part에 대한 encrypted CKKS evaluation 결과 요약.\n\n")
-	fmt.Fprintf(f, "대상 수식:\n\n")
-	fmt.Fprintf(f, "```text\n")
-	fmt.Fprintf(f, "z = 0.8*x1 - 0.5*x2 + 1.2*x3 - 0.3\n")
-	fmt.Fprintf(f, "```\n\n")
-	fmt.Fprintf(f, "아직 전체 polynomial inference 경로는 아니다. Ciphertext-constant multiplication, ciphertext addition, decryption, decoding, plaintext linear reference와의 비교를 검증하는 단계다.\n\n")
-	fmt.Fprintf(f, "현재 구현은 scalar multiplication 출력에 대해 임시 decode-scale correction 사용. 이후 explicit CKKS scale 및 rescale management 방식으로 대체 필요.\n\n")
-
-	fmt.Fprintf(f, "### Aggregate Error\n\n")
-	fmt.Fprintf(f, "| 항목 | 값 |\n")
-	fmt.Fprintf(f, "|---|---:|\n")
-	fmt.Fprintf(f, "| samples | %d |\n", len(results))
-	fmt.Fprintf(f, "| max_abs_error | %.10f |\n", maxError)
-	fmt.Fprintf(f, "| mean_abs_error | %.10f |\n", meanError)
-
-	fmt.Fprintf(f, "\n### Per-Sample Results\n\n")
-	fmt.Fprintf(f, "| Index | x1 | x2 | x3 | Plain z | CKKS z | Abs Error | Initial Level | Final Level |\n")
-	fmt.Fprintf(f, "|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n")
-
-	for i, result := range results {
-		fmt.Fprintf(
-			f,
-			"| %d | %.6f | %.6f | %.6f | %.10f | %.10f | %.10f | %d | %d |\n",
-			i,
-			result.Input.X1,
-			result.Input.X2,
-			result.Input.X3,
-			result.PlainZ,
-			result.CKKSZ,
-			result.AbsError,
+			result.DecodeScaleCorrection,
 			result.InitialLevel,
 			result.FinalLevel,
 		)
