@@ -222,6 +222,7 @@ results/
 
 - [Roadmap](docs/ROADMAP.md)
 - [Current logreg_small result](docs/RESULTS_LOGREG_SMALL.md)
+- [CKKS linear result](docs/CKKS_LINEAR_RESULT.md)
 - [Development notes](docs/DEVELOPMENT.md)
 
 ## 10. Research Direction
