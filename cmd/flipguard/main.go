@@ -28,6 +28,11 @@ func main() {
 			Description: "Minimal Lattigo CKKS encode-encrypt-decrypt-decode probe",
 			Run:         experiment.RunCKKSRoundTrip,
 		},
+		"ckks_linear": {
+			Name:        "ckks_linear",
+			Description: "Encrypted CKKS evaluation of the logreg_small linear expression",
+			Run:         experiment.RunCKKSLinear,
+		},
 	}
 
 	experimentName := flag.String("experiment", "logreg_small", "experiment name to run")
