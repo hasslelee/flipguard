@@ -58,6 +58,11 @@ func main() {
 			Description: "Encrypted CKKS evaluation of the logreg_small polynomial output",
 			Run:         experiment.RunCKKSPolynomial,
 		},
+		"ckks_full_logreg": {
+			Name:        "ckks_full_logreg",
+			Description: "End-to-end encrypted CKKS evaluation of logreg_small",
+			Run:         experiment.RunCKKSFullLogReg,
+		},
 	}
 
 	experimentName := flag.String("experiment", "logreg_small", "experiment name to run")
