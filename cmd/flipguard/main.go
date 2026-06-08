@@ -48,6 +48,11 @@ func main() {
 			Description: "Diagnostic probe for CKKS ciphertext-ciphertext multiplication",
 			Run:         experiment.RunCKKSMulProbe,
 		},
+		"ckks_cubic_probe": {
+			Name:        "ckks_cubic_probe",
+			Description: "Diagnostic probe for CKKS encrypted cubic evaluation",
+			Run:         experiment.RunCKKSCubicProbe,
+		},
 	}
 
 	experimentName := flag.String("experiment", "logreg_small", "experiment name to run")
