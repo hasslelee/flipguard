@@ -53,6 +53,11 @@ func main() {
 			Description: "Diagnostic probe for CKKS encrypted cubic evaluation",
 			Run:         experiment.RunCKKSCubicProbe,
 		},
+		"ckks_polynomial": {
+			Name:        "ckks_polynomial",
+			Description: "Encrypted CKKS evaluation of the logreg_small polynomial output",
+			Run:         experiment.RunCKKSPolynomial,
+		},
 	}
 
 	experimentName := flag.String("experiment", "logreg_small", "experiment name to run")
