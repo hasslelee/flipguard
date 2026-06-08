@@ -43,6 +43,11 @@ func main() {
 			Description: "Diagnostic probe comparing scalar-bias and plaintext-bias CKKS addition",
 			Run:         experiment.RunCKKSBiasProbe,
 		},
+		"ckks_mul_probe": {
+			Name:        "ckks_mul_probe",
+			Description: "Diagnostic probe for CKKS ciphertext-ciphertext multiplication",
+			Run:         experiment.RunCKKSMulProbe,
+		},
 	}
 
 	experimentName := flag.String("experiment", "logreg_small", "experiment name to run")
