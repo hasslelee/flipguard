@@ -4,7 +4,18 @@ import (
 	"fmt"
 	"math"
 
+	"github.com/tuneinsight/lattigo/v6/core/rlwe"
 	"github.com/tuneinsight/lattigo/v6/schemes/ckks"
+)
+
+// MultiplicationProbeMethod identifies one ciphertext-ciphertext multiplication path.
+type MultiplicationProbeMethod string
+
+const (
+	MultiplicationMulOnly         MultiplicationProbeMethod = "mul_only"
+	MultiplicationMulRelin        MultiplicationProbeMethod = "mul_relin"
+	MultiplicationMulRescale      MultiplicationProbeMethod = "mul_rescale"
+	MultiplicationMulRelinRescale MultiplicationProbeMethod = "mul_relin_rescale"
 )
 
 // MultiplicationProbeCase defines one ciphertext-ciphertext multiplication probe.
@@ -13,11 +24,9 @@ type MultiplicationProbeCase struct {
 }
 
 // MultiplicationProbeResult records the observed behavior of z*z under CKKS.
-//
-// This probe intentionally uses evaluator.MulNew without relinearization or
-// rescaling. It is a diagnostic step before implementing the full polynomial
-// path y = 0.5 + 0.197*z - 0.004*z^3.
 type MultiplicationProbeResult struct {
+	Method MultiplicationProbeMethod
+
 	Z float64
 
 	PlainZ2 float64
@@ -55,48 +64,65 @@ func DefaultMultiplicationProbeCases() []MultiplicationProbeCase {
 	}
 }
 
-// RunMultiplicationProbe executes all default ciphertext-ciphertext
-// multiplication probe cases.
+// DefaultMultiplicationProbeMethods returns the multiplication paths compared by the probe.
+func DefaultMultiplicationProbeMethods() []MultiplicationProbeMethod {
+	return []MultiplicationProbeMethod{
+		MultiplicationMulOnly,
+		MultiplicationMulRelin,
+		MultiplicationMulRescale,
+		MultiplicationMulRelinRescale,
+	}
+}
+
+// RunMultiplicationProbe executes all default multiplication probe cases and methods.
 func (c Context) RunMultiplicationProbe() ([]MultiplicationProbeResult, error) {
 	cases := DefaultMultiplicationProbeCases()
-	results := make([]MultiplicationProbeResult, 0, len(cases))
+	methods := DefaultMultiplicationProbeMethods()
 
-	for i, probeCase := range cases {
-		result, err := c.RunMultiplicationProbeCase(probeCase)
-		if err != nil {
-			return nil, fmt.Errorf("run multiplication probe case %d: %w", i, err)
+	results := make([]MultiplicationProbeResult, 0, len(cases)*len(methods))
+
+	for caseIndex, probeCase := range cases {
+		for _, method := range methods {
+			result, err := c.RunMultiplicationProbeCase(probeCase, method)
+			if err != nil {
+				return nil, fmt.Errorf("run multiplication probe case %d method %s: %w", caseIndex, method, err)
+			}
+
+			results = append(results, result)
 		}
-
-		results = append(results, result)
 	}
 
 	return results, nil
 }
 
-// RunMultiplicationProbeCase evaluates z2 = z*z using CKKS ciphertext
-// multiplication without relinearization and without rescaling.
-func (c Context) RunMultiplicationProbeCase(probeCase MultiplicationProbeCase) (MultiplicationProbeResult, error) {
+// RunMultiplicationProbeCase evaluates z2 = z*z using the selected CKKS multiplication path.
+func (c Context) RunMultiplicationProbeCase(
+	probeCase MultiplicationProbeCase,
+	method MultiplicationProbeMethod,
+) (MultiplicationProbeResult, error) {
 	encoder := ckks.NewEncoder(c.Params)
 
 	kgen := ckks.NewKeyGenerator(c.Params)
 	sk, pk := kgen.GenKeyPairNew()
+	rlk := kgen.GenRelinearizationKeyNew(sk)
 
 	encryptor := ckks.NewEncryptor(c.Params, pk)
 	decryptor := ckks.NewDecryptor(c.Params, sk)
 
 	evaluator := ckks.NewEvaluator(c.Params, nil)
+	relinEvaluator := ckks.NewEvaluator(c.Params, rlwe.NewMemEvaluationKeySet(rlk))
 
 	zCipher, err := c.encryptReplicatedScalar(encoder, encryptor, probeCase.Z)
 	if err != nil {
 		return MultiplicationProbeResult{}, fmt.Errorf("encrypt z: %w", err)
 	}
 
-	z2Cipher, err := evaluator.MulNew(zCipher, zCipher)
+	out, err := evaluateSquareByMethod(c, evaluator, relinEvaluator, zCipher, method)
 	if err != nil {
-		return MultiplicationProbeResult{}, fmt.Errorf("multiply z by z: %w", err)
+		return MultiplicationProbeResult{}, err
 	}
 
-	raw, err := c.decryptFirstSlot(encoder, decryptor, z2Cipher)
+	raw, err := c.decryptFirstSlot(encoder, decryptor, out)
 	if err != nil {
 		return MultiplicationProbeResult{}, fmt.Errorf("decrypt z2: %w", err)
 	}
@@ -120,6 +146,8 @@ func (c Context) RunMultiplicationProbeCase(probeCase MultiplicationProbeCase) (
 	}
 
 	return MultiplicationProbeResult{
+		Method: method,
+
 		Z: probeCase.Z,
 
 		PlainZ2: plain,
@@ -137,11 +165,95 @@ func (c Context) RunMultiplicationProbeCase(probeCase MultiplicationProbeCase) (
 		DecodeScaleCorrection: correction,
 
 		InitialLevel: c.MaxLevel(),
-		FinalLevel:   z2Cipher.Level(),
+		FinalLevel:   out.Level(),
 
 		InputDegree:  zCipher.Degree(),
-		OutputDegree: z2Cipher.Degree(),
+		OutputDegree: out.Degree(),
 
 		LogDefaultScale: c.LogDefaultScale(),
 	}, nil
+}
+
+func evaluateSquareByMethod(
+	c Context,
+	evaluator *ckks.Evaluator,
+	relinEvaluator *ckks.Evaluator,
+	zCipher *rlwe.Ciphertext,
+	method MultiplicationProbeMethod,
+) (*rlwe.Ciphertext, error) {
+	switch method {
+	case MultiplicationMulOnly:
+		out, err := evaluator.MulNew(zCipher, zCipher)
+		if err != nil {
+			return nil, fmt.Errorf("multiply z by z: %w", err)
+		}
+
+		return out, nil
+
+	case MultiplicationMulRelin:
+		out, err := relinEvaluator.MulNew(zCipher, zCipher)
+		if err != nil {
+			return nil, fmt.Errorf("multiply z by z: %w", err)
+		}
+
+		out, err = relinEvaluator.RelinearizeNew(out)
+		if err != nil {
+			return nil, fmt.Errorf("relinearize z2: %w", err)
+		}
+
+		return out, nil
+
+	case MultiplicationMulRescale:
+		out, err := evaluator.MulNew(zCipher, zCipher)
+		if err != nil {
+			return nil, fmt.Errorf("multiply z by z: %w", err)
+		}
+
+		out, err = c.rescaleNew(evaluator, out)
+		if err != nil {
+			return nil, fmt.Errorf("rescale z2: %w", err)
+		}
+
+		return out, nil
+
+	case MultiplicationMulRelinRescale:
+		out, err := relinEvaluator.MulNew(zCipher, zCipher)
+		if err != nil {
+			return nil, fmt.Errorf("multiply z by z: %w", err)
+		}
+
+		out, err = relinEvaluator.RelinearizeNew(out)
+		if err != nil {
+			return nil, fmt.Errorf("relinearize z2: %w", err)
+		}
+
+		out, err = c.rescaleNew(relinEvaluator, out)
+		if err != nil {
+			return nil, fmt.Errorf("rescale z2: %w", err)
+		}
+
+		return out, nil
+
+	default:
+		return nil, fmt.Errorf("unsupported multiplication probe method: %s", method)
+	}
+}
+
+func (c Context) rescaleNew(evaluator *ckks.Evaluator, ct *rlwe.Ciphertext) (*rlwe.Ciphertext, error) {
+	levels := c.Params.LevelsConsumedPerRescaling()
+	if levels <= 0 {
+		levels = 1
+	}
+
+	if ct.Level() < levels {
+		return nil, fmt.Errorf("cannot rescale ciphertext at level %d by %d level(s)", ct.Level(), levels)
+	}
+
+	out := ckks.NewCiphertext(c.Params, ct.Degree(), ct.Level()-levels)
+
+	if err := evaluator.Rescale(ct, out); err != nil {
+		return nil, fmt.Errorf("rescale ciphertext: %w", err)
+	}
+
+	return out, nil
 }

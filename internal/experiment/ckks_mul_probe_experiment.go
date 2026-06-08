@@ -24,13 +24,14 @@ func RunCKKSMulProbe() error {
 
 	fmt.Println("FlipGuard CKKS multiplication probe")
 	fmt.Println("target: z2 = z * z")
-	fmt.Println("mode: MulNew without relinearization and without rescaling")
+	fmt.Println("methods: mul_only, mul_relin, mul_rescale, mul_relin_rescale")
 	fmt.Println()
 
 	for i, result := range results {
 		fmt.Printf(
-			"case=%d z=%.6f plain_z2=%.10f raw_z2=%.10f scaled_z2=%.10f selected_z2=%.10f mode=%s abs_error=%.10f input_degree=%d output_degree=%d initial_level=%d final_level=%d\n",
+			"case=%d method=%s z=%.6f plain_z2=%.10f raw_z2=%.10f scaled_z2=%.10f selected_z2=%.10f mode=%s abs_error=%.10f input_degree=%d output_degree=%d initial_level=%d final_level=%d\n",
 			i,
+			result.Method,
 			result.Z,
 			result.PlainZ2,
 			result.RawDecodedZ2,
