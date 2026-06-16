@@ -17,12 +17,14 @@ func RunCKKSFinalCheck() error {
 	auditPath := CKKSResultPath(ckksCertificateAuditOutputDir, "summary.csv")
 	comparisonPath := CKKSResultPath(ckksPolicyComparisonOutputDir, "comparison.csv")
 	paperTablePath := CKKSResultPath(ckksPaperTableOutputDir, "table.csv")
+	outputAccuracyPath := CKKSResultPath(ckksOutputAccuracyOutputDir, "summary.csv")
 
-	rows := make([]report.CKKSFinalCheckRow, 0, 24)
+	rows := make([]report.CKKSFinalCheckRow, 0, 48)
 
 	rows = append(rows, fileExistsCheck("audit_summary_exists", auditPath))
 	rows = append(rows, fileExistsCheck("policy_comparison_exists", comparisonPath))
 	rows = append(rows, fileExistsCheck("paper_table_exists", paperTablePath))
+	rows = append(rows, fileExistsCheck("output_accuracy_summary_exists", outputAccuracyPath))
 
 	auditRecord, err := loadSingleRecordForFinalCheck(auditPath)
 	if err != nil {
@@ -39,6 +41,12 @@ func RunCKKSFinalCheck() error {
 	paperRecords, err := readCSVRecordsByHeader(paperTablePath)
 	if err != nil {
 		rows = append(rows, failedFinalCheck("load_paper_table", "readable csv", err.Error(), paperTablePath))
+		return finishCKKSFinalCheck(rows)
+	}
+
+	outputAccuracyRecord, err := loadSingleRecordForFinalCheck(outputAccuracyPath)
+	if err != nil {
+		rows = append(rows, failedFinalCheck("load_output_accuracy_summary", "one readable record", err.Error(), outputAccuracyPath))
 		return finishCKKSFinalCheck(rows)
 	}
 
@@ -69,6 +77,15 @@ func RunCKKSFinalCheck() error {
 	maxStableUsage, maxStableUsageErr := parseFinalCheckFloat(auditRecord["max_stable_usage"])
 	maxYError, maxYErrorErr := parseFinalCheckFloat(auditRecord["max_y_error"])
 
+	outputAccuracyRuns, outputAccuracyRunsErr := parseFinalCheckInt(outputAccuracyRecord["runs"])
+	outputAccuracyStableRuns, outputAccuracyStableRunsErr := parseFinalCheckInt(outputAccuracyRecord["stable_runs"])
+	outputAccuracyAmbiguousRuns, outputAccuracyAmbiguousRunsErr := parseFinalCheckInt(outputAccuracyRecord["ambiguous_runs"])
+	scoreCertifiedRuns, scoreCertifiedRunsErr := parseFinalCheckInt(outputAccuracyRecord["score_certified_runs"])
+	scoreErrorViolations, scoreErrorViolationsErr := parseFinalCheckInt(outputAccuracyRecord["score_error_violations"])
+	allScoreErrorViolations, allScoreErrorViolationsErr := parseFinalCheckInt(outputAccuracyRecord["all_score_error_violations"])
+	maxScoreErrorUsage, maxScoreErrorUsageErr := parseFinalCheckFloat(outputAccuracyRecord["max_score_error_usage"])
+	_, maxOutputAccuracyYErrorErr := parseFinalCheckFloat(outputAccuracyRecord["max_y_error"])
+
 	rows = append(rows, parseStatusCheck("audit_points_parse", pointsErr))
 	rows = append(rows, parseStatusCheck("audit_repetitions_parse", repetitionsErr))
 	rows = append(rows, parseStatusCheck("audit_runs_parse", runsErr))
@@ -80,6 +97,15 @@ func RunCKKSFinalCheck() error {
 	rows = append(rows, parseStatusCheck("audit_stable_certified_runs_parse", stableCertifiedRunsErr))
 	rows = append(rows, parseStatusCheck("audit_max_stable_usage_parse", maxStableUsageErr))
 	rows = append(rows, parseStatusCheck("audit_max_y_error_parse", maxYErrorErr))
+
+	rows = append(rows, parseStatusCheck("output_accuracy_runs_parse", outputAccuracyRunsErr))
+	rows = append(rows, parseStatusCheck("output_accuracy_stable_runs_parse", outputAccuracyStableRunsErr))
+	rows = append(rows, parseStatusCheck("output_accuracy_ambiguous_runs_parse", outputAccuracyAmbiguousRunsErr))
+	rows = append(rows, parseStatusCheck("output_accuracy_score_certified_runs_parse", scoreCertifiedRunsErr))
+	rows = append(rows, parseStatusCheck("output_accuracy_score_error_violations_parse", scoreErrorViolationsErr))
+	rows = append(rows, parseStatusCheck("output_accuracy_all_score_error_violations_parse", allScoreErrorViolationsErr))
+	rows = append(rows, parseStatusCheck("output_accuracy_max_score_error_usage_parse", maxScoreErrorUsageErr))
+	rows = append(rows, parseStatusCheck("output_accuracy_max_y_error_parse", maxOutputAccuracyYErrorErr))
 
 	if anyError(
 		pointsErr,
@@ -93,6 +119,14 @@ func RunCKKSFinalCheck() error {
 		stableCertifiedRunsErr,
 		maxStableUsageErr,
 		maxYErrorErr,
+		outputAccuracyRunsErr,
+		outputAccuracyStableRunsErr,
+		outputAccuracyAmbiguousRunsErr,
+		scoreCertifiedRunsErr,
+		scoreErrorViolationsErr,
+		allScoreErrorViolationsErr,
+		maxScoreErrorUsageErr,
+		maxOutputAccuracyYErrorErr,
 	) {
 		return finishCKKSFinalCheck(rows)
 	}
@@ -134,7 +168,7 @@ func RunCKKSFinalCheck() error {
 		stableViolations == 0,
 		"0",
 		fmt.Sprintf("%d", stableViolations),
-		"main observed-error certificate claim",
+		"main margin-safety certificate claim",
 	))
 
 	rows = append(rows, boolFinalCheck(
@@ -159,6 +193,70 @@ func RunCKKSFinalCheck() error {
 		">0",
 		formatFinalCheckFloat(maxYError),
 		"observed CKKS error should be explicitly represented",
+	))
+
+	rows = append(rows, boolFinalCheck(
+		"output_accuracy_runs_match_audit_runs",
+		outputAccuracyRuns == runs,
+		fmt.Sprintf("%d", runs),
+		fmt.Sprintf("%d", outputAccuracyRuns),
+		"output accuracy summary should reuse the same audit records",
+	))
+
+	rows = append(rows, boolFinalCheck(
+		"output_accuracy_stable_runs_match_audit",
+		outputAccuracyStableRuns == stableRuns,
+		fmt.Sprintf("%d", stableRuns),
+		fmt.Sprintf("%d", outputAccuracyStableRuns),
+		"output accuracy stable run count should match audit stable run count",
+	))
+
+	rows = append(rows, boolFinalCheck(
+		"output_accuracy_ambiguous_runs_match_audit",
+		outputAccuracyAmbiguousRuns == ambiguousRuns,
+		fmt.Sprintf("%d", ambiguousRuns),
+		fmt.Sprintf("%d", outputAccuracyAmbiguousRuns),
+		"output accuracy ambiguous run count should match audit ambiguous run count",
+	))
+
+	rows = append(rows, boolFinalCheck(
+		"output_accuracy_score_certified_runs_match_stable_runs",
+		scoreCertifiedRuns == stableRuns,
+		fmt.Sprintf("%d", stableRuns),
+		fmt.Sprintf("%d", scoreCertifiedRuns),
+		"all stable samples should satisfy the output accuracy guard",
+	))
+
+	rows = append(rows, boolFinalCheck(
+		"output_accuracy_score_error_violations_zero",
+		scoreErrorViolations == 0,
+		"0",
+		fmt.Sprintf("%d", scoreErrorViolations),
+		"stable samples should not violate the output accuracy guard",
+	))
+
+	rows = append(rows, boolFinalCheck(
+		"output_accuracy_all_score_error_violations_zero",
+		allScoreErrorViolations == 0,
+		"0",
+		fmt.Sprintf("%d", allScoreErrorViolations),
+		"all samples should satisfy the task-level output accuracy guard",
+	))
+
+	rows = append(rows, boolFinalCheck(
+		"output_accuracy_max_score_error_usage_positive",
+		maxScoreErrorUsage > 0,
+		">0",
+		formatFinalCheckFloat(maxScoreErrorUsage),
+		"score error usage should preserve a nonzero observed ratio",
+	))
+
+	rows = append(rows, floatFieldCheck(
+		"output_accuracy_max_y_error_match_audit",
+		maxYError,
+		outputAccuracyRecord["max_y_error"],
+		1e-10,
+		"output accuracy max error should match audit max_y_error",
 	))
 
 	rows = append(rows, stringFieldCheck(
@@ -213,10 +311,17 @@ func RunCKKSFinalCheck() error {
 	))
 
 	rows = append(rows, stringFieldCheck(
-		"paper_ckks_violations_match",
+		"paper_ckks_margin_violations_match",
 		fmt.Sprintf("%d", stableViolations),
-		ckksPaperRow["violations"],
-		"paper table should reflect CKKS certificate violations",
+		ckksPaperRow["margin_violations"],
+		"paper table should reflect CKKS margin-safety violations",
+	))
+
+	rows = append(rows, stringFieldCheck(
+		"paper_ckks_score_violations_match",
+		fmt.Sprintf("%d", scoreErrorViolations),
+		ckksPaperRow["score_violations"],
+		"paper table should reflect CKKS output accuracy violations",
 	))
 
 	rows = append(rows, paperUsageCheck(ckksPaperRow["usage"]))

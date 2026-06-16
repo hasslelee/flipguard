@@ -4,39 +4,43 @@ import "github.com/hasslelee/flipguard/internal/ckksbackend"
 
 // RuntimeOptions stores CLI-level experiment options.
 type RuntimeOptions struct {
-	CKKSMinTargetZ   float64
-	CKKSMaxTargetZ   float64
-	CKKSPoints       int
-	CKKSRepetitions  int
-	CKKSSafetyFactor float64
-	CKKSOutputTag    string
+	CKKSMinTargetZ       float64
+	CKKSMaxTargetZ       float64
+	CKKSPoints           int
+	CKKSRepetitions      int
+	CKKSSafetyFactor     float64
+	CKKSOutputTag        string
+	CKKSScoreAbsErrorCap float64
+	CKKSScoreRelErrorCap float64
 }
 
 var runtimeOptions = DefaultRuntimeOptions()
 
-// DefaultRuntimeOptions returns the default runtime options.
+// DefaultRuntimeOptions returns default experiment runtime options.
 func DefaultRuntimeOptions() RuntimeOptions {
 	return RuntimeOptions{
-		CKKSMinTargetZ:   -0.05,
-		CKKSMaxTargetZ:   0.05,
-		CKKSPoints:       101,
-		CKKSRepetitions:  3,
-		CKKSSafetyFactor: 0.5,
-		CKKSOutputTag:    "",
+		CKKSMinTargetZ:       -0.05,
+		CKKSMaxTargetZ:       0.05,
+		CKKSPoints:           101,
+		CKKSRepetitions:      3,
+		CKKSSafetyFactor:     0.5,
+		CKKSOutputTag:        "",
+		CKKSScoreAbsErrorCap: 1e-3,
+		CKKSScoreRelErrorCap: 1e-2,
 	}
 }
 
-// SetRuntimeOptions stores CLI-level experiment options.
+// SetRuntimeOptions updates global runtime options.
 func SetRuntimeOptions(options RuntimeOptions) {
 	runtimeOptions = options
 }
 
-// GetRuntimeOptions returns CLI-level experiment options.
+// GetRuntimeOptions returns global runtime options.
 func GetRuntimeOptions() RuntimeOptions {
 	return runtimeOptions
 }
 
-// CKKSBoundaryRepeatConfigFromRuntimeOptions builds repeated boundary settings.
+// CKKSBoundaryRepeatConfigFromRuntimeOptions returns repeat configuration from runtime options.
 func CKKSBoundaryRepeatConfigFromRuntimeOptions() ckksbackend.FullLogRegBoundaryRepeatConfig {
 	options := GetRuntimeOptions()
 
@@ -45,7 +49,7 @@ func CKKSBoundaryRepeatConfigFromRuntimeOptions() ckksbackend.FullLogRegBoundary
 	}
 }
 
-// CKKSBoundarySweepConfigFromRuntimeOptions builds dense boundary sweep settings.
+// CKKSBoundarySweepConfigFromRuntimeOptions returns sweep configuration from runtime options.
 func CKKSBoundarySweepConfigFromRuntimeOptions() ckksbackend.FullLogRegBoundarySweepConfig {
 	options := GetRuntimeOptions()
 
@@ -57,7 +61,7 @@ func CKKSBoundarySweepConfigFromRuntimeOptions() ckksbackend.FullLogRegBoundaryS
 	}
 }
 
-// CKKSCertificateAuditConfigFromRuntimeOptions builds certificate audit settings.
+// CKKSCertificateAuditConfigFromRuntimeOptions returns certificate audit configuration from runtime options.
 func CKKSCertificateAuditConfigFromRuntimeOptions() ckksbackend.CKKSCertificateAuditConfig {
 	options := GetRuntimeOptions()
 

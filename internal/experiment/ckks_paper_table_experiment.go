@@ -15,13 +15,19 @@ const ckksPolicyComparisonBaseDir = "results/ckks_policy_comparison"
 // RunCKKSPaperTable exports compact paper-ready comparison tables.
 func RunCKKSPaperTable() error {
 	comparisonPath := CKKSResultPath(ckksPolicyComparisonBaseDir, "comparison.csv")
+	outputAccuracyPath := CKKSResultPath(ckksOutputAccuracyOutputDir, "summary.csv")
 
 	comparisonRecords, err := readCSVRecordsByHeader(comparisonPath)
 	if err != nil {
 		return fmt.Errorf("read policy comparison: %w", err)
 	}
 
-	rows, err := buildCKKSPaperTableRows(comparisonRecords)
+	outputAccuracySummary, hasOutputAccuracySummary, err := loadOutputAccuracySummaryForPaperTable(outputAccuracyPath)
+	if err != nil {
+		return fmt.Errorf("read output accuracy summary: %w", err)
+	}
+
+	rows, err := buildCKKSPaperTableRows(comparisonRecords, outputAccuracySummary, hasOutputAccuracySummary)
 	if err != nil {
 		return fmt.Errorf("build CKKS paper table rows: %w", err)
 	}
@@ -48,11 +54,12 @@ func RunCKKSPaperTable() error {
 
 	for _, row := range rows {
 		fmt.Printf(
-			"method=%s certification=%s stable_flips=%s violations=%s usage=%s avg_bits=%s saving=%s\n",
+			"method=%s certification=%s stable_flips=%s margin_violations=%s score_violations=%s usage=%s avg_bits=%s saving=%s\n",
 			row.Method,
 			row.Certification,
 			row.StableFlips,
 			row.Violations,
+			row.ScoreViolations,
 			row.Usage,
 			row.AvgBits,
 			row.Saving,
@@ -61,12 +68,21 @@ func RunCKKSPaperTable() error {
 
 	fmt.Println()
 	fmt.Printf("Read CKKS policy comparison from %s\n", comparisonPath)
+	if hasOutputAccuracySummary {
+		fmt.Printf("Read CKKS output accuracy summary from %s\n", outputAccuracyPath)
+	} else {
+		fmt.Printf("CKKS output accuracy summary not found at %s\n", outputAccuracyPath)
+	}
 	fmt.Printf("Exported CKKS paper table files to %s/\n", outputDir)
 
 	return nil
 }
 
-func buildCKKSPaperTableRows(records []map[string]string) ([]report.CKKSPaperTableRow, error) {
+func buildCKKSPaperTableRows(
+	records []map[string]string,
+	outputAccuracySummary map[string]string,
+	hasOutputAccuracySummary bool,
+) ([]report.CKKSPaperTableRow, error) {
 	order := []string{
 		"ckks_observed_certificate",
 		"uniform_bits_12",
@@ -92,13 +108,17 @@ func buildCKKSPaperTableRows(records []map[string]string) ([]report.CKKSPaperTab
 			return nil, fmt.Errorf("method %s not found in policy comparison", method)
 		}
 
-		rows = append(rows, buildCKKSPaperTableRow(record))
+		rows = append(rows, buildCKKSPaperTableRow(record, outputAccuracySummary, hasOutputAccuracySummary))
 	}
 
 	return rows, nil
 }
 
-func buildCKKSPaperTableRow(record map[string]string) report.CKKSPaperTableRow {
+func buildCKKSPaperTableRow(
+	record map[string]string,
+	outputAccuracySummary map[string]string,
+	hasOutputAccuracySummary bool,
+) report.CKKSPaperTableRow {
 	method := record["method"]
 	saving := ""
 
@@ -118,21 +138,47 @@ func buildCKKSPaperTableRow(record map[string]string) report.CKKSPaperTableRow {
 		violations = "-"
 	}
 
+	scoreViolations := "-"
+	if method == "ckks_observed_certificate" {
+		scoreViolations = ""
+		if hasOutputAccuracySummary {
+			scoreViolations = outputAccuracySummary["score_error_violations"]
+		}
+	}
+
 	avgBits := decimalString(record["avg_bits"], 2)
 	usage := adaptiveFloatString(record["budget_usage"], 4)
 	maxError := scientificString(record["max_error"])
 
 	return report.CKKSPaperTableRow{
-		Method:        method,
-		Evaluation:    record["source"],
-		Certification: record["certification"],
-		StableFlips:   record["stable_flips"],
-		Violations:    violations,
-		Usage:         usage,
-		MaxError:      maxError,
-		AvgBits:       avgBits,
-		Saving:        saving,
+		Method:          method,
+		Evaluation:      record["source"],
+		Certification:   record["certification"],
+		StableFlips:     record["stable_flips"],
+		Violations:      violations,
+		ScoreViolations: scoreViolations,
+		Usage:           usage,
+		MaxError:        maxError,
+		AvgBits:         avgBits,
+		Saving:          saving,
 	}
+}
+
+func loadOutputAccuracySummaryForPaperTable(path string) (map[string]string, bool, error) {
+	records, err := readCSVRecordsByHeader(path)
+	if err != nil {
+		if isPathNotFoundError(err) {
+			return nil, false, nil
+		}
+
+		return nil, false, err
+	}
+
+	if len(records) == 0 {
+		return nil, false, fmt.Errorf("output accuracy summary has no records: %s", path)
+	}
+
+	return records[0], true, nil
 }
 
 func percentString(value string) string {

@@ -83,6 +83,11 @@ func main() {
 			Description: "Observed-error decision certificate audit for CKKS boundary sweep",
 			Run:         experiment.RunCKKSCertificateAudit,
 		},
+		"ckks_output_accuracy": {
+			Name:        "ckks_output_accuracy",
+			Description: "Task-level output accuracy guard for CKKS audit records",
+			Run:         experiment.RunCKKSOutputAccuracy,
+		},
 		"ckks_policy_comparison": {
 			Name:        "ckks_policy_comparison",
 			Description: "Combined CKKS observed certificate and simulation policy comparison",
@@ -111,16 +116,20 @@ func main() {
 	ckksRepetitions := flag.Int("ckks-repetitions", defaultOptions.CKKSRepetitions, "number of CKKS repetitions")
 	ckksSafetyFactor := flag.Float64("ckks-safety-factor", defaultOptions.CKKSSafetyFactor, "decision-margin safety factor for CKKS certificate audit")
 	ckksOutputTag := flag.String("ckks-output-tag", defaultOptions.CKKSOutputTag, "optional CKKS result output tag")
+	ckksScoreAbsErrorCap := flag.Float64("ckks-score-abs-error-cap", defaultOptions.CKKSScoreAbsErrorCap, "absolute score error cap for CKKS output accuracy guard")
+	ckksScoreRelErrorCap := flag.Float64("ckks-score-rel-error-cap", defaultOptions.CKKSScoreRelErrorCap, "relative score error cap for CKKS output accuracy guard")
 
 	flag.Parse()
 
 	experiment.SetRuntimeOptions(experiment.RuntimeOptions{
-		CKKSMinTargetZ:   *ckksMinTargetZ,
-		CKKSMaxTargetZ:   *ckksMaxTargetZ,
-		CKKSPoints:       *ckksPoints,
-		CKKSRepetitions:  *ckksRepetitions,
-		CKKSSafetyFactor: *ckksSafetyFactor,
-		CKKSOutputTag:    *ckksOutputTag,
+		CKKSMinTargetZ:       *ckksMinTargetZ,
+		CKKSMaxTargetZ:       *ckksMaxTargetZ,
+		CKKSPoints:           *ckksPoints,
+		CKKSRepetitions:      *ckksRepetitions,
+		CKKSSafetyFactor:     *ckksSafetyFactor,
+		CKKSOutputTag:        *ckksOutputTag,
+		CKKSScoreAbsErrorCap: *ckksScoreAbsErrorCap,
+		CKKSScoreRelErrorCap: *ckksScoreRelErrorCap,
 	})
 
 	if *listExperiments {
@@ -155,18 +164,20 @@ func printExperiments(experiments map[string]experimentEntry) {
 	fmt.Println("Available experiments:")
 	for _, name := range names {
 		entry := experiments[name]
-		fmt.Printf("  %-24s %s\n", entry.Name, entry.Description)
+		fmt.Printf("  %-28s %s\n", entry.Name, entry.Description)
 	}
 }
 
 func printRuntimeOptions(options experiment.RuntimeOptions) {
 	fmt.Printf(
-		"Runtime options: ckks_min_z=%.6f ckks_max_z=%.6f ckks_points=%d ckks_repetitions=%d ckks_safety_factor=%.4f ckks_output_tag=%s\n",
+		"Runtime options: ckks_min_z=%.6f ckks_max_z=%.6f ckks_points=%d ckks_repetitions=%d ckks_safety_factor=%.4f ckks_output_tag=%s ckks_score_abs_error_cap=%.10f ckks_score_rel_error_cap=%.10f\n",
 		options.CKKSMinTargetZ,
 		options.CKKSMaxTargetZ,
 		options.CKKSPoints,
 		options.CKKSRepetitions,
 		options.CKKSSafetyFactor,
 		options.CKKSOutputTag,
+		options.CKKSScoreAbsErrorCap,
+		options.CKKSScoreRelErrorCap,
 	)
 }
