@@ -4,14 +4,16 @@ import "github.com/hasslelee/flipguard/internal/ckksbackend"
 
 // RuntimeOptions stores CLI-level experiment options.
 type RuntimeOptions struct {
-	CKKSMinTargetZ       float64
-	CKKSMaxTargetZ       float64
-	CKKSPoints           int
-	CKKSRepetitions      int
-	CKKSSafetyFactor     float64
-	CKKSOutputTag        string
-	CKKSScoreAbsErrorCap float64
-	CKKSScoreRelErrorCap float64
+	CKKSMinTargetZ            float64
+	CKKSMaxTargetZ            float64
+	CKKSPoints                int
+	CKKSRepetitions           int
+	CKKSSafetyFactor          float64
+	CKKSOutputTag             string
+	CKKSScoreAbsErrorCap      float64
+	CKKSScoreRelErrorCap      float64
+	CKKSTimingWarmupRuns      int
+	CKKSTimingMeasurementRuns int
 }
 
 var runtimeOptions = DefaultRuntimeOptions()
@@ -19,14 +21,16 @@ var runtimeOptions = DefaultRuntimeOptions()
 // DefaultRuntimeOptions returns default experiment runtime options.
 func DefaultRuntimeOptions() RuntimeOptions {
 	return RuntimeOptions{
-		CKKSMinTargetZ:       -0.05,
-		CKKSMaxTargetZ:       0.05,
-		CKKSPoints:           101,
-		CKKSRepetitions:      3,
-		CKKSSafetyFactor:     0.5,
-		CKKSOutputTag:        "",
-		CKKSScoreAbsErrorCap: 1e-3,
-		CKKSScoreRelErrorCap: 1e-2,
+		CKKSMinTargetZ:            -0.05,
+		CKKSMaxTargetZ:            0.05,
+		CKKSPoints:                101,
+		CKKSRepetitions:           3,
+		CKKSSafetyFactor:          0.5,
+		CKKSOutputTag:             "",
+		CKKSScoreAbsErrorCap:      1e-3,
+		CKKSScoreRelErrorCap:      1e-2,
+		CKKSTimingWarmupRuns:      3,
+		CKKSTimingMeasurementRuns: 30,
 	}
 }
 
@@ -69,4 +73,15 @@ func CKKSCertificateAuditConfigFromRuntimeOptions() ckksbackend.CKKSCertificateA
 		SafetyFactor: options.CKKSSafetyFactor,
 		SweepConfig:  CKKSBoundarySweepConfigFromRuntimeOptions(),
 	}
+}
+
+// CKKSTimingBenchmarkConfigFromRuntimeOptions returns timing benchmark configuration from runtime options.
+func CKKSTimingBenchmarkConfigFromRuntimeOptions() ckksbackend.CKKSTimingBenchmarkConfig {
+	options := GetRuntimeOptions()
+	config := ckksbackend.DefaultCKKSTimingBenchmarkConfig()
+
+	config.WarmupRuns = options.CKKSTimingWarmupRuns
+	config.MeasurementRuns = options.CKKSTimingMeasurementRuns
+
+	return config
 }

@@ -88,6 +88,11 @@ func main() {
 			Description: "Task-level output accuracy guard for CKKS audit records",
 			Run:         experiment.RunCKKSOutputAccuracy,
 		},
+		"ckks_timing_benchmark": {
+			Name:        "ckks_timing_benchmark",
+			Description: "Step-level timing benchmark for CKKS encrypted inference",
+			Run:         experiment.RunCKKSTimingBenchmark,
+		},
 		"ckks_policy_comparison": {
 			Name:        "ckks_policy_comparison",
 			Description: "Combined CKKS observed certificate and simulation policy comparison",
@@ -118,18 +123,22 @@ func main() {
 	ckksOutputTag := flag.String("ckks-output-tag", defaultOptions.CKKSOutputTag, "optional CKKS result output tag")
 	ckksScoreAbsErrorCap := flag.Float64("ckks-score-abs-error-cap", defaultOptions.CKKSScoreAbsErrorCap, "absolute score error cap for CKKS output accuracy guard")
 	ckksScoreRelErrorCap := flag.Float64("ckks-score-rel-error-cap", defaultOptions.CKKSScoreRelErrorCap, "relative score error cap for CKKS output accuracy guard")
+	ckksTimingWarmupRuns := flag.Int("ckks-timing-warmup-runs", defaultOptions.CKKSTimingWarmupRuns, "warmup runs for CKKS timing benchmark")
+	ckksTimingMeasurementRuns := flag.Int("ckks-timing-measurement-runs", defaultOptions.CKKSTimingMeasurementRuns, "measurement runs for CKKS timing benchmark")
 
 	flag.Parse()
 
 	experiment.SetRuntimeOptions(experiment.RuntimeOptions{
-		CKKSMinTargetZ:       *ckksMinTargetZ,
-		CKKSMaxTargetZ:       *ckksMaxTargetZ,
-		CKKSPoints:           *ckksPoints,
-		CKKSRepetitions:      *ckksRepetitions,
-		CKKSSafetyFactor:     *ckksSafetyFactor,
-		CKKSOutputTag:        *ckksOutputTag,
-		CKKSScoreAbsErrorCap: *ckksScoreAbsErrorCap,
-		CKKSScoreRelErrorCap: *ckksScoreRelErrorCap,
+		CKKSMinTargetZ:            *ckksMinTargetZ,
+		CKKSMaxTargetZ:            *ckksMaxTargetZ,
+		CKKSPoints:                *ckksPoints,
+		CKKSRepetitions:           *ckksRepetitions,
+		CKKSSafetyFactor:          *ckksSafetyFactor,
+		CKKSOutputTag:             *ckksOutputTag,
+		CKKSScoreAbsErrorCap:      *ckksScoreAbsErrorCap,
+		CKKSScoreRelErrorCap:      *ckksScoreRelErrorCap,
+		CKKSTimingWarmupRuns:      *ckksTimingWarmupRuns,
+		CKKSTimingMeasurementRuns: *ckksTimingMeasurementRuns,
 	})
 
 	if *listExperiments {
@@ -170,7 +179,7 @@ func printExperiments(experiments map[string]experimentEntry) {
 
 func printRuntimeOptions(options experiment.RuntimeOptions) {
 	fmt.Printf(
-		"Runtime options: ckks_min_z=%.6f ckks_max_z=%.6f ckks_points=%d ckks_repetitions=%d ckks_safety_factor=%.4f ckks_output_tag=%s ckks_score_abs_error_cap=%.10f ckks_score_rel_error_cap=%.10f\n",
+		"Runtime options: ckks_min_z=%.6f ckks_max_z=%.6f ckks_points=%d ckks_repetitions=%d ckks_safety_factor=%.4f ckks_output_tag=%s ckks_score_abs_error_cap=%.10f ckks_score_rel_error_cap=%.10f ckks_timing_warmup_runs=%d ckks_timing_measurement_runs=%d\n",
 		options.CKKSMinTargetZ,
 		options.CKKSMaxTargetZ,
 		options.CKKSPoints,
@@ -179,5 +188,7 @@ func printRuntimeOptions(options experiment.RuntimeOptions) {
 		options.CKKSOutputTag,
 		options.CKKSScoreAbsErrorCap,
 		options.CKKSScoreRelErrorCap,
+		options.CKKSTimingWarmupRuns,
+		options.CKKSTimingMeasurementRuns,
 	)
 }
