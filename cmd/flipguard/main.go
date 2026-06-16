@@ -93,6 +93,11 @@ func main() {
 			Description: "Compact paper-ready CKKS and simulation policy comparison table export",
 			Run:         experiment.RunCKKSPaperTable,
 		},
+		"ckks_final_check": {
+			Name:        "ckks_final_check",
+			Description: "Consistency check for tagged CKKS final result artifacts",
+			Run:         experiment.RunCKKSFinalCheck,
+		},
 	}
 
 	defaultOptions := experiment.DefaultRuntimeOptions()
