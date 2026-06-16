@@ -17,7 +17,7 @@ type CKKSProfile struct {
 
 // DefaultCKKSProfileNames returns the default profile ladder.
 func DefaultCKKSProfileNames() string {
-	return "default,scale40,short_chain_5,short_chain_3"
+	return "default,scale42,scale40,scale38,short_chain_6_scale42,short_chain_6_scale40,short_chain_6_scale38,short_chain_5,short_chain_3"
 }
 
 // AllCKKSProfiles returns all built-in CKKS profiles.
@@ -31,10 +31,43 @@ func AllCKKSProfiles() []CKKSProfile {
 			Literal:     copyCKKSParametersLiteral(defaultLiteral),
 		},
 		ckksProfileWithScale(
+			"scale42",
+			"Default modulus chain with log scale 42",
+			defaultLiteral,
+			42,
+		),
+		ckksProfileWithScale(
 			"scale40",
-			"Default modulus chain with reduced default scale",
+			"Default modulus chain with log scale 40",
 			defaultLiteral,
 			40,
+		),
+		ckksProfileWithScale(
+			"scale38",
+			"Default modulus chain with log scale 38",
+			defaultLiteral,
+			38,
+		),
+		ckksProfileWithShortChain(
+			"short_chain_6_scale42",
+			"Reduced Q modulus chain with six Q primes and log scale 42",
+			defaultLiteral,
+			6,
+			42,
+		),
+		ckksProfileWithShortChain(
+			"short_chain_6_scale40",
+			"Reduced Q modulus chain with six Q primes and log scale 40",
+			defaultLiteral,
+			6,
+			40,
+		),
+		ckksProfileWithShortChain(
+			"short_chain_6_scale38",
+			"Reduced Q modulus chain with six Q primes and log scale 38",
+			defaultLiteral,
+			6,
+			38,
 		),
 		ckksProfileWithShortChain(
 			"short_chain_5",

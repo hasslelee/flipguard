@@ -8,7 +8,7 @@ cd "$REPO_ROOT"
 OUTPUT_TAG="${OUTPUT_TAG:-profile_default}"
 WARMUP_RUNS="${WARMUP_RUNS:-3}"
 MEASUREMENT_RUNS="${MEASUREMENT_RUNS:-30}"
-PROFILE_NAMES="${PROFILE_NAMES:-default,scale40,short_chain_5,short_chain_3}"
+PROFILE_NAMES="${PROFILE_NAMES:-default,scale42,scale40,scale38,short_chain_6_scale42,short_chain_6_scale40,short_chain_6_scale38,short_chain_5,short_chain_3}"
 SCORE_ABS_ERROR_CAP="${SCORE_ABS_ERROR_CAP:-0.001}"
 SCORE_REL_ERROR_CAP="${SCORE_REL_ERROR_CAP:-0.01}"
 
