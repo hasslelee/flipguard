@@ -93,6 +93,11 @@ func main() {
 			Description: "Step-level timing benchmark for CKKS encrypted inference",
 			Run:         experiment.RunCKKSTimingBenchmark,
 		},
+		"ckks_profile_benchmark": {
+			Name:        "ckks_profile_benchmark",
+			Description: "Profile-level timing and accuracy benchmark for CKKS encrypted inference",
+			Run:         experiment.RunCKKSProfileBenchmark,
+		},
 		"ckks_policy_comparison": {
 			Name:        "ckks_policy_comparison",
 			Description: "Combined CKKS observed certificate and simulation policy comparison",
@@ -125,6 +130,7 @@ func main() {
 	ckksScoreRelErrorCap := flag.Float64("ckks-score-rel-error-cap", defaultOptions.CKKSScoreRelErrorCap, "relative score error cap for CKKS output accuracy guard")
 	ckksTimingWarmupRuns := flag.Int("ckks-timing-warmup-runs", defaultOptions.CKKSTimingWarmupRuns, "warmup runs for CKKS timing benchmark")
 	ckksTimingMeasurementRuns := flag.Int("ckks-timing-measurement-runs", defaultOptions.CKKSTimingMeasurementRuns, "measurement runs for CKKS timing benchmark")
+	ckksProfileNames := flag.String("ckks-profile-names", defaultOptions.CKKSProfileNames, "comma-separated CKKS profile names")
 
 	flag.Parse()
 
@@ -139,6 +145,7 @@ func main() {
 		CKKSScoreRelErrorCap:      *ckksScoreRelErrorCap,
 		CKKSTimingWarmupRuns:      *ckksTimingWarmupRuns,
 		CKKSTimingMeasurementRuns: *ckksTimingMeasurementRuns,
+		CKKSProfileNames:          *ckksProfileNames,
 	})
 
 	if *listExperiments {
@@ -179,7 +186,7 @@ func printExperiments(experiments map[string]experimentEntry) {
 
 func printRuntimeOptions(options experiment.RuntimeOptions) {
 	fmt.Printf(
-		"Runtime options: ckks_min_z=%.6f ckks_max_z=%.6f ckks_points=%d ckks_repetitions=%d ckks_safety_factor=%.4f ckks_output_tag=%s ckks_score_abs_error_cap=%.10f ckks_score_rel_error_cap=%.10f ckks_timing_warmup_runs=%d ckks_timing_measurement_runs=%d\n",
+		"Runtime options: ckks_min_z=%.6f ckks_max_z=%.6f ckks_points=%d ckks_repetitions=%d ckks_safety_factor=%.4f ckks_output_tag=%s ckks_score_abs_error_cap=%.10f ckks_score_rel_error_cap=%.10f ckks_timing_warmup_runs=%d ckks_timing_measurement_runs=%d ckks_profile_names=%s\n",
 		options.CKKSMinTargetZ,
 		options.CKKSMaxTargetZ,
 		options.CKKSPoints,
@@ -190,5 +197,6 @@ func printRuntimeOptions(options experiment.RuntimeOptions) {
 		options.CKKSScoreRelErrorCap,
 		options.CKKSTimingWarmupRuns,
 		options.CKKSTimingMeasurementRuns,
+		options.CKKSProfileNames,
 	)
 }

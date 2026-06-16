@@ -7,24 +7,66 @@ import (
 )
 
 // Context contains reusable CKKS backend state.
-//
-// At this stage, Context owns CKKS parameters and exposes small helper methods.
-// The encrypted logreg_small evaluator will later build on top of this type.
 type Context struct {
-	Params ckks.Parameters
+	Params  ckks.Parameters
+	Profile CKKSProfile
 }
 
-// NewDefaultContext creates a CKKS backend context using the current default
-// Lattigo parameter literal selected for FlipGuard experiments.
+// NewDefaultContext creates a CKKS backend context using the default FlipGuard profile.
 func NewDefaultContext() (Context, error) {
-	params, err := ckks.NewParametersFromLiteral(ckks.ExampleParameters128BitLogN14LogQP438)
+	return NewContextFromProfileName("default")
+}
+
+// NewContextFromProfileName creates a CKKS backend context from a built-in profile name.
+func NewContextFromProfileName(name string) (Context, error) {
+	profile, err := FindCKKSProfile(name)
 	if err != nil {
-		return Context{}, fmt.Errorf("create CKKS parameters: %w", err)
+		return Context{}, err
+	}
+
+	return NewContextFromProfile(profile)
+}
+
+// NewContextFromProfile creates a CKKS backend context from a profile.
+func NewContextFromProfile(profile CKKSProfile) (Context, error) {
+	params, err := ckks.NewParametersFromLiteral(profile.Literal)
+	if err != nil {
+		return Context{}, fmt.Errorf("create CKKS parameters for profile %s: %w", profile.Name, err)
 	}
 
 	return Context{
-		Params: params,
+		Params:  params,
+		Profile: profile,
 	}, nil
+}
+
+// ProfileName returns the CKKS profile name.
+func (c Context) ProfileName() string {
+	if c.Profile.Name == "" {
+		return "default"
+	}
+
+	return c.Profile.Name
+}
+
+// ProfileDescription returns the CKKS profile description.
+func (c Context) ProfileDescription() string {
+	return c.Profile.Description
+}
+
+// LogQCount returns the number of Q primes in the selected profile.
+func (c Context) LogQCount() int {
+	return c.Profile.LogQCount()
+}
+
+// LogPCount returns the number of P primes in the selected profile.
+func (c Context) LogPCount() int {
+	return c.Profile.LogPCount()
+}
+
+// LogQPSum returns the total bit-size of Q and P primes in the selected profile literal.
+func (c Context) LogQPSum() int {
+	return c.Profile.LogQPSum()
 }
 
 // MaxSlots returns the maximum number of CKKS slots supported by the context.

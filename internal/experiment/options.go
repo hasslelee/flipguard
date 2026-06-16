@@ -14,6 +14,7 @@ type RuntimeOptions struct {
 	CKKSScoreRelErrorCap      float64
 	CKKSTimingWarmupRuns      int
 	CKKSTimingMeasurementRuns int
+	CKKSProfileNames          string
 }
 
 var runtimeOptions = DefaultRuntimeOptions()
@@ -31,6 +32,7 @@ func DefaultRuntimeOptions() RuntimeOptions {
 		CKKSScoreRelErrorCap:      1e-2,
 		CKKSTimingWarmupRuns:      3,
 		CKKSTimingMeasurementRuns: 30,
+		CKKSProfileNames:          ckksbackend.DefaultCKKSProfileNames(),
 	}
 }
 
@@ -84,4 +86,11 @@ func CKKSTimingBenchmarkConfigFromRuntimeOptions() ckksbackend.CKKSTimingBenchma
 	config.MeasurementRuns = options.CKKSTimingMeasurementRuns
 
 	return config
+}
+
+// CKKSProfilesFromRuntimeOptions returns selected CKKS profiles from runtime options.
+func CKKSProfilesFromRuntimeOptions() ([]ckksbackend.CKKSProfile, error) {
+	options := GetRuntimeOptions()
+
+	return ckksbackend.SelectCKKSProfiles(options.CKKSProfileNames)
 }
