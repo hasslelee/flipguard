@@ -4,19 +4,21 @@ import "github.com/hasslelee/flipguard/internal/ckksbackend"
 
 // RuntimeOptions stores CLI-level experiment options.
 type RuntimeOptions struct {
-	CKKSMinTargetZ            float64
-	CKKSMaxTargetZ            float64
-	CKKSPoints                int
-	CKKSRepetitions           int
-	CKKSSafetyFactor          float64
-	CKKSOutputTag             string
-	CKKSScoreAbsErrorCap      float64
-	CKKSScoreRelErrorCap      float64
-	CKKSTimingWarmupRuns      int
-	CKKSTimingMeasurementRuns int
-	CKKSProfileNames          string
-	CKKSProfileName           string
-	CKKSEvaluationMode        string
+	CKKSMinTargetZ                 float64
+	CKKSMaxTargetZ                 float64
+	CKKSPoints                     int
+	CKKSRepetitions                int
+	CKKSSafetyFactor               float64
+	CKKSOutputTag                  string
+	CKKSScoreAbsErrorCap           float64
+	CKKSScoreRelErrorCap           float64
+	CKKSTimingWarmupRuns           int
+	CKKSTimingMeasurementRuns      int
+	CKKSProfileNames               string
+	CKKSProfileName                string
+	CKKSEvaluationMode             string
+	CKKSNaiveProfileBenchmarkTag   string
+	CKKSRescaleProfileBenchmarkTag string
 }
 
 var runtimeOptions = DefaultRuntimeOptions()
@@ -24,19 +26,21 @@ var runtimeOptions = DefaultRuntimeOptions()
 // DefaultRuntimeOptions returns default experiment runtime options.
 func DefaultRuntimeOptions() RuntimeOptions {
 	return RuntimeOptions{
-		CKKSMinTargetZ:            -0.05,
-		CKKSMaxTargetZ:            0.05,
-		CKKSPoints:                101,
-		CKKSRepetitions:           3,
-		CKKSSafetyFactor:          0.5,
-		CKKSOutputTag:             "",
-		CKKSScoreAbsErrorCap:      1e-3,
-		CKKSScoreRelErrorCap:      1e-2,
-		CKKSTimingWarmupRuns:      3,
-		CKKSTimingMeasurementRuns: 30,
-		CKKSProfileNames:          ckksbackend.DefaultCKKSProfileNames(),
-		CKKSProfileName:           "default",
-		CKKSEvaluationMode:        ckksbackend.CKKSEvaluationModeNaive,
+		CKKSMinTargetZ:                 -0.05,
+		CKKSMaxTargetZ:                 0.05,
+		CKKSPoints:                     101,
+		CKKSRepetitions:                3,
+		CKKSSafetyFactor:               0.5,
+		CKKSOutputTag:                  "",
+		CKKSScoreAbsErrorCap:           1e-3,
+		CKKSScoreRelErrorCap:           1e-2,
+		CKKSTimingWarmupRuns:           3,
+		CKKSTimingMeasurementRuns:      30,
+		CKKSProfileNames:               ckksbackend.DefaultCKKSProfileNames(),
+		CKKSProfileName:                "default",
+		CKKSEvaluationMode:             ckksbackend.CKKSEvaluationModeNaive,
+		CKKSNaiveProfileBenchmarkTag:   "profile_naive_default",
+		CKKSRescaleProfileBenchmarkTag: "profile_rescale_default",
 	}
 }
 

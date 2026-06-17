@@ -98,6 +98,11 @@ func main() {
 			Description: "Profile-level timing and accuracy benchmark for CKKS encrypted inference",
 			Run:         experiment.RunCKKSProfileBenchmark,
 		},
+		"ckks_profile_mode_comparison": {
+			Name:        "ckks_profile_mode_comparison",
+			Description: "Paper-ready comparison across CKKS profiles and evaluation modes",
+			Run:         experiment.RunCKKSProfileModeComparison,
+		},
 		"ckks_policy_comparison": {
 			Name:        "ckks_policy_comparison",
 			Description: "Combined CKKS observed certificate and simulation policy comparison",
@@ -133,23 +138,27 @@ func main() {
 	ckksProfileNames := flag.String("ckks-profile-names", defaultOptions.CKKSProfileNames, "comma-separated CKKS profile names")
 	ckksProfileName := flag.String("ckks-profile-name", defaultOptions.CKKSProfileName, "single CKKS profile name")
 	ckksEvaluationMode := flag.String("ckks-evaluation-mode", defaultOptions.CKKSEvaluationMode, "CKKS evaluation mode")
+	ckksNaiveProfileBenchmarkTag := flag.String("ckks-naive-profile-tag", defaultOptions.CKKSNaiveProfileBenchmarkTag, "source tag for naive CKKS profile benchmark")
+	ckksRescaleProfileBenchmarkTag := flag.String("ckks-rescale-profile-tag", defaultOptions.CKKSRescaleProfileBenchmarkTag, "source tag for rescale CKKS profile benchmark")
 
 	flag.Parse()
 
 	experiment.SetRuntimeOptions(experiment.RuntimeOptions{
-		CKKSMinTargetZ:            *ckksMinTargetZ,
-		CKKSMaxTargetZ:            *ckksMaxTargetZ,
-		CKKSPoints:                *ckksPoints,
-		CKKSRepetitions:           *ckksRepetitions,
-		CKKSSafetyFactor:          *ckksSafetyFactor,
-		CKKSOutputTag:             *ckksOutputTag,
-		CKKSScoreAbsErrorCap:      *ckksScoreAbsErrorCap,
-		CKKSScoreRelErrorCap:      *ckksScoreRelErrorCap,
-		CKKSTimingWarmupRuns:      *ckksTimingWarmupRuns,
-		CKKSTimingMeasurementRuns: *ckksTimingMeasurementRuns,
-		CKKSProfileNames:          *ckksProfileNames,
-		CKKSProfileName:           *ckksProfileName,
-		CKKSEvaluationMode:        *ckksEvaluationMode,
+		CKKSMinTargetZ:                 *ckksMinTargetZ,
+		CKKSMaxTargetZ:                 *ckksMaxTargetZ,
+		CKKSPoints:                     *ckksPoints,
+		CKKSRepetitions:                *ckksRepetitions,
+		CKKSSafetyFactor:               *ckksSafetyFactor,
+		CKKSOutputTag:                  *ckksOutputTag,
+		CKKSScoreAbsErrorCap:           *ckksScoreAbsErrorCap,
+		CKKSScoreRelErrorCap:           *ckksScoreRelErrorCap,
+		CKKSTimingWarmupRuns:           *ckksTimingWarmupRuns,
+		CKKSTimingMeasurementRuns:      *ckksTimingMeasurementRuns,
+		CKKSProfileNames:               *ckksProfileNames,
+		CKKSProfileName:                *ckksProfileName,
+		CKKSEvaluationMode:             *ckksEvaluationMode,
+		CKKSNaiveProfileBenchmarkTag:   *ckksNaiveProfileBenchmarkTag,
+		CKKSRescaleProfileBenchmarkTag: *ckksRescaleProfileBenchmarkTag,
 	})
 
 	if *listExperiments {
@@ -190,7 +199,7 @@ func printExperiments(experiments map[string]experimentEntry) {
 
 func printRuntimeOptions(options experiment.RuntimeOptions) {
 	fmt.Printf(
-		"Runtime options: ckks_min_z=%.6f ckks_max_z=%.6f ckks_points=%d ckks_repetitions=%d ckks_safety_factor=%.4f ckks_output_tag=%s ckks_score_abs_error_cap=%.10f ckks_score_rel_error_cap=%.10f ckks_timing_warmup_runs=%d ckks_timing_measurement_runs=%d ckks_profile_names=%s ckks_profile_name=%s ckks_evaluation_mode=%s\n",
+		"Runtime options: ckks_min_z=%.6f ckks_max_z=%.6f ckks_points=%d ckks_repetitions=%d ckks_safety_factor=%.4f ckks_output_tag=%s ckks_score_abs_error_cap=%.10f ckks_score_rel_error_cap=%.10f ckks_timing_warmup_runs=%d ckks_timing_measurement_runs=%d ckks_profile_names=%s ckks_profile_name=%s ckks_evaluation_mode=%s ckks_naive_profile_tag=%s ckks_rescale_profile_tag=%s\n",
 		options.CKKSMinTargetZ,
 		options.CKKSMaxTargetZ,
 		options.CKKSPoints,
@@ -204,5 +213,7 @@ func printRuntimeOptions(options experiment.RuntimeOptions) {
 		options.CKKSProfileNames,
 		options.CKKSProfileName,
 		options.CKKSEvaluationMode,
+		options.CKKSNaiveProfileBenchmarkTag,
+		options.CKKSRescaleProfileBenchmarkTag,
 	)
 }
