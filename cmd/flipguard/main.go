@@ -131,6 +131,8 @@ func main() {
 	ckksTimingWarmupRuns := flag.Int("ckks-timing-warmup-runs", defaultOptions.CKKSTimingWarmupRuns, "warmup runs for CKKS timing benchmark")
 	ckksTimingMeasurementRuns := flag.Int("ckks-timing-measurement-runs", defaultOptions.CKKSTimingMeasurementRuns, "measurement runs for CKKS timing benchmark")
 	ckksProfileNames := flag.String("ckks-profile-names", defaultOptions.CKKSProfileNames, "comma-separated CKKS profile names")
+	ckksProfileName := flag.String("ckks-profile-name", defaultOptions.CKKSProfileName, "single CKKS profile name")
+	ckksEvaluationMode := flag.String("ckks-evaluation-mode", defaultOptions.CKKSEvaluationMode, "CKKS evaluation mode")
 
 	flag.Parse()
 
@@ -146,6 +148,8 @@ func main() {
 		CKKSTimingWarmupRuns:      *ckksTimingWarmupRuns,
 		CKKSTimingMeasurementRuns: *ckksTimingMeasurementRuns,
 		CKKSProfileNames:          *ckksProfileNames,
+		CKKSProfileName:           *ckksProfileName,
+		CKKSEvaluationMode:        *ckksEvaluationMode,
 	})
 
 	if *listExperiments {
@@ -186,7 +190,7 @@ func printExperiments(experiments map[string]experimentEntry) {
 
 func printRuntimeOptions(options experiment.RuntimeOptions) {
 	fmt.Printf(
-		"Runtime options: ckks_min_z=%.6f ckks_max_z=%.6f ckks_points=%d ckks_repetitions=%d ckks_safety_factor=%.4f ckks_output_tag=%s ckks_score_abs_error_cap=%.10f ckks_score_rel_error_cap=%.10f ckks_timing_warmup_runs=%d ckks_timing_measurement_runs=%d ckks_profile_names=%s\n",
+		"Runtime options: ckks_min_z=%.6f ckks_max_z=%.6f ckks_points=%d ckks_repetitions=%d ckks_safety_factor=%.4f ckks_output_tag=%s ckks_score_abs_error_cap=%.10f ckks_score_rel_error_cap=%.10f ckks_timing_warmup_runs=%d ckks_timing_measurement_runs=%d ckks_profile_names=%s ckks_profile_name=%s ckks_evaluation_mode=%s\n",
 		options.CKKSMinTargetZ,
 		options.CKKSMaxTargetZ,
 		options.CKKSPoints,
@@ -198,5 +202,7 @@ func printRuntimeOptions(options experiment.RuntimeOptions) {
 		options.CKKSTimingWarmupRuns,
 		options.CKKSTimingMeasurementRuns,
 		options.CKKSProfileNames,
+		options.CKKSProfileName,
+		options.CKKSEvaluationMode,
 	)
 }

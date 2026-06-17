@@ -29,6 +29,7 @@ func WriteCKKSTimingBenchmarkSummaryCSV(
 	header := []string{
 		"warmup_runs",
 		"measurement_runs",
+		"evaluation_mode",
 		"context_setup_ms",
 		"crypto_setup_ms",
 		"mean_encode_encrypt_ms",
@@ -53,6 +54,7 @@ func WriteCKKSTimingBenchmarkSummaryCSV(
 	record := []string{
 		fmt.Sprintf("%d", summary.WarmupRuns),
 		fmt.Sprintf("%d", summary.MeasurementRuns),
+		summary.EvaluationMode,
 		formatCKKSTimingFloat(summary.ContextSetupMS),
 		formatCKKSTimingFloat(summary.CryptoSetupMS),
 		formatCKKSTimingFloat(summary.MeanEncodeEncryptMS),
@@ -109,6 +111,7 @@ func WriteCKKSTimingBenchmarkRecordsCSV(
 
 	header := []string{
 		"run",
+		"evaluation_mode",
 		"encode_encrypt_ms",
 		"linear_eval_ms",
 		"polynomial_eval_ms",
@@ -138,6 +141,7 @@ func WriteCKKSTimingBenchmarkRecordsCSV(
 	for i, record := range records {
 		row := []string{
 			fmt.Sprintf("%d", record.Run),
+			record.EvaluationMode,
 			formatCKKSTimingFloat(record.EncodeEncryptMS),
 			formatCKKSTimingFloat(record.LinearEvalMS),
 			formatCKKSTimingFloat(record.PolynomialEvalMS),

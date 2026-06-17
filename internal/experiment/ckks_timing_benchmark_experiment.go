@@ -13,9 +13,14 @@ const ckksTimingBenchmarkOutputDir = "results/ckks_timing_benchmark"
 
 // RunCKKSTimingBenchmark measures the current CKKS encrypted inference path.
 func RunCKKSTimingBenchmark() error {
+	profile, err := CKKSProfileFromRuntimeOptions()
+	if err != nil {
+		return fmt.Errorf("select CKKS profile: %w", err)
+	}
+
 	contextStart := time.Now()
 
-	ctx, err := ckksbackend.NewDefaultContext()
+	ctx, err := ckksbackend.NewContextFromProfile(profile)
 	if err != nil {
 		return fmt.Errorf("create CKKS context: %w", err)
 	}
@@ -47,7 +52,7 @@ func RunCKKSTimingBenchmark() error {
 	}
 
 	fmt.Println("FlipGuard CKKS timing benchmark")
-	fmt.Printf("warmup_runs=%d measurement_runs=%d\n", summary.WarmupRuns, summary.MeasurementRuns)
+	fmt.Printf("profile=%s evaluation_mode=%s warmup_runs=%d measurement_runs=%d\n", ctx.ProfileName(), summary.EvaluationMode, summary.WarmupRuns, summary.MeasurementRuns)
 	fmt.Printf("context_setup_ms=%.6f crypto_setup_ms=%.6f\n", summary.ContextSetupMS, summary.CryptoSetupMS)
 	fmt.Println()
 	fmt.Printf(

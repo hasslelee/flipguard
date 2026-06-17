@@ -80,10 +80,11 @@ func RunCKKSProfileBenchmark() error {
 
 	fmt.Println("FlipGuard CKKS profile benchmark")
 	fmt.Printf(
-		"profiles=%d successful_profiles=%d accepted_profiles=%d warmup_runs=%d measurement_runs=%d score_error_budget=%.10f\n",
+		"profiles=%d successful_profiles=%d accepted_profiles=%d evaluation_mode=%s warmup_runs=%d measurement_runs=%d score_error_budget=%.10f\n",
 		len(profiles),
 		successCount,
 		acceptedCount,
+		config.EvaluationMode,
 		config.WarmupRuns,
 		config.MeasurementRuns,
 		scoreErrorBudget,
@@ -92,8 +93,9 @@ func RunCKKSProfileBenchmark() error {
 
 	for _, row := range summaryRows {
 		fmt.Printf(
-			"profile=%s status=%s accepted=%t decision_safe=%t score_error_violation=%t log_q_count=%d log_p_count=%d log_qp_sum=%d max_level=%d log_default_scale=%d mean_eval_only_ms=%.6f mean_total_ms=%.6f speedup_eval_only=%.6f decision_flips=%d max_y_error=%.10f error=%s\n",
+			"profile=%s evaluation_mode=%s status=%s accepted=%t decision_safe=%t score_error_violation=%t log_q_count=%d log_p_count=%d log_qp_sum=%d max_level=%d log_default_scale=%d mean_eval_only_ms=%.6f mean_total_ms=%.6f speedup_eval_only=%.6f decision_flips=%d max_y_error=%.10f error=%s\n",
 			row.ProfileName,
+			row.EvaluationMode,
 			row.Status,
 			row.ProfileAccepted,
 			row.DecisionSafe,
@@ -124,6 +126,7 @@ func runSingleCKKSProfileBenchmark(
 ) (report.CKKSProfileBenchmarkSummaryRow, []report.CKKSProfileBenchmarkRecordRow) {
 	baseRow := report.CKKSProfileBenchmarkSummaryRow{
 		ProfileName:     profile.Name,
+		EvaluationMode:  config.EvaluationMode,
 		Description:     profile.Description,
 		Status:          "failed",
 		LogQCount:       profile.LogQCount(),
@@ -157,6 +160,7 @@ func runSingleCKKSProfileBenchmark(
 
 	row := report.CKKSProfileBenchmarkSummaryRow{
 		ProfileName:          profile.Name,
+		EvaluationMode:       config.EvaluationMode,
 		Description:          profile.Description,
 		Status:               "ok",
 		Error:                "",

@@ -11,6 +11,7 @@ import (
 // CKKSProfileBenchmarkSummaryRow stores one profile benchmark summary row.
 type CKKSProfileBenchmarkSummaryRow struct {
 	ProfileName              string
+	EvaluationMode           string
 	Description              string
 	Status                   string
 	Error                    string
@@ -69,6 +70,7 @@ func WriteCKKSProfileBenchmarkSummaryCSV(
 
 	header := []string{
 		"profile",
+		"evaluation_mode",
 		"description",
 		"status",
 		"error",
@@ -108,6 +110,7 @@ func WriteCKKSProfileBenchmarkSummaryCSV(
 	for i, row := range rows {
 		record := []string{
 			row.ProfileName,
+			row.EvaluationMode,
 			row.Description,
 			row.Status,
 			row.Error,
@@ -172,6 +175,7 @@ func WriteCKKSProfileBenchmarkRecordsCSV(
 
 	header := []string{
 		"profile",
+		"evaluation_mode",
 		"run",
 		"encode_encrypt_ms",
 		"linear_eval_ms",
@@ -204,6 +208,7 @@ func WriteCKKSProfileBenchmarkRecordsCSV(
 
 		csvRecord := []string{
 			row.ProfileName,
+			record.EvaluationMode,
 			fmt.Sprintf("%d", record.Run),
 			formatCKKSProfileBenchmarkFloat(record.EncodeEncryptMS),
 			formatCKKSProfileBenchmarkFloat(record.LinearEvalMS),
