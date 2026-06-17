@@ -19,6 +19,7 @@ type RuntimeOptions struct {
 	CKKSEvaluationMode             string
 	CKKSNaiveProfileBenchmarkTag   string
 	CKKSRescaleProfileBenchmarkTag string
+	CKKSProfileModeComparisonTag   string
 }
 
 var runtimeOptions = DefaultRuntimeOptions()
@@ -41,6 +42,7 @@ func DefaultRuntimeOptions() RuntimeOptions {
 		CKKSEvaluationMode:             ckksbackend.CKKSEvaluationModeNaive,
 		CKKSNaiveProfileBenchmarkTag:   "profile_naive_default",
 		CKKSRescaleProfileBenchmarkTag: "profile_rescale_default",
+		CKKSProfileModeComparisonTag:   "profile_mode_default",
 	}
 }
 
