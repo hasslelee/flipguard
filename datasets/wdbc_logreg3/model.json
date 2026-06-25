@@ -1,0 +1,68 @@
+{
+  "dataset": "WDBC Breast Cancer",
+  "source": "sklearn.datasets.load_breast_cancer",
+  "task": "binary classification",
+  "label_mapping": {
+    "0": "malignant",
+    "1": "benign"
+  },
+  "model": "3-feature logistic regression",
+  "random_state": 42,
+  "test_size": 0.3,
+  "selected_feature_indices": [
+    21,
+    23,
+    27
+  ],
+  "selected_feature_names": [
+    "worst texture",
+    "worst area",
+    "worst concave points"
+  ],
+  "standardization": {
+    "mean": [
+      25.81630653266333,
+      879.6967336683425,
+      0.11448460050251268
+    ],
+    "std": [
+      6.320366432073852,
+      564.7110732005891,
+      0.06763078182644335
+    ]
+  },
+  "raw_logistic_model": {
+    "weights": [
+      -1.1258488866088943,
+      -3.594318639693216,
+      -2.664448192502547
+    ],
+    "bias": 0.5476724913909211
+  },
+  "scaled_logit_model_for_ckks": {
+    "weights": [
+      -0.05230423698898349,
+      -0.16698341685152182,
+      -0.12378386776691327
+    ],
+    "bias": 0.025443549416600236,
+    "logit_scale": 0.04645759978190867,
+    "max_abs_train_logit": 21.525003545047884,
+    "max_scaled_logit_target": 1.0
+  },
+  "polynomial_score": {
+    "formula": "0.5 + 0.197*z - 0.004*z^3",
+    "decision_threshold": 0.5
+  },
+  "metrics": {
+    "test_samples": 171,
+    "train_samples": 398,
+    "raw_logistic_accuracy": 0.9473684210526315,
+    "raw_logistic_f1": 0.9585253456221198,
+    "raw_logistic_auc": 0.9872955607476636,
+    "polynomial_decision_match_rate": 1.0,
+    "test_scaled_logit_min": -1.2891986511004128,
+    "test_scaled_logit_max": 0.49067104582476573,
+    "test_scaled_logit_max_abs": 1.2891986511004128
+  }
+}
