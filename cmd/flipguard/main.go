@@ -103,6 +103,11 @@ func main() {
 			Description: "Paper-ready comparison across CKKS profiles and evaluation modes",
 			Run:         experiment.RunCKKSProfileModeComparison,
 		},
+		"ckks_wdbc_inference": {
+			Name:        "ckks_wdbc_inference",
+			Description: "CKKS encrypted inference over the exported WDBC public dataset workload",
+			Run:         experiment.RunCKKSWDBCInference,
+		},
 		"ckks_policy_comparison": {
 			Name:        "ckks_policy_comparison",
 			Description: "Combined CKKS observed certificate and simulation policy comparison",
