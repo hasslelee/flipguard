@@ -108,6 +108,11 @@ func main() {
 			Description: "CKKS encrypted inference over the exported WDBC public dataset workload",
 			Run:         experiment.RunCKKSWDBCInference,
 		},
+		"ckks_tabular_inference": {
+			Name:        "ckks_tabular_inference",
+			Description: "CKKS encrypted inference over generic exported tabular workloads",
+			Run:         experiment.RunCKKSTabularInference,
+		},
 		"ckks_policy_comparison": {
 			Name:        "ckks_policy_comparison",
 			Description: "Combined CKKS observed certificate and simulation policy comparison",
