@@ -108,7 +108,13 @@ type tabularModelArtifact struct {
 	TestSamples  int    `json:"test_samples"`
 	InputDim     int    `json:"input_dim"`
 
-	ScaledModelForCKKS tabularScaledModel `json:"scaled_model_for_ckks"`
+	ScaledModelForCKKS tabularScaledModel     `json:"scaled_model_for_ckks"`
+	PolynomialScore    tabularPolynomialScore `json:"polynomial_score"`
+}
+
+type tabularPolynomialScore struct {
+	Formula           string  `json:"formula"`
+	DecisionThreshold float64 `json:"decision_threshold"`
 }
 
 type tabularScaledModel struct {
@@ -244,9 +250,9 @@ func (c Context) runTabularTimedInference(
 		return CKKSTabularInferenceRecord{}, fmt.Errorf("evaluate tabular model: %w", err)
 	}
 
-	polynomialResult, err := c.evalTimedPolynomial(runtimeState, modelResult.ZCipher, evaluationMode)
+	polynomialResult, err := c.evalTabularOutputScore(runtimeState, modelResult.ZCipher, model.PolynomialScore.Formula, evaluationMode)
 	if err != nil {
-		return CKKSTabularInferenceRecord{}, fmt.Errorf("evaluate polynomial score: %w", err)
+		return CKKSTabularInferenceRecord{}, fmt.Errorf("evaluate output score: %w", err)
 	}
 
 	evalOnlyMS := modelResult.ModelEvalMS + polynomialResult.PolynomialEvalMS
@@ -324,6 +330,8 @@ func (c Context) evalTabularModel(
 	case "linear_poly3":
 		return c.evalTabularLinearModel(runtimeState, inputs, model.ScaledModelForCKKS.Weights, model.ScaledModelForCKKS.Bias)
 	case "mlp_square_poly3":
+		return c.evalTabularSquareMLPModel(runtimeState, inputs, model.ScaledModelForCKKS, evaluationMode)
+	case "mlp_square_linear_score":
 		return c.evalTabularSquareMLPModel(runtimeState, inputs, model.ScaledModelForCKKS, evaluationMode)
 	default:
 		return tabularModelEvalResult{}, fmt.Errorf("unsupported tabular model_type %q", model.ModelType)
@@ -478,6 +486,49 @@ func (c Context) squareTabularCiphertext(
 	}
 
 	return squared, nil
+}
+
+func (c Context) evalTabularOutputScore(
+	runtimeState ckksTimingRuntime,
+	zCipher *rlwe.Ciphertext,
+	formula string,
+	evaluationMode string,
+) (ckksTimedPolynomialResult, error) {
+	switch formula {
+	case "0.5 + 0.197*z - 0.004*z^3":
+		return c.evalTimedPolynomial(runtimeState, zCipher, evaluationMode)
+	case "0.5 + 0.197*z":
+		return c.evalTabularAffineOutputScore(runtimeState, zCipher)
+	default:
+		return ckksTimedPolynomialResult{}, fmt.Errorf("unsupported tabular output score formula %q", formula)
+	}
+}
+
+func (c Context) evalTabularAffineOutputScore(
+	runtimeState ckksTimingRuntime,
+	zCipher *rlwe.Ciphertext,
+) (ckksTimedPolynomialResult, error) {
+	start := time.Now()
+
+	linearTerm, err := runtimeState.evaluator.MulNew(zCipher, 0.197)
+	if err != nil {
+		return ckksTimedPolynomialResult{}, fmt.Errorf("multiply z by 0.197: %w", err)
+	}
+
+	biasPlaintext, err := c.encodeReplicatedPlaintextAtLevel(runtimeState.encoder, 0.5, linearTerm.Level())
+	if err != nil {
+		return ckksTimedPolynomialResult{}, fmt.Errorf("encode affine output bias plaintext: %w", err)
+	}
+
+	yCipher, err := runtimeState.evaluator.AddNew(linearTerm, biasPlaintext)
+	if err != nil {
+		return ckksTimedPolynomialResult{}, fmt.Errorf("add affine output bias: %w", err)
+	}
+
+	return ckksTimedPolynomialResult{
+		YCipher:          yCipher,
+		PolynomialEvalMS: durationMS(time.Since(start)),
+	}, nil
 }
 
 func loadTabularModelArtifact(path string) (tabularModelArtifact, error) {
