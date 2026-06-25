@@ -1,164 +1,33 @@
-# FlipGuard Paper Result Notes
+# FlipGuard 실험 결과 정리
 
-## Research Claim
+## 1. 전체 실험 구성
 
-FlipGuard is an accuracy-constrained CKKS inference profile selection method.
-It does not select the fastest encrypted inference profile directly. Instead, it
-filters candidate profiles using decision stability and output accuracy guards,
-and then selects the lowest-latency profile among the safe candidates.
+본 연구는 CKKS 암호화 추론에서 프로파일 선택이 출력 정확도와 판단 안정성에 미치는 영향을 분석하였다. 실험은 통제된 경계 실험, 반복 속도 실험, 공개 데이터 기반 암호화 추론, 다중 데이터셋 및 다중 모델 실험으로 구성하였다.
 
-## Controlled Boundary Stress Test
+## 2. 경계 실험 결과
 
-Result tag:
+결정 경계 주변에서 총 10,010회의 CKKS 암호화 추론을 수행하였다. 이 중 안정 구간에 해당하는 9,900개 실행에서는 판단 뒤집힘이 0회였으며, 출력 오차 위반도 0회였다. 이는 제안한 안전성 조건이 결정 경계 주변에서 불안정한 후보를 구분할 수 있음을 보여준다.
 
-- `boundary_1001x10`
+## 3. 반복 속도 실험 결과
 
-Configuration:
+반복 속도 실험에서 기본 프로파일과 재스케일 적용 경로는 모든 반복에서 가장 빠른 안전 경로로 선택되었다. 해당 경로는 비-재스케일 기준 경로 대비 전체 지연시간을 평균 1.2515배 개선하였고, 평가 구간 지연시간을 평균 1.1159배 개선하였다.
 
-- target z range: [-0.05, 0.05]
-- points: 1,001
-- repetitions: 10
-- total CKKS runs: 10,010
+반면 짧은 체인 기반 위험 후보는 더 빠른 지연시간을 보였지만 판단 뒤집힘과 큰 출력 오차를 발생시켜 안전성 조건을 만족하지 못하였다.
 
-Results:
+## 4. WDBC 공개 데이터 실험 결과
 
-- stable runs: 9,900
-- ambiguous runs: 110
-- total decision flips: 4
-- stable decision flips: 0
-- ambiguous decision flips: 4
-- stable margin-safety violations: 0
-- output accuracy violations: 0
-- max y error: 0.0000000002
+WDBC 공개 데이터셋의 171개 테스트 샘플에 대해 암호화 추론을 수행한 결과, 평문 정확도와 암호문 정확도는 모두 0.9473684211로 동일하였다. 또한 판단 뒤집힘은 0회, 출력 오차 위반도 0회였다. 이는 제안 기법이 통제된 합성 경계 실험뿐 아니라 실제 공개 데이터셋에서도 동작함을 보여준다.
 
-Interpretation:
+## 5. 다중 데이터셋 및 다중 모델 실험 결과
 
-Stable-region decision flips were not observed. All observed flips occurred only
-inside the explicitly ambiguous boundary region.
+추가적으로 4개 공개 데이터셋과 2개 모델군으로 구성된 총 8개 암호화 추론 조합을 평가하였다. 안전 경로는 모든 조합에서 판단 뒤집힘 0회와 출력 오차 위반 0회를 달성하였다.
 
-## Repeated Speed Benchmark
+반면 짧은 체인 기반 고속 후보는 전체 지연시간을 1.5236배에서 2.2417배까지 단축하였으나, 모든 조합에서 판단 뒤집힘과 출력 오차 위반이 발생하였다. 전체적으로 위험 후보에서는 판단 뒤집힘이 1,153회, 출력 오차 위반이 2,306회 발생하였다.
 
-Result tag:
+## 6. 논문상 해석
 
-- `speed_repetition_summary`
+실험 결과는 CKKS 암호화 추론에서 단순히 가장 빠른 프로파일을 선택하는 전략이 위험할 수 있음을 보여준다. 특히 짧은 체인 기반 후보는 지연시간 측면에서는 유리했지만, 출력 정확도와 판단 안정성을 동시에 위반하였다. 따라서 암호화 추론에서는 지연시간뿐 아니라 출력 오차와 판단 안정성을 함께 고려해야 하며, 제안 기법은 이러한 조건을 만족하는 가장 빠른 안전 프로파일을 선택하는 방식으로 동작한다.
 
-Configuration:
+## 7. 최종 주장
 
-- 5 independent repetitions
-- 30 measurement runs per repetition
-
-Baseline path:
-
-- profile: `default`
-- evaluation path: `baseline_non_rescale`
-- mean eval-only latency: 52.7847 ms ± 3.4348
-- mean total latency: 147.0721 ms ± 8.3772
-
-Selected safe path:
-
-- profile: `default`
-- evaluation path: `rescale_aware`
-- selected in: 5 / 5 repetitions
-- mean eval-only latency: 47.3964 ms ± 4.0001
-- mean total latency: 117.7348 ms ± 9.4823
-- mean eval-only speedup: 1.1159x ± 0.0515
-- mean total speedup: 1.2515x ± 0.0485
-- best observed eval-only speedup: 1.1999x
-- best observed total speedup: 1.3327x
-
-Unsafe raw-speed reference:
-
-- profile: `short_chain_3`
-- evaluation path: `baseline_non_rescale`
-- mean eval-only speedup: 2.3403x
-- mean total speedup: 1.9040x
-- max decision flips: 30
-- max y error: 5.0197e-01
-- decision: rejected
-
-## WDBC Public Dataset Experiment
-
-Dataset:
-
-- WDBC Breast Cancer
-- test samples: 171
-- selected features:
-  - worst texture
-  - worst area
-  - worst concave points
-
-Plaintext model:
-
-- model: 3-feature logistic regression
-- raw logistic accuracy: 0.947368
-- raw logistic F1: 0.958525
-- raw logistic AUC: 0.987296
-- polynomial decision match rate: 1.000000
-
-CKKS encrypted inference:
-
-- result tag: `wdbc_default_rescale_aware`
-- profile: `default`
-- evaluation path: `rescale_aware`
-- evaluated rows: 171
-- plain accuracy: 0.9473684211
-- CKKS accuracy: 0.9473684211
-- decision match rate: 1.0000000000
-- decision flips: 0
-- score error violations: 0
-- max y error: 0.0000002078
-- mean eval-only latency: 42.9856001520 ms
-- mean total latency: 111.3772588772 ms
-
-## WDBC Profile Sweep
-
-Result tag:
-
-- `wdbc_profile_sweep`
-
-Selected fastest safe profile:
-
-- profile: `default`
-- evaluation path: `rescale_aware`
-- CKKS accuracy: 0.9473684211
-- decision flips: 0
-- score error violations: 0
-- mean eval-only latency: 42.9856001520 ms
-- mean total latency: 111.3772588772 ms
-- eval-only speedup vs baseline: 1.1668859751x
-- total speedup vs baseline: 1.3057241508x
-
-Unsafe raw-speed reference:
-
-- profile: `short_chain_3`
-- evaluation path: `baseline_non_rescale`
-- CKKS accuracy: 0.3742690058
-- decision flips: 110 / 171
-- score error violations: 171 / 171
-- max y error: 0.5961896640
-- eval-only raw speedup: 2.4676391495x
-- total raw speedup: 1.9083288944x
-- decision: rejected
-
-## Paper Tables
-
-Generated result snippets:
-
-- `results/final_research_summary/current/paper_results.tex`
-
-Recommended paper tables:
-
-1. Boundary stress test and WDBC correctness summary
-2. Repeated speed benchmark
-3. WDBC profile sweep
-4. Unsafe profile rejection analysis
-
-## Main Paper Message
-
-The fastest raw CKKS profile is not necessarily safe. Reduced-chain profiles can
-produce attractive latency improvements but may cause severe decision instability
-and output error. FlipGuard uses decision stability and output accuracy guards to
-reject unsafe profiles and selects the fastest remaining safe profile. In both a
-controlled boundary stress test and the WDBC public dataset experiment, the
-selected rescale-aware default profile preserved decisions and output accuracy
-while reducing end-to-end latency.
+제안 기법은 통제된 결정 경계 실험과 공개 데이터 기반 실험 모두에서 암호화 추론의 판단 안정성을 보존하였다. 또한 여러 데이터셋과 여러 모델군에서도 동일한 경향을 확인함으로써, 특정 데이터셋이나 특정 모델에 한정되지 않는 프로파일 선택 기준으로 활용될 수 있음을 보였다.
