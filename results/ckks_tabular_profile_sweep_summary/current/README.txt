@@ -1,9 +1,9 @@
 FlipGuard repeated tabular profile sweep summary
 
 Experiment scale:
-- total requested runs: 552
+- total requested runs: 528
 - successful runs: 504
-- failed runs: 48
+- failed runs: 24
 - profile candidates: 176
 - strict safe candidates: 120
 - workloads with selected fastest safe profile: 8/8

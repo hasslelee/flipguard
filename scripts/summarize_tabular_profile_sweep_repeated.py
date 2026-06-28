@@ -20,6 +20,18 @@ def read_csv_rows(path: Path) -> List[Dict[str, str]]:
         return list(csv.DictReader(f))
 
 
+def deduplicate_status_rows(rows: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    by_tag: Dict[str, Dict[str, str]] = {}
+
+    for row in rows:
+        tag = row.get("tag", "")
+        if not tag:
+            continue
+        by_tag[tag] = row
+
+    return list(by_tag.values())
+
+
 def read_single_summary(tag: str) -> Dict[str, str]:
     path = INFERENCE_ROOT / tag / "summary.csv"
 
@@ -336,7 +348,7 @@ def write_latex(selected_rows: List[Dict[str, str]]) -> None:
 
 
 def main() -> None:
-    status_rows = read_csv_rows(STATUS_PATH)
+    status_rows = deduplicate_status_rows(read_csv_rows(STATUS_PATH))
     run_rows = build_run_rows(status_rows)
     profile_rows = summarize_groups(run_rows)
     selected_rows = select_profiles(profile_rows)
