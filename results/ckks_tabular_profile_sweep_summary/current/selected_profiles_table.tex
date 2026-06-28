@@ -1,0 +1,14 @@
+\begin{tabular}{llllrrr}
+\toprule
+Dataset & Model & Selected profile & Path & Total (ms) & Speedup & Rejected flips \\
+\midrule
+banknote & linear\_poly3 & default & rescale\_aware & 119.3303 & 1.0000$\times$ & 192 \\
+banknote & mlp\_square\_linear\_score & short\_chain\_6\_scale40 & baseline\_non\_rescale & 170.1937 & 1.2067$\times$ & 183 \\
+digits\_binary & linear\_poly3 & default & rescale\_aware & 176.2998 & 1.0000$\times$ & 257 \\
+digits\_binary & mlp\_square\_linear\_score & short\_chain\_6\_scale38 & baseline\_non\_rescale & 227.2775 & 1.1885$\times$ & 271 \\
+iris\_binary & linear\_poly3 & default & rescale\_aware & 120.0278 & 1.0000$\times$ & 15 \\
+iris\_binary & mlp\_square\_linear\_score & short\_chain\_6\_scale42 & baseline\_non\_rescale & 169.0975 & 1.2060$\times$ & 15 \\
+wdbc & linear\_poly3 & default & rescale\_aware & 182.7131 & 1.0000$\times$ & 111 \\
+wdbc & mlp\_square\_linear\_score & short\_chain\_6\_scale38 & baseline\_non\_rescale & 230.9532 & 1.2952$\times$ & 109 \\
+\bottomrule
+\end{tabular}
