@@ -35,6 +35,18 @@ iris_binary,mlp_square_linear_score,output_error_guard_only,fastest candidate wi
 iris_binary,mlp_square_linear_score,decision_guard_only,fastest candidate with decision stability guard only,short_chain_6_scale42,baseline_non_rescale,169.0974644667,79.8350852222,true,0,0,1.2060,safe
 iris_binary,mlp_square_linear_score,rescale_path_only,fastest safe candidate restricted to rescale-aware path,short_chain_6_scale42,rescale_aware,175.1255493889,94.6726905778,true,0,0,1.1645,safe
 iris_binary,mlp_square_linear_score,proposed_dual_guard,fastest candidate satisfying both output error and decision guards,short_chain_6_scale42,baseline_non_rescale,169.0974644667,79.8350852222,true,0,0,1.2060,safe
+mnist_pool16,linear_poly3,fixed_default_safe_path,fixed default profile with rescale-aware path,default,rescale_aware,312.7171824400,55.3248399683,true,0,0,1.0000,safe
+mnist_pool16,linear_poly3,fastest_without_guard,fastest completed candidate without safety guard,short_chain_3,baseline_non_rescale,173.1753682433,24.9395621350,false,84,200,1.8058,unsafe
+mnist_pool16,linear_poly3,output_error_guard_only,fastest candidate with output error guard only,default,rescale_aware,312.7171824400,55.3248399683,true,0,0,1.0000,safe
+mnist_pool16,linear_poly3,decision_guard_only,fastest candidate with decision stability guard only,default,rescale_aware,312.7171824400,55.3248399683,true,0,0,1.0000,safe
+mnist_pool16,linear_poly3,rescale_path_only,fastest safe candidate restricted to rescale-aware path,default,rescale_aware,312.7171824400,55.3248399683,true,0,0,1.0000,safe
+mnist_pool16,linear_poly3,proposed_dual_guard,fastest candidate satisfying both output error and decision guards,default,rescale_aware,312.7171824400,55.3248399683,true,0,0,1.0000,safe
+mnist_pool16,mlp_square_linear_score,fixed_default_safe_path,fixed default profile with rescale-aware path,default,rescale_aware,414.8960567917,156.0328298117,true,0,0,1.0000,safe
+mnist_pool16,mlp_square_linear_score,fastest_without_guard,fastest completed candidate without safety guard,short_chain_3,rescale_aware,171.6773854000,58.8417365950,false,93,200,2.4167,unsafe
+mnist_pool16,mlp_square_linear_score,output_error_guard_only,fastest candidate with output error guard only,short_chain_6_scale42,baseline_non_rescale,349.3300501600,109.9867435617,true,0,0,1.1877,safe
+mnist_pool16,mlp_square_linear_score,decision_guard_only,fastest candidate with decision stability guard only,short_chain_6_scale42,baseline_non_rescale,349.3300501600,109.9867435617,true,0,0,1.1877,safe
+mnist_pool16,mlp_square_linear_score,rescale_path_only,fastest safe candidate restricted to rescale-aware path,short_chain_6_scale40,rescale_aware,349.6140738717,122.9615926017,true,0,0,1.1867,safe
+mnist_pool16,mlp_square_linear_score,proposed_dual_guard,fastest candidate satisfying both output error and decision guards,short_chain_6_scale42,baseline_non_rescale,349.3300501600,109.9867435617,true,0,0,1.1877,safe
 wdbc,linear_poly3,fixed_default_safe_path,fixed default profile with rescale-aware path,default,rescale_aware,182.7130509376,47.1765821287,true,0,0,1.0000,safe
 wdbc,linear_poly3,fastest_without_guard,fastest completed candidate without safety guard,short_chain_3,baseline_non_rescale,118.0030513119,23.7454896121,false,111,171,1.5484,unsafe
 wdbc,linear_poly3,output_error_guard_only,fastest candidate with output error guard only,default,rescale_aware,182.7130509376,47.1765821287,true,0,0,1.0000,safe
