@@ -1,0 +1,49 @@
+dataset_id,model_id,strategy_id,strategy_description,selected_profile,selected_path,selected_mean_total_ms,selected_mean_eval_only_ms,strict_safe,decision_flips,score_error_violations,speedup_vs_fixed_default,selection_status
+banknote,linear_poly3,fixed_default_safe_path,fixed default profile with rescale-aware path,default,rescale_aware,119.3302793956,42.3899251586,true,0,0,1.0000,safe
+banknote,linear_poly3,fastest_without_guard,fastest completed candidate without safety guard,short_chain_3,baseline_non_rescale,77.2358960777,19.8007033787,false,192,412,1.5450,unsafe
+banknote,linear_poly3,output_error_guard_only,fastest candidate with output error guard only,default,rescale_aware,119.3302793956,42.3899251586,true,0,0,1.0000,safe
+banknote,linear_poly3,decision_guard_only,fastest candidate with decision stability guard only,default,rescale_aware,119.3302793956,42.3899251586,true,0,0,1.0000,safe
+banknote,linear_poly3,rescale_path_only,fastest safe candidate restricted to rescale-aware path,default,rescale_aware,119.3302793956,42.3899251586,true,0,0,1.0000,safe
+banknote,linear_poly3,proposed_dual_guard,fastest candidate satisfying both output error and decision guards,default,rescale_aware,119.3302793956,42.3899251586,true,0,0,1.0000,safe
+banknote,mlp_square_linear_score,fixed_default_safe_path,fixed default profile with rescale-aware path,default,rescale_aware,205.3667837646,118.8130912225,true,0,0,1.0000,safe
+banknote,mlp_square_linear_score,fastest_without_guard,fastest completed candidate without safety guard,short_chain_3,rescale_aware,75.5817784126,45.6484755639,false,183,412,2.7171,unsafe
+banknote,mlp_square_linear_score,output_error_guard_only,fastest candidate with output error guard only,short_chain_6_scale40,baseline_non_rescale,170.1937204474,80.4880376456,true,0,0,1.2067,safe
+banknote,mlp_square_linear_score,decision_guard_only,fastest candidate with decision stability guard only,short_chain_6_scale40,baseline_non_rescale,170.1937204474,80.4880376456,true,0,0,1.2067,safe
+banknote,mlp_square_linear_score,rescale_path_only,fastest safe candidate restricted to rescale-aware path,short_chain_6_scale40,rescale_aware,176.4938782937,95.5657006748,true,0,0,1.1636,safe
+banknote,mlp_square_linear_score,proposed_dual_guard,fastest candidate satisfying both output error and decision guards,short_chain_6_scale40,baseline_non_rescale,170.1937204474,80.4880376456,true,0,0,1.2067,safe
+digits_binary,linear_poly3,fixed_default_safe_path,fixed default profile with rescale-aware path,default,rescale_aware,176.2998483463,45.3207449333,true,0,0,1.0000,safe
+digits_binary,linear_poly3,fastest_without_guard,fastest completed candidate without safety guard,short_chain_3,baseline_non_rescale,106.6584534364,21.1606393494,false,257,540,1.6529,unsafe
+digits_binary,linear_poly3,output_error_guard_only,fastest candidate with output error guard only,default,rescale_aware,176.2998483463,45.3207449333,true,0,0,1.0000,safe
+digits_binary,linear_poly3,decision_guard_only,fastest candidate with decision stability guard only,default,rescale_aware,176.2998483463,45.3207449333,true,0,0,1.0000,safe
+digits_binary,linear_poly3,rescale_path_only,fastest safe candidate restricted to rescale-aware path,default,rescale_aware,176.2998483463,45.3207449333,true,0,0,1.0000,safe
+digits_binary,linear_poly3,proposed_dual_guard,fastest candidate satisfying both output error and decision guards,default,rescale_aware,176.2998483463,45.3207449333,true,0,0,1.0000,safe
+digits_binary,mlp_square_linear_score,fixed_default_safe_path,fixed default profile with rescale-aware path,default,rescale_aware,270.1228998920,129.6554218525,true,0,0,1.0000,safe
+digits_binary,mlp_square_linear_score,fastest_without_guard,fastest completed candidate without safety guard,short_chain_3,rescale_aware,109.1085405710,51.0850768975,false,271,540,2.4757,unsafe
+digits_binary,mlp_square_linear_score,output_error_guard_only,fastest candidate with output error guard only,short_chain_6_scale38,baseline_non_rescale,227.2774742006,89.4659351241,true,0,0,1.1885,safe
+digits_binary,mlp_square_linear_score,decision_guard_only,fastest candidate with decision stability guard only,short_chain_6_scale38,baseline_non_rescale,227.2774742006,89.4659351241,true,0,0,1.1885,safe
+digits_binary,mlp_square_linear_score,rescale_path_only,fastest safe candidate restricted to rescale-aware path,short_chain_6_scale38,rescale_aware,233.2144239599,104.7460348599,true,0,0,1.1583,safe
+digits_binary,mlp_square_linear_score,proposed_dual_guard,fastest candidate satisfying both output error and decision guards,short_chain_6_scale38,baseline_non_rescale,227.2774742006,89.4659351241,true,0,0,1.1885,safe
+iris_binary,linear_poly3,fixed_default_safe_path,fixed default profile with rescale-aware path,default,rescale_aware,120.0277993778,42.6516326556,true,0,0,1.0000,safe
+iris_binary,linear_poly3,fastest_without_guard,fastest completed candidate without safety guard,short_chain_3,baseline_non_rescale,76.1229260000,19.5603677334,false,15,30,1.5768,unsafe
+iris_binary,linear_poly3,output_error_guard_only,fastest candidate with output error guard only,default,rescale_aware,120.0277993778,42.6516326556,true,0,0,1.0000,safe
+iris_binary,linear_poly3,decision_guard_only,fastest candidate with decision stability guard only,default,rescale_aware,120.0277993778,42.6516326556,true,0,0,1.0000,safe
+iris_binary,linear_poly3,rescale_path_only,fastest safe candidate restricted to rescale-aware path,default,rescale_aware,120.0277993778,42.6516326556,true,0,0,1.0000,safe
+iris_binary,linear_poly3,proposed_dual_guard,fastest candidate satisfying both output error and decision guards,default,rescale_aware,120.0277993778,42.6516326556,true,0,0,1.0000,safe
+iris_binary,mlp_square_linear_score,fixed_default_safe_path,fixed default profile with rescale-aware path,default,rescale_aware,203.9389725333,118.0713039778,true,0,0,1.0000,safe
+iris_binary,mlp_square_linear_score,fastest_without_guard,fastest completed candidate without safety guard,short_chain_3,rescale_aware,75.5770293111,45.7630319778,false,15,30,2.6984,unsafe
+iris_binary,mlp_square_linear_score,output_error_guard_only,fastest candidate with output error guard only,short_chain_6_scale42,baseline_non_rescale,169.0974644667,79.8350852222,true,0,0,1.2060,safe
+iris_binary,mlp_square_linear_score,decision_guard_only,fastest candidate with decision stability guard only,short_chain_6_scale42,baseline_non_rescale,169.0974644667,79.8350852222,true,0,0,1.2060,safe
+iris_binary,mlp_square_linear_score,rescale_path_only,fastest safe candidate restricted to rescale-aware path,short_chain_6_scale42,rescale_aware,175.1255493889,94.6726905778,true,0,0,1.1645,safe
+iris_binary,mlp_square_linear_score,proposed_dual_guard,fastest candidate satisfying both output error and decision guards,short_chain_6_scale42,baseline_non_rescale,169.0974644667,79.8350852222,true,0,0,1.2060,safe
+wdbc,linear_poly3,fixed_default_safe_path,fixed default profile with rescale-aware path,default,rescale_aware,182.7130509376,47.1765821287,true,0,0,1.0000,safe
+wdbc,linear_poly3,fastest_without_guard,fastest completed candidate without safety guard,short_chain_3,baseline_non_rescale,118.0030513119,23.7454896121,false,111,171,1.5484,unsafe
+wdbc,linear_poly3,output_error_guard_only,fastest candidate with output error guard only,default,rescale_aware,182.7130509376,47.1765821287,true,0,0,1.0000,safe
+wdbc,linear_poly3,decision_guard_only,fastest candidate with decision stability guard only,default,rescale_aware,182.7130509376,47.1765821287,true,0,0,1.0000,safe
+wdbc,linear_poly3,rescale_path_only,fastest safe candidate restricted to rescale-aware path,default,rescale_aware,182.7130509376,47.1765821287,true,0,0,1.0000,safe
+wdbc,linear_poly3,proposed_dual_guard,fastest candidate satisfying both output error and decision guards,default,rescale_aware,182.7130509376,47.1765821287,true,0,0,1.0000,safe
+wdbc,mlp_square_linear_score,fixed_default_safe_path,fixed default profile with rescale-aware path,default,rescale_aware,299.1325123548,144.6710785185,true,0,0,1.0000,safe
+wdbc,mlp_square_linear_score,fastest_without_guard,fastest completed candidate without safety guard,short_chain_3,rescale_aware,109.1755254678,51.1290990156,false,109,171,2.7399,unsafe
+wdbc,mlp_square_linear_score,output_error_guard_only,fastest candidate with output error guard only,short_chain_6_scale38,baseline_non_rescale,230.9531853704,91.4641813411,true,0,0,1.2952,safe
+wdbc,mlp_square_linear_score,decision_guard_only,fastest candidate with decision stability guard only,short_chain_6_scale38,baseline_non_rescale,230.9531853704,91.4641813411,true,0,0,1.2952,safe
+wdbc,mlp_square_linear_score,rescale_path_only,fastest safe candidate restricted to rescale-aware path,short_chain_6_scale40,rescale_aware,236.3865734756,106.3254994932,true,0,0,1.2654,safe
+wdbc,mlp_square_linear_score,proposed_dual_guard,fastest candidate satisfying both output error and decision guards,short_chain_6_scale38,baseline_non_rescale,230.9531853704,91.4641813411,true,0,0,1.2952,safe

@@ -1,0 +1,9 @@
+dataset_id,model_id,model_type,selected_profile,selected_path,input_dim,hidden_units,encrypted_input_ciphertexts,output_ciphertexts,ciphertext_ciphertext_multiplications,ciphertext_plaintext_multiplications,ciphertext_additions,rotations,approximate_multiplicative_depth,notes
+wdbc,linear_poly3,linear_poly3,default,rescale_aware,8,0,8,1,2,10,10,0,2,linear score followed by cubic output polynomial
+wdbc,mlp_square_linear_score,mlp_square_linear_score,short_chain_6_scale38,baseline_non_rescale,8,4,8,1,4,37,37,0,1,square-activation MLP with affine output score
+iris_binary,linear_poly3,linear_poly3,default,rescale_aware,4,0,4,1,2,6,6,0,2,linear score followed by cubic output polynomial
+iris_binary,mlp_square_linear_score,mlp_square_linear_score,short_chain_6_scale42,baseline_non_rescale,4,4,4,1,4,21,21,0,1,square-activation MLP with affine output score
+digits_binary,linear_poly3,linear_poly3,default,rescale_aware,8,0,8,1,2,10,10,0,2,linear score followed by cubic output polynomial
+digits_binary,mlp_square_linear_score,mlp_square_linear_score,short_chain_6_scale38,baseline_non_rescale,8,4,8,1,4,37,37,0,1,square-activation MLP with affine output score
+banknote,linear_poly3,linear_poly3,default,rescale_aware,4,0,4,1,2,6,6,0,2,linear score followed by cubic output polynomial
+banknote,mlp_square_linear_score,mlp_square_linear_score,short_chain_6_scale40,baseline_non_rescale,4,4,4,1,4,21,21,0,1,square-activation MLP with affine output score
