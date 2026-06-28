@@ -90,10 +90,13 @@ def plot_selected_profile_distribution(rows):
     labels = list(counts.keys())
     values = [counts[label] for label in labels]
 
+    x = list(range(len(labels)))
+
     fig, ax = plt.subplots(figsize=(9, 5))
-    ax.bar(labels, values)
+    ax.bar(x, values)
     ax.set_ylabel("Selected workload count")
     ax.set_title("Distribution of selected fastest safe profiles")
+    ax.set_xticks(x)
     ax.set_xticklabels(labels, rotation=30, ha="right")
     fig.tight_layout()
 
