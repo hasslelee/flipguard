@@ -1,6 +1,6 @@
 # FlipGuard terminology policy
 
-## Core terms
+## Core terms for papers and seminar slides
 
 Use the following terms in papers, seminar slides, and research explanations.
 
@@ -12,22 +12,20 @@ Use the following terms in papers, seminar slides, and research explanations.
 - selected safe execution configuration
 - fastest rejected execution configuration
 
-## Internal compatibility terms
+## Terms to avoid in papers and seminar slides
 
-The following internal terms may still appear in code, directory names, or old result files for compatibility.
+Avoid the following terms in main explanation text.
 
 - profile
 - rescale_aware
 - baseline_non_rescale
 - naive
 
-These names should not be used as main presentation terms.
+These names may still appear in legacy code, directory names, or existing result files for compatibility.
 
 ## Candidate naming rule
 
-Use explicit names in papers and seminar slides.
-
-Examples:
+Use explicit execution-configuration names in papers and seminar slides.
 
 - default -> chain7_scale45_N14_default
 - scale42 -> chain7_scale42_N14
@@ -41,16 +39,31 @@ Examples:
 - short_chain_5 -> chain5_scale40_N14
 - short_chain_3 -> chain3_scale35_N14
 
-## Baseline configuration
+## Baseline execution configuration
 
 The default candidate is not a universal CKKS standard parameter set.
 
 In this project, default means the baseline execution configuration used for comparison.
 
+- display name: chain7_scale45_N14_default
 - chain length: 7
 - scale: 45 bits
 - log N: 14
 - slots: 8192
+- Q primes: 7
 - P primes: 1
 
 It is used as a stable baseline for comparing reduced-chain, reduced-scale, and deep-chain candidates.
+
+## Experiment structure
+
+Each workload uses the same candidate set.
+
+- parameter candidates per workload: 11
+- execution paths per candidate: 2
+- execution configurations per workload: 22
+
+Execution paths:
+
+- rescale
+- non-rescale
