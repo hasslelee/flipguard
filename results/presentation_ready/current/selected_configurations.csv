@@ -1,0 +1,11 @@
+dataset_id,model_id,candidate_count,strict_safe_candidate_count,selected_candidate,selected_path,selected_mean_eval_only_ms,selected_mean_total_ms,selected_total_speedup_vs_default,selected_eval_only_speedup_vs_default,fastest_rejected_candidate,fastest_rejected_path,fastest_rejected_mean_total_ms,fastest_rejected_total_speedup_vs_default,fastest_rejected_decision_flips,fastest_rejected_score_error_violations
+banknote,linear_poly3,22,12,chain7_scale45_N14_default,rescale,42.3899251586,119.3302793956,1.0000,1.0000,chain3_scale35_N14,non-rescale,77.2358960777,1.5450,192,412
+banknote,mlp_square_linear_score,22,18,chain6_scale40_N14,non-rescale,80.4880376456,170.1937204474,1.2067,1.4762,chain3_scale35_N14,rescale,75.5817784126,2.7171,183,412
+digits_binary,linear_poly3,22,12,chain7_scale45_N14_default,rescale,45.3207449333,176.2998483463,1.0000,1.0000,chain3_scale35_N14,non-rescale,106.6584534364,1.6529,257,540
+digits_binary,mlp_square_linear_score,22,18,chain6_scale38_N14,non-rescale,89.4659351241,227.2774742006,1.1885,1.4492,chain3_scale35_N14,rescale,109.1085405710,2.4757,271,540
+iris_binary,linear_poly3,22,12,chain7_scale45_N14_default,rescale,42.6516326556,120.0277993778,1.0000,1.0000,chain3_scale35_N14,non-rescale,76.1229260000,1.5768,15,30
+iris_binary,mlp_square_linear_score,22,18,chain6_scale42_N14,non-rescale,79.8350852222,169.0974644667,1.2060,1.4789,chain3_scale35_N14,rescale,75.5770293111,2.6984,15,30
+mnist_pool16,linear_poly3,22,12,chain7_scale45_N14_default,rescale,55.3248399683,312.7171824400,1.0000,1.0000,chain3_scale35_N14,non-rescale,173.1753682433,1.8058,84,200
+mnist_pool16,mlp_square_linear_score,22,18,chain6_scale42_N14,non-rescale,109.9867435617,349.3300501600,1.1877,1.4187,chain3_scale35_N14,rescale,171.6773854000,2.4167,93,200
+wdbc,linear_poly3,22,12,chain7_scale45_N14_default,rescale,47.1765821287,182.7130509376,1.0000,1.0000,chain3_scale35_N14,non-rescale,118.0030513119,1.5484,111,171
+wdbc,mlp_square_linear_score,22,18,chain6_scale38_N14,non-rescale,91.4641813411,230.9531853704,1.2952,1.5817,chain3_scale35_N14,rescale,109.1755254678,2.7399,109,171

@@ -1,0 +1,12 @@
+internal_name,display_name,candidate_family,chain_length,scale_bits,log_n,slots,q_prime_count,p_prime_count,description
+default,chain7_scale45_N14_default,baseline,7,45,14,8192,7,1,Baseline execution configuration used as the reference point.
+scale42,chain7_scale42_N14,scale_reduced_chain7,7,42,14,8192,7,1,Keeps the baseline chain length and reduces the scale to 42 bits.
+scale40,chain7_scale40_N14,scale_reduced_chain7,7,40,14,8192,7,1,Keeps the baseline chain length and reduces the scale to 40 bits.
+scale38,chain7_scale38_N14,scale_reduced_chain7,7,38,14,8192,7,1,Keeps the baseline chain length and reduces the scale to 38 bits.
+deep_chain_8_scale45,chain8_scale45_N15,deep_chain,8,45,15,16384,8,1,Increases chain capacity with log N 15 and scale 45.
+deep_chain_9_scale45,chain9_scale45_N15,deep_chain,9,45,15,16384,9,1,Largest chain-capacity candidate in the current experiment.
+short_chain_6_scale42,chain6_scale42_N14,reduced_chain6,6,42,14,8192,6,1,Reduces the chain length to 6 while keeping a 42-bit scale.
+short_chain_6_scale40,chain6_scale40_N14,reduced_chain6,6,40,14,8192,6,1,Reduces the chain length to 6 with a 40-bit scale.
+short_chain_6_scale38,chain6_scale38_N14,reduced_chain6,6,38,14,8192,6,1,Reduces the chain length to 6 with a 38-bit scale.
+short_chain_5,chain5_scale40_N14,aggressive_reduced_chain,5,40,14,8192,5,1,Aggressively reduces the chain length to 5.
+short_chain_3,chain3_scale35_N14,aggressive_reduced_chain,3,35,14,8192,3,1,Most aggressive low-latency candidate in the current experiment.
