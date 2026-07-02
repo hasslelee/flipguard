@@ -28,7 +28,7 @@ const ckksAutoTunerEvalOutputDir = "results/ckks_auto_tuner_eval"
 //
 //	reference     : default/naive if available, otherwise first candidate
 //	fastest_safe  : lowest measured total latency among SAFE candidates
-//	latency_only  : lowest measured total latency regardless of safety
+//	latency_only  : lowest measured total latency among successfully executed candidates
 func RunCKKSAutoTunerEval() error {
 	options := GetRuntimeOptions()
 
@@ -85,6 +85,8 @@ func RunCKKSAutoTunerEval() error {
 
 	referenceEval := chooseAutoTunerEvalReference(evaluations)
 
+	accepted, rejected, failed := countAutoTunerEvaluationStatuses(evaluations)
+
 	outputDir := CKKSResultDir(ckksAutoTunerEvalOutputDir)
 
 	profileSummaryPath := filepath.Join(outputDir, "profile_summary.csv")
@@ -123,19 +125,26 @@ func RunCKKSAutoTunerEval() error {
 		return fmt.Errorf("export tuner selection records: %w", err)
 	}
 
-	accepted := 0
-	rejected := 0
-	failed := 0
+	summaryPath, err := writeCKKSAutoTunerEvalSummary(ckksAutoTunerEvalSummaryInput{
+		OutputDir: outputDir,
 
-	for _, evaluation := range evaluations {
-		switch evaluation.Status() {
-		case "SAFE":
-			accepted++
-		case "REJECTED":
-			rejected++
-		case "FAILED":
-			failed++
-		}
+		ProfileCount:   len(profiles),
+		ModeCount:      len(modes),
+		CandidateCount: len(evaluations),
+		SafeCount:      accepted,
+		RejectedCount:  rejected,
+		FailedCount:    failed,
+
+		ScoreErrorBudget: scoreErrorBudget,
+		WarmupRuns:       baseConfig.WarmupRuns,
+		MeasurementRuns:  baseConfig.MeasurementRuns,
+
+		Reference:   referenceEval,
+		FastestSafe: fastestSafe,
+		LatencyOnly: latencyOnly,
+	})
+	if err != nil {
+		return fmt.Errorf("write CKKS auto-tuner evaluation summary: %w", err)
 	}
 
 	fmt.Println("FlipGuard CKKS auto-tuner evaluation")
@@ -161,8 +170,24 @@ func RunCKKSAutoTunerEval() error {
 	fmt.Printf("Wrote %s\n", profileSummaryPath)
 	fmt.Printf("Wrote %s\n", candidatesPath)
 	fmt.Printf("Wrote %s\n", selectionPath)
+	fmt.Printf("Wrote %s\n", summaryPath)
 
 	return nil
+}
+
+func countAutoTunerEvaluationStatuses(evaluations []tuner.CandidateEvaluation) (safe int, rejected int, failed int) {
+	for _, evaluation := range evaluations {
+		switch evaluation.Status() {
+		case "SAFE":
+			safe++
+		case "REJECTED":
+			rejected++
+		case "FAILED":
+			failed++
+		}
+	}
+
+	return safe, rejected, failed
 }
 
 func tunerEvaluationFromProfileBenchmarkRow(
