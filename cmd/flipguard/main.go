@@ -123,6 +123,11 @@ func main() {
 			Description: "Compact paper-ready CKKS and simulation policy comparison table export",
 			Run:         experiment.RunCKKSPaperTable,
 		},
+		"ckks_polynomial_regression_tuner": {
+			Name:        "ckks_polynomial_regression_tuner",
+			Description: "Evaluate CKKS polynomial regression profile candidates and select the fastest safe configuration",
+			Run:         experiment.RunCKKSPolynomialRegressionTuner,
+		},
 		"ckks_polynomial_regression": {
 			Name:        "ckks_polynomial_regression",
 			Description: "CKKS encrypted standalone polynomial regression benchmark",
