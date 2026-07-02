@@ -123,6 +123,11 @@ func main() {
 			Description: "Compact paper-ready CKKS and simulation policy comparison table export",
 			Run:         experiment.RunCKKSPaperTable,
 		},
+		"ckks_auto_tuner_smoke": {
+			Name:        "ckks_auto_tuner_smoke",
+			Description: "Synthetic smoke test for FlipGuard auto-tuner candidate generation, selection, and CSV export",
+			Run:         experiment.RunCKKSAutoTunerSmoke,
+		},
 		"ckks_final_check": {
 			Name:        "ckks_final_check",
 			Description: "Consistency check for tagged CKKS final result artifacts",
