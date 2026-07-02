@@ -56,25 +56,45 @@ type PolynomialRegressionProbeResult struct {
 
 // DefaultPolynomialRegressionProbeCases returns deterministic scalar samples.
 func DefaultPolynomialRegressionProbeCases() []PolynomialRegressionProbeCase {
-	samples := benchmarks.GeneratePolynomialRegressionSamples(
-		benchmarks.DefaultPolynomialRegressionBoundaryOptions(),
-	)
+	// The CKKS probe intentionally uses a small but balanced deterministic set.
+	//
+	// Earlier versions took the first samples returned by the boundary-focused
+	// generator, which concentrated all probe points on one side of the
+	// threshold. For decision-stability evaluation, the probe should include:
+	//
+	//   - far negative outputs,
+	//   - near-boundary negative outputs,
+	//   - near-boundary positive outputs,
+	//   - far positive outputs.
+	//
+	// The decision threshold is 0.0. The polynomial crosses the threshold near
+	// x ≈ -0.161, so the points around -0.18 ... -0.14 stress the boundary.
+	xs := []float64{
+		-2.0,
+		-1.0,
+		-0.50,
+		-0.25,
 
-	if len(samples) == 0 {
-		samples = benchmarks.DefaultPolynomialRegressionSamples()
+		-0.186,
+		-0.180,
+		-0.170,
+		-0.162,
+
+		-0.160,
+		-0.150,
+		-0.100,
+		0.0,
+
+		0.25,
+		0.50,
+		1.0,
+		2.0,
 	}
 
-	// Keep the first CKKS probe small. The plain benchmark can generate many
-	// samples, but encrypted execution is intentionally bounded here.
-	maxCases := 16
-	if len(samples) > maxCases {
-		samples = samples[:maxCases]
-	}
-
-	cases := make([]PolynomialRegressionProbeCase, 0, len(samples))
-	for _, sample := range samples {
+	cases := make([]PolynomialRegressionProbeCase, 0, len(xs))
+	for _, x := range xs {
 		cases = append(cases, PolynomialRegressionProbeCase{
-			X: sample.X,
+			X: x,
 		})
 	}
 
