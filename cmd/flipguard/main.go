@@ -123,6 +123,11 @@ func main() {
 			Description: "Compact paper-ready CKKS and simulation policy comparison table export",
 			Run:         experiment.RunCKKSPaperTable,
 		},
+		"ckks_auto_tuner_eval": {
+			Name:        "ckks_auto_tuner_eval",
+			Description: "Evaluate real CKKS profile candidates and select the fastest safe configuration",
+			Run:         experiment.RunCKKSAutoTunerEval,
+		},
 		"ckks_auto_tuner_from_csv": {
 			Name:        "ckks_auto_tuner_from_csv",
 			Description: "Adapt existing CKKS result CSVs into FlipGuard auto-tuner candidate and selection artifacts",
