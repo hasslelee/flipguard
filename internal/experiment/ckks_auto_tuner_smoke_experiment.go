@@ -22,8 +22,12 @@ const ckksAutoTunerSmokeResultDir = "results/ckks_auto_tuner_smoke"
 //  4. select the fastest safe candidate,
 //  5. export candidate and selection CSV artifacts.
 //
-// The next implementation step is to replace the synthetic evaluator with
-// measured CKKS candidate evaluation for concrete workloads.
+// The smoke model intentionally makes the fastest low-scale candidate unsafe.
+// This demonstrates the key FlipGuard story:
+//
+//   - latency-only selection may choose an unsafe configuration,
+//   - FlipGuard selects the fastest configuration among safe candidates,
+//   - the conservative reference remains safe but slower.
 func RunCKKSAutoTunerSmoke() error {
 	graph := tuner.GraphSummary{
 		MultiplicativeDepth: 3,
@@ -95,24 +99,9 @@ func RunCKKSAutoTunerSmoke() error {
 	}
 
 	fmt.Printf("Generated %d tuner candidate evaluations\n", len(evaluations))
-	fmt.Printf("Reference candidate: %s/%s status=%s mean_total_ms=%.4f\n",
-		referenceEval.Config.Candidate.ID,
-		referenceEval.Config.Path,
-		referenceEval.Status(),
-		referenceEval.MeanTotalMS,
-	)
-	fmt.Printf("Fastest safe candidate: %s/%s status=%s mean_total_ms=%.4f\n",
-		fastestSafe.Config.Candidate.ID,
-		fastestSafe.Config.Path,
-		fastestSafe.Status(),
-		fastestSafe.MeanTotalMS,
-	)
-	fmt.Printf("Latency-only candidate: %s/%s status=%s mean_total_ms=%.4f\n",
-		latencyOnly.Config.Candidate.ID,
-		latencyOnly.Config.Path,
-		latencyOnly.Status(),
-		latencyOnly.MeanTotalMS,
-	)
+	printSmokeSelection("Reference candidate", referenceEval)
+	printSmokeSelection("Fastest safe candidate", fastestSafe)
+	printSmokeSelection("Latency-only candidate", latencyOnly)
 	fmt.Printf("Wrote %s\n", candidatesPath)
 	fmt.Printf("Wrote %s\n", selectionPath)
 
@@ -151,11 +140,14 @@ func evaluateSmokeCandidate(
 ) tuner.CandidateEvaluation {
 	candidate := config.Candidate
 
-	cost := tuner.EstimateRelativeCost(graph, config)
-	meanTotalMS := 100.0 * cost.RelativeCost / referenceCost
+	meanTotalMS := syntheticMeanTotalMS(graph, reference, referenceCost, config)
 
 	outputError := syntheticOutputError(reference, config)
-	errorTolerance := 0.02
+
+	// This threshold is intentionally lower than the previous smoke version.
+	// It makes the fastest low-scale candidate unsafe while keeping a nearby
+	// slightly higher-scale candidate safe.
+	errorTolerance := 0.012
 
 	evaluation := tuner.CandidateEvaluation{
 		Config:          config,
@@ -180,9 +172,9 @@ func evaluateSmokeCandidate(
 		evaluation.ErrorViolations = 5
 	}
 
-	// The smoke model makes the fastest low-scale configurations unsafe so
-	// that the exported selection table demonstrates the difference between
-	// latency-only selection and FlipGuard's fastest-safe selection.
+	// The synthetic decision margin is set so that large output errors also
+	// become decision flips. This keeps the smoke table aligned with the paper
+	// narrative: fastest-only can be unsafe even when it is cheap.
 	if outputError > 0.04 {
 		evaluation.DecisionFlips = 3
 	} else if outputError > errorTolerance {
@@ -190,6 +182,28 @@ func evaluateSmokeCandidate(
 	}
 
 	return evaluation
+}
+
+func syntheticMeanTotalMS(
+	graph tuner.GraphSummary,
+	reference tuner.ParameterCandidate,
+	referenceCost float64,
+	config tuner.ExecutionConfiguration,
+) float64 {
+	cost := tuner.EstimateRelativeCost(graph, config)
+
+	meanTotalMS := 100.0 * cost.RelativeCost / referenceCost
+
+	// Lower scale bits are modeled as slightly faster in the smoke test.
+	// This is intentionally simple and report-facing only; real experiments
+	// must use measured CKKS timings.
+	scaleDelta := float64(config.Candidate.ScaleBits - reference.ScaleBits)
+	scaleTimingFactor := 1.0 + 0.004*scaleDelta
+	if scaleTimingFactor < 0.75 {
+		scaleTimingFactor = 0.75
+	}
+
+	return meanTotalMS * scaleTimingFactor
 }
 
 func syntheticOutputError(reference tuner.ParameterCandidate, config tuner.ExecutionConfiguration) float64 {
@@ -214,4 +228,17 @@ func findReferenceEvaluation(evaluations []tuner.CandidateEvaluation) (tuner.Can
 	}
 
 	return tuner.CandidateEvaluation{}, false
+}
+
+func printSmokeSelection(label string, evaluation tuner.CandidateEvaluation) {
+	fmt.Printf("%s: %s/%s status=%s mean_total_ms=%.4f max_output_error=%.6f flips=%d violations=%d\n",
+		label,
+		evaluation.Config.Candidate.ID,
+		evaluation.Config.Path,
+		evaluation.Status(),
+		evaluation.MeanTotalMS,
+		evaluation.MaxOutputError,
+		evaluation.DecisionFlips,
+		evaluation.ErrorViolations,
+	)
 }
