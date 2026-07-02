@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/hasslelee/flipguard/internal/benchmarks"
+	"github.com/hasslelee/flipguard/internal/ckksbackend"
 	"github.com/hasslelee/flipguard/internal/ir"
 	"github.com/hasslelee/flipguard/internal/runtime"
 	"github.com/hasslelee/flipguard/internal/tuner"
@@ -56,6 +57,8 @@ type plannerDemoWorkloadRow struct {
 	PlannedLogN        int
 	EstimatedLogQP     int
 	CandidateCount     int
+	MatchCount         int
+	UniqueProfileCount int
 
 	Reason string
 }
@@ -78,11 +81,41 @@ type plannerDemoCandidateRow struct {
 	CostReason            string
 }
 
+type plannerDemoProfileMatchRow struct {
+	Workload string
+	Rank     int
+
+	PlannedCandidateID string
+	PlannedPath        tuner.ExecutionPath
+	PlannedFamily      string
+	PlannedChainLength int
+	PlannedScaleBits   int
+	PlannedLogN        int
+
+	ProfileName        string
+	ProfileDescription string
+	ProfileFamily      string
+	ProfileChainLength int
+	ProfileScaleBits   int
+	ProfileLogN        int
+	ProfileSlots       int
+
+	Distance         float64
+	ChainGap         int
+	ScaleGap         int
+	LogNGap          int
+	UnderProvisioned bool
+
+	Reason string
+}
+
 // RunTunerPlannerDemo demonstrates analysis-driven candidate planning.
 //
 // This experiment does not execute every CKKS profile. Instead, it analyzes each
 // workload graph and its decision-margin distribution, derives an error budget,
-// and asks tuner.PlanCandidates to emit a small set of candidate configurations.
+// asks tuner.PlanCandidates to emit a small set of ideal candidate
+// configurations, and resolves those ideal candidates to the closest executable
+// CKKS profiles exposed by the backend.
 //
 // The purpose is paper-facing: it shows that FlipGuard can generate candidates
 // from graph/dependency/error-budget structure instead of relying on brute-force
@@ -92,6 +125,8 @@ func RunTunerPlannerDemo() error {
 	if err != nil {
 		return fmt.Errorf("build planner demo workloads: %w", err)
 	}
+
+	availableProfiles := plannerAvailableProfiles(ckksbackend.AllCKKSProfiles())
 
 	options := GetRuntimeOptions()
 	outputErrorBudget := options.CKKSScoreAbsErrorCap
@@ -113,8 +148,12 @@ func RunTunerPlannerDemo() error {
 		tuner.PathRescale,
 	}
 
+	resolverPolicy := tuner.DefaultProfileResolverPolicy()
+	resolverPolicy.MaxMatchesPerCandidate = 2
+
 	workloadRows := make([]plannerDemoWorkloadRow, 0, len(workloads))
 	candidateRows := make([]plannerDemoCandidateRow, 0, len(workloads)*policy.MaxCandidates)
+	matchRows := make([]plannerDemoProfileMatchRow, 0, len(workloads)*policy.MaxCandidates*resolverPolicy.MaxMatchesPerCandidate)
 
 	for _, workload := range workloads {
 		graphSummary, err := summarizeGraphForPlanner(workload.Graph)
@@ -136,6 +175,13 @@ func RunTunerPlannerDemo() error {
 		if err != nil {
 			return fmt.Errorf("plan candidates for workload %s: %w", workload.Name, err)
 		}
+
+		matches, err := tuner.ResolveClosestProfiles(plan.Configurations, availableProfiles, resolverPolicy)
+		if err != nil {
+			return fmt.Errorf("resolve planner candidates for workload %s: %w", workload.Name, err)
+		}
+
+		uniqueMatches := tuner.DeduplicateResolvedProfiles(matches)
 
 		workloadRows = append(workloadRows, plannerDemoWorkloadRow{
 			Workload:        workload.Name,
@@ -162,6 +208,8 @@ func RunTunerPlannerDemo() error {
 			PlannedLogN:        plan.PlannedLogN,
 			EstimatedLogQP:     plan.EstimatedLogQP,
 			CandidateCount:     len(plan.Configurations),
+			MatchCount:         len(matches),
+			UniqueProfileCount: len(uniqueMatches),
 
 			Reason: plan.Reason,
 		})
@@ -187,6 +235,36 @@ func RunTunerPlannerDemo() error {
 				CostReason:            reason,
 			})
 		}
+
+		for _, match := range matches {
+			matchRows = append(matchRows, plannerDemoProfileMatchRow{
+				Workload: workload.Name,
+				Rank:     match.Rank,
+
+				PlannedCandidateID: match.Planned.Candidate.ID,
+				PlannedPath:        match.Planned.Path,
+				PlannedFamily:      match.Planned.Candidate.Family,
+				PlannedChainLength: match.Planned.Candidate.ChainLength,
+				PlannedScaleBits:   match.Planned.Candidate.ScaleBits,
+				PlannedLogN:        match.Planned.Candidate.LogN,
+
+				ProfileName:        match.Profile.Name,
+				ProfileDescription: match.Profile.Description,
+				ProfileFamily:      match.Profile.Family,
+				ProfileChainLength: match.Profile.ChainLength,
+				ProfileScaleBits:   match.Profile.ScaleBits,
+				ProfileLogN:        match.Profile.LogN,
+				ProfileSlots:       match.Profile.Slots,
+
+				Distance:         match.Distance,
+				ChainGap:         match.ChainGap,
+				ScaleGap:         match.ScaleGap,
+				LogNGap:          match.LogNGap,
+				UnderProvisioned: match.UnderProvisioned,
+
+				Reason: match.Reason,
+			})
+		}
 	}
 
 	outputDir := CKKSResultDir(tunerPlannerDemoOutputDir)
@@ -201,26 +279,33 @@ func RunTunerPlannerDemo() error {
 		return fmt.Errorf("write planner demo candidates CSV: %w", err)
 	}
 
+	matchesPath := filepath.Join(outputDir, "profile_matches.csv")
+	if err := writePlannerDemoProfileMatchesCSV(matchesPath, matchRows); err != nil {
+		return fmt.Errorf("write planner demo profile matches CSV: %w", err)
+	}
+
 	planPath := filepath.Join(outputDir, "plan.md")
-	if err := writePlannerDemoMarkdown(planPath, workloadRows, candidateRows); err != nil {
+	if err := writePlannerDemoMarkdown(planPath, workloadRows, candidateRows, matchRows); err != nil {
 		return fmt.Errorf("write planner demo markdown: %w", err)
 	}
 
 	fmt.Println("FlipGuard tuner planner demo")
 	fmt.Printf(
-		"workloads=%d output_error_budget=%.10f safety_factor=%.4f include_reference=%t include_aggressive=%t max_candidates=%d\n",
+		"workloads=%d available_profiles=%d output_error_budget=%.10f safety_factor=%.4f include_reference=%t include_aggressive=%t max_candidates=%d resolver_matches_per_candidate=%d\n",
 		len(workloads),
+		len(availableProfiles),
 		outputErrorBudget,
 		safetyFactor,
 		policy.IncludeReference,
 		policy.IncludeAggressive,
 		policy.MaxCandidates,
+		resolverPolicy.MaxMatchesPerCandidate,
 	)
 	fmt.Println()
 
 	for _, row := range workloadRows {
 		fmt.Printf(
-			"workload=%s depth=%d mul_ops=%d add_ops=%d samples=%d protected_margin=%.10f budget=%.10f sensitivity=%.6f unit_budget=%.10f planned_chain=%d planned_scale=%d planned_logN=%d candidates=%d\n",
+			"workload=%s depth=%d mul_ops=%d add_ops=%d samples=%d protected_margin=%.10f budget=%.10f sensitivity=%.6f unit_budget=%.10f planned_chain=%d planned_scale=%d planned_logN=%d candidates=%d matches=%d unique_profiles=%d\n",
 			row.Workload,
 			row.MultiplicativeDepth,
 			row.MulOps,
@@ -234,12 +319,15 @@ func RunTunerPlannerDemo() error {
 			row.PlannedScaleBits,
 			row.PlannedLogN,
 			row.CandidateCount,
+			row.MatchCount,
+			row.UniqueProfileCount,
 		)
 	}
 
 	fmt.Println()
 	fmt.Printf("Wrote %s\n", workloadsPath)
 	fmt.Printf("Wrote %s\n", candidatesPath)
+	fmt.Printf("Wrote %s\n", matchesPath)
 	fmt.Printf("Wrote %s\n", planPath)
 
 	return nil
@@ -325,6 +413,30 @@ func buildPlannerDemoWorkloads() ([]plannerDemoWorkload, error) {
 			Threshold: benchmarks.PolynomialRegressionThreshold,
 		},
 	}, nil
+}
+
+func plannerAvailableProfiles(profiles []ckksbackend.CKKSProfile) []tuner.AvailableProfile {
+	available := make([]tuner.AvailableProfile, 0, len(profiles))
+
+	for _, profile := range profiles {
+		logN := profile.Literal.LogN
+		if logN <= 0 {
+			logN = 14
+		}
+
+		available = append(available, tuner.AvailableProfile{
+			Name:        profile.Name,
+			Description: profile.Description,
+
+			LogN:        logN,
+			Slots:       slotsFromProfileLogN(logN),
+			ChainLength: profile.LogQCount(),
+			ScaleBits:   profile.LogDefaultScale(),
+			Family:      inferProfileCandidateFamily(profile.Name),
+		})
+	}
+
+	return available
 }
 
 func summarizeGraphForPlanner(g *ir.Graph) (tuner.GraphSummary, error) {
@@ -572,6 +684,8 @@ func writePlannerDemoWorkloadsCSV(path string, rows []plannerDemoWorkloadRow) er
 		"planned_logN",
 		"estimated_logQP",
 		"candidate_count",
+		"match_count",
+		"unique_profile_count",
 		"reason",
 	}
 
@@ -602,6 +716,8 @@ func writePlannerDemoWorkloadsCSV(path string, rows []plannerDemoWorkloadRow) er
 			fmt.Sprintf("%d", row.PlannedLogN),
 			fmt.Sprintf("%d", row.EstimatedLogQP),
 			fmt.Sprintf("%d", row.CandidateCount),
+			fmt.Sprintf("%d", row.MatchCount),
+			fmt.Sprintf("%d", row.UniqueProfileCount),
 			row.Reason,
 		}
 
@@ -678,10 +794,90 @@ func writePlannerDemoCandidatesCSV(path string, rows []plannerDemoCandidateRow) 
 	return nil
 }
 
+func writePlannerDemoProfileMatchesCSV(path string, rows []plannerDemoProfileMatchRow) error {
+	if err := os.MkdirAll(filepath.Dir(path), 0755); err != nil {
+		return err
+	}
+
+	f, err := os.Create(path)
+	if err != nil {
+		return fmt.Errorf("create planner demo profile matches csv: %w", err)
+	}
+	defer f.Close()
+
+	w := csv.NewWriter(f)
+	defer w.Flush()
+
+	header := []string{
+		"workload",
+		"rank",
+		"planned_candidate_id",
+		"planned_path",
+		"planned_family",
+		"planned_chain_length",
+		"planned_scale_bits",
+		"planned_logN",
+		"profile_name",
+		"profile_description",
+		"profile_family",
+		"profile_chain_length",
+		"profile_scale_bits",
+		"profile_logN",
+		"profile_slots",
+		"distance",
+		"chain_gap",
+		"scale_gap",
+		"logN_gap",
+		"under_provisioned",
+		"reason",
+	}
+
+	if err := w.Write(header); err != nil {
+		return fmt.Errorf("write planner demo profile matches header: %w", err)
+	}
+
+	for i, row := range rows {
+		record := []string{
+			row.Workload,
+			fmt.Sprintf("%d", row.Rank),
+			row.PlannedCandidateID,
+			string(row.PlannedPath),
+			row.PlannedFamily,
+			fmt.Sprintf("%d", row.PlannedChainLength),
+			fmt.Sprintf("%d", row.PlannedScaleBits),
+			fmt.Sprintf("%d", row.PlannedLogN),
+			row.ProfileName,
+			row.ProfileDescription,
+			row.ProfileFamily,
+			fmt.Sprintf("%d", row.ProfileChainLength),
+			fmt.Sprintf("%d", row.ProfileScaleBits),
+			fmt.Sprintf("%d", row.ProfileLogN),
+			fmt.Sprintf("%d", row.ProfileSlots),
+			fmt.Sprintf("%.12g", row.Distance),
+			fmt.Sprintf("%d", row.ChainGap),
+			fmt.Sprintf("%d", row.ScaleGap),
+			fmt.Sprintf("%d", row.LogNGap),
+			fmt.Sprintf("%t", row.UnderProvisioned),
+			row.Reason,
+		}
+
+		if err := w.Write(record); err != nil {
+			return fmt.Errorf("write planner demo profile matches row %d: %w", i, err)
+		}
+	}
+
+	if err := w.Error(); err != nil {
+		return fmt.Errorf("flush planner demo profile matches csv: %w", err)
+	}
+
+	return nil
+}
+
 func writePlannerDemoMarkdown(
 	path string,
 	workloads []plannerDemoWorkloadRow,
 	candidates []plannerDemoCandidateRow,
+	matches []plannerDemoProfileMatchRow,
 ) error {
 	if err := os.MkdirAll(filepath.Dir(path), 0755); err != nil {
 		return err
@@ -696,13 +892,13 @@ func writePlannerDemoMarkdown(
 	fmt.Fprintf(f, "# FlipGuard Analysis-Driven Candidate Planner\n\n")
 
 	fmt.Fprintf(f, "## Workload Plans\n\n")
-	fmt.Fprintf(f, "| Workload | Nodes | Samples | Depth | Mul Ops | Add Ops | Protected Margin | Budget | Sensitivity | Unit Budget | Planned Chain | Planned Scale | Planned LogN | Candidates |\n")
-	fmt.Fprintf(f, "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n")
+	fmt.Fprintf(f, "| Workload | Nodes | Samples | Depth | Mul Ops | Add Ops | Protected Margin | Budget | Sensitivity | Unit Budget | Planned Chain | Planned Scale | Planned LogN | Candidates | Profile Matches | Unique Profiles |\n")
+	fmt.Fprintf(f, "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n")
 
 	for _, row := range workloads {
 		fmt.Fprintf(
 			f,
-			"| %s | %d | %d | %d | %d | %d | %.10f | %.10f | %.6f | %.10f | %d | %d | %d | %d |\n",
+			"| %s | %d | %d | %d | %d | %d | %.10f | %.10f | %.6f | %.10f | %d | %d | %d | %d | %d | %d |\n",
 			row.Label,
 			row.NodeCount,
 			row.SampleCount,
@@ -717,6 +913,8 @@ func writePlannerDemoMarkdown(
 			row.PlannedScaleBits,
 			row.PlannedLogN,
 			row.CandidateCount,
+			row.MatchCount,
+			row.UniqueProfileCount,
 		)
 	}
 
@@ -751,14 +949,47 @@ func writePlannerDemoMarkdown(
 		fmt.Fprintf(f, "\n")
 	}
 
+	fmt.Fprintf(f, "## Closest Executable Profile Matches\n\n")
+
+	for _, workload := range workloads {
+		fmt.Fprintf(f, "### %s\n\n", workload.Label)
+		fmt.Fprintf(f, "| Planned Candidate | Rank | Matched Profile | Distance | Chain Gap | Scale Gap | LogN Gap | Under-provisioned |\n")
+		fmt.Fprintf(f, "|---|---:|---|---:|---:|---:|---:|---|\n")
+
+		for _, match := range matches {
+			if match.Workload != workload.Workload {
+				continue
+			}
+
+			fmt.Fprintf(
+				f,
+				"| `%s` | %d | `%s` | %.3f | %+d | %+d | %+d | %t |\n",
+				match.PlannedCandidateID,
+				match.Rank,
+				match.ProfileName,
+				match.Distance,
+				match.ChainGap,
+				match.ScaleGap,
+				match.LogNGap,
+				match.UnderProvisioned,
+			)
+		}
+
+		fmt.Fprintf(f, "\n")
+	}
+
 	fmt.Fprintf(f, "## Interpretation\n\n")
 	fmt.Fprintf(
 		f,
-		"The planner derives candidate configurations from graph depth, operation counts, and decision-margin-derived error budgets. ",
+		"The planner derives ideal candidate configurations from graph depth, operation counts, and decision-margin-derived error budgets. ",
 	)
 	fmt.Fprintf(
 		f,
-		"This artifact is intended to distinguish FlipGuard's planner from a brute-force parameter sweep: the planner first computes a minimum feasible region, then emits only reference, minimum-feasible, guard, and optional aggressive candidates for validation.\n",
+		"The resolver then maps those ideal candidates to the closest executable CKKS profiles exposed by the backend. ",
+	)
+	fmt.Fprintf(
+		f,
+		"This artifact is intended to distinguish FlipGuard's planner from a brute-force parameter sweep: the planner first computes a minimum feasible region, resolves it to a small executable profile set, and only then passes candidates to CKKS validation.\n",
 	)
 
 	return nil
