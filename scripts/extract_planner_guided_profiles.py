@@ -9,6 +9,10 @@ OUTPUT_DIR = Path("results/planner_guided_actual_execution/profile_lists")
 
 WORKLOADS = [
     {
+        "planner_workload": "linear_regression",
+        "output_file": "linear_regression_profiles.txt",
+    },
+    {
         "planner_workload": "logreg_small",
         "output_file": "logreg_small_profiles.txt",
     },

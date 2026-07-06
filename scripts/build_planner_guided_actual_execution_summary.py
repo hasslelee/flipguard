@@ -8,6 +8,12 @@ BASE_DIR = Path("results/planner_guided_actual_execution")
 
 WORKLOADS = [
     {
+        "workload": "linear_regression",
+        "label": "Linear Regression",
+        "subset_dir": BASE_DIR / "linear_regression",
+        "full_dir": BASE_DIR / "full_cache" / "ckks_linear_regression_tuner",
+    },
+    {
         "workload": "logreg_small",
         "label": "LogReg/Profile",
         "subset_dir": BASE_DIR / "logreg_small",
@@ -91,34 +97,27 @@ def summarize_workload(workload: dict) -> tuple[dict, list[dict]]:
     summary = {
         "workload": workload["workload"],
         "label": workload["label"],
-
         "full_candidate_count": full_candidate_count,
         "full_safe_count": full_status_counts["SAFE"],
         "full_rejected_count": full_status_counts["REJECTED"],
         "full_failed_count": full_status_counts["FAILED"],
-
         "subset_candidate_count": subset_candidate_count,
         "subset_safe_count": subset_status_counts["SAFE"],
         "subset_rejected_count": subset_status_counts["REJECTED"],
         "subset_failed_count": subset_status_counts["FAILED"],
-
         "candidate_reduction_pct": percent_reduction(
             full_candidate_count,
             subset_candidate_count,
         ),
-
         "full_reference_candidate": full_reference["candidate_id"],
         "full_fastest_safe_candidate": full_fastest_safe["candidate_id"],
         "full_fastest_safe_status": full_fastest_safe["status"],
         "full_fastest_safe_ms": full_fastest_safe_ms,
-
         "full_latency_only_candidate": full_latency_only["candidate_id"],
         "full_latency_only_status": full_latency_only["status"],
         "full_latency_only_ms": parse_float(full_latency_only["mean_total_ms"]),
-
         "subset_reference_candidate": subset_reference["candidate_id"],
         "subset_reference_ms": subset_reference_ms,
-
         "subset_fastest_safe_candidate": subset_fastest_safe["candidate_id"],
         "subset_fastest_safe_status": subset_fastest_safe["status"],
         "subset_fastest_safe_ms": subset_fastest_safe_ms,
@@ -129,7 +128,6 @@ def summarize_workload(workload: dict) -> tuple[dict, list[dict]]:
         "subset_fastest_safe_error": parse_float(
             subset_fastest_safe["max_output_error"]
         ),
-
         "subset_latency_only_candidate": subset_latency_only["candidate_id"],
         "subset_latency_only_status": subset_latency_only["status"],
         "subset_latency_only_ms": subset_latency_only_ms,
@@ -140,7 +138,6 @@ def summarize_workload(workload: dict) -> tuple[dict, list[dict]]:
         "subset_latency_only_error": parse_float(
             subset_latency_only["max_output_error"]
         ),
-
         "subset_fastest_safe_speedup_vs_reference_pct": percent_faster(
             subset_reference_ms,
             subset_fastest_safe_ms,
@@ -299,59 +296,59 @@ def write_table_md(
         f.write(
             "| Workload | Full Candidates | Actually Executed Planner-Guided Candidates | Reduction | Subset Fastest-safe | Subset Latency-only |\n"
         )
-        f.write(
-            "|---|---:|---:|---:|---|---|\n"
-        )
+        f.write("|---|---:|---:|---:|---|---|\n")
 
         for row in summary_rows:
             f.write(
                 "| {label} | {full_candidate_count} | {subset_candidate_count} | "
                 "{candidate_reduction_pct:.2f}% | "
                 "`{subset_fastest_safe_candidate}` ({subset_fastest_safe_ms:.3f} ms, {subset_fastest_safe_status}) | "
-                "`{subset_latency_only_candidate}` ({subset_latency_only_ms:.3f} ms, {subset_latency_only_status}) |\n".format(**row)
+                "`{subset_latency_only_candidate}` ({subset_latency_only_ms:.3f} ms, {subset_latency_only_status}) |\n".format(
+                    **row
+                )
             )
 
         f.write("\n## Safety Contrast Within Actual Planner-Guided Execution\n\n")
         f.write(
             "| Workload | Fastest-safe flips | Fastest-safe violations | Fastest-safe max error | Latency-only flips | Latency-only violations | Latency-only max error |\n"
         )
-        f.write(
-            "|---|---:|---:|---:|---:|---:|---:|\n"
-        )
+        f.write("|---|---:|---:|---:|---:|---:|---:|\n")
 
         for row in summary_rows:
             f.write(
                 "| {label} | {subset_fastest_safe_flips} | {subset_fastest_safe_violations} | {subset_fastest_safe_error:.10g} | "
-                "{subset_latency_only_flips} | {subset_latency_only_violations} | {subset_latency_only_error:.10g} |\n".format(**row)
+                "{subset_latency_only_flips} | {subset_latency_only_violations} | {subset_latency_only_error:.10g} |\n".format(
+                    **row
+                )
             )
 
         f.write("\n## Comparison to Full Search\n\n")
         f.write(
             "| Workload | Full fastest-safe | Planner-guided fastest-safe | Overhead vs full fastest-safe |\n"
         )
-        f.write(
-            "|---|---|---|---:|\n"
-        )
+        f.write("|---|---|---|---:|\n")
 
         for row in summary_rows:
             f.write(
                 "| {label} | `{full_fastest_safe_candidate}` ({full_fastest_safe_ms:.3f} ms) | "
                 "`{subset_fastest_safe_candidate}` ({subset_fastest_safe_ms:.3f} ms) | "
-                "{subset_fastest_safe_overhead_vs_full_fastest_safe_pct:.2f}% |\n".format(**row)
+                "{subset_fastest_safe_overhead_vs_full_fastest_safe_pct:.2f}% |\n".format(
+                    **row
+                )
             )
 
         f.write("\n## Selected Candidates\n\n")
         f.write(
             "| Workload | Policy | Candidate | Path | Status | Chain | Scale | LogN | Mean ms | Flips | Violations |\n"
         )
-        f.write(
-            "|---|---|---|---|---|---:|---:|---:|---:|---:|---:|\n"
-        )
+        f.write("|---|---|---|---|---|---:|---:|---:|---:|---:|---:|\n")
 
         for row in selection_rows:
             f.write(
                 "| {label} | {policy} | `{candidate_id}` | `{path}` | {status} | "
-                "{chain_length} | {scale_bits} | {logN} | {mean_total_ms} | {decision_flips} | {error_violations} |\n".format(**row)
+                "{chain_length} | {scale_bits} | {logN} | {mean_total_ms} | {decision_flips} | {error_violations} |\n".format(
+                    **row
+                )
             )
 
         f.write("\n## Interpretation\n\n")
