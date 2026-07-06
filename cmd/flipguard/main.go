@@ -133,6 +133,11 @@ func main() {
 			Description: "Evaluate CKKS polynomial regression profile candidates and select the fastest safe configuration",
 			Run:         experiment.RunCKKSPolynomialRegressionTuner,
 		},
+
+		"ckks_linear_regression_tuner": {
+			Description: "Evaluate CKKS linear regression profile candidates and select the fastest safe configuration",
+			Run:         experiment.RunCKKSLinearRegressionTuner,
+		},
 		"ckks_polynomial_regression": {
 			Name:        "ckks_polynomial_regression",
 			Description: "CKKS encrypted standalone polynomial regression benchmark",
