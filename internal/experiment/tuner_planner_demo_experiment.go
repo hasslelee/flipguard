@@ -109,6 +109,17 @@ type plannerDemoProfileMatchRow struct {
 	Reason string
 }
 
+// RunTunerPlannerDemo demonstrates analysis-driven candidate planning.
+//
+// This experiment does not execute every CKKS profile. Instead, it analyzes each
+// workload graph and its decision-margin distribution, derives an error budget,
+// asks tuner.PlanCandidates to emit a small set of ideal candidate
+// configurations, and resolves those ideal candidates to the closest executable
+// CKKS profiles exposed by the backend.
+//
+// The purpose is paper-facing: it shows that FlipGuard can generate candidates
+// from graph/dependency/error-budget structure instead of relying on brute-force
+// chain/scale sweeps.
 func RunTunerPlannerDemo() error {
 	workloads, err := buildPlannerDemoWorkloads()
 	if err != nil {
@@ -371,6 +382,30 @@ func buildPlannerDemoWorkloads() ([]plannerDemoWorkload, error) {
 		})
 	}
 
+	sobelGraph := benchmarks.NewSobelEdgeGraph()
+
+	sobelOptions := benchmarks.DefaultSobelEdgeSampleGenOptions()
+	sobelOptions.MaxBoundary = 32
+	sobelOptions.MaxNonBoundary = 32
+
+	sobelSamples := benchmarks.GenerateSobelEdgeSamples(sobelOptions)
+	sobelDemoSamples := make([]plannerDemoSample, 0, len(sobelSamples))
+
+	for _, sample := range sobelSamples {
+		eval, err := runtime.EvalPlain(sobelGraph, sample.Inputs())
+		if err != nil {
+			return nil, fmt.Errorf("evaluate sobel_edge sample: %w", err)
+		}
+
+		margin := math.Abs(eval.Output - benchmarks.SobelEdgeThreshold)
+
+		sobelDemoSamples = append(sobelDemoSamples, plannerDemoSample{
+			Inputs:      sample.Inputs(),
+			PlainOutput: eval.Output,
+			Margin:      margin,
+		})
+	}
+
 	polyGraph := benchmarks.NewPolynomialRegressionGraph()
 
 	polyXs := []float64{
@@ -424,6 +459,13 @@ func buildPlannerDemoWorkloads() ([]plannerDemoWorkload, error) {
 			Graph:     logregGraph,
 			Samples:   logregDemoSamples,
 			Threshold: benchmarks.LogRegSmallThreshold,
+		},
+		{
+			Name:      "sobel_edge",
+			Label:     "Sobel Edge",
+			Graph:     sobelGraph,
+			Samples:   sobelDemoSamples,
+			Threshold: benchmarks.SobelEdgeThreshold,
 		},
 		{
 			Name:      "polynomial_regression",
@@ -580,6 +622,8 @@ func summarizePlannerMargins(samples []plannerDemoSample) (minMargin float64, p1
 	minMargin = margins[0]
 	p10Margin = percentileSortedPlannerMargin(margins, 0.10)
 
+	// Ignore exact-zero numerical coincidences when deriving a protected margin.
+	// If every sample is effectively on the boundary, fall back to p10.
 	protectedMargin = 0
 	for _, margin := range margins {
 		if margin > 1e-9 {
