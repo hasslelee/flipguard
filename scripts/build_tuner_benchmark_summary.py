@@ -6,6 +6,11 @@ from pathlib import Path
 
 WORKLOADS = [
     {
+        "workload": "linear_regression",
+        "label": "Linear Regression",
+        "result_dir": Path("results/ckks_linear_regression_tuner"),
+    },
+    {
         "workload": "logreg_small_profile",
         "label": "LogReg/Profile",
         "result_dir": Path("results/ckks_auto_tuner_eval"),
@@ -14,6 +19,11 @@ WORKLOADS = [
         "workload": "polynomial_regression",
         "label": "Polynomial Regression",
         "result_dir": Path("results/ckks_polynomial_regression_tuner"),
+    },
+    {
+        "workload": "sobel_edge",
+        "label": "Sobel Edge Detection",
+        "result_dir": Path("results/ckks_sobel_edge_tuner"),
     },
 ]
 
