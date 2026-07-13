@@ -26,6 +26,12 @@ WORKLOADS = [
         "result_dir": Path("results/ckks_polynomial_regression_tuner"),
         "candidate_profile_parser": "polyreg_profile",
     },
+    {
+        "planner_workload": "sobel_edge",
+        "label": "Sobel Edge Detection",
+        "result_dir": Path("results/ckks_sobel_edge_tuner"),
+        "candidate_profile_parser": "sobel_profile",
+    },
 ]
 
 ALLOWED_PLANNER_FAMILIES = {
@@ -209,6 +215,12 @@ def candidate_profile_name(candidate_id: str, parser: str) -> str:
 
     if parser == "linreg_profile":
         suffix = "_linreg"
+        if candidate_id.endswith(suffix):
+            return candidate_id[: -len(suffix)]
+        return candidate_id
+
+    if parser == "sobel_profile":
+        suffix = "_sobel"
         if candidate_id.endswith(suffix):
             return candidate_id[: -len(suffix)]
         return candidate_id

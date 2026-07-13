@@ -25,6 +25,12 @@ WORKLOADS = [
         "subset_dir": BASE_DIR / "polynomial_regression",
         "full_dir": BASE_DIR / "full_cache" / "ckks_polynomial_regression_tuner",
     },
+    {
+        "workload": "sobel_edge",
+        "label": "Sobel Edge Detection",
+        "subset_dir": BASE_DIR / "sobel_edge",
+        "full_dir": BASE_DIR / "full_cache" / "ckks_sobel_edge_tuner",
+    },
 ]
 
 

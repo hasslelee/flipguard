@@ -20,6 +20,10 @@ WORKLOADS = [
         "planner_workload": "polynomial_regression",
         "output_file": "polynomial_regression_profiles.txt",
     },
+    {
+        "planner_workload": "sobel_edge",
+        "output_file": "sobel_edge_profiles.txt",
+    },
 ]
 
 ALLOWED_PLANNER_FAMILIES = {
