@@ -25,6 +25,11 @@ WORKLOADS = [
         "label": "Sobel Edge Detection",
         "result_dir": Path("results/ckks_sobel_edge_tuner"),
     },
+    {
+        "workload": "harris_corner",
+        "label": "Harris Corner Response",
+        "result_dir": Path("results/ckks_harris_corner_tuner"),
+    },
 ]
 
 OUTPUT_DIR = Path("results/tuner_benchmark_summary")
