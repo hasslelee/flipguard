@@ -2,6 +2,7 @@
 
 import csv
 from pathlib import Path
+from typing import Dict, List
 
 
 DATASETS = [
@@ -9,6 +10,7 @@ DATASETS = [
     "iris_binary",
     "digits_binary",
     "banknote",
+    "mnist_pool16",
 ]
 
 MODELS = [
@@ -35,7 +37,7 @@ def as_float(row: dict, key: str) -> float:
 
 
 def as_int(row: dict, key: str) -> int:
-    return int(row[key])
+    return int(float(row[key]))
 
 
 def fmt_float(value: float) -> str:
@@ -68,22 +70,53 @@ def unsafe_status(row: dict) -> str:
     return "not_rejected"
 
 
-def build_rows() -> list:
+def direct_tag(dataset: str, model: str, profile: str, path: str) -> str:
+    if profile == "default" and path == "rescale_aware":
+        return f"tabular_{dataset}_{model}_default_rescale_aware"
+
+    if profile == "short_chain_3" and path == "baseline_non_rescale":
+        return f"tabular_{dataset}_{model}_short3_baseline_non_rescale"
+
+    raise ValueError(f"unsupported direct tag profile/path: {profile}+{path}")
+
+
+def sweep_tag(dataset: str, model: str, profile: str, path: str, repeat: int = 1) -> str:
+    return f"tabular_sweep_{dataset}_{model}_{profile}_{path}_r{repeat}"
+
+
+def find_summary_path(dataset: str, model: str, profile: str, path: str) -> Path:
+    candidates = []
+
+    try:
+        candidates.append(RESULT_ROOT / direct_tag(dataset, model, profile, path) / "summary.csv")
+    except ValueError:
+        pass
+
+    candidates.append(RESULT_ROOT / sweep_tag(dataset, model, profile, path, repeat=1) / "summary.csv")
+
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+
+    joined = "\n  ".join(str(c) for c in candidates)
+    raise FileNotFoundError(
+        f"missing summary for dataset={dataset} model={model} profile={profile} path={path}\n"
+        f"checked:\n  {joined}"
+    )
+
+
+def build_rows() -> List[Dict[str, str]]:
     rows = []
 
     for dataset in DATASETS:
         for model in MODELS:
-            safe_tag = f"tabular_{dataset}_{model}_default_rescale_aware"
-            unsafe_tag = f"tabular_{dataset}_{model}_short3_baseline_non_rescale"
+            safe_profile = "default"
+            safe_path_name = "rescale_aware"
+            unsafe_profile = "short_chain_3"
+            unsafe_path_name = "baseline_non_rescale"
 
-            safe_path = RESULT_ROOT / safe_tag / "summary.csv"
-            unsafe_path = RESULT_ROOT / unsafe_tag / "summary.csv"
-
-            if not safe_path.exists():
-                raise FileNotFoundError(f"missing safe summary: {safe_path}")
-
-            if not unsafe_path.exists():
-                raise FileNotFoundError(f"missing unsafe summary: {unsafe_path}")
+            safe_path = find_summary_path(dataset, model, safe_profile, safe_path_name)
+            unsafe_path = find_summary_path(dataset, model, unsafe_profile, unsafe_path_name)
 
             safe = read_summary(safe_path)
             unsafe = read_summary(unsafe_path)
@@ -102,8 +135,9 @@ def build_rows() -> list:
                 "model_id": model,
                 "plain_accuracy": safe["plain_accuracy"],
 
-                "safe_profile": "default",
-                "safe_path": "rescale_aware",
+                "safe_profile": safe_profile,
+                "safe_path": safe_path_name,
+                "safe_source": str(safe_path),
                 "safe_ckks_accuracy": safe["ckks_accuracy"],
                 "safe_decision_flips": safe["decision_flips"],
                 "safe_score_error_violations": safe["score_error_violations"],
@@ -112,8 +146,9 @@ def build_rows() -> list:
                 "safe_mean_total_eval_ms": safe["mean_total_eval_ms"],
                 "safe_status": safe_status(safe),
 
-                "unsafe_profile": "short_chain_3",
-                "unsafe_path": "baseline_non_rescale",
+                "unsafe_profile": unsafe_profile,
+                "unsafe_path": unsafe_path_name,
+                "unsafe_source": str(unsafe_path),
                 "unsafe_ckks_accuracy": unsafe["ckks_accuracy"],
                 "unsafe_decision_flips": unsafe["decision_flips"],
                 "unsafe_score_error_violations": unsafe["score_error_violations"],
@@ -128,7 +163,7 @@ def build_rows() -> list:
     return rows
 
 
-def write_summary_csv(rows: list) -> None:
+def write_summary_csv(rows: List[Dict[str, str]]) -> None:
     OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
 
     fieldnames = [
@@ -138,6 +173,7 @@ def write_summary_csv(rows: list) -> None:
         "plain_accuracy",
         "safe_profile",
         "safe_path",
+        "safe_source",
         "safe_ckks_accuracy",
         "safe_decision_flips",
         "safe_score_error_violations",
@@ -147,6 +183,7 @@ def write_summary_csv(rows: list) -> None:
         "safe_status",
         "unsafe_profile",
         "unsafe_path",
+        "unsafe_source",
         "unsafe_ckks_accuracy",
         "unsafe_decision_flips",
         "unsafe_score_error_violations",
@@ -164,7 +201,7 @@ def write_summary_csv(rows: list) -> None:
         writer.writerows(rows)
 
 
-def write_table_tex(rows: list) -> None:
+def write_table_tex(rows: List[Dict[str, str]]) -> None:
     lines = []
     lines.append(r"\begin{tabular}{llrrrrrr}")
     lines.append(r"\toprule")
@@ -195,25 +232,28 @@ def write_table_tex(rows: list) -> None:
     (OUTPUT_ROOT / "table.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def write_readme(rows: list) -> None:
+def write_readme(rows: List[Dict[str, str]]) -> None:
     total = len(rows)
     safe_pass = sum(1 for row in rows if row["safe_status"] == "pass")
     unsafe_rejected = sum(1 for row in rows if row["unsafe_status"] == "rejected")
 
-    safe_flips = sum(int(row["safe_decision_flips"]) for row in rows)
-    safe_violations = sum(int(row["safe_score_error_violations"]) for row in rows)
-    unsafe_flips = sum(int(row["unsafe_decision_flips"]) for row in rows)
-    unsafe_violations = sum(int(row["unsafe_score_error_violations"]) for row in rows)
+    safe_flips = sum(int(float(row["safe_decision_flips"])) for row in rows)
+    safe_violations = sum(int(float(row["safe_score_error_violations"])) for row in rows)
+    unsafe_flips = sum(int(float(row["unsafe_decision_flips"])) for row in rows)
+    unsafe_violations = sum(int(float(row["unsafe_score_error_violations"])) for row in rows)
 
     speedups = [float(row["unsafe_total_speedup_vs_safe"]) for row in rows]
     min_speedup = min(speedups)
     max_speedup = max(speedups)
 
+    datasets = ", ".join(DATASETS)
+    models = ", ".join(MODELS)
+
     text = f"""FlipGuard tabular suite summary
 
 Workloads:
-- datasets: wdbc, iris_binary, digits_binary, banknote
-- models: linear_poly3, mlp_square_linear_score
+- datasets: {datasets}
+- models: {models}
 - total workloads: {total}
 
 Safe candidate:
@@ -232,7 +272,10 @@ Unsafe raw-speed candidate:
 - unsafe total-latency speedup range versus safe candidate: {min_speedup:.4f}x to {max_speedup:.4f}x
 
 Interpretation:
-The default rescale-aware path preserved plaintext decisions and satisfied the output accuracy guard across all evaluated tabular workloads. The short-chain baseline non-rescale path was faster, but it caused decision flips and score error violations across all evaluated workloads, so it is rejected by the safety guard.
+The default rescale-aware path preserved plaintext decisions and satisfied the output accuracy guard across all evaluated tabular workloads. The short-chain baseline non-rescale path was faster, but it caused decision flips and score error violations across the evaluated workloads, so it is rejected by the safety guard.
+
+Source note:
+For each dataset/model pair, this summary first uses direct inference outputs when available. If a direct summary is not available, it falls back to the first repeated profile-sweep summary for the same profile and evaluation path. The safe/unsafe source paths are recorded in summary.csv.
 """
 
     (OUTPUT_ROOT / "README.txt").write_text(text, encoding="utf-8")
@@ -247,6 +290,7 @@ def main() -> None:
     print(f"wrote {OUTPUT_ROOT / 'summary.csv'}")
     print(f"wrote {OUTPUT_ROOT / 'table.tex'}")
     print(f"wrote {OUTPUT_ROOT / 'README.txt'}")
+    print(f"workloads={len(rows)}")
 
 
 if __name__ == "__main__":
