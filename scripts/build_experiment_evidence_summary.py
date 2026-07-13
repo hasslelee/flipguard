@@ -14,6 +14,7 @@ SELECTED_PROFILES = Path("results/ckks_tabular_profile_sweep_summary/current/sel
 STRATEGY_SUMMARY = Path("results/ckks_tabular_strategy_analysis/current/strategy_summary.csv")
 OPERATION_COUNTS = Path("results/ckks_tabular_operation_analysis/current/operation_counts.csv")
 MARGIN_COVERAGE = Path("results/ckks_tabular_margin_coverage/current/coverage.csv")
+PLANNER_GUIDED_ACTUAL = Path("results/planner_guided_actual_execution/summary.csv")
 
 
 def main() -> None:
@@ -183,6 +184,37 @@ def main() -> None:
         )
         generated.extend(["margin_coverage_table.csv", "margin_coverage_table.md"])
 
+    planner_guided_rows = []
+    if PLANNER_GUIDED_ACTUAL.exists():
+        planner_guided_rows = build_planner_guided_table(read_csv(PLANNER_GUIDED_ACTUAL))
+        write_csv(
+            OUTPUT_DIR / "planner_guided_candidate_validation_table.csv",
+            planner_guided_rows,
+        )
+        write_md_table(
+            OUTPUT_DIR / "planner_guided_candidate_validation_table.md",
+            "Planner-guided candidate validation reduction",
+            planner_guided_rows,
+            [
+                "workload",
+                "full_candidates",
+                "planner_guided_candidates",
+                "candidate_validation_reduction",
+                "planner_fastest_safe",
+                "planner_fastest_safe_flips",
+                "planner_fastest_safe_violations",
+                "latency_only",
+                "latency_only_status",
+                "latency_only_flips",
+                "latency_only_violations",
+                "overhead_vs_full_fastest_safe",
+            ],
+        )
+        generated.extend([
+            "planner_guided_candidate_validation_table.csv",
+            "planner_guided_candidate_validation_table.md",
+        ])
+
     write_key_claims(
         OUTPUT_DIR / "key_claims.md",
         tabular_rows=tabular_rows,
@@ -191,6 +223,7 @@ def main() -> None:
         core_rows=core_rows if CORE_TUNER_SUMMARY.exists() else [],
         core_repeated_rows=core_repeated_rows,
         margin_rows=margin_rows,
+        planner_guided_rows=planner_guided_rows,
     )
     generated.append("key_claims.md")
 
@@ -406,6 +439,38 @@ def build_operation_table(rows: List[Dict[str, str]]) -> List[Dict[str, str]]:
     return out
 
 
+def build_planner_guided_table(rows: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    out = []
+    for row in rows:
+        out.append(
+            {
+                "workload_id": row["workload"],
+                "workload": row["label"],
+                "full_candidates": row["full_candidate_count"],
+                "planner_guided_candidates": row["subset_candidate_count"],
+                "candidate_validation_reduction": percent(row["candidate_reduction_pct"]),
+                "planner_fastest_safe": candidate_ms(
+                    row["subset_fastest_safe_candidate"],
+                    row["subset_fastest_safe_ms"],
+                ),
+                "planner_fastest_safe_status": row["subset_fastest_safe_status"],
+                "planner_fastest_safe_flips": row["subset_fastest_safe_flips"],
+                "planner_fastest_safe_violations": row["subset_fastest_safe_violations"],
+                "latency_only": candidate_ms(
+                    row["subset_latency_only_candidate"],
+                    row["subset_latency_only_ms"],
+                ),
+                "latency_only_status": row["subset_latency_only_status"],
+                "latency_only_flips": row["subset_latency_only_flips"],
+                "latency_only_violations": row["subset_latency_only_violations"],
+                "overhead_vs_full_fastest_safe": percent(
+                    row["subset_fastest_safe_overhead_vs_full_fastest_safe_pct"]
+                ),
+            }
+        )
+    return out
+
+
 def build_margin_coverage_table(rows: List[Dict[str, str]]) -> List[Dict[str, str]]:
     out = []
     for row in rows:
@@ -444,6 +509,7 @@ def write_key_claims(
     core_rows: List[Dict[str, str]],
     core_repeated_rows: List[Dict[str, str]],
     margin_rows: List[Dict[str, str]],
+    planner_guided_rows: List[Dict[str, str]],
 ) -> None:
     safe_tabular = sum(1 for r in tabular_rows if r["safe_status"] == "pass")
     safe_flips = sum(int(r["safe_flips"]) for r in tabular_rows)
@@ -491,6 +557,37 @@ def write_key_claims(
     )
     repeated_fastest_safe_speedups = [
         parse_percent(r["fastest_safe_speedup"]) for r in core_repeated_rows
+    ]
+
+    planner_full_candidates = sum(
+        int(r["full_candidates"]) for r in planner_guided_rows
+    )
+    planner_subset_candidates = sum(
+        int(r["planner_guided_candidates"]) for r in planner_guided_rows
+    )
+    planner_reduction_pct = (
+        (1.0 - planner_subset_candidates / planner_full_candidates) * 100.0
+        if planner_full_candidates > 0
+        else 0.0
+    )
+    planner_fastest_safe_flips = sum(
+        int(r["planner_fastest_safe_flips"]) for r in planner_guided_rows
+    )
+    planner_fastest_safe_violations = sum(
+        int(r["planner_fastest_safe_violations"]) for r in planner_guided_rows
+    )
+    planner_latency_only_rejected = sum(
+        1 for r in planner_guided_rows if r["latency_only_status"] == "REJECTED"
+    )
+    planner_latency_only_flips = sum(
+        int(r["latency_only_flips"]) for r in planner_guided_rows
+    )
+    planner_latency_only_violations = sum(
+        int(r["latency_only_violations"]) for r in planner_guided_rows
+    )
+    planner_overheads = [
+        parse_percent(r["overhead_vs_full_fastest_safe"])
+        for r in planner_guided_rows
     ]
 
     lines = []
@@ -574,6 +671,65 @@ def write_key_claims(
             f"speedup_vs_fixed_default={fastest['speedup_vs_fixed_default']}\n"
         )
     lines.append("\n")
+
+    if planner_guided_rows:
+        lines.append("## Planner-guided candidate validation reduction\n")
+        lines.append(
+            f"- Planner-guided workloads: {len(planner_guided_rows)}\n"
+        )
+        lines.append(
+            f"- Full-ladder candidates: {planner_full_candidates}\n"
+        )
+        lines.append(
+            f"- Actually executed planner-guided candidates: {planner_subset_candidates}\n"
+        )
+        lines.append(
+            f"- Candidate validation reduction under the current ladder/resolver: "
+            f"{planner_reduction_pct:.2f}%\n"
+        )
+        lines.append(
+            f"- Planner-guided fastest-safe total decision flips: "
+            f"{planner_fastest_safe_flips}\n"
+        )
+        lines.append(
+            f"- Planner-guided fastest-safe total error violations: "
+            f"{planner_fastest_safe_violations}\n"
+        )
+        lines.append(
+            f"- Planner-guided latency-only rejected workloads: "
+            f"{planner_latency_only_rejected}/{len(planner_guided_rows)}\n"
+        )
+        lines.append(
+            f"- Planner-guided latency-only total decision flips: "
+            f"{planner_latency_only_flips}\n"
+        )
+        lines.append(
+            f"- Planner-guided latency-only total error violations: "
+            f"{planner_latency_only_violations}\n"
+        )
+        if planner_overheads:
+            lines.append(
+                f"- Fastest-safe overhead versus full-search fastest-safe range: "
+                f"{min(planner_overheads):.2f}%--{max(planner_overheads):.2f}%\n"
+            )
+        lines.append(
+            "- Interpretation: this is a candidate-validation reduction result "
+            "under the evaluated candidate ladder and executable-profile resolver, "
+            "not a general guarantee that the planner always recovers the globally "
+            "fastest safe configuration.\n"
+        )
+        for row in planner_guided_rows:
+            lines.append(
+                f"  - {row['workload']}: "
+                f"full={row['full_candidates']}, "
+                f"planner_guided={row['planner_guided_candidates']}, "
+                f"reduction={row['candidate_validation_reduction']}, "
+                f"fastest_safe={row['planner_fastest_safe']}, "
+                f"flips={row['planner_fastest_safe_flips']}, "
+                f"violations={row['planner_fastest_safe_violations']}, "
+                f"overhead_vs_full={row['overhead_vs_full_fastest_safe']}\n"
+            )
+        lines.append("\n")
 
     if core_repeated_rows:
         lines.append("## Repeated core workload tuner result\n")
