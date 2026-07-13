@@ -8,6 +8,7 @@ from typing import Dict, Iterable, List
 OUTPUT_DIR = Path("results/experiment_evidence_summary/current")
 
 CORE_TUNER_SUMMARY = Path("results/tuner_benchmark_summary/summary.csv")
+CORE_TUNER_REPEATED = Path("results/core_tuner_repeated/current/workload_repeated_summary.csv")
 TABULAR_SUITE_SUMMARY = Path("results/ckks_tabular_suite_summary/current/summary.csv")
 SELECTED_PROFILES = Path("results/ckks_tabular_profile_sweep_summary/current/selected_profiles.csv")
 STRATEGY_SUMMARY = Path("results/ckks_tabular_strategy_analysis/current/strategy_summary.csv")
@@ -43,6 +44,34 @@ def main() -> None:
             ],
         )
         generated.extend(["core_tuner_table.csv", "core_tuner_table.md"])
+
+    core_repeated_rows = []
+    if CORE_TUNER_REPEATED.exists():
+        core_repeated_rows = build_core_repeated_table(read_csv(CORE_TUNER_REPEATED))
+        write_csv(OUTPUT_DIR / "core_tuner_repeated_table.csv", core_repeated_rows)
+        write_md_table(
+            OUTPUT_DIR / "core_tuner_repeated_table.md",
+            "Repeated core workload tuner summary",
+            core_repeated_rows,
+            [
+                "workload",
+                "repeats",
+                "candidates",
+                "safe",
+                "rejected",
+                "failed",
+                "reference",
+                "fastest_safe",
+                "fastest_safe_speedup",
+                "fastest_safe_flips",
+                "fastest_safe_violations",
+                "latency_only",
+                "latency_only_status",
+                "latency_only_flips",
+                "latency_only_violations",
+            ],
+        )
+        generated.extend(["core_tuner_repeated_table.csv", "core_tuner_repeated_table.md"])
 
     tabular_rows = build_tabular_safety_table(read_csv(TABULAR_SUITE_SUMMARY))
     write_csv(OUTPUT_DIR / "tabular_safety_table.csv", tabular_rows)
@@ -160,6 +189,7 @@ def main() -> None:
         selected_rows=selected_rows,
         strategy_rows=strategy_rows,
         core_rows=core_rows if CORE_TUNER_SUMMARY.exists() else [],
+        core_repeated_rows=core_repeated_rows,
         margin_rows=margin_rows,
     )
     generated.append("key_claims.md")
@@ -200,6 +230,48 @@ def build_core_tuner_table(rows: List[Dict[str, str]]) -> List[Dict[str, str]]:
                 "latency_only_status": row["latency_only_status"],
                 "latency_only_flips": row["latency_only_flips"],
                 "latency_only_violations": row["latency_only_violations"],
+            }
+        )
+    return out
+
+
+def build_core_repeated_table(rows: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    out = []
+    for row in rows:
+        out.append(
+            {
+                "workload_id": row["workload"],
+                "workload": row["label"],
+                "repeats": row["repeat_count"],
+                "candidates": count_text(row["candidate_count"]),
+                "safe": count_text(row["safe_count"]),
+                "rejected": count_text(row["rejected_count"]),
+                "failed": count_text(row["failed_count"]),
+                "reference": candidate_mean_std(
+                    row["reference_candidate"],
+                    row["reference_mean_total_ms"],
+                    row["reference_std_total_ms"],
+                ),
+                "fastest_safe": candidate_mean_std(
+                    row["fastest_safe_candidate"],
+                    row["fastest_safe_mean_total_ms"],
+                    row["fastest_safe_std_total_ms"],
+                ),
+                "fastest_safe_speedup": percent(row["fastest_safe_speedup_vs_reference_pct"]),
+                "fastest_safe_flips": row["fastest_safe_decision_flips_total"],
+                "fastest_safe_violations": row["fastest_safe_error_violations_total"],
+                "latency_only": candidate_mean_std(
+                    row["latency_only_candidate"],
+                    row["latency_only_mean_total_ms"],
+                    row["latency_only_std_total_ms"],
+                ),
+                "latency_only_status": row["latency_only_status"],
+                "latency_only_speedup": percent(row["latency_only_speedup_vs_reference_pct"]),
+                "latency_only_flips": row["latency_only_decision_flips_total"],
+                "latency_only_violations": row["latency_only_error_violations_total"],
+                "fastest_safe_overhead_vs_latency_only": percent(
+                    row["fastest_safe_overhead_vs_latency_only_pct"]
+                ),
             }
         )
     return out
@@ -370,6 +442,7 @@ def write_key_claims(
     selected_rows: List[Dict[str, str]],
     strategy_rows: List[Dict[str, str]],
     core_rows: List[Dict[str, str]],
+    core_repeated_rows: List[Dict[str, str]],
     margin_rows: List[Dict[str, str]],
 ) -> None:
     safe_tabular = sum(1 for r in tabular_rows if r["safe_status"] == "pass")
@@ -400,6 +473,25 @@ def write_key_claims(
         (float(r["max_usage_vs_alpha_margin"]) for r in margin_rows),
         default=0.0,
     )
+
+    repeated_fastest_safe_flips = sum(
+        int(r["fastest_safe_flips"]) for r in core_repeated_rows
+    )
+    repeated_fastest_safe_violations = sum(
+        int(r["fastest_safe_violations"]) for r in core_repeated_rows
+    )
+    repeated_latency_only_flips = sum(
+        int(r["latency_only_flips"]) for r in core_repeated_rows
+    )
+    repeated_latency_only_violations = sum(
+        int(r["latency_only_violations"]) for r in core_repeated_rows
+    )
+    repeated_latency_only_rejected = sum(
+        1 for r in core_repeated_rows if r["latency_only_status"] == "REJECTED"
+    )
+    repeated_fastest_safe_speedups = [
+        parse_percent(r["fastest_safe_speedup"]) for r in core_repeated_rows
+    ]
 
     lines = []
     lines.append("# Experiment evidence key claims\n")
@@ -483,8 +575,38 @@ def write_key_claims(
         )
     lines.append("\n")
 
+    if core_repeated_rows:
+        lines.append("## Repeated core workload tuner result\n")
+        lines.append(f"- Repeated core workloads: {len(core_repeated_rows)}\n")
+        lines.append(
+            f"- Repeats per workload: {core_repeated_rows[0]['repeats']}\n"
+        )
+        lines.append(
+            f"- Latency-only rejected workloads: "
+            f"{repeated_latency_only_rejected}/{len(core_repeated_rows)}\n"
+        )
+        lines.append(f"- Fastest-safe total decision flips: {repeated_fastest_safe_flips}\n")
+        lines.append(f"- Fastest-safe total error violations: {repeated_fastest_safe_violations}\n")
+        lines.append(f"- Latency-only total decision flips: {repeated_latency_only_flips}\n")
+        lines.append(f"- Latency-only total error violations: {repeated_latency_only_violations}\n")
+        if repeated_fastest_safe_speedups:
+            lines.append(
+                f"- Fastest-safe speedup range versus reference: "
+                f"{min(repeated_fastest_safe_speedups):.2f}%--"
+                f"{max(repeated_fastest_safe_speedups):.2f}%\n"
+            )
+        for row in core_repeated_rows:
+            lines.append(
+                f"  - {row['workload']}: fastest_safe={row['fastest_safe']}, "
+                f"speedup={row['fastest_safe_speedup']}, "
+                f"latency_only_status={row['latency_only_status']}, "
+                f"latency_only_flips={row['latency_only_flips']}, "
+                f"latency_only_violations={row['latency_only_violations']}\n"
+            )
+        lines.append("\n")
+
     if core_rows:
-        lines.append("## Core workload tuner result\n")
+        lines.append("## One-shot core workload tuner result\n")
         for row in core_rows:
             lines.append(
                 f"- {row['workload']}: fastest_safe={row['fastest_safe']}, "
@@ -591,6 +713,25 @@ def strategy_label(strategy_id: str) -> str:
 
 def candidate_ms(candidate: str, value: str) -> str:
     return f"{candidate} ({ms(value)})"
+
+
+def count_text(value: str) -> str:
+    number = float(value)
+    if number.is_integer():
+        return str(int(number))
+    return f"{number:.2f}"
+
+
+def candidate_mean_std(candidate: str, mean_value: str, std_value: str) -> str:
+    return f"{candidate} ({ms(mean_value)} ± {ms_value(std_value)})"
+
+
+def ms_value(value: str) -> str:
+    return f"{parse_float(value):.3f} ms"
+
+
+def parse_percent(value: str) -> float:
+    return float(str(value).rstrip("%"))
 
 
 def parse_float(value: str) -> float:
