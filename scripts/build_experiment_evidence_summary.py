@@ -12,6 +12,7 @@ TABULAR_SUITE_SUMMARY = Path("results/ckks_tabular_suite_summary/current/summary
 SELECTED_PROFILES = Path("results/ckks_tabular_profile_sweep_summary/current/selected_profiles.csv")
 STRATEGY_SUMMARY = Path("results/ckks_tabular_strategy_analysis/current/strategy_summary.csv")
 OPERATION_COUNTS = Path("results/ckks_tabular_operation_analysis/current/operation_counts.csv")
+MARGIN_COVERAGE = Path("results/ckks_tabular_margin_coverage/current/coverage.csv")
 
 
 def main() -> None:
@@ -128,19 +129,45 @@ def main() -> None:
     )
     generated.extend(["operation_counts_table.csv", "operation_counts_table.md"])
 
+    margin_rows = []
+    if MARGIN_COVERAGE.exists():
+        margin_rows = build_margin_coverage_table(read_csv(MARGIN_COVERAGE))
+        write_csv(OUTPUT_DIR / "margin_coverage_table.csv", margin_rows)
+        write_md_table(
+            OUTPUT_DIR / "margin_coverage_table.md",
+            "Tabular decision-margin coverage",
+            margin_rows,
+            [
+                "workload",
+                "samples",
+                "gamma_min",
+                "v_cert",
+                "v_amb",
+                "coverage_pct",
+                "p5_gamma",
+                "p10_gamma",
+                "median_gamma",
+                "min_cert_gamma",
+                "max_y_error",
+                "max_usage_vs_alpha_margin",
+            ],
+        )
+        generated.extend(["margin_coverage_table.csv", "margin_coverage_table.md"])
+
     write_key_claims(
         OUTPUT_DIR / "key_claims.md",
         tabular_rows=tabular_rows,
         selected_rows=selected_rows,
         strategy_rows=strategy_rows,
         core_rows=core_rows if CORE_TUNER_SUMMARY.exists() else [],
+        margin_rows=margin_rows,
     )
     generated.append("key_claims.md")
 
     write_readme(OUTPUT_DIR / "README.md", generated)
     generated.append("README.md")
 
-    print("Wrote paper experiment summary:")
+    print("Wrote experiment evidence summary:")
     for name in generated:
         print(f"  {OUTPUT_DIR / name}")
 
@@ -307,6 +334,35 @@ def build_operation_table(rows: List[Dict[str, str]]) -> List[Dict[str, str]]:
     return out
 
 
+def build_margin_coverage_table(rows: List[Dict[str, str]]) -> List[Dict[str, str]]:
+    out = []
+    for row in rows:
+        out.append(
+            {
+                "dataset_id": row["dataset_id"],
+                "model_id": row["model_id"],
+                "workload": f'{dataset_label(row["dataset_id"])} / {model_label(row["model_id"])}',
+                "samples": row["samples"],
+                "gamma_min": row["gamma_min"],
+                "v_cert": row["v_cert"],
+                "v_amb": row["v_amb"],
+                "coverage_pct": row["coverage_pct"] + "%",
+                "min_gamma": row["min_gamma"],
+                "p1_gamma": row["p1_gamma"],
+                "p5_gamma": row["p5_gamma"],
+                "p10_gamma": row["p10_gamma"],
+                "median_gamma": row["median_gamma"],
+                "p90_gamma": row["p90_gamma"],
+                "min_cert_gamma": row["min_cert_gamma"],
+                "max_y_error": row["max_y_error"],
+                "p95_y_error": row["p95_y_error"],
+                "max_usage_vs_alpha_margin": row["max_usage_vs_alpha_margin"],
+                "safety_factor": row["safety_factor"],
+            }
+        )
+    return out
+
+
 def write_key_claims(
     path: Path,
     *,
@@ -314,6 +370,7 @@ def write_key_claims(
     selected_rows: List[Dict[str, str]],
     strategy_rows: List[Dict[str, str]],
     core_rows: List[Dict[str, str]],
+    margin_rows: List[Dict[str, str]],
 ) -> None:
     safe_tabular = sum(1 for r in tabular_rows if r["safe_status"] == "pass")
     safe_flips = sum(int(r["safe_flips"]) for r in tabular_rows)
@@ -332,8 +389,20 @@ def write_key_claims(
         if parse_times(r["selected_speedup_vs_default_safe"]) > 1.0
     ]
 
+    total_margin_samples = sum(int(r["samples"]) for r in margin_rows)
+    total_v_cert = sum(int(r["v_cert"]) for r in margin_rows)
+    total_v_amb = sum(int(r["v_amb"]) for r in margin_rows)
+    min_margin_coverage = min(
+        (float(r["coverage_pct"].rstrip("%")) for r in margin_rows),
+        default=0.0,
+    )
+    max_margin_usage = max(
+        (float(r["max_usage_vs_alpha_margin"]) for r in margin_rows),
+        default=0.0,
+    )
+
     lines = []
-    lines.append("# Paper-facing key claims\n")
+    lines.append("# Experiment evidence key claims\n")
     lines.append("## Core decision-stability condition\n")
     lines.append(
         "FlipGuard treats configuration selection as a decision-stability-constrained optimization problem. "
@@ -359,6 +428,23 @@ def write_key_claims(
     lines.append(f"- Rejected unsafe workloads: {unsafe_rejected}/{len(tabular_rows)}\n")
     lines.append(f"- Unsafe decision flips: {unsafe_flips}\n")
     lines.append(f"- Unsafe score error violations: {unsafe_violations}\n\n")
+
+    if margin_rows:
+        lines.append("## Tabular decision-margin coverage result\n")
+        lines.append(f"- Margin coverage workloads: {len(margin_rows)}\n")
+        lines.append(f"- Total evaluated samples: {total_margin_samples}\n")
+        lines.append(f"- V_cert samples: {total_v_cert}\n")
+        lines.append(f"- V_amb samples: {total_v_amb}\n")
+        lines.append(f"- Minimum workload coverage: {min_margin_coverage:.2f}%\n")
+        lines.append(
+            f"- Maximum observed max_y_error / (alpha * min_cert_gamma): "
+            f"{max_margin_usage:.10f}\n"
+        )
+        lines.append(
+            "- Interpretation: decision-stability certification should be stated over "
+            "V_cert under the configured gamma_min and safety factor, while V_amb is "
+            "reported separately as near-boundary validation samples.\n\n"
+        )
 
     lines.append("## Repeated profile sweep result\n")
     lines.append(
@@ -413,9 +499,9 @@ def write_key_claims(
 
 def write_readme(path: Path, generated: Iterable[str]) -> None:
     lines = []
-    lines.append("# FlipGuard paper experiment summary\n\n")
+    lines.append("# FlipGuard experiment evidence summary\n\n")
     lines.append(
-        "This directory contains paper-facing tables generated from the current FlipGuard experiment outputs.\n\n"
+        "This directory contains experiment evidence tables generated from the current FlipGuard outputs.\n\n"
     )
     lines.append("## Generated files\n\n")
     for name in generated:
