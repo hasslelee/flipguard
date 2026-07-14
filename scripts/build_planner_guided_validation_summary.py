@@ -38,6 +38,12 @@ WORKLOADS = [
         "result_dir": Path("results/ckks_harris_corner_tuner"),
         "candidate_profile_parser": "harris_profile",
     },
+    {
+        "planner_workload": "mlp_square",
+        "label": "MLP-square",
+        "result_dir": Path("results/ckks_mlp_square_tuner"),
+        "candidate_profile_parser": "mlp_square_profile",
+    },
 ]
 
 ALLOWED_PLANNER_FAMILIES = {
@@ -233,6 +239,12 @@ def candidate_profile_name(candidate_id: str, parser: str) -> str:
 
     if parser == "harris_profile":
         suffix = "_harris"
+        if candidate_id.endswith(suffix):
+            return candidate_id[: -len(suffix)]
+        return candidate_id
+
+    if parser == "mlp_square_profile":
+        suffix = "_mlp_square"
         if candidate_id.endswith(suffix):
             return candidate_id[: -len(suffix)]
         return candidate_id

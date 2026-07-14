@@ -28,6 +28,10 @@ WORKLOADS = [
         "planner_workload": "harris_corner",
         "output_file": "harris_corner_profiles.txt",
     },
+    {
+        "planner_workload": "mlp_square",
+        "output_file": "mlp_square_profiles.txt",
+    },
 ]
 
 ALLOWED_PLANNER_FAMILIES = {

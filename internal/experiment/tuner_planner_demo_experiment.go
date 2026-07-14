@@ -430,6 +430,30 @@ func buildPlannerDemoWorkloads() ([]plannerDemoWorkload, error) {
 		})
 	}
 
+	mlpGraph := benchmarks.NewMLPSquareGraph()
+
+	mlpOptions := benchmarks.DefaultMLPSquareSampleGenOptions()
+	mlpOptions.MaxBoundary = 32
+	mlpOptions.MaxNonBoundary = 32
+
+	mlpSamples := benchmarks.GenerateMLPSquareSamples(mlpOptions)
+	mlpDemoSamples := make([]plannerDemoSample, 0, len(mlpSamples))
+
+	for _, sample := range mlpSamples {
+		eval, err := runtime.EvalPlain(mlpGraph, sample.Inputs())
+		if err != nil {
+			return nil, fmt.Errorf("evaluate mlp_square sample: %w", err)
+		}
+
+		margin := math.Abs(eval.Output - benchmarks.MLPSquareThreshold)
+
+		mlpDemoSamples = append(mlpDemoSamples, plannerDemoSample{
+			Inputs:      sample.Inputs(),
+			PlainOutput: eval.Output,
+			Margin:      margin,
+		})
+	}
+
 	polyGraph := benchmarks.NewPolynomialRegressionGraph()
 
 	polyXs := []float64{
@@ -497,6 +521,13 @@ func buildPlannerDemoWorkloads() ([]plannerDemoWorkload, error) {
 			Graph:     harrisGraph,
 			Samples:   harrisDemoSamples,
 			Threshold: benchmarks.HarrisCornerThreshold,
+		},
+		{
+			Name:      "mlp_square",
+			Label:     "MLP-square",
+			Graph:     mlpGraph,
+			Samples:   mlpDemoSamples,
+			Threshold: benchmarks.MLPSquareThreshold,
 		},
 		{
 			Name:      "polynomial_regression",

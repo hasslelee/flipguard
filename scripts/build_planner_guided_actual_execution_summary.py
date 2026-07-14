@@ -37,6 +37,12 @@ WORKLOADS = [
         "subset_dir": BASE_DIR / "harris_corner",
         "full_dir": BASE_DIR / "full_cache" / "ckks_harris_corner_tuner",
     },
+    {
+        "workload": "mlp_square",
+        "label": "MLP-square",
+        "subset_dir": BASE_DIR / "mlp_square",
+        "full_dir": BASE_DIR / "full_cache" / "ckks_mlp_square_tuner",
+    },
 ]
 
 
