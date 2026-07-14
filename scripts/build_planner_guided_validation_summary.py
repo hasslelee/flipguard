@@ -32,6 +32,12 @@ WORKLOADS = [
         "result_dir": Path("results/ckks_sobel_edge_tuner"),
         "candidate_profile_parser": "sobel_profile",
     },
+    {
+        "planner_workload": "harris_corner",
+        "label": "Harris Corner Response",
+        "result_dir": Path("results/ckks_harris_corner_tuner"),
+        "candidate_profile_parser": "harris_profile",
+    },
 ]
 
 ALLOWED_PLANNER_FAMILIES = {
@@ -221,6 +227,12 @@ def candidate_profile_name(candidate_id: str, parser: str) -> str:
 
     if parser == "sobel_profile":
         suffix = "_sobel"
+        if candidate_id.endswith(suffix):
+            return candidate_id[: -len(suffix)]
+        return candidate_id
+
+    if parser == "harris_profile":
+        suffix = "_harris"
         if candidate_id.endswith(suffix):
             return candidate_id[: -len(suffix)]
         return candidate_id

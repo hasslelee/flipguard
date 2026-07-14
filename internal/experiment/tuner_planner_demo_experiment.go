@@ -406,6 +406,30 @@ func buildPlannerDemoWorkloads() ([]plannerDemoWorkload, error) {
 		})
 	}
 
+	harrisGraph := benchmarks.NewHarrisCornerResponseGraph()
+
+	harrisOptions := benchmarks.DefaultHarrisCornerSampleGenOptions()
+	harrisOptions.MaxBoundary = 32
+	harrisOptions.MaxNonBoundary = 32
+
+	harrisSamples := benchmarks.GenerateHarrisCornerSamples(harrisOptions)
+	harrisDemoSamples := make([]plannerDemoSample, 0, len(harrisSamples))
+
+	for _, sample := range harrisSamples {
+		eval, err := runtime.EvalPlain(harrisGraph, sample.Inputs())
+		if err != nil {
+			return nil, fmt.Errorf("evaluate harris_corner sample: %w", err)
+		}
+
+		margin := math.Abs(eval.Output - benchmarks.HarrisCornerThreshold)
+
+		harrisDemoSamples = append(harrisDemoSamples, plannerDemoSample{
+			Inputs:      sample.Inputs(),
+			PlainOutput: eval.Output,
+			Margin:      margin,
+		})
+	}
+
 	polyGraph := benchmarks.NewPolynomialRegressionGraph()
 
 	polyXs := []float64{
@@ -466,6 +490,13 @@ func buildPlannerDemoWorkloads() ([]plannerDemoWorkload, error) {
 			Graph:     sobelGraph,
 			Samples:   sobelDemoSamples,
 			Threshold: benchmarks.SobelEdgeThreshold,
+		},
+		{
+			Name:      "harris_corner",
+			Label:     "Harris Corner Response",
+			Graph:     harrisGraph,
+			Samples:   harrisDemoSamples,
+			Threshold: benchmarks.HarrisCornerThreshold,
 		},
 		{
 			Name:      "polynomial_regression",

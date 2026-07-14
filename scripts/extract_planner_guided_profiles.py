@@ -24,6 +24,10 @@ WORKLOADS = [
         "planner_workload": "sobel_edge",
         "output_file": "sobel_edge_profiles.txt",
     },
+    {
+        "planner_workload": "harris_corner",
+        "output_file": "harris_corner_profiles.txt",
+    },
 ]
 
 ALLOWED_PLANNER_FAMILIES = {

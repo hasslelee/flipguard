@@ -31,6 +31,12 @@ WORKLOADS = [
         "subset_dir": BASE_DIR / "sobel_edge",
         "full_dir": BASE_DIR / "full_cache" / "ckks_sobel_edge_tuner",
     },
+    {
+        "workload": "harris_corner",
+        "label": "Harris Corner Response",
+        "subset_dir": BASE_DIR / "harris_corner",
+        "full_dir": BASE_DIR / "full_cache" / "ckks_harris_corner_tuner",
+    },
 ]
 
 
