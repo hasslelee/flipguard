@@ -30,6 +30,11 @@ WORKLOADS = [
         "label": "Harris Corner Response",
         "result_dir": Path("results/ckks_harris_corner_tuner"),
     },
+    {
+        "workload": "mlp_square",
+        "label": "MLP-square",
+        "result_dir": Path("results/ckks_mlp_square_tuner"),
+    },
 ]
 
 OUTPUT_DIR = Path("results/tuner_benchmark_summary")

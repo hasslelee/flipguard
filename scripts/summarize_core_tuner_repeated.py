@@ -29,6 +29,10 @@ WORKLOADS = [
         "workload": "harris_corner",
         "label": "Harris Corner Response",
     },
+    {
+        "workload": "mlp_square",
+        "label": "MLP-square",
+    },
 ]
 
 POLICIES = [
