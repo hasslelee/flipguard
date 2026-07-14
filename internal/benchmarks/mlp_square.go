@@ -35,11 +35,9 @@ func (s MLPSquareSample) Inputs() map[ir.NodeID]float64 {
 //
 //	h = W1*x + b1
 //	a = h^2
-//	g = W2*a + b2
-//	u = g^2
-//	y = W3*u + b3
+//	y = W2*a + b2
 //
-// The graph intentionally uses square activations instead of ReLU/sigmoid so
+// The graph intentionally uses a square activation instead of ReLU/sigmoid so
 // that it is directly evaluable with CKKS polynomial arithmetic.
 func NewMLPSquareGraph() *ir.Graph {
 	g := ir.NewGraph()
@@ -74,30 +72,14 @@ func NewMLPSquareGraph() *ir.Graph {
 	g.MustAddNode(ir.NewUnary("a2", "h2^2", ir.OpPow2, "h2"))
 	g.MustAddNode(ir.NewUnary("a3", "h3^2", ir.OpPow2, "h3"))
 
-	// Second affine layer: 3 -> 2.
-	addAffine3(
-		g,
-		"g1",
-		[3]float64{0.70, -0.30, 0.20},
-		-0.10,
-	)
-	addAffine3(
-		g,
-		"g2",
-		[3]float64{-0.25, 0.60, 0.15},
-		0.05,
-	)
-
-	// Second square activation.
-	g.MustAddNode(ir.NewUnary("u1", "g1^2", ir.OpPow2, "g1"))
-	g.MustAddNode(ir.NewUnary("u2", "g2^2", ir.OpPow2, "g2"))
-
-	// Output affine layer: 2 -> 1.
-	g.MustAddNode(ir.NewMulConst("y_t1", "0.80*u1", "u1", 0.80))
-	g.MustAddNode(ir.NewMulConst("y_t2", "-0.55*u2", "u2", -0.55))
-	g.MustAddNode(ir.NewBinary("y_s", "y_t1+y_t2", ir.OpAdd, "y_t1", "y_t2"))
-	g.MustAddNode(ir.NewConst("y_b", "0.15", 0.15))
-	g.MustAddNode(ir.NewBinary("y", "mlp_square_score", ir.OpAdd, "y_s", "y_b"))
+	// Output affine layer: 3 -> 1.
+	g.MustAddNode(ir.NewMulConst("y_t1", "0.70*a1", "a1", 0.70))
+	g.MustAddNode(ir.NewMulConst("y_t2", "-0.30*a2", "a2", -0.30))
+	g.MustAddNode(ir.NewMulConst("y_t3", "0.20*a3", "a3", 0.20))
+	g.MustAddNode(ir.NewBinary("y_s1", "y_t1+y_t2", ir.OpAdd, "y_t1", "y_t2"))
+	g.MustAddNode(ir.NewBinary("y_s2", "y_s1+y_t3", ir.OpAdd, "y_s1", "y_t3"))
+	g.MustAddNode(ir.NewConst("y_b", "-0.10", -0.10))
+	g.MustAddNode(ir.NewBinary("y", "mlp_square_score", ir.OpAdd, "y_s2", "y_b"))
 
 	g.MustSetOutput("y")
 
@@ -166,13 +148,7 @@ func MLPSquareScore(sample MLPSquareSample) float64 {
 	a2 := h2 * h2
 	a3 := h3 * h3
 
-	g1 := 0.70*a1 - 0.30*a2 + 0.20*a3 - 0.10
-	g2 := -0.25*a1 + 0.60*a2 + 0.15*a3 + 0.05
-
-	u1 := g1 * g1
-	u2 := g2 * g2
-
-	return 0.80*u1 - 0.55*u2 + 0.15
+	return 0.70*a1 - 0.30*a2 + 0.20*a3 - 0.10
 }
 
 // MLPSquareDecision returns the thresholded MLP decision.
