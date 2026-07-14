@@ -25,6 +25,10 @@ WORKLOADS = [
         "workload": "sobel_edge",
         "label": "Sobel Edge Detection",
     },
+    {
+        "workload": "harris_corner",
+        "label": "Harris Corner Response",
+    },
 ]
 
 POLICIES = [

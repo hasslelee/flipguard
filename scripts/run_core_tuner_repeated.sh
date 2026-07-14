@@ -65,6 +65,13 @@ for repeat in $(seq 1 "${REPEATS}"); do
     "ckks_sobel_edge_tuner" \
     "results/ckks_sobel_edge_tuner" \
     -ckks-timing-measurement-runs 3
+
+  run_one \
+    "${repeat}" \
+    "harris_corner" \
+    "ckks_harris_corner_tuner" \
+    "results/ckks_harris_corner_tuner" \
+    -ckks-timing-measurement-runs 3
 done
 
 python3 scripts/summarize_core_tuner_repeated.py \
