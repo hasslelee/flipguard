@@ -148,6 +148,11 @@ func main() {
 			Description: "Evaluate CKKS Harris corner response profile candidates and select the fastest safe configuration",
 			Run:         experiment.RunCKKSHarrisCornerTuner,
 		},
+		"ckks_mlp_square_tuner": {
+			Name:        "ckks_mlp_square_tuner",
+			Description: "Evaluate CKKS MLP-square profile candidates and select the fastest safe configuration",
+			Run:         experiment.RunCKKSMLPSquareTuner,
+		},
 		"ckks_polynomial_regression": {
 			Name:        "ckks_polynomial_regression",
 			Description: "CKKS encrypted standalone polynomial regression benchmark",
