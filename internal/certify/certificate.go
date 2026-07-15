@@ -2,8 +2,8 @@ package certify
 
 // CandidateDescriptor identifies one CKKS execution configuration.
 //
-// The structure intentionally mirrors the paper-facing configuration fields
-// without depending on the tuner package. A tuner adapter can be added later.
+// The structure intentionally mirrors paper-facing configuration fields without
+// depending on the tuner package. A tuner adapter is added separately.
 type CandidateDescriptor struct {
 	ID string
 
@@ -21,22 +21,29 @@ type CandidateDescriptor struct {
 // CandidateEvidence contains observed execution and validation evidence for one
 // candidate.
 //
-// DecisionFlips and ErrorViolations should refer to V_cert. Samples in V_amb
-// are reported through ValidationCoverage and are not claimed as certified.
+// DecisionFlips and ErrorViolations must refer to V_cert when
+// ObservedValidation is true. Samples in V_amb are reported separately and are
+// not included in the decision-stability claim.
 type CandidateEvidence struct {
 	Candidate CandidateDescriptor
 
 	SuccessRuns int
 	FailedRuns  int
 
+	// ObservedValidation is true only when the candidate was validated over
+	// the claim's V_cert subset.
+	ObservedValidation bool
+
 	DecisionFlips   int
 	ErrorViolations int
 
 	MaxObservedError float64
 
-	// MaxErrorBound is optional. Zero means that no analytical bound was
-	// supplied for this candidate.
-	MaxErrorBound float64
+	// AnalyticalBoundProvided explicitly states whether MaxErrorBound contains
+	// an analytical certificate bound. Presence is represented separately
+	// because zero is a valid bound value.
+	AnalyticalBoundProvided bool
+	MaxErrorBound           float64
 
 	MeanTotalMS float64
 }
@@ -45,11 +52,14 @@ type CandidateEvidence struct {
 type CandidateCertificate struct {
 	Candidate CandidateDescriptor
 
-	Status CandidateStatus
-	Reason string
+	Status    CandidateStatus
+	Assurance AssuranceLevel
+	Reason    string
 
 	SuccessRuns int
 	FailedRuns  int
+
+	ObservedValidation bool
 
 	DecisionFlips   int
 	ErrorViolations int
@@ -57,7 +67,15 @@ type CandidateCertificate struct {
 	MaxObservedError float64
 	MaxErrorBound    float64
 
+	AnalyticalBoundProvided  bool
+	AnalyticalBoundSatisfied bool
+	AnalyticalBudget         float64
+
 	MeanTotalMS float64
+
+	Threshold    float64
+	MarginFloor  float64
+	SafetyFactor float64
 
 	VCert int
 	VAmb  int
@@ -73,12 +91,19 @@ type CertificationSummary struct {
 	Outcome SelectionOutcome
 	Reason  string
 
+	Policy CertificationPolicy
+
 	CandidateCount int
 
 	SafeCount      int
 	RejectedCount  int
 	FailedCount    int
 	AmbiguousCount int
+
+	Threshold        float64
+	MarginFloor      float64
+	SafetyFactor     float64
+	AnalyticalBudget float64
 
 	VCert        int
 	VAmb         int

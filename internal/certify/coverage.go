@@ -15,6 +15,9 @@ import (
 //
 // All remaining samples belong to V_cert.
 type ValidationCoverage struct {
+	Threshold   float64
+	MarginFloor float64
+
 	Total int
 
 	VCert int
@@ -41,10 +44,14 @@ func AnalyzeValidationCoverage(
 	marginFloor float64,
 ) (ValidationCoverage, error) {
 	if len(plainScores) == 0 {
-		return ValidationCoverage{}, fmt.Errorf("plain validation scores are empty")
+		return ValidationCoverage{}, fmt.Errorf(
+			"plain validation scores are empty",
+		)
 	}
 	if !isFinite(threshold) {
-		return ValidationCoverage{}, fmt.Errorf("threshold must be finite")
+		return ValidationCoverage{}, fmt.Errorf(
+			"threshold must be finite",
+		)
 	}
 	if !isFinite(marginFloor) || marginFloor < 0 {
 		return ValidationCoverage{}, fmt.Errorf(
@@ -57,7 +64,9 @@ func AnalyzeValidationCoverage(
 	certifiedMargins := make([]float64, 0, len(plainScores))
 
 	coverage := ValidationCoverage{
-		Total: len(plainScores),
+		Threshold:   threshold,
+		MarginFloor: marginFloor,
+		Total:       len(plainScores),
 	}
 
 	for i, score := range plainScores {
@@ -98,8 +107,18 @@ func AnalyzeValidationCoverage(
 
 // Validate checks internal consistency of a validation coverage summary.
 func (c ValidationCoverage) Validate() error {
+	if !isFinite(c.Threshold) {
+		return fmt.Errorf("validation threshold must be finite")
+	}
+	if !isFinite(c.MarginFloor) || c.MarginFloor < 0 {
+		return fmt.Errorf(
+			"validation margin floor must be finite and non-negative",
+		)
+	}
 	if c.Total <= 0 {
-		return fmt.Errorf("validation coverage total must be positive")
+		return fmt.Errorf(
+			"validation coverage total must be positive",
+		)
 	}
 	if c.VCert < 0 {
 		return fmt.Errorf("V_cert must be non-negative")
@@ -115,22 +134,37 @@ func (c ValidationCoverage) Validate() error {
 			c.Total,
 		)
 	}
-	if !isFinite(c.MinMargin) || c.MinMargin < 0 {
-		return fmt.Errorf("minimum margin must be finite and non-negative")
+	if !isFinite(c.CoverageRate) ||
+		c.CoverageRate < 0 ||
+		c.CoverageRate > 1 {
+		return fmt.Errorf(
+			"coverage rate must be finite and in [0, 1]",
+		)
 	}
-	if !isFinite(c.MinCertifiedMargin) || c.MinCertifiedMargin < 0 {
+	if !isFinite(c.MinMargin) || c.MinMargin < 0 {
+		return fmt.Errorf(
+			"minimum margin must be finite and non-negative",
+		)
+	}
+	if !isFinite(c.MinCertifiedMargin) ||
+		c.MinCertifiedMargin < 0 {
 		return fmt.Errorf(
 			"minimum certified margin must be finite and non-negative",
 		)
 	}
 	if !isFinite(c.P5Margin) || c.P5Margin < 0 {
-		return fmt.Errorf("p5 margin must be finite and non-negative")
+		return fmt.Errorf(
+			"p5 margin must be finite and non-negative",
+		)
 	}
 
 	return nil
 }
 
-func nearestRankPercentile(sorted []float64, percentile float64) float64 {
+func nearestRankPercentile(
+	sorted []float64,
+	percentile float64,
+) float64 {
 	if len(sorted) == 0 {
 		return 0
 	}
@@ -141,7 +175,10 @@ func nearestRankPercentile(sorted []float64, percentile float64) float64 {
 		return sorted[len(sorted)-1]
 	}
 
-	rank := int(math.Ceil(percentile*float64(len(sorted)))) - 1
+	rank := int(math.Ceil(
+		percentile*float64(len(sorted)),
+	)) - 1
+
 	if rank < 0 {
 		rank = 0
 	}
@@ -153,5 +190,6 @@ func nearestRankPercentile(sorted []float64, percentile float64) float64 {
 }
 
 func isFinite(value float64) bool {
-	return !math.IsNaN(value) && !math.IsInf(value, 0)
+	return !math.IsNaN(value) &&
+		!math.IsInf(value, 0)
 }
