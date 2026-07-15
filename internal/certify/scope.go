@@ -25,9 +25,6 @@ type ClaimScope struct {
 	SafetyFactor float64
 
 	SampleCount int
-
-	SuccessfulRuns int
-	FailedRuns     int
 }
 
 // Validate checks whether the certificate claim scope is explicit and
@@ -90,21 +87,5 @@ func (s ClaimScope) Validate() error {
 			"claim scope sample count must be positive",
 		)
 	}
-	if s.SuccessfulRuns < 0 {
-		return fmt.Errorf(
-			"claim scope successful runs must be non-negative",
-		)
-	}
-	if s.FailedRuns < 0 {
-		return fmt.Errorf(
-			"claim scope failed runs must be non-negative",
-		)
-	}
-	if s.SuccessfulRuns+s.FailedRuns <= 0 {
-		return fmt.Errorf(
-			"claim scope must contain at least one attempted run",
-		)
-	}
-
 	return nil
 }

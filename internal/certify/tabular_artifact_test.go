@@ -72,16 +72,16 @@ func TestLoadAndAggregateTabularCandidate(
 			result.Scope.SampleCount,
 		)
 	}
-	if result.Scope.SuccessfulRuns != 2 {
+	if result.Aggregation.Evidence.SuccessRuns != 2 {
 		t.Fatalf(
 			"expected successful runs 2, got %d",
-			result.Scope.SuccessfulRuns,
+			result.Aggregation.Evidence.SuccessRuns,
 		)
 	}
-	if result.Scope.FailedRuns != 0 {
+	if result.Aggregation.Evidence.FailedRuns != 0 {
 		t.Fatalf(
 			"expected failed runs 0, got %d",
-			result.Scope.FailedRuns,
+			result.Aggregation.Evidence.FailedRuns,
 		)
 	}
 

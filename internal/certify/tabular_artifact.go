@@ -355,9 +355,6 @@ func LoadAndAggregateTabularCandidate(
 		SafetyFactor: safetyFactor,
 
 		SampleCount: observed.Coverage.Total,
-
-		SuccessfulRuns: observed.Evidence.SuccessRuns,
-		FailedRuns:     observed.Evidence.FailedRuns,
 	}
 
 	if err := scope.Validate(); err != nil {
