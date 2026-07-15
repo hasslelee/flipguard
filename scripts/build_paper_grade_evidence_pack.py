@@ -54,6 +54,8 @@ def main() -> None:
     )
     write_figure_table_plan()
     write_related_work_comparison_matrix()
+    write_positioning_statement()
+    write_novelty_claim_boundary()
     write_limitations_and_threats()
     write_reviewer_defense_checklist()
 
@@ -223,7 +225,9 @@ This directory collects paper-facing summaries derived from the current FlipGuar
 - `core_workload_operation_profile.md`: summarizes core workload complexity and tuner behavior.
 - `real_data_operation_profile.md`: summarizes real-data workload operation counts, selected profiles, and margin coverage.
 - `figure_table_plan.md`: proposed paper figures and tables.
-- `related_work_comparison_matrix.md`: draft positioning matrix against CKKS/FHE compiler and tuner work.
+- `related_work_comparison_matrix.md`: positioning matrix against CKKS/FHE compiler and tuner work.
+- `positioning_statement.md`: concise statement of what FlipGuard is and is not.
+- `novelty_claim_boundary.md`: reviewer-safe novelty and claim-boundary wording.
 - `limitations_and_threats.md`: claim boundaries and threats to validity.
 - `reviewer_defense_checklist.md`: likely reviewer questions and prepared responses.
 
@@ -595,56 +599,188 @@ For a journal submission, include the full table set and move oversized raw tabl
 def write_related_work_comparison_matrix() -> None:
     rows = [
         [
-            "CHET-style FHE NN compiler",
-            "Neural-network inference compiler, layout and tensor-level optimization",
-            "FlipGuard is not a full NN compiler; it focuses on decision-stability-constrained CKKS configuration selection.",
-            "Add exact citation and wording before submission.",
+            "CHET",
+            "Dathathri et al., PLDI 2019",
+            "Domain-specific optimizing compiler for FHE neural-network inference; supports tensor-circuit style programming.",
+            "Programmer productivity and performance for encrypted neural-network inference.",
+            "FlipGuard does not provide a full NN compiler or tensor DSL. It focuses on selecting CKKS configurations under a decision-stability constraint.",
+            "Complementary: CHET-style compilers can produce candidate circuits; FlipGuard can validate/select configurations for threshold/sign decisions.",
         ],
         [
-            "EVA-style CKKS vector arithmetic compiler",
-            "General encrypted vector arithmetic and CKKS compilation",
-            "FlipGuard can be positioned as a safety-constrained candidate selector rather than a general CKKS language/compiler.",
-            "Add exact citation and wording before submission.",
+            "EVA",
+            "Dathathri et al., PLDI 2020",
+            "Encrypted Vector Arithmetic language and optimizing compiler for CKKS programs.",
+            "General encrypted vector arithmetic, compiler IR, and CKKS program generation.",
+            "FlipGuard is not a general CKKS language/compiler. It adds a safety-constrained selection rule around candidate profiles.",
+            "Complementary: EVA-style IR/compiler outputs could be paired with FlipGuard-style decision-stability validation.",
         ],
         [
-            "HECATE-style scale/rescale optimization",
-            "Scale and rescale-level performance optimization",
-            "FlipGuard differs by treating sign/threshold invariance as a first-class safety constraint.",
-            "Add exact citation and wording before submission.",
+            "HECATE",
+            "Lee et al., CGO 2022",
+            "Performance-aware scale optimization for homomorphic encryption compilers.",
+            "Scale/rescale-level optimization and performance tuning.",
+            "FlipGuard's primary objective is not scale optimization itself, but decision-stability-constrained selection among executable CKKS configurations.",
+            "Orthogonal: HECATE-like scale choices can be treated as candidates subject to FlipGuard validation.",
         ],
         [
-            "DaCapo-style bootstrapping management",
-            "Bootstrapping placement and latency-aware management",
-            "FlipGuard does not optimize bootstrapping; limitation should be explicit.",
-            "Add exact citation and wording before submission.",
+            "DaCapo",
+            "Cheon et al., USENIX Security 2024",
+            "Automatic bootstrapping management compiler using live-out ciphertext analysis and latency estimation.",
+            "Bootstrapping placement, scale-management scenarios, and latency minimization.",
+            "FlipGuard does not optimize bootstrapping placement. It addresses threshold/sign decision stability for CKKS inference configurations.",
+            "Orthogonal: DaCapo optimizes bootstrapping plans; FlipGuard evaluates whether selected configurations preserve decisions.",
+        ],
+        [
+            "HECO",
+            "Viand et al., 2022",
+            "End-to-end FHE compiler design from high-level imperative programs to efficient FHE implementations.",
+            "Broader compiler architecture and high-level program transformation.",
+            "FlipGuard is narrower: it contributes a decision-stability-aware selector and evidence framework.",
+            "Complementary: HECO-style end-to-end compilation can benefit from decision-stability-aware validation when outputs drive threshold decisions.",
         ],
         [
             "Latency-only autotuning",
-            "Selects fast candidate configurations",
-            "FlipGuard shows latency-only choices can be rejected by decision-stability validation.",
-            "Define the concrete baseline used in this paper.",
+            "Generic tuner baseline",
+            "Selects the fastest measured candidate regardless of output decision stability.",
+            "Raw latency minimization.",
+            "FlipGuard shows latency-only candidates can be rejected due to flips or score-error violations.",
+            "Direct baseline: the paper should report fastest-without-guard as an unsafe latency upper bound.",
         ],
         [
-            "Noise/error-only validation",
-            "Checks numerical error without explicit decision invariance framing",
-            "FlipGuard links error budget to threshold margin and reports flips separately.",
-            "Clarify overlap and distinction.",
+            "Output-error-only validation",
+            "Numerical guard baseline",
+            "Checks score error without separately highlighting decision flips and margin coverage.",
+            "Numerical approximation fidelity.",
+            "FlipGuard ties output error to threshold margin and reports flips, violations, V_cert, and V_amb separately.",
+            "Ablation baseline: useful to show why decision-stability framing matters.",
         ],
     ]
 
     content = f"""# Related-work comparison matrix
 
-{md_table(["Related line", "Typical focus", "FlipGuard distinction", "Citation TODO"], rows)}
+## Comparison table
 
-## Positioning sentence
+{md_table(["System / line", "Representative reference", "Main idea", "Primary optimization target", "FlipGuard distinction", "Relationship"], rows)}
 
-FlipGuard should be positioned as a decision-stability-aware CKKS configuration selection framework, not as a replacement for full CKKS compilers. Its contribution is the explicit safety-constrained selection rule for threshold/sign-based encrypted inference and the evidence that latency-only selection can be unsafe.
+## Positioning summary
 
-## Writing warning
+FlipGuard should be positioned as a **decision-stability-aware CKKS configuration selection framework**, not as a replacement for full FHE compiler systems. Existing compiler work largely targets programming abstraction, circuit generation, scale/rescale management, bootstrapping placement, and latency. FlipGuard instead asks a narrower but important question:
 
-Do not overclaim superiority over full compiler systems. The paper should say that FlipGuard addresses an orthogonal selection criterion that can complement compiler-level optimization.
+> Among executable CKKS configurations, which is the fastest configuration that preserves the threshold/sign decision on the certified validation set?
+
+## Safe comparison wording
+
+Use this wording:
+
+> Prior FHE compiler systems such as CHET, EVA, HECATE, and DaCapo address program generation and performance optimization for encrypted computation. FlipGuard is complementary: it focuses on decision-stability-constrained configuration selection for threshold-based CKKS inference, where the fastest measured configuration may be rejected if it changes the final decision.
+
+Avoid this wording:
+
+> FlipGuard outperforms CHET/EVA/HECATE/DaCapo.
+
+That is not the claim and would invite unfair comparison.
 """
     write(OUTPUT_DIR / "related_work_comparison_matrix.md", content)
+
+
+def write_positioning_statement() -> None:
+    content = """# Positioning statement
+
+## One-sentence positioning
+
+FlipGuard is a decision-stability-aware CKKS configuration selection framework for threshold/sign-based encrypted inference.
+
+## What FlipGuard is
+
+- A CKKS profile/configuration selector.
+- A validation framework for decision stability.
+- A fastest-safe candidate selection method.
+- A planner-guided candidate validation reduction method.
+- An evidence package showing that latency-only selection can be unsafe.
+
+## What FlipGuard is not
+
+- Not a full CKKS compiler.
+- Not a replacement for CHET, EVA, HECATE, DaCapo, or HECO.
+- Not a packing/layout/rotation optimizer.
+- Not a bootstrapping placement optimizer.
+- Not a proof of decision stability over the full input space.
+- Not a large-DNN inference compiler.
+
+## Main paper thesis
+
+CKKS configuration tuning for threshold-based encrypted inference should not be formulated as latency minimization alone. Since small numerical errors can change a threshold/sign decision, configuration selection should be constrained by decision stability. FlipGuard selects the fastest candidate satisfying this safety condition over the certified validation set.
+
+## Recommended abstract sentence
+
+We propose FlipGuard, a decision-stability-aware CKKS configuration selection framework that chooses the fastest candidate preserving threshold/sign decisions on a certified validation set, thereby avoiding unsafe latency-only choices that introduce decision flips or score-error violations.
+
+## Recommended contribution bullets
+
+1. We formulate CKKS configuration selection for threshold/sign inference as a decision-stability-constrained optimization problem.
+2. We implement a Lattigo-based tuner and validation pipeline that reports fastest-safe and latency-only candidates.
+3. We show that latency-only selection is repeatedly rejected across core CKKS workloads and real-data tabular workloads.
+4. We introduce a planner-guided candidate validation path that reduces the number of executed candidates while preserving zero observed fastest-safe flips and violations.
+5. We provide explicit claim boundaries using V_cert/V_amb margin coverage rather than claiming full input-space safety.
+"""
+    write(OUTPUT_DIR / "positioning_statement.md", content)
+
+
+def write_novelty_claim_boundary() -> None:
+    rows = [
+        [
+            "Novelty claim",
+            "Decision-stability-constrained CKKS configuration selection.",
+            "Supported: this is the central framing and is backed by fastest-safe vs latency-only evidence.",
+        ],
+        [
+            "Not claimed",
+            "A new CKKS compiler IR or language.",
+            "Avoid: FlipGuard does not compete with EVA/CHET as a compiler frontend.",
+        ],
+        [
+            "Not claimed",
+            "Global optimality of planner-guided search.",
+            "Use: candidate-validation reduction under the evaluated ladder and resolver.",
+        ],
+        [
+            "Not claimed",
+            "Full input-space decision guarantee.",
+            "Use: validation-set-level certification over V_cert; report V_amb separately.",
+        ],
+        [
+            "Not claimed",
+            "Large neural-network inference support.",
+            "Use: CKKS-friendly MLP-square workload.",
+        ],
+        [
+            "Claimable",
+            "Latency-only can be unsafe.",
+            "Supported by repeated core, planner-guided, and real-data fastest-without-guard results.",
+        ],
+        [
+            "Claimable",
+            "Fastest-safe improves latency over conservative references while preserving decisions.",
+            "Supported by repeated core speedup range and zero fastest-safe flips/violations.",
+        ],
+    ]
+
+    content = f"""# Novelty and claim boundary
+
+## Claim boundary table
+
+{md_table(["Category", "Statement", "How to write it"], rows)}
+
+## Strong but safe novelty statement
+
+FlipGuard's novelty is not in replacing existing FHE compilers, but in making the final decision induced by CKKS inference a first-class constraint in configuration selection. This reframes profile tuning from a pure latency search into a fastest-safe selection problem.
+
+## Reviewer-safe limitation sentence
+
+The current implementation evaluates this idea on a Lattigo-based CKKS prototype and reports validation-set-level decision stability. Extending the framework to full compiler integration, bootstrapping placement, packing/layout optimization, and cross-library evaluation is future work.
+"""
+    write(OUTPUT_DIR / "novelty_claim_boundary.md", content)
+
 
 
 def write_limitations_and_threats() -> None:
