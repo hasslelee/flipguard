@@ -802,6 +802,16 @@ func buildTabularWorkloadScan(
 		)
 	}
 
+	if err := completeTabularCandidateDescriptors(
+		&workload,
+	); err != nil {
+		return TabularWorkloadScan{}, fmt.Errorf(
+			"complete workload %s candidate descriptors: %w",
+			workloadID,
+			err,
+		)
+	}
+
 	summary, err := CertifyAndSelectWithPolicy(
 		workload.Evidences,
 		referenceCoverage,
@@ -820,6 +830,118 @@ func buildTabularWorkloadScan(
 	workload.Summary = summary
 
 	return workload, nil
+}
+
+// completeTabularCandidateDescriptors copies profile-level CKKS parameters
+// from a successfully reconstructed sibling path to an all-failed path.
+//
+// Profile parameters are path-independent. Runtime evidence, status, latency,
+// and validation results are never copied.
+func completeTabularCandidateDescriptors(
+	workload *TabularWorkloadScan,
+) error {
+	if workload == nil {
+		return fmt.Errorf(
+			"tabular workload scan is nil",
+		)
+	}
+	if len(workload.Candidates) !=
+		len(workload.Evidences) {
+		return fmt.Errorf(
+			"candidate/evidence length mismatch: candidates=%d evidences=%d",
+			len(workload.Candidates),
+			len(workload.Evidences),
+		)
+	}
+
+	parametersByFamily := make(
+		map[string]CandidateDescriptor,
+	)
+
+	for _, scanned := range workload.Candidates {
+		if scanned.Aggregation == nil {
+			continue
+		}
+
+		candidate := scanned.Candidate
+
+		if !hasTabularCandidateParameters(candidate) {
+			return fmt.Errorf(
+				"successful candidate %s has incomplete CKKS parameters",
+				candidate.ID,
+			)
+		}
+
+		existing, exists :=
+			parametersByFamily[candidate.Family]
+		if exists &&
+			!sameTabularCandidateParameters(
+				existing,
+				candidate,
+			) {
+			return fmt.Errorf(
+				"profile family %s has inconsistent CKKS parameters between candidates %s and %s",
+				candidate.Family,
+				existing.ID,
+				candidate.ID,
+			)
+		}
+
+		parametersByFamily[candidate.Family] =
+			candidate
+	}
+
+	for index := range workload.Candidates {
+		scanned := &workload.Candidates[index]
+
+		if scanned.Aggregation != nil {
+			continue
+		}
+
+		source, exists :=
+			parametersByFamily[scanned.Candidate.Family]
+		if !exists {
+			// The execution status remains valid even when no
+			// successful sibling exists from which parameters can
+			// be reconstructed. Exporters represent unknown
+			// parameters as blank values.
+			continue
+		}
+
+		candidate := scanned.Candidate
+		candidate.LogN = source.LogN
+		candidate.Slots = source.Slots
+		candidate.ChainLength =
+			source.ChainLength
+		candidate.ScaleBits =
+			source.ScaleBits
+
+		scanned.Candidate = candidate
+		workload.Evidences[index].Candidate =
+			candidate
+	}
+
+	return nil
+}
+
+func hasTabularCandidateParameters(
+	candidate CandidateDescriptor,
+) bool {
+	return candidate.LogN > 0 &&
+		candidate.Slots > 0 &&
+		candidate.ChainLength > 0 &&
+		candidate.ScaleBits > 0
+}
+
+func sameTabularCandidateParameters(
+	left CandidateDescriptor,
+	right CandidateDescriptor,
+) bool {
+	return left.LogN == right.LogN &&
+		left.Slots == right.Slots &&
+		left.ChainLength ==
+			right.ChainLength &&
+		left.ScaleBits == right.ScaleBits
 }
 
 func compareTabularClaimScopes(

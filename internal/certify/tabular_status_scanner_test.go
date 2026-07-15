@@ -470,6 +470,101 @@ func TestScanTabularRunStatusRejectsMissingRepeat(
 	}
 }
 
+func TestCompleteTabularCandidateDescriptorsFromSibling(
+	t *testing.T,
+) {
+	successful := CandidateDescriptor{
+		ID:          "short_chain_3__baseline_non_rescale",
+		Family:      "short_chain_3",
+		Path:        "baseline_non_rescale",
+		LogN:        14,
+		Slots:       8192,
+		ChainLength: 3,
+		ScaleBits:   35,
+	}
+
+	failed := CandidateDescriptor{
+		ID:     "short_chain_3__rescale_aware",
+		Family: "short_chain_3",
+		Path:   "rescale_aware",
+	}
+
+	workload := TabularWorkloadScan{
+		Candidates: []TabularScannedCandidate{
+			{
+				Candidate:   successful,
+				Aggregation: &TabularArtifactAggregation{},
+			},
+			{
+				Candidate:  failed,
+				FailedRuns: 3,
+			},
+		},
+		Evidences: []CandidateEvidence{
+			{
+				Candidate:   successful,
+				SuccessRuns: 3,
+			},
+			{
+				Candidate:  failed,
+				FailedRuns: 3,
+			},
+		},
+	}
+
+	if err := completeTabularCandidateDescriptors(
+		&workload,
+	); err != nil {
+		t.Fatalf(
+			"completeTabularCandidateDescriptors failed: %v",
+			err,
+		)
+	}
+
+	completed := workload.Candidates[1].Candidate
+
+	if completed.ID != failed.ID {
+		t.Fatalf(
+			"candidate ID changed: got %s, expected %s",
+			completed.ID,
+			failed.ID,
+		)
+	}
+	if completed.Path != failed.Path {
+		t.Fatalf(
+			"candidate path changed: got %s, expected %s",
+			completed.Path,
+			failed.Path,
+		)
+	}
+	if completed.LogN != 14 ||
+		completed.Slots != 8192 ||
+		completed.ChainLength != 3 ||
+		completed.ScaleBits != 35 {
+		t.Fatalf(
+			"failed candidate parameters were not reconstructed: %+v",
+			completed,
+		)
+	}
+
+	evidenceCandidate :=
+		workload.Evidences[1].Candidate
+
+	if evidenceCandidate != completed {
+		t.Fatalf(
+			"evidence candidate was not synchronized: got %+v, expected %+v",
+			evidenceCandidate,
+			completed,
+		)
+	}
+	if workload.Evidences[1].FailedRuns != 3 {
+		t.Fatalf(
+			"failed-run evidence changed: got %d",
+			workload.Evidences[1].FailedRuns,
+		)
+	}
+}
+
 func writeTabularScannerModelArtifact(
 	t *testing.T,
 	modelRoot string,
