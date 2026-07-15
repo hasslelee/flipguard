@@ -283,6 +283,52 @@ func TestAggregateObservedCandidateTreatsFloorEqualityAsAmbiguous(
 	}
 }
 
+func TestAggregateObservedCandidateRejectsBudgetEquality(
+	t *testing.T,
+) {
+	input := ObservedCandidateInput{
+		Candidate: CandidateDescriptor{
+			ID: "equal_observed_budget",
+		},
+		Samples: []ObservedSample{
+			{
+				ID:           "sample",
+				PlainScore:   0.75,
+				Threshold:    0.5,
+				ApproxScores: []float64{0.625},
+			},
+		},
+		MeanTotalMS: 5,
+	}
+
+	// Margin is 0.25. With safety factor 0.5, both the
+	// observed error and the protected budget equal 0.125.
+	aggregation, err := AggregateObservedCandidate(
+		input,
+		0.01,
+		0.5,
+	)
+	if err != nil {
+		t.Fatalf(
+			"AggregateObservedCandidate failed: %v",
+			err,
+		)
+	}
+
+	if aggregation.Evidence.DecisionFlips != 0 {
+		t.Fatalf(
+			"expected zero decision flips, got %d",
+			aggregation.Evidence.DecisionFlips,
+		)
+	}
+	if aggregation.Evidence.ErrorViolations != 1 {
+		t.Fatalf(
+			"expected equality to count as one violation, got %d",
+			aggregation.Evidence.ErrorViolations,
+		)
+	}
+}
+
 func TestAggregateObservedCandidateRejectsInconsistentRunCounts(
 	t *testing.T,
 ) {

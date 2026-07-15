@@ -326,6 +326,63 @@ func TestStrictHybridAcceptsExplicitZeroBound(
 	}
 }
 
+func TestStrictHybridRejectsBoundEquality(
+	t *testing.T,
+) {
+	coverage := mustCoverage(
+		t,
+		[]float64{0.25, 0.75},
+		0.5,
+		0.01,
+	)
+
+	// The minimum certified margin is 0.25. With a safety factor
+	// of 0.5, the protected analytical budget is exactly 0.125.
+	evidences := []CandidateEvidence{
+		{
+			Candidate: CandidateDescriptor{
+				ID: "equal_bound",
+			},
+			SuccessRuns:             3,
+			ObservedValidation:      true,
+			AnalyticalBoundProvided: true,
+			MaxErrorBound:           0.125,
+			MeanTotalMS:             10,
+		},
+	}
+
+	summary, err := CertifyAndSelectWithPolicy(
+		evidences,
+		coverage,
+		StrictHybridCertificationPolicy(),
+	)
+	if err != nil {
+		t.Fatalf(
+			"CertifyAndSelectWithPolicy failed: %v",
+			err,
+		)
+	}
+
+	if summary.Outcome != OutcomeNoSafe {
+		t.Fatalf(
+			"expected NO_SAFE, got %s",
+			summary.Outcome,
+		)
+	}
+	if summary.RejectedCount != 1 {
+		t.Fatalf(
+			"expected rejected count 1, got %d",
+			summary.RejectedCount,
+		)
+	}
+	if summary.Certificates[0].
+		AnalyticalBoundSatisfied {
+		t.Fatal(
+			"expected equality with analytical budget to be rejected",
+		)
+	}
+}
+
 func TestStrictHybridReturnsNoSafeWithoutBound(
 	t *testing.T,
 ) {

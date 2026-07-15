@@ -57,7 +57,10 @@ type ObservedAggregation struct {
 //
 // A certified observation violates the protected observed-error budget when:
 //
-//	|approxScore - plainScore| > safetyFactor * |plainScore - threshold|
+//	|approxScore - plainScore| >= safetyFactor * |plainScore - threshold|
+//
+// Equality is conservatively treated as unsafe so accepted observations
+// satisfy a strict decision-margin condition.
 //
 // Observations belonging to V_amb are excluded from DecisionFlips,
 // ErrorViolations, and Evidence.MaxObservedError.
@@ -266,7 +269,7 @@ func AggregateObservedCandidate(
 			}
 
 			observedBudget := safetyFactor * margin
-			if observedError > observedBudget {
+			if observedError >= observedBudget {
 				evidence.ErrorViolations++
 			}
 		}

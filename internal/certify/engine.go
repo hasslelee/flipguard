@@ -106,7 +106,7 @@ func BuildCandidateCertificateWithPolicy(
 	boundSatisfied :=
 		boundProvided &&
 			coverage.VCert > 0 &&
-			evidence.MaxErrorBound <= analyticalBudget
+			evidence.MaxErrorBound < analyticalBudget
 
 	observedSatisfied :=
 		evidence.ObservedValidation &&
@@ -208,7 +208,7 @@ func BuildCandidateCertificateWithPolicy(
 		certificate.Status = StatusRejected
 		certificate.Assurance = AssuranceNone
 		certificate.Reason = fmt.Sprintf(
-			"analytical bound %.12g exceeds protected budget %.12g",
+			"analytical bound %.12g does not satisfy strict protected budget %.12g",
 			evidence.MaxErrorBound,
 			analyticalBudget,
 		)
