@@ -176,6 +176,15 @@ func (c Context) RunCKKSTabularInference(
 		return nil, CKKSTabularInferenceSummary{}, err
 	}
 
+	decisionThreshold :=
+		model.PolynomialScore.DecisionThreshold
+
+	if err := validateTabularDecisionThreshold(
+		decisionThreshold,
+	); err != nil {
+		return nil, CKKSTabularInferenceSummary{}, err
+	}
+
 	if model.InputDim <= 0 {
 		return nil, CKKSTabularInferenceSummary{}, fmt.Errorf("invalid input_dim %d", model.InputDim)
 	}
@@ -187,6 +196,13 @@ func (c Context) RunCKKSTabularInference(
 
 	if config.MaxRows > 0 && config.MaxRows < len(rows) {
 		rows = rows[:config.MaxRows]
+	}
+
+	if err := validateTabularPlainDecisions(
+		rows,
+		decisionThreshold,
+	); err != nil {
+		return nil, CKKSTabularInferenceSummary{}, err
 	}
 
 	if len(rows) == 0 {
@@ -272,7 +288,8 @@ func (c Context) runTabularTimedInference(
 	decryptDecodeMS := durationMS(time.Since(decryptStart))
 	totalEvalMS := durationMS(time.Since(totalStart))
 
-	ckksDecision := yDecoded >= 0.5
+	ckksDecision :=
+		yDecoded >= model.PolynomialScore.DecisionThreshold
 	plainCorrect := row.PlainDecision == labelToDecision(row.Label)
 	ckksCorrect := ckksDecision == labelToDecision(row.Label)
 
