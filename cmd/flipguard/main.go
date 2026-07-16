@@ -113,6 +113,11 @@ func main() {
 			Description: "CKKS encrypted inference over generic exported tabular workloads",
 			Run:         experiment.RunCKKSTabularInference,
 		},
+		"ckks_tabular_certification": {
+			Name:        "ckks_tabular_certification",
+			Description: "Reconstruct repeated tabular runs and select the fastest observed-validation SAFE configuration",
+			Run:         experiment.RunCKKSTabularCertification,
+		},
 		"ckks_policy_comparison": {
 			Name:        "ckks_policy_comparison",
 			Description: "Combined CKKS observed certificate and simulation policy comparison",
