@@ -37,6 +37,7 @@ type TabularArtifactCandidateInput struct {
 
 	AnalyticalBoundProvided bool
 	MaxErrorBound           float64
+	AnalyticalProof         *AnalyticalBoundProof
 }
 
 // TabularArtifactAggregation is the importer output consumed by the generic
@@ -330,6 +331,9 @@ func LoadAndAggregateTabularCandidate(
 
 			AnalyticalBoundProvided: input.AnalyticalBoundProvided,
 			MaxErrorBound:           input.MaxErrorBound,
+			AnalyticalProof: cloneAnalyticalBoundProof(
+				input.AnalyticalProof,
+			),
 		},
 		marginFloor,
 		safetyFactor,

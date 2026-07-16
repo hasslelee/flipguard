@@ -32,6 +32,7 @@ type ObservedCandidateInput struct {
 
 	AnalyticalBoundProvided bool
 	MaxErrorBound           float64
+	AnalyticalProof         *AnalyticalBoundProof
 }
 
 // ObservedAggregation contains the evidence consumed by the certification
@@ -104,12 +105,42 @@ func AggregateObservedCandidate(
 			input.Candidate.ID,
 		)
 	}
-	if !input.AnalyticalBoundProvided &&
-		input.MaxErrorBound != 0 {
+
+	proofProvided := input.AnalyticalProof != nil
+
+	if input.AnalyticalBoundProvided != proofProvided {
 		return ObservedAggregation{}, fmt.Errorf(
-			"candidate %s supplies a nonzero analytical bound without marking it as provided",
+			"candidate %s analytical bound presence does not match proof metadata",
 			input.Candidate.ID,
 		)
+	}
+
+	if !proofProvided &&
+		input.MaxErrorBound != 0 {
+		return ObservedAggregation{}, fmt.Errorf(
+			"candidate %s supplies a nonzero analytical bound without proof metadata",
+			input.Candidate.ID,
+		)
+	}
+
+	if proofProvided {
+		if err := input.AnalyticalProof.Validate(); err != nil {
+			return ObservedAggregation{}, fmt.Errorf(
+				"candidate %s has invalid analytical proof: %w",
+				input.Candidate.ID,
+				err,
+			)
+		}
+
+		if input.MaxErrorBound !=
+			input.AnalyticalProof.MaxErrorBound {
+			return ObservedAggregation{}, fmt.Errorf(
+				"candidate %s analytical bound scalar %.12g does not match proof bound %.12g",
+				input.Candidate.ID,
+				input.MaxErrorBound,
+				input.AnalyticalProof.MaxErrorBound,
+			)
+		}
 	}
 
 	policy := CertificationPolicy{
@@ -228,8 +259,11 @@ func AggregateObservedCandidate(
 
 		ObservedValidation: successRuns > 0,
 
-		AnalyticalBoundProvided: input.AnalyticalBoundProvided,
+		AnalyticalBoundProvided: proofProvided,
 		MaxErrorBound:           input.MaxErrorBound,
+		AnalyticalProof: cloneAnalyticalBoundProof(
+			input.AnalyticalProof,
+		),
 
 		MeanTotalMS: input.MeanTotalMS,
 	}

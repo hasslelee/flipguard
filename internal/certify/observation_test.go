@@ -408,3 +408,141 @@ func TestAggregateObservedCandidateRejectsMixedThresholds(
 		)
 	}
 }
+
+func TestAggregateObservedCandidatePreservesAnalyticalProof(
+	t *testing.T,
+) {
+	proof := &AnalyticalBoundProof{
+		Method:  "unit-test-envelope",
+		Version: "v1",
+
+		Guarantee: AnalyticalGuaranteeDeterministic,
+
+		ScopeDigest:      analyticalProofTestDigest,
+		DerivationDigest: analyticalProofTestDigest,
+
+		MaxErrorBound: 0.01,
+	}
+
+	input := ObservedCandidateInput{
+		Candidate: CandidateDescriptor{
+			ID: "proof_backed_candidate",
+		},
+
+		Samples: []ObservedSample{
+			{
+				ID:           "sample-1",
+				PlainScore:   0.30,
+				Threshold:    0.50,
+				ApproxScores: []float64{0.301},
+			},
+			{
+				ID:           "sample-2",
+				PlainScore:   0.70,
+				Threshold:    0.50,
+				ApproxScores: []float64{0.699},
+			},
+		},
+
+		MeanTotalMS: 10,
+
+		AnalyticalBoundProvided: true,
+		MaxErrorBound:           0.01,
+		AnalyticalProof:         proof,
+	}
+
+	aggregation, err := AggregateObservedCandidate(
+		input,
+		0.001,
+		0.5,
+	)
+	if err != nil {
+		t.Fatalf(
+			"AggregateObservedCandidate failed: %v",
+			err,
+		)
+	}
+
+	evidence := aggregation.Evidence
+
+	if !evidence.AnalyticalBoundProvided {
+		t.Fatal(
+			"expected analytical bound presence",
+		)
+	}
+	if evidence.AnalyticalProof == nil {
+		t.Fatal(
+			"expected analytical proof metadata",
+		)
+	}
+	if evidence.AnalyticalProof == proof {
+		t.Fatal(
+			"expected analytical proof to be cloned",
+		)
+	}
+	if evidence.MaxErrorBound !=
+		proof.MaxErrorBound {
+		t.Fatalf(
+			"bound mismatch: got %.12g, expected %.12g",
+			evidence.MaxErrorBound,
+			proof.MaxErrorBound,
+		)
+	}
+	if evidence.AnalyticalProof.ScopeDigest !=
+		proof.ScopeDigest {
+		t.Fatal(
+			"analytical scope digest was not preserved",
+		)
+	}
+	if evidence.AnalyticalProof.
+		DerivationDigest !=
+		proof.DerivationDigest {
+		t.Fatal(
+			"analytical derivation digest was not preserved",
+		)
+	}
+}
+
+func TestAggregateObservedCandidateRejectsScalarWithoutProofMetadata(
+	t *testing.T,
+) {
+	input := ObservedCandidateInput{
+		Candidate: CandidateDescriptor{
+			ID: "scalar_only_candidate",
+		},
+
+		Samples: []ObservedSample{
+			{
+				ID:           "sample-1",
+				PlainScore:   0.30,
+				Threshold:    0.50,
+				ApproxScores: []float64{0.301},
+			},
+		},
+
+		MeanTotalMS: 10,
+
+		AnalyticalBoundProvided: true,
+		MaxErrorBound:           0.01,
+	}
+
+	_, err := AggregateObservedCandidate(
+		input,
+		0.001,
+		0.5,
+	)
+	if err == nil {
+		t.Fatal(
+			"expected scalar-only analytical bound to fail",
+		)
+	}
+	if !strings.Contains(
+		err.Error(),
+		"does not match proof metadata",
+	) {
+		t.Fatalf(
+			"unexpected scalar-only error: %v",
+			err,
+		)
+	}
+}
