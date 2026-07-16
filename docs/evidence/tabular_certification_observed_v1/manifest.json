@@ -1,0 +1,339 @@
+{
+  "claim_boundary": "SAFE means zero execution failure, zero decision flip, and zero protected error-budget violation on the recorded V_cert subset under the observed-validation policy. V_amb samples and inputs outside the recorded validation split are not covered. This snapshot does not provide a universal or analytical soundness guarantee.",
+  "environment": {
+    "go_version": "go version go1.25.9 linux/amd64",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "python_version": "3.12.3"
+  },
+  "evidence_id": "tabular_certification_observed_v1",
+  "evidence_type": "observed_validation_snapshot",
+  "execution": {
+    "analytical_bound_required": false,
+    "assurance_policy": "OBSERVED_VALIDATION",
+    "command": "./scripts/run_ckks_tabular_certification.sh",
+    "expected_repeats": 3,
+    "experiment": "ckks_tabular_certification",
+    "margin_floor": 0.001,
+    "safety_factor": 0.5
+  },
+  "matrix": {
+    "datasets": [
+      "banknote",
+      "digits_binary",
+      "iris_binary",
+      "mnist_pool16",
+      "wdbc"
+    ],
+    "expected_candidates_per_workload": 22,
+    "expected_latest_run_tags": 660,
+    "expected_workloads": 10,
+    "models": [
+      "linear_poly3",
+      "mlp_square_linear_score"
+    ],
+    "paths": [
+      "baseline_non_rescale",
+      "rescale_aware"
+    ],
+    "profiles": [
+      "default",
+      "scale42",
+      "scale40",
+      "scale38",
+      "deep_chain_8_scale45",
+      "deep_chain_9_scale45",
+      "short_chain_6_scale42",
+      "short_chain_6_scale40",
+      "short_chain_6_scale38",
+      "short_chain_5",
+      "short_chain_3"
+    ]
+  },
+  "outputs": [
+    {
+      "line_count": 221,
+      "name": "certificates.csv",
+      "sha256": "95ad18fc30d5d418862a76eceace7069e87f204ab6e7849472b6dd3e12256935",
+      "size_bytes": 154044,
+      "snapshot_path": "docs/evidence/tabular_certification_observed_v1/outputs/certificates.csv",
+      "source_path": "results/certification/tabular/current/certificates.csv"
+    },
+    {
+      "line_count": 11,
+      "name": "workload_summary.csv",
+      "sha256": "9eab61e63519df238598ae6bd6f849c3332d2cbbfa117945ea8cf75b2a9ba000",
+      "size_bytes": 6241,
+      "snapshot_path": "docs/evidence/tabular_certification_observed_v1/outputs/workload_summary.csv",
+      "source_path": "results/certification/tabular/current/workload_summary.csv"
+    },
+    {
+      "line_count": 11,
+      "name": "selected_configurations.csv",
+      "sha256": "e763bacdc45c4e9e192f74bfd8671494f37a70e3339f3f7ae198d53f73ae17fc",
+      "size_bytes": 2664,
+      "snapshot_path": "docs/evidence/tabular_certification_observed_v1/outputs/selected_configurations.csv",
+      "source_path": "results/certification/tabular/current/selected_configurations.csv"
+    },
+    {
+      "line_count": 11,
+      "name": "validation_coverage.csv",
+      "sha256": "bdf0275ccce03e98d81a3c2d0006e0194ffe3fcf421615f2cfd916b66faddfc3",
+      "size_bytes": 2558,
+      "snapshot_path": "docs/evidence/tabular_certification_observed_v1/outputs/validation_coverage.csv",
+      "source_path": "results/certification/tabular/current/validation_coverage.csv"
+    },
+    {
+      "line_count": 36,
+      "name": "report.md",
+      "sha256": "8d42f00e6fb4147610f24d972e369dd1195d7813573705c10120d0433727a9e8",
+      "size_bytes": 2693,
+      "snapshot_path": "docs/evidence/tabular_certification_observed_v1/outputs/report.md",
+      "source_path": "results/certification/tabular/current/report.md"
+    }
+  ],
+  "schema_version": 1,
+  "scoped_inputs": [
+    {
+      "dataset_id": "banknote",
+      "kind": "model.json",
+      "line_count": 74,
+      "model_id": "linear_poly3",
+      "path": "datasets/tabular_suite/banknote/linear_poly3/model.json",
+      "sha256": "d14e8e810a9b5b2b945f57cf8f53e4e12ee3b87a118262ba9cb796410c0083a4",
+      "size_bytes": 1639,
+      "tracked": true
+    },
+    {
+      "dataset_id": "banknote",
+      "kind": "test.csv",
+      "line_count": 413,
+      "model_id": "linear_poly3",
+      "path": "datasets/tabular_suite/banknote/linear_poly3/test.csv",
+      "sha256": "e06b34c0fd134f05502a452d40821f25ef0223b26619929d2a8cb59f10959607",
+      "size_bytes": 49652,
+      "tracked": true
+    },
+    {
+      "dataset_id": "banknote",
+      "kind": "model.json",
+      "line_count": 138,
+      "model_id": "mlp_square_linear_score",
+      "path": "datasets/tabular_suite/banknote/mlp_square_linear_score/model.json",
+      "sha256": "4f8ce6d8ca23d87fc4d3623b97f235f3836ca4c0964286f4a1c634427e1d8e31",
+      "size_bytes": 3029,
+      "tracked": true
+    },
+    {
+      "dataset_id": "banknote",
+      "kind": "test.csv",
+      "line_count": 413,
+      "model_id": "mlp_square_linear_score",
+      "path": "datasets/tabular_suite/banknote/mlp_square_linear_score/test.csv",
+      "sha256": "a8cf0f4d6d3e88346280087435a44216b2889cf7dfabb3d741e704ae4bb6186f",
+      "size_bytes": 50063,
+      "tracked": true
+    },
+    {
+      "dataset_id": "digits_binary",
+      "kind": "model.json",
+      "line_count": 98,
+      "model_id": "linear_poly3",
+      "path": "datasets/tabular_suite/digits_binary/linear_poly3/model.json",
+      "sha256": "4732af06a200e574b79412c23f8a91a98989217b2dc0ffb6e5f48ddd4e9caa36",
+      "size_bytes": 2164,
+      "tracked": true
+    },
+    {
+      "dataset_id": "digits_binary",
+      "kind": "test.csv",
+      "line_count": 541,
+      "model_id": "linear_poly3",
+      "path": "datasets/tabular_suite/digits_binary/linear_poly3/test.csv",
+      "sha256": "0540449c25c82f75b6db60189e0b901ff63983c2002b6d945fca7b4b8aaa7b83",
+      "size_bytes": 99004,
+      "tracked": true
+    },
+    {
+      "dataset_id": "digits_binary",
+      "kind": "model.json",
+      "line_count": 186,
+      "model_id": "mlp_square_linear_score",
+      "path": "datasets/tabular_suite/digits_binary/mlp_square_linear_score/model.json",
+      "sha256": "025eb7dea28322d4b60adcfff3b1ff48c3fb44aa57280d39eea813405a6561d5",
+      "size_bytes": 4304,
+      "tracked": true
+    },
+    {
+      "dataset_id": "digits_binary",
+      "kind": "test.csv",
+      "line_count": 541,
+      "model_id": "mlp_square_linear_score",
+      "path": "datasets/tabular_suite/digits_binary/mlp_square_linear_score/test.csv",
+      "sha256": "330ac3308c451324d3f8ceef7be3b5d86c5d3bcfb7142418912908e1530e6838",
+      "size_bytes": 99011,
+      "tracked": true
+    },
+    {
+      "dataset_id": "iris_binary",
+      "kind": "model.json",
+      "line_count": 74,
+      "model_id": "linear_poly3",
+      "path": "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+      "sha256": "9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1",
+      "size_bytes": 1610,
+      "tracked": true
+    },
+    {
+      "dataset_id": "iris_binary",
+      "kind": "test.csv",
+      "line_count": 31,
+      "model_id": "linear_poly3",
+      "path": "datasets/tabular_suite/iris_binary/linear_poly3/test.csv",
+      "sha256": "638d5eee22bd86a43fbb5295bfba0c05c2c45a0046be68959d5fe9556d9929dc",
+      "size_bytes": 3663,
+      "tracked": true
+    },
+    {
+      "dataset_id": "iris_binary",
+      "kind": "model.json",
+      "line_count": 138,
+      "model_id": "mlp_square_linear_score",
+      "path": "datasets/tabular_suite/iris_binary/mlp_square_linear_score/model.json",
+      "sha256": "177371ecf4239a1072c5b451b94e492d80cc143b260f1ee0383783bb838eadeb",
+      "size_bytes": 3015,
+      "tracked": true
+    },
+    {
+      "dataset_id": "iris_binary",
+      "kind": "test.csv",
+      "line_count": 31,
+      "model_id": "mlp_square_linear_score",
+      "path": "datasets/tabular_suite/iris_binary/mlp_square_linear_score/test.csv",
+      "sha256": "f76added426d5379cdf25a87c9adc074f2d263772d65cab50bacea3f283d2397",
+      "size_bytes": 3686,
+      "tracked": true
+    },
+    {
+      "dataset_id": "mnist_pool16",
+      "kind": "model.json",
+      "line_count": 146,
+      "model_id": "linear_poly3",
+      "path": "datasets/tabular_suite/mnist_pool16/linear_poly3/model.json",
+      "sha256": "afd5351d9b781a1fad2db90dc7bca0052521a41efd7694c0ade20974824dcb4e",
+      "size_bytes": 3261,
+      "tracked": true
+    },
+    {
+      "dataset_id": "mnist_pool16",
+      "kind": "test.csv",
+      "line_count": 501,
+      "model_id": "linear_poly3",
+      "path": "datasets/tabular_suite/mnist_pool16/linear_poly3/test.csv",
+      "sha256": "9e06072f224eff1eefcd9f9c3e7b2e6e38500019891747392cfe13fd3fda33f3",
+      "size_bytes": 154838,
+      "tracked": true
+    },
+    {
+      "dataset_id": "mnist_pool16",
+      "kind": "model.json",
+      "line_count": 282,
+      "model_id": "mlp_square_linear_score",
+      "path": "datasets/tabular_suite/mnist_pool16/mlp_square_linear_score/model.json",
+      "sha256": "edb34de653b4d4b756b3e497b1edc448b941926d02b32f3d93817db66bde9b78",
+      "size_bytes": 6839,
+      "tracked": true
+    },
+    {
+      "dataset_id": "mnist_pool16",
+      "kind": "test.csv",
+      "line_count": 501,
+      "model_id": "mlp_square_linear_score",
+      "path": "datasets/tabular_suite/mnist_pool16/mlp_square_linear_score/test.csv",
+      "sha256": "090583b7d0e744ec5e65164b51eb8a95888e9db7b507db4eec766d85b2dcc4ba",
+      "size_bytes": 154838,
+      "tracked": true
+    },
+    {
+      "dataset_id": "wdbc",
+      "kind": "model.json",
+      "line_count": 98,
+      "model_id": "linear_poly3",
+      "path": "datasets/tabular_suite/wdbc/linear_poly3/model.json",
+      "sha256": "50d82e12fc96b3084084fba4f370487f7a20d16371905c21d7cb024f9e07f759",
+      "size_bytes": 2187,
+      "tracked": true
+    },
+    {
+      "dataset_id": "wdbc",
+      "kind": "test.csv",
+      "line_count": 172,
+      "model_id": "linear_poly3",
+      "path": "datasets/tabular_suite/wdbc/linear_poly3/test.csv",
+      "sha256": "e75b76573bfdd99ed9ca444874bf31d485e122e69806c3bf7a0b19d7edd963bb",
+      "size_bytes": 31319,
+      "tracked": true
+    },
+    {
+      "dataset_id": "wdbc",
+      "kind": "model.json",
+      "line_count": 186,
+      "model_id": "mlp_square_linear_score",
+      "path": "datasets/tabular_suite/wdbc/mlp_square_linear_score/model.json",
+      "sha256": "1893e664ba828fbeadfbd122a679d67b16824b736017e531d84aa3401d3752b4",
+      "size_bytes": 4295,
+      "tracked": true
+    },
+    {
+      "dataset_id": "wdbc",
+      "kind": "test.csv",
+      "line_count": 172,
+      "model_id": "mlp_square_linear_score",
+      "path": "datasets/tabular_suite/wdbc/mlp_square_linear_score/test.csv",
+      "sha256": "e42dbe06190461648c89600df2d9624b571ed32b70afd2e747661b3119367c47",
+      "size_bytes": 31398,
+      "tracked": true
+    }
+  ],
+  "source_code": {
+    "branch_at_freeze": "feature/flipguard-auto-tuner",
+    "commit_time": "2026-07-16T14:46:13+09:00",
+    "git_commit": "f113cddc16a02cb62bbcd29abcd1a04cfa2b15d6",
+    "subject": "Add complete tabular certification experiment"
+  },
+  "source_status": {
+    "duplicate_tags": 24,
+    "latest_rows": 660,
+    "line_count": 685,
+    "original_path": "results/ckks_tabular_profile_sweep_repeated/run_status.csv",
+    "raw_rows": 684,
+    "sha256": "720321c15ef793e5fa74072ec71899077d75de080b4038936db779995237a42a",
+    "size_bytes": 291663,
+    "snapshot_path": "docs/evidence/tabular_certification_observed_v1/source_run_status.csv"
+  },
+  "structural_summary": {
+    "certificate_assurances": {
+      "NONE": 70,
+      "OBSERVED_VALIDATION": 150
+    },
+    "certificate_rows": 220,
+    "certificate_statuses": {
+      "FAILED": 10,
+      "REJECTED": 60,
+      "SAFE": 150
+    },
+    "coverage_rows": 10,
+    "latency_only_non_safe_workloads": 10,
+    "selected_v_cert_flips": 0,
+    "selected_v_cert_violations": 0,
+    "selected_workloads": 10,
+    "selection_rows": 10,
+    "total_samples": 2706,
+    "total_v_amb": 61,
+    "total_v_cert": 2645,
+    "workload_outcomes": {
+      "SELECTED": 10
+    },
+    "workload_rows": 10
+  },
+  "structural_summary_sha256": "49e7436454e96a2230f7889c4ba1586aa9784e146f236ce6906fa8b33a1583b6"
+}
