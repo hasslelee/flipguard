@@ -207,6 +207,7 @@ func TestStrictHybridSelectsBoundedCandidate(
 			ObservedValidation:      true,
 			AnalyticalBoundProvided: true,
 			MaxErrorBound:           0.06,
+			AnalyticalProof:         testDeterministicAnalyticalProof(0.06),
 			MeanTotalMS:             60,
 		},
 		{
@@ -217,6 +218,7 @@ func TestStrictHybridSelectsBoundedCandidate(
 			ObservedValidation:      true,
 			AnalyticalBoundProvided: true,
 			MaxErrorBound:           0.04,
+			AnalyticalProof:         testDeterministicAnalyticalProof(0.04),
 			MeanTotalMS:             80,
 		},
 	}
@@ -287,6 +289,7 @@ func TestStrictHybridAcceptsExplicitZeroBound(
 			ObservedValidation:      true,
 			AnalyticalBoundProvided: true,
 			MaxErrorBound:           0,
+			AnalyticalProof:         testDeterministicAnalyticalProof(0),
 			MeanTotalMS:             10,
 		},
 	}
@@ -347,6 +350,7 @@ func TestStrictHybridRejectsBoundEquality(
 			ObservedValidation:      true,
 			AnalyticalBoundProvided: true,
 			MaxErrorBound:           0.125,
+			AnalyticalProof:         testDeterministicAnalyticalProof(0.125),
 			MeanTotalMS:             10,
 		},
 	}
@@ -559,6 +563,71 @@ func TestCertifyAndSelectMarksAllAmbiguous(
 			"expected AMBIGUOUS, got %s",
 			summary.Certificates[0].Status,
 		)
+	}
+}
+
+func TestStrictHybridRejectsScalarWithoutProofMetadata(
+	t *testing.T,
+) {
+	coverage := mustCoverage(
+		t,
+		[]float64{0.30, 0.70},
+		0.5,
+		0.01,
+	)
+
+	evidence := CandidateEvidence{
+		Candidate: CandidateDescriptor{
+			ID: "scalar_only_bound",
+		},
+
+		SuccessRuns:        3,
+		ObservedValidation: true,
+
+		AnalyticalBoundProvided: true,
+		MaxErrorBound:           0.04,
+
+		MeanTotalMS: 10,
+	}
+
+	_, err := CertifyAndSelectWithPolicy(
+		[]CandidateEvidence{evidence},
+		coverage,
+		StrictHybridCertificationPolicy(),
+	)
+	if err == nil {
+		t.Fatal(
+			"expected scalar-only analytical bound to be rejected",
+		)
+	}
+	if !strings.Contains(
+		err.Error(),
+		"does not match proof metadata",
+	) {
+		t.Fatalf(
+			"unexpected scalar-only analytical bound error: %v",
+			err,
+		)
+	}
+}
+
+func testDeterministicAnalyticalProof(
+	maxErrorBound float64,
+) *AnalyticalBoundProof {
+	const digest = "sha256:" +
+		"00000000000000000000000000000000" +
+		"00000000000000000000000000000000"
+
+	return &AnalyticalBoundProof{
+		Method:  "unit-test-envelope",
+		Version: "v1",
+
+		Guarantee: AnalyticalGuaranteeDeterministic,
+
+		ScopeDigest:      digest,
+		DerivationDigest: digest,
+
+		MaxErrorBound: maxErrorBound,
 	}
 }
 

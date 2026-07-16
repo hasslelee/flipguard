@@ -85,12 +85,41 @@ func BuildCandidateCertificateWithPolicy(
 			evidence.Candidate.ID,
 		)
 	}
-	if !evidence.AnalyticalBoundProvided &&
-		evidence.MaxErrorBound != 0 {
+	proofProvided := evidence.AnalyticalProof != nil
+
+	if evidence.AnalyticalBoundProvided != proofProvided {
 		return CandidateCertificate{}, fmt.Errorf(
-			"candidate %s supplies a nonzero analytical bound without marking it as provided",
+			"candidate %s analytical bound presence does not match proof metadata",
 			evidence.Candidate.ID,
 		)
+	}
+
+	if !proofProvided &&
+		evidence.MaxErrorBound != 0 {
+		return CandidateCertificate{}, fmt.Errorf(
+			"candidate %s supplies a nonzero analytical bound without proof metadata",
+			evidence.Candidate.ID,
+		)
+	}
+
+	if proofProvided {
+		if err := evidence.AnalyticalProof.Validate(); err != nil {
+			return CandidateCertificate{}, fmt.Errorf(
+				"candidate %s has invalid analytical proof: %w",
+				evidence.Candidate.ID,
+				err,
+			)
+		}
+
+		if evidence.MaxErrorBound !=
+			evidence.AnalyticalProof.MaxErrorBound {
+			return CandidateCertificate{}, fmt.Errorf(
+				"candidate %s analytical bound scalar %.12g does not match proof bound %.12g",
+				evidence.Candidate.ID,
+				evidence.MaxErrorBound,
+				evidence.AnalyticalProof.MaxErrorBound,
+			)
+		}
 	}
 	if !isNonNegativeFinite(evidence.MeanTotalMS) {
 		return CandidateCertificate{}, fmt.Errorf(
@@ -102,7 +131,7 @@ func BuildCandidateCertificateWithPolicy(
 	analyticalBudget :=
 		policy.SafetyFactor * coverage.MinCertifiedMargin
 
-	boundProvided := evidence.AnalyticalBoundProvided
+	boundProvided := proofProvided
 	boundSatisfied :=
 		boundProvided &&
 			coverage.VCert > 0 &&
@@ -130,6 +159,9 @@ func BuildCandidateCertificateWithPolicy(
 		AnalyticalBoundProvided:  boundProvided,
 		AnalyticalBoundSatisfied: boundSatisfied,
 		AnalyticalBudget:         analyticalBudget,
+		AnalyticalProof: cloneAnalyticalBoundProof(
+			evidence.AnalyticalProof,
+		),
 
 		MeanTotalMS: evidence.MeanTotalMS,
 

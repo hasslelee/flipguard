@@ -44,6 +44,7 @@ type CandidateEvidence struct {
 	// because zero is a valid bound value.
 	AnalyticalBoundProvided bool
 	MaxErrorBound           float64
+	AnalyticalProof         *AnalyticalBoundProof
 
 	MeanTotalMS float64
 }
@@ -70,6 +71,7 @@ type CandidateCertificate struct {
 	AnalyticalBoundProvided  bool
 	AnalyticalBoundSatisfied bool
 	AnalyticalBudget         float64
+	AnalyticalProof          *AnalyticalBoundProof
 
 	MeanTotalMS float64
 
