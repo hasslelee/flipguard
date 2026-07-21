@@ -465,7 +465,7 @@ def main():
         "--model-ids",
         default=(
             "linear_poly3,"
-            "mlp_square_poly3"
+            "mlp_square_linear_score"
         ),
         help=(
             "comma-separated explicit model IDs "
