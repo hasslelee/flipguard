@@ -1,7 +1,8 @@
 # Step 7B.2a: Direct CKKS Configuration Synthesis
 
 Status: implemented and validated as development evidence on 2026-07-27.
-Final multi-seed, repeated-latency, and locked-audit evidence is not frozen.
+The seed-0 three-key locked audit is frozen as preliminary evidence. Final
+multi-seed and repeated-latency evidence is not frozen.
 
 ## Research Decision
 
@@ -323,7 +324,51 @@ The initial rejected candidates accumulated 191 flips and 852 error-budget
 violations across the four affected linear workloads, demonstrating that the
 repair trigger is not a cosmetic policy branch. This remains same-split
 fresh-key evidence, not a key-independence or data-generalization claim.
-Multiple data splits and a separately locked audit still remain.
+
+### No-retuning locked audit
+
+The selected literals from the seed-0, floor-18, three-key validation run were
+then frozen. `flipguard-audit` verified the split manifest, artifact digests,
+and exact disjoint `row_id` sets before evaluating each literal on
+`locked_audit_test.csv`.
+
+The audit path enforces:
+
+1. exactly one selected candidate with exactly one matching SAFE validation
+   trial;
+2. exact model, validation, audit, and split-manifest bindings;
+3. disjoint validation and audit row sets matching the manifest;
+4. one audit configuration trial with no call to synthesis or repair;
+5. a new context and keypair for each requested audit key run.
+
+The complete seed-0 locked audit produced:
+
+- 10/10 `LOCKED_AUDIT_PASS` outcomes;
+- 10 configuration trials and 30 completed fresh-key runs;
+- zero retuned workloads and zero execution failures;
+- zero flips and zero protected error-budget violations in all ten audits;
+- aggregate audit `V_cert=1623` and `V_amb=37`.
+
+The frozen selected structure remained data dependent:
+
+| Workloads | Frozen configuration | Audit outcome |
+|---|---|---|
+| banknote, digits, MNIST, WDBC linear | `N13/Q7/scale24` | 4/4 PASS |
+| iris linear | `N13/Q7/scale20` | 1/1 PASS |
+| all five MLP-square-linear | `N13/Q6/scale20` | 5/5 PASS |
+
+The compact evidence pack is
+[`direct_locked_audit_seed0_v1`](../evidence/direct_locked_audit_seed0_v1/README.md).
+It contains the ten selection results, ten split manifests, ten audit results,
+the execution ledger, aggregate outputs, provenance, and checksums. The
+ignored split CSV files are reproducible from tracked source data and are
+digest-bound in the manifest.
+
+This resolves the seed-0 validation-to-audit leakage concern. It does not
+resolve split robustness: only split seed 0 has been selected and audited.
+Three fresh keys on each partition also do not establish key independence.
+The next required empirical step is the predeclared five-split selection and
+locked-audit matrix.
 
 ## Current Claim Boundary
 

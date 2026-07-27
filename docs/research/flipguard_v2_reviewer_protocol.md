@@ -313,6 +313,27 @@ then compare it with:
 Stopping at the first SAFE candidate is an efficiency policy, not proof of
 global latency optimality. Oracle latency regret must quantify the tradeoff.
 
+### 8.2 Locked-audit protocol
+
+The final selected parameter literal must be frozen before the locked audit is
+opened. The audit implementation must:
+
+- bind the exact selection result, split manifest, model, validation CSV, and
+  audit CSV by SHA-256;
+- verify that actual validation and audit `row_id` sets exactly match the
+  manifest and are disjoint;
+- require exactly one matching SAFE validation trial for the selected literal;
+- execute the selected literal exactly once as a configuration trial;
+- prohibit synthesis, repair, fallback, and candidate replacement;
+- create fresh contexts and keypairs for the declared audit repetitions;
+- preserve both scientific failures and execution failures.
+
+A locked-audit failure is not a request to tune against the audit set. Any
+post-audit policy or candidate change invalidates that audit generation and
+requires a newly frozen partition. A passing single-split audit supports only
+held-out evidence for that split; it does not establish robustness across
+split seeds or distributions.
+
 ## 9. Workload modernization
 
 Final primary workloads must represent distinct computation structures, not
