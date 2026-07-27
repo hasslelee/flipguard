@@ -166,6 +166,40 @@ the planner reduces both ring dimension and chain size. The linear result is a
 negative control: its traced Q demand keeps `LogN=14`, and no speedup is
 claimed.
 
+The complete seed-0 development matrix subsequently produced:
+
+- 10/10 `SELECTED` outcomes;
+- 10 encrypted configuration trials in total, one per workload;
+- zero flips and zero error-budget violations on `V_cert=1610`;
+- `V_amb=36`, which was excluded by the predeclared margin policy;
+- `N14/Q7/scale30` for all five `linear_poly3` workloads;
+- `N13/Q6/scale30` for all five `mlp_square_linear_score` workloads.
+
+The fixed catalog protocol would execute 22 configurations per workload, or
+220 for the same ten-workload matrix. The direct path therefore used 95.45%
+fewer encrypted configuration trials in this development run. This is an
+execution-count comparison, not yet an oracle-quality claim.
+
+The result also exposes a current limitation. Data-derived precision targets
+varied from 7 to 15 bits, but the conservative 30-bit scale floor dominated
+every workload. The current evidence demonstrates graph-dependent synthesis
+and early stopping; it does not yet demonstrate dataset-dependent parameter
+variation. The floor must only be lowered after backend feasibility,
+security admission, forced-repair behavior, and locked-audit stability are
+tested.
+
+For the two banknote workloads whose 22-candidate catalog oracle is complete,
+the non-repeated development comparison was:
+
+| Model | Direct trials | Catalog trials | Direct mean ms | Bounded catalog oracle mean ms | Catalog/direct |
+|---|---:|---:|---:|---:|---:|
+| `linear_poly3` | 1 | 22 | 147.95 | 147.26 | 0.995x |
+| `mlp_square_linear_score` | 1 | 22 | 113.96 | 210.07 | 1.843x |
+
+The direct candidate is outside the fixed catalog. These timings came from
+separate single runs, so they are diagnostic only and must not be reported as
+final speedups.
+
 ## Current Claim Boundary
 
 Supported:
