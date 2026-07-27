@@ -6,6 +6,7 @@ FORCE=0
 RESUME=0
 MAX_NEW_RUNS=0
 RETRY_FAILED=0
+QUIET_SKIPS=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -42,6 +43,11 @@ while [[ $# -gt 0 ]]; do
 
     --retry-failed)
       RETRY_FAILED=1
+      shift
+      ;;
+
+    --quiet-skips)
+      QUIET_SKIPS=1
       shift
       ;;
 
@@ -359,7 +365,9 @@ for seed in "${SEEDS[@]}"; do
              [[ -f "$SUMMARY_PATH" ]] &&
              [[ -f "$RECORDS_PATH" ]] &&
              grep -Fq ",${tag},ok,0," "$STATUS_PATH"; then
-            echo "SKIP completed candidate: $tag"
+            if [[ $QUIET_SKIPS -ne 1 ]]; then
+              echo "SKIP completed candidate: $tag"
+            fi
             candidate_total=$((candidate_total + 1))
             candidate_skipped=$((candidate_skipped + 1))
             candidate_skipped_ok=$((candidate_skipped_ok + 1))
@@ -370,7 +378,9 @@ for seed in "${SEEDS[@]}"; do
              [[ $RETRY_FAILED -ne 1 ]] &&
              [[ -f "$STDOUT_LOG" ]] &&
              grep -Eq ",${tag},failed,[1-9][0-9]*," "$STATUS_PATH"; then
-            echo "SKIP terminal FAILED candidate: $tag"
+            if [[ $QUIET_SKIPS -ne 1 ]]; then
+              echo "SKIP terminal FAILED candidate: $tag"
+            fi
             candidate_total=$((candidate_total + 1))
             candidate_skipped=$((candidate_skipped + 1))
             candidate_skipped_failed=$((candidate_skipped_failed + 1))

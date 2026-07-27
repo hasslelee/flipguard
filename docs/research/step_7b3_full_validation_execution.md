@@ -32,7 +32,8 @@ The runner supports a bounded number of newly executed candidates:
 ./scripts/run_thesis_grade_tabular_validation_oracle.sh \
   --full \
   --resume \
-  --max-new-runs 10
+  --max-new-runs 10 \
+  --quiet-skips
 ```
 
 `--max-new-runs` does not change the matrix or discard failed candidates. It
@@ -57,6 +58,10 @@ use:
 
 `--retry-failed` replaces the prior status row for that candidate; it does not
 create duplicate identities.
+
+`--quiet-skips` suppresses one line per prior terminal candidate while
+retaining aggregate `candidate_skipped_ok` and `candidate_skipped_failed`
+counts. It is recommended once several checkpoints have accumulated.
 
 After a bounded invocation, the runner writes an incomplete summary with input
 and status digests and prints:
@@ -86,5 +91,8 @@ Step 7B.3 passes only when:
 - failed runs remain explicit `FAILED` rows;
 - strict summarization runs without `--allow-incomplete`;
 - the planner/oracle comparison is regenerated from the completed oracle.
+
+The `--full` planner/oracle wrapper refuses to run while the oracle summary is
+incomplete or was produced with `--allow-incomplete`.
 
 No partial checkpoint number may be used in a paper claim.
