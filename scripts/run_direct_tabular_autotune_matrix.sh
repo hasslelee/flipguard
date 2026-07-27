@@ -10,6 +10,7 @@ MAX_NEW_RUNS=0
 PRECISION_FLOOR_BITS=0
 SAME_TIER_PRECISION=0
 KEY_REPEATS=1
+ONLY_SEED=""
 
 usage() {
   cat <<'EOF'
@@ -28,6 +29,7 @@ Execution:
   --precision-floor N   Experimental min scale/Q-prime bits; keeps P >= 30.
   --same-tier-precision Maximize precision without increasing minimum LogN.
   --key-repeats N       Fresh-key validation runs per configuration trial.
+  --only-seed N         In --full mode, run only split seed N (0..4).
   --quiet-skips         Suppress one-line messages for resumed workloads.
   -h, --help            Show this help.
 EOF
@@ -89,6 +91,14 @@ while [[ $# -gt 0 ]]; do
         exit 2
       fi
       KEY_REPEATS="$2"
+      shift 2
+      ;;
+    --only-seed)
+      if [[ $# -lt 2 ]] || [[ ! "$2" =~ ^[0-4]$ ]]; then
+        echo "ERROR: --only-seed requires an integer from 0 to 4" >&2
+        exit 2
+      fi
+      ONLY_SEED="$2"
       shift 2
       ;;
     -h|--help)
@@ -183,6 +193,14 @@ case "$MODE" in
     ;;
 esac
 
+if [[ -n "$ONLY_SEED" ]]; then
+  if [[ "$MODE" != "full" ]]; then
+    echo "ERROR: --only-seed requires --full" >&2
+    exit 2
+  fi
+  SEEDS=("$ONLY_SEED")
+fi
+
 if [[ ! -f "$SPLIT_ROOT/summary.json" ]]; then
   echo "ERROR: missing split summary $SPLIT_ROOT/summary.json" >&2
   exit 1
@@ -203,7 +221,8 @@ BINARY="$RUN_ROOT/bin/flipguard-autotune"
 STATUS_PATH="$RUN_ROOT/run_status.csv"
 
 echo "=== build direct autotune binary ==="
-go build -o "$BINARY" ./cmd/flipguard-autotune
+GOCACHE="$REPOSITORY_ROOT/$RUN_ROOT/go-cache" \
+  go build -o "$BINARY" ./cmd/flipguard-autotune
 BUILD_STATUS=$?
 echo "binary_build_status=$BUILD_STATUS"
 if [[ $BUILD_STATUS -ne 0 ]]; then

@@ -9,6 +9,7 @@ RESUME=0
 RETRY_FAILED=0
 QUIET_SKIPS=0
 MAX_NEW_RUNS=0
+ONLY_SEED=""
 
 usage() {
   cat <<'EOF'
@@ -22,6 +23,7 @@ Modes:
 Inputs and execution:
   --selection-run ID   Existing direct-autotune run ID.
   --key-repeats N      Fresh-key audit runs per frozen configuration.
+  --only-seed N        In --full mode, run only split seed N (0..4).
   --resume             Resume an existing audit ledger.
   --force              Replace only this run's locked-audit artifacts.
   --retry-failed       Retry terminal execution failures when resuming.
@@ -59,6 +61,14 @@ while [[ $# -gt 0 ]]; do
         exit 2
       fi
       KEY_REPEATS="$2"
+      shift 2
+      ;;
+    --only-seed)
+      if [[ $# -lt 2 ]] || [[ ! "$2" =~ ^[0-4]$ ]]; then
+        echo "ERROR: --only-seed requires an integer from 0 to 4" >&2
+        exit 2
+      fi
+      ONLY_SEED="$2"
       shift 2
       ;;
     --resume)
@@ -151,6 +161,14 @@ case "$MODE" in
     exit 2
     ;;
 esac
+
+if [[ -n "$ONLY_SEED" ]]; then
+  if [[ "$MODE" != "full" ]]; then
+    echo "ERROR: --only-seed requires --full" >&2
+    exit 2
+  fi
+  SEEDS=("$ONLY_SEED")
+fi
 
 if [[ ! -d "$RUN_ROOT/results" ]]; then
   echo "ERROR: missing selection run $RUN_ROOT/results" >&2
