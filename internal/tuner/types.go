@@ -13,40 +13,40 @@ const (
 // ParameterCandidate describes CKKS parameter-side choices.
 // The name Reference should be preferred over Default in paper-facing code.
 type ParameterCandidate struct {
-	ID          string
-	LogN        int
-	Slots       int
-	ChainLength int
-	ScaleBits   int
-	Family      string
-	IsReference bool
+	ID          string `json:"id"`
+	LogN        int    `json:"log_n"`
+	Slots       int    `json:"slots"`
+	ChainLength int    `json:"chain_length"`
+	ScaleBits   int    `json:"scale_bits"`
+	Family      string `json:"family"`
+	IsReference bool   `json:"is_reference"`
 }
 
 // ExecutionConfiguration is the actual candidate evaluated by FlipGuard.
 type ExecutionConfiguration struct {
-	Candidate ParameterCandidate
-	Path      ExecutionPath
+	Candidate ParameterCandidate `json:"candidate"`
+	Path      ExecutionPath      `json:"path"`
 }
 
 // WorkloadSpec describes a fixed model/data/threshold setting.
 // A selected configuration is valid for this workload, not universally.
 type WorkloadSpec struct {
-	Dataset        string
-	Model          string
-	Threshold      float64
-	ErrorTolerance float64
-	NumSamples     int
+	Dataset        string  `json:"dataset"`
+	Model          string  `json:"model"`
+	Threshold      float64 `json:"threshold"`
+	ErrorTolerance float64 `json:"error_tolerance"`
+	NumSamples     int     `json:"num_samples"`
 }
 
 // GraphSummary is a lightweight model-graph summary used for candidate generation
 // and cost estimation. It can later be filled from actual model metadata.
 type GraphSummary struct {
-	MultiplicativeDepth int
-	AddOps              int
-	MulOps              int
-	RotOps              int
-	RescaleOps          int
-	Notes               []string
+	MultiplicativeDepth int      `json:"multiplicative_depth"`
+	AddOps              int      `json:"add_ops"`
+	MulOps              int      `json:"mul_ops"`
+	RotOps              int      `json:"rot_ops"`
+	RescaleOps          int      `json:"rescale_ops"`
+	Notes               []string `json:"notes,omitempty"`
 }
 
 // ReferencePolicy controls how a conservative reference configuration is built.

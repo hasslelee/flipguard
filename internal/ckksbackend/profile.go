@@ -15,6 +15,37 @@ type CKKSProfile struct {
 	Literal     ckks.ParametersLiteral
 }
 
+// NewCKKSProfileFromLiteral validates and defensively copies a directly
+// synthesized CKKS parameter literal. Built-in profile names are not required:
+// first-party or external planners can hand an exact parameter set to the
+// backend without projecting it onto AllCKKSProfiles.
+func NewCKKSProfileFromLiteral(
+	name string,
+	description string,
+	literal ckks.ParametersLiteral,
+) (CKKSProfile, error) {
+	name = strings.TrimSpace(name)
+	if name == "" {
+		return CKKSProfile{}, fmt.Errorf("CKKS profile name is empty")
+	}
+
+	literal = copyCKKSParametersLiteral(literal)
+
+	if _, err := ckks.NewParametersFromLiteral(literal); err != nil {
+		return CKKSProfile{}, fmt.Errorf(
+			"validate synthesized CKKS profile %s: %w",
+			name,
+			err,
+		)
+	}
+
+	return CKKSProfile{
+		Name:        name,
+		Description: strings.TrimSpace(description),
+		Literal:     literal,
+	}, nil
+}
+
 // DefaultCKKSProfileNames returns the default profile ladder.
 func DefaultCKKSProfileNames() string {
 	return "default,scale42,scale40,scale38,deep_chain_8_scale45,deep_chain_9_scale45,short_chain_6_scale42,short_chain_6_scale40,short_chain_6_scale38,short_chain_5,short_chain_3"

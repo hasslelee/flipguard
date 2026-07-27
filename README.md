@@ -1,12 +1,18 @@
 # FlipGuard
 
-**Decision-Stability-Aware Error-Budgeted Precision Scheduling for CKKS-Based Encrypted Inference**
+**Automatic CKKS Configuration with Decision-Integrity Certification**
 
-FlipGuard is a research prototype for studying **decision-stability-aware precision scheduling** in CKKS-based encrypted inference.
+FlipGuard is a research prototype that synthesizes CKKS configurations from a
+model, validation data, and a decision policy, then certifies or rejects each
+configuration according to the final threshold decision.
 
-The project explores how node-wise precision budgets can be allocated so that threshold-based decisions remain stable under approximation errors.
+The decision-integrity layer can also evaluate candidates supplied by manual
+configuration, the built-in finite oracle, or an external autotuner.
 
-> Status: research prototype. The current implementation uses a plain simulation backend. A real CKKS backend will be added in later stages.
+> Status: active research prototype with a real Lattigo v6 CKKS backend. Direct
+> parameter synthesis and adaptive observed-validation certification are
+> implemented for the declared tabular/rescale scope. Final multi-seed and
+> locked-audit evidence is not yet frozen.
 
 ---
 
@@ -37,6 +43,12 @@ where `protected_margin` is derived from the distance between the plaintext scor
 
 FlipGuard currently provides:
 
+- Direct `LogN`, `LogQ`, `LogP`, and scale generation without a fixed profile catalog
+- Digest-bound model and validation workload contracts
+- Lattigo-aware scale and modulus-level tracing
+- 128-bit parameter admission using the recorded HE security-guideline table
+- Adaptive level/scale repair with an encrypted-trial budget
+- Observed-validation `SAFE`, `REJECTED`, `FAILED`, and `NO_SAFE` outcomes
 - Computation graph IR for small encrypted-inference workloads
 - Plain evaluator
 - Quantized plain evaluator
@@ -105,6 +117,21 @@ go run ./cmd/flipguard -experiment logreg_small
 ```bash
 go test ./...
 ```
+
+### Automatically synthesize and certify a tabular configuration
+
+```bash
+./scripts/run_direct_tabular_autotune.sh \
+  datasets/tabular_suite/banknote/mlp_square_linear_score/model.json \
+  results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/banknote/mlp_square_linear_score/configuration_validation.csv \
+  split_seed_0 \
+  results/direct_tabular_autotune/development/banknote_mlp_seed0.json
+```
+
+The output records the exact artifact digests, derived graph and margin
+contract, direct CKKS literal, security admission, encrypted trials, and final
+selection. See
+[`docs/research/step_7b2a_direct_configuration_synthesis.md`](docs/research/step_7b2a_direct_configuration_synthesis.md).
 
 ### Reproduce current results
 
@@ -257,6 +284,10 @@ FlipGuard는 CKKS 기반 암호화 추론에서 **판정 안정성(decision stab
 
 CKKS는 암호화된 실수 데이터에 대해 근사 연산을 수행할 수 있다는 장점이 있지만, 근사 오차로 인해 모델 출력값이 임계값 근처에 있을 때 최종 판정이 뒤집힐 수 있다.
 
+현재 구현은 Lattigo v6 실제 CKKS backend를 사용한다. 모델과 validation
+data에서 `LogN`, `LogQ`, `LogP`, scale을 직접 생성하고, 암호화 실행 결과를
+검증해 `SAFE`, `REJECTED`, `FAILED`, `NO_SAFE` 중 하나를 반환한다.
+
 예를 들어 다음과 같은 임계값 기반 추론 규칙이 있다고 가정한다.
 
 ```text
@@ -278,6 +309,12 @@ estimated_error <= safety_factor * protected_margin
 
 현재 FlipGuard 구현 기능.
 
+- 고정 profile catalog를 거치지 않는 CKKS parameter 직접 생성
+- 모델·validation artifact digest가 결합된 workload contract
+- Lattigo scale 및 modulus-level 추적
+- 명시된 HE security guideline 표에 따른 128-bit parameter admission
+- encrypted-trial budget을 사용하는 adaptive level/scale repair
+- observed-validation 기반 certify-or-reject 선택
 - 소규모 암호화 추론 workload를 위한 계산 그래프 IR
 - 평문 evaluator
 - quantized plain evaluator
@@ -405,22 +442,13 @@ docs/RESULTS_LOGREG_SMALL.md
 
 ## 7. 결과 해석
 
-현재 프로토타입은 완성된 CKKS 컴파일러라고 주장하지 않습니다.
+현재 구현은 범용 CKKS 컴파일러라고 주장하지 않는다. 직접 합성의 현재
+범위는 세 가지 tabular model form, scalar-replicated packing, Lattigo v6
+rescale-aware path, observed-validation certificate이다.
 
-현재 결과는 다음과 같은 제한된 예비 주장을 뒷받침한다.
-
-```text
-FlipGuard는 통제된 시뮬레이션 환경에서 stable boundary sample에 대한
-decision-margin certification을 만족하면서 평균 scheduled precision을 줄일 수 있다.
-```
-
-다음 개발 단계는 다음과 같습니다.
-
-1. 더 큰 synthetic workload 추가
-2. 실제 tabular inference workload 추가
-3. Lattigo 기반 CKKS backend 추가
-4. runtime, level consumption, rescale-chain behavior 측정
-5. 더 강한 CKKS scheduling baseline과 비교
+다음 단계는 다중 split·key·반복 latency 실험, 고정 finite oracle과의
+recall/regret 비교, locked audit, 더 깊은 MLP 및 CNN-lite 확장이다. 단일
+development run은 최종 성능 근거로 사용하지 않는다.
 
 ## 8. 저장소 구조
 

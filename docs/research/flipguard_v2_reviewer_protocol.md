@@ -281,6 +281,34 @@ Heuristic coefficients must be tuned on workloads separate from the final
 evaluation workloads, or evaluated through a nested protocol that prevents
 test leakage.
 
+### 8.1 Direct-synthesis protocol
+
+The first-party deployment path must not project its proposal onto the fixed
+profile catalog. It must emit an exact CKKS parameter literal and preserve:
+
+- model and validation artifact digests;
+- plaintext graph and score-consistency checks;
+- decision margin and ambiguity partition;
+- scale/level derivation method;
+- declared LogN, LogQ, LogP, and default scale;
+- security-envelope identity, source, and remaining headroom;
+- every encrypted trial and repair trigger;
+- the final SAFE certificate or NO_SAFE reason.
+
+Parameter construction success is only a backend-validity check. Security
+admission and decision certification remain separate checks.
+
+Adaptive search cost is the number of fully encrypted candidate trials, not
+the number of statically considered expressions. The planner must report its
+trial distribution and compare it with:
+
+- the fixed-catalog exhaustive oracle;
+- the CKKS reference configuration;
+- any external candidate provider used in the final study.
+
+Stopping at the first SAFE candidate is an efficiency policy, not proof of
+global latency optimality. Oracle latency regret must quantify the tradeoff.
+
 ## 9. Workload modernization
 
 Final primary workloads must represent distinct computation structures, not

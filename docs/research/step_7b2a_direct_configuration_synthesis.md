@@ -1,0 +1,163 @@
+# Step 7B.2a: Direct CKKS Configuration Synthesis
+
+Status: implemented and validated as development evidence on 2026-07-27.
+Final multi-seed, repeated-latency, and locked-audit evidence is not frozen.
+
+## Research Decision
+
+The built-in 11-profile catalog remains useful as a finite offline oracle. It
+is no longer the first-party deployment algorithm.
+
+The first-party path now accepts:
+
+- a model artifact;
+- a configuration-validation dataset;
+- a split identity;
+- a decision threshold and margin policy;
+- a security target and encrypted-trial budget.
+
+It returns a directly generated CKKS parameter literal or `NO_SAFE`. It does
+not map the result to a built-in profile name.
+
+## Workload Contract
+
+`internal/ckksplanner.BuildTabularWorkloadContract` performs the following
+before parameter generation:
+
+1. hashes the exact model and validation artifacts;
+2. derives the plaintext computation DAG from the model artifact;
+3. re-evaluates every validation row and rejects score or decision mismatch;
+4. partitions the exact ordered validation set into `V_cert` and `V_amb`;
+5. derives the protected margin and output-error budget;
+6. propagates empirical validation intervals through the DAG for an initial
+   sensitivity signal;
+7. derives the Lattigo scale and level demand for the exact rescale-aware
+   execution path.
+
+The interval-derived sensitivity is a planning signal. It is not presented as
+a sound CKKS error bound. A candidate is `SAFE` only after encrypted validation
+through the existing certification engine.
+
+## Why Depth Is Not Chain Length
+
+The current backend multiplies ciphertexts by non-integer model coefficients.
+Lattigo v6 represents such scalar multiplications at the current Q-prime scale.
+Consequently, one call to `RescaleTo` can consume multiple Q primes.
+
+The `lattigo_v6_rescale_scale_trace_v1` analysis symbolically tracks:
+
+- scale growth from ciphertext and scalar multiplications;
+- Q primes consumed by each rescale;
+- scale still present at the output;
+- the Q primes needed for both consumed levels and terminal capacity.
+
+For the current tabular implementations:
+
+| Model | Multiplicative depth | Rescale levels consumed | Terminal scale exponent | Required Q primes |
+|---|---:|---:|---:|---:|
+| `linear_poly3` | 2 | 6 | 1 | 7 |
+| `mlp_square_linear_score` | 1 | 3 | 3 | 6 |
+| `mlp_square_poly3` | 3 | 9 | 1 | 10 |
+
+This distinction is enforced by an end-to-end encrypted unit test. The earlier
+`depth + margin` approximation failed that test and was replaced.
+
+## Direct Parameter Generation
+
+The initial scale is derived from:
+
+```text
+unit_error_budget =
+    output_error_budget / aggregate_sensitivity
+
+precision_target_bits =
+    ceil(-log2(unit_error_budget))
+```
+
+An explicit policy guard is then applied. `LogQ` is generated from the traced
+Q-prime demand, while `LogP` is generated large enough for the largest Q prime.
+The smallest admitted `LogN` that supports the slots and total declared
+`log2(QP)` is selected.
+
+Security admission uses the uniform-ternary, Gaussian-error, classical
+128-bit limits in Table 4.2 of the 2024
+[Security Guidelines for Implementing Homomorphic Encryption](https://doi.org/10.62056/anxra69p1):
+
+| LogN | Maximum declared log2(QP) |
+|---:|---:|
+| 12 | 108 |
+| 13 | 217 |
+| 14 | 438 |
+| 15 | 881 |
+
+Lattigo parameter construction and this external security envelope are separate
+checks. Successful construction alone is never reported as 128-bit security.
+
+## Adaptive Execution
+
+The planner evaluates one analysis-derived candidate first.
+
+- A level/rescale failure appends one scale-sized Q prime.
+- A numerical rejection raises the scale by the declared repair step.
+- Every repair is rechecked against the security envelope and Lattigo.
+- Execution stops at the first observed-validation `SAFE` candidate.
+- Exhausted trial or repair budgets return `NO_SAFE`.
+
+This is a sequential repair policy. It does not execute a predeclared
+neighborhood.
+
+## Commands
+
+Generate a plan without encrypted execution:
+
+```bash
+go run ./cmd/flipguard-synthesize \
+  --model datasets/tabular_suite/banknote/mlp_square_linear_score/model.json \
+  --validation results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/banknote/mlp_square_linear_score/configuration_validation.csv \
+  --split-id split_seed_0
+```
+
+Generate, execute, certify, and select:
+
+```bash
+./scripts/run_direct_tabular_autotune.sh \
+  datasets/tabular_suite/banknote/mlp_square_linear_score/model.json \
+  results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/banknote/mlp_square_linear_score/configuration_validation.csv \
+  split_seed_0 \
+  results/direct_tabular_autotune/development/banknote_mlp_seed0.json
+```
+
+## Development Evidence
+
+One non-repeated development run on the same 205-row seed-0 validation split
+produced:
+
+| Model | Direct configuration | Status | Flip | Violations | Max error | Mean ms | Existing default-rescale mean ms | Ratio |
+|---|---|---|---:|---:|---:|---:|---:|---:|
+| `mlp_square_linear_score` | `N13, Q=[33,30,30,30,30,30], P=[33], scale=30` | SAFE | 0 | 0 | `7.56e-7` | 118.51 | 279.99 | 2.36x |
+| `linear_poly3` | `N14, Q=[33,30,30,30,30,30,30], P=[33], scale=30` | SAFE | 0 | 0 | `2.09e-4` | 158.43 | 147.26 | 0.93x |
+
+The latency values were measured in separate processes and are not final
+speedup evidence. The MLP result shows the intended structural opportunity:
+the planner reduces both ring dimension and chain size. The linear result is a
+negative control: its traced Q demand keeps `LogN=14`, and no speedup is
+claimed.
+
+## Current Claim Boundary
+
+Supported:
+
+- direct parameter generation for the three current tabular model forms;
+- the scalar-replicated packing strategy;
+- the Lattigo v6 rescale-aware path;
+- classical 128-bit admission under the recorded standard table;
+- observed-validation certification and explicit `NO_SAFE`.
+
+Not yet supported:
+
+- automatic packing/layout synthesis;
+- non-rescale scale-capacity synthesis;
+- bootstrapping;
+- a sound analytical CKKS output-error bound;
+- distribution-wide safety;
+- final latency or generality claims.
