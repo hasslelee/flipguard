@@ -28,6 +28,31 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--source-root", type=Path, default=DEFAULT_SOURCE)
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--source-commit")
+    parser.add_argument(
+        "--evidence-id",
+        default="direct_locked_audit_seed0_v1",
+    )
+    parser.add_argument(
+        "--selection-run-id",
+        default="seed0_floor18_keys3",
+    )
+    parser.add_argument(
+        "--audit-run-id",
+        default="seed0_floor18_keys3_locked_audit_keys3",
+    )
+    parser.add_argument(
+        "--split-seeds",
+        default="0",
+        help="comma-separated split seeds represented by the checkpoint",
+    )
+    parser.add_argument(
+        "--execution-command",
+        default=(
+            "scripts/run_direct_tabular_locked_audit_matrix.sh "
+            "--seed0 --force"
+        ),
+    )
+    parser.add_argument("--allow-checkpoint", action="store_true")
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--verify", action="store_true")
     return parser.parse_args()
@@ -84,7 +109,7 @@ def freeze(args: argparse.Namespace) -> None:
         source / "summary" / "locked_audit_results.csv"
     )
     summary = load_json(summary_path)
-    if not summary.get("complete"):
+    if not summary.get("complete") and not args.allow_checkpoint:
         raise ValueError("source locked-audit matrix is incomplete")
     if summary.get("locked_audit_fails") != 0:
         raise ValueError("source contains locked-audit failures")
@@ -96,9 +121,14 @@ def freeze(args: argparse.Namespace) -> None:
     ) as handle:
         status_rows = list(csv.DictReader(handle))
     if len(status_rows) != int(summary["expected_runs"]):
-        raise ValueError(
-            "source status row count does not match expected runs"
-        )
+        if not args.allow_checkpoint:
+            raise ValueError(
+                "source status row count does not match expected runs"
+            )
+        if len(status_rows) != int(summary["recorded_runs"]):
+            raise ValueError(
+                "checkpoint status row count does not match recorded runs"
+            )
     if any(row["status"] != "ok" for row in status_rows):
         raise ValueError("source status contains failed rows")
 
@@ -264,9 +294,17 @@ def freeze(args: argparse.Namespace) -> None:
             }
         )
 
+    split_seeds = [
+        int(value.strip())
+        for value in args.split_seeds.split(",")
+        if value.strip()
+    ]
+    if not split_seeds:
+        raise ValueError("--split-seeds contains no seeds")
+
     manifest = {
         "schema_version": 1,
-        "evidence_id": "direct_locked_audit_seed0_v1",
+        "evidence_id": args.evidence_id,
         "evidence_type": (
             "observed_no_retuning_locked_audit_preliminary"
         ),
@@ -280,26 +318,23 @@ def freeze(args: argparse.Namespace) -> None:
             ),
         },
         "execution": {
-            "selection_run_id": "seed0_floor18_keys3",
-            "audit_run_id": (
-                "seed0_floor18_keys3_locked_audit_keys3"
-            ),
-            "command": (
-                "scripts/run_direct_tabular_locked_audit_matrix.sh "
-                "--seed0 --force"
-            ),
-            "split_seeds": [0],
+            "selection_run_id": args.selection_run_id,
+            "audit_run_id": args.audit_run_id,
+            "command": args.execution_command,
+            "split_seeds": split_seeds,
             "key_repeats": 3,
             "retuning_allowed": False,
+            "checkpoint": not bool(summary.get("complete")),
         },
         "structural_summary": summary,
         "workloads": workload_records,
         "external_inputs": external_inputs,
         "claim_boundary": (
-            "All ten frozen seed-0 candidates remained SAFE with "
+            "All frozen candidates in the recorded split checkpoint "
+            "remained SAFE with "
             "zero flips and zero protected error-budget violations "
             "on the disjoint locked-audit V_cert rows across three "
-            "fresh keypairs. This is one-split observed evidence, "
+            "fresh keypairs. This is limited observed evidence, "
             "not a distribution-wide, split-independent, "
             "key-independent, or analytical safety guarantee."
         ),
@@ -310,18 +345,19 @@ def freeze(args: argparse.Namespace) -> None:
         encoding="utf-8",
     )
 
-    readme = """# Direct Locked Audit Seed-0 Evidence v1
+    readme = f"""# Direct Locked Audit Evidence: {args.evidence_id}
 
 ## Result
 
-- Frozen configurations audited: `10`
-- Locked-audit PASS: `10/10`
-- Configuration trials: `10`
-- Fresh-key runs: `30`
-- Retuning during audit: `0`
-- Total audit V_cert: `1623`
-- Total audit V_amb: `37`
-- PASS results with zero flips and violations: `10/10`
+- Split seeds in this pack: `{",".join(map(str, split_seeds))}`
+- Frozen configurations audited: `{len(workload_records)}`
+- Locked-audit PASS: `{summary["locked_audit_passes"]}/{len(workload_records)}`
+- Configuration trials: `{summary["total_configuration_trials"]}`
+- Fresh-key runs: `{summary["total_fresh_key_runs"]}`
+- Retuning during audit: `{summary["retuned_runs"]}`
+- Total audit V_cert: `{summary["total_v_cert"]}`
+- Total audit V_amb: `{summary["total_v_amb"]}`
+- Matrix complete: `{str(bool(summary.get("complete"))).lower()}`
 
 The audit command evaluated each validation-selected CKKS literal exactly
 once on the disjoint `locked_audit_test.csv` partition with three fresh
@@ -340,7 +376,7 @@ Verify this compact snapshot:
 
 ```bash
 python3 scripts/freeze_direct_locked_audit_evidence.py \\
-  --output-root docs/evidence/direct_locked_audit_seed0_v1 \\
+  --output-root docs/evidence/{args.evidence_id} \\
   --verify
 ```
 
@@ -351,7 +387,7 @@ ledger, and aggregate CSV/JSON outputs.
 
 ## Claim Boundary
 
-This is frozen preliminary evidence for one predeclared split seed and three
+This is frozen preliminary evidence for the recorded split checkpoint and three
 fresh keypairs. It supports no-retuning held-out decision stability for the
 recorded workloads. It does not establish split independence, key
 independence, distribution-wide safety, a sound analytical error bound, or
@@ -427,18 +463,21 @@ def verify(root: Path) -> None:
         manifest.get("structural_summary"),
         f"{root}/manifest.json: structural_summary",
     )
+    workloads = manifest.get("workloads")
+    if not isinstance(workloads, list) or not workloads:
+        raise ValueError("snapshot contains no workloads")
     if (
-        manifest.get("evidence_id")
-        != "direct_locked_audit_seed0_v1"
-        or summary.get("locked_audit_passes") != 10
+        not manifest.get("evidence_id")
+        or summary.get("locked_audit_passes") != len(workloads)
         or summary.get("locked_audit_fails") != 0
         or summary.get("retuned_runs") != 0
-        or summary.get("total_fresh_key_runs") != 30
+        or summary.get("total_fresh_key_runs")
+        != sum(
+            int(row.get("key_repeats_completed", -1))
+            for row in workloads
+        )
     ):
         raise ValueError("snapshot structural summary is invalid")
-    workloads = manifest.get("workloads")
-    if not isinstance(workloads, list) or len(workloads) != 10:
-        raise ValueError("snapshot does not contain ten workloads")
     if any(
         row.get("outcome") != "LOCKED_AUDIT_PASS"
         or row.get("decision_flips") != 0
