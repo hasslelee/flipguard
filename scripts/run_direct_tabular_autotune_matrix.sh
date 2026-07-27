@@ -9,6 +9,7 @@ QUIET_SKIPS=0
 MAX_NEW_RUNS=0
 PRECISION_FLOOR_BITS=0
 SAME_TIER_PRECISION=0
+KEY_REPEATS=1
 
 usage() {
   cat <<'EOF'
@@ -26,6 +27,7 @@ Execution:
   --max-new-runs N      Stop after N newly started workloads.
   --precision-floor N   Experimental min scale/Q-prime bits; keeps P >= 30.
   --same-tier-precision Maximize precision without increasing minimum LogN.
+  --key-repeats N       Fresh-key validation runs per configuration trial.
   --quiet-skips         Suppress one-line messages for resumed workloads.
   -h, --help            Show this help.
 EOF
@@ -81,6 +83,14 @@ while [[ $# -gt 0 ]]; do
       SAME_TIER_PRECISION=1
       shift
       ;;
+    --key-repeats)
+      if [[ $# -lt 2 ]] || [[ ! "$2" =~ ^[1-9][0-9]*$ ]]; then
+        echo "ERROR: --key-repeats requires a positive integer" >&2
+        exit 2
+      fi
+      KEY_REPEATS="$2"
+      shift 2
+      ;;
     -h|--help)
       usage
       exit 0
@@ -125,6 +135,12 @@ if [[ $SAME_TIER_PRECISION -eq 1 ]]; then
   POLICY_ID="${POLICY_ID}_same_tier"
   AUTOTUNE_POLICY_ARGS+=(
     --precision-slack-mode maximize_within_min_log_n
+  )
+fi
+if [[ $KEY_REPEATS -gt 1 ]]; then
+  POLICY_ID="${POLICY_ID}_keys${KEY_REPEATS}"
+  AUTOTUNE_POLICY_ARGS+=(
+    --key-repeats "$KEY_REPEATS"
   )
 fi
 RUN_ID="$MODE"

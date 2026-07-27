@@ -21,6 +21,7 @@ TRIAL_FIELDS = [
     "status",
     "outcome",
     "trials_used",
+    "encrypted_key_runs",
     "selected_candidate_id",
     "selected_trial_status",
     "selected_assurance",
@@ -36,6 +37,9 @@ TRIAL_FIELDS = [
     "same_tier_precision_gain_bits",
     "same_tier_static_candidates_tried",
     "generation_kind",
+    "key_repeats_requested",
+    "key_repeats_completed",
+    "success_runs",
     "decision_flips",
     "error_violations",
     "max_observed_error",
@@ -74,6 +78,9 @@ TRIAL_DETAIL_FIELDS = [
     "backend_validation_attempts",
     "same_tier_precision_gain_bits",
     "same_tier_static_candidates_tried",
+    "key_repeats_requested",
+    "key_repeats_completed",
+    "success_runs",
     "decision_flips",
     "error_violations",
     "max_observed_error",
@@ -186,6 +193,20 @@ def summarize_result(
         raise ValueError(
             f"{result_path}: status trials {status['trials_used']} != {trials_used}"
         )
+    encrypted_key_runs = int(
+        payload.get(
+            "encrypted_key_runs",
+            sum(
+                int(
+                    require_dict(
+                        trial,
+                        f"{result_path}: trial",
+                    ).get("key_repeats_completed", 1)
+                )
+                for trial in trials
+            ),
+        )
+    )
 
     selected = payload.get("selected")
     selected_candidate: dict[str, Any] = {}
@@ -297,6 +318,15 @@ def summarize_result(
                     "same_tier_static_candidates_tried",
                     "",
                 ),
+                "key_repeats_requested": trial.get(
+                    "key_repeats_requested",
+                    1,
+                ),
+                "key_repeats_completed": trial.get(
+                    "key_repeats_completed",
+                    1,
+                ),
+                "success_runs": trial.get("success_runs", ""),
                 "decision_flips": trial.get("decision_flips", ""),
                 "error_violations": trial.get("error_violations", ""),
                 "max_observed_error": trial.get("max_observed_error", ""),
@@ -318,6 +348,7 @@ def summarize_result(
         "status": status["status"],
         "outcome": outcome,
         "trials_used": trials_used,
+        "encrypted_key_runs": encrypted_key_runs,
         "selected_candidate_id": selected_candidate.get("id", ""),
         "selected_trial_status": selected_trial.get("status", ""),
         "selected_assurance": selected_trial.get("assurance", ""),
@@ -348,6 +379,15 @@ def summarize_result(
             "",
         ),
         "generation_kind": selected_candidate.get("generation_kind", ""),
+        "key_repeats_requested": selected_trial.get(
+            "key_repeats_requested",
+            1,
+        ),
+        "key_repeats_completed": selected_trial.get(
+            "key_repeats_completed",
+            1,
+        ),
+        "success_runs": selected_trial.get("success_runs", ""),
         "decision_flips": selected_trial.get("decision_flips", ""),
         "error_violations": selected_trial.get("error_violations", ""),
         "max_observed_error": selected_trial.get("max_observed_error", ""),
@@ -429,6 +469,10 @@ def main() -> int:
         "selected_runs": len(selected_rows),
         "no_safe_runs": sum(row["outcome"] == "NO_SAFE" for row in rows),
         "total_encrypted_trials": sum(int(row["trials_used"]) for row in rows),
+        "total_encrypted_key_runs": sum(
+            int(row["key_repeats_completed"])
+            for row in trial_rows
+        ),
         "encrypted_trial_status_counts": dict(
             sorted(Counter(row["status"] for row in trial_rows).items())
         ),
@@ -475,7 +519,8 @@ def main() -> int:
         f"selected={summary['selected_runs']} "
         f"no_safe={summary['no_safe_runs']} "
         f"failed={summary['failed_runs']} "
-        f"trials={summary['total_encrypted_trials']}"
+        f"trials={summary['total_encrypted_trials']} "
+        f"key_runs={summary['total_encrypted_key_runs']}"
     )
     print(f"workload_results={trials_path}")
     print(f"encrypted_trials={encrypted_trials_path}")

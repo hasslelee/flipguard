@@ -67,6 +67,12 @@ func TestBuildTabularWorkloadContractDerivesBoundInputs(t *testing.T) {
 			contract.Calibration.AggregateSensitivity,
 		)
 	}
+	if contract.Deployment.ValidationKeyRepeats != 1 {
+		t.Fatalf(
+			"unexpected default key repeats: %+v",
+			contract.Deployment,
+		)
+	}
 	if !strings.HasPrefix(
 		contract.ModelArtifact.SHA256,
 		"sha256:",
@@ -270,10 +276,11 @@ func validContractFixture() WorkloadContract {
 			CalibrationScope:      "observed_validation_artifact:" + digest,
 		},
 		Deployment: DeploymentContract{
-			SecurityBits:       128,
-			RequiredSlots:      1,
-			MaxEncryptedTrials: 4,
-			PackingStrategy:    ScalarReplicatedPackingV1,
+			SecurityBits:         128,
+			RequiredSlots:        1,
+			MaxEncryptedTrials:   4,
+			ValidationKeyRepeats: 1,
+			PackingStrategy:      ScalarReplicatedPackingV1,
 			AllowedPaths: []tuner.ExecutionPath{
 				tuner.PathRescale,
 			},

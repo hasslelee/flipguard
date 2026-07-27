@@ -159,13 +159,23 @@ scripts/run_direct_tabular_autotune_matrix.sh \
   --precision-floor 18 \
   --same-tier-precision \
   --force
+
+# Fresh-key robustness: each configuration trial is certified over three
+# independently generated keypairs.
+scripts/run_direct_tabular_autotune_matrix.sh \
+  --seed0 \
+  --precision-floor 18 \
+  --key-repeats 3 \
+  --force
 ```
 
 `run_status.csv` is the execution ledger. The summarizer validates the
 workload identity and trial count in every successful result before writing
-`summary/workload_results.csv` and `summary/summary.json`. A checkpoint with
-fewer than the declared number of workloads is reported as incomplete; any
-recorded execution failure makes the runner exit nonzero.
+`summary/workload_results.csv`, `summary/encrypted_trials.csv`, and
+`summary/summary.json`. Configuration trials and fresh-key runs are counted
+separately. A checkpoint with fewer than the declared number of workloads is
+reported as incomplete; any recorded execution failure makes the runner exit
+nonzero.
 
 ## Development Evidence
 
@@ -276,6 +286,31 @@ a security tier necessarily reduces the end-to-end observed error of this
 rescale chain. The mode remains available only as a reproducible negative
 ablation and is not the default planner policy. Candidate selection must be
 evaluated across independent keys rather than inferred from scale alone.
+
+### Fresh-key aggregation
+
+`WorkloadContract` schema 2 adds `validation_key_repeats`. One encrypted
+configuration trial now:
+
+1. creates a fresh Lattigo context and keypair for every requested key run;
+2. executes the exact digest-bound validation rows under each key;
+3. appends every key-run score to the corresponding sample's
+   `ApproxScores`;
+4. builds one certificate over all sample-by-key observations;
+5. reports both configuration trials and completed key runs.
+
+The three-key smoke run completed one configuration trial and three key runs
+with `SuccessRuns=3`. A three-key banknote linear floor-18 development run
+used:
+
+| Trial | Configuration | Key runs | Status | Flips | Violations | Max error |
+|---:|---|---:|---|---:|---:|---:|
+| 1 | `N13/Q7/scale20` | 3 | REJECTED | 10 | 27 | 0.01708 |
+| 2 | `N13/Q7/scale24` | 3 | SAFE | 0 | 0 | 0.00702 |
+
+This is implementation evidence, not a key-independence claim. The full
+workload matrix, multiple data splits, and a separately locked audit still
+remain.
 
 ## Current Claim Boundary
 

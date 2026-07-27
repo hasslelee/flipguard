@@ -293,6 +293,7 @@ profile catalog. It must emit an exact CKKS parameter literal and preserve:
 - backend NTT-prime generation attempts and any feasibility scale lift;
 - statically considered same-tier literals and precision gain;
 - declared LogN, LogQ, LogP, and default scale;
+- requested and completed fresh-key runs per configuration trial;
 - security-envelope identity, source, and remaining headroom;
 - every encrypted trial and repair trigger;
 - the final SAFE certificate or NO_SAFE reason.
@@ -302,7 +303,8 @@ admission and decision certification remain separate checks.
 
 Adaptive search cost is the number of fully encrypted candidate trials, not
 the number of statically considered expressions. The planner must report its
-trial distribution and compare it with:
+configuration-trial distribution and its separately counted fresh-key runs,
+then compare it with:
 
 - the fixed-catalog exhaustive oracle;
 - the CKKS reference configuration;

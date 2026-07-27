@@ -69,6 +69,11 @@ func run(args []string, stdout io.Writer) error {
 		defaults.MaxEncryptedTrials,
 		"maximum adaptive encrypted trials",
 	)
+	keyRepeats := flags.Int(
+		"key-repeats",
+		defaults.ValidationKeyRepeats,
+		"independent fresh-key validation runs per configuration trial",
+	)
 	minScaleBits := flags.Int(
 		"min-scale-bits",
 		synthesisDefaults.MinScaleBits,
@@ -114,6 +119,9 @@ func run(args []string, stdout io.Writer) error {
 	if *specialPrimeBits <= 0 {
 		return errors.New("--special-prime-bits must be positive")
 	}
+	if *keyRepeats <= 0 {
+		return errors.New("--key-repeats must be positive")
+	}
 
 	options := defaults
 	options.ModelPath = *modelPath
@@ -123,6 +131,7 @@ func run(args []string, stdout io.Writer) error {
 	options.SafetyFactor = *safetyFactor
 	options.SecurityBits = *securityBits
 	options.MaxEncryptedTrials = *maxEncryptedTrials
+	options.ValidationKeyRepeats = *keyRepeats
 	options.AllowedPaths = []tuner.ExecutionPath{
 		tuner.PathRescale,
 	}

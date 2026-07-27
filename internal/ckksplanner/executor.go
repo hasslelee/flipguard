@@ -3,7 +3,9 @@ package ckksplanner
 import (
 	"errors"
 	"fmt"
+	"math"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -29,6 +31,9 @@ type TabularTrialResult struct {
 	FailureSignal RepairSignal `json:"failure_signal,omitempty"`
 	Failure       string       `json:"failure,omitempty"`
 
+	KeyRepeatsRequested int `json:"key_repeats_requested"`
+	KeyRepeatsCompleted int `json:"key_repeats_completed"`
+
 	SuccessRuns      int     `json:"success_runs"`
 	DecisionFlips    int     `json:"decision_flips"`
 	ErrorViolations  int     `json:"error_violations"`
@@ -53,6 +58,8 @@ type AdaptiveAutotuneResult struct {
 
 	TrialsUsed int                  `json:"trials_used"`
 	Trials     []TabularTrialResult `json:"trials"`
+
+	EncryptedKeyRuns int `json:"encrypted_key_runs"`
 
 	Selected *SynthesizedCandidate `json:"selected,omitempty"`
 }
@@ -80,8 +87,9 @@ func ExecuteTabularCandidate(
 	}
 
 	result := TabularTrialResult{
-		TrialIndex: trialIndex,
-		Candidate:  candidate,
+		TrialIndex:          trialIndex,
+		Candidate:           candidate,
+		KeyRepeatsRequested: contract.Deployment.ValidationKeyRepeats,
 	}
 
 	profile, err := candidate.Profile()
@@ -89,15 +97,6 @@ func ExecuteTabularCandidate(
 		result.Status = certify.StatusFailed
 		result.Assurance = certify.AssuranceNone
 		result.Reason = "synthesized parameter literal failed backend validation"
-		result.Failure = err.Error()
-		return result, nil
-	}
-
-	context, err := ckksbackend.NewContextFromProfile(profile)
-	if err != nil {
-		result.Status = certify.StatusFailed
-		result.Assurance = certify.AssuranceNone
-		result.Reason = "synthesized parameter context creation failed"
 		result.Failure = err.Error()
 		return result, nil
 	}
@@ -120,48 +119,121 @@ func ExecuteTabularCandidate(
 	config.ScoreAbsErrorCap = 1
 	config.ScoreRelErrorCap = 1
 
-	records, summary, err := context.RunCKKSTabularInference(config)
-	if err != nil {
-		result.Status = certify.StatusFailed
-		result.Assurance = certify.AssuranceNone
-		result.Reason = "encrypted validation execution failed"
-		result.Failure = err.Error()
-		result.FailureSignal = classifyExecutionFailure(err)
-		return result, nil
-	}
+	keyRepeats := contract.Deployment.ValidationKeyRepeats
+	sampleOrder := make([]string, 0)
+	plainScores := make(map[string]float64)
+	approxBySample := make(map[string][]float64)
+	totalLatencies := make([]float64, 0)
 
-	if summary.DatasetID != contract.DatasetID ||
-		summary.ModelID != contract.ModelID ||
-		summary.ModelType != contract.ModelType {
-		return TabularTrialResult{}, fmt.Errorf(
-			"backend workload identity mismatch: got %s/%s/%s",
-			summary.DatasetID,
-			summary.ModelID,
-			summary.ModelType,
-		)
+	for keyRun := 1; keyRun <= keyRepeats; keyRun++ {
+		context, err := ckksbackend.NewContextFromProfile(profile)
+		if err != nil {
+			result.Status = certify.StatusFailed
+			result.Assurance = certify.AssuranceNone
+			result.Reason = fmt.Sprintf(
+				"synthesized parameter context creation failed for key run %d/%d",
+				keyRun,
+				keyRepeats,
+			)
+			result.Failure = err.Error()
+			return result, nil
+		}
+
+		records, summary, err :=
+			context.RunCKKSTabularInference(config)
+		if err != nil {
+			result.Status = certify.StatusFailed
+			result.Assurance = certify.AssuranceNone
+			result.Reason = fmt.Sprintf(
+				"encrypted validation execution failed for key run %d/%d",
+				keyRun,
+				keyRepeats,
+			)
+			result.Failure = err.Error()
+			result.FailureSignal =
+				classifyExecutionFailure(err)
+			return result, nil
+		}
+
+		if summary.DatasetID != contract.DatasetID ||
+			summary.ModelID != contract.ModelID ||
+			summary.ModelType != contract.ModelType {
+			return TabularTrialResult{}, fmt.Errorf(
+				"backend workload identity mismatch on key run %d: got %s/%s/%s",
+				keyRun,
+				summary.DatasetID,
+				summary.ModelID,
+				summary.ModelType,
+			)
+		}
+		if keyRun > 1 && len(records) != len(sampleOrder) {
+			return TabularTrialResult{}, fmt.Errorf(
+				"backend validation sample count changed on key run %d: got %d expected %d",
+				keyRun,
+				len(records),
+				len(sampleOrder),
+			)
+		}
+
+		for recordIndex, record := range records {
+			sampleID := strconv.Itoa(record.RowID)
+			if keyRun == 1 {
+				sampleOrder = append(sampleOrder, sampleID)
+				plainScores[sampleID] = record.PlainY
+				approxBySample[sampleID] =
+					make([]float64, 0, keyRepeats)
+			} else {
+				if sampleOrder[recordIndex] != sampleID {
+					return TabularTrialResult{}, fmt.Errorf(
+						"backend validation sample order changed on key run %d at index %d: got %s expected %s",
+						keyRun,
+						recordIndex,
+						sampleID,
+						sampleOrder[recordIndex],
+					)
+				}
+				if !closeFloat(
+					plainScores[sampleID],
+					record.PlainY,
+				) {
+					return TabularTrialResult{}, fmt.Errorf(
+						"backend plaintext score changed on key run %d for sample %s",
+						keyRun,
+						sampleID,
+					)
+				}
+			}
+
+			approxBySample[sampleID] = append(
+				approxBySample[sampleID],
+				record.CKKSY,
+			)
+			totalLatencies = append(
+				totalLatencies,
+				record.TotalEvalMS,
+			)
+		}
+		result.KeyRepeatsCompleted = keyRun
 	}
 
 	observedSamples := make(
 		[]certify.ObservedSample,
 		0,
-		len(records),
+		len(sampleOrder),
 	)
-	sampleOrder := make([]string, 0, len(records))
-	plainScores := make(map[string]float64, len(records))
-
-	for _, record := range records {
-		sampleID := strconv.Itoa(record.RowID)
+	for _, sampleID := range sampleOrder {
 		observedSamples = append(
 			observedSamples,
 			certify.ObservedSample{
-				ID:           sampleID,
-				PlainScore:   record.PlainY,
-				Threshold:    contract.Decision.Threshold,
-				ApproxScores: []float64{record.CKKSY},
+				ID:         sampleID,
+				PlainScore: plainScores[sampleID],
+				Threshold:  contract.Decision.Threshold,
+				ApproxScores: append(
+					[]float64(nil),
+					approxBySample[sampleID]...,
+				),
 			},
 		)
-		sampleOrder = append(sampleOrder, sampleID)
-		plainScores[sampleID] = record.PlainY
 	}
 
 	observedDigest := digestValidationScores(sampleOrder, plainScores)
@@ -173,12 +245,18 @@ func ExecuteTabularCandidate(
 		)
 	}
 
+	meanTotalMS, medianTotalMS, p95TotalMS, err :=
+		summarizeTrialLatencies(totalLatencies)
+	if err != nil {
+		return TabularTrialResult{}, err
+	}
+
 	aggregation, err := certify.AggregateObservedCandidate(
 		certify.ObservedCandidateInput{
 			Candidate: candidateDescriptor(candidate),
 			Samples:   observedSamples,
 
-			MeanTotalMS: summary.MeanTotalEvalMS,
+			MeanTotalMS: meanTotalMS,
 		},
 		contract.Decision.MarginFloor,
 		contract.Decision.SafetyFactor,
@@ -221,14 +299,21 @@ func ExecuteTabularCandidate(
 	result.Assurance = certificate.Assurance
 	result.Reason = certificate.Reason
 	result.SuccessRuns = certificate.SuccessRuns
+	if result.SuccessRuns != keyRepeats {
+		return TabularTrialResult{}, fmt.Errorf(
+			"certificate successful runs %d do not match requested key repeats %d",
+			result.SuccessRuns,
+			keyRepeats,
+		)
+	}
 	result.DecisionFlips = certificate.DecisionFlips
 	result.ErrorViolations = certificate.ErrorViolations
 	result.MaxObservedError = certificate.MaxObservedError
 	result.VCert = certificate.VCert
 	result.VAmb = certificate.VAmb
-	result.MeanTotalMS = summary.MeanTotalEvalMS
-	result.MedianMS = summary.MedianTotalEvalMS
-	result.P95MS = summary.P95TotalEvalMS
+	result.MeanTotalMS = meanTotalMS
+	result.MedianMS = medianTotalMS
+	result.P95MS = p95TotalMS
 
 	if certificate.Status == certify.StatusRejected {
 		result.FailureSignal = RepairNumericalReject
@@ -285,15 +370,17 @@ func RunAdaptiveTabularAutotune(
 		}
 		result.Trials = append(result.Trials, trial)
 		result.TrialsUsed = len(result.Trials)
+		result.EncryptedKeyRuns += trial.KeyRepeatsCompleted
 
 		if trial.Status == certify.StatusSafe {
 			selected := candidate
 			result.Outcome = AdaptiveOutcomeSelected
 			result.Selected = &selected
 			result.Reason = fmt.Sprintf(
-				"selected first certified candidate %s after %d encrypted trial(s)",
+				"selected first certified candidate %s after %d encrypted configuration trial(s) and %d key run(s)",
 				candidate.ID,
 				result.TrialsUsed,
+				result.EncryptedKeyRuns,
 			)
 			return result, nil
 		}
@@ -334,6 +421,48 @@ func RunAdaptiveTabularAutotune(
 		maxTrials,
 	)
 	return result, nil
+}
+
+func summarizeTrialLatencies(
+	values []float64,
+) (mean float64, median float64, p95 float64, err error) {
+	if len(values) == 0 {
+		return 0, 0, 0, fmt.Errorf(
+			"cannot summarize empty encrypted latency observations",
+		)
+	}
+
+	sorted := append([]float64(nil), values...)
+	total := 0.0
+	for index, value := range sorted {
+		if !finite(value) || value < 0 {
+			return 0, 0, 0, fmt.Errorf(
+				"encrypted latency observation %d is invalid: %.12g",
+				index,
+				value,
+			)
+		}
+		total += value
+	}
+	sort.Float64s(sorted)
+
+	percentile := func(fraction float64) float64 {
+		index := int(
+			math.Ceil(fraction*float64(len(sorted))),
+		) - 1
+		if index < 0 {
+			index = 0
+		}
+		if index >= len(sorted) {
+			index = len(sorted) - 1
+		}
+		return sorted[index]
+	}
+
+	return total / float64(len(sorted)),
+		percentile(0.50),
+		percentile(0.95),
+		nil
 }
 
 func verifyContractArtifacts(contract WorkloadContract) error {

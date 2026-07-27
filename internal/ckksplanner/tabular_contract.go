@@ -29,9 +29,10 @@ type TabularContractOptions struct {
 	MarginFloor  float64
 	SafetyFactor float64
 
-	SecurityBits       int
-	MaxEncryptedTrials int
-	AllowedPaths       []tuner.ExecutionPath
+	SecurityBits         int
+	MaxEncryptedTrials   int
+	ValidationKeyRepeats int
+	AllowedPaths         []tuner.ExecutionPath
 }
 
 // DefaultTabularContractOptions returns the currently declared primary
@@ -42,8 +43,9 @@ func DefaultTabularContractOptions() TabularContractOptions {
 		MarginFloor:  0.001,
 		SafetyFactor: 0.5,
 
-		SecurityBits:       128,
-		MaxEncryptedTrials: 4,
+		SecurityBits:         128,
+		MaxEncryptedTrials:   4,
+		ValidationKeyRepeats: 1,
 		AllowedPaths: []tuner.ExecutionPath{
 			tuner.PathRescale,
 		},
@@ -288,9 +290,10 @@ func BuildTabularWorkloadContract(
 				validationArtifactDigest,
 		},
 		Deployment: DeploymentContract{
-			SecurityBits:       options.SecurityBits,
-			RequiredSlots:      1,
-			MaxEncryptedTrials: options.MaxEncryptedTrials,
+			SecurityBits:         options.SecurityBits,
+			RequiredSlots:        1,
+			MaxEncryptedTrials:   options.MaxEncryptedTrials,
+			ValidationKeyRepeats: options.ValidationKeyRepeats,
 
 			PackingStrategy: ScalarReplicatedPackingV1,
 			AllowedPaths: append(
@@ -335,6 +338,10 @@ func normalizeTabularContractOptions(options *TabularContractOptions) {
 	}
 	if options.MaxEncryptedTrials <= 0 {
 		options.MaxEncryptedTrials = defaults.MaxEncryptedTrials
+	}
+	if options.ValidationKeyRepeats <= 0 {
+		options.ValidationKeyRepeats =
+			defaults.ValidationKeyRepeats
 	}
 	if len(options.AllowedPaths) == 0 {
 		options.AllowedPaths = append(

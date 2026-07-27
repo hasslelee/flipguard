@@ -13,6 +13,7 @@ func TestRunAdaptiveTabularAutotuneSelectsDirectCandidate(t *testing.T) {
 	options.SplitID = "split_seed_0"
 	options.MarginFloor = 0.01
 	options.MaxEncryptedTrials = 2
+	options.ValidationKeyRepeats = 2
 
 	contract, err := BuildTabularWorkloadContract(options)
 	if err != nil {
@@ -38,11 +39,37 @@ func TestRunAdaptiveTabularAutotuneSelectsDirectCandidate(t *testing.T) {
 	if result.TrialsUsed != 1 {
 		t.Fatalf("expected one encrypted trial, got %d", result.TrialsUsed)
 	}
+	if result.EncryptedKeyRuns != 2 ||
+		result.Trials[0].KeyRepeatsRequested != 2 ||
+		result.Trials[0].KeyRepeatsCompleted != 2 ||
+		result.Trials[0].SuccessRuns != 2 {
+		t.Fatalf(
+			"unexpected multi-key evidence: %+v",
+			result,
+		)
+	}
 	if result.Trials[0].VCert != 2 ||
 		result.Trials[0].VAmb != 1 {
 		t.Fatalf(
 			"unexpected certified partition: %+v",
 			result.Trials[0],
+		)
+	}
+}
+
+func TestSummarizeTrialLatencies(t *testing.T) {
+	mean, median, p95, err := summarizeTrialLatencies(
+		[]float64{4, 1, 3, 2},
+	)
+	if err != nil {
+		t.Fatalf("summarize latencies: %v", err)
+	}
+	if mean != 2.5 || median != 2 || p95 != 4 {
+		t.Fatalf(
+			"unexpected latency summary mean=%g median=%g p95=%g",
+			mean,
+			median,
+			p95,
 		)
 	}
 }

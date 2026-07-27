@@ -12,7 +12,7 @@ import (
 const (
 	// WorkloadContractSchemaVersion is incremented whenever a field changes
 	// meaning. A configuration is scoped to one validated contract version.
-	WorkloadContractSchemaVersion = 1
+	WorkloadContractSchemaVersion = 2
 
 	// EmpiricalIntervalDAGSensitivityV1 records that the planner sensitivity is
 	// derived from interval propagation over the exact validation inputs. It is
@@ -66,9 +66,10 @@ type NumericalCalibration struct {
 
 // DeploymentContract records the non-negotiable execution constraints.
 type DeploymentContract struct {
-	SecurityBits       int `json:"security_bits"`
-	RequiredSlots      int `json:"required_slots"`
-	MaxEncryptedTrials int `json:"max_encrypted_trials"`
+	SecurityBits         int `json:"security_bits"`
+	RequiredSlots        int `json:"required_slots"`
+	MaxEncryptedTrials   int `json:"max_encrypted_trials"`
+	ValidationKeyRepeats int `json:"validation_key_repeats"`
 
 	PackingStrategy string                `json:"packing_strategy"`
 	AllowedPaths    []tuner.ExecutionPath `json:"allowed_paths"`
@@ -257,6 +258,11 @@ func (deployment DeploymentContract) validate() error {
 	}
 	if deployment.MaxEncryptedTrials <= 0 {
 		return fmt.Errorf("deployment max encrypted trials must be positive")
+	}
+	if deployment.ValidationKeyRepeats <= 0 {
+		return fmt.Errorf(
+			"deployment validation key repeats must be positive",
+		)
 	}
 	if deployment.PackingStrategy != ScalarReplicatedPackingV1 {
 		return fmt.Errorf(

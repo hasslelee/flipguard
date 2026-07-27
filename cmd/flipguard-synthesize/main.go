@@ -69,6 +69,11 @@ func run(args []string, stdout io.Writer) error {
 		defaults.MaxEncryptedTrials,
 		"maximum adaptive encrypted trials",
 	)
+	keyRepeats := flags.Int(
+		"key-repeats",
+		defaults.ValidationKeyRepeats,
+		"independent fresh-key validation runs per configuration trial",
+	)
 	executionPath := flags.String(
 		"path",
 		string(tuner.PathRescale),
@@ -119,6 +124,9 @@ func run(args []string, stdout io.Writer) error {
 	if *specialPrimeBits <= 0 {
 		return errors.New("--special-prime-bits must be positive")
 	}
+	if *keyRepeats <= 0 {
+		return errors.New("--key-repeats must be positive")
+	}
 
 	path, err := parseExecutionPath(*executionPath)
 	if err != nil {
@@ -133,6 +141,7 @@ func run(args []string, stdout io.Writer) error {
 	options.SafetyFactor = *safetyFactor
 	options.SecurityBits = *securityBits
 	options.MaxEncryptedTrials = *maxEncryptedTrials
+	options.ValidationKeyRepeats = *keyRepeats
 	options.AllowedPaths = []tuner.ExecutionPath{path}
 
 	contract, err := ckksplanner.BuildTabularWorkloadContract(options)
