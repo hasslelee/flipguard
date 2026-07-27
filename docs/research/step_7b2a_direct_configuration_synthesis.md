@@ -1,8 +1,9 @@
 # Step 7B.2a: Direct CKKS Configuration Synthesis
 
 Status: implemented and validated as development evidence on 2026-07-27.
-The seed-0 audit and seed-1 multi-split checkpoint are frozen as preliminary
-evidence. Split seeds 2--4 and final repeated-latency evidence are not frozen.
+The seed-0 audit and seeds-1--2 cumulative multi-split checkpoint are frozen
+as preliminary evidence. Split seeds 3--4 and final repeated-latency evidence
+are not frozen.
 
 ## Research Decision
 
@@ -370,11 +371,11 @@ Three fresh keys on each partition also do not establish key independence.
 The next required empirical step is the predeclared five-split selection and
 locked-audit matrix.
 
-### Multi-split checkpoint: seed 1
+### Multi-split checkpoints: seeds 1 and 2
 
-The identical floor-18, three-key policy was applied to split seed 1 without
-changing synthesis, repair, margin, safety, or stopping rules after the seed-0
-audit was observed.
+The identical floor-18, three-key policy was applied to split seeds 1 and 2
+without changing synthesis, repair, margin, safety, or stopping rules after
+the seed-0 audit was observed.
 
 Selection produced:
 
@@ -404,10 +405,34 @@ rejections accumulated 386 flips and 1,709 violations before repair.
 
 The seed-1 pack is frozen at
 [`direct_locked_audit_seed1_checkpoint_v1`](../evidence/direct_locked_audit_seed1_checkpoint_v1/README.md).
-The full matrix intentionally remains a checkpoint (`10/50`) until split seeds
-0, 2, 3, and 4 are present in the same full-run ledger. Seed 0 already has an
-independent frozen pack, but it will also be executed or provenance-preservingly
-imported into the final full ledger before the five-split evidence is frozen.
+
+Seed 2 reproduced the same selected structure and trial distribution:
+
+- 10/10 `SELECTED`, 14 configuration trials, and 42 fresh-key runs;
+- four initial linear rejections with 203 flips and 850 violations;
+- 10/10 no-retuning locked-audit PASS outcomes over 30 fresh-key runs;
+- audit `V_cert=1629`, `V_amb=31`, and zero final flips or violations.
+
+The cumulative seeds-1--2 pack is frozen at
+[`direct_locked_audit_seeds1_2_checkpoint_v1`](../evidence/direct_locked_audit_seeds1_2_checkpoint_v1/README.md).
+Its full-run ledgers contain 20/50 selection workloads and 20/50 audits.
+
+Across all three completed split checkpoints, including the independently
+frozen seed-0 run:
+
+- selection: 30/30 selected workloads, 42 configuration trials, and 126
+  fresh-key runs;
+- adaptive failures: 12 initial rejections with 589 flips and 2,559
+  violations before repair;
+- locked audit: 30/30 PASS, 30 frozen configuration trials, 90 fresh-key
+  runs, and no retuning;
+- audit coverage: aggregate `V_cert=4875` and `V_amb=105`, with zero final
+  flips and violations.
+
+The full matrix intentionally remains incomplete until split seeds 0, 3, and
+4 are present in the same full-run ledger. Seed 0 already has an independent
+frozen pack, but it will also be executed or provenance-preservingly imported
+into the final ledger before five-split evidence is frozen.
 
 ## Current Claim Boundary
 
