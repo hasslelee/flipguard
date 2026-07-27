@@ -251,6 +251,12 @@ distribution must be preserved.
 The exhaustive candidate evaluation is the oracle within the declared candidate
 space.
 
+The executable Step 7B.2 contract is frozen in
+[`step_7b2_planner_oracle_protocol.md`](step_7b2_planner_oracle_protocol.md).
+It projects planner candidate IDs onto the same exhaustive execution records;
+it does not rerun the planner subset. `mean_total_ms` is frozen as the
+selection metric before the full validation run.
+
 Required definitions:
 
 safe_candidate_recall =
@@ -266,6 +272,10 @@ latency_regret =
 
 A planner with high pruning but low safe recall or high latency regret is not
 successful.
+
+When the exhaustive oracle has no SAFE candidate, safe recall, global optimum
+recall, and latency regret are undefined rather than zero. False `NO_SAFE`
+requires an oracle SAFE candidate and an empty planner SAFE subset.
 
 Heuristic coefficients must be tuned on workloads separate from the final
 evaluation workloads, or evaluated through a nested protocol that prevents
