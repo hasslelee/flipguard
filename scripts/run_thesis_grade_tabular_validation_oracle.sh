@@ -331,8 +331,6 @@ for seed in "${SEEDS[@]}"; do
 
       for profile in "${PROFILES[@]}"; do
         for path in "${PATHS[@]}"; do
-          candidate_total=$((candidate_total + 1))
-
           case "$path" in
             baseline_non_rescale)
               evaluation_mode="naive"
@@ -362,6 +360,7 @@ for seed in "${SEEDS[@]}"; do
              [[ -f "$RECORDS_PATH" ]] &&
              grep -Fq ",${tag},ok,0," "$STATUS_PATH"; then
             echo "SKIP completed candidate: $tag"
+            candidate_total=$((candidate_total + 1))
             candidate_skipped=$((candidate_skipped + 1))
             candidate_skipped_ok=$((candidate_skipped_ok + 1))
             continue
@@ -372,6 +371,7 @@ for seed in "${SEEDS[@]}"; do
              [[ -f "$STDOUT_LOG" ]] &&
              grep -Eq ",${tag},failed,[1-9][0-9]*," "$STATUS_PATH"; then
             echo "SKIP terminal FAILED candidate: $tag"
+            candidate_total=$((candidate_total + 1))
             candidate_skipped=$((candidate_skipped + 1))
             candidate_skipped_failed=$((candidate_skipped_failed + 1))
             continue
@@ -383,6 +383,7 @@ for seed in "${SEEDS[@]}"; do
             break 5
           fi
 
+          candidate_total=$((candidate_total + 1))
           candidate_started=$((candidate_started + 1))
 
           remove_existing_status_row "$tag"
