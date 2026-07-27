@@ -127,6 +127,29 @@ Generate, execute, certify, and select:
   results/direct_tabular_autotune/development/banknote_mlp_seed0.json
 ```
 
+The resumable matrix runner fixes the workload order and writes one
+digest-bound result per workload:
+
+```bash
+# One-workload end-to-end smoke check.
+scripts/run_direct_tabular_autotune_matrix.sh --smoke --force
+
+# Development matrix: 5 datasets x 2 model forms x split seed 0.
+scripts/run_direct_tabular_autotune_matrix.sh --seed0 --force
+
+# Thesis matrix: the same 10 workloads x split seeds 0..4.
+scripts/run_direct_tabular_autotune_matrix.sh --full --force
+
+# Resume without repeating completed workloads.
+scripts/run_direct_tabular_autotune_matrix.sh --full --resume
+```
+
+`run_status.csv` is the execution ledger. The summarizer validates the
+workload identity and trial count in every successful result before writing
+`summary/workload_results.csv` and `summary/summary.json`. A checkpoint with
+fewer than the declared number of workloads is reported as incomplete; any
+recorded execution failure makes the runner exit nonzero.
+
 ## Development Evidence
 
 One non-repeated development run on the same 205-row seed-0 validation split
