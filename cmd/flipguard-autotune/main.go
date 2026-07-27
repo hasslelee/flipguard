@@ -84,6 +84,11 @@ func run(args []string, stdout io.Writer) error {
 		synthesisDefaults.SpecialPrimeBits,
 		"minimum P special-prime bits",
 	)
+	precisionSlackMode := flags.String(
+		"precision-slack-mode",
+		synthesisDefaults.PrecisionSlackMode,
+		"static precision policy: none or maximize_within_min_log_n",
+	)
 
 	if err := flags.Parse(args); err != nil {
 		return err
@@ -130,6 +135,9 @@ func run(args []string, stdout io.Writer) error {
 	synthesisPolicy.MinScaleBits = *minScaleBits
 	synthesisPolicy.MinPrimeBits = *minPrimeBits
 	synthesisPolicy.SpecialPrimeBits = *specialPrimeBits
+	synthesisPolicy.PrecisionSlackMode = strings.TrimSpace(
+		*precisionSlackMode,
+	)
 
 	plan, err := ckksplanner.Synthesize(contract, synthesisPolicy)
 	if err != nil {

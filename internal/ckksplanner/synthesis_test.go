@@ -136,6 +136,69 @@ func TestSynthesizeRecordsLowerExperimentalFloor(t *testing.T) {
 	}
 }
 
+func TestSynthesizeMaximizesPrecisionWithinMinimumLogNTier(t *testing.T) {
+	contract := validContractFixture()
+	policy := DefaultSynthesisPolicy()
+	policy.MinScaleBits = 18
+	policy.MinPrimeBits = 18
+	policy.PrecisionSlackMode =
+		PrecisionSlackMaximizeWithinMinLogN
+
+	plan, err := Synthesize(contract, policy)
+	if err != nil {
+		t.Fatalf("synthesize with same-tier precision: %v", err)
+	}
+
+	candidate := plan.InitialCandidates[0]
+	if candidate.Parameters.LogN != 13 ||
+		candidate.Parameters.LogDefaultScale != 30 {
+		t.Fatalf(
+			"expected MLP candidate N13/scale30, got N%d/scale%d",
+			candidate.Parameters.LogN,
+			candidate.Parameters.LogDefaultScale,
+		)
+	}
+	if candidate.AnalysisScaleBits != 18 ||
+		candidate.BackendScaleLiftBits != 2 ||
+		candidate.SameTierPrecisionGainBits != 10 {
+		t.Fatalf(
+			"unexpected same-tier trace: %+v",
+			candidate,
+		)
+	}
+}
+
+func TestSynthesizeLinearSameTierCeilingIsScale26(t *testing.T) {
+	contract := validContractFixture()
+	contract.ModelType = "linear_poly3"
+	contract.Graph.MultiplicativeDepth = 2
+	contract.Graph.RescaleOps = 2
+	contract.Deployment.RescaleLevelsConsumed = 6
+	contract.Deployment.TerminalScaleExponent = 1
+	contract.Deployment.RequiredQPrimes = 7
+
+	policy := DefaultSynthesisPolicy()
+	policy.MinScaleBits = 18
+	policy.MinPrimeBits = 18
+	policy.PrecisionSlackMode =
+		PrecisionSlackMaximizeWithinMinLogN
+
+	plan, err := Synthesize(contract, policy)
+	if err != nil {
+		t.Fatalf("synthesize linear same-tier precision: %v", err)
+	}
+
+	candidate := plan.InitialCandidates[0]
+	if candidate.Parameters.LogN != 13 ||
+		candidate.Parameters.LogDefaultScale != 26 {
+		t.Fatalf(
+			"expected linear candidate N13/scale26, got N%d/scale%d",
+			candidate.Parameters.LogN,
+			candidate.Parameters.LogDefaultScale,
+		)
+	}
+}
+
 func TestRetryablePrimeGenerationErrorIsNarrow(t *testing.T) {
 	if !retryablePrimeGenerationError(
 		fmt.Errorf("cannot GenModuli: failed to generate 5 primes"),

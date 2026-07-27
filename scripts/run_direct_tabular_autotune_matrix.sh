@@ -8,6 +8,7 @@ RETRY_FAILED=0
 QUIET_SKIPS=0
 MAX_NEW_RUNS=0
 PRECISION_FLOOR_BITS=0
+SAME_TIER_PRECISION=0
 
 usage() {
   cat <<'EOF'
@@ -24,6 +25,7 @@ Execution:
   --retry-failed        Retry terminal failed workloads when resuming.
   --max-new-runs N      Stop after N newly started workloads.
   --precision-floor N   Experimental min scale/Q-prime bits; keeps P >= 30.
+  --same-tier-precision Maximize precision without increasing minimum LogN.
   --quiet-skips         Suppress one-line messages for resumed workloads.
   -h, --help            Show this help.
 EOF
@@ -75,6 +77,10 @@ while [[ $# -gt 0 ]]; do
       PRECISION_FLOOR_BITS="$2"
       shift 2
       ;;
+    --same-tier-precision)
+      SAME_TIER_PRECISION=1
+      shift
+      ;;
     -h|--help)
       usage
       exit 0
@@ -91,6 +97,11 @@ if [[ $FORCE -eq 1 ]] && [[ $RESUME -eq 1 ]]; then
   echo "ERROR: --force and --resume are mutually exclusive" >&2
   exit 2
 fi
+if [[ $SAME_TIER_PRECISION -eq 1 ]] &&
+   [[ $PRECISION_FLOOR_BITS -eq 0 ]]; then
+  echo "ERROR: --same-tier-precision requires --precision-floor" >&2
+  exit 2
+fi
 
 REPOSITORY_ROOT="$(
   cd "$(dirname "${BASH_SOURCE[0]}")/.." &&
@@ -101,18 +112,26 @@ cd "$REPOSITORY_ROOT" || exit 1
 SPLIT_ROOT="results/thesis_grade_protocol/tabular_splits_v1"
 BASE_ROOT="results/thesis_grade_protocol/direct_tabular_autotune_v1"
 POLICY_ID="default"
-RUN_ID="$MODE"
-RUN_ROOT="$BASE_ROOT/$MODE"
 AUTOTUNE_POLICY_ARGS=()
 if [[ $PRECISION_FLOOR_BITS -gt 0 ]]; then
   POLICY_ID="floor${PRECISION_FLOOR_BITS}"
-  RUN_ID="${MODE}_${POLICY_ID}"
-  RUN_ROOT="$BASE_ROOT/$RUN_ID"
   AUTOTUNE_POLICY_ARGS=(
     --min-scale-bits "$PRECISION_FLOOR_BITS"
     --min-prime-bits "$PRECISION_FLOOR_BITS"
     --special-prime-bits 30
   )
+fi
+if [[ $SAME_TIER_PRECISION -eq 1 ]]; then
+  POLICY_ID="${POLICY_ID}_same_tier"
+  AUTOTUNE_POLICY_ARGS+=(
+    --precision-slack-mode maximize_within_min_log_n
+  )
+fi
+RUN_ID="$MODE"
+RUN_ROOT="$BASE_ROOT/$MODE"
+if [[ "$POLICY_ID" != "default" ]]; then
+  RUN_ID="${MODE}_${POLICY_ID}"
+  RUN_ROOT="$BASE_ROOT/$RUN_ID"
 fi
 
 DATASETS=(

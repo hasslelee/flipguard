@@ -33,6 +33,8 @@ TRIAL_FIELDS = [
     "analysis_scale_bits",
     "backend_scale_lift_bits",
     "backend_validation_attempts",
+    "same_tier_precision_gain_bits",
+    "same_tier_static_candidates_tried",
     "generation_kind",
     "decision_flips",
     "error_violations",
@@ -70,6 +72,8 @@ TRIAL_DETAIL_FIELDS = [
     "analysis_scale_bits",
     "backend_scale_lift_bits",
     "backend_validation_attempts",
+    "same_tier_precision_gain_bits",
+    "same_tier_static_candidates_tried",
     "decision_flips",
     "error_violations",
     "max_observed_error",
@@ -285,6 +289,14 @@ def summarize_result(
                     "backend_validation_attempts",
                     "",
                 ),
+                "same_tier_precision_gain_bits": candidate.get(
+                    "same_tier_precision_gain_bits",
+                    "",
+                ),
+                "same_tier_static_candidates_tried": candidate.get(
+                    "same_tier_static_candidates_tried",
+                    "",
+                ),
                 "decision_flips": trial.get("decision_flips", ""),
                 "error_violations": trial.get("error_violations", ""),
                 "max_observed_error": trial.get("max_observed_error", ""),
@@ -325,6 +337,14 @@ def summarize_result(
         ),
         "backend_validation_attempts": selected_candidate.get(
             "backend_validation_attempts",
+            "",
+        ),
+        "same_tier_precision_gain_bits": selected_candidate.get(
+            "same_tier_precision_gain_bits",
+            "",
+        ),
+        "same_tier_static_candidates_tried": selected_candidate.get(
+            "same_tier_static_candidates_tried",
             "",
         ),
         "generation_kind": selected_candidate.get("generation_kind", ""),

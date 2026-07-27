@@ -21,6 +21,9 @@ const (
 	// Homomorphic Encryption security guidelines. The limits are treated as a
 	// conservative admission envelope, not as a runtime security estimator.
 	HEStandard2024TernaryClassical128 = "he_security_guidelines_2024_ternary_classical_128"
+
+	PrecisionSlackNone                  = "none"
+	PrecisionSlackMaximizeWithinMinLogN = "maximize_within_min_log_n"
 )
 
 var ErrRepairExhausted = errors.New("adaptive repair exhausted")
@@ -71,6 +74,8 @@ type SynthesisPolicy struct {
 	RepairScaleStepBits int `json:"repair_scale_step_bits"`
 	MaxRepairLevels     int `json:"max_repair_levels"`
 
+	PrecisionSlackMode string `json:"precision_slack_mode"`
+
 	SecurityEnvelope SecurityEnvelope `json:"security_envelope"`
 }
 
@@ -114,6 +119,9 @@ type SynthesizedCandidate struct {
 	AnalysisScaleBits         int `json:"analysis_scale_bits"`
 	BackendScaleLiftBits      int `json:"backend_scale_lift_bits"`
 	BackendValidationAttempts int `json:"backend_validation_attempts"`
+
+	SameTierPrecisionGainBits     int `json:"same_tier_precision_gain_bits"`
+	SameTierStaticCandidatesTried int `json:"same_tier_static_candidates_tried"`
 
 	GenerationKind string `json:"generation_kind"`
 	Reason         string `json:"reason"`
@@ -186,6 +194,8 @@ func DefaultSynthesisPolicy() SynthesisPolicy {
 		RepairScaleStepBits: 4,
 		MaxRepairLevels:     2,
 
+		PrecisionSlackMode: PrecisionSlackNone,
+
 		SecurityEnvelope: DefaultSecurityEnvelope(),
 	}
 }
@@ -233,6 +243,7 @@ func Synthesize(
 			"analysis_minimum",
 			0,
 			0,
+			true,
 		)
 		if err != nil {
 			return SynthesisPlan{}, err
@@ -358,6 +369,7 @@ func RepairCandidate(
 		generationKind,
 		minimumScaleBits,
 		extraLevels,
+		false,
 	)
 	if err != nil {
 		return SynthesizedCandidate{}, fmt.Errorf(
@@ -376,6 +388,7 @@ func synthesizeBackendValidRescaleCandidate(
 	generationKind string,
 	minimumScaleBits int,
 	extraLevels int,
+	allowPrecisionSlack bool,
 ) (SynthesizedCandidate, error) {
 	analysisScaleBits := -1
 	attempts := 0
@@ -405,14 +418,23 @@ func synthesizeBackendValidRescaleCandidate(
 				candidate.Parameters.LogDefaultScale -
 					analysisScaleBits
 			candidate.BackendValidationAttempts = attempts
-			candidate.Reason = fmt.Sprintf(
-				"%s analysis_scale_bits=%d backend_scale_lift_bits=%d backend_validation_attempts=%d",
-				candidate.Reason,
-				candidate.AnalysisScaleBits,
-				candidate.BackendScaleLiftBits,
-				candidate.BackendValidationAttempts,
-			)
-			return candidate, nil
+			if allowPrecisionSlack &&
+				policy.PrecisionSlackMode ==
+					PrecisionSlackMaximizeWithinMinLogN {
+				candidate, err =
+					maximizePrecisionWithinMinLogNTier(
+						contract,
+						policy,
+						contractDigest,
+						generationKind,
+						extraLevels,
+						candidate,
+					)
+				if err != nil {
+					return SynthesizedCandidate{}, err
+				}
+			}
+			return annotateStaticFeasibility(candidate), nil
 		} else if !retryablePrimeGenerationError(err) {
 			return SynthesizedCandidate{}, fmt.Errorf(
 				"static backend validation for candidate %s: %w",
@@ -432,6 +454,84 @@ func synthesizeBackendValidRescaleCandidate(
 		}
 		nextMinimumScaleBits = currentScaleBits + 1
 	}
+}
+
+func maximizePrecisionWithinMinLogNTier(
+	contract WorkloadContract,
+	policy SynthesisPolicy,
+	contractDigest string,
+	generationKind string,
+	extraLevels int,
+	minimumCandidate SynthesizedCandidate,
+) (SynthesizedCandidate, error) {
+	best := minimumCandidate
+	minimumScaleBits :=
+		minimumCandidate.Parameters.LogDefaultScale
+	targetLogN := minimumCandidate.Parameters.LogN
+	staticCandidatesTried := 1
+
+	for scaleBits := minimumScaleBits + 1; scaleBits <= policy.MaxScaleBits; scaleBits++ {
+		candidate, err := synthesizeRescaleCandidate(
+			contract,
+			policy,
+			contractDigest,
+			generationKind,
+			scaleBits,
+			extraLevels,
+		)
+		if err != nil {
+			return SynthesizedCandidate{}, fmt.Errorf(
+				"same-tier precision synthesis at scale %d: %w",
+				scaleBits,
+				err,
+			)
+		}
+		if candidate.Parameters.LogN != targetLogN {
+			break
+		}
+
+		staticCandidatesTried++
+		if _, err := candidate.Profile(); err != nil {
+			if retryablePrimeGenerationError(err) {
+				continue
+			}
+			return SynthesizedCandidate{}, fmt.Errorf(
+				"same-tier backend validation for candidate %s: %w",
+				candidate.ID,
+				err,
+			)
+		}
+		best = candidate
+	}
+
+	best.AnalysisScaleBits =
+		minimumCandidate.AnalysisScaleBits
+	best.BackendScaleLiftBits =
+		minimumCandidate.BackendScaleLiftBits
+	best.BackendValidationAttempts =
+		minimumCandidate.BackendValidationAttempts
+	best.SameTierPrecisionGainBits =
+		best.Parameters.LogDefaultScale -
+			minimumScaleBits
+	best.SameTierStaticCandidatesTried =
+		staticCandidatesTried
+
+	return best, nil
+}
+
+func annotateStaticFeasibility(
+	candidate SynthesizedCandidate,
+) SynthesizedCandidate {
+	candidate.Reason = fmt.Sprintf(
+		"%s analysis_scale_bits=%d backend_scale_lift_bits=%d backend_validation_attempts=%d same_tier_precision_gain_bits=%d same_tier_static_candidates_tried=%d",
+		candidate.Reason,
+		candidate.AnalysisScaleBits,
+		candidate.BackendScaleLiftBits,
+		candidate.BackendValidationAttempts,
+		candidate.SameTierPrecisionGainBits,
+		candidate.SameTierStaticCandidatesTried,
+	)
+	return candidate
 }
 
 func retryablePrimeGenerationError(err error) bool {
@@ -577,6 +677,9 @@ func synthesizeRescaleCandidate(
 		BackendScaleLiftBits:      0,
 		BackendValidationAttempts: 1,
 
+		SameTierPrecisionGainBits:     0,
+		SameTierStaticCandidatesTried: 1,
+
 		GenerationKind: generationKind,
 		Reason: fmt.Sprintf(
 			"budget=%.6g aggregate_sensitivity=%.6g unit_budget=%.6g precision_bits=%d rescale_levels=%d terminal_scale_exponent=%d q_primes=%d level_guard=%d declared_logQP=%d",
@@ -634,6 +737,9 @@ func normalizeSynthesisPolicy(policy SynthesisPolicy) SynthesisPolicy {
 	if policy.MaxRepairLevels < 0 {
 		policy.MaxRepairLevels = defaults.MaxRepairLevels
 	}
+	if strings.TrimSpace(policy.PrecisionSlackMode) == "" {
+		policy.PrecisionSlackMode = defaults.PrecisionSlackMode
+	}
 	if strings.TrimSpace(policy.SecurityEnvelope.ID) == "" {
 		policy.SecurityEnvelope = defaults.SecurityEnvelope
 	}
@@ -653,6 +759,15 @@ func validateSynthesisPolicy(
 	}
 	if policy.MaxPrimeBits < policy.MinPrimeBits {
 		return fmt.Errorf("synthesis max prime size is below min prime size")
+	}
+	switch policy.PrecisionSlackMode {
+	case PrecisionSlackNone,
+		PrecisionSlackMaximizeWithinMinLogN:
+	default:
+		return fmt.Errorf(
+			"unsupported precision slack mode %q",
+			policy.PrecisionSlackMode,
+		)
 	}
 	if policy.SecurityEnvelope.SecurityBits !=
 		contract.Deployment.SecurityBits {

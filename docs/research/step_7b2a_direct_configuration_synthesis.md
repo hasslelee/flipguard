@@ -152,6 +152,13 @@ scripts/run_direct_tabular_autotune_matrix.sh \
   --seed0 \
   --precision-floor 18 \
   --force
+
+# Negative ablation: fill precision without increasing the initial LogN tier.
+scripts/run_direct_tabular_autotune_matrix.sh \
+  --seed0 \
+  --precision-floor 18 \
+  --same-tier-precision \
+  --force
 ```
 
 `run_status.csv` is the execution ledger. The summarizer validates the
@@ -247,6 +254,28 @@ precision that fits within the same structural cost tier.
 These are one-split, one-key-per-workload development results. The large
 low-scale error variance makes independent keys, repeats, and locked audit
 mandatory before changing the default policy.
+
+### Same-tier precision negative ablation
+
+A follow-up static policy maximized scale without increasing the
+analysis-minimum `LogN`. It generated `N13/Q7/scale26` for linear workloads and
+`N13/Q6/scale30` for MLP workloads. The static planner considered exact
+parameter literals only; it did not encrypt every intermediate literal.
+
+The encrypted result did not improve the search:
+
+- 10/10 workloads were eventually selected;
+- 14 encrypted trials were still required;
+- banknote, digits, MNIST, and WDBC linear scale-26 candidates were REJECTED;
+- their scale-30 repairs increased `LogN` to 14;
+- only iris linear retained `N13/Q7/scale26`;
+- all MLP scale-30 candidates were SAFE on the first trial.
+
+This falsifies a simple monotonic assumption that increasing CKKS scale within
+a security tier necessarily reduces the end-to-end observed error of this
+rescale chain. The mode remains available only as a reproducible negative
+ablation and is not the default planner policy. Candidate selection must be
+evaluated across independent keys rather than inferred from scale alone.
 
 ## Current Claim Boundary
 
