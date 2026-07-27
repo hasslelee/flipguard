@@ -308,9 +308,22 @@ used:
 | 1 | `N13/Q7/scale20` | 3 | REJECTED | 10 | 27 | 0.01708 |
 | 2 | `N13/Q7/scale24` | 3 | SAFE | 0 | 0 | 0.00702 |
 
-This is implementation evidence, not a key-independence claim. The full
-workload matrix, multiple data splits, and a separately locked audit still
-remain.
+The complete seed-0 three-key matrix then reproduced the single-key selection
+structure:
+
+- 10/10 final `SELECTED` outcomes;
+- 14 encrypted configuration trials and 42 completed fresh-key runs;
+- four scale-20 linear candidates rejected across three keys;
+- four scale-24 linear repairs SAFE across all three keys;
+- iris linear scale-20 SAFE across all three keys;
+- all five MLP scale-20 candidates SAFE across all three keys;
+- zero flips and zero error-budget violations in every final certificate.
+
+The initial rejected candidates accumulated 191 flips and 852 error-budget
+violations across the four affected linear workloads, demonstrating that the
+repair trigger is not a cosmetic policy branch. This remains same-split
+fresh-key evidence, not a key-independence or data-generalization claim.
+Multiple data splits and a separately locked audit still remain.
 
 ## Current Claim Boundary
 
