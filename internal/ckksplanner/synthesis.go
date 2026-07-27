@@ -111,6 +111,10 @@ type SynthesizedCandidate struct {
 	PrecisionTargetBits   int `json:"precision_target_bits"`
 	MessageMagnitudeBits  int `json:"message_magnitude_bits"`
 
+	AnalysisScaleBits         int `json:"analysis_scale_bits"`
+	BackendScaleLiftBits      int `json:"backend_scale_lift_bits"`
+	BackendValidationAttempts int `json:"backend_validation_attempts"`
+
 	GenerationKind string `json:"generation_kind"`
 	Reason         string `json:"reason"`
 }
@@ -222,7 +226,7 @@ func Synthesize(
 			)
 		}
 
-		candidate, err := synthesizeRescaleCandidate(
+		candidate, err := synthesizeBackendValidRescaleCandidate(
 			contract,
 			policy,
 			contractDigest,
@@ -232,13 +236,6 @@ func Synthesize(
 		)
 		if err != nil {
 			return SynthesisPlan{}, err
-		}
-		if _, err := candidate.Profile(); err != nil {
-			return SynthesisPlan{}, fmt.Errorf(
-				"static backend validation for candidate %s: %w",
-				candidate.ID,
-				err,
-			)
 		}
 		candidates = append(candidates, candidate)
 	}
@@ -354,7 +351,7 @@ func RepairCandidate(
 		)
 	}
 
-	candidate, err := synthesizeRescaleCandidate(
+	candidate, err := synthesizeBackendValidRescaleCandidate(
 		plan.Contract,
 		plan.Policy,
 		plan.ContractDigest,
@@ -369,15 +366,82 @@ func RepairCandidate(
 			err,
 		)
 	}
-	if _, err := candidate.Profile(); err != nil {
-		return SynthesizedCandidate{}, fmt.Errorf(
-			"%w: repaired candidate backend validation: %v",
-			ErrRepairExhausted,
-			err,
-		)
-	}
-
 	return candidate, nil
+}
+
+func synthesizeBackendValidRescaleCandidate(
+	contract WorkloadContract,
+	policy SynthesisPolicy,
+	contractDigest string,
+	generationKind string,
+	minimumScaleBits int,
+	extraLevels int,
+) (SynthesizedCandidate, error) {
+	analysisScaleBits := -1
+	attempts := 0
+	nextMinimumScaleBits := minimumScaleBits
+
+	for {
+		attempts++
+		candidate, err := synthesizeRescaleCandidate(
+			contract,
+			policy,
+			contractDigest,
+			generationKind,
+			nextMinimumScaleBits,
+			extraLevels,
+		)
+		if err != nil {
+			return SynthesizedCandidate{}, err
+		}
+		if analysisScaleBits < 0 {
+			analysisScaleBits =
+				candidate.Parameters.LogDefaultScale
+		}
+
+		if _, err := candidate.Profile(); err == nil {
+			candidate.AnalysisScaleBits = analysisScaleBits
+			candidate.BackendScaleLiftBits =
+				candidate.Parameters.LogDefaultScale -
+					analysisScaleBits
+			candidate.BackendValidationAttempts = attempts
+			candidate.Reason = fmt.Sprintf(
+				"%s analysis_scale_bits=%d backend_scale_lift_bits=%d backend_validation_attempts=%d",
+				candidate.Reason,
+				candidate.AnalysisScaleBits,
+				candidate.BackendScaleLiftBits,
+				candidate.BackendValidationAttempts,
+			)
+			return candidate, nil
+		} else if !retryablePrimeGenerationError(err) {
+			return SynthesizedCandidate{}, fmt.Errorf(
+				"static backend validation for candidate %s: %w",
+				candidate.ID,
+				err,
+			)
+		}
+
+		currentScaleBits :=
+			candidate.Parameters.LogDefaultScale
+		if currentScaleBits >= policy.MaxScaleBits {
+			return SynthesizedCandidate{}, fmt.Errorf(
+				"static backend prime generation failed through maximum scale %d after %d attempts",
+				policy.MaxScaleBits,
+				attempts,
+			)
+		}
+		nextMinimumScaleBits = currentScaleBits + 1
+	}
+}
+
+func retryablePrimeGenerationError(err error) bool {
+	if err == nil {
+		return false
+	}
+	return strings.Contains(
+		err.Error(),
+		"cannot GenModuli: failed to generate",
+	)
 }
 
 func synthesizeRescaleCandidate(
@@ -508,6 +572,10 @@ func synthesizeRescaleCandidate(
 		LevelGuard:            policy.LevelGuard + extraLevels,
 		PrecisionTargetBits:   precisionBits,
 		MessageMagnitudeBits:  messageBits,
+
+		AnalysisScaleBits:         scaleBits,
+		BackendScaleLiftBits:      0,
+		BackendValidationAttempts: 1,
 
 		GenerationKind: generationKind,
 		Reason: fmt.Sprintf(

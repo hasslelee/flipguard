@@ -7,6 +7,7 @@ RESUME=0
 RETRY_FAILED=0
 QUIET_SKIPS=0
 MAX_NEW_RUNS=0
+PRECISION_FLOOR_BITS=0
 
 usage() {
   cat <<'EOF'
@@ -22,6 +23,7 @@ Execution:
   --force               Replace an existing mode directory.
   --retry-failed        Retry terminal failed workloads when resuming.
   --max-new-runs N      Stop after N newly started workloads.
+  --precision-floor N   Experimental min scale/Q-prime bits; keeps P >= 30.
   --quiet-skips         Suppress one-line messages for resumed workloads.
   -h, --help            Show this help.
 EOF
@@ -65,6 +67,14 @@ while [[ $# -gt 0 ]]; do
       MAX_NEW_RUNS="$2"
       shift 2
       ;;
+    --precision-floor)
+      if [[ $# -lt 2 ]] || [[ ! "$2" =~ ^[1-9][0-9]*$ ]]; then
+        echo "ERROR: --precision-floor requires a positive integer" >&2
+        exit 2
+      fi
+      PRECISION_FLOOR_BITS="$2"
+      shift 2
+      ;;
     -h|--help)
       usage
       exit 0
@@ -90,7 +100,20 @@ cd "$REPOSITORY_ROOT" || exit 1
 
 SPLIT_ROOT="results/thesis_grade_protocol/tabular_splits_v1"
 BASE_ROOT="results/thesis_grade_protocol/direct_tabular_autotune_v1"
+POLICY_ID="default"
+RUN_ID="$MODE"
 RUN_ROOT="$BASE_ROOT/$MODE"
+AUTOTUNE_POLICY_ARGS=()
+if [[ $PRECISION_FLOOR_BITS -gt 0 ]]; then
+  POLICY_ID="floor${PRECISION_FLOOR_BITS}"
+  RUN_ID="${MODE}_${POLICY_ID}"
+  RUN_ROOT="$BASE_ROOT/$RUN_ID"
+  AUTOTUNE_POLICY_ARGS=(
+    --min-scale-bits "$PRECISION_FLOOR_BITS"
+    --min-prime-bits "$PRECISION_FLOOR_BITS"
+    --special-prime-bits 30
+  )
+fi
 
 DATASETS=(
   banknote
@@ -251,7 +274,7 @@ for seed in "${SEEDS[@]}"; do
       split_id="split_seed_${seed}"
       model_path="datasets/tabular_suite/${dataset}/${model}/model.json"
       validation_path="$SPLIT_ROOT/$split_id/${dataset}/${model}/configuration_validation.csv"
-      tag="directv1_${MODE}_seed${seed}_${dataset}_${model}"
+      tag="directv1_${RUN_ID}_seed${seed}_${dataset}_${model}"
       result_path="$RUN_ROOT/results/${tag}.json"
       stdout_log="$RUN_ROOT/logs/${tag}.txt"
 
@@ -303,6 +326,7 @@ for seed in "${SEEDS[@]}"; do
         --validation "$validation_path" \
         --split-id "$split_id" \
         --out "$result_path" \
+        "${AUTOTUNE_POLICY_ARGS[@]}" \
         >"$stdout_log" 2>&1
       exit_code=$?
       set -e
@@ -325,7 +349,7 @@ for seed in "${SEEDS[@]}"; do
       fi
 
       append_status_row \
-        "$MODE" \
+        "$RUN_ID" \
         "$seed" \
         "$dataset" \
         "$model" \

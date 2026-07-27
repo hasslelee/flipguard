@@ -290,6 +290,7 @@ profile catalog. It must emit an exact CKKS parameter literal and preserve:
 - plaintext graph and score-consistency checks;
 - decision margin and ambiguity partition;
 - scale/level derivation method;
+- backend NTT-prime generation attempts and any feasibility scale lift;
 - declared LogN, LogQ, LogP, and default scale;
 - security-envelope identity, source, and remaining headroom;
 - every encrypted trial and repair trigger;

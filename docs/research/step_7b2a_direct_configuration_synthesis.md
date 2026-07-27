@@ -76,8 +76,11 @@ precision_target_bits =
 
 An explicit policy guard is then applied. `LogQ` is generated from the traced
 Q-prime demand, while `LogP` is generated large enough for the largest Q prime.
-The smallest admitted `LogN` that supports the slots and total declared
-`log2(QP)` is selected.
+If Lattigo cannot generate the required number of distinct NTT-friendly primes
+at that bit size, only this prime-generation exhaustion is retried, one bit at
+a time. The analysis scale, backend lift, and validation-attempt count are
+recorded. All other backend errors remain fatal. The smallest admitted `LogN`
+that supports the slots and total declared `log2(QP)` is then selected.
 
 Security admission uses the uniform-ternary, Gaussian-error, classical
 128-bit limits in Table 4.2 of the 2024
@@ -142,6 +145,13 @@ scripts/run_direct_tabular_autotune_matrix.sh --full --force
 
 # Resume without repeating completed workloads.
 scripts/run_direct_tabular_autotune_matrix.sh --full --resume
+
+# Experimental low-floor policy. Backend feasibility automatically raises a
+# floor that cannot supply enough NTT-friendly primes.
+scripts/run_direct_tabular_autotune_matrix.sh \
+  --seed0 \
+  --precision-floor 18 \
+  --force
 ```
 
 `run_status.csv` is the execution ledger. The summarizer validates the
@@ -199,6 +209,44 @@ the non-repeated development comparison was:
 The direct candidate is outside the fixed catalog. These timings came from
 separate single runs, so they are diagnostic only and must not be reported as
 final speedups.
+
+### Low-floor adaptive development ablation
+
+The requested 18-bit scale/Q-prime floor was not directly executable. Lattigo
+could not generate the required number of distinct standard-ring NTT primes at
+18 or 19 bits. Static feasibility raised the initial scale to 20 bits and
+recorded:
+
+- `analysis_scale_bits=18`;
+- `backend_scale_lift_bits=2`;
+- `backend_validation_attempts=3`.
+
+The complete seed-0 ablation then produced:
+
+- 10/10 final `SELECTED` outcomes;
+- 14 encrypted configuration trials total;
+- four initial `REJECTED` linear candidates with observed flips and
+  error-budget violations;
+- four feedback-triggered `repair_scale_1` candidates at scale 24, all SAFE;
+- six initial candidates that were SAFE without repair;
+- zero flips and zero error-budget violations for all final selections.
+
+The selected linear configurations were data dependent: banknote, digits,
+MNIST, and WDBC selected `N13/Q7/scale24` after one repair, while iris selected
+`N13/Q7/scale20` directly. All five MLP workloads selected
+`N13/Q6/scale20` directly. Fourteen trials are 93.64% fewer than the 220
+configuration executions in the fixed-catalog protocol.
+
+Single-run timing diagnostics showed a 1.856x geometric-mean improvement for
+linear workloads relative to the conservative scale-30 direct run. MLP
+workloads showed 0.930x, because both policies already use `N13/Q6`; reducing
+only modulus bit sizes did not create a latency-tier change. This motivates a
+lexicographic policy: minimize `LogN` and Q-prime count first, then retain
+precision that fits within the same structural cost tier.
+
+These are one-split, one-key-per-workload development results. The large
+low-scale error variance makes independent keys, repeats, and locked audit
+mandatory before changing the default policy.
 
 ## Current Claim Boundary
 

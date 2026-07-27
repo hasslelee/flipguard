@@ -1,6 +1,7 @@
 package ckksplanner
 
 import (
+	"fmt"
 	"strings"
 	"testing"
 
@@ -94,6 +95,57 @@ func TestSynthesizeRaisesLogNWhenModulusRequiresIt(t *testing.T) {
 			"candidate exceeded security envelope: %+v",
 			candidate.Security,
 		)
+	}
+}
+
+func TestSynthesizeRecordsLowerExperimentalFloor(t *testing.T) {
+	contract := validContractFixture()
+	policy := DefaultSynthesisPolicy()
+	policy.MinScaleBits = 18
+	policy.MinPrimeBits = 18
+
+	plan, err := Synthesize(contract, policy)
+	if err != nil {
+		t.Fatalf("synthesize with lower floor: %v", err)
+	}
+
+	candidate := plan.InitialCandidates[0]
+	if plan.Policy.MinScaleBits != 18 ||
+		plan.Policy.MinPrimeBits != 18 {
+		t.Fatalf(
+			"experimental policy was not recorded: %+v",
+			plan.Policy,
+		)
+	}
+	if candidate.Parameters.LogDefaultScale != 20 {
+		t.Fatalf(
+			"expected backend feasibility to lift scale to 20 bits, got %d",
+			candidate.Parameters.LogDefaultScale,
+		)
+	}
+	if candidate.AnalysisScaleBits != 18 ||
+		candidate.BackendScaleLiftBits != 2 ||
+		candidate.BackendValidationAttempts != 3 {
+		t.Fatalf(
+			"unexpected backend feasibility trace: %+v",
+			candidate,
+		)
+	}
+	if _, err := candidate.Profile(); err != nil {
+		t.Fatalf("lower-floor candidate is not backend-valid: %v", err)
+	}
+}
+
+func TestRetryablePrimeGenerationErrorIsNarrow(t *testing.T) {
+	if !retryablePrimeGenerationError(
+		fmt.Errorf("cannot GenModuli: failed to generate 5 primes"),
+	) {
+		t.Fatal("expected prime-generation exhaustion to be retryable")
+	}
+	if retryablePrimeGenerationError(
+		fmt.Errorf("cannot NewParameters: invalid modulus"),
+	) {
+		t.Fatal("unexpected retry for unrelated backend error")
 	}
 }
 

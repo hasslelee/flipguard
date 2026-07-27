@@ -24,6 +24,7 @@ func main() {
 
 func run(args []string, stdout io.Writer) error {
 	defaults := ckksplanner.DefaultTabularContractOptions()
+	synthesisDefaults := ckksplanner.DefaultSynthesisPolicy()
 
 	flags := flag.NewFlagSet("flipguard-synthesize", flag.ContinueOnError)
 	flags.SetOutput(stdout)
@@ -73,6 +74,21 @@ func run(args []string, stdout io.Writer) error {
 		string(tuner.PathRescale),
 		"execution path; direct synthesis v1 supports rescale",
 	)
+	minScaleBits := flags.Int(
+		"min-scale-bits",
+		synthesisDefaults.MinScaleBits,
+		"minimum initial CKKS scale bits",
+	)
+	minPrimeBits := flags.Int(
+		"min-prime-bits",
+		synthesisDefaults.MinPrimeBits,
+		"minimum Q-prime bits",
+	)
+	specialPrimeBits := flags.Int(
+		"special-prime-bits",
+		synthesisDefaults.SpecialPrimeBits,
+		"minimum P special-prime bits",
+	)
 
 	if err := flags.Parse(args); err != nil {
 		return err
@@ -88,6 +104,15 @@ func run(args []string, stdout io.Writer) error {
 	}
 	if strings.TrimSpace(*splitID) == "" {
 		return errors.New("--split-id is required")
+	}
+	if *minScaleBits <= 0 {
+		return errors.New("--min-scale-bits must be positive")
+	}
+	if *minPrimeBits <= 0 {
+		return errors.New("--min-prime-bits must be positive")
+	}
+	if *specialPrimeBits <= 0 {
+		return errors.New("--special-prime-bits must be positive")
 	}
 
 	path, err := parseExecutionPath(*executionPath)
@@ -109,10 +134,12 @@ func run(args []string, stdout io.Writer) error {
 	if err != nil {
 		return err
 	}
-	plan, err := ckksplanner.Synthesize(
-		contract,
-		ckksplanner.DefaultSynthesisPolicy(),
-	)
+	synthesisPolicy := synthesisDefaults
+	synthesisPolicy.MinScaleBits = *minScaleBits
+	synthesisPolicy.MinPrimeBits = *minPrimeBits
+	synthesisPolicy.SpecialPrimeBits = *specialPrimeBits
+
+	plan, err := ckksplanner.Synthesize(contract, synthesisPolicy)
 	if err != nil {
 		return err
 	}

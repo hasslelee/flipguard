@@ -30,6 +30,10 @@ TRIAL_FIELDS = [
     "log_default_scale",
     "declared_log_qp",
     "security_headroom_bits",
+    "analysis_scale_bits",
+    "backend_scale_lift_bits",
+    "backend_validation_attempts",
+    "generation_kind",
     "decision_flips",
     "error_violations",
     "max_observed_error",
@@ -41,6 +45,39 @@ TRIAL_FIELDS = [
     "contract_digest",
     "model_sha256",
     "validation_sha256",
+    "result_path",
+]
+
+TRIAL_DETAIL_FIELDS = [
+    "run_id",
+    "split_seed",
+    "dataset_id",
+    "model_id",
+    "workload_id",
+    "trial_index",
+    "candidate_id",
+    "generation_kind",
+    "status",
+    "assurance",
+    "failure_signal",
+    "failure",
+    "log_n",
+    "q_prime_count",
+    "p_prime_count",
+    "log_default_scale",
+    "declared_log_qp",
+    "security_headroom_bits",
+    "analysis_scale_bits",
+    "backend_scale_lift_bits",
+    "backend_validation_attempts",
+    "decision_flips",
+    "error_violations",
+    "max_observed_error",
+    "v_cert",
+    "v_amb",
+    "mean_total_ms",
+    "median_total_ms",
+    "p95_total_ms",
     "result_path",
 ]
 
@@ -120,7 +157,7 @@ def require_identity(
 
 def summarize_result(
     status: dict[str, str],
-) -> dict[str, Any]:
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     result_path = Path(status["result_path"])
     payload = require_dict(
         json.loads(result_path.read_text(encoding="utf-8")),
@@ -195,7 +232,72 @@ def summarize_result(
         f"{result_path}: validation artifact",
     )
 
-    return {
+    trial_rows: list[dict[str, Any]] = []
+    for raw_trial in trials:
+        trial = require_dict(raw_trial, f"{result_path}: trial")
+        candidate = require_dict(
+            trial.get("candidate"),
+            f"{result_path}: trial candidate",
+        )
+        trial_parameters = require_dict(
+            candidate.get("parameters"),
+            f"{result_path}: trial parameters",
+        )
+        trial_security = require_dict(
+            candidate.get("security"),
+            f"{result_path}: trial security",
+        )
+        trial_rows.append(
+            {
+                "run_id": status["run_id"],
+                "split_seed": int(status["split_seed"]),
+                "dataset_id": status["dataset_id"],
+                "model_id": status["model_id"],
+                "workload_id": contract["workload_id"],
+                "trial_index": trial.get("trial_index", ""),
+                "candidate_id": candidate.get("id", ""),
+                "generation_kind": candidate.get("generation_kind", ""),
+                "status": trial.get("status", ""),
+                "assurance": trial.get("assurance", ""),
+                "failure_signal": trial.get("failure_signal", ""),
+                "failure": trial.get("failure", ""),
+                "log_n": trial_parameters.get("log_n", ""),
+                "q_prime_count": len(trial_parameters.get("log_q", [])),
+                "p_prime_count": len(trial_parameters.get("log_p", [])),
+                "log_default_scale": trial_parameters.get(
+                    "log_default_scale",
+                    "",
+                ),
+                "declared_log_qp": trial_security.get("declared_log_qp", ""),
+                "security_headroom_bits": trial_security.get(
+                    "headroom_bits",
+                    "",
+                ),
+                "analysis_scale_bits": candidate.get(
+                    "analysis_scale_bits",
+                    "",
+                ),
+                "backend_scale_lift_bits": candidate.get(
+                    "backend_scale_lift_bits",
+                    "",
+                ),
+                "backend_validation_attempts": candidate.get(
+                    "backend_validation_attempts",
+                    "",
+                ),
+                "decision_flips": trial.get("decision_flips", ""),
+                "error_violations": trial.get("error_violations", ""),
+                "max_observed_error": trial.get("max_observed_error", ""),
+                "v_cert": trial.get("v_cert", ""),
+                "v_amb": trial.get("v_amb", ""),
+                "mean_total_ms": trial.get("mean_total_ms", ""),
+                "median_total_ms": trial.get("median_total_ms", ""),
+                "p95_total_ms": trial.get("p95_total_ms", ""),
+                "result_path": str(result_path),
+            }
+        )
+
+    workload_row = {
         "run_id": status["run_id"],
         "split_seed": int(status["split_seed"]),
         "dataset_id": status["dataset_id"],
@@ -213,6 +315,19 @@ def summarize_result(
         "log_default_scale": parameters.get("log_default_scale", ""),
         "declared_log_qp": security.get("declared_log_qp", ""),
         "security_headroom_bits": security.get("headroom_bits", ""),
+        "analysis_scale_bits": selected_candidate.get(
+            "analysis_scale_bits",
+            "",
+        ),
+        "backend_scale_lift_bits": selected_candidate.get(
+            "backend_scale_lift_bits",
+            "",
+        ),
+        "backend_validation_attempts": selected_candidate.get(
+            "backend_validation_attempts",
+            "",
+        ),
+        "generation_kind": selected_candidate.get("generation_kind", ""),
         "decision_flips": selected_trial.get("decision_flips", ""),
         "error_violations": selected_trial.get("error_violations", ""),
         "max_observed_error": selected_trial.get("max_observed_error", ""),
@@ -226,6 +341,7 @@ def summarize_result(
         "validation_sha256": validation_artifact.get("sha256", ""),
         "result_path": str(result_path),
     }
+    return workload_row, trial_rows
 
 
 def mean_or_none(values: list[float]) -> float | None:
@@ -241,8 +357,22 @@ def main() -> int:
     successful_status = [row for row in status_rows if row["status"] == "ok"]
     failed_status = [row for row in status_rows if row["status"] != "ok"]
 
-    rows = [summarize_result(row) for row in successful_status]
+    parsed = [summarize_result(row) for row in successful_status]
+    rows = [workload_row for workload_row, _ in parsed]
+    trial_rows = [
+        trial_row
+        for _, workload_trials in parsed
+        for trial_row in workload_trials
+    ]
     rows.sort(key=lambda row: (row["split_seed"], row["dataset_id"], row["model_id"]))
+    trial_rows.sort(
+        key=lambda row: (
+            row["split_seed"],
+            row["dataset_id"],
+            row["model_id"],
+            int(row["trial_index"]),
+        )
+    )
 
     args.output_root.mkdir(parents=True, exist_ok=True)
     trials_path = args.output_root / "workload_results.csv"
@@ -250,6 +380,16 @@ def main() -> int:
         writer = csv.DictWriter(handle, fieldnames=TRIAL_FIELDS, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
+
+    encrypted_trials_path = args.output_root / "encrypted_trials.csv"
+    with encrypted_trials_path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=TRIAL_DETAIL_FIELDS,
+            lineterminator="\n",
+        )
+        writer.writeheader()
+        writer.writerows(trial_rows)
 
     selected_rows = [row for row in rows if row["outcome"] == "SELECTED"]
     grouped_trials: dict[str, list[int]] = defaultdict(list)
@@ -269,6 +409,14 @@ def main() -> int:
         "selected_runs": len(selected_rows),
         "no_safe_runs": sum(row["outcome"] == "NO_SAFE" for row in rows),
         "total_encrypted_trials": sum(int(row["trials_used"]) for row in rows),
+        "encrypted_trial_status_counts": dict(
+            sorted(Counter(row["status"] for row in trial_rows).items())
+        ),
+        "repaired_runs": sum(int(row["trials_used"]) > 1 for row in rows),
+        "initial_rejected_runs": sum(
+            row["trial_index"] == 1 and row["status"] == "REJECTED"
+            for row in trial_rows
+        ),
         "mean_encrypted_trials_per_successful_run": mean_or_none(
             [int(row["trials_used"]) for row in rows]
         ),
@@ -310,6 +458,7 @@ def main() -> int:
         f"trials={summary['total_encrypted_trials']}"
     )
     print(f"workload_results={trials_path}")
+    print(f"encrypted_trials={encrypted_trials_path}")
     print(f"summary_json={summary_path}")
     if failed_status:
         print(
