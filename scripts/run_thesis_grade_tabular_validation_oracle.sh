@@ -4,6 +4,8 @@ set -uo pipefail
 MODE="full"
 FORCE=0
 RESUME=0
+MAX_NEW_RUNS=0
+RETRY_FAILED=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -24,6 +26,22 @@ while [[ $# -gt 0 ]]; do
 
     --resume)
       RESUME=1
+      shift
+      ;;
+
+    --max-new-runs)
+      if [[ $# -lt 2 ]] ||
+         [[ ! "$2" =~ ^[1-9][0-9]*$ ]]; then
+        echo "ERROR: --max-new-runs requires a positive integer" >&2
+        exit 2
+      fi
+
+      MAX_NEW_RUNS="$2"
+      shift 2
+      ;;
+
+    --retry-failed)
+      RETRY_FAILED=1
       shift
       ;;
 
@@ -268,6 +286,10 @@ candidate_total=0
 candidate_ok=0
 candidate_failed=0
 candidate_skipped=0
+candidate_skipped_ok=0
+candidate_skipped_failed=0
+candidate_started=0
+stopped_early=0
 
 for seed in "${SEEDS[@]}"; do
   for dataset in "${DATASETS[@]}"; do
@@ -341,8 +363,27 @@ for seed in "${SEEDS[@]}"; do
              grep -Fq ",${tag},ok,0," "$STATUS_PATH"; then
             echo "SKIP completed candidate: $tag"
             candidate_skipped=$((candidate_skipped + 1))
+            candidate_skipped_ok=$((candidate_skipped_ok + 1))
             continue
           fi
+
+          if [[ $RESUME -eq 1 ]] &&
+             [[ $RETRY_FAILED -ne 1 ]] &&
+             [[ -f "$STDOUT_LOG" ]] &&
+             grep -Eq ",${tag},failed,[1-9][0-9]*," "$STATUS_PATH"; then
+            echo "SKIP terminal FAILED candidate: $tag"
+            candidate_skipped=$((candidate_skipped + 1))
+            candidate_skipped_failed=$((candidate_skipped_failed + 1))
+            continue
+          fi
+
+          if [[ $MAX_NEW_RUNS -gt 0 ]] &&
+             [[ $candidate_started -ge $MAX_NEW_RUNS ]]; then
+            stopped_early=1
+            break 5
+          fi
+
+          candidate_started=$((candidate_started + 1))
 
           remove_existing_status_row "$tag"
 
@@ -404,6 +445,10 @@ echo "candidate_total=$candidate_total"
 echo "candidate_ok=$candidate_ok"
 echo "candidate_failed=$candidate_failed"
 echo "candidate_skipped=$candidate_skipped"
+echo "candidate_skipped_ok=$candidate_skipped_ok"
+echo "candidate_skipped_failed=$candidate_skipped_failed"
+echo "candidate_started=$candidate_started"
+echo "stopped_early=$stopped_early"
 
 SUMMARY_ARGS=(
   --run-status "$STATUS_PATH"
@@ -413,7 +458,8 @@ SUMMARY_ARGS=(
   --alphas 0.1,0.25,0.5,0.75,0.9
 )
 
-if [[ "$MODE" == "smoke" ]]; then
+if [[ "$MODE" == "smoke" ]] ||
+   [[ $stopped_early -eq 1 ]]; then
   SUMMARY_ARGS+=(--allow-incomplete)
 fi
 
@@ -428,4 +474,8 @@ if [[ $SUMMARY_STATUS -ne 0 ]]; then
   exit 1
 fi
 
-echo "validation_oracle_run=PASS"
+if [[ $stopped_early -eq 1 ]]; then
+  echo "validation_oracle_checkpoint=PASS"
+else
+  echo "validation_oracle_run=PASS"
+fi
