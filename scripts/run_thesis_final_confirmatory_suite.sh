@@ -277,27 +277,33 @@ FINAL_BASELINE_AUDIT_ID="${FINAL_BASELINE_ID}_locked_audit_keys3"
 FINAL_BASELINE_AUDIT="$FINAL_BASELINE_ROOT/locked_audit/$FINAL_BASELINE_AUDIT_ID"
 FINAL_BASELINE_PACK="docs/evidence/direct_locked_audit_final_source_v1"
 
-scripts/run_direct_tabular_autotune_matrix.sh \
-  --full \
-  --run-label final_baseline \
-  --materialize-model-input \
-  --margin-floor 0.001 \
-  --safety-factor 0.5 \
-  --precision-floor 18 \
-  --key-repeats 3 \
-  --binary "$RUN_MANIFEST_ROOT/binaries/flipguard-autotune" \
-  "$ACTION"
+if [[ "$ACTION" == "--resume" \
+  && -d "$FINAL_BASELINE_PACK" \
+  && -d docs/evidence/direct_locked_audit_seed0_development_v1 ]]; then
+  echo "completed_direct_and_audit=PRESERVED_NO_RUNNER_REENTRY"
+else
+  scripts/run_direct_tabular_autotune_matrix.sh \
+    --full \
+    --run-label final_baseline \
+    --materialize-model-input \
+    --margin-floor 0.001 \
+    --safety-factor 0.5 \
+    --precision-floor 18 \
+    --key-repeats 3 \
+    --binary "$RUN_MANIFEST_ROOT/binaries/flipguard-autotune" \
+    "$ACTION"
+
+  scripts/run_direct_tabular_locked_audit_matrix.sh \
+    --full \
+    --selection-run "$FINAL_BASELINE_ID" \
+    --materialize-model-input \
+    --key-repeats 3 \
+    --binary "$RUN_MANIFEST_ROOT/binaries/flipguard-audit" \
+    "$ACTION"
+fi
 assert_binary_digest \
   flipguard_autotune \
   "$FINAL_BASELINE_ROOT/bin/flipguard-autotune"
-
-scripts/run_direct_tabular_locked_audit_matrix.sh \
-  --full \
-  --selection-run "$FINAL_BASELINE_ID" \
-  --materialize-model-input \
-  --key-repeats 3 \
-  --binary "$RUN_MANIFEST_ROOT/binaries/flipguard-audit" \
-  "$ACTION"
 assert_binary_digest \
   flipguard_audit \
   "$FINAL_BASELINE_AUDIT/flipguard-audit"
