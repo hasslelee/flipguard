@@ -103,7 +103,8 @@ require_file() {
 require_pack_commit() {
   local manifest_path="$1"
   local manifest_kind="$2"
-  python3 - "$manifest_path" "$manifest_kind" "$SOURCE_COMMIT" <<'PYEOF'
+  local expected_commit="${3:-$SOURCE_COMMIT}"
+  python3 - "$manifest_path" "$manifest_kind" "$expected_commit" <<'PYEOF'
 import json
 import sys
 from pathlib import Path
@@ -216,10 +217,23 @@ if [[ "$SKIP_REGRESSION" == false ]]; then
 fi
 
 if [[ -f "$RUN_MANIFEST_PATH" ]]; then
+  EXECUTION_SOURCE_COMMIT="$(
+    python3 - "$RUN_MANIFEST_PATH" <<'PYEOF'
+import json
+import sys
+from pathlib import Path
+
+print(json.loads(Path(sys.argv[1]).read_text(
+    encoding="utf-8"
+))["execution_source_commit"])
+PYEOF
+  )"
   python3 scripts/build_confirmatory_run_manifest.py \
     --output-root "$RUN_MANIFEST_ROOT" \
+    --expected-execution-source-commit "$EXECUTION_SOURCE_COMMIT" \
     --verify
 else
+  EXECUTION_SOURCE_COMMIT="$SOURCE_COMMIT"
   python3 scripts/build_confirmatory_run_manifest.py \
     --output-root "$RUN_MANIFEST_ROOT"
 fi
@@ -276,7 +290,10 @@ assert_binary_digest \
   "$FINAL_BASELINE_AUDIT/flipguard-audit"
 
 if [[ -d "$FINAL_BASELINE_PACK" && "$ACTION" == "--resume" ]]; then
-  require_pack_commit "$FINAL_BASELINE_PACK/manifest.json" direct
+  require_pack_commit \
+    "$FINAL_BASELINE_PACK/manifest.json" \
+    direct \
+    "$EXECUTION_SOURCE_COMMIT"
   python3 scripts/freeze_direct_locked_audit_evidence.py \
     --output-root "$FINAL_BASELINE_PACK" \
     --verify
@@ -301,7 +318,10 @@ fi
 
 FINAL_DEVELOPMENT_PACK="docs/evidence/direct_locked_audit_seed0_development_v1"
 if [[ -d "$FINAL_DEVELOPMENT_PACK" && "$ACTION" == "--resume" ]]; then
-  require_pack_commit "$FINAL_DEVELOPMENT_PACK/manifest.json" direct
+  require_pack_commit \
+    "$FINAL_DEVELOPMENT_PACK/manifest.json" \
+    direct \
+    "$EXECUTION_SOURCE_COMMIT"
   python3 scripts/freeze_direct_locked_audit_evidence.py \
     --output-root "$FINAL_DEVELOPMENT_PACK" \
     --verify

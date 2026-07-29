@@ -47,6 +47,13 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--verify", action="store_true")
+    parser.add_argument(
+        "--expected-execution-source-commit",
+        help=(
+            "verify a preserved encrypted-execution commit while later "
+            "analysis code is checked out"
+        ),
+    )
     return parser.parse_args()
 
 
@@ -248,14 +255,19 @@ def generate(output: Path, approved_commit: str) -> None:
     )
 
 
-def verify(output: Path) -> None:
+def verify(
+    output: Path,
+    expected_execution_source_commit: str | None = None,
+) -> None:
     manifest_path = output / "run_manifest.json"
     manifest = load_json(manifest_path)
     if manifest.get("manifest_id") != "flipguard_final_confirmatory_run_v1":
         raise ValueError("unexpected confirmatory run manifest")
-    if manifest["execution_source_commit"] != command(
-        "git", "rev-parse", "HEAD"
-    ):
+    expected_commit = (
+        expected_execution_source_commit
+        or command("git", "rev-parse", "HEAD")
+    )
+    if manifest["execution_source_commit"] != expected_commit:
         raise ValueError("run manifest execution source commit changed")
     if source_status():
         raise ValueError("confirmatory execution source is dirty")
@@ -289,12 +301,12 @@ def main() -> int:
     if args.verify:
         if args.force:
             raise ValueError("--verify and --force are mutually exclusive")
-        verify(output)
+        verify(output, args.expected_execution_source_commit)
         return 0
     if output.exists() and args.force:
         shutil.rmtree(output)
     generate(output, args.approved_checkpoint_source_commit)
-    verify(output)
+    verify(output, args.expected_execution_source_commit)
     return 0
 
 
