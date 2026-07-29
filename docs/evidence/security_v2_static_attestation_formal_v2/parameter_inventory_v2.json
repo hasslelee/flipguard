@@ -1,0 +1,4175 @@
+{
+  "schema_version": 2,
+  "security_policy": {
+    "id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "schema_version": 2,
+    "policy_version": "2.0.0",
+    "source": "https://doi.org/10.62056/anxra69p1",
+    "paper_title": "Security Guidelines for Implementing Homomorphic Encryption",
+    "doi": "10.62056/anxra69p1",
+    "publication_date": "2025-01-13",
+    "table_number": "Table 5.2",
+    "target_security_category": "Category 128",
+    "estimator_commit": "8f1ff7e",
+    "cost_model": "classical lattice reduction; ring operations",
+    "lattigo_module": "github.com/tuneinsight/lattigo/v6",
+    "lattigo_version": "v6.2.0",
+    "security_bits": 128,
+    "secret_distribution": "uniform_ternary",
+    "error_sigma": 3.2,
+    "table_error_sigma": 3.19,
+    "runtime_xs": {
+      "concrete_type": "ring.Ternary",
+      "p": 0.6666666666666666
+    },
+    "runtime_xe": {
+      "concrete_type": "ring.DiscreteGaussian",
+      "sigma": 3.2,
+      "bound": 19.2
+    },
+    "modulus_semantics": {
+      "ciphertext_object": "check Q against the Table 5.2 q cap",
+      "evaluation_key_object": "check QP against the Table 5.2 q cap because hybrid key-switching objects use the extended modulus",
+      "final_admission": "PASS only when every required object passes"
+    },
+    "admission_caveat": "Table 5.2 assumes Gaussian error sigma=3.19; the Lattigo v6.2.0 runtime uses discrete Gaussian sigma=3.2, bound=19.2. The table is used as a conservative admission reference, not as an exact-distribution proof.",
+    "limits": [
+      {
+        "log_n": 12,
+        "max_log_qp_bits": 106
+      },
+      {
+        "log_n": 13,
+        "max_log_qp_bits": 214
+      },
+      {
+        "log_n": 14,
+        "max_log_qp_bits": 430
+      },
+      {
+        "log_n": 15,
+        "max_log_qp_bits": 868
+      }
+    ]
+  },
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "direct_policy": {
+    "schema_version": 2,
+    "policy_id": "flipguard_direct_synthesis_policy_v2",
+    "algorithm_id": "flipguard_direct_synthesis_v2",
+    "algorithm_version": "2.0.0",
+    "graph_contract_schema": 2,
+    "supported_models": [
+      {
+        "model_type": "linear_poly3",
+        "formula": "poly3(linear(x))"
+      },
+      {
+        "model_type": "mlp_square_linear_score",
+        "formula": "linear(square(linear(x)))"
+      },
+      {
+        "model_type": "mlp_square_poly3",
+        "formula": "poly3(linear(square(linear(x))))"
+      }
+    ],
+    "scale_trace_version": "lattigo_v6_rescale_scale_trace_v1",
+    "primary_alpha": 0.5,
+    "primary_margin_floor": 0.001,
+    "min_scale_bits": 18,
+    "min_prime_bits": 18,
+    "max_scale_bits": 50,
+    "max_prime_bits": 60,
+    "scale_guard_bits": 3,
+    "first_prime_guard_bits": 2,
+    "special_prime_bits": 30,
+    "numerical_repair_scale_bits": 4,
+    "level_repair_q_primes": 1,
+    "max_additional_levels": 2,
+    "static_ntt_prime_retry_rule": "increment_scale_one_bit_until_backend_literal_is_valid_or_max_scale",
+    "max_encrypted_trials": 4,
+    "error_classifier": "LEVEL_FAILURE=\u003elevel_repair; encrypted_success_with_flip_or_error_violation=\u003enumerical_repair; otherwise_failed",
+    "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "packing_scope": "scalar_replicated_per_ciphertext_v1",
+    "required_slot_rule": "required_slots_must_not_exceed_N/2",
+    "first_safe_stopping_rule": "stop_at_first_encrypted_candidate_certified_SAFE",
+    "no_safe_rule": "return_NO_SAFE_when_trial_budget_or_monotone_repairs_are_exhausted",
+    "predeclared_ablations": [
+      {
+        "id": "graph_only_fixed_tolerance",
+        "candidate_synthesis": "graph_fixed_tolerance:0.001",
+        "encrypted_validation": true,
+        "adaptive_repair": true,
+        "decision_integrity_gate": true
+      },
+      {
+        "id": "one_shot_direct",
+        "candidate_synthesis": "graph_plus_decision_contract",
+        "encrypted_validation": true,
+        "adaptive_repair": false,
+        "decision_integrity_gate": true
+      },
+      {
+        "id": "full_flipguard",
+        "candidate_synthesis": "graph_plus_decision_contract",
+        "encrypted_validation": true,
+        "adaptive_repair": true,
+        "decision_integrity_gate": true
+      },
+      {
+        "id": "latency_only_no_certification",
+        "candidate_synthesis": "bounded_catalog_fastest_executable",
+        "encrypted_validation": true,
+        "adaptive_repair": false,
+        "decision_integrity_gate": false
+      }
+    ]
+  },
+  "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+  "direct_selected": [
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_940085e2ae5c",
+      "path": "rescale",
+      "dataset_id": "banknote",
+      "model_id": "linear_poly3",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_3d287ebd064d",
+      "path": "rescale",
+      "dataset_id": "banknote",
+      "model_id": "mlp_square_linear_score",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_c6ed1f915412",
+      "path": "rescale",
+      "dataset_id": "digits_binary",
+      "model_id": "linear_poly3",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_60e1d89bca4f",
+      "path": "rescale",
+      "dataset_id": "digits_binary",
+      "model_id": "mlp_square_linear_score",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q7_S20_6cfedb1337de",
+      "path": "rescale",
+      "dataset_id": "iris_binary",
+      "model_id": "linear_poly3",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649,
+        1196033
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 143.64374901052352,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 173.64368296901765,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 173,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 44,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 173,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 41,
+        "admission_status": "PASS",
+        "log_q": 143,
+        "log_p": 30,
+        "log_qp": 173,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 71,
+        "evaluation_key_headroom_bits": 41,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_eda7715b34f1",
+      "path": "rescale",
+      "dataset_id": "iris_binary",
+      "model_id": "mlp_square_linear_score",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_3278ebe978f2",
+      "path": "rescale",
+      "dataset_id": "mnist_pool16",
+      "model_id": "linear_poly3",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_a9a3b0081a20",
+      "path": "rescale",
+      "dataset_id": "mnist_pool16",
+      "model_id": "mlp_square_linear_score",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_d83530e1c9c4",
+      "path": "rescale",
+      "dataset_id": "wdbc",
+      "model_id": "linear_poly3",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_6d755fca5e14",
+      "path": "rescale",
+      "dataset_id": "wdbc",
+      "model_id": "mlp_square_linear_score",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_cabfebc33906",
+      "path": "rescale",
+      "dataset_id": "banknote",
+      "model_id": "linear_poly3",
+      "split_seed": 1,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_9c960732c5c0",
+      "path": "rescale",
+      "dataset_id": "banknote",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 1,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_8d14b4c6f5fe",
+      "path": "rescale",
+      "dataset_id": "digits_binary",
+      "model_id": "linear_poly3",
+      "split_seed": 1,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_8094986b7a00",
+      "path": "rescale",
+      "dataset_id": "digits_binary",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 1,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q7_S20_e069b1a71dbf",
+      "path": "rescale",
+      "dataset_id": "iris_binary",
+      "model_id": "linear_poly3",
+      "split_seed": 1,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649,
+        1196033
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 143.64374901052352,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 173.64368296901765,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 173,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 44,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 173,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 41,
+        "admission_status": "PASS",
+        "log_q": 143,
+        "log_p": 30,
+        "log_qp": 173,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 71,
+        "evaluation_key_headroom_bits": 41,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_417fd14390cd",
+      "path": "rescale",
+      "dataset_id": "iris_binary",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 1,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_44b57e556da9",
+      "path": "rescale",
+      "dataset_id": "mnist_pool16",
+      "model_id": "linear_poly3",
+      "split_seed": 1,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_ef6827811dc9",
+      "path": "rescale",
+      "dataset_id": "mnist_pool16",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 1,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_50f4079fb1f8",
+      "path": "rescale",
+      "dataset_id": "wdbc",
+      "model_id": "linear_poly3",
+      "split_seed": 1,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_cfec66f693fd",
+      "path": "rescale",
+      "dataset_id": "wdbc",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 1,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_77b6cebc7ed5",
+      "path": "rescale",
+      "dataset_id": "banknote",
+      "model_id": "linear_poly3",
+      "split_seed": 2,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_0a7f04d55af9",
+      "path": "rescale",
+      "dataset_id": "banknote",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 2,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_24fcbcea0c1f",
+      "path": "rescale",
+      "dataset_id": "digits_binary",
+      "model_id": "linear_poly3",
+      "split_seed": 2,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_75879362be96",
+      "path": "rescale",
+      "dataset_id": "digits_binary",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 2,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q7_S20_b10765d6500e",
+      "path": "rescale",
+      "dataset_id": "iris_binary",
+      "model_id": "linear_poly3",
+      "split_seed": 2,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649,
+        1196033
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 143.64374901052352,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 173.64368296901765,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 173,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 44,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 173,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 41,
+        "admission_status": "PASS",
+        "log_q": 143,
+        "log_p": 30,
+        "log_qp": 173,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 71,
+        "evaluation_key_headroom_bits": 41,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_125eaf89ec9a",
+      "path": "rescale",
+      "dataset_id": "iris_binary",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 2,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_4df9265b02c0",
+      "path": "rescale",
+      "dataset_id": "mnist_pool16",
+      "model_id": "linear_poly3",
+      "split_seed": 2,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_a1a2f8ac0526",
+      "path": "rescale",
+      "dataset_id": "mnist_pool16",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 2,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_0e8dd22d71bf",
+      "path": "rescale",
+      "dataset_id": "wdbc",
+      "model_id": "linear_poly3",
+      "split_seed": 2,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_1893fb70e490",
+      "path": "rescale",
+      "dataset_id": "wdbc",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 2,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_52f43f9afafa",
+      "path": "rescale",
+      "dataset_id": "banknote",
+      "model_id": "linear_poly3",
+      "split_seed": 3,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_d403feb5824c",
+      "path": "rescale",
+      "dataset_id": "banknote",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 3,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_b7caada3de51",
+      "path": "rescale",
+      "dataset_id": "digits_binary",
+      "model_id": "linear_poly3",
+      "split_seed": 3,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_bbfdc7e5ffb9",
+      "path": "rescale",
+      "dataset_id": "digits_binary",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 3,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q7_S20_1245fee766ad",
+      "path": "rescale",
+      "dataset_id": "iris_binary",
+      "model_id": "linear_poly3",
+      "split_seed": 3,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649,
+        1196033
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 143.64374901052352,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 173.64368296901765,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 173,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 44,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 173,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 41,
+        "admission_status": "PASS",
+        "log_q": 143,
+        "log_p": 30,
+        "log_qp": 173,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 71,
+        "evaluation_key_headroom_bits": 41,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_db84d5be9564",
+      "path": "rescale",
+      "dataset_id": "iris_binary",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 3,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_6b95ea1ec75b",
+      "path": "rescale",
+      "dataset_id": "mnist_pool16",
+      "model_id": "linear_poly3",
+      "split_seed": 3,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_f4d2820335af",
+      "path": "rescale",
+      "dataset_id": "mnist_pool16",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 3,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_7a9253ddb5f1",
+      "path": "rescale",
+      "dataset_id": "wdbc",
+      "model_id": "linear_poly3",
+      "split_seed": 3,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_85d1a36f9370",
+      "path": "rescale",
+      "dataset_id": "wdbc",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 3,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_5b03bef84ce4",
+      "path": "rescale",
+      "dataset_id": "banknote",
+      "model_id": "linear_poly3",
+      "split_seed": 4,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_5181717725fd",
+      "path": "rescale",
+      "dataset_id": "banknote",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 4,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_1a5f9eb0573f",
+      "path": "rescale",
+      "dataset_id": "digits_binary",
+      "model_id": "linear_poly3",
+      "split_seed": 4,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_0a724afc6c22",
+      "path": "rescale",
+      "dataset_id": "digits_binary",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 4,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q7_S20_6620abbbb624",
+      "path": "rescale",
+      "dataset_id": "iris_binary",
+      "model_id": "linear_poly3",
+      "split_seed": 4,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649,
+        1196033
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 143.64374901052352,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 173.64368296901765,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 173,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 44,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 173,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 41,
+        "admission_status": "PASS",
+        "log_q": 143,
+        "log_p": 30,
+        "log_qp": 173,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 71,
+        "evaluation_key_headroom_bits": 41,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_410391a92584",
+      "path": "rescale",
+      "dataset_id": "iris_binary",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 4,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_bb6a1f909bb7",
+      "path": "rescale",
+      "dataset_id": "mnist_pool16",
+      "model_id": "linear_poly3",
+      "split_seed": 4,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_fc30b5ace58f",
+      "path": "rescale",
+      "dataset_id": "mnist_pool16",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 4,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_d84de52a7b18",
+      "path": "rescale",
+      "dataset_id": "wdbc",
+      "model_id": "linear_poly3",
+      "split_seed": 4,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "actual_q_primes": [
+        134250497,
+        16760833,
+        16957441,
+        16580609,
+        17006593,
+        16515073,
+        16465921
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 170.9672022009456,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 200.96713615943972,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 16,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 201,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 13,
+        "admission_status": "PASS",
+        "log_q": 171,
+        "log_p": 30,
+        "log_qp": 201,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "evaluation_key_headroom_bits": 13,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_53fdc19676be",
+      "path": "rescale",
+      "dataset_id": "wdbc",
+      "model_id": "mlp_square_linear_score",
+      "split_seed": 4,
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "actual_q_primes": [
+        8404993,
+        1032193,
+        1097729,
+        1130497,
+        1146881,
+        1179649
+      ],
+      "actual_p_primes": [
+        1073692673
+      ],
+      "actual_log_q": 123.45392324540953,
+      "actual_log_p": 29.999933958494132,
+      "actual_log_qp": 153.45385720390365,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    }
+  ],
+  "catalog_profiles": [
+    {
+      "candidate_source": "catalog",
+      "candidate_id": "default",
+      "profile": "default",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          56,
+          46,
+          46,
+          46,
+          45,
+          45,
+          46
+        ],
+        "log_p": [
+          56,
+          55
+        ],
+        "log_default_scale": 45
+      },
+      "actual_q_primes": [
+        72057594038321153,
+        70368744210433,
+        70368744570881,
+        70368744701953,
+        35184372121601,
+        35184372744193,
+        70368743587841
+      ],
+      "actual_p_primes": [
+        72057594037370881,
+        36028797019389953
+      ],
+      "actual_log_q": 330.0000000356138,
+      "actual_log_p": 111.00000000000591,
+      "actual_log_qp": 441.00000003561973,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 441,
+        "max_allowed_log_qp": 438,
+        "headroom_bits": -3,
+        "admission_status": "FAIL",
+        "log_q": 330,
+        "log_p": 111,
+        "log_qp": 441,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "FAIL",
+        "final_admission": "FAIL",
+        "ciphertext_headroom_bits": 108,
+        "evaluation_key_headroom_bits": -3,
+        "admission_reason": "at least one required runtime object exceeds the conservative Table 5.2 cap"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 441,
+        "max_allowed_log_qp": 430,
+        "headroom_bits": -11,
+        "admission_status": "FAIL",
+        "log_q": 330,
+        "log_p": 111,
+        "log_qp": 441,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "FAIL",
+        "final_admission": "FAIL",
+        "ciphertext_headroom_bits": 100,
+        "evaluation_key_headroom_bits": -11,
+        "admission_reason": "at least one required runtime object exceeds the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "catalog",
+      "candidate_id": "scale42",
+      "profile": "scale42",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          56,
+          46,
+          46,
+          46,
+          45,
+          45,
+          46
+        ],
+        "log_p": [
+          56,
+          55
+        ],
+        "log_default_scale": 42
+      },
+      "actual_q_primes": [
+        72057594038321153,
+        70368744210433,
+        70368744570881,
+        70368744701953,
+        35184372121601,
+        35184372744193,
+        70368743587841
+      ],
+      "actual_p_primes": [
+        72057594037370881,
+        36028797019389953
+      ],
+      "actual_log_q": 330.0000000356138,
+      "actual_log_p": 111.00000000000591,
+      "actual_log_qp": 441.00000003561973,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 441,
+        "max_allowed_log_qp": 438,
+        "headroom_bits": -3,
+        "admission_status": "FAIL",
+        "log_q": 330,
+        "log_p": 111,
+        "log_qp": 441,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "FAIL",
+        "final_admission": "FAIL",
+        "ciphertext_headroom_bits": 108,
+        "evaluation_key_headroom_bits": -3,
+        "admission_reason": "at least one required runtime object exceeds the conservative Table 5.2 cap"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 441,
+        "max_allowed_log_qp": 430,
+        "headroom_bits": -11,
+        "admission_status": "FAIL",
+        "log_q": 330,
+        "log_p": 111,
+        "log_qp": 441,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "FAIL",
+        "final_admission": "FAIL",
+        "ciphertext_headroom_bits": 100,
+        "evaluation_key_headroom_bits": -11,
+        "admission_reason": "at least one required runtime object exceeds the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "catalog",
+      "candidate_id": "scale40",
+      "profile": "scale40",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          56,
+          46,
+          46,
+          46,
+          45,
+          45,
+          46
+        ],
+        "log_p": [
+          56,
+          55
+        ],
+        "log_default_scale": 40
+      },
+      "actual_q_primes": [
+        72057594038321153,
+        70368744210433,
+        70368744570881,
+        70368744701953,
+        35184372121601,
+        35184372744193,
+        70368743587841
+      ],
+      "actual_p_primes": [
+        72057594037370881,
+        36028797019389953
+      ],
+      "actual_log_q": 330.0000000356138,
+      "actual_log_p": 111.00000000000591,
+      "actual_log_qp": 441.00000003561973,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 441,
+        "max_allowed_log_qp": 438,
+        "headroom_bits": -3,
+        "admission_status": "FAIL",
+        "log_q": 330,
+        "log_p": 111,
+        "log_qp": 441,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "FAIL",
+        "final_admission": "FAIL",
+        "ciphertext_headroom_bits": 108,
+        "evaluation_key_headroom_bits": -3,
+        "admission_reason": "at least one required runtime object exceeds the conservative Table 5.2 cap"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 441,
+        "max_allowed_log_qp": 430,
+        "headroom_bits": -11,
+        "admission_status": "FAIL",
+        "log_q": 330,
+        "log_p": 111,
+        "log_qp": 441,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "FAIL",
+        "final_admission": "FAIL",
+        "ciphertext_headroom_bits": 100,
+        "evaluation_key_headroom_bits": -11,
+        "admission_reason": "at least one required runtime object exceeds the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "catalog",
+      "candidate_id": "scale38",
+      "profile": "scale38",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          56,
+          46,
+          46,
+          46,
+          45,
+          45,
+          46
+        ],
+        "log_p": [
+          56,
+          55
+        ],
+        "log_default_scale": 38
+      },
+      "actual_q_primes": [
+        72057594038321153,
+        70368744210433,
+        70368744570881,
+        70368744701953,
+        35184372121601,
+        35184372744193,
+        70368743587841
+      ],
+      "actual_p_primes": [
+        72057594037370881,
+        36028797019389953
+      ],
+      "actual_log_q": 330.0000000356138,
+      "actual_log_p": 111.00000000000591,
+      "actual_log_qp": 441.00000003561973,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 441,
+        "max_allowed_log_qp": 438,
+        "headroom_bits": -3,
+        "admission_status": "FAIL",
+        "log_q": 330,
+        "log_p": 111,
+        "log_qp": 441,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "FAIL",
+        "final_admission": "FAIL",
+        "ciphertext_headroom_bits": 108,
+        "evaluation_key_headroom_bits": -3,
+        "admission_reason": "at least one required runtime object exceeds the conservative Table 5.2 cap"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 441,
+        "max_allowed_log_qp": 430,
+        "headroom_bits": -11,
+        "admission_status": "FAIL",
+        "log_q": 330,
+        "log_p": 111,
+        "log_qp": 441,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "FAIL",
+        "final_admission": "FAIL",
+        "ciphertext_headroom_bits": 100,
+        "evaluation_key_headroom_bits": -11,
+        "admission_reason": "at least one required runtime object exceeds the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "catalog",
+      "candidate_id": "deep_chain_8_scale45",
+      "profile": "deep_chain_8_scale45",
+      "parameters": {
+        "log_n": 15,
+        "log_q": [
+          56,
+          46,
+          46,
+          46,
+          45,
+          45,
+          46,
+          45
+        ],
+        "log_p": [
+          56,
+          55
+        ],
+        "log_default_scale": 45
+      },
+      "actual_q_primes": [
+        72057594038321153,
+        70368744570881,
+        70368744701953,
+        70368743587841,
+        35184372744193,
+        35184373006337,
+        70368744964097,
+        35184373989377
+      ],
+      "actual_p_primes": [
+        72057594037338113,
+        36028797019488257
+      ],
+      "actual_log_q": 375.00000016527264,
+      "actual_log_p": 111.00000000000918,
+      "actual_log_qp": 486.0000001652818,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 486,
+        "max_allowed_log_qp": 881,
+        "headroom_bits": 395,
+        "admission_status": "PASS",
+        "log_q": 375,
+        "log_p": 111,
+        "log_qp": 486,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 506,
+        "evaluation_key_headroom_bits": 395,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 486,
+        "max_allowed_log_qp": 868,
+        "headroom_bits": 382,
+        "admission_status": "PASS",
+        "log_q": 375,
+        "log_p": 111,
+        "log_qp": 486,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 493,
+        "evaluation_key_headroom_bits": 382,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "catalog",
+      "candidate_id": "deep_chain_9_scale45",
+      "profile": "deep_chain_9_scale45",
+      "parameters": {
+        "log_n": 15,
+        "log_q": [
+          56,
+          46,
+          46,
+          46,
+          45,
+          45,
+          46,
+          45,
+          45
+        ],
+        "log_p": [
+          56,
+          55
+        ],
+        "log_default_scale": 45
+      },
+      "actual_q_primes": [
+        72057594038321153,
+        70368744570881,
+        70368744701953,
+        70368743587841,
+        35184372744193,
+        35184373006337,
+        70368744964097,
+        35184373989377,
+        35184368877569
+      ],
+      "actual_p_primes": [
+        72057594037338113,
+        36028797019488257
+      ],
+      "actual_log_q": 420.00000003359844,
+      "actual_log_p": 111.00000000000918,
+      "actual_log_qp": 531.0000000336076,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 531,
+        "max_allowed_log_qp": 881,
+        "headroom_bits": 350,
+        "admission_status": "PASS",
+        "log_q": 420,
+        "log_p": 111,
+        "log_qp": 531,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 461,
+        "evaluation_key_headroom_bits": 350,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 531,
+        "max_allowed_log_qp": 868,
+        "headroom_bits": 337,
+        "admission_status": "PASS",
+        "log_q": 420,
+        "log_p": 111,
+        "log_qp": 531,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 448,
+        "evaluation_key_headroom_bits": 337,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "catalog",
+      "candidate_id": "short_chain_6_scale42",
+      "profile": "short_chain_6_scale42",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          56,
+          46,
+          46,
+          46,
+          45,
+          45
+        ],
+        "log_p": [
+          56,
+          55
+        ],
+        "log_default_scale": 42
+      },
+      "actual_q_primes": [
+        72057594038321153,
+        70368744210433,
+        70368744570881,
+        70368744701953,
+        35184372121601,
+        35184372744193
+      ],
+      "actual_p_primes": [
+        72057594037370881,
+        36028797019389953
+      ],
+      "actual_log_q": 284.00000004770635,
+      "actual_log_p": 111.00000000000591,
+      "actual_log_qp": 395.00000004771226,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 395,
+        "max_allowed_log_qp": 438,
+        "headroom_bits": 43,
+        "admission_status": "PASS",
+        "log_q": 284,
+        "log_p": 111,
+        "log_qp": 395,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 154,
+        "evaluation_key_headroom_bits": 43,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 395,
+        "max_allowed_log_qp": 430,
+        "headroom_bits": 35,
+        "admission_status": "PASS",
+        "log_q": 284,
+        "log_p": 111,
+        "log_qp": 395,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 146,
+        "evaluation_key_headroom_bits": 35,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "catalog",
+      "candidate_id": "short_chain_6_scale40",
+      "profile": "short_chain_6_scale40",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          56,
+          46,
+          46,
+          46,
+          45,
+          45
+        ],
+        "log_p": [
+          56,
+          55
+        ],
+        "log_default_scale": 40
+      },
+      "actual_q_primes": [
+        72057594038321153,
+        70368744210433,
+        70368744570881,
+        70368744701953,
+        35184372121601,
+        35184372744193
+      ],
+      "actual_p_primes": [
+        72057594037370881,
+        36028797019389953
+      ],
+      "actual_log_q": 284.00000004770635,
+      "actual_log_p": 111.00000000000591,
+      "actual_log_qp": 395.00000004771226,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 395,
+        "max_allowed_log_qp": 438,
+        "headroom_bits": 43,
+        "admission_status": "PASS",
+        "log_q": 284,
+        "log_p": 111,
+        "log_qp": 395,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 154,
+        "evaluation_key_headroom_bits": 43,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 395,
+        "max_allowed_log_qp": 430,
+        "headroom_bits": 35,
+        "admission_status": "PASS",
+        "log_q": 284,
+        "log_p": 111,
+        "log_qp": 395,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 146,
+        "evaluation_key_headroom_bits": 35,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "catalog",
+      "candidate_id": "short_chain_6_scale38",
+      "profile": "short_chain_6_scale38",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          56,
+          46,
+          46,
+          46,
+          45,
+          45
+        ],
+        "log_p": [
+          56,
+          55
+        ],
+        "log_default_scale": 38
+      },
+      "actual_q_primes": [
+        72057594038321153,
+        70368744210433,
+        70368744570881,
+        70368744701953,
+        35184372121601,
+        35184372744193
+      ],
+      "actual_p_primes": [
+        72057594037370881,
+        36028797019389953
+      ],
+      "actual_log_q": 284.00000004770635,
+      "actual_log_p": 111.00000000000591,
+      "actual_log_qp": 395.00000004771226,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 395,
+        "max_allowed_log_qp": 438,
+        "headroom_bits": 43,
+        "admission_status": "PASS",
+        "log_q": 284,
+        "log_p": 111,
+        "log_qp": 395,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 154,
+        "evaluation_key_headroom_bits": 43,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 395,
+        "max_allowed_log_qp": 430,
+        "headroom_bits": 35,
+        "admission_status": "PASS",
+        "log_q": 284,
+        "log_p": 111,
+        "log_qp": 395,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 146,
+        "evaluation_key_headroom_bits": 35,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "catalog",
+      "candidate_id": "short_chain_5",
+      "profile": "short_chain_5",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          56,
+          46,
+          46,
+          46,
+          45
+        ],
+        "log_p": [
+          56,
+          55
+        ],
+        "log_default_scale": 40
+      },
+      "actual_q_primes": [
+        72057594038321153,
+        70368744210433,
+        70368744570881,
+        70368744701953,
+        35184372121601
+      ],
+      "actual_p_primes": [
+        72057594037370881,
+        36028797019389953
+      ],
+      "actual_log_q": 239.00000002083402,
+      "actual_log_p": 111.00000000000591,
+      "actual_log_qp": 350.00000002083993,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 350,
+        "max_allowed_log_qp": 438,
+        "headroom_bits": 88,
+        "admission_status": "PASS",
+        "log_q": 239,
+        "log_p": 111,
+        "log_qp": 350,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 199,
+        "evaluation_key_headroom_bits": 88,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 350,
+        "max_allowed_log_qp": 430,
+        "headroom_bits": 80,
+        "admission_status": "PASS",
+        "log_q": 239,
+        "log_p": 111,
+        "log_qp": 350,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 191,
+        "evaluation_key_headroom_bits": 80,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    },
+    {
+      "candidate_source": "catalog",
+      "candidate_id": "short_chain_3",
+      "profile": "short_chain_3",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          56,
+          46,
+          46
+        ],
+        "log_p": [
+          56,
+          55
+        ],
+        "log_default_scale": 35
+      },
+      "actual_q_primes": [
+        72057594038321153,
+        70368744210433,
+        70368744570881
+      ],
+      "actual_p_primes": [
+        72057594037370881,
+        36028797019389953
+      ],
+      "actual_log_q": 148.0000000087414,
+      "actual_log_p": 111.00000000000591,
+      "actual_log_qp": 259.0000000087473,
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "old_security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 259,
+        "max_allowed_log_qp": 438,
+        "headroom_bits": 179,
+        "admission_status": "PASS",
+        "log_q": 148,
+        "log_p": 111,
+        "log_qp": 259,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 290,
+        "evaluation_key_headroom_bits": 179,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "v2_security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 259,
+        "max_allowed_log_qp": 430,
+        "headroom_bits": 171,
+        "admission_status": "PASS",
+        "log_q": 148,
+        "log_p": 111,
+        "log_qp": 259,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 282,
+        "evaluation_key_headroom_bits": 171,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      }
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "actual_run_count": 1100,
+  "admitted_profiles": [
+    "deep_chain_8_scale45",
+    "deep_chain_9_scale45",
+    "short_chain_3",
+    "short_chain_5",
+    "short_chain_6_scale38",
+    "short_chain_6_scale40",
+    "short_chain_6_scale42"
+  ],
+  "allow_incomplete": false,
+  "alpha_rows": 250,
+  "candidate_identities_per_workload_after": 14,
+  "candidate_identities_per_workload_before": 22,
+  "confirmatory_catalog_candidates": 560,
+  "development_catalog_candidates": 140,
+  "direct_trials_all": null,
+  "direct_trials_confirmatory": null,
+  "direct_trials_development": null,
+  "excluded_profiles": [
+    "default",
+    "scale38",
+    "scale40",
+    "scale42"
+  ],
+  "expected_full_run_count": 1100,
+  "formal_trial_fields_pending": "clean-source direct confirmatory execution",
+  "formal_trial_reduction_all": null,
+  "formal_trial_reduction_confirmatory": null,
+  "latency_claim_allowed": false,
+  "latency_evidence_status": "BLOCKED",
+  "new_encrypted_executions": 0,
+  "outcome_counts": {
+    "SELECTED": 250
+  },
+  "raw_catalog_executions": 1100,
+  "reference_candidate_pre_security_v2": "default__rescale_aware",
+  "reference_candidate_pre_security_v2_admission": "FAIL",
+  "reference_candidate_v2": "deep_chain_8_scale45__rescale_aware",
+  "reference_candidate_v2_admission": "PASS",
+  "reference_failed_count": 0,
+  "reference_rejected_count": 0,
+  "reference_safe_count": 50,
+  "reference_security_pass_count": 50,
+  "reference_selection_rule": "predeclared smallest admitted built-in Q-chain profile/path that is SAFE for all 50 existing workload-partition records at alpha=0.5",
+  "schema_version": 2,
+  "security_admitted_catalog_candidates": 700,
+  "security_excluded_catalog_candidates": 400,
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+  "selection_changes_all_alphas": 125,
+  "selection_changes_by_model": {
+    "linear_poly3": 125
+  },
+  "selection_changes_primary_alpha_0_5": 25,
+  "source_encrypted_executions_reused": 1100,
+  "source_oracle_classification": "PRE_SECURITY_V2",
+  "workload_partition_instances": 50
+}

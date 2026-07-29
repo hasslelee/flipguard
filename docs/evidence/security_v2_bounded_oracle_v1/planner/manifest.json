@@ -1,0 +1,34 @@
+{
+  "artifact_id": "planner_oracle_comparison_security_v2",
+  "candidate_certificate_rows": 3500,
+  "catalog_candidate_identities": 700,
+  "comparison_rows": 250,
+  "files": {
+    "comparison.csv": {
+      "bytes": 62487,
+      "sha256": "sha256:602befd32d07d4b1409b9c5091ba5174f65abe08d76ce7f576a4e6757ba45e1e"
+    },
+    "derived_metrics.json": {
+      "bytes": 1782,
+      "sha256": "sha256:7cd8d2bf7683fd1850458e36e49fa8be5615045d0aa1e54a6635e849e190a09c"
+    },
+    "planner_candidates.csv": {
+      "bytes": 587239,
+      "sha256": "sha256:e1e3343d493e9397bd10f47da646f4efdcca4bf2cbc60ef3368d30cd95ad541c"
+    },
+    "planner_summary.csv": {
+      "bytes": 119316,
+      "sha256": "sha256:4c67e8134a589a132ee8a1871f4966e63ae829fe1ef592c83a143f41fde690e1"
+    },
+    "summary.json": {
+      "bytes": 2428,
+      "sha256": "sha256:d4a7e07e9235c6daf479fa6e6e00ab19f13ab5f9d23d2d56e48f3ea2c8f83eef"
+    }
+  },
+  "inputs": {
+    "results/thesis_grade_protocol/security_v2_static_attestation/bounded_oracle_security_v2/candidate_certificates_security_v2.csv": "sha256:a634965ff97fcd13c6242f266f1432870a362b7e2cfcbb4218884f84fc69a065",
+    "results/thesis_grade_protocol/security_v2_static_attestation/bounded_oracle_security_v2/validation_coverage.csv": "sha256:adfec8988bb68e2e5af190b1f70b429b1f82d95df7d5fdb04de8f2b4a5d42210"
+  },
+  "schema_version": 1,
+  "source_commit": "62ce434bdae94dc640e7d822448381514b71cd0a"
+}

@@ -95,6 +95,20 @@
       "reason": "Static Security V2 admission and bounded-oracle filtering input; no encrypted execution was performed."
     },
     {
+      "path": "docs/evidence/security_v2_static_attestation_formal_v2",
+      "classification": "PRELIMINARY",
+      "manifest_sha256": "sha256:949e452198106468cd509fb64679ab878a878bdd0e16a220a04f4fa773d2a877",
+      "paper_claim_allowed": false,
+      "reason": "Formal 700-candidate Security V2 accounting, per-workload reference certification, and static re-attestation; no new encrypted execution was performed."
+    },
+    {
+      "path": "docs/evidence/security_v2_bounded_oracle_v1",
+      "classification": "PRELIMINARY",
+      "manifest_sha256": "sha256:1d2910a80711928145fb9c7af6d31f4672921e52318c4df92021c31761bffe4d",
+      "paper_claim_allowed": false,
+      "reason": "Security-filtered bounded-oracle and planner baseline evidence generated from the immutable 1,100-run source ledger."
+    },
+    {
       "path": "docs/evidence/tabular_certification_observed_v1",
       "classification": "HISTORICAL_CHECKPOINT",
       "manifest_sha256": "sha256:5c183b180a588b42ff094d4886e75e1cb5c730781b1cdd01ccaf119d904408d4",
