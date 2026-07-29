@@ -1,0 +1,4840 @@
+diff --git a/README.md b/README.md
+index 5f85d67..db33fb5 100644
+--- a/README.md
++++ b/README.md
+@@ -3,16 +3,18 @@
+ **Automatic CKKS Configuration with Decision-Integrity Certification**
+ 
+ FlipGuard is a research prototype that synthesizes CKKS configurations from a
+-model, validation data, and a decision policy, then certifies or rejects each
+-configuration according to the final threshold decision.
++model artifact, held-out feature data, and a decision policy, then
++certifies or rejects each configuration according to the final threshold
++decision.
+ 
+ The decision-integrity layer can also evaluate candidates supplied by manual
+ configuration, the built-in finite oracle, or an external autotuner.
+ 
+ > Status: active research prototype with a real Lattigo v6 CKKS backend. Direct
+ > parameter synthesis and adaptive observed-validation certification are
+-> implemented for the declared tabular/rescale scope. Final multi-seed and
+-> locked-audit evidence is not yet frozen.
++> implemented for the declared tabular/rescale scope. The five-split
++> selection/locked-audit checkpoint is frozen as preliminary evidence; the
++> clean-source final confirmatory suite remains pending.
+ 
+ ---
+ 
+@@ -44,7 +46,8 @@ where `protected_margin` is derived from the distance between the plaintext scor
+ FlipGuard currently provides:
+ 
+ - Direct `LogN`, `LogQ`, `LogP`, and scale generation without a fixed profile catalog
+-- Digest-bound model and validation workload contracts
++- Automatic feature-data-to-validation materialization with source/model digests
++- Digest-bound model, source data, and prepared validation workload contracts
+ - Lattigo-aware scale and modulus-level tracing
+ - 128-bit parameter admission using the recorded HE security-guideline table
+ - Adaptive level/scale repair with an encrypted-trial budget
+@@ -120,6 +123,40 @@ go test ./...
+ 
+ ### Automatically synthesize and certify a tabular configuration
+ 
++The preferred user path takes a supported FlipGuard model artifact and a
++held-out feature CSV:
++
++```bash
++go run ./cmd/flipguard-autotune \
++  --model datasets/tabular_suite/banknote/linear_poly3/model.json \
++  --data /path/to/banknote_validation_raw.csv \
++  --data-space raw \
++  --split-id user_validation_v1 \
++  --out results/direct_tabular_autotune/user_validation_v1.json
++```
++
++For data already in the selected and standardized model-input space:
++
++```text
++row_id,label,x_0,x_1,...,x_{d-1}
++```
++
++For raw data, use the selected feature names recorded by the model artifact or
++indexed columns such as `x_3,x_5,...`. FlipGuard applies the artifact's frozen
++selected-feature means and standard deviations. `--data-space` accepts
++`auto`, `model`, or `raw`; ambiguous input fails closed instead of guessing.
++The current raw preprocessing scope is selected-feature extraction plus
++z-score standardization. Arbitrary preprocessing graphs are not inferred.
++
++FlipGuard then derives the plaintext score and decision, writes a canonical
++`.validation.csv` beside the result, binds source/model/prepared data and the
++preprocessing method, replays the source transformation against every prepared
++row, synthesizes one candidate, and repairs only after an observed encrypted
++failure.
++
++For frozen experiment replay, an already prepared validation artifact can be
++supplied through the matrix script:
++
+ ```bash
+ ./scripts/run_direct_tabular_autotune.sh \
+   datasets/tabular_suite/banknote/mlp_square_linear_score/model.json \
+@@ -130,9 +167,27 @@ go test ./...
+ 
+ The output records the exact artifact digests, derived graph and margin
+ contract, direct CKKS literal, security admission, encrypted trials, and final
+-selection. See
++selection. The primary CLI defaults match the evaluated protocol:
++`margin_floor=0.001`, `alpha=0.5`, scale/Q floor `18`, P floor `30`, and three
++fresh keys per configuration trial. See
+ [`docs/research/step_7b2a_direct_configuration_synthesis.md`](docs/research/step_7b2a_direct_configuration_synthesis.md).
+ 
++The no-retuning audit can apply the same source replay to its disjoint feature
++partition:
++
++```bash
++go run ./cmd/flipguard-audit \
++  --selection /path/to/selection.json \
++  --audit /path/to/locked_audit_source.csv \
++  --prepared-audit-out /path/to/locked_audit.validation.csv \
++  --audit-data-space model \
++  --manifest /path/to/split_manifest.json \
++  --out /path/to/locked_audit_result.json
++```
++
++Audit materialization recomputes plaintext provenance only. The selected CKKS
++literal is executed unchanged, without synthesis or repair.
++
+ ### Reproduce current results
+ 
+ ```bash
+@@ -284,9 +339,10 @@ FlipGuard는 CKKS 기반 암호화 추론에서 **판정 안정성(decision stab
+ 
+ CKKS는 암호화된 실수 데이터에 대해 근사 연산을 수행할 수 있다는 장점이 있지만, 근사 오차로 인해 모델 출력값이 임계값 근처에 있을 때 최종 판정이 뒤집힐 수 있다.
+ 
+-현재 구현은 Lattigo v6 실제 CKKS backend를 사용한다. 모델과 validation
+-data에서 `LogN`, `LogQ`, `LogP`, scale을 직접 생성하고, 암호화 실행 결과를
+-검증해 `SAFE`, `REJECTED`, `FAILED`, `NO_SAFE` 중 하나를 반환한다.
++현재 구현은 Lattigo v6 실제 CKKS backend를 사용한다. 지원되는 model
++artifact와 held-out feature data에서 `LogN`, `LogQ`, `LogP`, scale을
++직접 생성하고, 암호화 실행 결과를 검증해 `SAFE`, `REJECTED`, `FAILED`,
++`NO_SAFE` 중 하나를 반환한다.
+ 
+ 예를 들어 다음과 같은 임계값 기반 추론 규칙이 있다고 가정한다.
+ 
+@@ -310,7 +366,8 @@ estimated_error <= safety_factor * protected_margin
+ 현재 FlipGuard 구현 기능.
+ 
+ - 고정 profile catalog를 거치지 않는 CKKS parameter 직접 생성
+-- 모델·validation artifact digest가 결합된 workload contract
++- feature data에서 평문 score·decision을 자동 materialize
++- 모델·source data·prepared validation digest가 결합된 workload contract
+ - Lattigo scale 및 modulus-level 추적
+ - 명시된 HE security guideline 표에 따른 128-bit parameter admission
+ - encrypted-trial budget을 사용하는 adaptive level/scale repair
+@@ -384,6 +441,51 @@ go run ./cmd/flipguard -experiment logreg_small
+ go test ./...
+ ```
+ 
++### 모델과 특징 데이터로 configuration 자동 선택
++
++```bash
++go run ./cmd/flipguard-autotune \
++  --model datasets/tabular_suite/banknote/linear_poly3/model.json \
++  --data /path/to/banknote_validation_raw.csv \
++  --data-space raw \
++  --split-id user_validation_v1 \
++  --out results/direct_tabular_autotune/user_validation_v1.json
++```
++
++선택·표준화가 끝난 model-input CSV는 다음 열을 사용한다.
++
++```text
++row_id,label,x_0,x_1,...,x_{d-1}
++```
++
++raw CSV는 model artifact에 기록된 selected feature name 또는 원본
++index를 나타내는 `x_3,x_5,...` 열을 사용할 수 있다. FlipGuard는 artifact에
++동결된 mean/std로 selected-feature z-score standardization을 적용한다.
++`--data-space`는 `auto`, `model`, `raw`를 지원하며 모호한 입력은 추측하지
++않고 거절한다. 임의의 preprocessing graph까지 추론하는 것은 현재 범위
++밖이다.
++
++그다음 score와 threshold decision을 계산해 canonical `.validation.csv`를
++만들고, source/model/prepared artifact와 preprocessing method를 고정한 뒤
++source transformation을 prepared row별로 재검증하고 첫 후보를 직접
++합성한다. 암호화 검증 실패가 관측된 경우에만 scale 또는 level을
++수리한다.
++
++별도 locked-audit feature partition도 같은 source replay를 적용할 수 있다.
++
++```bash
++go run ./cmd/flipguard-audit \
++  --selection /path/to/selection.json \
++  --audit /path/to/locked_audit_source.csv \
++  --prepared-audit-out /path/to/locked_audit.validation.csv \
++  --audit-data-space model \
++  --manifest /path/to/split_manifest.json \
++  --out /path/to/locked_audit_result.json
++```
++
++Audit materialization은 평문 provenance만 재계산한다. 선택된 CKKS
++literal은 합성이나 repair 없이 그대로 실행된다.
++
+ ### 현재 결과 재현
+ 
+ ```bash
+@@ -446,9 +548,11 @@ docs/RESULTS_LOGREG_SMALL.md
+ 범위는 세 가지 tabular model form, scalar-replicated packing, Lattigo v6
+ rescale-aware path, observed-validation certificate이다.
+ 
+-다음 단계는 다중 split·key·반복 latency 실험, 고정 finite oracle과의
+-recall/regret 비교, locked audit, 더 깊은 MLP 및 CNN-lite 확장이다. 단일
+-development run은 최종 성능 근거로 사용하지 않는다.
++현재 5개 dataset, 2개 graph, 5개 split에 대한 직접 합성 및 no-retuning
++locked audit과 1,100-candidate bounded-oracle 비교는 예비 evidence로
++동결되어 있다. 다음 단계는 clean-source final confirmatory suite,
++paired latency 확증, 더 깊은 MLP 및 CNN-lite 확장이다. 단일 development
++run이나 pilot latency는 최종 성능 근거로 사용하지 않는다.
+ 
+ ## 8. 저장소 구조
+ 
+diff --git a/cmd/flipguard-audit/main.go b/cmd/flipguard-audit/main.go
+index ac6cea9..5924f04 100644
+--- a/cmd/flipguard-audit/main.go
++++ b/cmd/flipguard-audit/main.go
+@@ -33,7 +33,17 @@ func run(args []string, stdout io.Writer) error {
+ 	auditPath := flags.String(
+ 		"audit",
+ 		"",
+-		"path to the locked audit CSV",
++		"path to the locked audit source feature CSV",
++	)
++	preparedAuditPath := flags.String(
++		"prepared-audit-out",
++		"",
++		"optional canonical audit artifact materialized from --audit",
++	)
++	auditDataSpace := flags.String(
++		"audit-data-space",
++		"auto",
++		"feature interpretation for materialized audit: auto, model, or raw",
+ 	)
+ 	manifestPath := flags.String(
+ 		"manifest",
+@@ -72,13 +82,25 @@ func run(args []string, stdout io.Writer) error {
+ 	if *keyRepeats <= 0 {
+ 		return errors.New("--key-repeats must be positive")
+ 	}
++	hasPreparedAudit :=
++		strings.TrimSpace(*preparedAuditPath) != ""
++	if !hasPreparedAudit &&
++		strings.TrimSpace(*auditDataSpace) != "auto" {
++		return errors.New(
++			"--audit-data-space requires --prepared-audit-out",
++		)
++	}
+ 
+ 	result, err := ckksplanner.RunLockedTabularAudit(
+ 		ckksplanner.LockedAuditOptions{
+ 			SelectionResultPath: *selectionPath,
+ 			AuditPath:           *auditPath,
+-			SplitManifestPath:   *manifestPath,
+-			KeyRepeats:          *keyRepeats,
++			PreparedAuditPath:   *preparedAuditPath,
++			AuditDataSpace: ckksplanner.TabularDataSpace(
++				strings.TrimSpace(*auditDataSpace),
++			),
++			SplitManifestPath: *manifestPath,
++			KeyRepeats:        *keyRepeats,
+ 		},
+ 	)
+ 	if err != nil {
+diff --git a/cmd/flipguard-autotune/main.go b/cmd/flipguard-autotune/main.go
+index 67fc910..88be89a 100644
+--- a/cmd/flipguard-autotune/main.go
++++ b/cmd/flipguard-autotune/main.go
+@@ -7,6 +7,7 @@ import (
+ 	"fmt"
+ 	"io"
+ 	"os"
++	"path/filepath"
+ 	"strings"
+ 
+ 	"github.com/hasslelee/flipguard/internal/ckksplanner"
+@@ -23,8 +24,8 @@ func main() {
+ }
+ 
+ func run(args []string, stdout io.Writer) error {
+-	defaults := ckksplanner.DefaultTabularContractOptions()
+-	synthesisDefaults := ckksplanner.DefaultSynthesisPolicy()
++	defaults := ckksplanner.DefaultPrimaryTabularContractOptions()
++	synthesisDefaults := ckksplanner.DefaultPrimarySynthesisPolicy()
+ 
+ 	flags := flag.NewFlagSet("flipguard-autotune", flag.ContinueOnError)
+ 	flags.SetOutput(stdout)
+@@ -37,7 +38,22 @@ func run(args []string, stdout io.Writer) error {
+ 	validationPath := flags.String(
+ 		"validation",
+ 		"",
+-		"path to configuration-validation CSV",
++		"path to prepared configuration-validation CSV",
++	)
++	dataPath := flags.String(
++		"data",
++		"",
++		"path to held-out feature CSV with row_id,label,...",
++	)
++	dataSpace := flags.String(
++		"data-space",
++		"auto",
++		"feature interpretation for --data: auto, model, or raw",
++	)
++	preparedValidationPath := flags.String(
++		"prepared-validation-out",
++		"",
++		"materialized validation path for --data; defaults beside --out",
+ 	)
+ 	splitID := flags.String(
+ 		"split-id",
+@@ -104,8 +120,12 @@ func run(args []string, stdout io.Writer) error {
+ 	if strings.TrimSpace(*modelPath) == "" {
+ 		return errors.New("--model is required")
+ 	}
+-	if strings.TrimSpace(*validationPath) == "" {
+-		return errors.New("--validation is required")
++	hasValidation := strings.TrimSpace(*validationPath) != ""
++	hasData := strings.TrimSpace(*dataPath) != ""
++	if hasValidation == hasData {
++		return errors.New(
++			"exactly one of --validation or --data is required",
++		)
+ 	}
+ 	if strings.TrimSpace(*splitID) == "" {
+ 		return errors.New("--split-id is required")
+@@ -123,9 +143,56 @@ func run(args []string, stdout io.Writer) error {
+ 		return errors.New("--key-repeats must be positive")
+ 	}
+ 
++	activeValidationPath := strings.TrimSpace(*validationPath)
++	var materialization *ckksplanner.TabularValidationMaterialization
++	if hasData {
++		activePreparedPath := strings.TrimSpace(
++			*preparedValidationPath,
++		)
++		if activePreparedPath == "" {
++			activeOutputPath := strings.TrimSpace(*outputPath)
++			if activeOutputPath == "" {
++				return errors.New(
++					"--data requires --out or --prepared-validation-out so the derived validation artifact persists",
++				)
++			}
++			extension := filepath.Ext(activeOutputPath)
++			activePreparedPath =
++				strings.TrimSuffix(activeOutputPath, extension) +
++					".validation.csv"
++		}
++		prepared, err :=
++			ckksplanner.MaterializeTabularValidationWithOptions(
++				*modelPath,
++				*dataPath,
++				activePreparedPath,
++				ckksplanner.TabularMaterializationOptions{
++					DataSpace: ckksplanner.TabularDataSpace(
++						strings.TrimSpace(*dataSpace),
++					),
++				},
++			)
++		if err != nil {
++			return err
++		}
++		materialization = &prepared
++		activeValidationPath = activePreparedPath
++	} else if strings.TrimSpace(*preparedValidationPath) != "" {
++		return errors.New(
++			"--prepared-validation-out is valid only with --data",
++		)
++	} else if strings.TrimSpace(*dataSpace) != "auto" {
++		return errors.New(
++			"--data-space is valid only with --data",
++		)
++	}
++
+ 	options := defaults
+ 	options.ModelPath = *modelPath
+-	options.ValidationPath = *validationPath
++	options.ValidationPath = activeValidationPath
++	if hasData {
++		options.SourceDataPath = *dataPath
++	}
+ 	options.SplitID = *splitID
+ 	options.MarginFloor = *marginFloor
+ 	options.SafetyFactor = *safetyFactor
+@@ -180,11 +247,22 @@ func run(args []string, stdout io.Writer) error {
+ 
+ 	fmt.Fprintf(
+ 		stdout,
+-		"adaptive_autotune=%s workload=%s trials=%d output=%s\n",
++		"adaptive_autotune=%s workload=%s trials=%d output=%s",
+ 		result.Outcome,
+ 		result.Plan.Contract.WorkloadID,
+ 		result.TrialsUsed,
+ 		*outputPath,
+ 	)
++	if materialization != nil {
++		fmt.Fprintf(
++			stdout,
++			" prepared_validation=%s source_data_sha256=%s source_feature_space=%s preprocessing=%s",
++			materialization.ValidationPath,
++			materialization.SourceDataSHA256,
++			materialization.SourceFeatureSpace,
++			materialization.PreprocessingMethod,
++		)
++	}
++	fmt.Fprintln(stdout)
+ 	return nil
+ }
+diff --git a/cmd/flipguard-autotune/main_test.go b/cmd/flipguard-autotune/main_test.go
+index 3d2ad1c..b9e3143 100644
+--- a/cmd/flipguard-autotune/main_test.go
++++ b/cmd/flipguard-autotune/main_test.go
+@@ -2,6 +2,8 @@ package main
+ 
+ import (
+ 	"bytes"
++	"errors"
++	"flag"
+ 	"strings"
+ 	"testing"
+ )
+@@ -14,6 +16,105 @@ func TestRunRequiresUserInputs(t *testing.T) {
+ 	}
+ }
+ 
++func TestHelpPublishesPrimaryUserInputPolicy(t *testing.T) {
++	output := &bytes.Buffer{}
++	err := run([]string{"--help"}, output)
++	if !errors.Is(err, flag.ErrHelp) {
++		t.Fatalf("expected flag help, got %v", err)
++	}
++	for _, expected := range []string{
++		"-data string",
++		"-data-space string",
++		"(default \"auto\")",
++		"-key-repeats int",
++		"(default 3)",
++		"-min-prime-bits int",
++		"-min-scale-bits int",
++		"(default 18)",
++	} {
++		if !strings.Contains(output.String(), expected) {
++			t.Fatalf(
++				"help missing %q:\n%s",
++				expected,
++				output.String(),
++			)
++		}
++	}
++}
++
++func TestRunRejectsDataSpaceWithoutData(t *testing.T) {
++	output := &bytes.Buffer{}
++	err := run(
++		[]string{
++			"--model", "model.json",
++			"--validation", "validation.csv",
++			"--data-space", "raw",
++			"--split-id", "split",
++		},
++		output,
++	)
++	if err == nil || !strings.Contains(
++		err.Error(),
++		"--data-space is valid only with --data",
++	) {
++		t.Fatalf("expected data-space scope error, got %v", err)
++	}
++}
++
++func TestRunRequiresExactlyOneDataInput(t *testing.T) {
++	output := &bytes.Buffer{}
++	err := run(
++		[]string{
++			"--model", "model.json",
++			"--split-id", "split",
++		},
++		output,
++	)
++	if err == nil || !strings.Contains(
++		err.Error(),
++		"exactly one of --validation or --data",
++	) {
++		t.Fatalf("expected missing data input error, got %v", err)
++	}
++
++	err = run(
++		[]string{
++			"--model", "model.json",
++			"--validation", "validation.csv",
++			"--data", "data.csv",
++			"--split-id", "split",
++		},
++		output,
++	)
++	if err == nil || !strings.Contains(
++		err.Error(),
++		"exactly one of --validation or --data",
++	) {
++		t.Fatalf("expected conflicting data input error, got %v", err)
++	}
++}
++
++func TestRunRequiresPersistentMaterializationForData(t *testing.T) {
++	output := &bytes.Buffer{}
++	err := run(
++		[]string{
++			"--model", "model.json",
++			"--data", "data.csv",
++			"--split-id", "split",
++		},
++		output,
++	)
++	if err == nil || !strings.Contains(
++		err.Error(),
++		"--data requires --out or --prepared-validation-out",
++	) {
++		t.Fatalf(
++			"expected persistent materialization error, got %v",
++			err,
++		)
++	}
++}
++
+ func TestRunRejectsNonPositivePolicyFloor(t *testing.T) {
+ 	output := &bytes.Buffer{}
+ 	err := run(
+diff --git a/cmd/flipguard-synthesize/main.go b/cmd/flipguard-synthesize/main.go
+index f14f805..e4c6c27 100644
+--- a/cmd/flipguard-synthesize/main.go
++++ b/cmd/flipguard-synthesize/main.go
+@@ -23,8 +23,8 @@ func main() {
+ }
+ 
+ func run(args []string, stdout io.Writer) error {
+-	defaults := ckksplanner.DefaultTabularContractOptions()
+-	synthesisDefaults := ckksplanner.DefaultSynthesisPolicy()
++	defaults := ckksplanner.DefaultPrimaryTabularContractOptions()
++	synthesisDefaults := ckksplanner.DefaultPrimarySynthesisPolicy()
+ 
+ 	flags := flag.NewFlagSet("flipguard-synthesize", flag.ContinueOnError)
+ 	flags.SetOutput(stdout)
+diff --git a/docs/paper_result_notes.md b/docs/paper_result_notes.md
+index 6c58339..803cc94 100644
+--- a/docs/paper_result_notes.md
++++ b/docs/paper_result_notes.md
+@@ -1,5 +1,14 @@
+ # FlipGuard 실험 결과 정리
+ 
++> **상태: LEGACY PRELIMINARY, 논문 인용 금지.**
++>
++> 이 문서는 고정 프로파일 기반 초기 실험을 기록한 역사적 메모다.
++> 현재 FlipGuard V2의 직접 configuration 합성, 5-split locked audit,
++> 1,100-candidate bounded oracle, paired latency 및 `NO_SAFE` 근거는
++> 반영하지 않는다. 현재 논문 작업은
++> `docs/research/flipguard_v2_manuscript_draft_ko.md`와
++> `docs/research/flipguard_v2_claim_evidence_matrix.md`를 기준으로 한다.
++
+ ## 1. 전체 실험 구성
+ 
+ 본 연구는 CKKS 암호화 추론에서 프로파일 선택이 출력 정확도와 판단 안정성에 미치는 영향을 분석하였다. 실험은 통제된 경계 실험, 반복 속도 실험, 공개 데이터 기반 암호화 추론, 다중 데이터셋 및 다중 모델 실험으로 구성하였다.
+diff --git a/docs/research/flipguard_v2_claim_evidence_matrix.md b/docs/research/flipguard_v2_claim_evidence_matrix.md
+index c5e72ca..b52866f 100644
+--- a/docs/research/flipguard_v2_claim_evidence_matrix.md
++++ b/docs/research/flipguard_v2_claim_evidence_matrix.md
+@@ -12,28 +12,30 @@ Status values:
+ 
+ | Claim or component | Current evidence | Current status | Reviewer objection | Evidence required before final claim | Forbidden overclaim |
+ |---|---|---|---|---|---|
+-| Certify-or-reject state machine works | Unit tests and observed tabular importer | IMPLEMENTED_NOT_EVALUATED | Software correctness is not empirical safety | Mutation tests, malformed artifact tests, end-to-end failure cases | “The framework is universally safe” |
++| Certify-or-reject state machine works | Unit tests cover SAFE/REJECTED/FAILED/AMBIGUOUS/NO_SAFE; locked audit now deterministically reproduces the synthesis plan, repair chain, trial order, and key ledger and rejects mutated contract, plan, trial, selection, malformed JSON, overlapping rows, and changed audit bytes | IMPLEMENTED_AND_TESTED | Software correctness and mutation rejection are not empirical safety or formal verification | Retain the failure-path suite and add systematic mutation coverage at artifact-release time | “The framework is universally safe” |
+ | Existing tabular selection preserves decisions | Frozen 10-workload observed snapshot, V_cert=2645, V_amb=61 | FROZEN_PRELIMINARY | One fixed split and preliminary policy constants | Independent validation/audit sets, multiple seeds, independent keys | “General decision preservation” |
+ | Latency-only tuning can be unsafe | Latency-only candidate rejected in all 10 current workloads | PARTIALLY_SUPPORTED | Candidate space and workload family may be constructed favorably | Generated candidate spaces and modernized graph suite | “All latency tuners are unsafe” |
+-| FlipGuard improves latency | MLP-square preliminary speedups; Linear has zero improvement | PARTIALLY_SUPPORTED | Half the workload matrix has no improvement | Primary-model table separated from negative controls; final multi-seed audit | “Ten workloads all improve” |
+-| Linear model evidence | Five datasets with zero selected speedup | NEGATIVE_CONTROL | Workload count inflation | Use only as shallow-depth/no-headroom control | “Five successful optimized workloads” |
++| FlipGuard improves latency | Seed-0 paired pilot completed 10/10 workloads with zero flips; catalog/direct geometric-mean total ratio 1.977 (95% workload-bootstrap pilot interval 1.922–2.038) | PARTIALLY_SUPPORTED | Pilot counts and one split cannot support the final paper estimate | Execute the frozen 50-workload Step 7B.4 protocol and freeze its raw evidence | “FlipGuard is 1.98x faster” |
++| Legacy fixed-profile linear evidence | The original five-dataset fixed-profile linear sweep reported zero selected speedup | NEGATIVE_CONTROL | A hand-authored profile ladder may have no useful low-cost literal and does not test direct synthesis | Retain only as a shallow graph/catalog limitation control; use the paired direct-literal study for latency | “Linear models cannot be optimized” |
+ | Core workload evidence | Six legacy probes | REGRESSION_ONLY | Too few or synthetic inputs | Rebuild with complete predeclared datasets if used in main evaluation | “Core suite proves generality” |
+ | Analytical proof contract | Scoped proof metadata and strict validation | IMPLEMENTED_NOT_EVALUATED | Metadata does not make the numeric bound sound | Sound primitive derivation and underestimation audit | “Analytical guarantee implemented” |
+ | Conditional linear_poly3 envelope | Arithmetic propagation tests | IMPLEMENTED_NOT_EVALUATED | Primitive residuals are still assumed | CKKS primitive derivation tied to profile and path | “End-to-end CKKS bound” |
+ | CKKS profile facts | Eleven profile digests, certificate_eligible=false | IMPLEMENTED_NOT_EVALUATED | Facts alone are not a guarantee | Derivation using exact parameter semantics | “NoiseBound is output error” |
+ | Analytical execution scope | Finite set, declared box, empirical range contract | IMPLEMENTED_NOT_EVALUATED | No real workload scope builder yet | Exact artifact/input/graph/profile/path builder | “Current test range is a domain guarantee” |
+ | HYBRID certification | Policy and proof plumbing exist | UNSUPPORTED | No sound bound producer | Bound calculator, proof export, observed<=predicted audit | “HYBRID results available” |
+-| Planner reduces evaluation work | Step 7B.2 projection implementation and four-candidate smoke: SAFE recall 1, optimum recall 1, regret 0, pruning 0.5 for five alpha rows | IMPLEMENTED_NOT_EVALUATED | Smoke has one split/workload and cannot establish general planner quality | Full 1,100-candidate oracle comparison with safe recall, optimum recall, regret, false NO_SAFE, and overhead | “Planner finds global optimum” |
+-| Automatic candidate generation | Direct digest-bound synthesis of LogN/LogQ/LogP/scale; three split checkpoints selected 30/30 workloads and all frozen literals passed disjoint three-key locked audits without retuning | PARTIALLY_SUPPORTED | Current scope is three tabular forms, scalar-replicated packing, rescale-aware Lattigo v6, and three of five split seeds | Complete the five-split study, frozen-oracle comparison, and external providers | “Fully general automatic tuner” |
++| Planner reduces evaluation work | Full 250-row oracle projection: false NO_SAFE 0, mean pruning 68.18%, mean regret 0.7366%, max regret 8.6847%, and mean planning overhead 149.091 us | PARTIALLY_SUPPORTED | Overall optimum recall is 68%; MLP optimum recall is only 36% despite zero false NO_SAFE | Improve the MLP provider or use direct synthesis, then repeat the frozen comparison and paired selected-literal latency protocol | “Planner reliably finds the fastest SAFE candidate” |
++| Automatic candidate generation | Direct digest-bound synthesis of LogN/LogQ/LogP/scale selected 50/50 workloads across all five predeclared splits; all frozen literals passed disjoint three-key locked audits without retuning; the model-input materialization path passed a selection/audit/evidence-pack smoke with replay on both partitions | PARTIALLY_SUPPORTED | Current scope is three supported tabular forms, two empirically evaluated forms, selected-feature standardization or model-input rows, scalar-replicated packing, and the rescale-aware Lattigo v6 path | Complete the dual-replay-gated 125-workload final baseline/challenger/structural protocol, then add packing alternatives and external providers | “Fully general automatic tuner” |
++| Direct versus bounded catalog oracle | Strict 1,100-candidate oracle and digest-bound comparison complete for all 50 workloads; direct selected 50/50 with 70 trials and 210 key runs versus 1,100 catalog executions; the seed-0 paired pilot produced 360 raw records with zero flips | PARTIALLY_SUPPORTED | The catalog is bounded rather than global and the paired result remains a one-split pilot | Execute and freeze the predeclared 5,400-record, 50-workload paired protocol | “Direct synthesis is globally optimal or 1.98x faster” |
+ | Candidate feasibility pre-check | Lattigo-aware symbolic scale trace, 2024 HE security envelope, and literal construction check | PARTIALLY_SUPPORTED | Symbolic trace may miss future backend/model operations; security table is an admission envelope rather than a live estimator | Operation mutation tests, all declared models, and observed under/over-provision audit | “All generated candidates execute” |
+-| Adaptive encrypted-trial reduction | Three completed split checkpoints used 42 configuration trials/126 key runs, including 12 REJECTED-to-SAFE repairs, versus 660/1,980 for an equally repeated fixed catalog; 30 frozen selections then passed 30 one-trial/90-key locked audits without retuning | PARTIALLY_SUPPORTED | Three of five splits are complete, and the 93.64% selection reduction is a bounded-protocol count comparison rather than a global-oracle result | Complete multi-split trial distribution, false NO_SAFE analysis, and bounded-oracle regret | “One encrypted trial always suffices” |
+-| Generality across computation graphs | Direct synthesis supports linear-poly3, MLP-square-linear, and MLP-square-poly3; legacy Sobel/Harris probes remain | PARTIALLY_SUPPORTED | Primary evidence remains shallow and tabular | Deeper MLP, CNN-lite, modernized image protocols | “All models and datasets” |
+-| Robustness across dataset splits | Split seeds 0, 1, and 2 each selected 10/10 workloads and passed 10/10 disjoint no-retuning audits with the same predeclared policy | PARTIALLY_SUPPORTED | Only three of five predeclared seeds are complete, which is insufficient for a final split-robustness claim | Complete split seeds 3--4 and freeze the combined selection/audit distribution | “Split-independent result” |
+-| Robustness across cryptographic randomness | Across three split checkpoints, selection completed 126 fresh-key runs and locked audit completed 90 more; all 30 final validation certificates and 30 audits had zero flips/violations | PARTIALLY_SUPPORTED | Three keys per partition and three split seeds are too few for a key-independence claim; encryption randomness is not separately seeded | More key repeats across all predeclared splits with explicit randomness recording | “Key-independent safety” |
+-| Safety-factor choice | alpha=0.5 current default | UNSUPPORTED | Arbitrary policy constant | Predeclared sensitivity study and policy interpretation | “0.5 is theoretically optimal” |
+-| Margin-floor choice | margin_floor=0.001 current default | UNSUPPORTED | Arbitrary ambiguity cutoff | Coverage/latency/NO_SAFE sensitivity study | “0.001 is universally correct” |
+-| Final latency claims | Mean/std fields in preliminary summaries | PARTIALLY_SUPPORTED | Warm-up, p95, process variance incomplete | Frozen latency protocol with raw records | “Stable production latency” |
+-| Artifact reproducibility | Frozen observed evidence v1, seed-0 direct audit, and cumulative seeds-1--2 checkpoint packs share a checksum verifier | PARTIALLY_SUPPORTED | Direct evidence remains preliminary and the five-split V2 pack is incomplete | Complete the one-ledger multi-split run, final evidence freeze, and verifier | “Complete reproducibility achieved” |
++| Adaptive encrypted-trial reduction | The complete five-split matrix used 70 configuration trials/210 key runs, including 20 REJECTED-to-SAFE repairs, versus 1,100/3,300 for an equally repeated fixed catalog; a disjoint seed-0 one-trial pilot returned explicit `NO_SAFE` for 4/10 workloads and never selected rejected evidence | PARTIALLY_SUPPORTED | The 93.64% reduction is a bounded execution-count comparison, and the `NO_SAFE` pilot is budget-scoped rather than global infeasibility | Complete the frozen seeds 1–4 three-key abstention control and a separate true finite-domain all-unsafe oracle control | “One encrypted trial always suffices” |
++| Finite-domain NO_SAFE semantics | Restricted `short_chain_3` two-path validation domain has SAFE=0, REJECTED=75, FAILED=25 and `NO_SAFE=50/50`; a disjoint audit runner now binds raw scores and fresh-key attempts, and its banknote-linear smoke independently reproduced REJECTED/FAILED and `NO_SAFE` | PARTIALLY_SUPPORTED | The complete 50-workload disjoint run is pending and the domain remains deliberately finite | Complete and freeze the predeclared 100-candidate, 300-attempt locked-audit protocol | “No SAFE CKKS configuration exists globally” |
++| Generality across computation graphs | Direct synthesis supports linear-poly3, MLP-square-linear, and MLP-square-poly3; the separate 50-plan MLP-square-poly3 grid is fully feasible at depth 3 with N14/Q10/scale22, and a one-workload one-key selection/audit pilot passed with maximum normalized budget usage below 0.80 | PARTIALLY_SUPPORTED | The deeper result is a dirty-source exploratory pilot and remains scalar-tabular; CNN-lite and packed execution are absent | Complete the frozen 25-workload, three-key structural selection and locked audit, then add CNN-lite or an external graph provider | “All models and datasets” |
++| Robustness across dataset splits | Split seeds 0 through 4 each selected 10/10 workloads and passed 10/10 disjoint no-retuning audits with the same predeclared policy; aggregate audit V_cert=8122 and V_amb=178 | PARTIALLY_SUPPORTED | Five deterministic splits from the same five source datasets do not establish distribution or external-dataset robustness | Additional datasets, graphs, and a predeclared external-validation protocol | “Split-independent result” |
++| Robustness across cryptographic randomness | Selection completed 210 fresh-key runs and locked audit completed 150 more; all 50 final validation certificates and 50 audits had zero flips/violations | PARTIALLY_SUPPORTED | Three keys per partition remain too few for a key-independence claim; encryption randomness is not separately recorded as a replayable seed | Larger predeclared key study and explicit randomness provenance | “Key-independent safety” |
++| Safety-factor choice | Full 1,100-candidate certificates and 50 bounded-oracle selections are invariant over alpha 0.1, 0.25, 0.5, 0.75, 0.9; static initial signatures at floor 0.001 are also invariant | PARTIALLY_SUPPORTED | Grid invariance is empirical and partly caused by the active minimum synthesis floor | Re-execute selected/challenger literals where alpha changes the static proposal and retain alpha as an explicit policy | “0.5 is theoretically optimal” |
++| Margin-floor choice | A 4,500-plan validation/audit grid quantifies coverage from floor 0 to 0.05; floor 0.0005 raises coverage from 97.73% to 98.93% on validation and keeps the same 50 static signatures as floor 0.001 | PARTIALLY_SUPPORTED | Static synthesis does not prove encrypted safety at the larger Vcert scope; floor 0.05 already makes three partitions infeasible across the grid | Run the predeclared 0.0005 direct-selection and locked-audit challenger on all 50 workloads | “0.001 is universally correct” |
++| Final latency claims | Step 7B.4 runner records raw paired total/evaluation-only timings, setup, warm-up, balanced order, median, p95, standard deviation, IQR, and workload-bootstrap intervals; 10-workload pilot passed with `paper_latency_claim_allowed=false` | PARTIALLY_SUPPORTED | Final 50-workload execution and evidence freeze remain | Complete the frozen final run from a clean source revision and independently verify its evidence pack | “Stable production latency” |
++| Artifact reproducibility | `direct_locked_audit_five_split_v1` freezes 155 audit files; `full_oracle_comparison_v1` binds 3,200 raw oracle artifacts; the NO_SAFE, policy, and paired pilot packs independently verify; a clean-commit one-command final suite now binds the same-source baseline, challenger, budgeted and finite-domain disjoint NO_SAFE controls, structural, and paired evidence to one source revision; the V2 paper builder verifies every selected pack, binds complete input trees, emits deterministic tables/SVGs, and marks the current build `PRELIMINARY_ONLY` | PARTIALLY_SUPPORTED | The existing packs remain local preliminary/retrospective evidence and the five final packs have not executed from a clean revision | Execute Step 7B.8, rebuild Step 7B.9 as `FINAL_ADMISSIBLE`, clean-environment replay, release tag, and archival DOI | “Complete reproducibility achieved” |
+ 
+ ## Immediate development dependency
+ 
+diff --git a/docs/research/step_7b2_planner_oracle_protocol.md b/docs/research/step_7b2_planner_oracle_protocol.md
+index 6ecdfea..f70fad3 100644
+--- a/docs/research/step_7b2_planner_oracle_protocol.md
++++ b/docs/research/step_7b2_planner_oracle_protocol.md
+@@ -1,6 +1,6 @@
+ # Step 7B.2 Planner/Oracle Protocol
+ 
+-Status: protocol frozen before the full 1,100-candidate validation run.
++Status: full 1,100-candidate oracle projection complete on 2026-07-28.
+ 
+ ## Reviewer concern
+ 
+@@ -101,3 +101,41 @@ results/thesis_grade_protocol/planner_oracle_comparison_v1/smoke/
+ After the full validation oracle is complete, run the same script with
+ `--full`. The script reads existing oracle records and performs no CKKS
+ execution.
++
++## Full result
++
++The strict full run produced 250 comparison rows over 50 workloads and five
++alpha values. It projected 1,750 planner-candidate rows onto the same frozen
++oracle observations.
++
++| Scope | False NO_SAFE | Optimum recall | Mean SAFE recall | Mean latency regret | Max latency regret | Mean pruning |
++|---|---:|---:|---:|---:|---:|---:|
++| All 250 rows | 0 | 68.00% | 19.44% | 0.7366% | 8.6847% | 68.18% |
++| `linear_poly3` | 0 | 100.00% | 16.67% | 0.0000% | 0.0000% | 72.73% |
++| `mlp_square_linear_score` | 0 | 36.00% | 22.22% | 1.4731% | 8.6847% | 63.64% |
++
++Mean planning overhead was 149.091 microseconds. Results were identical across
++the five evaluated alpha values because the candidate certificate states did
++not change over the frozen alpha sweep.
++
++The planner is therefore supported as a high-pruning candidate provider that
++retained at least one SAFE candidate in every evaluated group. It is not
++supported as a reliable fastest-SAFE oracle substitute: it missed the
++exhaustive optimum in 64% of the MLP rows. The complete outputs are:
++
++```text
++results/thesis_grade_protocol/planner_oracle_comparison_v1/full/
++  planner_candidates.csv
++  planner_summary.csv
++  comparison.csv
++  summary.json
++```
++
++The checksum-bound compact snapshot is:
++
++```text
++docs/evidence/full_oracle_comparison_v1/
++```
++
++It includes the full planner tables and binds the underlying oracle run
++artifacts in its manifest.
+diff --git a/docs/research/step_7b2a_direct_configuration_synthesis.md b/docs/research/step_7b2a_direct_configuration_synthesis.md
+index 22bbc85..dcb748f 100644
+--- a/docs/research/step_7b2a_direct_configuration_synthesis.md
++++ b/docs/research/step_7b2a_direct_configuration_synthesis.md
+@@ -1,9 +1,9 @@
+ # Step 7B.2a: Direct CKKS Configuration Synthesis
+ 
+-Status: implemented and validated as development evidence on 2026-07-27.
+-The seed-0 audit and seeds-1--2 cumulative multi-split checkpoint are frozen
+-as preliminary evidence. Split seeds 3--4 and final repeated-latency evidence
+-are not frozen.
++Status: implemented and validated as preliminary empirical evidence on
++2026-07-28. The complete five-split selection and no-retuning locked-audit
++matrix and the 1,100-candidate bounded-oracle comparison are frozen. Final
++five-split paired-latency evidence remains pending.
+ 
+ ## Research Decision
+ 
+@@ -13,7 +13,8 @@ is no longer the first-party deployment algorithm.
+ The first-party path now accepts:
+ 
+ - a model artifact;
+-- a configuration-validation dataset;
++- held-out feature data in the model's declared input space, or a frozen
++  prepared configuration-validation artifact;
+ - a split identity;
+ - a decision threshold and margin policy;
+ - a security target and encrypted-trial budget.
+@@ -26,9 +27,11 @@ not map the result to a built-in profile name.
+ `internal/ckksplanner.BuildTabularWorkloadContract` performs the following
+ before parameter generation:
+ 
+-1. hashes the exact model and validation artifacts;
++1. hashes the exact model, source feature data, and prepared validation
++   artifacts when the user-facing `--data` path is used;
+ 2. derives the plaintext computation DAG from the model artifact;
+-3. re-evaluates every validation row and rejects score or decision mismatch;
++3. deterministically materializes the plaintext score and decision from every
++   source row, then re-evaluates the prepared rows and rejects any mismatch;
+ 4. partitions the exact ordered validation set into `V_cert` and `V_amb`;
+ 5. derives the protected margin and output-error budget;
+ 6. propagates empirical validation intervals through the DAG for an initial
+@@ -40,6 +43,50 @@ The interval-derived sensitivity is a planning signal. It is not presented as
+ a sound CKKS error bound. A candidate is `SAFE` only after encrypted validation
+ through the existing certification engine.
+ 
++### User-facing input contract
++
++For already selected and standardized model-input data,
++`flipguard-autotune --data` accepts:
++
++```text
++row_id,label,x_0,x_1,...,x_{d-1}
++```
++
++For raw data, the CSV can expose the selected feature names recorded by the
++model artifact or indexed columns such as `x_3,x_5,...`. The materializer
++extracts the frozen selected features and applies their recorded training-set
++means and standard deviations. `--data-space auto|model|raw` makes the source
++interpretation explicit; `auto` fails closed when both raw and model-input
++representations are present.
++
++The current raw preprocessing contract is deliberately narrow:
++selected-feature extraction plus z-score standardization. Arbitrary
++preprocessing graphs are not inferred. Unexpected model-input `x_*` columns,
++missing or invalid preprocessing metadata, duplicate row IDs, non-binary
++labels, non-finite values, score mismatches, and partial materialization
++provenance are rejected.
++
++The materializer writes `scaled_logit`, `polynomial_score`,
++`plaintext_decision`, model/source digests, source feature space,
++preprocessing method, and a schema identifier into a canonical validation
++CSV. The resulting workload contract binds the source CSV, model artifact,
++prepared CSV, and transformation semantics separately. The contract builder
++replays preprocessing from source bytes and requires every prepared feature
++to match exactly; `source_replay_verified` records whether that check was
++performed. Any later byte mutation is detected before encrypted execution.
++
++The lower-level `--validation` path remains available for deterministic replay
++of an already frozen validation artifact. It is an evidence/reproduction
++interface, not the preferred first-time user flow.
++
++The software regression suite also covers all 15 committed artifact pairs
++(five datasets by three supported graph forms). It inverses each committed
++standardized test matrix through the frozen mean/std metadata, rematerializes
++the resulting named raw features, compares every prepared feature, score, and
++decision, and requires source replay verification. This is an implementation
++equivalence check, not independent empirical evidence or a raw-data
++generality claim.
++
+ ## Why Depth Is Not Chain Length
+ 
+ The current backend multiplies ciphertexts by non-integer model coefficients.
+@@ -113,7 +160,24 @@ neighborhood.
+ 
+ ## Commands
+ 
+-Generate a plan without encrypted execution:
++Generate, execute, certify, and select from model-input feature data:
++
++```bash
++go run ./cmd/flipguard-autotune \
++  --model datasets/tabular_suite/banknote/linear_poly3/model.json \
++  --data /path/to/banknote_validation_raw.csv \
++  --data-space raw \
++  --split-id user_validation_v1 \
++  --out results/direct_tabular_autotune/user_validation_v1.json
++```
++
++The primary user CLI defaults to the evaluated policy: margin floor `0.001`,
++safety factor `0.5`, scale/Q-prime floor `18`, special-prime floor `30`, four
++adaptive encrypted trials, and three independently generated keypairs per
++configuration trial.
++
++Generate a plan from a frozen prepared validation artifact without encrypted
++execution:
+ 
+ ```bash
+ go run ./cmd/flipguard-synthesize \
+@@ -122,7 +186,7 @@ go run ./cmd/flipguard-synthesize \
+   --split-id split_seed_0
+ ```
+ 
+-Generate, execute, certify, and select:
++Replay a frozen prepared validation artifact:
+ 
+ ```bash
+ ./scripts/run_direct_tabular_autotune.sh \
+@@ -145,6 +209,13 @@ scripts/run_direct_tabular_autotune_matrix.sh --seed0 --force
+ # Thesis matrix: the same 10 workloads x split seeds 0..4.
+ scripts/run_direct_tabular_autotune_matrix.sh --full --force
+ 
++# User-input protocol: recompute and bind the canonical validation artifact
++# from model-input feature rows before synthesis and encrypted validation.
++scripts/run_direct_tabular_autotune_matrix.sh \
++  --full \
++  --materialize-model-input \
++  --force
++
+ # Resume without repeating completed workloads.
+ scripts/run_direct_tabular_autotune_matrix.sh --full --resume
+ 
+@@ -172,7 +243,9 @@ scripts/run_direct_tabular_autotune_matrix.sh \
+ ```
+ 
+ `run_status.csv` is the execution ledger. The summarizer validates the
+-workload identity and trial count in every successful result before writing
++workload identity and trial count in every successful result. In materialized
++mode it also verifies the current source digest and requires
++`source_replay_verified=true` before writing
+ `summary/workload_results.csv`, `summary/encrypted_trials.csv`, and
+ `summary/summary.json`. Configuration trials and fresh-key runs are counted
+ separately. A checkpoint with fewer than the declared number of workloads is
+@@ -365,74 +438,65 @@ the execution ledger, aggregate outputs, provenance, and checksums. The
+ ignored split CSV files are reproducible from tracked source data and are
+ digest-bound in the manifest.
+ 
+-This resolves the seed-0 validation-to-audit leakage concern. It does not
+-resolve split robustness: only split seed 0 has been selected and audited.
+-Three fresh keys on each partition also do not establish key independence.
+-The next required empirical step is the predeclared five-split selection and
+-locked-audit matrix.
+-
+-### Multi-split checkpoints: seeds 1 and 2
+-
+-The identical floor-18, three-key policy was applied to split seeds 1 and 2
+-without changing synthesis, repair, margin, safety, or stopping rules after
+-the seed-0 audit was observed.
+-
+-Selection produced:
+-
+-- 10/10 `SELECTED` outcomes and no `NO_SAFE` or execution failure;
+-- 14 configuration trials and 42 fresh-key runs;
+-- four initial scale-20 linear rejections followed by four SAFE scale-24
+-  repairs;
+-- 195 initial decision flips and 857 initial error-budget violations across
+-  those four rejected trials;
+-- the same data-dependent selected structure as seed 0: iris linear at
+-  `N13/Q7/scale20`, the other linear workloads at `N13/Q7/scale24`, and all
+-  MLP workloads at `N13/Q6/scale20`.
+-
+-The seed-1 no-retuning locked audit then produced:
+-
+-- 10/10 `LOCKED_AUDIT_PASS` outcomes;
+-- 10 configuration trials and 30 fresh-key runs;
+-- zero retuned workloads, execution failures, flips, and protected
+-  error-budget violations;
+-- aggregate audit `V_cert=1623` and `V_amb=37`.
+-
+-Across the two completed split checkpoints, selection has used 28
+-configuration trials and 84 fresh-key runs for 20 workloads. The corresponding
+-held-out audits are 20/20 PASS over 20 frozen configuration trials and 60
+-fresh-key runs, with aggregate `V_cert=3246` and `V_amb=74`. Eight initial
+-rejections accumulated 386 flips and 1,709 violations before repair.
+-
+-The seed-1 pack is frozen at
+-[`direct_locked_audit_seed1_checkpoint_v1`](../evidence/direct_locked_audit_seed1_checkpoint_v1/README.md).
+-
+-Seed 2 reproduced the same selected structure and trial distribution:
+-
+-- 10/10 `SELECTED`, 14 configuration trials, and 42 fresh-key runs;
+-- four initial linear rejections with 203 flips and 850 violations;
+-- 10/10 no-retuning locked-audit PASS outcomes over 30 fresh-key runs;
+-- audit `V_cert=1629`, `V_amb=31`, and zero final flips or violations.
+-
+-The cumulative seeds-1--2 pack is frozen at
+-[`direct_locked_audit_seeds1_2_checkpoint_v1`](../evidence/direct_locked_audit_seeds1_2_checkpoint_v1/README.md).
+-Its full-run ledgers contain 20/50 selection workloads and 20/50 audits.
+-
+-Across all three completed split checkpoints, including the independently
+-frozen seed-0 run:
+-
+-- selection: 30/30 selected workloads, 42 configuration trials, and 126
+-  fresh-key runs;
+-- adaptive failures: 12 initial rejections with 589 flips and 2,559
+-  violations before repair;
+-- locked audit: 30/30 PASS, 30 frozen configuration trials, 90 fresh-key
+-  runs, and no retuning;
+-- audit coverage: aggregate `V_cert=4875` and `V_amb=105`, with zero final
+-  flips and violations.
+-
+-The full matrix intentionally remains incomplete until split seeds 0, 3, and
+-4 are present in the same full-run ledger. Seed 0 already has an independent
+-frozen pack, but it will also be executed or provenance-preservingly imported
+-into the final ledger before five-split evidence is frozen.
++At that checkpoint this resolved the seed-0 validation-to-audit leakage
++concern but not split robustness. The predeclared five-split study below
++subsequently repeated the full selection and audit protocol.
++
++### Complete five-split selection and locked audit
++
++The identical floor-18, three-key policy was applied to split seeds 0 through
++4. Synthesis, repair, margin, safety, and stopping rules were not changed
++between splits. Seed 0 was re-executed into the same full-run ledger rather
++than copied from its independent development pack.
++
++| Split seed | Selected | Selection trials | Selection key runs | Initial rejected flips | Initial rejected violations | Audit PASS | Audit key runs | Audit V_cert | Audit V_amb |
++|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
++| 0 | 10/10 | 14 | 42 | 196 | 856 | 10/10 | 30 | 1623 | 37 |
++| 1 | 10/10 | 14 | 42 | 195 | 857 | 10/10 | 30 | 1623 | 37 |
++| 2 | 10/10 | 14 | 42 | 203 | 850 | 10/10 | 30 | 1629 | 31 |
++| 3 | 10/10 | 14 | 42 | 212 | 935 | 10/10 | 30 | 1619 | 41 |
++| 4 | 10/10 | 14 | 42 | 187 | 872 | 10/10 | 30 | 1628 | 32 |
++| **Total** | **50/50** | **70** | **210** | **993** | **4370** | **50/50** | **150** | **8122** | **178** |
++
++All 20 initial rejections were scale-20 linear candidates. Each was rejected
++by observed encrypted validation, not by a static heuristic. A single
++feedback-directed scale repair produced a SAFE scale-24 literal. The other 30
++workloads stopped after their first encrypted trial. There were no
++`NO_SAFE` outcomes or execution failures.
++
++The selected structure was stable across all five splits:
++
++- banknote, digits, MNIST, and WDBC linear:
++  `N13/Q7/scale24`, 20/20;
++- iris linear: `N13/Q7/scale20`, 5/5;
++- all MLP-square-linear workloads: `N13/Q6/scale20`, 25/25.
++
++The 70 encrypted configuration trials are 93.64% fewer than the 1,100
++executions required to evaluate all 22 fixed catalog candidates on the same
++50 workloads. With three fresh keys per candidate, the corresponding counts
++are 210 versus 3,300 key runs. This is an execution-count comparison against
++the bounded catalog protocol, not a global-optimality or latency claim.
++
++Every selected literal was then frozen and evaluated exactly once per
++workload on the disjoint audit partition:
++
++- 50/50 `LOCKED_AUDIT_PASS`;
++- 50 configuration trials and 150 fresh-key runs;
++- zero retuning and zero execution failures;
++- zero decision flips and zero protected error-budget violations;
++- aggregate audit `V_cert=8122` and `V_amb=178`.
++
++The primary compact evidence pack is
++[`direct_locked_audit_five_split_v1`](../evidence/direct_locked_audit_five_split_v1/README.md).
++It contains 50 selection results, 50 split manifests, 50 audit results, the
++execution ledger, aggregate outputs, provenance, and SHA-256 checksums. Earlier
++seed-specific and cumulative checkpoint packs remain as execution-history
++artifacts.
++
++This completes the predeclared five-split no-retuning study. It does not
++establish split independence, key independence, distribution-wide safety, or
++global optimality. The evidence is also limited to the recorded datasets,
++model graphs, scalar-replicated packing, and Lattigo v6 rescale path.
+ 
+ ## Current Claim Boundary
+ 
+diff --git a/docs/research/step_7b3_full_validation_execution.md b/docs/research/step_7b3_full_validation_execution.md
+index ff82bdd..14201d0 100644
+--- a/docs/research/step_7b3_full_validation_execution.md
++++ b/docs/research/step_7b3_full_validation_execution.md
+@@ -1,7 +1,7 @@
+ # Step 7B.3 Full Validation Execution
+ 
+-Status: execution protocol active; final evidence is incomplete until all
+-1,100 candidate runs are present and strict summarization passes.
++Status: COMPLETE on 2026-07-28. All 1,100 candidate runs are present and
++strict summarization passes.
+ 
+ ## Frozen matrix
+ 
+@@ -18,6 +18,29 @@ Status: execution protocol active; final evidence is incomplete until all
+ The 50 configuration-validation splits contain 8,230 input rows. Across all
+ 22 candidates, the full study performs 181,060 encrypted inferences.
+ 
++## Final execution result
++
++The strict full ledger contains:
++
++- all 1,100 expected candidate identities across all 50 workloads;
++- 1,050 successful executions and 50 explicit execution failures;
++- 5,500 candidate-certificate rows and 250 oracle rows;
++- certificate states `SAFE=3,750`, `REJECTED=1,500`, and `FAILED=250`;
++- all 250 alpha-specific oracle outcomes are `SELECTED`;
++- summary digest
++  `sha256:d77d052a2e81315bc84d4f0299646eb8b22c594a7896486413910e5e4a6f7f4e`.
++
++An unbounded resume skipped all 1,100 terminal identities and reproduced the
++same strict summary digest with `validation_oracle_run=PASS`.
++
++At alpha 0.5, all 50 direct results bind to the same model,
++validation digest, and `V_cert`/`V_amb` partition as their complete catalog
++oracles. Direct synthesis used 70 encrypted configuration trials and 210
++fresh-key runs, versus 1,100 catalog candidate executions. The direct timing
++was lower in all 50 unpaired records, with a diagnostic geometric-mean catalog
++to direct ratio of 1.603x. This is not a speedup claim because the processes and
++measurement runs were not paired.
++
+ ## Checkpoint execution
+ 
+ The full matrix order is deterministic:
+@@ -82,7 +105,7 @@ An unbounded resume performs strict matrix validation:
+   --resume
+ ```
+ 
+-Step 7B.3 passes only when:
++Step 7B.3 passed with:
+ 
+ - `actual_run_count = 1,100`;
+ - `candidate_certificate_rows = 5,500`;
+@@ -90,9 +113,83 @@ Step 7B.3 passes only when:
+ - every expected profile/path identity occurs exactly once;
+ - failed runs remain explicit `FAILED` rows;
+ - strict summarization runs without `--allow-incomplete`;
+-- the planner/oracle comparison is regenerated from the completed oracle.
++- the planner/oracle comparison regenerated from the completed oracle.
++
++The completed planner comparison contains 250 rows and reports zero false
++`NO_SAFE` outcomes. Partial checkpoint numbers remain excluded from paper
++claims.
++
++## Direct-synthesis comparison boundary
++
++The completed fixed catalog is a bounded oracle, not the deployment candidate
++space. A directly synthesized literal may be outside all 22 catalog
++candidates and must not be projected to the nearest profile.
++
++The completed comparison applies the following procedure:
++
++1. select the fastest SAFE catalog candidate using the frozen
++   `mean_total_ms` rule;
++2. keep the direct literal frozen from its configuration-validation run;
++3. remeasure the catalog oracle, CKKS reference, and direct literal under the
++   same process, paired input, warm-up, and repetition protocol, using one
++   fixed parameter-compatible key set per arm;
++4. report encrypted tuning work separately from selected-configuration
++   inference latency;
++5. report direct-versus-catalog bounded regret without calling either arm a
++   global optimum.
++
++Existing timings from different processes remain diagnostic. They cannot be
++combined into the final latency table.
++
++The executable paired protocol and its technically valid key policy are frozen
++in
++[`step_7b4_paired_selected_latency_protocol.md`](step_7b4_paired_selected_latency_protocol.md).
++
++The final digest-bound comparison is at:
++
++```text
++results/thesis_grade_protocol/direct_vs_catalog_oracle_v1/full/
++  comparison.csv
++  summary.json
++```
+ 
+-The `--full` planner/oracle wrapper refuses to run while the oracle summary is
+-incomplete or was produced with `--allow-incomplete`.
++It reports `complete_oracle_workloads_compared=50`,
++`oracle_matrix_complete=true`, and
++`paper_latency_claim_allowed=false`.
++
++The compact evidence snapshot copies the complete aggregate tables and binds
++all 3,200 non-duplicated raw run artifacts by SHA-256:
++
++```text
++docs/evidence/full_oracle_comparison_v1/
++```
++
++Verify it with:
++
++```bash
++python3 scripts/freeze_full_oracle_comparison_evidence.py \
++  --output-root docs/evidence/full_oracle_comparison_v1 \
++  --verify
++```
++
++The comparison tool refuses an incomplete oracle by default:
++
++```bash
++python3 scripts/compare_direct_synthesis_to_catalog_oracle.py \
++  --force
++```
++
++During execution only, a diagnostic checkpoint can be generated with:
++
++```bash
++python3 scripts/compare_direct_synthesis_to_catalog_oracle.py \
++  --allow-incomplete \
++  --output-root \
++    results/thesis_grade_protocol/direct_vs_catalog_oracle_v1/checkpoint \
++  --force
++```
+ 
+-No partial checkpoint number may be used in a paper claim.
++Checkpoint mode excludes any workload with fewer than 22 catalog candidates.
++It also verifies the model and validation digests and requires identical
++`V_cert`/`V_amb` partitions. Its outputs are permanently labeled
++`UNPAIRED_DIAGNOSTIC` with `paper_latency_claim_allowed=false`.
+diff --git a/internal/certify/certificate.go b/internal/certify/certificate.go
+index a95fbf5..a2928ce 100644
+--- a/internal/certify/certificate.go
++++ b/internal/certify/certificate.go
+@@ -38,6 +38,8 @@ type CandidateEvidence struct {
+ 	ErrorViolations int
+ 
+ 	MaxObservedError float64
++	// MaxObservedBudgetUsage is max(error / (alpha * margin)) on V_cert.
++	MaxObservedBudgetUsage float64
+ 
+ 	// AnalyticalBoundProvided explicitly states whether MaxErrorBound contains
+ 	// an analytical certificate bound. Presence is represented separately
+@@ -65,8 +67,9 @@ type CandidateCertificate struct {
+ 	DecisionFlips   int
+ 	ErrorViolations int
+ 
+-	MaxObservedError float64
+-	MaxErrorBound    float64
++	MaxObservedError       float64
++	MaxObservedBudgetUsage float64
++	MaxErrorBound          float64
+ 
+ 	AnalyticalBoundProvided  bool
+ 	AnalyticalBoundSatisfied bool
+diff --git a/internal/certify/engine.go b/internal/certify/engine.go
+index 18de539..be170a2 100644
+--- a/internal/certify/engine.go
++++ b/internal/certify/engine.go
+@@ -79,6 +79,12 @@ func BuildCandidateCertificateWithPolicy(
+ 			evidence.Candidate.ID,
+ 		)
+ 	}
++	if !isNonNegativeFinite(evidence.MaxObservedBudgetUsage) {
++		return CandidateCertificate{}, fmt.Errorf(
++			"candidate %s has invalid maximum observed budget usage",
++			evidence.Candidate.ID,
++		)
++	}
+ 	if !isNonNegativeFinite(evidence.MaxErrorBound) {
+ 		return CandidateCertificate{}, fmt.Errorf(
+ 			"candidate %s has invalid maximum error bound",
+@@ -153,8 +159,9 @@ func BuildCandidateCertificateWithPolicy(
+ 		DecisionFlips:   evidence.DecisionFlips,
+ 		ErrorViolations: evidence.ErrorViolations,
+ 
+-		MaxObservedError: evidence.MaxObservedError,
+-		MaxErrorBound:    evidence.MaxErrorBound,
++		MaxObservedError:       evidence.MaxObservedError,
++		MaxObservedBudgetUsage: evidence.MaxObservedBudgetUsage,
++		MaxErrorBound:          evidence.MaxErrorBound,
+ 
+ 		AnalyticalBoundProvided:  boundProvided,
+ 		AnalyticalBoundSatisfied: boundSatisfied,
+diff --git a/internal/certify/observation.go b/internal/certify/observation.go
+index c79cf4f..67ee134 100644
+--- a/internal/certify/observation.go
++++ b/internal/certify/observation.go
+@@ -64,7 +64,8 @@ type ObservedAggregation struct {
+ // satisfy a strict decision-margin condition.
+ //
+ // Observations belonging to V_amb are excluded from DecisionFlips,
+-// ErrorViolations, and Evidence.MaxObservedError.
++// ErrorViolations, Evidence.MaxObservedError, and
++// Evidence.MaxObservedBudgetUsage.
+ func AggregateObservedCandidate(
+ 	input ObservedCandidateInput,
+ 	marginFloor float64,
+@@ -303,6 +304,11 @@ func AggregateObservedCandidate(
+ 			}
+ 
+ 			observedBudget := safetyFactor * margin
++			budgetUsage := observedError / observedBudget
++			evidence.MaxObservedBudgetUsage = math.Max(
++				evidence.MaxObservedBudgetUsage,
++				budgetUsage,
++			)
+ 			if observedError >= observedBudget {
+ 				evidence.ErrorViolations++
+ 			}
+diff --git a/internal/certify/observation_test.go b/internal/certify/observation_test.go
+index 3d294e4..22c201a 100644
+--- a/internal/certify/observation_test.go
++++ b/internal/certify/observation_test.go
+@@ -113,6 +113,14 @@ func TestAggregateObservedCandidateExcludesAmbiguousObservations(
+ 			aggregation.Evidence.MaxObservedError,
+ 		)
+ 	}
++	if math.Abs(
++		aggregation.Evidence.MaxObservedBudgetUsage-0.08,
++	) > 1e-12 {
++		t.Fatalf(
++			"expected maximum budget usage 0.08, got %.12f",
++			aggregation.Evidence.MaxObservedBudgetUsage,
++		)
++	}
+ 	if math.Abs(
+ 		aggregation.MaxObservedErrorAll-0.4,
+ 	) > 1e-12 {
+@@ -200,6 +208,14 @@ func TestAggregateObservedCandidateCountsCertifiedFailures(
+ 			aggregation.Evidence.ErrorViolations,
+ 		)
+ 	}
++	if math.Abs(
++		aggregation.Evidence.MaxObservedBudgetUsage-2.8,
++	) > 1e-12 {
++		t.Fatalf(
++			"expected maximum budget usage 2.8, got %.12f",
++			aggregation.Evidence.MaxObservedBudgetUsage,
++		)
++	}
+ 
+ 	summary, err := CertifyAndSelect(
+ 		[]CandidateEvidence{
+@@ -327,6 +343,14 @@ func TestAggregateObservedCandidateRejectsBudgetEquality(
+ 			aggregation.Evidence.ErrorViolations,
+ 		)
+ 	}
++	if math.Abs(
++		aggregation.Evidence.MaxObservedBudgetUsage-1,
++	) > 1e-12 {
++		t.Fatalf(
++			"expected equality budget usage 1, got %.12f",
++			aggregation.Evidence.MaxObservedBudgetUsage,
++		)
++	}
+ }
+ 
+ func TestAggregateObservedCandidateRejectsInconsistentRunCounts(
+diff --git a/internal/ckksplanner/audit.go b/internal/ckksplanner/audit.go
+index 2a64afc..3510dbd 100644
+--- a/internal/ckksplanner/audit.go
++++ b/internal/ckksplanner/audit.go
+@@ -26,6 +26,8 @@ const (
+ type LockedAuditOptions struct {
+ 	SelectionResultPath string
+ 	AuditPath           string
++	PreparedAuditPath   string
++	AuditDataSpace      TabularDataSpace
+ 	SplitManifestPath   string
+ 	KeyRepeats          int
+ }
+@@ -107,10 +109,16 @@ func RunLockedTabularAudit(
+ 			err,
+ 		)
+ 	}
+-	selected, err := validateLockedSelection(selection)
++	selected, err := ValidateSelectedAutotuneResult(selection)
+ 	if err != nil {
+ 		return LockedAuditResult{}, err
+ 	}
++	if err := verifyContractArtifacts(selection.Plan.Contract); err != nil {
++		return LockedAuditResult{}, fmt.Errorf(
++			"verify selection artifacts: %w",
++			err,
++		)
++	}
+ 
+ 	manifestBytes, err := os.ReadFile(options.SplitManifestPath)
+ 	if err != nil {
+@@ -127,18 +135,46 @@ func RunLockedTabularAudit(
+ 		)
+ 	}
+ 
+-	auditBytes, err := os.ReadFile(options.AuditPath)
++	auditSourcePath := options.AuditPath
++	activeAuditPath := auditSourcePath
++	if strings.TrimSpace(options.PreparedAuditPath) != "" {
++		dataSpace := options.AuditDataSpace
++		if dataSpace == "" {
++			dataSpace = TabularDataSpaceAuto
++		}
++		if _, err := MaterializeTabularValidationWithOptions(
++			selection.Plan.Contract.ModelArtifact.Path,
++			auditSourcePath,
++			options.PreparedAuditPath,
++			TabularMaterializationOptions{
++				DataSpace: dataSpace,
++			},
++		); err != nil {
++			return LockedAuditResult{}, fmt.Errorf(
++				"materialize locked audit data: %w",
++				err,
++			)
++		}
++		activeAuditPath = options.PreparedAuditPath
++	} else if options.AuditDataSpace != "" &&
++		options.AuditDataSpace != TabularDataSpaceAuto {
++		return LockedAuditResult{}, fmt.Errorf(
++			"audit data space requires a prepared audit path",
++		)
++	}
++
++	auditSourceBytes, err := os.ReadFile(auditSourcePath)
+ 	if err != nil {
+ 		return LockedAuditResult{}, fmt.Errorf(
+-			"read locked audit data: %w",
++			"read locked audit source data: %w",
+ 			err,
+ 		)
+ 	}
+ 	if err := validateLockedSplit(
+ 		selection.Plan.Contract,
+ 		manifest,
+-		options.AuditPath,
+-		auditBytes,
++		auditSourcePath,
++		auditSourceBytes,
+ 	); err != nil {
+ 		return LockedAuditResult{}, err
+ 	}
+@@ -152,7 +188,7 @@ func RunLockedTabularAudit(
+ 			err,
+ 		)
+ 	}
+-	auditRowIDs, err := readCSVRowIDs(options.AuditPath)
++	auditRowIDs, err := readCSVRowIDs(activeAuditPath)
+ 	if err != nil {
+ 		return LockedAuditResult{}, fmt.Errorf(
+ 			"read locked audit row IDs: %w",
+@@ -198,7 +234,10 @@ func RunLockedTabularAudit(
+ 	contractOptions := DefaultTabularContractOptions()
+ 	contractOptions.ModelPath =
+ 		selectionContract.ModelArtifact.Path
+-	contractOptions.ValidationPath = options.AuditPath
++	contractOptions.ValidationPath = activeAuditPath
++	if activeAuditPath != auditSourcePath {
++		contractOptions.SourceDataPath = auditSourcePath
++	}
+ 	contractOptions.SplitID =
+ 		selectionContract.SplitID + "/locked_audit"
+ 	contractOptions.MarginFloor =
+@@ -281,9 +320,18 @@ func RunLockedTabularAudit(
+ 	}, nil
+ }
+ 
+-func validateLockedSelection(
++// ValidateSelectedAutotuneResult deterministically reproduces a serialized
++// adaptive result's synthesis plan, repair chain, trial ledger, and final SAFE
++// candidate before a locked audit may consume it.
++func ValidateSelectedAutotuneResult(
+ 	selection AdaptiveAutotuneResult,
+ ) (SynthesizedCandidate, error) {
++	if selection.SchemaVersion != SynthesisPlanSchemaVersion {
++		return SynthesizedCandidate{}, fmt.Errorf(
++			"unsupported selection result schema version %d",
++			selection.SchemaVersion,
++		)
++	}
+ 	if selection.Outcome != AdaptiveOutcomeSelected ||
+ 		selection.Selected == nil {
+ 		return SynthesizedCandidate{}, fmt.Errorf(
+@@ -306,23 +354,198 @@ func validateLockedSelection(
+ 		)
+ 	}
+ 
++	reproducedPlan, err := Synthesize(
++		selection.Plan.Contract,
++		selection.Plan.Policy,
++	)
++	if err != nil {
++		return SynthesizedCandidate{}, fmt.Errorf(
++			"reproduce selection synthesis plan: %w",
++			err,
++		)
++	}
++	if !reflect.DeepEqual(reproducedPlan, selection.Plan) {
++		return SynthesizedCandidate{}, fmt.Errorf(
++			"selection synthesis plan does not reproduce",
++		)
++	}
++	if selection.TrialsUsed != len(selection.Trials) ||
++		selection.TrialsUsed == 0 ||
++		selection.TrialsUsed >
++			selection.Plan.Contract.Deployment.MaxEncryptedTrials {
++		return SynthesizedCandidate{}, fmt.Errorf(
++			"selection trial ledger mismatch: trials_used=%d records=%d budget=%d",
++			selection.TrialsUsed,
++			len(selection.Trials),
++			selection.Plan.Contract.Deployment.MaxEncryptedTrials,
++		)
++	}
++
+ 	selected := *selection.Selected
+-	safeMatches := 0
+-	for _, trial := range selection.Trials {
+-		if trial.Status == certify.StatusSafe &&
+-			reflect.DeepEqual(trial.Candidate, selected) {
+-			safeMatches++
++	expectedCandidate := selection.Plan.InitialCandidates[0]
++	encryptedKeyRuns := 0
++	for index, trial := range selection.Trials {
++		expectedTrialIndex := index + 1
++		if trial.TrialIndex != expectedTrialIndex {
++			return SynthesizedCandidate{}, fmt.Errorf(
++				"selection trial %d records trial_index=%d",
++				expectedTrialIndex,
++				trial.TrialIndex,
++			)
++		}
++		if !reflect.DeepEqual(
++			trial.Candidate,
++			expectedCandidate,
++		) {
++			return SynthesizedCandidate{}, fmt.Errorf(
++				"selection trial %d candidate does not reproduce",
++				expectedTrialIndex,
++			)
++		}
++		if trial.KeyRepeatsRequested !=
++			selection.Plan.Contract.Deployment.
++				ValidationKeyRepeats ||
++			trial.KeyRepeatsCompleted < 0 ||
++			trial.KeyRepeatsCompleted >
++				trial.KeyRepeatsRequested {
++			return SynthesizedCandidate{}, fmt.Errorf(
++				"selection trial %d key-repeat ledger mismatch",
++				expectedTrialIndex,
++			)
++		}
++		encryptedKeyRuns += trial.KeyRepeatsCompleted
++
++		isFinal := index == len(selection.Trials)-1
++		if isFinal {
++			if trial.Status != certify.StatusSafe ||
++				!reflect.DeepEqual(
++					trial.Candidate,
++					selected,
++				) {
++				return SynthesizedCandidate{}, fmt.Errorf(
++					"selection final trial is not the selected SAFE candidate",
++				)
++			}
++			if err := validateSelectionTrialState(
++				trial,
++				selection.Plan.Contract,
++			); err != nil {
++				return SynthesizedCandidate{}, fmt.Errorf(
++					"selection trial %d: %w",
++					expectedTrialIndex,
++					err,
++				)
++			}
++			continue
+ 		}
++		if trial.Status == certify.StatusSafe {
++			return SynthesizedCandidate{}, fmt.Errorf(
++				"selection contains a SAFE trial before the final selection",
++			)
++		}
++		if err := validateSelectionTrialState(
++			trial,
++			selection.Plan.Contract,
++		); err != nil {
++			return SynthesizedCandidate{}, fmt.Errorf(
++				"selection trial %d: %w",
++				expectedTrialIndex,
++				err,
++			)
++		}
++		next, err := RepairCandidate(
++			selection.Plan,
++			expectedCandidate,
++			trial.FailureSignal,
++			expectedTrialIndex,
++		)
++		if err != nil {
++			return SynthesizedCandidate{}, fmt.Errorf(
++				"reproduce repair after selection trial %d: %w",
++				expectedTrialIndex,
++				err,
++			)
++		}
++		expectedCandidate = next
+ 	}
+-	if safeMatches != 1 {
++	if encryptedKeyRuns != selection.EncryptedKeyRuns {
+ 		return SynthesizedCandidate{}, fmt.Errorf(
+-			"selected candidate has %d exact SAFE trial matches",
+-			safeMatches,
++			"selection encrypted-key ledger mismatch: recorded=%d reproduced=%d",
++			selection.EncryptedKeyRuns,
++			encryptedKeyRuns,
+ 		)
+ 	}
+ 	return selected, nil
+ }
+ 
++func validateSelectionTrialState(
++	trial TabularTrialResult,
++	contract WorkloadContract,
++) error {
++	switch trial.Status {
++	case certify.StatusSafe:
++		if trial.FailureSignal != "" ||
++			trial.Failure != "" ||
++			trial.Assurance !=
++				certify.AssuranceObservedValidation ||
++			trial.KeyRepeatsCompleted !=
++				trial.KeyRepeatsRequested ||
++			trial.SuccessRuns !=
++				trial.KeyRepeatsRequested ||
++			trial.DecisionFlips != 0 ||
++			trial.ErrorViolations != 0 ||
++			trial.VCert !=
++				contract.Decision.CertifiableSamples ||
++			trial.VAmb !=
++				contract.Decision.AmbiguousSamples {
++			return fmt.Errorf(
++				"SAFE trial evidence is internally inconsistent",
++			)
++		}
++
++	case certify.StatusRejected:
++		if trial.FailureSignal != RepairNumericalReject ||
++			trial.Failure != "" ||
++			trial.Assurance != certify.AssuranceNone ||
++			trial.KeyRepeatsCompleted !=
++				trial.KeyRepeatsRequested ||
++			trial.SuccessRuns !=
++				trial.KeyRepeatsRequested ||
++			trial.DecisionFlips+
++				trial.ErrorViolations == 0 ||
++			trial.VCert !=
++				contract.Decision.CertifiableSamples ||
++			trial.VAmb !=
++				contract.Decision.AmbiguousSamples {
++			return fmt.Errorf(
++				"REJECTED trial evidence is internally inconsistent",
++			)
++		}
++
++	case certify.StatusFailed:
++		if trial.FailureSignal != RepairLevelFailure ||
++			strings.TrimSpace(trial.Failure) == "" ||
++			trial.Assurance != certify.AssuranceNone ||
++			trial.SuccessRuns != 0 {
++			return fmt.Errorf(
++				"FAILED trial evidence is internally inconsistent",
++			)
++		}
++
++	case certify.StatusAmbiguous:
++		return fmt.Errorf(
++			"AMBIGUOUS trial cannot precede a selected result",
++		)
++
++	default:
++		return fmt.Errorf(
++			"unsupported trial status %q",
++			trial.Status,
++		)
++	}
++	return nil
++}
++
+ func validateLockedSplit(
+ 	selectionContract WorkloadContract,
+ 	manifest lockedSplitManifest,
+@@ -362,16 +585,20 @@ func validateLockedSplit(
+ 			selectionContract.SplitID,
+ 		)
+ 	}
++	selectionPartition := selectionContract.ValidationData
++	if selectionContract.SourceData != nil {
++		selectionPartition = *selectionContract.SourceData
++	}
+ 	if manifest.ConfigurationValidation.Path !=
+-		selectionContract.ValidationData.Path {
++		selectionPartition.Path {
+ 		return fmt.Errorf(
+ 			"split manifest validation path %q does not match selection %q",
+ 			manifest.ConfigurationValidation.Path,
+-			selectionContract.ValidationData.Path,
++			selectionPartition.Path,
+ 		)
+ 	}
+ 	if manifest.ConfigurationValidation.CSVDigest !=
+-		selectionContract.ValidationData.SHA256 {
++		selectionPartition.SHA256 {
+ 		return fmt.Errorf(
+ 			"split manifest validation digest does not match selection",
+ 		)
+@@ -391,7 +618,7 @@ func validateLockedSplit(
+ 			actualAuditDigest,
+ 		)
+ 	}
+-	if selectionContract.ValidationData.SHA256 ==
++	if selectionPartition.SHA256 ==
+ 		actualAuditDigest {
+ 		return fmt.Errorf(
+ 			"locked audit artifact is identical to selection validation",
+diff --git a/internal/ckksplanner/audit_test.go b/internal/ckksplanner/audit_test.go
+index d6374db..734036e 100644
+--- a/internal/ckksplanner/audit_test.go
++++ b/internal/ckksplanner/audit_test.go
+@@ -74,6 +74,151 @@ func TestRunLockedTabularAuditPassesWithoutRetuning(
+ 	}
+ }
+ 
++func TestRunLockedTabularAuditAcceptsReplayVerifiedMaterialization(
++	t *testing.T,
++) {
++	modelPath, sourcePath := writeLinearFixture(t, false)
++	preparedPath := filepath.Join(
++		filepath.Dir(modelPath),
++		"prepared_validation.csv",
++	)
++	if _, err := MaterializeTabularValidationWithOptions(
++		modelPath,
++		sourcePath,
++		preparedPath,
++		TabularMaterializationOptions{
++			DataSpace: TabularDataSpaceModelInput,
++		},
++	); err != nil {
++		t.Fatalf("materialize validation fixture: %v", err)
++	}
++	selectionPath, selection := writeSelectionFixtureWithSource(
++		t,
++		modelPath,
++		preparedPath,
++		sourcePath,
++	)
++	auditPath := writeAuditCSVFixture(
++		t,
++		filepath.Dir(modelPath),
++		[]int{3, 4, 5},
++	)
++	manifestPath := writeSplitManifestFixture(
++		t,
++		modelPath,
++		sourcePath,
++		auditPath,
++		[]string{"0", "1", "2"},
++		[]string{"3", "4", "5"},
++	)
++	preparedAuditPath := filepath.Join(
++		filepath.Dir(modelPath),
++		"prepared_locked_audit.csv",
++	)
++
++	result, err := RunLockedTabularAudit(
++		LockedAuditOptions{
++			SelectionResultPath: selectionPath,
++			AuditPath:           auditPath,
++			PreparedAuditPath:   preparedAuditPath,
++			AuditDataSpace:      TabularDataSpaceModelInput,
++			SplitManifestPath:   manifestPath,
++			KeyRepeats:          1,
++		},
++	)
++	if err != nil {
++		t.Fatalf("run materialized locked audit: %v", err)
++	}
++	if result.Outcome != LockedAuditOutcomePass {
++		t.Fatalf(
++			"expected materialized PASS, got %s: %s",
++			result.Outcome,
++			result.Reason,
++		)
++	}
++	if selection.Plan.Contract.SourceData == nil ||
++		selection.Plan.Contract.InputMaterialization == nil ||
++		!selection.Plan.Contract.InputMaterialization.
++			SourceReplayVerified {
++		t.Fatal("selection did not bind verified source replay")
++	}
++	if result.AuditContract.SourceData == nil ||
++		result.AuditContract.SourceData.Path != auditPath ||
++		result.AuditContract.ValidationData.Path !=
++			preparedAuditPath ||
++		result.AuditContract.InputMaterialization == nil ||
++		!result.AuditContract.InputMaterialization.
++			SourceReplayVerified {
++		t.Fatal("audit did not bind verified source replay")
++	}
++}
++
++func TestRunLockedTabularAuditRejectsMutatedSelectionSource(
++	t *testing.T,
++) {
++	modelPath, sourcePath := writeLinearFixture(t, false)
++	preparedPath := filepath.Join(
++		filepath.Dir(modelPath),
++		"prepared_validation.csv",
++	)
++	if _, err := MaterializeTabularValidationWithOptions(
++		modelPath,
++		sourcePath,
++		preparedPath,
++		TabularMaterializationOptions{
++			DataSpace: TabularDataSpaceModelInput,
++		},
++	); err != nil {
++		t.Fatalf("materialize validation fixture: %v", err)
++	}
++	selectionPath, _ := writeSelectionFixtureWithSource(
++		t,
++		modelPath,
++		preparedPath,
++		sourcePath,
++	)
++	auditPath := writeAuditCSVFixture(
++		t,
++		filepath.Dir(modelPath),
++		[]int{3, 4, 5},
++	)
++	manifestPath := writeSplitManifestFixture(
++		t,
++		modelPath,
++		sourcePath,
++		auditPath,
++		[]string{"0", "1", "2"},
++		[]string{"3", "4", "5"},
++	)
++	sourceBytes, err := os.ReadFile(sourcePath)
++	if err != nil {
++		t.Fatalf("read source fixture: %v", err)
++	}
++	if err := os.WriteFile(
++		sourcePath,
++		append(sourceBytes, '\n'),
++		0o600,
++	); err != nil {
++		t.Fatalf("mutate source fixture: %v", err)
++	}
++
++	_, err = RunLockedTabularAudit(
++		LockedAuditOptions{
++			SelectionResultPath: selectionPath,
++			AuditPath:           auditPath,
++			SplitManifestPath:   manifestPath,
++			KeyRepeats:          1,
++		},
++	)
++	if err == nil ||
++		!strings.Contains(err.Error(), "source data digest changed") {
++		t.Fatalf(
++			"expected mutated source rejection, got %v",
++			err,
++		)
++	}
++}
++
+ func TestRunLockedTabularAuditRejectsRowOverlap(
+ 	t *testing.T,
+ ) {
+@@ -111,16 +256,294 @@ func TestRunLockedTabularAuditRejectsRowOverlap(
+ 	}
+ }
+ 
++func TestValidateSelectedAutotuneResultRejectsMutations(
++	t *testing.T,
++) {
++	modelPath, validationPath := writeLinearFixture(t, false)
++	_, valid := writeSelectionFixture(
++		t,
++		modelPath,
++		validationPath,
++	)
++
++	tests := []struct {
++		name       string
++		mutate     func(*AdaptiveAutotuneResult)
++		wantReason string
++	}{
++		{
++			name: "result schema",
++			mutate: func(result *AdaptiveAutotuneResult) {
++				result.SchemaVersion++
++			},
++			wantReason: "selection result schema version",
++		},
++		{
++			name: "contract",
++			mutate: func(result *AdaptiveAutotuneResult) {
++				result.Plan.Contract.Decision.OutputErrorBudget *= 0.5
++			},
++			wantReason: "selection contract digest mismatch",
++		},
++		{
++			name: "policy",
++			mutate: func(result *AdaptiveAutotuneResult) {
++				result.Plan.Policy.MinScaleBits++
++			},
++			wantReason: "synthesis plan does not reproduce",
++		},
++		{
++			name: "candidate and matching trial",
++			mutate: func(result *AdaptiveAutotuneResult) {
++				result.Plan.InitialCandidates[0].ID += "_mutated"
++				result.Trials[0].Candidate.ID += "_mutated"
++				result.Selected.ID += "_mutated"
++			},
++			wantReason: "synthesis plan does not reproduce",
++		},
++		{
++			name: "trial count",
++			mutate: func(result *AdaptiveAutotuneResult) {
++				result.TrialsUsed++
++			},
++			wantReason: "trial ledger mismatch",
++		},
++		{
++			name: "trial index",
++			mutate: func(result *AdaptiveAutotuneResult) {
++				result.Trials[0].TrialIndex++
++			},
++			wantReason: "records trial_index",
++		},
++		{
++			name: "key repeats",
++			mutate: func(result *AdaptiveAutotuneResult) {
++				result.Trials[0].KeyRepeatsRequested++
++			},
++			wantReason: "key-repeat ledger mismatch",
++		},
++		{
++			name: "final status",
++			mutate: func(result *AdaptiveAutotuneResult) {
++				result.Trials[len(result.Trials)-1].Status =
++					"REJECTED"
++			},
++			wantReason: "final trial is not the selected SAFE candidate",
++		},
++		{
++			name: "encrypted key count",
++			mutate: func(result *AdaptiveAutotuneResult) {
++				result.EncryptedKeyRuns++
++			},
++			wantReason: "encrypted-key ledger mismatch",
++		},
++	}
++
++	for _, test := range tests {
++		t.Run(test.name, func(t *testing.T) {
++			mutated := cloneAdaptiveResult(t, valid)
++			test.mutate(&mutated)
++			_, err := ValidateSelectedAutotuneResult(mutated)
++			if err == nil ||
++				!strings.Contains(
++					err.Error(),
++					test.wantReason,
++				) {
++				t.Fatalf(
++					"expected %q rejection, got %v",
++					test.wantReason,
++					err,
++				)
++			}
++		})
++	}
++}
++
++func TestValidateSelectedAutotuneResultAcceptsReproducedRepair(
++	t *testing.T,
++) {
++	modelPath, validationPath := writeLinearFixture(t, false)
++	_, valid := writeSelectionFixture(
++		t,
++		modelPath,
++		validationPath,
++	)
++	repaired, err := RepairCandidate(
++		valid.Plan,
++		valid.Plan.InitialCandidates[0],
++		RepairNumericalReject,
++		1,
++	)
++	if err != nil {
++		t.Fatalf("build repair fixture: %v", err)
++	}
++
++	rejected := valid.Trials[0]
++	rejected.Status = "REJECTED"
++	rejected.Assurance = "NONE"
++	rejected.FailureSignal = RepairNumericalReject
++	rejected.DecisionFlips = 1
++	rejected.ErrorViolations = 1
++
++	safe := valid.Trials[0]
++	safe.TrialIndex = 2
++	safe.Candidate = repaired
++
++	valid.Trials = []TabularTrialResult{rejected, safe}
++	valid.TrialsUsed = 2
++	valid.EncryptedKeyRuns =
++		rejected.KeyRepeatsCompleted +
++			safe.KeyRepeatsCompleted
++	valid.Selected = &repaired
++
++	selected, err := ValidateSelectedAutotuneResult(valid)
++	if err != nil {
++		t.Fatalf("validate reproduced repair ledger: %v", err)
++	}
++	if !reflect.DeepEqual(selected, repaired) {
++		t.Fatal("validated repair candidate changed")
++	}
++
++	mutated := cloneAdaptiveResult(t, valid)
++	mutated.Trials[0].FailureSignal = RepairLevelFailure
++	_, err = ValidateSelectedAutotuneResult(mutated)
++	if err == nil ||
++		!strings.Contains(
++			err.Error(),
++			"REJECTED trial evidence",
++		) {
++		t.Fatalf(
++			"expected repair-signal mutation rejection, got %v",
++			err,
++		)
++	}
++}
++
++func TestRunLockedTabularAuditRejectsMutatedAuditArtifact(
++	t *testing.T,
++) {
++	modelPath, validationPath := writeLinearFixture(t, false)
++	selectionPath, _ := writeSelectionFixture(
++		t,
++		modelPath,
++		validationPath,
++	)
++	auditPath := writeAuditCSVFixture(
++		t,
++		filepath.Dir(modelPath),
++		[]int{3, 4, 5},
++	)
++	manifestPath := writeSplitManifestFixture(
++		t,
++		modelPath,
++		validationPath,
++		auditPath,
++		[]string{"0", "1", "2"},
++		[]string{"3", "4", "5"},
++	)
++	auditBytes, err := os.ReadFile(auditPath)
++	if err != nil {
++		t.Fatalf("read audit fixture: %v", err)
++	}
++	if err := os.WriteFile(
++		auditPath,
++		append(auditBytes, '\n'),
++		0o600,
++	); err != nil {
++		t.Fatalf("mutate audit fixture: %v", err)
++	}
++
++	_, err = RunLockedTabularAudit(
++		LockedAuditOptions{
++			SelectionResultPath: selectionPath,
++			AuditPath:           auditPath,
++			SplitManifestPath:   manifestPath,
++			KeyRepeats:          1,
++		},
++	)
++	if err == nil ||
++		!strings.Contains(err.Error(), "audit digest") {
++		t.Fatalf(
++			"expected mutated audit digest rejection, got %v",
++			err,
++		)
++	}
++}
++
++func TestRunLockedTabularAuditRejectsMalformedSelectionJSON(
++	t *testing.T,
++) {
++	root := t.TempDir()
++	selectionPath := filepath.Join(root, "selection.json")
++	auditPath := filepath.Join(root, "audit.csv")
++	manifestPath := filepath.Join(root, "manifest.json")
++	if err := os.WriteFile(
++		selectionPath,
++		[]byte("{not-json\n"),
++		0o600,
++	); err != nil {
++		t.Fatalf("write malformed selection: %v", err)
++	}
++
++	_, err := RunLockedTabularAudit(
++		LockedAuditOptions{
++			SelectionResultPath: selectionPath,
++			AuditPath:           auditPath,
++			SplitManifestPath:   manifestPath,
++			KeyRepeats:          1,
++		},
++	)
++	if err == nil ||
++		!strings.Contains(err.Error(), "parse selection result") {
++		t.Fatalf(
++			"expected malformed selection rejection, got %v",
++			err,
++		)
++	}
++}
++
++func cloneAdaptiveResult(
++	t *testing.T,
++	value AdaptiveAutotuneResult,
++) AdaptiveAutotuneResult {
++	t.Helper()
++
++	encoded, err := json.Marshal(value)
++	if err != nil {
++		t.Fatalf("marshal adaptive result clone: %v", err)
++	}
++	cloned := AdaptiveAutotuneResult{}
++	if err := json.Unmarshal(encoded, &cloned); err != nil {
++		t.Fatalf("unmarshal adaptive result clone: %v", err)
++	}
++	return cloned
++}
++
+ func writeSelectionFixture(
+ 	t *testing.T,
+ 	modelPath string,
+ 	validationPath string,
++) (string, AdaptiveAutotuneResult) {
++	return writeSelectionFixtureWithSource(
++		t,
++		modelPath,
++		validationPath,
++		"",
++	)
++}
++
++func writeSelectionFixtureWithSource(
++	t *testing.T,
++	modelPath string,
++	validationPath string,
++	sourcePath string,
+ ) (string, AdaptiveAutotuneResult) {
+ 	t.Helper()
+ 
+ 	options := DefaultTabularContractOptions()
+ 	options.ModelPath = modelPath
+ 	options.ValidationPath = validationPath
++	options.SourceDataPath = sourcePath
+ 	options.SplitID = "split_seed_0"
+ 	options.MarginFloor = 0.01
+ 	options.MaxEncryptedTrials = 2
+diff --git a/internal/ckksplanner/contract.go b/internal/ckksplanner/contract.go
+index ec9e792..861b935 100644
+--- a/internal/ckksplanner/contract.go
++++ b/internal/ckksplanner/contract.go
+@@ -35,6 +35,15 @@ type ArtifactBinding struct {
+ 	SHA256 string `json:"sha256"`
+ }
+ 
++// InputMaterializationContract records how source feature rows were converted
++// into the exact model-input rows used by the encrypted backend.
++type InputMaterializationContract struct {
++	SchemaVersion        string `json:"schema_version"`
++	SourceFeatureSpace   string `json:"source_feature_space"`
++	PreprocessingMethod  string `json:"preprocessing_method"`
++	SourceReplayVerified bool   `json:"source_replay_verified"`
++}
++
+ // DecisionStabilityContract defines the observed-validation decision claim
+ // that candidate execution must satisfy.
+ type DecisionStabilityContract struct {
+@@ -94,8 +103,10 @@ type WorkloadContract struct {
+ 	ModelType  string `json:"model_type"`
+ 	SplitID    string `json:"split_id"`
+ 
+-	ModelArtifact  ArtifactBinding `json:"model_artifact"`
+-	ValidationData ArtifactBinding `json:"validation_data"`
++	ModelArtifact        ArtifactBinding               `json:"model_artifact"`
++	ValidationData       ArtifactBinding               `json:"validation_data"`
++	SourceData           *ArtifactBinding              `json:"source_data,omitempty"`
++	InputMaterialization *InputMaterializationContract `json:"input_materialization,omitempty"`
+ 
+ 	Graph       tuner.GraphSummary        `json:"graph"`
+ 	Decision    DecisionStabilityContract `json:"decision"`
+@@ -134,6 +145,29 @@ func (contract WorkloadContract) Validate() error {
+ 	if err := contract.ValidationData.validate("validation data"); err != nil {
+ 		return err
+ 	}
++	if contract.SourceData != nil {
++		if err := contract.SourceData.validate("source data"); err != nil {
++			return err
++		}
++	}
++	if contract.InputMaterialization != nil {
++		if err := contract.InputMaterialization.validate(); err != nil {
++			return err
++		}
++	}
++	if contract.SourceData != nil {
++		if contract.InputMaterialization == nil ||
++			!contract.InputMaterialization.SourceReplayVerified {
++			return fmt.Errorf(
++				"bound source data requires verified input materialization replay",
++			)
++		}
++	} else if contract.InputMaterialization != nil &&
++		contract.InputMaterialization.SourceReplayVerified {
++		return fmt.Errorf(
++			"verified input materialization replay requires bound source data",
++		)
++	}
+ 	if err := validateGraphSummary(contract.Graph); err != nil {
+ 		return err
+ 	}
+@@ -150,6 +184,49 @@ func (contract WorkloadContract) Validate() error {
+ 	return nil
+ }
+ 
++func (materialization InputMaterializationContract) validate() error {
++	switch materialization.SchemaVersion {
++	case TabularValidationMaterializationSchemaV1:
++		if materialization.SourceFeatureSpace !=
++			string(TabularDataSpaceModelInput) ||
++			materialization.PreprocessingMethod !=
++				TabularPreprocessingIdentityV1 {
++			return fmt.Errorf(
++				"schema %s requires model_input identity preprocessing",
++				materialization.SchemaVersion,
++			)
++		}
++	case TabularValidationMaterializationSchemaV2:
++		switch materialization.SourceFeatureSpace {
++		case string(TabularDataSpaceModelInput):
++			if materialization.PreprocessingMethod !=
++				TabularPreprocessingIdentityV1 {
++				return fmt.Errorf(
++					"model_input data requires identity preprocessing",
++				)
++			}
++		case string(TabularDataSpaceRaw):
++			if materialization.PreprocessingMethod !=
++				TabularPreprocessingSelectedStandardizationV1 {
++				return fmt.Errorf(
++					"raw data requires selected-feature standardization",
++				)
++			}
++		default:
++			return fmt.Errorf(
++				"unsupported source feature space %q",
++				materialization.SourceFeatureSpace,
++			)
++		}
++	default:
++		return fmt.Errorf(
++			"unsupported input materialization schema %q",
++			materialization.SchemaVersion,
++		)
++	}
++	return nil
++}
++
+ func (binding ArtifactBinding) validate(label string) error {
+ 	if strings.TrimSpace(binding.Path) == "" {
+ 		return fmt.Errorf("%s path is empty", label)
+diff --git a/internal/ckksplanner/contract_test.go b/internal/ckksplanner/contract_test.go
+index 93daf70..df75760 100644
+--- a/internal/ckksplanner/contract_test.go
++++ b/internal/ckksplanner/contract_test.go
+@@ -167,6 +167,41 @@ func TestWorkloadContractRejectsNonReproducibleDigest(t *testing.T) {
+ 	}
+ }
+ 
++func TestWorkloadContractRequiresSourceReplayVerification(t *testing.T) {
++	contract := validContractFixture()
++	contract.InputMaterialization = &InputMaterializationContract{
++		SchemaVersion:        TabularValidationMaterializationSchemaV2,
++		SourceFeatureSpace:   string(TabularDataSpaceRaw),
++		PreprocessingMethod:  TabularPreprocessingSelectedStandardizationV1,
++		SourceReplayVerified: true,
++	}
++	err := contract.Validate()
++	if err == nil || !strings.Contains(
++		err.Error(),
++		"requires bound source data",
++	) {
++		t.Fatalf("expected missing source binding rejection, got %v", err)
++	}
++
++	contract = validContractFixture()
++	contract.SourceData = &ArtifactBinding{
++		Path:   "raw.csv",
++		SHA256: contract.ModelArtifact.SHA256,
++	}
++	contract.InputMaterialization = &InputMaterializationContract{
++		SchemaVersion:       TabularValidationMaterializationSchemaV2,
++		SourceFeatureSpace:  string(TabularDataSpaceRaw),
++		PreprocessingMethod: TabularPreprocessingSelectedStandardizationV1,
++	}
++	err = contract.Validate()
++	if err == nil || !strings.Contains(
++		err.Error(),
++		"requires verified input materialization replay",
++	) {
++		t.Fatalf("expected missing replay verification rejection, got %v", err)
++	}
++}
++
+ func writeLinearFixture(
+ 	t *testing.T,
+ 	scoreMismatch bool,
+diff --git a/internal/ckksplanner/executor.go b/internal/ckksplanner/executor.go
+index 7134440..c3dd3dd 100644
+--- a/internal/ckksplanner/executor.go
++++ b/internal/ckksplanner/executor.go
+@@ -34,10 +34,11 @@ type TabularTrialResult struct {
+ 	KeyRepeatsRequested int `json:"key_repeats_requested"`
+ 	KeyRepeatsCompleted int `json:"key_repeats_completed"`
+ 
+-	SuccessRuns      int     `json:"success_runs"`
+-	DecisionFlips    int     `json:"decision_flips"`
+-	ErrorViolations  int     `json:"error_violations"`
+-	MaxObservedError float64 `json:"max_observed_error"`
++	SuccessRuns         int     `json:"success_runs"`
++	DecisionFlips       int     `json:"decision_flips"`
++	ErrorViolations     int     `json:"error_violations"`
++	MaxObservedError    float64 `json:"max_observed_error"`
++	MaxErrorBudgetUsage float64 `json:"max_error_budget_usage"`
+ 
+ 	VCert int `json:"v_cert"`
+ 	VAmb  int `json:"v_amb"`
+@@ -309,6 +310,8 @@ func ExecuteTabularCandidate(
+ 	result.DecisionFlips = certificate.DecisionFlips
+ 	result.ErrorViolations = certificate.ErrorViolations
+ 	result.MaxObservedError = certificate.MaxObservedError
++	result.MaxErrorBudgetUsage =
++		certificate.MaxObservedBudgetUsage
+ 	result.VCert = certificate.VCert
+ 	result.VAmb = certificate.VAmb
+ 	result.MeanTotalMS = meanTotalMS
+@@ -473,6 +476,15 @@ func verifyContractArtifacts(contract WorkloadContract) error {
+ 		{"model artifact", contract.ModelArtifact},
+ 		{"validation data", contract.ValidationData},
+ 	}
++	if contract.SourceData != nil {
++		bindings = append(bindings, struct {
++			label   string
++			binding ArtifactBinding
++		}{
++			label:   "source data",
++			binding: *contract.SourceData,
++		})
++	}
+ 
+ 	for _, item := range bindings {
+ 		data, err := os.ReadFile(item.binding.Path)
+diff --git a/internal/ckksplanner/synthesis.go b/internal/ckksplanner/synthesis.go
+index 54ab672..5db9349 100644
+--- a/internal/ckksplanner/synthesis.go
++++ b/internal/ckksplanner/synthesis.go
+@@ -200,6 +200,15 @@ func DefaultSynthesisPolicy() SynthesisPolicy {
+ 	}
+ }
+ 
++// DefaultPrimarySynthesisPolicy returns the policy evaluated by the primary
++// direct-synthesis experiments. Backend admission may raise these lower bounds.
++func DefaultPrimarySynthesisPolicy() SynthesisPolicy {
++	policy := DefaultSynthesisPolicy()
++	policy.MinScaleBits = 18
++	policy.MinPrimeBits = 18
++	return policy
++}
++
+ // Synthesize creates the first directly executable CKKS configuration for a
+ // workload. It does not run CKKS and therefore cannot label a candidate SAFE.
+ func Synthesize(
+diff --git a/internal/ckksplanner/synthesis_test.go b/internal/ckksplanner/synthesis_test.go
+index 1f11847..d691ab3 100644
+--- a/internal/ckksplanner/synthesis_test.go
++++ b/internal/ckksplanner/synthesis_test.go
+@@ -212,6 +212,28 @@ func TestRetryablePrimeGenerationErrorIsNarrow(t *testing.T) {
+ 	}
+ }
+ 
++func TestDefaultPrimarySynthesisPolicyMatchesEvaluatedProtocol(
++	t *testing.T,
++) {
++	policy := DefaultPrimarySynthesisPolicy()
++	if policy.MinScaleBits != 18 ||
++		policy.MinPrimeBits != 18 ||
++		policy.SpecialPrimeBits != 30 {
++		t.Fatalf("unexpected primary policy: %+v", policy)
++	}
++}
++
++func TestDefaultPrimaryContractPolicyMatchesEvaluatedProtocol(
++	t *testing.T,
++) {
++	options := DefaultPrimaryTabularContractOptions()
++	if options.ValidationKeyRepeats != 3 ||
++		options.MarginFloor != 0.001 ||
++		options.SafetyFactor != 0.5 {
++		t.Fatalf("unexpected primary contract policy: %+v", options)
++	}
++}
++
+ func TestSynthesizeRejectsUnsupportedNonRescalePath(t *testing.T) {
+ 	contract := validContractFixture()
+ 	contract.Deployment.AllowedPaths = []tuner.ExecutionPath{
+diff --git a/internal/ckksplanner/tabular_contract.go b/internal/ckksplanner/tabular_contract.go
+index 70157e5..be2b81e 100644
+--- a/internal/ckksplanner/tabular_contract.go
++++ b/internal/ckksplanner/tabular_contract.go
+@@ -24,6 +24,7 @@ import (
+ type TabularContractOptions struct {
+ 	ModelPath      string
+ 	ValidationPath string
++	SourceDataPath string
+ 	SplitID        string
+ 
+ 	MarginFloor  float64
+@@ -35,9 +36,8 @@ type TabularContractOptions struct {
+ 	AllowedPaths         []tuner.ExecutionPath
+ }
+ 
+-// DefaultTabularContractOptions returns the currently declared primary
+-// evaluation policy. Callers still have to provide model, validation, and split
+-// identities.
++// DefaultTabularContractOptions returns backward-compatible base defaults.
++// Callers still have to provide model, validation, and split identities.
+ func DefaultTabularContractOptions() TabularContractOptions {
+ 	return TabularContractOptions{
+ 		MarginFloor:  0.001,
+@@ -52,6 +52,14 @@ func DefaultTabularContractOptions() TabularContractOptions {
+ 	}
+ }
+ 
++// DefaultPrimaryTabularContractOptions returns the fresh-key policy evaluated
++// by the primary direct-synthesis and locked-audit protocol.
++func DefaultPrimaryTabularContractOptions() TabularContractOptions {
++	options := DefaultTabularContractOptions()
++	options.ValidationKeyRepeats = 3
++	return options
++}
++
+ type tabularModelArtifact struct {
+ 	DatasetID   string `json:"dataset_id"`
+ 	DatasetName string `json:"dataset_name"`
+@@ -59,10 +67,19 @@ type tabularModelArtifact struct {
+ 	ModelType   string `json:"model_type"`
+ 	InputDim    int    `json:"input_dim"`
+ 
++	SelectedFeatureIndices []int                  `json:"selected_feature_indices"`
++	SelectedFeatureNames   []string               `json:"selected_feature_names"`
++	Standardization        tabularStandardization `json:"standardization"`
++
+ 	ScaledModelForCKKS tabularScaledModel     `json:"scaled_model_for_ckks"`
+ 	PolynomialScore    tabularPolynomialScore `json:"polynomial_score"`
+ }
+ 
++type tabularStandardization struct {
++	Mean []float64 `json:"mean"`
++	Std  []float64 `json:"std"`
++}
++
+ type tabularPolynomialScore struct {
+ 	Formula           string  `json:"formula"`
+ 	DecisionThreshold float64 `json:"decision_threshold"`
+@@ -125,7 +142,7 @@ func BuildTabularWorkloadContract(
+ 		)
+ 	}
+ 
+-	samples, err := parseTabularValidation(
++	samples, provenance, err := parseTabularValidation(
+ 		validationBytes,
+ 		model.InputDim,
+ 	)
+@@ -232,6 +249,14 @@ func BuildTabularWorkloadContract(
+ 	}
+ 
+ 	modelDigest := digestBytes(modelBytes)
++	if provenance.ModelSHA256 != "" &&
++		provenance.ModelSHA256 != modelDigest {
++		return WorkloadContract{}, fmt.Errorf(
++			"validation materialization model digest %s does not match model artifact %s",
++			provenance.ModelSHA256,
++			modelDigest,
++		)
++	}
+ 	validationArtifactDigest := digestBytes(validationBytes)
+ 	validationDigest := digestValidationScores(sampleOrder, plainScores)
+ 	graphSummary, err := summarizeTabularGraph(graph)
+@@ -243,6 +268,51 @@ func BuildTabularWorkloadContract(
+ 		return WorkloadContract{}, err
+ 	}
+ 
++	var sourceDataBinding *ArtifactBinding
++	if strings.TrimSpace(options.SourceDataPath) != "" {
++		sourceBytes, err := os.ReadFile(options.SourceDataPath)
++		if err != nil {
++			return WorkloadContract{}, fmt.Errorf(
++				"read source data for contract binding: %w",
++				err,
++			)
++		}
++		sourceDigest := digestBytes(sourceBytes)
++		if provenance.SourceDataSHA256 == "" {
++			return WorkloadContract{}, fmt.Errorf(
++				"validation data has no materialized source digest",
++			)
++		}
++		if provenance.SourceDataSHA256 != sourceDigest {
++			return WorkloadContract{}, fmt.Errorf(
++				"validation materialization source digest %s does not match source data %s",
++				provenance.SourceDataSHA256,
++				sourceDigest,
++			)
++		}
++		if err := verifySourceMaterialization(
++			model,
++			sourceBytes,
++			samples,
++			provenance,
++		); err != nil {
++			return WorkloadContract{}, err
++		}
++		sourceDataBinding = &ArtifactBinding{
++			Path:   options.SourceDataPath,
++			SHA256: sourceDigest,
++		}
++	}
++	var inputMaterialization *InputMaterializationContract
++	if provenance.SchemaVersion != "" {
++		inputMaterialization = &InputMaterializationContract{
++			SchemaVersion:        provenance.SchemaVersion,
++			SourceFeatureSpace:   provenance.SourceFeatureSpace,
++			PreprocessingMethod:  provenance.PreprocessingMethod,
++			SourceReplayVerified: sourceDataBinding != nil,
++		}
++	}
++
+ 	contract := WorkloadContract{
+ 		SchemaVersion: WorkloadContractSchemaVersion,
+ 
+@@ -263,6 +333,8 @@ func BuildTabularWorkloadContract(
+ 			Path:   options.ValidationPath,
+ 			SHA256: validationArtifactDigest,
+ 		},
++		SourceData:           sourceDataBinding,
++		InputMaterialization: inputMaterialization,
+ 
+ 		Graph: graphSummary,
+ 		Decision: DecisionStabilityContract{
+@@ -611,27 +683,36 @@ func addTabularAffine(
+ 	return outputID
+ }
+ 
++type tabularValidationProvenance struct {
++	SchemaVersion       string
++	ModelSHA256         string
++	SourceDataSHA256    string
++	SourceFeatureSpace  string
++	PreprocessingMethod string
++}
++
+ func parseTabularValidation(
+ 	data []byte,
+ 	inputDim int,
+-) ([]tabularValidationSample, error) {
++) ([]tabularValidationSample, tabularValidationProvenance, error) {
+ 	reader := csv.NewReader(strings.NewReader(string(data)))
+ 	header, err := reader.Read()
+ 	if err != nil {
+-		return nil, fmt.Errorf("read tabular validation header: %w", err)
++		return nil, tabularValidationProvenance{},
++			fmt.Errorf("read tabular validation header: %w", err)
+ 	}
+ 
+ 	columns := make(map[string]int, len(header))
+ 	for index, name := range header {
+ 		name = strings.TrimSpace(name)
+ 		if name == "" {
+-			return nil, fmt.Errorf(
++			return nil, tabularValidationProvenance{}, fmt.Errorf(
+ 				"tabular validation column %d is empty",
+ 				index,
+ 			)
+ 		}
+ 		if _, exists := columns[name]; exists {
+-			return nil, fmt.Errorf(
++			return nil, tabularValidationProvenance{}, fmt.Errorf(
+ 				"tabular validation has duplicate column %q",
+ 				name,
+ 			)
+@@ -649,15 +730,34 @@ func parseTabularValidation(
+ 	}
+ 	for _, name := range required {
+ 		if _, exists := columns[name]; !exists {
+-			return nil, fmt.Errorf(
++			return nil, tabularValidationProvenance{}, fmt.Errorf(
+ 				"tabular validation is missing column %q",
+ 				name,
+ 			)
+ 		}
+ 	}
++	_, hasMaterializationSchema := columns["materialization_schema"]
++	_, hasSourceModelDigest := columns["source_model_sha256"]
++	_, hasSourceDataDigest := columns["source_data_sha256"]
++	_, hasSourceFeatureSpace := columns["source_feature_space"]
++	_, hasPreprocessingMethod := columns["preprocessing_method"]
++	hasAnyProvenance := hasMaterializationSchema ||
++		hasSourceModelDigest ||
++		hasSourceDataDigest ||
++		hasSourceFeatureSpace ||
++		hasPreprocessingMethod
++	if hasAnyProvenance &&
++		!(hasMaterializationSchema &&
++			hasSourceModelDigest &&
++			hasSourceDataDigest) {
++		return nil, tabularValidationProvenance{}, fmt.Errorf(
++			"tabular validation materialization provenance columns are incomplete",
++		)
++	}
+ 
+ 	samples := make([]tabularValidationSample, 0)
+ 	seenIDs := map[string]bool{}
++	provenance := tabularValidationProvenance{}
+ 
+ 	for rowNumber := 2; ; rowNumber++ {
+ 		record, err := reader.Read()
+@@ -665,14 +765,14 @@ func parseTabularValidation(
+ 			break
+ 		}
+ 		if err != nil {
+-			return nil, fmt.Errorf(
++			return nil, tabularValidationProvenance{}, fmt.Errorf(
+ 				"read tabular validation row %d: %w",
+ 				rowNumber,
+ 				err,
+ 			)
+ 		}
+ 		if len(record) != len(header) {
+-			return nil, fmt.Errorf(
++			return nil, tabularValidationProvenance{}, fmt.Errorf(
+ 				"tabular validation row %d has %d fields, expected %d",
+ 				rowNumber,
+ 				len(record),
+@@ -682,13 +782,13 @@ func parseTabularValidation(
+ 
+ 		id := strings.TrimSpace(record[columns["row_id"]])
+ 		if id == "" {
+-			return nil, fmt.Errorf(
++			return nil, tabularValidationProvenance{}, fmt.Errorf(
+ 				"tabular validation row %d has empty row_id",
+ 				rowNumber,
+ 			)
+ 		}
+ 		if seenIDs[id] {
+-			return nil, fmt.Errorf(
++			return nil, tabularValidationProvenance{}, fmt.Errorf(
+ 				"tabular validation has duplicate row_id %q",
+ 				id,
+ 			)
+@@ -701,13 +801,13 @@ func parseTabularValidation(
+ 			rowNumber,
+ 		)
+ 		if err != nil {
+-			return nil, err
++			return nil, tabularValidationProvenance{}, err
+ 		}
+ 		decision, err := strconv.ParseBool(
+ 			strings.TrimSpace(record[columns["plaintext_decision"]]),
+ 		)
+ 		if err != nil {
+-			return nil, fmt.Errorf(
++			return nil, tabularValidationProvenance{}, fmt.Errorf(
+ 				"parse tabular validation row %d plaintext_decision: %w",
+ 				rowNumber,
+ 				err,
+@@ -723,7 +823,99 @@ func parseTabularValidation(
+ 				rowNumber,
+ 			)
+ 			if err != nil {
+-				return nil, err
++				return nil, tabularValidationProvenance{}, err
++			}
++		}
++
++		if schemaIndex, exists := columns["materialization_schema"]; exists {
++			schema := strings.TrimSpace(record[schemaIndex])
++			sourceFeatureSpace :=
++				string(TabularDataSpaceModelInput)
++			preprocessingMethod :=
++				TabularPreprocessingIdentityV1
++			switch schema {
++			case TabularValidationMaterializationSchemaV1:
++				if hasSourceFeatureSpace ||
++					hasPreprocessingMethod {
++					return nil, tabularValidationProvenance{}, fmt.Errorf(
++						"tabular validation row %d schema v1 must not declare v2 preprocessing columns",
++						rowNumber,
++					)
++				}
++			case TabularValidationMaterializationSchemaV2:
++				if !hasSourceFeatureSpace ||
++					!hasPreprocessingMethod {
++					return nil, tabularValidationProvenance{}, fmt.Errorf(
++						"tabular validation row %d schema v2 preprocessing provenance columns are incomplete",
++						rowNumber,
++					)
++				}
++				sourceFeatureSpace = strings.TrimSpace(
++					record[columns["source_feature_space"]],
++				)
++				preprocessingMethod = strings.TrimSpace(
++					record[columns["preprocessing_method"]],
++				)
++			default:
++				return nil, tabularValidationProvenance{}, fmt.Errorf(
++					"tabular validation row %d has unsupported materialization schema %q",
++					rowNumber,
++					schema,
++				)
++			}
++			modelDigestIndex := columns["source_model_sha256"]
++			sourceDigestIndex := columns["source_data_sha256"]
++			modelDigest := strings.TrimSpace(
++				record[modelDigestIndex],
++			)
++			sourceDigest := strings.TrimSpace(
++				record[sourceDigestIndex],
++			)
++			if err := validateSHA256(modelDigest); err != nil {
++				return nil, tabularValidationProvenance{}, fmt.Errorf(
++					"tabular validation row %d model digest: %w",
++					rowNumber,
++					err,
++				)
++			}
++			if err := validateSHA256(sourceDigest); err != nil {
++				return nil, tabularValidationProvenance{}, fmt.Errorf(
++					"tabular validation row %d source digest: %w",
++					rowNumber,
++					err,
++				)
++			}
++			materialization := InputMaterializationContract{
++				SchemaVersion:       schema,
++				SourceFeatureSpace:  sourceFeatureSpace,
++				PreprocessingMethod: preprocessingMethod,
++			}
++			if err := materialization.validate(); err != nil {
++				return nil, tabularValidationProvenance{}, fmt.Errorf(
++					"tabular validation row %d materialization contract: %w",
++					rowNumber,
++					err,
++				)
++			}
++			if provenance.SchemaVersion == "" {
++				provenance.SchemaVersion = schema
++				provenance.ModelSHA256 = modelDigest
++				provenance.SourceDataSHA256 = sourceDigest
++				provenance.SourceFeatureSpace =
++					sourceFeatureSpace
++				provenance.PreprocessingMethod =
++					preprocessingMethod
++			} else if provenance.SchemaVersion != schema ||
++				provenance.ModelSHA256 != modelDigest ||
++				provenance.SourceDataSHA256 != sourceDigest ||
++				provenance.SourceFeatureSpace !=
++					sourceFeatureSpace ||
++				provenance.PreprocessingMethod !=
++					preprocessingMethod {
++				return nil, tabularValidationProvenance{}, fmt.Errorf(
++					"tabular validation row %d materialization provenance changed",
++					rowNumber,
++				)
+ 			}
+ 		}
+ 
+@@ -736,9 +928,82 @@ func parseTabularValidation(
+ 	}
+ 
+ 	if len(samples) == 0 {
+-		return nil, fmt.Errorf("tabular validation data is empty")
++		return nil, tabularValidationProvenance{},
++			fmt.Errorf("tabular validation data is empty")
++	}
++	return samples, provenance, nil
++}
++
++func verifySourceMaterialization(
++	model tabularModelArtifact,
++	sourceData []byte,
++	preparedSamples []tabularValidationSample,
++	provenance tabularValidationProvenance,
++) error {
++	if provenance.SchemaVersion == "" {
++		return fmt.Errorf(
++			"validation data has no materialization schema",
++		)
++	}
++	sourceRows, resolvedSpace, preprocessingMethod, err :=
++		parseTabularFeatureRows(
++			sourceData,
++			model,
++			TabularDataSpace(provenance.SourceFeatureSpace),
++		)
++	if err != nil {
++		return fmt.Errorf(
++			"replay source preprocessing: %w",
++			err,
++		)
+ 	}
+-	return samples, nil
++	if string(resolvedSpace) != provenance.SourceFeatureSpace ||
++		preprocessingMethod != provenance.PreprocessingMethod {
++		return fmt.Errorf(
++			"source preprocessing replay resolved %s/%s, expected %s/%s",
++			resolvedSpace,
++			preprocessingMethod,
++			provenance.SourceFeatureSpace,
++			provenance.PreprocessingMethod,
++		)
++	}
++	if len(sourceRows) != len(preparedSamples) {
++		return fmt.Errorf(
++			"source preprocessing produced %d rows, prepared validation has %d",
++			len(sourceRows),
++			len(preparedSamples),
++		)
++	}
++	for rowIndex, sourceRow := range sourceRows {
++		prepared := preparedSamples[rowIndex]
++		expectedID := strconv.Itoa(sourceRow.ID)
++		if prepared.ID != expectedID {
++			return fmt.Errorf(
++				"prepared validation row %d id %q does not match source preprocessing id %q",
++				rowIndex+2,
++				prepared.ID,
++				expectedID,
++			)
++		}
++		if len(sourceRow.Features) != len(prepared.Features) {
++			return fmt.Errorf(
++				"prepared validation row %d feature count does not match source preprocessing",
++				rowIndex+2,
++			)
++		}
++		for featureIndex, expected := range sourceRow.Features {
++			if prepared.Features[featureIndex] != expected {
++				return fmt.Errorf(
++					"prepared validation row %d x_%d %.17g does not match source preprocessing %.17g",
++					rowIndex+2,
++					featureIndex,
++					prepared.Features[featureIndex],
++					expected,
++				)
++			}
++		}
++	}
++	return nil
+ }
+ 
+ func parseFiniteCSVFloat(
+diff --git a/scripts/freeze_direct_locked_audit_evidence.py b/scripts/freeze_direct_locked_audit_evidence.py
+index c16dd02..ae7973e 100755
+--- a/scripts/freeze_direct_locked_audit_evidence.py
++++ b/scripts/freeze_direct_locked_audit_evidence.py
+@@ -7,6 +7,7 @@ import argparse
+ import csv
+ import hashlib
+ import json
++import math
+ import shutil
+ import subprocess
+ from pathlib import Path
+@@ -32,6 +33,12 @@ def parse_args() -> argparse.Namespace:
+         "--evidence-id",
+         default="direct_locked_audit_seed0_v1",
+     )
++    parser.add_argument(
++        "--evidence-stage",
++        choices=("preliminary", "confirmatory"),
++        default="preliminary",
++        help="claim stage recorded in the frozen evidence manifest",
++    )
+     parser.add_argument(
+         "--selection-run-id",
+         default="seed0_floor18_keys3",
+@@ -45,6 +52,12 @@ def parse_args() -> argparse.Namespace:
+         default="0",
+         help="comma-separated split seeds represented by the checkpoint",
+     )
++    parser.add_argument(
++        "--key-repeats",
++        type=int,
++        default=3,
++        help="exact fresh-key repetitions required per locked audit",
++    )
+     parser.add_argument(
+         "--execution-command",
+         default=(
+@@ -52,6 +65,49 @@ def parse_args() -> argparse.Namespace:
+             "--seed0 --force"
+         ),
+     )
++    parser.add_argument(
++        "--expected-model-ids",
++        default="",
++        help=(
++            "optional comma-separated exact model IDs required in the pack"
++        ),
++    )
++    parser.add_argument(
++        "--require-max-budget-usage-below",
++        type=float,
++        default=None,
++        help=(
++            "require every locked-audit normalized error-budget usage "
++            "to be finite and strictly below this value"
++        ),
++    )
++    parser.add_argument(
++        "--require-source-replay",
++        action="store_true",
++        help=(
++            "require and snapshot model-input source materialization "
++            "with source replay verified for every selection"
++        ),
++    )
++    parser.add_argument(
++        "--extra-artifact",
++        action="append",
++        default=[],
++        metavar="NAME=PATH",
++        help=(
++            "checksum and snapshot an additional protocol or analysis "
++            "artifact; may be repeated"
++        ),
++    )
++    parser.add_argument(
++        "--source-protocol-manifest",
++        type=Path,
++        default=None,
++        help=(
++            "clean-run protocol whose source commit/files must match "
++            "--source-commit; it is snapshotted as source_protocol"
++        ),
++    )
+     parser.add_argument("--allow-checkpoint", action="store_true")
+     parser.add_argument("--force", action="store_true")
+     parser.add_argument("--verify", action="store_true")
+@@ -95,11 +151,95 @@ def git_text(*args: str) -> str:
+     ).stdout.strip()
+ 
+ 
++def parse_extra_artifacts(
++    values: list[str],
++) -> list[tuple[str, Path]]:
++    parsed: list[tuple[str, Path]] = []
++    names: set[str] = set()
++    for value in values:
++        name, separator, raw_path = value.partition("=")
++        if (
++            not separator
++            or not name
++            or not raw_path
++            or not all(
++                character.isalnum() or character in {"_", "-"}
++                for character in name
++            )
++            or name in names
++        ):
++            raise ValueError(
++                "--extra-artifact must use unique NAME=PATH values "
++                "with alphanumeric, underscore, or hyphen names"
++            )
++        names.add(name)
++        parsed.append((name, Path(raw_path)))
++    return parsed
++
++
++def validate_source_protocol(
++    path: Path,
++    source_commit: str,
++) -> None:
++    protocol = load_json(path)
++    source = require_dict(
++        protocol.get("source"),
++        f"{path}: source",
++    )
++    files = require_dict(
++        source.get("files"),
++        f"{path}: source files",
++    )
++    if (
++        protocol.get("status") != "COMPLETE"
++        or source.get("commit") != source_commit
++        or not files
++    ):
++        raise ValueError(
++            f"{path}: source protocol is not COMPLETE at {source_commit}"
++        )
++    digest = hashlib.sha256()
++    for relative, raw_binding in sorted(files.items()):
++        item = require_dict(
++            raw_binding,
++            f"{path}: source binding {relative}",
++        )
++        source_path = Path(relative)
++        if source_path.is_absolute() or ".." in source_path.parts:
++            raise ValueError(
++                f"{path}: unsafe source path {source_path}"
++            )
++        repository_path = Path.cwd() / source_path
++        actual = "sha256:" + sha256_file(repository_path)
++        if (
++            repository_path.stat().st_size != item.get("bytes")
++            or actual != item.get("sha256")
++        ):
++            raise ValueError(
++                f"{path}: source binding changed for {source_path}"
++            )
++        digest.update(str(source_path).encode("utf-8"))
++        digest.update(b"\0")
++        digest.update(actual.encode("ascii"))
++        digest.update(b"\n")
++    if "sha256:" + digest.hexdigest() != source.get("digest"):
++        raise ValueError(f"{path}: composite source digest changed")
++
++
+ def freeze(args: argparse.Namespace) -> None:
+     if not args.source_commit:
+         raise ValueError("--source-commit is required when freezing")
+     source_commit = git_text("rev-parse", args.source_commit)
+     git_text("cat-file", "-e", source_commit + "^{commit}")
++    if args.key_repeats <= 0:
++        raise ValueError("--key-repeats must be positive")
++    if args.evidence_stage == "confirmatory" and (
++        args.allow_checkpoint or not args.require_source_replay
++    ):
++        raise ValueError(
++            "confirmatory evidence requires a complete "
++            "source-replay-gated pack"
++        )
+ 
+     source = args.source_root
+     output = args.output_root
+@@ -132,6 +272,42 @@ def freeze(args: argparse.Namespace) -> None:
+     if any(row["status"] != "ok" for row in status_rows):
+         raise ValueError("source status contains failed rows")
+ 
++    expected_model_ids = {
++        value.strip()
++        for value in args.expected_model_ids.split(",")
++        if value.strip()
++    }
++    observed_model_ids = {
++        row["model_id"] for row in status_rows
++    }
++    if (
++        expected_model_ids
++        and observed_model_ids != expected_model_ids
++    ):
++        raise ValueError(
++            "source model IDs changed: "
++            f"got {sorted(observed_model_ids)}, "
++            f"expected {sorted(expected_model_ids)}"
++        )
++    budget_limit = args.require_max_budget_usage_below
++    if budget_limit is not None and (
++        not math.isfinite(budget_limit) or budget_limit <= 0
++    ):
++        raise ValueError(
++            "--require-max-budget-usage-below must be finite and positive"
++        )
++    extra_values = list(args.extra_artifact)
++    if args.source_protocol_manifest is not None:
++        validate_source_protocol(
++            args.source_protocol_manifest,
++            source_commit,
++        )
++        extra_values.append(
++            "source_protocol="
++            + str(args.source_protocol_manifest)
++        )
++    extras = parse_extra_artifacts(extra_values)
++
+     if output.exists():
+         if not args.force:
+             raise ValueError(
+@@ -142,6 +318,12 @@ def freeze(args: argparse.Namespace) -> None:
+ 
+     def snapshot(source_path: Path, relative: Path) -> Path:
+         target = output / relative
++        if target.is_file():
++            if sha256_file(target) != sha256_file(source_path):
++                raise ValueError(
++                    f"conflicting deduplicated snapshot {target}"
++                )
++            return target
+         copy_file(source_path, target)
+         return target
+ 
+@@ -205,9 +387,141 @@ def freeze(args: argparse.Namespace) -> None:
+             selection_contract.get("validation_data"),
+             f"{selection_source}: validation artifact",
+         )
++        source_binding_value = selection_contract.get("source_data")
++        materialization_value = selection_contract.get(
++            "input_materialization"
++        )
++        source_binding: dict[str, Any] | None = None
++        materialization: dict[str, Any] | None = None
++        if (
++            source_binding_value is not None
++            or materialization_value is not None
++            or args.require_source_replay
++        ):
++            source_binding = require_dict(
++                source_binding_value,
++                f"{selection_source}: source data",
++            )
++            materialization = require_dict(
++                materialization_value,
++                f"{selection_source}: input materialization",
++            )
++            if (
++                materialization.get("schema_version")
++                != "flipguard_tabular_validation_v2"
++                or materialization.get("source_feature_space")
++                != "model_input"
++                or materialization.get("preprocessing_method")
++                != "identity_model_input_v1"
++                or materialization.get("source_replay_verified")
++                is not True
++            ):
++                raise ValueError(
++                    f"{identity}: model-input source replay "
++                    "contract is invalid"
++                )
+         source_test_path = Path(
+             str(split_manifest["source_test_csv"])
+         )
++        model_snapshot = snapshot(
++            Path(str(model_binding["path"])),
++            Path("inputs/model_artifacts")
++            / f"{row['dataset_id']}__{row['model_id']}.json",
++        )
++        source_test_snapshot = snapshot(
++            source_test_path,
++            Path("inputs/source_test_csv")
++            / f"{row['dataset_id']}__{row['model_id']}.csv",
++        )
++        split_validation = require_dict(
++            split_manifest.get("configuration_validation"),
++            f"{identity}: split configuration validation",
++        )
++        split_audit = require_dict(
++            split_manifest.get("locked_audit_test"),
++            f"{identity}: split locked audit",
++        )
++        source_snapshot: Path | None = None
++        prepared_snapshot: Path | None = None
++        if source_binding is not None:
++            source_data_path = Path(str(source_binding["path"]))
++            if (
++                source_data_path != Path(str(split_validation["path"]))
++                or str(source_binding["sha256"])
++                != str(split_validation["csv_digest"])
++            ):
++                raise ValueError(
++                    f"{identity}: source data is not the declared "
++                    "configuration-validation partition"
++                )
++            source_snapshot = snapshot(
++                source_data_path,
++                Path("inputs/source_data") / f"{identity}.csv",
++            )
++            prepared_snapshot = snapshot(
++                Path(str(validation_binding["path"])),
++                Path("inputs/prepared_validation")
++                / f"{identity}.csv",
++            )
++        audit_contract = require_dict(
++            result.get("audit_contract"),
++            f"{result_source}: audit contract",
++        )
++        audit_validation_binding = require_dict(
++            audit_contract.get("validation_data"),
++            f"{result_source}: audit validation artifact",
++        )
++        audit_source_binding_value = audit_contract.get("source_data")
++        audit_materialization_value = audit_contract.get(
++            "input_materialization"
++        )
++        audit_source_binding: dict[str, Any] | None = None
++        audit_materialization: dict[str, Any] | None = None
++        audit_source_snapshot: Path | None = None
++        prepared_audit_snapshot: Path | None = None
++        if (
++            audit_source_binding_value is not None
++            or audit_materialization_value is not None
++            or args.require_source_replay
++        ):
++            audit_source_binding = require_dict(
++                audit_source_binding_value,
++                f"{result_source}: audit source data",
++            )
++            audit_materialization = require_dict(
++                audit_materialization_value,
++                f"{result_source}: audit input materialization",
++            )
++            if (
++                audit_materialization.get("schema_version")
++                != "flipguard_tabular_validation_v2"
++                or audit_materialization.get("source_feature_space")
++                != "model_input"
++                or audit_materialization.get("preprocessing_method")
++                != "identity_model_input_v1"
++                or audit_materialization.get(
++                    "source_replay_verified"
++                )
++                is not True
++                or Path(str(audit_source_binding["path"]))
++                != audit_source
++                or str(audit_source_binding["sha256"])
++                != str(split_audit["csv_digest"])
++            ):
++                raise ValueError(
++                    f"{identity}: locked-audit source replay "
++                    "contract is invalid"
++                )
++            audit_source_snapshot = snapshot(
++                audit_source,
++                Path("inputs/audit_source_data")
++                / f"{identity}.csv",
++            )
++            prepared_audit_snapshot = snapshot(
++                Path(str(audit_validation_binding["path"])),
++                Path("inputs/prepared_audit")
++                / f"{identity}.csv",
++            )
+ 
+         bindings = [
+             (
+@@ -216,19 +530,18 @@ def freeze(args: argparse.Namespace) -> None:
+                 str(model_binding["sha256"]),
+             ),
+             (
+-                "configuration_validation",
++                (
++                    "prepared_validation"
++                    if source_binding is not None
++                    else "configuration_validation"
++                ),
+                 Path(str(validation_binding["path"])),
+                 str(validation_binding["sha256"]),
+             ),
+             (
+                 "locked_audit_test",
+                 audit_source,
+-                str(
+-                    require_dict(
+-                        split_manifest["locked_audit_test"],
+-                        "locked audit manifest partition",
+-                    )["csv_digest"]
+-                ),
++                str(split_audit["csv_digest"]),
+             ),
+             (
+                 "source_test_csv",
+@@ -236,6 +549,22 @@ def freeze(args: argparse.Namespace) -> None:
+                 str(split_manifest["source_test_csv_digest"]),
+             ),
+         ]
++        if source_binding is not None:
++            bindings.append(
++                (
++                    "source_data",
++                    Path(str(source_binding["path"])),
++                    str(source_binding["sha256"]),
++                )
++            )
++        if audit_source_binding is not None:
++            bindings.append(
++                (
++                    "prepared_audit",
++                    Path(str(audit_validation_binding["path"])),
++                    str(audit_validation_binding["sha256"]),
++                )
++            )
+         for kind, path, expected_digest in bindings:
+             actual = "sha256:" + sha256_file(path)
+             if actual != expected_digest:
+@@ -265,9 +594,28 @@ def freeze(args: argparse.Namespace) -> None:
+             candidate.get("parameters"),
+             f"{result_source}: parameters",
+         )
++        max_budget_usage = trial.get("max_error_budget_usage")
++        if budget_limit is not None and (
++            not isinstance(max_budget_usage, (int, float))
++            or not math.isfinite(float(max_budget_usage))
++            or float(max_budget_usage) >= budget_limit
++        ):
++            raise ValueError(
++                f"{identity}: normalized error-budget usage "
++                f"{max_budget_usage!r} is not below {budget_limit}"
++            )
++        if trial.get("key_repeats_completed") != args.key_repeats:
++            raise ValueError(
++                f"{identity}: completed key repeats "
++                f"{trial.get('key_repeats_completed')!r} != "
++                f"{args.key_repeats}"
++            )
+         workload_records.append(
+             {
+                 "workload": identity,
++                "split_seed": int(row["split_seed"]),
++                "dataset_id": row["dataset_id"],
++                "model_id": row["model_id"],
+                 "outcome": result["outcome"],
+                 "candidate_id": candidate["id"],
+                 "log_n": parameters["log_n"],
+@@ -280,6 +628,11 @@ def freeze(args: argparse.Namespace) -> None:
+                 ],
+                 "decision_flips": trial["decision_flips"],
+                 "error_violations": trial["error_violations"],
++                "max_error_budget_usage": (
++                    max_budget_usage
++                    if max_budget_usage is not None
++                    else ""
++                ),
+                 "v_cert": trial["v_cert"],
+                 "v_amb": trial["v_amb"],
+                 "audit_result_snapshot": str(
+@@ -291,6 +644,94 @@ def freeze(args: argparse.Namespace) -> None:
+                 "split_manifest_snapshot": str(
+                     manifest_target.relative_to(output)
+                 ),
++                "model_artifact_sha256": model_binding["sha256"],
++                "model_artifact_snapshot": str(
++                    model_snapshot.relative_to(output)
++                ),
++                "source_test_sha256": split_manifest[
++                    "source_test_csv_digest"
++                ],
++                "source_test_snapshot": str(
++                    source_test_snapshot.relative_to(output)
++                ),
++                "source_replay_verified": (
++                    materialization is not None
++                    and materialization.get(
++                        "source_replay_verified"
++                    )
++                    is True
++                ),
++                "source_feature_space": (
++                    materialization.get("source_feature_space", "")
++                    if materialization is not None
++                    else ""
++                ),
++                "preprocessing_method": (
++                    materialization.get("preprocessing_method", "")
++                    if materialization is not None
++                    else ""
++                ),
++                "source_data_sha256": (
++                    source_binding.get("sha256", "")
++                    if source_binding is not None
++                    else ""
++                ),
++                "prepared_validation_sha256": validation_binding[
++                    "sha256"
++                ],
++                "source_data_snapshot": (
++                    str(source_snapshot.relative_to(output))
++                    if source_snapshot is not None
++                    else ""
++                ),
++                "prepared_validation_snapshot": (
++                    str(prepared_snapshot.relative_to(output))
++                    if prepared_snapshot is not None
++                    else ""
++                ),
++                "audit_source_replay_verified": (
++                    audit_materialization is not None
++                    and audit_materialization.get(
++                        "source_replay_verified"
++                    )
++                    is True
++                ),
++                "audit_source_feature_space": (
++                    audit_materialization.get(
++                        "source_feature_space",
++                        "",
++                    )
++                    if audit_materialization is not None
++                    else ""
++                ),
++                "audit_preprocessing_method": (
++                    audit_materialization.get(
++                        "preprocessing_method",
++                        "",
++                    )
++                    if audit_materialization is not None
++                    else ""
++                ),
++                "audit_source_sha256": (
++                    audit_source_binding.get("sha256", "")
++                    if audit_source_binding is not None
++                    else ""
++                ),
++                "prepared_audit_sha256": audit_validation_binding[
++                    "sha256"
++                ],
++                "audit_source_snapshot": (
++                    str(audit_source_snapshot.relative_to(output))
++                    if audit_source_snapshot is not None
++                    else ""
++                ),
++                "prepared_audit_snapshot": (
++                    str(
++                        prepared_audit_snapshot.relative_to(output)
++                    )
++                    if prepared_audit_snapshot is not None
++                    else ""
++                ),
+             }
+         )
+ 
+@@ -302,11 +743,30 @@ def freeze(args: argparse.Namespace) -> None:
+     if not split_seeds:
+         raise ValueError("--split-seeds contains no seeds")
+ 
++    extra_records = []
++    for name, source_path in extras:
++        suffix = "".join(source_path.suffixes)
++        target = snapshot(
++            source_path,
++            Path("extras") / f"{name}{suffix}",
++        )
++        extra_records.append(
++            {
++                "name": name,
++                "source_path": str(source_path),
++                "snapshot": str(target.relative_to(output)),
++                "sha256": "sha256:" + sha256_file(target),
++                "size_bytes": target.stat().st_size,
++            }
++        )
++
+     manifest = {
+         "schema_version": 1,
+         "evidence_id": args.evidence_id,
++        "evidence_stage": args.evidence_stage,
+         "evidence_type": (
+-            "observed_no_retuning_locked_audit_preliminary"
++            "observed_no_retuning_locked_audit_"
++            + args.evidence_stage
+         ),
+         "source_code": {
+             "git_commit": source_commit,
+@@ -322,13 +782,22 @@ def freeze(args: argparse.Namespace) -> None:
+             "audit_run_id": args.audit_run_id,
+             "command": args.execution_command,
+             "split_seeds": split_seeds,
+-            "key_repeats": 3,
++            "key_repeats": args.key_repeats,
+             "retuning_allowed": False,
+             "checkpoint": not bool(summary.get("complete")),
+         },
++        "scope_policy": {
++            "expected_model_ids": sorted(expected_model_ids),
++            "require_max_budget_usage_below": budget_limit,
++            "require_source_replay": args.require_source_replay,
++            "require_self_contained_inputs": True,
++            "source_protocol_required":
++                args.source_protocol_manifest is not None,
++        },
+         "structural_summary": summary,
+         "workloads": workload_records,
+         "external_inputs": external_inputs,
++        "extra_artifacts": extra_records,
+         "claim_boundary": (
+             "All frozen candidates in the recorded split checkpoint "
+             "remained SAFE with "
+@@ -345,6 +814,19 @@ def freeze(args: argparse.Namespace) -> None:
+         encoding="utf-8",
+     )
+ 
++    if args.require_source_replay:
++        input_storage_note = (
++            "The exact model artifact, upstream source test CSV, and "
++            "source/materialized CSVs for both selection and locked "
++            "audit are included and bound by SHA-256."
++        )
++    else:
++        input_storage_note = (
++            "The exact model artifact and upstream source test CSV are "
++            "included and bound by SHA-256. The large partition CSVs are "
++            "not duplicated for this legacy non-replay pack."
++        )
++
+     readme = f"""# Direct Locked Audit Evidence: {args.evidence_id}
+ 
+ ## Result
+@@ -358,10 +840,15 @@ def freeze(args: argparse.Namespace) -> None:
+ - Total audit V_cert: `{summary["total_v_cert"]}`
+ - Total audit V_amb: `{summary["total_v_amb"]}`
+ - Matrix complete: `{str(bool(summary.get("complete"))).lower()}`
++- Expected model IDs: `{",".join(sorted(expected_model_ids)) or "not constrained"}`
++- Normalized error-budget usage limit: `{budget_limit if budget_limit is not None else "not constrained"}`
++- Source replay required: `{str(args.require_source_replay).lower()}`
++- Extra protocol/analysis artifacts: `{len(extra_records)}`
+ 
+ The audit command evaluated each validation-selected CKKS literal exactly
+-once on the disjoint `locked_audit_test.csv` partition with three fresh
+-keypairs. It did not call synthesis or candidate repair.
++once on the disjoint `locked_audit_test.csv` partition with
++{args.key_repeats} fresh keypair(s). It did not call synthesis or candidate
++repair.
+ 
+ ## Reproduce
+ 
+@@ -369,7 +856,7 @@ Regenerate the deterministic split artifacts, regenerate the selection run,
+ and execute:
+ 
+ ```bash
+-scripts/run_direct_tabular_locked_audit_matrix.sh --seed0 --force
++{args.execution_command}
+ ```
+ 
+ Verify this compact snapshot:
+@@ -380,16 +867,16 @@ python3 scripts/freeze_direct_locked_audit_evidence.py \\
+   --verify
+ ```
+ 
+-The large audit CSV files are not duplicated here. `manifest.json` binds them
+-and their tracked source test CSVs by SHA-256. The snapshot includes all ten
+-selection results, split manifests, locked-audit results, the execution
+-ledger, and aggregate CSV/JSON outputs.
++{input_storage_note} The snapshot includes
++{len(workload_records)} selection results and the matching split manifests,
++locked-audit results, execution ledger, and aggregate CSV/JSON outputs.
+ 
+ ## Claim Boundary
+ 
+-This is frozen preliminary evidence for the recorded split checkpoint and three
+-fresh keypairs. It supports no-retuning held-out decision stability for the
+-recorded workloads. It does not establish split independence, key
++This is frozen {args.evidence_stage} evidence for the recorded split set and
++{args.key_repeats} fresh keypair(s). It supports no-retuning held-out decision
++stability for the recorded workloads. It does not establish split
++independence, key
+ independence, distribution-wide safety, a sound analytical error bound, or
+ final latency claims.
+ """
+@@ -411,12 +898,79 @@ final latency claims.
+     )
+ 
+     print(
+-        "direct_locked_audit_evidence=FROZEN_PRELIMINARY "
++        "direct_locked_audit_evidence="
++        f"FROZEN_{args.evidence_stage.upper()} "
+         f"workloads={len(workload_records)} "
+         f"files={len(checksum_paths)} output={output}"
+     )
+ 
+ 
++def verify_self_contained_input(
++    root: Path,
++    row: dict[str, Any],
++) -> None:
++    selection_snapshot = root / str(
++        row.get("selection_snapshot", "")
++    )
++    audit_result_snapshot = root / str(
++        row.get("audit_result_snapshot", "")
++    )
++    model_snapshot = root / str(
++        row.get("model_artifact_snapshot", "")
++    )
++    source_test_snapshot = root / str(
++        row.get("source_test_snapshot", "")
++    )
++    split_manifest_snapshot = root / str(
++        row.get("split_manifest_snapshot", "")
++    )
++    if (
++        not selection_snapshot.is_file()
++        or not audit_result_snapshot.is_file()
++        or not model_snapshot.is_file()
++        or not source_test_snapshot.is_file()
++        or not split_manifest_snapshot.is_file()
++        or "sha256:" + sha256_file(model_snapshot)
++        != row.get("model_artifact_sha256")
++        or "sha256:" + sha256_file(source_test_snapshot)
++        != row.get("source_test_sha256")
++    ):
++        raise ValueError(
++            "snapshot self-contained upstream input changed"
++        )
++    selection = load_json(selection_snapshot)
++    contract = require_dict(
++        require_dict(
++            selection.get("plan"),
++            f"{selection_snapshot}: plan",
++        ).get("contract"),
++        f"{selection_snapshot}: contract",
++    )
++    audit_result = load_json(audit_result_snapshot)
++    audit_contract = require_dict(
++        audit_result.get("audit_contract"),
++        f"{audit_result_snapshot}: audit contract",
++    )
++    split_manifest = load_json(split_manifest_snapshot)
++    if (
++        require_dict(
++            contract.get("model_artifact"),
++            f"{selection_snapshot}: model artifact",
++        ).get("sha256")
++        != row["model_artifact_sha256"]
++        or require_dict(
++            audit_contract.get("model_artifact"),
++            f"{audit_result_snapshot}: model artifact",
++        ).get("sha256")
++        != row["model_artifact_sha256"]
++        or split_manifest.get("source_test_csv_digest")
++        != row["source_test_sha256"]
++        or split_manifest.get("model_artifact_digest")
++        != row["model_artifact_sha256"]
++    ):
++        raise ValueError("snapshot upstream input binding changed")
++
++
+ def verify(root: Path) -> None:
+     checksum_path = root / "SHA256SUMS"
+     lines = checksum_path.read_text(encoding="utf-8").splitlines()
+@@ -459,6 +1013,14 @@ def verify(root: Path) -> None:
+         )
+ 
+     manifest = load_json(root / "manifest.json")
++    evidence_stage = manifest.get("evidence_stage", "preliminary")
++    if (
++        evidence_stage not in {"preliminary", "confirmatory"}
++        or manifest.get("evidence_type")
++        != "observed_no_retuning_locked_audit_"
++        + evidence_stage
++    ):
++        raise ValueError("snapshot evidence stage/type is invalid")
+     summary = require_dict(
+         manifest.get("structural_summary"),
+         f"{root}/manifest.json: structural_summary",
+@@ -485,6 +1047,246 @@ def verify(root: Path) -> None:
+         for row in workloads
+     ):
+         raise ValueError("snapshot contains a failed audit workload")
++    scope_policy = require_dict(
++        manifest.get("scope_policy", {}),
++        "snapshot scope_policy",
++    )
++    expected_model_ids = set(
++        scope_policy.get("expected_model_ids", [])
++    )
++    if expected_model_ids and {
++        row.get("model_id") for row in workloads
++    } != expected_model_ids:
++        raise ValueError("snapshot model scope is inconsistent")
++    budget_limit = scope_policy.get(
++        "require_max_budget_usage_below"
++    )
++    if budget_limit is not None and (
++        not isinstance(budget_limit, (int, float))
++        or not math.isfinite(float(budget_limit))
++        or float(budget_limit) <= 0
++        or any(
++            not isinstance(
++                row.get("max_error_budget_usage"),
++                (int, float),
++            )
++            or not math.isfinite(
++                float(row["max_error_budget_usage"])
++            )
++            or float(row["max_error_budget_usage"])
++            >= float(budget_limit)
++            for row in workloads
++        )
++    ):
++        raise ValueError(
++            "snapshot normalized error-budget policy is invalid"
++        )
++    require_source_replay = scope_policy.get(
++        "require_source_replay",
++        False,
++    )
++    if not isinstance(require_source_replay, bool):
++        raise ValueError(
++            "snapshot source-replay policy must be boolean"
++        )
++    require_self_contained_inputs = scope_policy.get(
++        "require_self_contained_inputs",
++        False,
++    )
++    if not isinstance(require_self_contained_inputs, bool):
++        raise ValueError(
++            "snapshot self-contained-input policy must be boolean"
++        )
++    if evidence_stage == "confirmatory" and (
++        require_source_replay is not True
++        or require_self_contained_inputs is not True
++        or manifest.get("execution", {}).get("checkpoint") is not False
++    ):
++        raise ValueError(
++            "confirmatory snapshot lacks complete self-contained "
++            "source replay"
++        )
++    if require_self_contained_inputs:
++        for row_value in workloads:
++            row = require_dict(
++                row_value,
++                "snapshot self-contained-input workload",
++            )
++            verify_self_contained_input(root, row)
++    if require_source_replay:
++        for row_value in workloads:
++            row = require_dict(
++                row_value,
++                "snapshot source-replay workload",
++            )
++            if (
++                row.get("source_replay_verified") is not True
++                or row.get("source_feature_space") != "model_input"
++                or row.get("preprocessing_method")
++                != "identity_model_input_v1"
++                or row.get("audit_source_replay_verified") is not True
++                or row.get("audit_source_feature_space")
++                != "model_input"
++                or row.get("audit_preprocessing_method")
++                != "identity_model_input_v1"
++            ):
++                raise ValueError(
++                    "snapshot contains an invalid source replay"
++                )
++            source_snapshot = root / str(
++                row.get("source_data_snapshot", "")
++            )
++            prepared_snapshot = root / str(
++                row.get("prepared_validation_snapshot", "")
++            )
++            selection_snapshot = root / str(
++                row.get("selection_snapshot", "")
++            )
++            audit_source_snapshot = root / str(
++                row.get("audit_source_snapshot", "")
++            )
++            prepared_audit_snapshot = root / str(
++                row.get("prepared_audit_snapshot", "")
++            )
++            audit_result_snapshot = root / str(
++                row.get("audit_result_snapshot", "")
++            )
++            if (
++                not source_snapshot.is_file()
++                or not prepared_snapshot.is_file()
++                or not selection_snapshot.is_file()
++                or not audit_source_snapshot.is_file()
++                or not prepared_audit_snapshot.is_file()
++                or not audit_result_snapshot.is_file()
++                or "sha256:" + sha256_file(source_snapshot)
++                != row.get("source_data_sha256")
++                or "sha256:" + sha256_file(prepared_snapshot)
++                != row.get("prepared_validation_sha256")
++                or "sha256:" + sha256_file(audit_source_snapshot)
++                != row.get("audit_source_sha256")
++                or "sha256:" + sha256_file(prepared_audit_snapshot)
++                != row.get("prepared_audit_sha256")
++            ):
++                raise ValueError(
++                    "snapshot source/prepared materialization changed"
++                )
++            selection = load_json(selection_snapshot)
++            contract = require_dict(
++                require_dict(
++                    selection.get("plan"),
++                    f"{selection_snapshot}: plan",
++                ).get("contract"),
++                f"{selection_snapshot}: contract",
++            )
++            materialization = require_dict(
++                contract.get("input_materialization"),
++                f"{selection_snapshot}: input materialization",
++            )
++            if (
++                require_dict(
++                    contract.get("source_data"),
++                    f"{selection_snapshot}: source data",
++                ).get("sha256")
++                != row["source_data_sha256"]
++                or require_dict(
++                    contract.get("model_artifact"),
++                    f"{selection_snapshot}: model artifact",
++                ).get("sha256")
++                != row["model_artifact_sha256"]
++                or require_dict(
++                    contract.get("validation_data"),
++                    f"{selection_snapshot}: validation data",
++                ).get("sha256")
++                != row["prepared_validation_sha256"]
++                or materialization.get("source_replay_verified")
++                is not True
++                or materialization.get("source_feature_space")
++                != "model_input"
++                or materialization.get("preprocessing_method")
++                != "identity_model_input_v1"
++            ):
++                raise ValueError(
++                    "snapshot selection/source replay binding changed"
++                )
++            audit_result = load_json(audit_result_snapshot)
++            audit_contract = require_dict(
++                audit_result.get("audit_contract"),
++                f"{audit_result_snapshot}: audit contract",
++            )
++            audit_materialization = require_dict(
++                audit_contract.get("input_materialization"),
++                f"{audit_result_snapshot}: input materialization",
++            )
++            if (
++                require_dict(
++                    audit_contract.get("source_data"),
++                    f"{audit_result_snapshot}: source data",
++                ).get("sha256")
++                != row["audit_source_sha256"]
++                or require_dict(
++                    audit_contract.get("model_artifact"),
++                    f"{audit_result_snapshot}: model artifact",
++                ).get("sha256")
++                != row["model_artifact_sha256"]
++                or require_dict(
++                    audit_contract.get("validation_data"),
++                    f"{audit_result_snapshot}: validation data",
++                ).get("sha256")
++                != row["prepared_audit_sha256"]
++                or audit_materialization.get(
++                    "source_replay_verified"
++                )
++                is not True
++                or audit_materialization.get(
++                    "source_feature_space"
++                )
++                != "model_input"
++                or audit_materialization.get(
++                    "preprocessing_method"
++                )
++                != "identity_model_input_v1"
++            ):
++                raise ValueError(
++                    "snapshot audit/source replay binding changed"
++                )
++    extras = manifest.get("extra_artifacts", [])
++    if not isinstance(extras, list):
++        raise ValueError("snapshot extra_artifacts must be a list")
++    for item in extras:
++        record = require_dict(item, "snapshot extra artifact")
++        path = root / str(record["snapshot"])
++        if (
++            not path.is_file()
++            or path.stat().st_size != record["size_bytes"]
++            or "sha256:" + sha256_file(path)
++            != record["sha256"]
++        ):
++            raise ValueError(
++                f"snapshot extra artifact changed: {path}"
++            )
++    if scope_policy.get("source_protocol_required"):
++        protocol_items = [
++            require_dict(item, "snapshot source protocol")
++            for item in extras
++            if require_dict(
++                item,
++                "snapshot extra artifact",
++            ).get("name") == "source_protocol"
++        ]
++        if len(protocol_items) != 1:
++            raise ValueError("snapshot source protocol is missing")
++        protocol_path = root / str(
++            protocol_items[0]["snapshot"]
++        )
++        protocol = load_json(protocol_path)
++        if (
++            protocol.get("status") != "COMPLETE"
++            or protocol.get("source", {}).get("commit")
++            != manifest["source_code"]["git_commit"]
++        ):
++            raise ValueError(
++                "snapshot source protocol/commit binding changed"
++            )
+ 
+     print(
+         "direct_locked_audit_evidence=VERIFIED "
+diff --git a/scripts/run_direct_tabular_autotune_matrix.sh b/scripts/run_direct_tabular_autotune_matrix.sh
+index 3202258..cab1804 100755
+--- a/scripts/run_direct_tabular_autotune_matrix.sh
++++ b/scripts/run_direct_tabular_autotune_matrix.sh
+@@ -11,6 +11,14 @@ PRECISION_FLOOR_BITS=0
+ SAME_TIER_PRECISION=0
+ KEY_REPEATS=1
+ ONLY_SEED=""
++MARGIN_FLOOR="0.001"
++SAFETY_FACTOR="0.5"
++PRINT_RUN_ID=0
++MATERIALIZE_MODEL_INPUT=0
++SPLIT_ROOT_OPTION="results/thesis_grade_protocol/tabular_splits_v1"
++MODEL_IDS_OPTION="linear_poly3,mlp_square_linear_score"
++DATASET_IDS_OPTION="banknote,digits_binary,iris_binary,mnist_pool16,wdbc"
++RUN_LABEL=""
+ 
+ usage() {
+   cat <<'EOF'
+@@ -29,7 +37,17 @@ Execution:
+   --precision-floor N   Experimental min scale/Q-prime bits; keeps P >= 30.
+   --same-tier-precision Maximize precision without increasing minimum LogN.
+   --key-repeats N       Fresh-key validation runs per configuration trial.
++  --margin-floor X      Decision-margin floor (default: 0.001).
++  --safety-factor X     Error-budget fraction in (0,1] (default: 0.5).
++  --split-root PATH     Digest-bound split root.
++  --materialize-model-input
++                        Recompute the canonical validation artifact from the
++                        split's model-input feature rows before autotuning.
++  --model-ids CSV       Explicit model allowlist.
++  --dataset-ids CSV     Explicit dataset allowlist.
++  --run-label ID        Result-ID component for a separate experiment.
+   --only-seed N         In --full mode, run only split seed N (0..4).
++  --print-run-id        Print the derived result run ID without executing.
+   --quiet-skips         Suppress one-line messages for resumed workloads.
+   -h, --help            Show this help.
+ EOF
+@@ -93,6 +111,90 @@ while [[ $# -gt 0 ]]; do
+       KEY_REPEATS="$2"
+       shift 2
+       ;;
++    --margin-floor)
++      if [[ $# -lt 2 ]]; then
++        echo "ERROR: --margin-floor requires a non-negative number" >&2
++        exit 2
++      fi
++      if ! MARGIN_FLOOR="$(
++        python3 - "$2" <<'PYEOF'
++import math
++import sys
++
++try:
++    value = float(sys.argv[1])
++except ValueError:
++    raise SystemExit(1)
++if not math.isfinite(value) or value < 0:
++    raise SystemExit(1)
++print(format(value, ".12g"))
++PYEOF
++      )"; then
++        echo "ERROR: --margin-floor requires a non-negative finite number" >&2
++        exit 2
++      fi
++      shift 2
++      ;;
++    --safety-factor)
++      if [[ $# -lt 2 ]]; then
++        echo "ERROR: --safety-factor requires a number in (0,1]" >&2
++        exit 2
++      fi
++      if ! SAFETY_FACTOR="$(
++        python3 - "$2" <<'PYEOF'
++import math
++import sys
++
++try:
++    value = float(sys.argv[1])
++except ValueError:
++    raise SystemExit(1)
++if not math.isfinite(value) or value <= 0 or value > 1:
++    raise SystemExit(1)
++print(format(value, ".12g"))
++PYEOF
++      )"; then
++        echo "ERROR: --safety-factor requires a finite number in (0,1]" >&2
++        exit 2
++      fi
++      shift 2
++      ;;
++    --split-root)
++      if [[ $# -lt 2 ]] || [[ -z "$2" ]]; then
++        echo "ERROR: --split-root requires a path" >&2
++        exit 2
++      fi
++      SPLIT_ROOT_OPTION="$2"
++      shift 2
++      ;;
++    --materialize-model-input)
++      MATERIALIZE_MODEL_INPUT=1
++      shift
++      ;;
++    --model-ids)
++      if [[ $# -lt 2 ]] || [[ -z "$2" ]]; then
++        echo "ERROR: --model-ids requires a comma-separated list" >&2
++        exit 2
++      fi
++      MODEL_IDS_OPTION="$2"
++      shift 2
++      ;;
++    --dataset-ids)
++      if [[ $# -lt 2 ]] || [[ -z "$2" ]]; then
++        echo "ERROR: --dataset-ids requires a comma-separated list" >&2
++        exit 2
++      fi
++      DATASET_IDS_OPTION="$2"
++      shift 2
++      ;;
++    --run-label)
++      if [[ $# -lt 2 ]] || [[ ! "$2" =~ ^[a-z0-9][a-z0-9_]*$ ]]; then
++        echo "ERROR: --run-label requires [a-z0-9][a-z0-9_]*" >&2
++        exit 2
++      fi
++      RUN_LABEL="$2"
++      shift 2
++      ;;
+     --only-seed)
+       if [[ $# -lt 2 ]] || [[ ! "$2" =~ ^[0-4]$ ]]; then
+         echo "ERROR: --only-seed requires an integer from 0 to 4" >&2
+@@ -101,6 +203,10 @@ while [[ $# -gt 0 ]]; do
+       ONLY_SEED="$2"
+       shift 2
+       ;;
++    --print-run-id)
++      PRINT_RUN_ID=1
++      shift
++      ;;
+     -h|--help)
+       usage
+       exit 0
+@@ -129,29 +235,58 @@ REPOSITORY_ROOT="$(
+ )"
+ cd "$REPOSITORY_ROOT" || exit 1
+ 
+-SPLIT_ROOT="results/thesis_grade_protocol/tabular_splits_v1"
++SPLIT_ROOT="$SPLIT_ROOT_OPTION"
+ BASE_ROOT="results/thesis_grade_protocol/direct_tabular_autotune_v1"
+-POLICY_ID="default"
+-AUTOTUNE_POLICY_ARGS=()
++POLICY_COMPONENTS=()
++AUTOTUNE_POLICY_ARGS=(
++  --margin-floor "$MARGIN_FLOOR"
++  --safety-factor "$SAFETY_FACTOR"
++  --key-repeats "$KEY_REPEATS"
++)
++if [[ -n "$RUN_LABEL" ]]; then
++  POLICY_COMPONENTS+=("$RUN_LABEL")
++fi
++if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
++  POLICY_COMPONENTS+=("inputmodel")
++fi
++if [[ "$MARGIN_FLOOR" != "0.001" ]]; then
++  MARGIN_SLUG="${MARGIN_FLOOR//./p}"
++  MARGIN_SLUG="${MARGIN_SLUG//-/m}"
++  MARGIN_SLUG="${MARGIN_SLUG//+/}"
++  POLICY_COMPONENTS+=("margin${MARGIN_SLUG}")
++fi
++if [[ "$SAFETY_FACTOR" != "0.5" ]]; then
++  SAFETY_SLUG="${SAFETY_FACTOR//./p}"
++  SAFETY_SLUG="${SAFETY_SLUG//-/m}"
++  SAFETY_SLUG="${SAFETY_SLUG//+/}"
++  POLICY_COMPONENTS+=("alpha${SAFETY_SLUG}")
++fi
+ if [[ $PRECISION_FLOOR_BITS -gt 0 ]]; then
+-  POLICY_ID="floor${PRECISION_FLOOR_BITS}"
+-  AUTOTUNE_POLICY_ARGS=(
++  POLICY_COMPONENTS+=("floor${PRECISION_FLOOR_BITS}")
++  AUTOTUNE_POLICY_ARGS+=(
+     --min-scale-bits "$PRECISION_FLOOR_BITS"
+     --min-prime-bits "$PRECISION_FLOOR_BITS"
+     --special-prime-bits 30
+   )
+ fi
+ if [[ $SAME_TIER_PRECISION -eq 1 ]]; then
+-  POLICY_ID="${POLICY_ID}_same_tier"
++  POLICY_COMPONENTS+=("same_tier")
+   AUTOTUNE_POLICY_ARGS+=(
+     --precision-slack-mode maximize_within_min_log_n
+   )
+ fi
+ if [[ $KEY_REPEATS -gt 1 ]]; then
+-  POLICY_ID="${POLICY_ID}_keys${KEY_REPEATS}"
+-  AUTOTUNE_POLICY_ARGS+=(
+-    --key-repeats "$KEY_REPEATS"
+-  )
++  POLICY_COMPONENTS+=("keys${KEY_REPEATS}")
++fi
++POLICY_ID="default"
++if [[ ${#POLICY_COMPONENTS[@]} -gt 0 ]]; then
++  POLICY_ID=""
++  for component in "${POLICY_COMPONENTS[@]}"; do
++    if [[ -n "$POLICY_ID" ]]; then
++      POLICY_ID="${POLICY_ID}_"
++    fi
++    POLICY_ID="${POLICY_ID}${component}"
++  done
+ fi
+ RUN_ID="$MODE"
+ RUN_ROOT="$BASE_ROOT/$MODE"
+@@ -159,6 +294,10 @@ if [[ "$POLICY_ID" != "default" ]]; then
+   RUN_ID="${MODE}_${POLICY_ID}"
+   RUN_ROOT="$BASE_ROOT/$RUN_ID"
+ fi
++if [[ $PRINT_RUN_ID -eq 1 ]]; then
++  printf '%s\n' "$RUN_ID"
++  exit 0
++fi
+ 
+ DATASETS=(
+   banknote
+@@ -171,21 +310,30 @@ MODELS=(
+   linear_poly3
+   mlp_square_linear_score
+ )
++IFS=',' read -r -a DATASETS <<<"$DATASET_IDS_OPTION"
++IFS=',' read -r -a MODELS <<<"$MODEL_IDS_OPTION"
++if [[ ${#DATASETS[@]} -eq 0 ]] || [[ ${#MODELS[@]} -eq 0 ]]; then
++  echo "ERROR: dataset and model allowlists must be non-empty" >&2
++  exit 2
++fi
++for value in "${DATASETS[@]}" "${MODELS[@]}"; do
++  if [[ ! "$value" =~ ^[A-Za-z0-9][A-Za-z0-9_]*$ ]]; then
++    echo "ERROR: invalid dataset/model ID $value" >&2
++    exit 2
++  fi
++done
+ 
+ case "$MODE" in
+   smoke)
+     SEEDS=(0)
+     DATASETS=(iris_binary)
+     MODELS=(linear_poly3)
+-    EXPECTED_RUNS=1
+     ;;
+   seed0)
+     SEEDS=(0)
+-    EXPECTED_RUNS=10
+     ;;
+   full)
+     SEEDS=(0 1 2 3 4)
+-    EXPECTED_RUNS=50
+     ;;
+   *)
+     echo "ERROR: unsupported mode $MODE" >&2
+@@ -200,6 +348,9 @@ if [[ -n "$ONLY_SEED" ]]; then
+   fi
+   SEEDS=("$ONLY_SEED")
+ fi
++EXPECTED_RUNS=$((
++  ${#SEEDS[@]} * ${#DATASETS[@]} * ${#MODELS[@]}
++))
+ 
+ if [[ ! -f "$SPLIT_ROOT/summary.json" ]]; then
+   echo "ERROR: missing split summary $SPLIT_ROOT/summary.json" >&2
+@@ -215,7 +366,14 @@ if [[ -d "$RUN_ROOT" ]]; then
+   fi
+ fi
+ 
+-mkdir -p "$RUN_ROOT/bin" "$RUN_ROOT/logs" "$RUN_ROOT/results" "$RUN_ROOT/summary"
++mkdir -p \
++  "$RUN_ROOT/bin" \
++  "$RUN_ROOT/logs" \
++  "$RUN_ROOT/results" \
++  "$RUN_ROOT/summary"
++if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
++  mkdir -p "$RUN_ROOT/materialized"
++fi
+ 
+ BINARY="$RUN_ROOT/bin/flipguard-autotune"
+ STATUS_PATH="$RUN_ROOT/run_status.csv"
+@@ -331,6 +489,18 @@ for seed in "${SEEDS[@]}"; do
+       tag="directv1_${RUN_ID}_seed${seed}_${dataset}_${model}"
+       result_path="$RUN_ROOT/results/${tag}.json"
+       stdout_log="$RUN_ROOT/logs/${tag}.txt"
++      materialized_path=""
++      INPUT_ARGS=(
++        --validation "$validation_path"
++      )
++      if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
++        materialized_path="$RUN_ROOT/materialized/${tag}.csv"
++        INPUT_ARGS=(
++          --data "$validation_path"
++          --data-space model
++          --prepared-validation-out "$materialized_path"
++        )
++      fi
+ 
+       if [[ ! -f "$model_path" ]]; then
+         echo "ERROR: missing model artifact $model_path" >&2
+@@ -371,13 +541,16 @@ for seed in "${SEEDS[@]}"; do
+       workload_started=$((workload_started + 1))
+       remove_status_row "$tag"
+       rm -f "$result_path" "$stdout_log"
++      if [[ -n "$materialized_path" ]]; then
++        rm -f "$materialized_path"
++      fi
+ 
+       echo
+       echo "RUN seed=$seed dataset=$dataset model=$model"
+       set +e
+       "$BINARY" \
+         --model "$model_path" \
+-        --validation "$validation_path" \
++        "${INPUT_ARGS[@]}" \
+         --split-id "$split_id" \
+         --out "$result_path" \
+         "${AUTOTUNE_POLICY_ARGS[@]}" \
+@@ -428,10 +601,15 @@ echo "workload_failed=$workload_failed"
+ echo "workload_skipped=$workload_skipped"
+ echo "stopped_early=$stopped_early"
+ 
++SUMMARY_ARGS=()
++if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
++  SUMMARY_ARGS+=(--require-source-replay)
++fi
+ python3 scripts/summarize_direct_tabular_autotune.py \
+   --run-status "$STATUS_PATH" \
+   --output-root "$RUN_ROOT/summary" \
+-  --expected-runs "$EXPECTED_RUNS"
++  --expected-runs "$EXPECTED_RUNS" \
++  "${SUMMARY_ARGS[@]}"
+ SUMMARY_STATUS=$?
+ echo "summary_status=$SUMMARY_STATUS"
+ if [[ $SUMMARY_STATUS -ne 0 ]]; then
+diff --git a/scripts/run_direct_tabular_locked_audit_matrix.sh b/scripts/run_direct_tabular_locked_audit_matrix.sh
+index 5a5c0f7..b338cec 100755
+--- a/scripts/run_direct_tabular_locked_audit_matrix.sh
++++ b/scripts/run_direct_tabular_locked_audit_matrix.sh
+@@ -10,6 +10,10 @@ RETRY_FAILED=0
+ QUIET_SKIPS=0
+ MAX_NEW_RUNS=0
+ ONLY_SEED=""
++SPLIT_ROOT_OPTION="results/thesis_grade_protocol/tabular_splits_v1"
++MODEL_IDS_OPTION="linear_poly3,mlp_square_linear_score"
++DATASET_IDS_OPTION="banknote,digits_binary,iris_binary,mnist_pool16,wdbc"
++MATERIALIZE_MODEL_INPUT=0
+ 
+ usage() {
+   cat <<'EOF'
+@@ -23,6 +27,12 @@ Modes:
+ Inputs and execution:
+   --selection-run ID   Existing direct-autotune run ID.
+   --key-repeats N      Fresh-key audit runs per frozen configuration.
++  --split-root PATH    Digest-bound split root used for selection.
++  --materialize-model-input
++                       Recompute the canonical locked-audit artifact from
++                       model-input source feature rows.
++  --model-ids CSV      Explicit model allowlist.
++  --dataset-ids CSV    Explicit dataset allowlist.
+   --only-seed N        In --full mode, run only split seed N (0..4).
+   --resume             Resume an existing audit ledger.
+   --force              Replace only this run's locked-audit artifacts.
+@@ -63,6 +73,34 @@ while [[ $# -gt 0 ]]; do
+       KEY_REPEATS="$2"
+       shift 2
+       ;;
++    --split-root)
++      if [[ $# -lt 2 ]] || [[ -z "$2" ]]; then
++        echo "ERROR: --split-root requires a path" >&2
++        exit 2
++      fi
++      SPLIT_ROOT_OPTION="$2"
++      shift 2
++      ;;
++    --materialize-model-input)
++      MATERIALIZE_MODEL_INPUT=1
++      shift
++      ;;
++    --model-ids)
++      if [[ $# -lt 2 ]] || [[ -z "$2" ]]; then
++        echo "ERROR: --model-ids requires a comma-separated list" >&2
++        exit 2
++      fi
++      MODEL_IDS_OPTION="$2"
++      shift 2
++      ;;
++    --dataset-ids)
++      if [[ $# -lt 2 ]] || [[ -z "$2" ]]; then
++        echo "ERROR: --dataset-ids requires a comma-separated list" >&2
++        exit 2
++      fi
++      DATASET_IDS_OPTION="$2"
++      shift 2
++      ;;
+     --only-seed)
+       if [[ $# -lt 2 ]] || [[ ! "$2" =~ ^[0-4]$ ]]; then
+         echo "ERROR: --only-seed requires an integer from 0 to 4" >&2
+@@ -120,12 +158,13 @@ cd "$REPOSITORY_ROOT" || exit 1
+ 
+ BASE_ROOT="results/thesis_grade_protocol/direct_tabular_autotune_v1"
+ RUN_ROOT="$BASE_ROOT/$SELECTION_RUN_ID"
+-SPLIT_ROOT="results/thesis_grade_protocol/tabular_splits_v1"
++SPLIT_ROOT="$SPLIT_ROOT_OPTION"
+ AUDIT_ID="${SELECTION_RUN_ID}_locked_audit_keys${KEY_REPEATS}"
+ AUDIT_ROOT="$RUN_ROOT/locked_audit/$AUDIT_ID"
+ RESULT_ROOT="$AUDIT_ROOT/results"
+ LOG_ROOT="$AUDIT_ROOT/logs"
+ SUMMARY_ROOT="$AUDIT_ROOT/summary"
++MATERIALIZED_ROOT="$AUDIT_ROOT/materialized"
+ STATUS_PATH="$AUDIT_ROOT/locked_audit_status.csv"
+ BINARY="$AUDIT_ROOT/flipguard-audit"
+ 
+@@ -140,21 +179,30 @@ MODELS=(
+   linear_poly3
+   mlp_square_linear_score
+ )
++IFS=',' read -r -a DATASETS <<<"$DATASET_IDS_OPTION"
++IFS=',' read -r -a MODELS <<<"$MODEL_IDS_OPTION"
++if [[ ${#DATASETS[@]} -eq 0 ]] || [[ ${#MODELS[@]} -eq 0 ]]; then
++  echo "ERROR: dataset and model allowlists must be non-empty" >&2
++  exit 2
++fi
++for value in "${DATASETS[@]}" "${MODELS[@]}"; do
++  if [[ ! "$value" =~ ^[A-Za-z0-9][A-Za-z0-9_]*$ ]]; then
++    echo "ERROR: invalid dataset/model ID $value" >&2
++    exit 2
++  fi
++done
+ 
+ case "$MODE" in
+   smoke)
+     SEEDS=(0)
+     DATASETS=(iris_binary)
+     MODELS=(linear_poly3)
+-    EXPECTED_RUNS=1
+     ;;
+   seed0)
+     SEEDS=(0)
+-    EXPECTED_RUNS=10
+     ;;
+   full)
+     SEEDS=(0 1 2 3 4)
+-    EXPECTED_RUNS=50
+     ;;
+   *)
+     echo "ERROR: unsupported mode $MODE" >&2
+@@ -169,6 +217,9 @@ if [[ -n "$ONLY_SEED" ]]; then
+   fi
+   SEEDS=("$ONLY_SEED")
+ fi
++EXPECTED_RUNS=$((
++  ${#SEEDS[@]} * ${#DATASETS[@]} * ${#MODELS[@]}
++))
+ 
+ if [[ ! -d "$RUN_ROOT/results" ]]; then
+   echo "ERROR: missing selection run $RUN_ROOT/results" >&2
+@@ -195,9 +246,15 @@ if [[ $FORCE -eq 1 ]]; then
+   if [[ -d "$SUMMARY_ROOT" ]]; then
+     find "$SUMMARY_ROOT" -type f -delete
+   fi
++  if [[ -d "$MATERIALIZED_ROOT" ]]; then
++    find "$MATERIALIZED_ROOT" -type f -delete
++  fi
+ fi
+ 
+ mkdir -p "$RESULT_ROOT" "$LOG_ROOT" "$SUMMARY_ROOT"
++if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
++  mkdir -p "$MATERIALIZED_ROOT"
++fi
+ 
+ echo "=== build locked audit binary ==="
+ GOCACHE="$REPOSITORY_ROOT/$AUDIT_ROOT/go-cache" \
+@@ -317,6 +374,15 @@ for seed in "${SEEDS[@]}"; do
+       tag="${selection_tag}_locked_audit_keys${KEY_REPEATS}"
+       result_path="$RESULT_ROOT/${tag}.json"
+       stdout_log="$LOG_ROOT/${tag}.txt"
++      prepared_audit_path=""
++      AUDIT_MATERIALIZATION_ARGS=()
++      if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
++        prepared_audit_path="$MATERIALIZED_ROOT/${tag}.csv"
++        AUDIT_MATERIALIZATION_ARGS=(
++          --prepared-audit-out "$prepared_audit_path"
++          --audit-data-space model
++        )
++      fi
+ 
+       for required in \
+         "$selection_path" \
+@@ -356,6 +422,9 @@ for seed in "${SEEDS[@]}"; do
+       workload_started=$((workload_started + 1))
+       remove_status_row "$tag"
+       rm -f "$result_path" "$stdout_log"
++      if [[ -n "$prepared_audit_path" ]]; then
++        rm -f "$prepared_audit_path"
++      fi
+ 
+       echo
+       echo "AUDIT seed=$seed dataset=$dataset model=$model"
+@@ -363,6 +432,7 @@ for seed in "${SEEDS[@]}"; do
+       "$BINARY" \
+         --selection "$selection_path" \
+         --audit "$audit_path" \
++        "${AUDIT_MATERIALIZATION_ARGS[@]}" \
+         --manifest "$manifest_path" \
+         --key-repeats "$KEY_REPEATS" \
+         --out "$result_path" \
+@@ -413,10 +483,15 @@ echo "workload_failed=$workload_failed"
+ echo "workload_skipped=$workload_skipped"
+ echo "stopped_early=$stopped_early"
+ 
++SUMMARY_ARGS=()
++if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
++  SUMMARY_ARGS+=(--require-source-replay)
++fi
+ python3 scripts/summarize_direct_tabular_locked_audit.py \
+   --run-status "$STATUS_PATH" \
+   --output-root "$SUMMARY_ROOT" \
+-  --expected-runs "$EXPECTED_RUNS"
++  --expected-runs "$EXPECTED_RUNS" \
++  "${SUMMARY_ARGS[@]}"
+ SUMMARY_STATUS=$?
+ echo "summary_status=$SUMMARY_STATUS"
+ if [[ $SUMMARY_STATUS -ne 0 ]]; then
+diff --git a/scripts/summarize_direct_tabular_autotune.py b/scripts/summarize_direct_tabular_autotune.py
+index 32e95a9..599b007 100755
+--- a/scripts/summarize_direct_tabular_autotune.py
++++ b/scripts/summarize_direct_tabular_autotune.py
+@@ -5,6 +5,7 @@ from __future__ import annotations
+ 
+ import argparse
+ import csv
++import hashlib
+ import json
+ import statistics
+ from collections import Counter, defaultdict
+@@ -43,6 +44,7 @@ TRIAL_FIELDS = [
+     "decision_flips",
+     "error_violations",
+     "max_observed_error",
++    "max_error_budget_usage",
+     "v_cert",
+     "v_amb",
+     "mean_total_ms",
+@@ -51,6 +53,11 @@ TRIAL_FIELDS = [
+     "contract_digest",
+     "model_sha256",
+     "validation_sha256",
++    "source_data_sha256",
++    "materialization_schema",
++    "source_feature_space",
++    "preprocessing_method",
++    "source_replay_verified",
+     "result_path",
+ ]
+ 
+@@ -84,6 +91,7 @@ TRIAL_DETAIL_FIELDS = [
+     "decision_flips",
+     "error_violations",
+     "max_observed_error",
++    "max_error_budget_usage",
+     "v_cert",
+     "v_amb",
+     "mean_total_ms",
+@@ -98,6 +106,14 @@ def parse_args() -> argparse.Namespace:
+     parser.add_argument("--run-status", type=Path, required=True)
+     parser.add_argument("--output-root", type=Path, required=True)
+     parser.add_argument("--expected-runs", type=int, required=True)
++    parser.add_argument(
++        "--require-source-replay",
++        action="store_true",
++        help=(
++            "require every result to bind source feature data and a "
++            "successfully replayed input materialization"
++        ),
++    )
+     return parser.parse_args()
+ 
+ 
+@@ -139,6 +155,82 @@ def require_list(value: Any, label: str) -> list[Any]:
+     return value
+ 
+ 
++def sha256_file(path: Path) -> str:
++    digest = hashlib.sha256()
++    with path.open("rb") as handle:
++        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
++            digest.update(chunk)
++    return "sha256:" + digest.hexdigest()
++
++
++def source_replay_fields(
++    contract: dict[str, Any],
++    result_path: Path,
++    require_source_replay: bool,
++) -> dict[str, Any]:
++    source_value = contract.get("source_data")
++    materialization_value = contract.get("input_materialization")
++    if source_value is None and materialization_value is None:
++        if require_source_replay:
++            raise ValueError(
++                f"{result_path}: source replay is required"
++            )
++        return {
++            "source_data_sha256": "",
++            "materialization_schema": "",
++            "source_feature_space": "",
++            "preprocessing_method": "",
++            "source_replay_verified": False,
++        }
++    source = require_dict(
++        source_value,
++        f"{result_path}: source data",
++    )
++    materialization = require_dict(
++        materialization_value,
++        f"{result_path}: input materialization",
++    )
++    source_path = Path(str(source.get("path", "")))
++    source_digest = str(source.get("sha256", ""))
++    if (
++        not source_path.is_file()
++        or not source_digest.startswith("sha256:")
++        or sha256_file(source_path) != source_digest
++    ):
++        raise ValueError(
++            f"{result_path}: source data binding changed"
++        )
++    schema = str(materialization.get("schema_version", ""))
++    feature_space = str(
++        materialization.get("source_feature_space", "")
++    )
++    preprocessing = str(
++        materialization.get("preprocessing_method", "")
++    )
++    replay_verified = materialization.get(
++        "source_replay_verified"
++    )
++    if (
++        schema not in {
++            "flipguard_tabular_validation_v1",
++            "flipguard_tabular_validation_v2",
++        }
++        or not feature_space
++        or not preprocessing
++        or replay_verified is not True
++    ):
++        raise ValueError(
++            f"{result_path}: source materialization contract is invalid"
++        )
++    return {
++        "source_data_sha256": source_digest,
++        "materialization_schema": schema,
++        "source_feature_space": feature_space,
++        "preprocessing_method": preprocessing,
++        "source_replay_verified": True,
++    }
++
++
+ def require_identity(
+     status: dict[str, str],
+     contract: dict[str, Any],
+@@ -168,6 +260,7 @@ def require_identity(
+ 
+ def summarize_result(
+     status: dict[str, str],
++    require_source_replay: bool = False,
+ ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+     result_path = Path(status["result_path"])
+     payload = require_dict(
+@@ -256,6 +349,11 @@ def summarize_result(
+         contract.get("validation_data"),
+         f"{result_path}: validation artifact",
+     )
++    replay_fields = source_replay_fields(
++        contract,
++        result_path,
++        require_source_replay,
++    )
+ 
+     trial_rows: list[dict[str, Any]] = []
+     for raw_trial in trials:
+@@ -330,6 +428,10 @@ def summarize_result(
+                 "decision_flips": trial.get("decision_flips", ""),
+                 "error_violations": trial.get("error_violations", ""),
+                 "max_observed_error": trial.get("max_observed_error", ""),
++                "max_error_budget_usage": trial.get(
++                    "max_error_budget_usage",
++                    "",
++                ),
+                 "v_cert": trial.get("v_cert", ""),
+                 "v_amb": trial.get("v_amb", ""),
+                 "mean_total_ms": trial.get("mean_total_ms", ""),
+@@ -391,6 +493,10 @@ def summarize_result(
+         "decision_flips": selected_trial.get("decision_flips", ""),
+         "error_violations": selected_trial.get("error_violations", ""),
+         "max_observed_error": selected_trial.get("max_observed_error", ""),
++        "max_error_budget_usage": selected_trial.get(
++            "max_error_budget_usage",
++            "",
++        ),
+         "v_cert": selected_trial.get("v_cert", decision.get("certifiable_samples", "")),
+         "v_amb": selected_trial.get("v_amb", decision.get("ambiguous_samples", "")),
+         "mean_total_ms": selected_trial.get("mean_total_ms", ""),
+@@ -399,6 +505,7 @@ def summarize_result(
+         "contract_digest": plan.get("contract_digest", ""),
+         "model_sha256": model_artifact.get("sha256", ""),
+         "validation_sha256": validation_artifact.get("sha256", ""),
++        **replay_fields,
+         "result_path": str(result_path),
+     }
+     return workload_row, trial_rows
+@@ -417,7 +524,10 @@ def main() -> int:
+     successful_status = [row for row in status_rows if row["status"] == "ok"]
+     failed_status = [row for row in status_rows if row["status"] != "ok"]
+ 
+-    parsed = [summarize_result(row) for row in successful_status]
++    parsed = [
++        summarize_result(row, args.require_source_replay)
++        for row in successful_status
++    ]
+     rows = [workload_row for workload_row, _ in parsed]
+     trial_rows = [
+         trial_row
+@@ -494,6 +604,28 @@ def main() -> int:
+         "zero_violation_selected_runs": sum(
+             int(row["error_violations"]) == 0 for row in selected_rows
+         ),
++        "require_source_replay": args.require_source_replay,
++        "source_replay_verified_runs": sum(
++            row["source_replay_verified"] is True for row in rows
++        ),
++        "source_feature_space_counts": dict(
++            sorted(
++                Counter(
++                    str(row["source_feature_space"])
++                    for row in rows
++                    if row["source_feature_space"]
++                ).items()
++            )
++        ),
++        "preprocessing_method_counts": dict(
++            sorted(
++                Counter(
++                    str(row["preprocessing_method"])
++                    for row in rows
++                    if row["preprocessing_method"]
++                ).items()
++            )
++        ),
+         "by_model": {
+             model_id: {
+                 "selected_runs": len(grouped_trials[model_id]),
+diff --git a/scripts/summarize_direct_tabular_locked_audit.py b/scripts/summarize_direct_tabular_locked_audit.py
+index b9503d6..5752713 100755
+--- a/scripts/summarize_direct_tabular_locked_audit.py
++++ b/scripts/summarize_direct_tabular_locked_audit.py
+@@ -32,6 +32,7 @@ RESULT_FIELDS = [
+     "decision_flips",
+     "error_violations",
+     "max_observed_error",
++    "max_error_budget_usage",
+     "v_cert",
+     "v_amb",
+     "mean_total_ms",
+@@ -41,6 +42,15 @@ RESULT_FIELDS = [
+     "selection_result_sha256",
+     "split_manifest_sha256",
+     "audit_csv_sha256",
++    "source_replay_verified",
++    "source_feature_space",
++    "preprocessing_method",
++    "source_data_sha256",
++    "prepared_validation_sha256",
++    "audit_source_replay_verified",
++    "audit_source_feature_space",
++    "audit_preprocessing_method",
++    "prepared_audit_sha256",
+     "selection_result_path",
+     "split_manifest_path",
+     "audit_csv_path",
+@@ -53,6 +63,14 @@ def parse_args() -> argparse.Namespace:
+     parser.add_argument("--run-status", type=Path, required=True)
+     parser.add_argument("--output-root", type=Path, required=True)
+     parser.add_argument("--expected-runs", type=int, required=True)
++    parser.add_argument(
++        "--require-source-replay",
++        action="store_true",
++        help=(
++            "require verified source materialization for both selection "
++            "and locked-audit partitions"
++        ),
++    )
+     return parser.parse_args()
+ 
+ 
+@@ -142,7 +160,10 @@ def require_artifact_binding(
+     return actual_digest
+ 
+ 
+-def summarize_result(status: dict[str, str]) -> dict[str, Any]:
++def summarize_result(
++    status: dict[str, str],
++    require_source_replay: bool = False,
++) -> dict[str, Any]:
+     result_path = Path(status["result_path"])
+     selection_path = Path(status["selection_path"])
+     audit_path = Path(status["audit_path"])
+@@ -254,11 +275,60 @@ def summarize_result(status: dict[str, str]) -> dict[str, Any]:
+         selection_contract.get("validation_data"),
+         f"{selection_path}: validation_data",
+     )
++    selection_partition = selection_validation
++    source_replay_verified = False
++    source_feature_space = ""
++    preprocessing_method = ""
++    source_data_sha256 = ""
++    source_value = selection_contract.get("source_data")
++    materialization_value = selection_contract.get(
++        "input_materialization"
++    )
++    if source_value is not None or materialization_value is not None:
++        selection_source = require_dict(
++            source_value,
++            f"{selection_path}: source_data",
++        )
++        materialization = require_dict(
++            materialization_value,
++            f"{selection_path}: input_materialization",
++        )
++        if (
++            materialization.get("schema_version")
++            != "flipguard_tabular_validation_v2"
++            or materialization.get("source_feature_space")
++            != "model_input"
++            or materialization.get("preprocessing_method")
++            != "identity_model_input_v1"
++            or materialization.get("source_replay_verified")
++            is not True
++        ):
++            raise ValueError(
++                f"{selection_path}: invalid source replay contract"
++            )
++        source_path = Path(str(selection_source["path"]))
++        source_data_sha256 = str(selection_source["sha256"])
++        if sha256_file(source_path) != source_data_sha256:
++            raise ValueError(
++                f"{selection_path}: source data digest mismatch"
++            )
++        selection_partition = selection_source
++        source_replay_verified = True
++        source_feature_space = str(
++            materialization["source_feature_space"]
++        )
++        preprocessing_method = str(
++            materialization["preprocessing_method"]
++        )
++    elif require_source_replay:
++        raise ValueError(
++            f"{selection_path}: selection source replay is required"
++        )
+     if (
+         manifest_validation.get("path")
+-        != selection_validation.get("path")
++        != selection_partition.get("path")
+         or manifest_validation.get("csv_digest")
+-        != selection_validation.get("sha256")
++        != selection_partition.get("sha256")
+     ):
+         raise ValueError(
+             f"{manifest_path}: selection validation binding mismatch"
+@@ -275,11 +345,6 @@ def summarize_result(status: dict[str, str]) -> dict[str, Any]:
+             f"{selection_path}: validation artifact digest mismatch"
+         )
+     validation_ids = csv_row_ids(validation_path)
+-    audit_ids = csv_row_ids(audit_path)
+-    if validation_ids & audit_ids:
+-        raise ValueError(
+-            f"{result_path}: validation and audit row IDs overlap"
+-        )
+     manifest_validation_ids = {
+         str(value).strip()
+         for value in require_list(
+@@ -298,9 +363,14 @@ def summarize_result(status: dict[str, str]) -> dict[str, Any]:
+         raise ValueError(
+             f"{manifest_path}: validation row IDs mismatch"
+         )
+-    if audit_ids != manifest_audit_ids:
+-        raise ValueError(f"{manifest_path}: audit row IDs mismatch")
+-
++    if source_replay_verified:
++        source_ids = csv_row_ids(
++            Path(str(selection_partition["path"]))
++        )
++        if source_ids != validation_ids:
++            raise ValueError(
++                f"{selection_path}: source/prepared row IDs mismatch"
++            )
+     audit_contract = require_dict(
+         result.get("audit_contract"),
+         f"{result_path}: audit contract",
+@@ -315,11 +385,78 @@ def summarize_result(status: dict[str, str]) -> dict[str, Any]:
+         audit_contract.get("validation_data"),
+         f"{result_path}: audit validation binding",
+     )
++    audit_source_replay_verified = False
++    audit_source_feature_space = ""
++    audit_preprocessing_method = ""
++    audit_prepared_path = audit_path
++    audit_source_value = audit_contract.get("source_data")
++    audit_materialization_value = audit_contract.get(
++        "input_materialization"
++    )
+     if (
++        audit_source_value is not None
++        or audit_materialization_value is not None
++    ):
++        audit_source = require_dict(
++            audit_source_value,
++            f"{result_path}: audit source data",
++        )
++        audit_materialization = require_dict(
++            audit_materialization_value,
++            f"{result_path}: audit input materialization",
++        )
++        if (
++            audit_source.get("path") != str(audit_path)
++            or audit_source.get("sha256") != audit_digest
++            or audit_materialization.get("schema_version")
++            != "flipguard_tabular_validation_v2"
++            or audit_materialization.get("source_feature_space")
++            != "model_input"
++            or audit_materialization.get("preprocessing_method")
++            != "identity_model_input_v1"
++            or audit_materialization.get(
++                "source_replay_verified"
++            )
++            is not True
++        ):
++            raise ValueError(
++                f"{result_path}: audit source replay contract mismatch"
++            )
++        audit_prepared_path = Path(str(audit_binding["path"]))
++        audit_source_replay_verified = True
++        audit_source_feature_space = str(
++            audit_materialization["source_feature_space"]
++        )
++        audit_preprocessing_method = str(
++            audit_materialization["preprocessing_method"]
++        )
++    elif (
+         audit_binding.get("path") != str(audit_path)
+         or audit_binding.get("sha256") != audit_digest
+     ):
+         raise ValueError(f"{result_path}: audit contract binding mismatch")
++    elif require_source_replay:
++        raise ValueError(
++            f"{result_path}: audit source replay is required"
++        )
++    prepared_audit_digest = sha256_file(audit_prepared_path)
++    if prepared_audit_digest != audit_binding.get("sha256"):
++        raise ValueError(
++            f"{result_path}: prepared audit digest mismatch"
++        )
++    audit_ids = csv_row_ids(audit_prepared_path)
++    if audit_ids != manifest_audit_ids:
++        raise ValueError(f"{manifest_path}: audit row IDs mismatch")
++    if validation_ids & audit_ids:
++        raise ValueError(
++            f"{result_path}: validation and audit row IDs overlap"
++        )
++    if audit_source_replay_verified:
++        audit_source_ids = csv_row_ids(audit_path)
++        if audit_source_ids != audit_ids:
++            raise ValueError(
++                f"{result_path}: audit source/prepared row IDs mismatch"
++            )
+     deployment = require_dict(
+         audit_contract.get("deployment"),
+         f"{result_path}: audit deployment",
+@@ -388,6 +525,10 @@ def summarize_result(status: dict[str, str]) -> dict[str, Any]:
+         "decision_flips": trial.get("decision_flips", ""),
+         "error_violations": trial.get("error_violations", ""),
+         "max_observed_error": trial.get("max_observed_error", ""),
++        "max_error_budget_usage": trial.get(
++            "max_error_budget_usage",
++            "",
++        ),
+         "v_cert": trial.get("v_cert", ""),
+         "v_amb": trial.get("v_amb", ""),
+         "mean_total_ms": trial.get("mean_total_ms", ""),
+@@ -399,6 +540,18 @@ def summarize_result(status: dict[str, str]) -> dict[str, Any]:
+         "selection_result_sha256": selection_digest,
+         "split_manifest_sha256": manifest_digest,
+         "audit_csv_sha256": audit_digest,
++        "source_replay_verified": source_replay_verified,
++        "source_feature_space": source_feature_space,
++        "preprocessing_method": preprocessing_method,
++        "source_data_sha256": source_data_sha256,
++        "prepared_validation_sha256": selection_validation[
++            "sha256"
++        ],
++        "audit_source_replay_verified":
++            audit_source_replay_verified,
++        "audit_source_feature_space": audit_source_feature_space,
++        "audit_preprocessing_method": audit_preprocessing_method,
++        "prepared_audit_sha256": prepared_audit_digest,
+         "selection_result_path": str(selection_path),
+         "split_manifest_path": str(manifest_path),
+         "audit_csv_path": str(audit_path),
+@@ -418,7 +571,10 @@ def main() -> int:
+     failed_status = [
+         row for row in status_rows if row["status"] != "ok"
+     ]
+-    rows = [summarize_result(row) for row in successful_status]
++    rows = [
++        summarize_result(row, args.require_source_replay)
++        for row in successful_status
++    ]
+     rows.sort(
+         key=lambda row: (
+             row["split_seed"],
+@@ -474,6 +630,50 @@ def main() -> int:
+         "zero_violation_passes": sum(
+             int(row["error_violations"]) == 0 for row in passed
+         ),
++        "source_replay_verified_runs": sum(
++            row["source_replay_verified"] is True for row in rows
++        ),
++        "audit_source_replay_verified_runs": sum(
++            row["audit_source_replay_verified"] is True
++            for row in rows
++        ),
++        "require_source_replay": args.require_source_replay,
++        "source_feature_space_counts": dict(
++            sorted(
++                Counter(
++                    row["source_feature_space"]
++                    for row in rows
++                    if row["source_feature_space"]
++                ).items()
++            )
++        ),
++        "preprocessing_method_counts": dict(
++            sorted(
++                Counter(
++                    row["preprocessing_method"]
++                    for row in rows
++                    if row["preprocessing_method"]
++                ).items()
++            )
++        ),
++        "audit_source_feature_space_counts": dict(
++            sorted(
++                Counter(
++                    row["audit_source_feature_space"]
++                    for row in rows
++                    if row["audit_source_feature_space"]
++                ).items()
++            )
++        ),
++        "audit_preprocessing_method_counts": dict(
++            sorted(
++                Counter(
++                    row["audit_preprocessing_method"]
++                    for row in rows
++                    if row["audit_preprocessing_method"]
++                ).items()
++            )
++        ),
+         "total_v_cert": sum(int(row["v_cert"]) for row in rows),
+         "total_v_amb": sum(int(row["v_amb"]) for row in rows),
+         "outcome_counts": dict(

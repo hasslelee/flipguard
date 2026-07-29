@@ -1,0 +1,46 @@
+{
+  "allow_incomplete": false,
+  "alpha": 0.5,
+  "catalog_candidate_executions": 1100,
+  "catalog_selected": 50,
+  "claim_boundary": "The fixed catalog is a bounded oracle. Latencies in this comparison were recorded in separate processes and are diagnostic only. A paired repeated protocol is required before any paper speedup or latency-regret claim.",
+  "complete_oracle_workloads_compared": 50,
+  "diagnostic_geomean_speedup_vs_catalog": 1.6029883333151367,
+  "diagnostic_mean_bounded_regret": -0.37130731538657197,
+  "direct_equal_diagnostic_count": 0,
+  "direct_faster_diagnostic_count": 50,
+  "direct_key_runs": 210,
+  "direct_selected": 50,
+  "direct_slower_diagnostic_count": 0,
+  "direct_trials": 70,
+  "expected_candidates_per_workload": 22,
+  "expected_workloads": 50,
+  "incomplete_oracle_workloads_excluded": 0,
+  "inputs": {
+    "direct_results": {
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/summary/workload_results.csv",
+      "sha256": "sha256:e45ecbe255dfddbdb278a5b5845cbc85f54b656b0dd68b269a98f4edf3a54b9a"
+    },
+    "direct_summary": {
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/summary/summary.json",
+      "sha256": "sha256:973bed2bc5c79234d1e6862f0671336bdc8d13b7040a7c9fb21f1aab35eabc29"
+    },
+    "oracle_selection": {
+      "path": "results/thesis_grade_protocol/tabular_validation_oracle_v1/full/summary/oracle_selection.csv",
+      "sha256": "sha256:0b82dbf3b5bae8e54433c3ea15a22bd0fc5cd85a78eb6a0f9ab7ba9ac1184942"
+    },
+    "oracle_summary": {
+      "path": "results/thesis_grade_protocol/tabular_validation_oracle_v1/full/summary/summary.json",
+      "sha256": "sha256:d77d052a2e81315bc84d4f0299646eb8b22c594a7896486413910e5e4a6f7f4e"
+    },
+    "validation_coverage": {
+      "path": "results/thesis_grade_protocol/tabular_validation_oracle_v1/full/summary/validation_coverage.csv",
+      "sha256": "sha256:adfec8988bb68e2e5af190b1f70b429b1f82d95df7d5fdb04de8f2b4a5d42210"
+    }
+  },
+  "latency_evidence": "UNPAIRED_DIAGNOSTIC",
+  "oracle_matrix_complete": true,
+  "oracle_workloads_at_alpha": 50,
+  "paper_latency_claim_allowed": false,
+  "schema_version": 1
+}

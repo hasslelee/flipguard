@@ -1,0 +1,37 @@
+{
+  "all": {
+    "false_no_safe": 0,
+    "latency_regret_max": 0.0868466835447,
+    "latency_regret_mean": 0.0073655358194306,
+    "latency_regret_median": 0.0,
+    "optimum_recall": 0.68,
+    "planning_overhead_us": 149.090652,
+    "pruning_ratio": 0.6818181818185,
+    "rows": 250,
+    "safe_recall": 0.1944444444445
+  },
+  "by_model": {
+    "linear_poly3": {
+      "false_no_safe": 0,
+      "latency_regret_max": 0.0,
+      "latency_regret_mean": 0.0,
+      "latency_regret_median": 0.0,
+      "optimum_recall": 1.0,
+      "planning_overhead_us": 131.72108000000003,
+      "pruning_ratio": 0.727272727273,
+      "rows": 125,
+      "safe_recall": 0.166666666667
+    },
+    "mlp_square_linear_score": {
+      "false_no_safe": 0,
+      "latency_regret_max": 0.0868466835447,
+      "latency_regret_mean": 0.0147310716388612,
+      "latency_regret_median": 0.00301909113666,
+      "optimum_recall": 0.36,
+      "planning_overhead_us": 166.46022399999998,
+      "pruning_ratio": 0.636363636364,
+      "rows": 125,
+      "safe_recall": 0.222222222222
+    }
+  }
+}

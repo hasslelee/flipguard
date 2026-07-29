@@ -1,0 +1,371 @@
+{
+  "claim_boundary": "The estimate is limited to the frozen workloads and bounded catalog; it is not a global optimality or production-latency claim.",
+  "counts": {
+    "decision_flips": 0,
+    "external_artifacts": 32,
+    "internal_files": 34,
+    "raw_records": 360,
+    "workloads": 10
+  },
+  "evidence_id": "paired_latency_pilot_v1",
+  "external_artifacts": [
+    {
+      "bytes": 1639,
+      "path": "datasets/tabular_suite/banknote/linear_poly3/model.json",
+      "sha256": "sha256:d14e8e810a9b5b2b945f57cf8f53e4e12ee3b87a118262ba9cb796410c0083a4"
+    },
+    {
+      "bytes": 3029,
+      "path": "datasets/tabular_suite/banknote/mlp_square_linear_score/model.json",
+      "sha256": "sha256:4f8ce6d8ca23d87fc4d3623b97f235f3836ca4c0964286f4a1c634427e1d8e31"
+    },
+    {
+      "bytes": 2164,
+      "path": "datasets/tabular_suite/digits_binary/linear_poly3/model.json",
+      "sha256": "sha256:4732af06a200e574b79412c23f8a91a98989217b2dc0ffb6e5f48ddd4e9caa36"
+    },
+    {
+      "bytes": 4304,
+      "path": "datasets/tabular_suite/digits_binary/mlp_square_linear_score/model.json",
+      "sha256": "sha256:025eb7dea28322d4b60adcfff3b1ff48c3fb44aa57280d39eea813405a6561d5"
+    },
+    {
+      "bytes": 1610,
+      "path": "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+      "sha256": "sha256:9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1"
+    },
+    {
+      "bytes": 3015,
+      "path": "datasets/tabular_suite/iris_binary/mlp_square_linear_score/model.json",
+      "sha256": "sha256:177371ecf4239a1072c5b451b94e492d80cc143b260f1ee0383783bb838eadeb"
+    },
+    {
+      "bytes": 3261,
+      "path": "datasets/tabular_suite/mnist_pool16/linear_poly3/model.json",
+      "sha256": "sha256:afd5351d9b781a1fad2db90dc7bca0052521a41efd7694c0ade20974824dcb4e"
+    },
+    {
+      "bytes": 6839,
+      "path": "datasets/tabular_suite/mnist_pool16/mlp_square_linear_score/model.json",
+      "sha256": "sha256:edb34de653b4d4b756b3e497b1edc448b941926d02b32f3d93817db66bde9b78"
+    },
+    {
+      "bytes": 2187,
+      "path": "datasets/tabular_suite/wdbc/linear_poly3/model.json",
+      "sha256": "sha256:50d82e12fc96b3084084fba4f370487f7a20d16371905c21d7cb024f9e07f759"
+    },
+    {
+      "bytes": 4295,
+      "path": "datasets/tabular_suite/wdbc/mlp_square_linear_score/model.json",
+      "sha256": "sha256:1893e664ba828fbeadfbd122a679d67b16824b736017e531d84aa3401d3752b4"
+    },
+    {
+      "bytes": 10900,
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/results/directv1_full_floor18_keys3_seed0_banknote_linear_poly3.json",
+      "sha256": "sha256:0926225c4176a7a3c83bc9fbd8e79d8ebd992e917bbb7f4f1942d8f05d078ba2"
+    },
+    {
+      "bytes": 8908,
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/results/directv1_full_floor18_keys3_seed0_banknote_mlp_square_linear_score.json",
+      "sha256": "sha256:66b881049f1a90cebeea70cbd98ec357130bbfa4d79aa263beb51e880e0feae0"
+    },
+    {
+      "bytes": 10935,
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/results/directv1_full_floor18_keys3_seed0_digits_binary_linear_poly3.json",
+      "sha256": "sha256:3e41c52ed0e43709dcb053b8f88f9d692efca8a0b657dbcae667df7223d6b578"
+    },
+    {
+      "bytes": 8941,
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/results/directv1_full_floor18_keys3_seed0_digits_binary_mlp_square_linear_score.json",
+      "sha256": "sha256:853b439f5d1a48bb785d6feb07d19de588741904b82f6c4a8c821f275935bb5a"
+    },
+    {
+      "bytes": 8884,
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/results/directv1_full_floor18_keys3_seed0_iris_binary_linear_poly3.json",
+      "sha256": "sha256:8f12d11369f150e01405e3be22be1944efa7eeb3da3c18880829be8929e8b0ff"
+    },
+    {
+      "bytes": 8909,
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/results/directv1_full_floor18_keys3_seed0_iris_binary_mlp_square_linear_score.json",
+      "sha256": "sha256:e64a1b9191f4baa9818e241474461bf5dad01d705748a4613fafeb860f340dd1"
+    },
+    {
+      "bytes": 10929,
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/results/directv1_full_floor18_keys3_seed0_mnist_pool16_linear_poly3.json",
+      "sha256": "sha256:4fa5e6768b87e830ec3c3ce880f35f4e25fae90654eeadb13885ae557315a692"
+    },
+    {
+      "bytes": 8933,
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/results/directv1_full_floor18_keys3_seed0_mnist_pool16_mlp_square_linear_score.json",
+      "sha256": "sha256:8c6482dea792dda8ccdac09926fff910be3fdb615261c9b29c4b9e54eb3e025b"
+    },
+    {
+      "bytes": 10889,
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/results/directv1_full_floor18_keys3_seed0_wdbc_linear_poly3.json",
+      "sha256": "sha256:4b20cb00b927b1ebdbbd875ce8967bdd5c155763333f55a047b2169cb67351b3"
+    },
+    {
+      "bytes": 8896,
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/results/directv1_full_floor18_keys3_seed0_wdbc_mlp_square_linear_score.json",
+      "sha256": "sha256:ae29d3ba1abb9fe03fe28e7075e4662da94dd9731b756ced9dcce2545385ec3f"
+    },
+    {
+      "bytes": 34477,
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/summary/workload_results.csv",
+      "sha256": "sha256:e45ecbe255dfddbdb278a5b5845cbc85f54b656b0dd68b269a98f4edf3a54b9a"
+    },
+    {
+      "bytes": 21775,
+      "path": "results/thesis_grade_protocol/direct_vs_catalog_oracle_v1/full/comparison.csv",
+      "sha256": "sha256:cd83cdf17fddc816d351361d13c33005420f799ccef01ee79b1dcfbde7b74963"
+    },
+    {
+      "bytes": 24556,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/banknote/linear_poly3/configuration_validation.csv",
+      "sha256": "sha256:72fdd44cafddf096b5d13f6c1f3ef03c0ead5ec950fbe5f67d948dece7696050"
+    },
+    {
+      "bytes": 24759,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/banknote/mlp_square_linear_score/configuration_validation.csv",
+      "sha256": "sha256:e54051db9ee48fb0aef9de3f276efb2fa94d52c613b2999bdf82a3b34cce9786"
+    },
+    {
+      "bytes": 49248,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/digits_binary/linear_poly3/configuration_validation.csv",
+      "sha256": "sha256:4c13087ee4033f196fb7e4198634189004ed9afb44ad9df89e575a860f699663"
+    },
+    {
+      "bytes": 49266,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/digits_binary/mlp_square_linear_score/configuration_validation.csv",
+      "sha256": "sha256:5495c326eaf9e043c1c3eb8680315039bd664e87b4a61680c2ef0b8f15a97af5"
+    },
+    {
+      "bytes": 1743,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/configuration_validation.csv",
+      "sha256": "sha256:29cf99a47cd25520a15aa36d8e7fdf58328fc3a91ad54067266d443b4c04e5ea"
+    },
+    {
+      "bytes": 1747,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/mlp_square_linear_score/configuration_validation.csv",
+      "sha256": "sha256:d1dfea1c06757d546784871690771d09a76b37f1ed76b05b48bd662a6f101c1b"
+    },
+    {
+      "bytes": 76926,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/mnist_pool16/linear_poly3/configuration_validation.csv",
+      "sha256": "sha256:5cccf8765df592fe00272dabc79d3e92b1f72479e274a36fdd3bad348019c834"
+    },
+    {
+      "bytes": 76915,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/mnist_pool16/mlp_square_linear_score/configuration_validation.csv",
+      "sha256": "sha256:53349d9c7215b3e89d24b955f699e8e5839bab24d1e1d7260ca08777474f8aa4"
+    },
+    {
+      "bytes": 15545,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/wdbc/linear_poly3/configuration_validation.csv",
+      "sha256": "sha256:4daa0c410eb88a39520ea9d2b029d040f40278c834119f1ea347657b68dcc603"
+    },
+    {
+      "bytes": 15561,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/wdbc/mlp_square_linear_score/configuration_validation.csv",
+      "sha256": "sha256:d3bb010280bc860d2679ef327f6742d85695f9cb47afca80cdf9ffc50b69e469"
+    }
+  ],
+  "files": {
+    "README.md": {
+      "bytes": 792,
+      "sha256": "sha256:18db571b3f66d0f164b9c53c9ad6ccf4b85662a0368024e112b8ce25abe637d0"
+    },
+    "logs/seed0_banknote_linear_poly3.log": {
+      "bytes": 969,
+      "sha256": "sha256:de85b933767607603c0ea879bd544bbd2912f1cd621dc86559d37948b20e1ef7"
+    },
+    "logs/seed0_banknote_mlp_square_linear_score.log": {
+      "bytes": 1034,
+      "sha256": "sha256:8d8ed25b07bf0b9930a113fdbe68e27b23aad3e6f1583669774522440ccd867c"
+    },
+    "logs/seed0_digits_binary_linear_poly3.log": {
+      "bytes": 989,
+      "sha256": "sha256:9d8757bd0d5f0e78d1a03b7afc0411872c172ae7fdba90989c1607a606dd3070"
+    },
+    "logs/seed0_digits_binary_mlp_square_linear_score.log": {
+      "bytes": 1047,
+      "sha256": "sha256:6107814485e597832ebb63b39c443501837cb2068df5d0deb3335cfea8648a75"
+    },
+    "logs/seed0_iris_binary_linear_poly3.log": {
+      "bytes": 981,
+      "sha256": "sha256:c92903b3e26d1e3c418510e5eb1042a1c48b3bd6796a9b8c6cbb500d8c6f1bbf"
+    },
+    "logs/seed0_iris_binary_mlp_square_linear_score.log": {
+      "bytes": 1046,
+      "sha256": "sha256:e50c1f4fb3bfceda29bcb68773a83064b6be7292366bdae78095b4a08ac5378c"
+    },
+    "logs/seed0_mnist_pool16_linear_poly3.log": {
+      "bytes": 985,
+      "sha256": "sha256:de7da708e06b8fc2af85708985b3696d6280afde92b4d6b210c706c7e3034664"
+    },
+    "logs/seed0_mnist_pool16_mlp_square_linear_score.log": {
+      "bytes": 1050,
+      "sha256": "sha256:ee7ed2c7c1b8ba6c2bd19ea7c2cece7b65b1bc0aacb9f417590bfa7a5e811bd3"
+    },
+    "logs/seed0_wdbc_linear_poly3.log": {
+      "bytes": 953,
+      "sha256": "sha256:3737ee9ab6aac0c9ad9f4aeb4970da1fdb5c666cb988074b779fb563bc1a13c1"
+    },
+    "logs/seed0_wdbc_mlp_square_linear_score.log": {
+      "bytes": 1018,
+      "sha256": "sha256:260bc585fe17f96afeaea869fff845fffbcbd3e0651aed97f395c1bb12693582"
+    },
+    "results/seed0_banknote_linear_poly3.json": {
+      "bytes": 31734,
+      "sha256": "sha256:96b253f963fa8e6e170825eb709ed6a7f48a57f4670c6bcb62dd12924eaaf202"
+    },
+    "results/seed0_banknote_mlp_square_linear_score.json": {
+      "bytes": 32198,
+      "sha256": "sha256:7feccb2ad7bf747840455621164212bcb27196ab2230c61a4ac9e8f355e10132"
+    },
+    "results/seed0_digits_binary_linear_poly3.json": {
+      "bytes": 31875,
+      "sha256": "sha256:de4de622f79faef7a27b39aa2554d724ed546b10feb23aef595a52300e5b86ae"
+    },
+    "results/seed0_digits_binary_mlp_square_linear_score.json": {
+      "bytes": 32241,
+      "sha256": "sha256:d8c43ea6360231132f371aa995ed0859710172cd0d7f06fa405395e7aef21669"
+    },
+    "results/seed0_iris_binary_linear_poly3.json": {
+      "bytes": 31733,
+      "sha256": "sha256:3df104353b5e448d63eeaf6965e9cf197c3f9ed234ecd6f076bcc6785732dfdf"
+    },
+    "results/seed0_iris_binary_mlp_square_linear_score.json": {
+      "bytes": 32189,
+      "sha256": "sha256:95dcf254ba6e67668f5860f51f7fb4d198518d631088c343c546c495092aa850"
+    },
+    "results/seed0_mnist_pool16_linear_poly3.json": {
+      "bytes": 31903,
+      "sha256": "sha256:eaf8ce21857393f13952b15c7e25992391cefdbfb8329128be8a1ae214f240ea"
+    },
+    "results/seed0_mnist_pool16_mlp_square_linear_score.json": {
+      "bytes": 32370,
+      "sha256": "sha256:7d55ace0c967e4c946a1d49f49d49579a7f6407a49c7d200c2c687099a18eadf"
+    },
+    "results/seed0_wdbc_linear_poly3.json": {
+      "bytes": 31712,
+      "sha256": "sha256:cf3e7fbb13b8c12c7312a711c744bb41e7db3e824aa1a51c483308195eb934e5"
+    },
+    "results/seed0_wdbc_mlp_square_linear_score.json": {
+      "bytes": 32228,
+      "sha256": "sha256:2b7005c1edeaa4560faaf119c73b962ad3a6e857fc7dc8f54498084c085fc08f"
+    },
+    "source/cmd/flipguard-paired-latency/main.go": {
+      "bytes": 8419,
+      "sha256": "sha256:1c99eb4fb57673a54d1de07cf36b5bddee0651aa355b7f91516a23bb35694fd2"
+    },
+    "source/go.mod": {
+      "bytes": 570,
+      "sha256": "sha256:002398be2c55fc464db27c92805c96abc7aae8e6e8106dd083d9b0b76cf8a179"
+    },
+    "source/go.sum": {
+      "bytes": 2614,
+      "sha256": "sha256:ba0b56d4f4d13fd01648402ad271b0c27a6722830ca2f652fcd94e4cfdcb508d"
+    },
+    "source/internal/ckksbackend/paired_tabular_latency.go": {
+      "bytes": 20690,
+      "sha256": "sha256:4e6711a6ee7e95ab464049595bdd273a14ede54db239f853a11eb0066e8be126"
+    },
+    "source/internal/ckksbackend/tabular_inference.go": {
+      "bytes": 21173,
+      "sha256": "sha256:dad48640d76098a03865d377438d45138467d49b019373b3ccd51b5110cfc15b"
+    },
+    "source/scripts/freeze_paired_latency_evidence.py": {
+      "bytes": 22840,
+      "sha256": "sha256:f312064eef55c295934dddd565c652a9ed06b50fe63a0f99622abf77b274309e"
+    },
+    "source/scripts/run_paired_tabular_latency.py": {
+      "bytes": 29449,
+      "sha256": "sha256:2505f179e8d3339ad445742151ac20140450907c1ffc6dea06a0c52f3e518c12"
+    },
+    "summary/aggregate_pairs.csv": {
+      "bytes": 1123,
+      "sha256": "sha256:a4ec19f3f4c5ba97180c3bf15ec2472c779f6a8187133fb720958fc9a59d9375"
+    },
+    "summary/arm_summaries.csv": {
+      "bytes": 12814,
+      "sha256": "sha256:e6cb792f152f6b9aea2c9240890ed57ffc0defaf332a24d38d5e8a872c6f2200"
+    },
+    "summary/pair_summaries.csv": {
+      "bytes": 7294,
+      "sha256": "sha256:f33f0936a3e2b6a062aa2b7cbeaec6b4afbf9546480ed96b2476d93f4d17e140"
+    },
+    "summary/records.csv": {
+      "bytes": 99767,
+      "sha256": "sha256:a8034c53f098751c2fc6ae7d3f9414cce7e8c199884d0400dbc1a3147b0febaa"
+    },
+    "summary/run_status.csv": {
+      "bytes": 2360,
+      "sha256": "sha256:be590c57892c46324862e8c95028b7e6bd4ad12390f7ac4b083690ef5ff31608"
+    },
+    "summary/summary.json": {
+      "bytes": 7824,
+      "sha256": "sha256:3f2824dfe99d7423e2cd6f93b73c952386e9023259ea3ac106a5ecf167e9d1a0"
+    }
+  },
+  "host": {
+    "cpu_governors": [],
+    "cpu_model": "AMD Ryzen 5 3600 6-Core Processor",
+    "dmi_product_name": "VMware Virtual Platform",
+    "dmi_system_vendor": "VMware, Inc.",
+    "gomaxprocs": "runtime_default",
+    "logical_cpu": 2,
+    "machine": "x86_64",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "process_cpu_affinity": [
+      0,
+      1
+    ],
+    "processor": "x86_64",
+    "python": "3.12.3",
+    "uname": "Linux ckks2-VMware-Virtual-Platform 6.17.0-35-generic #35~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue May 26 19:30:42 UTC 2 x86_64 x86_64"
+  },
+  "mode": "PILOT",
+  "paper_latency_claim_allowed": false,
+  "primary_pair": {
+    "ci95_high": 2.037886430676772,
+    "ci95_low": 1.9224926578662063,
+    "denominator": "direct",
+    "geometric_mean_total_ratio": 1.976887386537088,
+    "numerator": "catalog"
+  },
+  "schema_version": 1,
+  "source": {
+    "commit": "c704fad9413483a337dbaa344ff5cc09e2add569",
+    "digest": "sha256:f3e0faa470d58b719bd36061f49116a6ceef019b6cdf4c35417c953b6279469b",
+    "files": {
+      "cmd/flipguard-paired-latency/main.go": {
+        "bytes": 8419,
+        "sha256": "sha256:1c99eb4fb57673a54d1de07cf36b5bddee0651aa355b7f91516a23bb35694fd2"
+      },
+      "go.mod": {
+        "bytes": 570,
+        "sha256": "sha256:002398be2c55fc464db27c92805c96abc7aae8e6e8106dd083d9b0b76cf8a179"
+      },
+      "go.sum": {
+        "bytes": 2614,
+        "sha256": "sha256:ba0b56d4f4d13fd01648402ad271b0c27a6722830ca2f652fcd94e4cfdcb508d"
+      },
+      "internal/ckksbackend/paired_tabular_latency.go": {
+        "bytes": 20690,
+        "sha256": "sha256:4e6711a6ee7e95ab464049595bdd273a14ede54db239f853a11eb0066e8be126"
+      },
+      "internal/ckksbackend/tabular_inference.go": {
+        "bytes": 21173,
+        "sha256": "sha256:dad48640d76098a03865d377438d45138467d49b019373b3ccd51b5110cfc15b"
+      },
+      "scripts/run_paired_tabular_latency.py": {
+        "bytes": 29449,
+        "sha256": "sha256:2505f179e8d3339ad445742151ac20140450907c1ffc6dea06a0c52f3e518c12"
+      }
+    },
+    "measurement_files_dirty": true,
+    "revision_label": "c704fad9413483a337dbaa344ff5cc09e2add569+measurement-working-tree"
+  },
+  "status": "PILOT_ONLY"
+}

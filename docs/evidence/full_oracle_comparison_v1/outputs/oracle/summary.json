@@ -1,0 +1,29 @@
+{
+  "actual_run_count": 1100,
+  "allow_incomplete": false,
+  "alphas": [
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    0.9
+  ],
+  "candidate_certificate_rows": 5500,
+  "certificate_status_counts": {
+    "FAILED": 250,
+    "REJECTED": 1500,
+    "SAFE": 3750
+  },
+  "coverage_rows": 50,
+  "expected_full_run_count": 1100,
+  "margin_floor": 0.001,
+  "oracle_outcome_counts": {
+    "SELECTED": 250
+  },
+  "oracle_rows": 250,
+  "run_status": "results/thesis_grade_protocol/tabular_validation_oracle_v1/full/run_status.csv",
+  "run_status_digest": "sha256:4ce46853469086c749bae62791c07f76c7549a0f034b794b169979104489077e",
+  "schema_version": 1,
+  "split_summary": "results/thesis_grade_protocol/tabular_splits_v1/summary.json",
+  "split_summary_digest": "sha256:f5d887eb0e07931f8d75a300c334004bfddc4b3a533bedd25386eb2a848a2704"
+}

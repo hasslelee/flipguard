@@ -1,0 +1,105 @@
+{
+  "schema_version": 2,
+  "registry_id": "flipguard_evidence_classification_registry_v2",
+  "generated_from_commit": "71e7d897b35e14e3867c60f7dc18a1e4ec5c7846",
+  "allowed_classifications": [
+    "PRELIMINARY",
+    "PILOT_ONLY",
+    "PRE_SECURITY_V2",
+    "HISTORICAL_CHECKPOINT"
+  ],
+  "policy": {
+    "existing_pack_mutation_allowed": false,
+    "final_evidence_default_allowed": false,
+    "admission_rule": "A pack is final-eligible only when its source commit, policy ID, and input digests are reproducible and a later FINAL_ADMISSIBLE gate explicitly admits it."
+  },
+  "checkpoint": {
+    "path": "docs/checkpoints/2026-07-29_pre_static_security_v2",
+    "classification": "HISTORICAL_CHECKPOINT",
+    "repository_file_count": 30436,
+    "repository_total_bytes": 1649022305,
+    "sha256sums_sha256": "2f1bba6f278fc3aa7636b3067d72602e98c9718d133ae1091090d075e826545d",
+    "checkpoint_set_sha256": "a901f9bea088f58272bbc5fa57b29e029134bf028a502a8ce2f20c26ed83d67b"
+  },
+  "packs": [
+    {
+      "path": "docs/evidence/direct_locked_audit_seed0_v1",
+      "classification": "HISTORICAL_CHECKPOINT",
+      "manifest_sha256": "sha256:3becf2cba5aeb6413b7213b768a573f845f1d65d4aeb41cf76ee391c007a9f11",
+      "paper_claim_allowed": false,
+      "reason": "Seed-0-only development checkpoint."
+    },
+    {
+      "path": "docs/evidence/direct_locked_audit_seed1_checkpoint_v1",
+      "classification": "HISTORICAL_CHECKPOINT",
+      "manifest_sha256": "sha256:f513297f23665052e107fd577c94eacff0333a456fbc48420244d00a45c5d1fc",
+      "paper_claim_allowed": false,
+      "reason": "Incomplete repeated-partition checkpoint."
+    },
+    {
+      "path": "docs/evidence/direct_locked_audit_seeds1_2_checkpoint_v1",
+      "classification": "HISTORICAL_CHECKPOINT",
+      "manifest_sha256": "sha256:1ff1e31bc1128d35468d41550123db623827661ab488f702169c89230a5bd81c",
+      "paper_claim_allowed": false,
+      "reason": "Incomplete repeated-partition checkpoint."
+    },
+    {
+      "path": "docs/evidence/direct_locked_audit_seeds1_3_checkpoint_v1",
+      "classification": "HISTORICAL_CHECKPOINT",
+      "manifest_sha256": "sha256:39a2ef5fcaa6b2ba415c6d8309f714cac2a1e8697bbecb3d3495f348f88d37b7",
+      "paper_claim_allowed": false,
+      "reason": "Incomplete repeated-partition checkpoint."
+    },
+    {
+      "path": "docs/evidence/direct_locked_audit_five_split_v1",
+      "classification": "PRE_SECURITY_V2",
+      "manifest_sha256": "sha256:898a7d2481ae50f76e049df37f77f35acf6e925db3b9eea1cb115e05c3043d76",
+      "paper_claim_allowed": false,
+      "reason": "Complete preliminary direct/audit pack generated before Security Policy V2."
+    },
+    {
+      "path": "docs/evidence/full_oracle_comparison_v1",
+      "classification": "PRE_SECURITY_V2",
+      "manifest_sha256": "sha256:752d5e016af4f82168f07ff67e5a9c3d0cdff99dfa2cb472d782c43c95186fdf",
+      "paper_claim_allowed": false,
+      "reason": "Complete bounded-catalog execution pack whose candidate set predates Security Policy V2 filtering."
+    },
+    {
+      "path": "docs/evidence/no_safe_controls_v1",
+      "classification": "PILOT_ONLY",
+      "secondary_classification": "PRE_SECURITY_V2",
+      "manifest_sha256": "sha256:87c4267c8c5181cdf9662fa03f9e3d88339cfba5830bda5bb05d41cbda1c52de",
+      "paper_claim_allowed": false,
+      "reason": "Pilot and retrospective control evidence, generated before Security Policy V2."
+    },
+    {
+      "path": "docs/evidence/paired_latency_pilot_v1",
+      "classification": "PILOT_ONLY",
+      "secondary_classification": "PRE_SECURITY_V2",
+      "manifest_sha256": "sha256:f13761fabfcce93fd31367f9e5cee5cd59634dd8d5b81f14bf2ad80594915e45",
+      "paper_claim_allowed": false,
+      "reason": "Paired protocol pilot only; it cannot support a latency claim."
+    },
+    {
+      "path": "docs/evidence/policy_sensitivity_v1",
+      "classification": "PRE_SECURITY_V2",
+      "manifest_sha256": "sha256:37e2b50d5c20c23b10c14befe14392c46f0e47c937c4b3f9e1d4ebf2f1550f78",
+      "paper_claim_allowed": false,
+      "reason": "Static sensitivity artifact retained as secondary policy evidence only."
+    },
+    {
+      "path": "docs/evidence/security_v2_static_attestation",
+      "classification": "PRELIMINARY",
+      "manifest_sha256": "sha256:054fefdad6fc9214e42f55340fce0c47e76f007a4f92f5652e1acb19b21797ff",
+      "paper_claim_allowed": false,
+      "reason": "Static Security V2 admission and bounded-oracle filtering input; no encrypted execution was performed."
+    },
+    {
+      "path": "docs/evidence/tabular_certification_observed_v1",
+      "classification": "HISTORICAL_CHECKPOINT",
+      "manifest_sha256": "sha256:5c183b180a588b42ff094d4886e75e1cb5c730781b1cdd01ccaf119d904408d4",
+      "paper_claim_allowed": false,
+      "reason": "Earlier fixed-profile observed validation snapshot."
+    }
+  ]
+}

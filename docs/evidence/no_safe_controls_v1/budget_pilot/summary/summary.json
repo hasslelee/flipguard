@@ -1,0 +1,113 @@
+{
+  "claim_boundary": "This is a budgeted abstention control. NO_SAFE means no SAFE candidate was admitted within one encrypted trial; it does not mean no CKKS configuration exists globally.",
+  "control_result": "PASS",
+  "counts": {
+    "expected_workloads": 10,
+    "failed_workloads": 0,
+    "no_safe_non_linear": 0,
+    "no_safe_with_selection": 0,
+    "outcomes": {
+      "NO_SAFE": 4,
+      "SELECTED": 6
+    },
+    "outcomes_by_model": {
+      "linear_poly3": {
+        "NO_SAFE": 4,
+        "SELECTED": 1
+      },
+      "mlp_square_linear_score": {
+        "SELECTED": 5
+      }
+    },
+    "successful_workloads": 10,
+    "unexpected_outcomes": 0,
+    "unsafe_selected": 0
+  },
+  "evidence_status": "PILOT_ONLY",
+  "falsification": {
+    "expected_outcome_map": {
+      "iris_binary_linear_poly3": "SELECTED",
+      "mlp_square_linear_score": "SELECTED",
+      "non_iris_linear_poly3": "NO_SAFE"
+    },
+    "forbid_selected_payload_on_no_safe": true,
+    "forbid_unsafe_selected": true,
+    "no_safe_expected_only_for_linear_control": true,
+    "requires_both_selected_and_no_safe": true
+  },
+  "mode": "PILOT",
+  "outputs": {
+    "run_status": {
+      "path": "results/thesis_grade_protocol/no_safe_budget_control_v1/pilot_seed0/summary/run_status.csv",
+      "sha256": "sha256:fe83c593ad3e41621aa975ec851fc9c0cf55dd9c26fae05363325814f88c764e"
+    },
+    "workload_results": {
+      "path": "results/thesis_grade_protocol/no_safe_budget_control_v1/pilot_seed0/summary/workload_results.csv",
+      "sha256": "sha256:2bf4c0d8abcba041baf088b66ac8f472456819aa7bba6f77b9f628a31092973f"
+    }
+  },
+  "protocol": {
+    "datasets": [
+      "banknote",
+      "digits_binary",
+      "iris_binary",
+      "mnist_pool16",
+      "wdbc"
+    ],
+    "key_repeats": 1,
+    "margin_floor": 0.001,
+    "max_encrypted_trials": 1,
+    "min_prime_bits": 18,
+    "min_scale_bits": 18,
+    "models": [
+      "linear_poly3",
+      "mlp_square_linear_score"
+    ],
+    "partition": "disjoint_locked_audit_test",
+    "safety_factor": 0.5,
+    "special_prime_bits": 30,
+    "split_seeds": [
+      0
+    ]
+  },
+  "schema_version": 1,
+  "source": {
+    "commit": "c704fad9413483a337dbaa344ff5cc09e2add569",
+    "digest": "sha256:238c5afce7bda1cb66a2cdbded827e38c3a203580d0f2180219de60d024a7203",
+    "dirty": true,
+    "files": {
+      "cmd/flipguard-autotune/main.go": {
+        "bytes": 4669,
+        "sha256": "sha256:f72793a5be789d2ac9c2e3d128b61210e650423029c4fbdb879532e341ae8039"
+      },
+      "go.mod": {
+        "bytes": 570,
+        "sha256": "sha256:002398be2c55fc464db27c92805c96abc7aae8e6e8106dd083d9b0b76cf8a179"
+      },
+      "go.sum": {
+        "bytes": 2614,
+        "sha256": "sha256:ba0b56d4f4d13fd01648402ad271b0c27a6722830ca2f652fcd94e4cfdcb508d"
+      },
+      "internal/ckksplanner/contract.go": {
+        "bytes": 11394,
+        "sha256": "sha256:5c32d647aaba918e10c2a43ea9f78ac38374f3db2e6a7ac26358a1f87ff9a6af"
+      },
+      "internal/ckksplanner/executor.go": {
+        "bytes": 14031,
+        "sha256": "sha256:2ae86c2e264e571423d14f1ad9a0212b2b3abc3ffc197f465a0df79d140c0acb"
+      },
+      "internal/ckksplanner/synthesis.go": {
+        "bytes": 23393,
+        "sha256": "sha256:99c026a888e2f4561ff60eb855943075fdfcf6b9628030db648a275d3f296340"
+      },
+      "internal/ckksplanner/tabular_contract.go": {
+        "bytes": 25187,
+        "sha256": "sha256:05cd626c9d3dfd9ef061a943d08069a1712f749881bc13d3921b27c47178c940"
+      },
+      "scripts/run_no_safe_budget_negative_controls.py": {
+        "bytes": 21648,
+        "sha256": "sha256:f620cf77c1f6c3ef756cc5a714de0d06666a11f991d2f57ccdf943d0ce7eeddf"
+      }
+    }
+  }
+}
