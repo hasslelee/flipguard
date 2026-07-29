@@ -57,6 +57,10 @@ class SourceReplaySummaryTest(unittest.TestCase):
             fields["source_feature_space"],
             "model_input",
         )
+        self.assertEqual(
+            fields["source_validation_sha256"],
+            fields["source_data_sha256"],
+        )
 
     def test_rejects_source_mutation(self) -> None:
         with tempfile.TemporaryDirectory(

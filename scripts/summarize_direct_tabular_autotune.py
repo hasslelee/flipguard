@@ -54,7 +54,9 @@ TRIAL_FIELDS = [
     "contract_digest",
     "model_sha256",
     "validation_sha256",
+    "prepared_validation_sha256",
     "source_data_sha256",
+    "source_validation_sha256",
     "materialization_schema",
     "source_feature_space",
     "preprocessing_method",
@@ -179,6 +181,7 @@ def source_replay_fields(
             )
         return {
             "source_data_sha256": "",
+            "source_validation_sha256": "",
             "materialization_schema": "",
             "source_feature_space": "",
             "preprocessing_method": "",
@@ -226,6 +229,7 @@ def source_replay_fields(
         )
     return {
         "source_data_sha256": source_digest,
+        "source_validation_sha256": source_digest,
         "materialization_schema": schema,
         "source_feature_space": feature_space,
         "preprocessing_method": preprocessing,
@@ -517,6 +521,10 @@ def summarize_result(
         "contract_digest": plan.get("contract_digest", ""),
         "model_sha256": model_artifact.get("sha256", ""),
         "validation_sha256": validation_artifact.get("sha256", ""),
+        "prepared_validation_sha256": validation_artifact.get(
+            "sha256",
+            "",
+        ),
         **replay_fields,
         "result_path": str(result_path),
     }
