@@ -161,7 +161,9 @@ require_file "$SECURITY_V2_ROOT/bounded_oracle_security_v2/summary.json"
 
 python3 scripts/build_security_v2_static_artifacts.py --verify
 python3 scripts/compare_direct_synthesis_to_catalog_oracle.py --verify
-python3 scripts/analyze_thesis_policy_sensitivity.py --verify
+python3 scripts/freeze_policy_sensitivity_evidence.py \
+  --output-root docs/evidence/policy_sensitivity_v1 \
+  --verify
 python3 scripts/analyze_structural_extension_plans.py --verify
 python3 scripts/freeze_direct_locked_audit_evidence.py \
   --output-root docs/evidence/direct_locked_audit_five_split_v1 \
