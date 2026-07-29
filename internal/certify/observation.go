@@ -64,7 +64,8 @@ type ObservedAggregation struct {
 // satisfy a strict decision-margin condition.
 //
 // Observations belonging to V_amb are excluded from DecisionFlips,
-// ErrorViolations, and Evidence.MaxObservedError.
+// ErrorViolations, Evidence.MaxObservedError, and
+// Evidence.MaxObservedBudgetUsage.
 func AggregateObservedCandidate(
 	input ObservedCandidateInput,
 	marginFloor float64,
@@ -303,6 +304,11 @@ func AggregateObservedCandidate(
 			}
 
 			observedBudget := safetyFactor * margin
+			budgetUsage := observedError / observedBudget
+			evidence.MaxObservedBudgetUsage = math.Max(
+				evidence.MaxObservedBudgetUsage,
+				budgetUsage,
+			)
 			if observedError >= observedBudget {
 				evidence.ErrorViolations++
 			}

@@ -167,6 +167,41 @@ func TestWorkloadContractRejectsNonReproducibleDigest(t *testing.T) {
 	}
 }
 
+func TestWorkloadContractRequiresSourceReplayVerification(t *testing.T) {
+	contract := validContractFixture()
+	contract.InputMaterialization = &InputMaterializationContract{
+		SchemaVersion:        TabularValidationMaterializationSchemaV2,
+		SourceFeatureSpace:   string(TabularDataSpaceRaw),
+		PreprocessingMethod:  TabularPreprocessingSelectedStandardizationV1,
+		SourceReplayVerified: true,
+	}
+	err := contract.Validate()
+	if err == nil || !strings.Contains(
+		err.Error(),
+		"requires bound source data",
+	) {
+		t.Fatalf("expected missing source binding rejection, got %v", err)
+	}
+
+	contract = validContractFixture()
+	contract.SourceData = &ArtifactBinding{
+		Path:   "raw.csv",
+		SHA256: contract.ModelArtifact.SHA256,
+	}
+	contract.InputMaterialization = &InputMaterializationContract{
+		SchemaVersion:       TabularValidationMaterializationSchemaV2,
+		SourceFeatureSpace:  string(TabularDataSpaceRaw),
+		PreprocessingMethod: TabularPreprocessingSelectedStandardizationV1,
+	}
+	err = contract.Validate()
+	if err == nil || !strings.Contains(
+		err.Error(),
+		"requires verified input materialization replay",
+	) {
+		t.Fatalf("expected missing replay verification rejection, got %v", err)
+	}
+}
+
 func writeLinearFixture(
 	t *testing.T,
 	scoreMismatch bool,

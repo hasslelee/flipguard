@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import statistics
 from collections import Counter, defaultdict
@@ -43,6 +44,7 @@ TRIAL_FIELDS = [
     "decision_flips",
     "error_violations",
     "max_observed_error",
+    "max_error_budget_usage",
     "v_cert",
     "v_amb",
     "mean_total_ms",
@@ -51,6 +53,11 @@ TRIAL_FIELDS = [
     "contract_digest",
     "model_sha256",
     "validation_sha256",
+    "source_data_sha256",
+    "materialization_schema",
+    "source_feature_space",
+    "preprocessing_method",
+    "source_replay_verified",
     "result_path",
 ]
 
@@ -84,6 +91,7 @@ TRIAL_DETAIL_FIELDS = [
     "decision_flips",
     "error_violations",
     "max_observed_error",
+    "max_error_budget_usage",
     "v_cert",
     "v_amb",
     "mean_total_ms",
@@ -98,6 +106,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--run-status", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--expected-runs", type=int, required=True)
+    parser.add_argument(
+        "--require-source-replay",
+        action="store_true",
+        help=(
+            "require every result to bind source feature data and a "
+            "successfully replayed input materialization"
+        ),
+    )
     return parser.parse_args()
 
 
@@ -139,6 +155,82 @@ def require_list(value: Any, label: str) -> list[Any]:
     return value
 
 
+def sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return "sha256:" + digest.hexdigest()
+
+
+def source_replay_fields(
+    contract: dict[str, Any],
+    result_path: Path,
+    require_source_replay: bool,
+) -> dict[str, Any]:
+    source_value = contract.get("source_data")
+    materialization_value = contract.get("input_materialization")
+    if source_value is None and materialization_value is None:
+        if require_source_replay:
+            raise ValueError(
+                f"{result_path}: source replay is required"
+            )
+        return {
+            "source_data_sha256": "",
+            "materialization_schema": "",
+            "source_feature_space": "",
+            "preprocessing_method": "",
+            "source_replay_verified": False,
+        }
+    source = require_dict(
+        source_value,
+        f"{result_path}: source data",
+    )
+    materialization = require_dict(
+        materialization_value,
+        f"{result_path}: input materialization",
+    )
+    source_path = Path(str(source.get("path", "")))
+    source_digest = str(source.get("sha256", ""))
+    if (
+        not source_path.is_file()
+        or not source_digest.startswith("sha256:")
+        or sha256_file(source_path) != source_digest
+    ):
+        raise ValueError(
+            f"{result_path}: source data binding changed"
+        )
+    schema = str(materialization.get("schema_version", ""))
+    feature_space = str(
+        materialization.get("source_feature_space", "")
+    )
+    preprocessing = str(
+        materialization.get("preprocessing_method", "")
+    )
+    replay_verified = materialization.get(
+        "source_replay_verified"
+    )
+    if (
+        schema not in {
+            "flipguard_tabular_validation_v1",
+            "flipguard_tabular_validation_v2",
+        }
+        or not feature_space
+        or not preprocessing
+        or replay_verified is not True
+    ):
+        raise ValueError(
+            f"{result_path}: source materialization contract is invalid"
+        )
+    return {
+        "source_data_sha256": source_digest,
+        "materialization_schema": schema,
+        "source_feature_space": feature_space,
+        "preprocessing_method": preprocessing,
+        "source_replay_verified": True,
+    }
+
+
 def require_identity(
     status: dict[str, str],
     contract: dict[str, Any],
@@ -168,6 +260,7 @@ def require_identity(
 
 def summarize_result(
     status: dict[str, str],
+    require_source_replay: bool = False,
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     result_path = Path(status["result_path"])
     payload = require_dict(
@@ -256,6 +349,11 @@ def summarize_result(
         contract.get("validation_data"),
         f"{result_path}: validation artifact",
     )
+    replay_fields = source_replay_fields(
+        contract,
+        result_path,
+        require_source_replay,
+    )
 
     trial_rows: list[dict[str, Any]] = []
     for raw_trial in trials:
@@ -330,6 +428,10 @@ def summarize_result(
                 "decision_flips": trial.get("decision_flips", ""),
                 "error_violations": trial.get("error_violations", ""),
                 "max_observed_error": trial.get("max_observed_error", ""),
+                "max_error_budget_usage": trial.get(
+                    "max_error_budget_usage",
+                    "",
+                ),
                 "v_cert": trial.get("v_cert", ""),
                 "v_amb": trial.get("v_amb", ""),
                 "mean_total_ms": trial.get("mean_total_ms", ""),
@@ -391,6 +493,10 @@ def summarize_result(
         "decision_flips": selected_trial.get("decision_flips", ""),
         "error_violations": selected_trial.get("error_violations", ""),
         "max_observed_error": selected_trial.get("max_observed_error", ""),
+        "max_error_budget_usage": selected_trial.get(
+            "max_error_budget_usage",
+            "",
+        ),
         "v_cert": selected_trial.get("v_cert", decision.get("certifiable_samples", "")),
         "v_amb": selected_trial.get("v_amb", decision.get("ambiguous_samples", "")),
         "mean_total_ms": selected_trial.get("mean_total_ms", ""),
@@ -399,6 +505,7 @@ def summarize_result(
         "contract_digest": plan.get("contract_digest", ""),
         "model_sha256": model_artifact.get("sha256", ""),
         "validation_sha256": validation_artifact.get("sha256", ""),
+        **replay_fields,
         "result_path": str(result_path),
     }
     return workload_row, trial_rows
@@ -417,7 +524,10 @@ def main() -> int:
     successful_status = [row for row in status_rows if row["status"] == "ok"]
     failed_status = [row for row in status_rows if row["status"] != "ok"]
 
-    parsed = [summarize_result(row) for row in successful_status]
+    parsed = [
+        summarize_result(row, args.require_source_replay)
+        for row in successful_status
+    ]
     rows = [workload_row for workload_row, _ in parsed]
     trial_rows = [
         trial_row
@@ -493,6 +603,28 @@ def main() -> int:
         ),
         "zero_violation_selected_runs": sum(
             int(row["error_violations"]) == 0 for row in selected_rows
+        ),
+        "require_source_replay": args.require_source_replay,
+        "source_replay_verified_runs": sum(
+            row["source_replay_verified"] is True for row in rows
+        ),
+        "source_feature_space_counts": dict(
+            sorted(
+                Counter(
+                    str(row["source_feature_space"])
+                    for row in rows
+                    if row["source_feature_space"]
+                ).items()
+            )
+        ),
+        "preprocessing_method_counts": dict(
+            sorted(
+                Counter(
+                    str(row["preprocessing_method"])
+                    for row in rows
+                    if row["preprocessing_method"]
+                ).items()
+            )
         ),
         "by_model": {
             model_id: {

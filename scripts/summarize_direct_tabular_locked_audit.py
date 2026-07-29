@@ -32,6 +32,7 @@ RESULT_FIELDS = [
     "decision_flips",
     "error_violations",
     "max_observed_error",
+    "max_error_budget_usage",
     "v_cert",
     "v_amb",
     "mean_total_ms",
@@ -41,6 +42,15 @@ RESULT_FIELDS = [
     "selection_result_sha256",
     "split_manifest_sha256",
     "audit_csv_sha256",
+    "source_replay_verified",
+    "source_feature_space",
+    "preprocessing_method",
+    "source_data_sha256",
+    "prepared_validation_sha256",
+    "audit_source_replay_verified",
+    "audit_source_feature_space",
+    "audit_preprocessing_method",
+    "prepared_audit_sha256",
     "selection_result_path",
     "split_manifest_path",
     "audit_csv_path",
@@ -53,6 +63,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--run-status", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
     parser.add_argument("--expected-runs", type=int, required=True)
+    parser.add_argument(
+        "--require-source-replay",
+        action="store_true",
+        help=(
+            "require verified source materialization for both selection "
+            "and locked-audit partitions"
+        ),
+    )
     return parser.parse_args()
 
 
@@ -142,7 +160,10 @@ def require_artifact_binding(
     return actual_digest
 
 
-def summarize_result(status: dict[str, str]) -> dict[str, Any]:
+def summarize_result(
+    status: dict[str, str],
+    require_source_replay: bool = False,
+) -> dict[str, Any]:
     result_path = Path(status["result_path"])
     selection_path = Path(status["selection_path"])
     audit_path = Path(status["audit_path"])
@@ -254,11 +275,60 @@ def summarize_result(status: dict[str, str]) -> dict[str, Any]:
         selection_contract.get("validation_data"),
         f"{selection_path}: validation_data",
     )
+    selection_partition = selection_validation
+    source_replay_verified = False
+    source_feature_space = ""
+    preprocessing_method = ""
+    source_data_sha256 = ""
+    source_value = selection_contract.get("source_data")
+    materialization_value = selection_contract.get(
+        "input_materialization"
+    )
+    if source_value is not None or materialization_value is not None:
+        selection_source = require_dict(
+            source_value,
+            f"{selection_path}: source_data",
+        )
+        materialization = require_dict(
+            materialization_value,
+            f"{selection_path}: input_materialization",
+        )
+        if (
+            materialization.get("schema_version")
+            != "flipguard_tabular_validation_v2"
+            or materialization.get("source_feature_space")
+            != "model_input"
+            or materialization.get("preprocessing_method")
+            != "identity_model_input_v1"
+            or materialization.get("source_replay_verified")
+            is not True
+        ):
+            raise ValueError(
+                f"{selection_path}: invalid source replay contract"
+            )
+        source_path = Path(str(selection_source["path"]))
+        source_data_sha256 = str(selection_source["sha256"])
+        if sha256_file(source_path) != source_data_sha256:
+            raise ValueError(
+                f"{selection_path}: source data digest mismatch"
+            )
+        selection_partition = selection_source
+        source_replay_verified = True
+        source_feature_space = str(
+            materialization["source_feature_space"]
+        )
+        preprocessing_method = str(
+            materialization["preprocessing_method"]
+        )
+    elif require_source_replay:
+        raise ValueError(
+            f"{selection_path}: selection source replay is required"
+        )
     if (
         manifest_validation.get("path")
-        != selection_validation.get("path")
+        != selection_partition.get("path")
         or manifest_validation.get("csv_digest")
-        != selection_validation.get("sha256")
+        != selection_partition.get("sha256")
     ):
         raise ValueError(
             f"{manifest_path}: selection validation binding mismatch"
@@ -275,11 +345,6 @@ def summarize_result(status: dict[str, str]) -> dict[str, Any]:
             f"{selection_path}: validation artifact digest mismatch"
         )
     validation_ids = csv_row_ids(validation_path)
-    audit_ids = csv_row_ids(audit_path)
-    if validation_ids & audit_ids:
-        raise ValueError(
-            f"{result_path}: validation and audit row IDs overlap"
-        )
     manifest_validation_ids = {
         str(value).strip()
         for value in require_list(
@@ -298,9 +363,14 @@ def summarize_result(status: dict[str, str]) -> dict[str, Any]:
         raise ValueError(
             f"{manifest_path}: validation row IDs mismatch"
         )
-    if audit_ids != manifest_audit_ids:
-        raise ValueError(f"{manifest_path}: audit row IDs mismatch")
-
+    if source_replay_verified:
+        source_ids = csv_row_ids(
+            Path(str(selection_partition["path"]))
+        )
+        if source_ids != validation_ids:
+            raise ValueError(
+                f"{selection_path}: source/prepared row IDs mismatch"
+            )
     audit_contract = require_dict(
         result.get("audit_contract"),
         f"{result_path}: audit contract",
@@ -315,11 +385,78 @@ def summarize_result(status: dict[str, str]) -> dict[str, Any]:
         audit_contract.get("validation_data"),
         f"{result_path}: audit validation binding",
     )
+    audit_source_replay_verified = False
+    audit_source_feature_space = ""
+    audit_preprocessing_method = ""
+    audit_prepared_path = audit_path
+    audit_source_value = audit_contract.get("source_data")
+    audit_materialization_value = audit_contract.get(
+        "input_materialization"
+    )
     if (
+        audit_source_value is not None
+        or audit_materialization_value is not None
+    ):
+        audit_source = require_dict(
+            audit_source_value,
+            f"{result_path}: audit source data",
+        )
+        audit_materialization = require_dict(
+            audit_materialization_value,
+            f"{result_path}: audit input materialization",
+        )
+        if (
+            audit_source.get("path") != str(audit_path)
+            or audit_source.get("sha256") != audit_digest
+            or audit_materialization.get("schema_version")
+            != "flipguard_tabular_validation_v2"
+            or audit_materialization.get("source_feature_space")
+            != "model_input"
+            or audit_materialization.get("preprocessing_method")
+            != "identity_model_input_v1"
+            or audit_materialization.get(
+                "source_replay_verified"
+            )
+            is not True
+        ):
+            raise ValueError(
+                f"{result_path}: audit source replay contract mismatch"
+            )
+        audit_prepared_path = Path(str(audit_binding["path"]))
+        audit_source_replay_verified = True
+        audit_source_feature_space = str(
+            audit_materialization["source_feature_space"]
+        )
+        audit_preprocessing_method = str(
+            audit_materialization["preprocessing_method"]
+        )
+    elif (
         audit_binding.get("path") != str(audit_path)
         or audit_binding.get("sha256") != audit_digest
     ):
         raise ValueError(f"{result_path}: audit contract binding mismatch")
+    elif require_source_replay:
+        raise ValueError(
+            f"{result_path}: audit source replay is required"
+        )
+    prepared_audit_digest = sha256_file(audit_prepared_path)
+    if prepared_audit_digest != audit_binding.get("sha256"):
+        raise ValueError(
+            f"{result_path}: prepared audit digest mismatch"
+        )
+    audit_ids = csv_row_ids(audit_prepared_path)
+    if audit_ids != manifest_audit_ids:
+        raise ValueError(f"{manifest_path}: audit row IDs mismatch")
+    if validation_ids & audit_ids:
+        raise ValueError(
+            f"{result_path}: validation and audit row IDs overlap"
+        )
+    if audit_source_replay_verified:
+        audit_source_ids = csv_row_ids(audit_path)
+        if audit_source_ids != audit_ids:
+            raise ValueError(
+                f"{result_path}: audit source/prepared row IDs mismatch"
+            )
     deployment = require_dict(
         audit_contract.get("deployment"),
         f"{result_path}: audit deployment",
@@ -388,6 +525,10 @@ def summarize_result(status: dict[str, str]) -> dict[str, Any]:
         "decision_flips": trial.get("decision_flips", ""),
         "error_violations": trial.get("error_violations", ""),
         "max_observed_error": trial.get("max_observed_error", ""),
+        "max_error_budget_usage": trial.get(
+            "max_error_budget_usage",
+            "",
+        ),
         "v_cert": trial.get("v_cert", ""),
         "v_amb": trial.get("v_amb", ""),
         "mean_total_ms": trial.get("mean_total_ms", ""),
@@ -399,6 +540,18 @@ def summarize_result(status: dict[str, str]) -> dict[str, Any]:
         "selection_result_sha256": selection_digest,
         "split_manifest_sha256": manifest_digest,
         "audit_csv_sha256": audit_digest,
+        "source_replay_verified": source_replay_verified,
+        "source_feature_space": source_feature_space,
+        "preprocessing_method": preprocessing_method,
+        "source_data_sha256": source_data_sha256,
+        "prepared_validation_sha256": selection_validation[
+            "sha256"
+        ],
+        "audit_source_replay_verified":
+            audit_source_replay_verified,
+        "audit_source_feature_space": audit_source_feature_space,
+        "audit_preprocessing_method": audit_preprocessing_method,
+        "prepared_audit_sha256": prepared_audit_digest,
         "selection_result_path": str(selection_path),
         "split_manifest_path": str(manifest_path),
         "audit_csv_path": str(audit_path),
@@ -418,7 +571,10 @@ def main() -> int:
     failed_status = [
         row for row in status_rows if row["status"] != "ok"
     ]
-    rows = [summarize_result(row) for row in successful_status]
+    rows = [
+        summarize_result(row, args.require_source_replay)
+        for row in successful_status
+    ]
     rows.sort(
         key=lambda row: (
             row["split_seed"],
@@ -473,6 +629,50 @@ def main() -> int:
         ),
         "zero_violation_passes": sum(
             int(row["error_violations"]) == 0 for row in passed
+        ),
+        "source_replay_verified_runs": sum(
+            row["source_replay_verified"] is True for row in rows
+        ),
+        "audit_source_replay_verified_runs": sum(
+            row["audit_source_replay_verified"] is True
+            for row in rows
+        ),
+        "require_source_replay": args.require_source_replay,
+        "source_feature_space_counts": dict(
+            sorted(
+                Counter(
+                    row["source_feature_space"]
+                    for row in rows
+                    if row["source_feature_space"]
+                ).items()
+            )
+        ),
+        "preprocessing_method_counts": dict(
+            sorted(
+                Counter(
+                    row["preprocessing_method"]
+                    for row in rows
+                    if row["preprocessing_method"]
+                ).items()
+            )
+        ),
+        "audit_source_feature_space_counts": dict(
+            sorted(
+                Counter(
+                    row["audit_source_feature_space"]
+                    for row in rows
+                    if row["audit_source_feature_space"]
+                ).items()
+            )
+        ),
+        "audit_preprocessing_method_counts": dict(
+            sorted(
+                Counter(
+                    row["audit_preprocessing_method"]
+                    for row in rows
+                    if row["audit_preprocessing_method"]
+                ).items()
+            )
         ),
         "total_v_cert": sum(int(row["v_cert"]) for row in rows),
         "total_v_amb": sum(int(row["v_amb"]) for row in rows),

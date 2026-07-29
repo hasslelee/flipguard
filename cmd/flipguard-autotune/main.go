@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/hasslelee/flipguard/internal/ckksplanner"
@@ -23,8 +24,8 @@ func main() {
 }
 
 func run(args []string, stdout io.Writer) error {
-	defaults := ckksplanner.DefaultTabularContractOptions()
-	synthesisDefaults := ckksplanner.DefaultSynthesisPolicy()
+	defaults := ckksplanner.DefaultPrimaryTabularContractOptions()
+	synthesisDefaults := ckksplanner.DefaultPrimarySynthesisPolicy()
 
 	flags := flag.NewFlagSet("flipguard-autotune", flag.ContinueOnError)
 	flags.SetOutput(stdout)
@@ -37,7 +38,22 @@ func run(args []string, stdout io.Writer) error {
 	validationPath := flags.String(
 		"validation",
 		"",
-		"path to configuration-validation CSV",
+		"path to prepared configuration-validation CSV",
+	)
+	dataPath := flags.String(
+		"data",
+		"",
+		"path to held-out feature CSV with row_id,label,...",
+	)
+	dataSpace := flags.String(
+		"data-space",
+		"auto",
+		"feature interpretation for --data: auto, model, or raw",
+	)
+	preparedValidationPath := flags.String(
+		"prepared-validation-out",
+		"",
+		"materialized validation path for --data; defaults beside --out",
 	)
 	splitID := flags.String(
 		"split-id",
@@ -104,8 +120,12 @@ func run(args []string, stdout io.Writer) error {
 	if strings.TrimSpace(*modelPath) == "" {
 		return errors.New("--model is required")
 	}
-	if strings.TrimSpace(*validationPath) == "" {
-		return errors.New("--validation is required")
+	hasValidation := strings.TrimSpace(*validationPath) != ""
+	hasData := strings.TrimSpace(*dataPath) != ""
+	if hasValidation == hasData {
+		return errors.New(
+			"exactly one of --validation or --data is required",
+		)
 	}
 	if strings.TrimSpace(*splitID) == "" {
 		return errors.New("--split-id is required")
@@ -123,9 +143,56 @@ func run(args []string, stdout io.Writer) error {
 		return errors.New("--key-repeats must be positive")
 	}
 
+	activeValidationPath := strings.TrimSpace(*validationPath)
+	var materialization *ckksplanner.TabularValidationMaterialization
+	if hasData {
+		activePreparedPath := strings.TrimSpace(
+			*preparedValidationPath,
+		)
+		if activePreparedPath == "" {
+			activeOutputPath := strings.TrimSpace(*outputPath)
+			if activeOutputPath == "" {
+				return errors.New(
+					"--data requires --out or --prepared-validation-out so the derived validation artifact persists",
+				)
+			}
+			extension := filepath.Ext(activeOutputPath)
+			activePreparedPath =
+				strings.TrimSuffix(activeOutputPath, extension) +
+					".validation.csv"
+		}
+		prepared, err :=
+			ckksplanner.MaterializeTabularValidationWithOptions(
+				*modelPath,
+				*dataPath,
+				activePreparedPath,
+				ckksplanner.TabularMaterializationOptions{
+					DataSpace: ckksplanner.TabularDataSpace(
+						strings.TrimSpace(*dataSpace),
+					),
+				},
+			)
+		if err != nil {
+			return err
+		}
+		materialization = &prepared
+		activeValidationPath = activePreparedPath
+	} else if strings.TrimSpace(*preparedValidationPath) != "" {
+		return errors.New(
+			"--prepared-validation-out is valid only with --data",
+		)
+	} else if strings.TrimSpace(*dataSpace) != "auto" {
+		return errors.New(
+			"--data-space is valid only with --data",
+		)
+	}
+
 	options := defaults
 	options.ModelPath = *modelPath
-	options.ValidationPath = *validationPath
+	options.ValidationPath = activeValidationPath
+	if hasData {
+		options.SourceDataPath = *dataPath
+	}
 	options.SplitID = *splitID
 	options.MarginFloor = *marginFloor
 	options.SafetyFactor = *safetyFactor
@@ -180,11 +247,22 @@ func run(args []string, stdout io.Writer) error {
 
 	fmt.Fprintf(
 		stdout,
-		"adaptive_autotune=%s workload=%s trials=%d output=%s\n",
+		"adaptive_autotune=%s workload=%s trials=%d output=%s",
 		result.Outcome,
 		result.Plan.Contract.WorkloadID,
 		result.TrialsUsed,
 		*outputPath,
 	)
+	if materialization != nil {
+		fmt.Fprintf(
+			stdout,
+			" prepared_validation=%s source_data_sha256=%s source_feature_space=%s preprocessing=%s",
+			materialization.ValidationPath,
+			materialization.SourceDataSHA256,
+			materialization.SourceFeatureSpace,
+			materialization.PreprocessingMethod,
+		)
+	}
+	fmt.Fprintln(stdout)
 	return nil
 }

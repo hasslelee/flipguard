@@ -11,6 +11,14 @@ PRECISION_FLOOR_BITS=0
 SAME_TIER_PRECISION=0
 KEY_REPEATS=1
 ONLY_SEED=""
+MARGIN_FLOOR="0.001"
+SAFETY_FACTOR="0.5"
+PRINT_RUN_ID=0
+MATERIALIZE_MODEL_INPUT=0
+SPLIT_ROOT_OPTION="results/thesis_grade_protocol/tabular_splits_v1"
+MODEL_IDS_OPTION="linear_poly3,mlp_square_linear_score"
+DATASET_IDS_OPTION="banknote,digits_binary,iris_binary,mnist_pool16,wdbc"
+RUN_LABEL=""
 
 usage() {
   cat <<'EOF'
@@ -29,7 +37,17 @@ Execution:
   --precision-floor N   Experimental min scale/Q-prime bits; keeps P >= 30.
   --same-tier-precision Maximize precision without increasing minimum LogN.
   --key-repeats N       Fresh-key validation runs per configuration trial.
+  --margin-floor X      Decision-margin floor (default: 0.001).
+  --safety-factor X     Error-budget fraction in (0,1] (default: 0.5).
+  --split-root PATH     Digest-bound split root.
+  --materialize-model-input
+                        Recompute the canonical validation artifact from the
+                        split's model-input feature rows before autotuning.
+  --model-ids CSV       Explicit model allowlist.
+  --dataset-ids CSV     Explicit dataset allowlist.
+  --run-label ID        Result-ID component for a separate experiment.
   --only-seed N         In --full mode, run only split seed N (0..4).
+  --print-run-id        Print the derived result run ID without executing.
   --quiet-skips         Suppress one-line messages for resumed workloads.
   -h, --help            Show this help.
 EOF
@@ -93,6 +111,90 @@ while [[ $# -gt 0 ]]; do
       KEY_REPEATS="$2"
       shift 2
       ;;
+    --margin-floor)
+      if [[ $# -lt 2 ]]; then
+        echo "ERROR: --margin-floor requires a non-negative number" >&2
+        exit 2
+      fi
+      if ! MARGIN_FLOOR="$(
+        python3 - "$2" <<'PYEOF'
+import math
+import sys
+
+try:
+    value = float(sys.argv[1])
+except ValueError:
+    raise SystemExit(1)
+if not math.isfinite(value) or value < 0:
+    raise SystemExit(1)
+print(format(value, ".12g"))
+PYEOF
+      )"; then
+        echo "ERROR: --margin-floor requires a non-negative finite number" >&2
+        exit 2
+      fi
+      shift 2
+      ;;
+    --safety-factor)
+      if [[ $# -lt 2 ]]; then
+        echo "ERROR: --safety-factor requires a number in (0,1]" >&2
+        exit 2
+      fi
+      if ! SAFETY_FACTOR="$(
+        python3 - "$2" <<'PYEOF'
+import math
+import sys
+
+try:
+    value = float(sys.argv[1])
+except ValueError:
+    raise SystemExit(1)
+if not math.isfinite(value) or value <= 0 or value > 1:
+    raise SystemExit(1)
+print(format(value, ".12g"))
+PYEOF
+      )"; then
+        echo "ERROR: --safety-factor requires a finite number in (0,1]" >&2
+        exit 2
+      fi
+      shift 2
+      ;;
+    --split-root)
+      if [[ $# -lt 2 ]] || [[ -z "$2" ]]; then
+        echo "ERROR: --split-root requires a path" >&2
+        exit 2
+      fi
+      SPLIT_ROOT_OPTION="$2"
+      shift 2
+      ;;
+    --materialize-model-input)
+      MATERIALIZE_MODEL_INPUT=1
+      shift
+      ;;
+    --model-ids)
+      if [[ $# -lt 2 ]] || [[ -z "$2" ]]; then
+        echo "ERROR: --model-ids requires a comma-separated list" >&2
+        exit 2
+      fi
+      MODEL_IDS_OPTION="$2"
+      shift 2
+      ;;
+    --dataset-ids)
+      if [[ $# -lt 2 ]] || [[ -z "$2" ]]; then
+        echo "ERROR: --dataset-ids requires a comma-separated list" >&2
+        exit 2
+      fi
+      DATASET_IDS_OPTION="$2"
+      shift 2
+      ;;
+    --run-label)
+      if [[ $# -lt 2 ]] || [[ ! "$2" =~ ^[a-z0-9][a-z0-9_]*$ ]]; then
+        echo "ERROR: --run-label requires [a-z0-9][a-z0-9_]*" >&2
+        exit 2
+      fi
+      RUN_LABEL="$2"
+      shift 2
+      ;;
     --only-seed)
       if [[ $# -lt 2 ]] || [[ ! "$2" =~ ^[0-4]$ ]]; then
         echo "ERROR: --only-seed requires an integer from 0 to 4" >&2
@@ -100,6 +202,10 @@ while [[ $# -gt 0 ]]; do
       fi
       ONLY_SEED="$2"
       shift 2
+      ;;
+    --print-run-id)
+      PRINT_RUN_ID=1
+      shift
       ;;
     -h|--help)
       usage
@@ -129,35 +235,68 @@ REPOSITORY_ROOT="$(
 )"
 cd "$REPOSITORY_ROOT" || exit 1
 
-SPLIT_ROOT="results/thesis_grade_protocol/tabular_splits_v1"
+SPLIT_ROOT="$SPLIT_ROOT_OPTION"
 BASE_ROOT="results/thesis_grade_protocol/direct_tabular_autotune_v1"
-POLICY_ID="default"
-AUTOTUNE_POLICY_ARGS=()
+POLICY_COMPONENTS=()
+AUTOTUNE_POLICY_ARGS=(
+  --margin-floor "$MARGIN_FLOOR"
+  --safety-factor "$SAFETY_FACTOR"
+  --key-repeats "$KEY_REPEATS"
+)
+if [[ -n "$RUN_LABEL" ]]; then
+  POLICY_COMPONENTS+=("$RUN_LABEL")
+fi
+if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
+  POLICY_COMPONENTS+=("inputmodel")
+fi
+if [[ "$MARGIN_FLOOR" != "0.001" ]]; then
+  MARGIN_SLUG="${MARGIN_FLOOR//./p}"
+  MARGIN_SLUG="${MARGIN_SLUG//-/m}"
+  MARGIN_SLUG="${MARGIN_SLUG//+/}"
+  POLICY_COMPONENTS+=("margin${MARGIN_SLUG}")
+fi
+if [[ "$SAFETY_FACTOR" != "0.5" ]]; then
+  SAFETY_SLUG="${SAFETY_FACTOR//./p}"
+  SAFETY_SLUG="${SAFETY_SLUG//-/m}"
+  SAFETY_SLUG="${SAFETY_SLUG//+/}"
+  POLICY_COMPONENTS+=("alpha${SAFETY_SLUG}")
+fi
 if [[ $PRECISION_FLOOR_BITS -gt 0 ]]; then
-  POLICY_ID="floor${PRECISION_FLOOR_BITS}"
-  AUTOTUNE_POLICY_ARGS=(
+  POLICY_COMPONENTS+=("floor${PRECISION_FLOOR_BITS}")
+  AUTOTUNE_POLICY_ARGS+=(
     --min-scale-bits "$PRECISION_FLOOR_BITS"
     --min-prime-bits "$PRECISION_FLOOR_BITS"
     --special-prime-bits 30
   )
 fi
 if [[ $SAME_TIER_PRECISION -eq 1 ]]; then
-  POLICY_ID="${POLICY_ID}_same_tier"
+  POLICY_COMPONENTS+=("same_tier")
   AUTOTUNE_POLICY_ARGS+=(
     --precision-slack-mode maximize_within_min_log_n
   )
 fi
 if [[ $KEY_REPEATS -gt 1 ]]; then
-  POLICY_ID="${POLICY_ID}_keys${KEY_REPEATS}"
-  AUTOTUNE_POLICY_ARGS+=(
-    --key-repeats "$KEY_REPEATS"
-  )
+  POLICY_COMPONENTS+=("keys${KEY_REPEATS}")
+fi
+POLICY_ID="default"
+if [[ ${#POLICY_COMPONENTS[@]} -gt 0 ]]; then
+  POLICY_ID=""
+  for component in "${POLICY_COMPONENTS[@]}"; do
+    if [[ -n "$POLICY_ID" ]]; then
+      POLICY_ID="${POLICY_ID}_"
+    fi
+    POLICY_ID="${POLICY_ID}${component}"
+  done
 fi
 RUN_ID="$MODE"
 RUN_ROOT="$BASE_ROOT/$MODE"
 if [[ "$POLICY_ID" != "default" ]]; then
   RUN_ID="${MODE}_${POLICY_ID}"
   RUN_ROOT="$BASE_ROOT/$RUN_ID"
+fi
+if [[ $PRINT_RUN_ID -eq 1 ]]; then
+  printf '%s\n' "$RUN_ID"
+  exit 0
 fi
 
 DATASETS=(
@@ -171,21 +310,30 @@ MODELS=(
   linear_poly3
   mlp_square_linear_score
 )
+IFS=',' read -r -a DATASETS <<<"$DATASET_IDS_OPTION"
+IFS=',' read -r -a MODELS <<<"$MODEL_IDS_OPTION"
+if [[ ${#DATASETS[@]} -eq 0 ]] || [[ ${#MODELS[@]} -eq 0 ]]; then
+  echo "ERROR: dataset and model allowlists must be non-empty" >&2
+  exit 2
+fi
+for value in "${DATASETS[@]}" "${MODELS[@]}"; do
+  if [[ ! "$value" =~ ^[A-Za-z0-9][A-Za-z0-9_]*$ ]]; then
+    echo "ERROR: invalid dataset/model ID $value" >&2
+    exit 2
+  fi
+done
 
 case "$MODE" in
   smoke)
     SEEDS=(0)
     DATASETS=(iris_binary)
     MODELS=(linear_poly3)
-    EXPECTED_RUNS=1
     ;;
   seed0)
     SEEDS=(0)
-    EXPECTED_RUNS=10
     ;;
   full)
     SEEDS=(0 1 2 3 4)
-    EXPECTED_RUNS=50
     ;;
   *)
     echo "ERROR: unsupported mode $MODE" >&2
@@ -200,6 +348,9 @@ if [[ -n "$ONLY_SEED" ]]; then
   fi
   SEEDS=("$ONLY_SEED")
 fi
+EXPECTED_RUNS=$((
+  ${#SEEDS[@]} * ${#DATASETS[@]} * ${#MODELS[@]}
+))
 
 if [[ ! -f "$SPLIT_ROOT/summary.json" ]]; then
   echo "ERROR: missing split summary $SPLIT_ROOT/summary.json" >&2
@@ -215,7 +366,14 @@ if [[ -d "$RUN_ROOT" ]]; then
   fi
 fi
 
-mkdir -p "$RUN_ROOT/bin" "$RUN_ROOT/logs" "$RUN_ROOT/results" "$RUN_ROOT/summary"
+mkdir -p \
+  "$RUN_ROOT/bin" \
+  "$RUN_ROOT/logs" \
+  "$RUN_ROOT/results" \
+  "$RUN_ROOT/summary"
+if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
+  mkdir -p "$RUN_ROOT/materialized"
+fi
 
 BINARY="$RUN_ROOT/bin/flipguard-autotune"
 STATUS_PATH="$RUN_ROOT/run_status.csv"
@@ -331,6 +489,18 @@ for seed in "${SEEDS[@]}"; do
       tag="directv1_${RUN_ID}_seed${seed}_${dataset}_${model}"
       result_path="$RUN_ROOT/results/${tag}.json"
       stdout_log="$RUN_ROOT/logs/${tag}.txt"
+      materialized_path=""
+      INPUT_ARGS=(
+        --validation "$validation_path"
+      )
+      if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
+        materialized_path="$RUN_ROOT/materialized/${tag}.csv"
+        INPUT_ARGS=(
+          --data "$validation_path"
+          --data-space model
+          --prepared-validation-out "$materialized_path"
+        )
+      fi
 
       if [[ ! -f "$model_path" ]]; then
         echo "ERROR: missing model artifact $model_path" >&2
@@ -371,13 +541,16 @@ for seed in "${SEEDS[@]}"; do
       workload_started=$((workload_started + 1))
       remove_status_row "$tag"
       rm -f "$result_path" "$stdout_log"
+      if [[ -n "$materialized_path" ]]; then
+        rm -f "$materialized_path"
+      fi
 
       echo
       echo "RUN seed=$seed dataset=$dataset model=$model"
       set +e
       "$BINARY" \
         --model "$model_path" \
-        --validation "$validation_path" \
+        "${INPUT_ARGS[@]}" \
         --split-id "$split_id" \
         --out "$result_path" \
         "${AUTOTUNE_POLICY_ARGS[@]}" \
@@ -428,10 +601,15 @@ echo "workload_failed=$workload_failed"
 echo "workload_skipped=$workload_skipped"
 echo "stopped_early=$stopped_early"
 
+SUMMARY_ARGS=()
+if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
+  SUMMARY_ARGS+=(--require-source-replay)
+fi
 python3 scripts/summarize_direct_tabular_autotune.py \
   --run-status "$STATUS_PATH" \
   --output-root "$RUN_ROOT/summary" \
-  --expected-runs "$EXPECTED_RUNS"
+  --expected-runs "$EXPECTED_RUNS" \
+  "${SUMMARY_ARGS[@]}"
 SUMMARY_STATUS=$?
 echo "summary_status=$SUMMARY_STATUS"
 if [[ $SUMMARY_STATUS -ne 0 ]]; then

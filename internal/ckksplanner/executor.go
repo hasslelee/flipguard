@@ -34,10 +34,11 @@ type TabularTrialResult struct {
 	KeyRepeatsRequested int `json:"key_repeats_requested"`
 	KeyRepeatsCompleted int `json:"key_repeats_completed"`
 
-	SuccessRuns      int     `json:"success_runs"`
-	DecisionFlips    int     `json:"decision_flips"`
-	ErrorViolations  int     `json:"error_violations"`
-	MaxObservedError float64 `json:"max_observed_error"`
+	SuccessRuns         int     `json:"success_runs"`
+	DecisionFlips       int     `json:"decision_flips"`
+	ErrorViolations     int     `json:"error_violations"`
+	MaxObservedError    float64 `json:"max_observed_error"`
+	MaxErrorBudgetUsage float64 `json:"max_error_budget_usage"`
 
 	VCert int `json:"v_cert"`
 	VAmb  int `json:"v_amb"`
@@ -309,6 +310,8 @@ func ExecuteTabularCandidate(
 	result.DecisionFlips = certificate.DecisionFlips
 	result.ErrorViolations = certificate.ErrorViolations
 	result.MaxObservedError = certificate.MaxObservedError
+	result.MaxErrorBudgetUsage =
+		certificate.MaxObservedBudgetUsage
 	result.VCert = certificate.VCert
 	result.VAmb = certificate.VAmb
 	result.MeanTotalMS = meanTotalMS
@@ -472,6 +475,15 @@ func verifyContractArtifacts(contract WorkloadContract) error {
 	}{
 		{"model artifact", contract.ModelArtifact},
 		{"validation data", contract.ValidationData},
+	}
+	if contract.SourceData != nil {
+		bindings = append(bindings, struct {
+			label   string
+			binding ArtifactBinding
+		}{
+			label:   "source data",
+			binding: *contract.SourceData,
+		})
 	}
 
 	for _, item := range bindings {

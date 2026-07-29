@@ -33,7 +33,17 @@ func run(args []string, stdout io.Writer) error {
 	auditPath := flags.String(
 		"audit",
 		"",
-		"path to the locked audit CSV",
+		"path to the locked audit source feature CSV",
+	)
+	preparedAuditPath := flags.String(
+		"prepared-audit-out",
+		"",
+		"optional canonical audit artifact materialized from --audit",
+	)
+	auditDataSpace := flags.String(
+		"audit-data-space",
+		"auto",
+		"feature interpretation for materialized audit: auto, model, or raw",
 	)
 	manifestPath := flags.String(
 		"manifest",
@@ -72,13 +82,25 @@ func run(args []string, stdout io.Writer) error {
 	if *keyRepeats <= 0 {
 		return errors.New("--key-repeats must be positive")
 	}
+	hasPreparedAudit :=
+		strings.TrimSpace(*preparedAuditPath) != ""
+	if !hasPreparedAudit &&
+		strings.TrimSpace(*auditDataSpace) != "auto" {
+		return errors.New(
+			"--audit-data-space requires --prepared-audit-out",
+		)
+	}
 
 	result, err := ckksplanner.RunLockedTabularAudit(
 		ckksplanner.LockedAuditOptions{
 			SelectionResultPath: *selectionPath,
 			AuditPath:           *auditPath,
-			SplitManifestPath:   *manifestPath,
-			KeyRepeats:          *keyRepeats,
+			PreparedAuditPath:   *preparedAuditPath,
+			AuditDataSpace: ckksplanner.TabularDataSpace(
+				strings.TrimSpace(*auditDataSpace),
+			),
+			SplitManifestPath: *manifestPath,
+			KeyRepeats:        *keyRepeats,
 		},
 	)
 	if err != nil {

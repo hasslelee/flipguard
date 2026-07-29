@@ -23,8 +23,8 @@ func main() {
 }
 
 func run(args []string, stdout io.Writer) error {
-	defaults := ckksplanner.DefaultTabularContractOptions()
-	synthesisDefaults := ckksplanner.DefaultSynthesisPolicy()
+	defaults := ckksplanner.DefaultPrimaryTabularContractOptions()
+	synthesisDefaults := ckksplanner.DefaultPrimarySynthesisPolicy()
 
 	flags := flag.NewFlagSet("flipguard-synthesize", flag.ContinueOnError)
 	flags.SetOutput(stdout)

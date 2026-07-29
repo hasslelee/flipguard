@@ -17,11 +17,6 @@ import (
 const (
 	SynthesisPlanSchemaVersion = 1
 
-	// HEStandard2024TernaryClassical128 identifies Table 4.2 of the 2024
-	// Homomorphic Encryption security guidelines. The limits are treated as a
-	// conservative admission envelope, not as a runtime security estimator.
-	HEStandard2024TernaryClassical128 = "he_security_guidelines_2024_ternary_classical_128"
-
 	PrecisionSlackNone                  = "none"
 	PrecisionSlackMaximizeWithinMinLogN = "maximize_within_min_log_n"
 )
@@ -45,11 +40,27 @@ type SecurityLimit struct {
 // SecurityEnvelope records the external table used to admit synthesized
 // parameters.
 type SecurityEnvelope struct {
-	ID                 string  `json:"id"`
-	Source             string  `json:"source"`
-	SecurityBits       int     `json:"security_bits"`
-	SecretDistribution string  `json:"secret_distribution"`
-	ErrorSigma         float64 `json:"error_sigma"`
+	ID                 string              `json:"id"`
+	SchemaVersion      int                 `json:"schema_version,omitempty"`
+	PolicyVersion      string              `json:"policy_version,omitempty"`
+	Source             string              `json:"source"`
+	PaperTitle         string              `json:"paper_title,omitempty"`
+	DOI                string              `json:"doi,omitempty"`
+	PublicationDate    string              `json:"publication_date,omitempty"`
+	TableNumber        string              `json:"table_number,omitempty"`
+	TargetCategory     string              `json:"target_security_category,omitempty"`
+	EstimatorCommit    string              `json:"estimator_commit,omitempty"`
+	CostModel          string              `json:"cost_model,omitempty"`
+	LattigoModule      string              `json:"lattigo_module,omitempty"`
+	LattigoVersion     string              `json:"lattigo_version,omitempty"`
+	SecurityBits       int                 `json:"security_bits"`
+	SecretDistribution string              `json:"secret_distribution"`
+	ErrorSigma         float64             `json:"error_sigma"`
+	TableErrorSigma    float64             `json:"table_error_sigma,omitempty"`
+	RuntimeXs          RuntimeDistribution `json:"runtime_xs,omitempty"`
+	RuntimeXe          RuntimeDistribution `json:"runtime_xe,omitempty"`
+	ModulusSemantics   ModulusSemantics    `json:"modulus_semantics,omitempty"`
+	AdmissionCaveat    string              `json:"admission_caveat,omitempty"`
 
 	Limits []SecurityLimit `json:"limits"`
 }
@@ -100,6 +111,17 @@ type SecurityAssessment struct {
 	MaxAllowedLogQP int    `json:"max_allowed_log_qp"`
 	HeadroomBits    int    `json:"headroom_bits"`
 	AdmissionStatus string `json:"admission_status"`
+
+	LogQ  int `json:"log_q,omitempty"`
+	LogP  int `json:"log_p,omitempty"`
+	LogQP int `json:"log_qp,omitempty"`
+
+	CiphertextQAdmission      string `json:"ciphertext_q_admission,omitempty"`
+	EvaluationKeyQPAdmission  string `json:"evaluation_key_qp_admission,omitempty"`
+	FinalAdmission            string `json:"final_admission,omitempty"`
+	CiphertextHeadroomBits    int    `json:"ciphertext_headroom_bits,omitempty"`
+	EvaluationKeyHeadroomBits int    `json:"evaluation_key_headroom_bits,omitempty"`
+	AdmissionReason           string `json:"admission_reason,omitempty"`
 }
 
 // SynthesizedCandidate is an executable parameter set generated from a
@@ -141,7 +163,12 @@ type AdaptiveRepairPolicy struct {
 // contains one candidate. Additional candidates are derived on demand through
 // the recorded repair policy.
 type SynthesisPlan struct {
-	SchemaVersion int `json:"schema_version"`
+	SchemaVersion        int    `json:"schema_version"`
+	AlgorithmID          string `json:"algorithm_id,omitempty"`
+	AlgorithmVersion     string `json:"algorithm_version,omitempty"`
+	DirectPolicyID       string `json:"direct_policy_id,omitempty"`
+	DirectPolicyDigest   string `json:"direct_policy_digest,omitempty"`
+	SecurityPolicyDigest string `json:"security_policy_digest,omitempty"`
 
 	Contract       WorkloadContract `json:"contract"`
 	ContractDigest string           `json:"contract_digest"`
@@ -159,16 +186,43 @@ type SynthesisPlan struct {
 // security.
 func DefaultSecurityEnvelope() SecurityEnvelope {
 	return SecurityEnvelope{
-		ID:                 HEStandard2024TernaryClassical128,
+		ID:                 SecurityPolicyV2ID,
+		SchemaVersion:      2,
+		PolicyVersion:      "2.0.0",
 		Source:             "https://doi.org/10.62056/anxra69p1",
+		PaperTitle:         "Security Guidelines for Implementing Homomorphic Encryption",
+		DOI:                "10.62056/anxra69p1",
+		PublicationDate:    "2025-01-13",
+		TableNumber:        "Table 5.2",
+		TargetCategory:     "Category 128",
+		EstimatorCommit:    "8f1ff7e",
+		CostModel:          "classical lattice reduction; ring operations",
+		LattigoModule:      "github.com/tuneinsight/lattigo/v6",
+		LattigoVersion:     "v6.2.0",
 		SecurityBits:       128,
 		SecretDistribution: "uniform_ternary",
 		ErrorSigma:         3.2,
+		TableErrorSigma:    3.19,
+		RuntimeXs: RuntimeDistribution{
+			ConcreteType: "ring.Ternary",
+			P:            2.0 / 3.0,
+		},
+		RuntimeXe: RuntimeDistribution{
+			ConcreteType: "ring.DiscreteGaussian",
+			Sigma:        3.2,
+			Bound:        19.2,
+		},
+		ModulusSemantics: ModulusSemantics{
+			CiphertextObject:    "check Q against the Table 5.2 q cap",
+			EvaluationKeyObject: "check QP against the Table 5.2 q cap because hybrid key-switching objects use the extended modulus",
+			FinalAdmission:      "PASS only when every required object passes",
+		},
+		AdmissionCaveat: "Table 5.2 assumes Gaussian error sigma=3.19; the Lattigo v6.2.0 runtime uses discrete Gaussian sigma=3.2, bound=19.2. The table is used as a conservative admission reference, not as an exact-distribution proof.",
 		Limits: []SecurityLimit{
-			{LogN: 12, MaxLogQPBits: 108},
-			{LogN: 13, MaxLogQPBits: 217},
-			{LogN: 14, MaxLogQPBits: 438},
-			{LogN: 15, MaxLogQPBits: 881},
+			{LogN: 12, MaxLogQPBits: 106},
+			{LogN: 13, MaxLogQPBits: 214},
+			{LogN: 14, MaxLogQPBits: 430},
+			{LogN: 15, MaxLogQPBits: 868},
 		},
 	}
 }
@@ -176,28 +230,39 @@ func DefaultSecurityEnvelope() SecurityEnvelope {
 // DefaultSynthesisPolicy returns a direct-generation policy for the current
 // non-bootstrapped Lattigo backend.
 func DefaultSynthesisPolicy() SynthesisPolicy {
+	direct := DefaultDirectSynthesisPolicyContract()
 	return SynthesisPolicy{
 		MinLogN: 12,
 		MaxLogN: 15,
 
 		MinScaleBits: 30,
-		MaxScaleBits: 50,
+		MaxScaleBits: direct.MaxScaleBits,
 
 		MinPrimeBits: 30,
-		MaxPrimeBits: 60,
+		MaxPrimeBits: direct.MaxPrimeBits,
 
-		ScaleGuardBits:      3,
-		FirstPrimeGuardBits: 2,
+		ScaleGuardBits:      direct.ScaleGuardBits,
+		FirstPrimeGuardBits: direct.FirstPrimeGuardBits,
 		LevelGuard:          0,
-		SpecialPrimeBits:    30,
+		SpecialPrimeBits:    direct.SpecialPrimeBits,
 
-		RepairScaleStepBits: 4,
-		MaxRepairLevels:     2,
+		RepairScaleStepBits: direct.NumericalRepairScaleBits,
+		MaxRepairLevels:     direct.MaxAdditionalLevels,
 
 		PrecisionSlackMode: PrecisionSlackNone,
 
 		SecurityEnvelope: DefaultSecurityEnvelope(),
 	}
+}
+
+// DefaultPrimarySynthesisPolicy returns the policy evaluated by the primary
+// direct-synthesis experiments. Backend admission may raise these lower bounds.
+func DefaultPrimarySynthesisPolicy() SynthesisPolicy {
+	direct := DefaultDirectSynthesisPolicyContract()
+	policy := DefaultSynthesisPolicy()
+	policy.MinScaleBits = direct.MinScaleBits
+	policy.MinPrimeBits = direct.MinPrimeBits
+	return policy
 }
 
 // Synthesize creates the first directly executable CKKS configuration for a
@@ -219,6 +284,17 @@ func Synthesize(
 	}
 
 	contractDigest, err := digestContract(contract)
+	if err != nil {
+		return SynthesisPlan{}, err
+	}
+	directPolicy := DefaultDirectSynthesisPolicyContract()
+	directPolicyDigest, err := DirectSynthesisPolicyDigest(directPolicy)
+	if err != nil {
+		return SynthesisPlan{}, err
+	}
+	securityPolicyDigest, err := SecurityPolicyDigest(
+		policy.SecurityEnvelope,
+	)
 	if err != nil {
 		return SynthesisPlan{}, err
 	}
@@ -252,7 +328,12 @@ func Synthesize(
 	}
 
 	return SynthesisPlan{
-		SchemaVersion: SynthesisPlanSchemaVersion,
+		SchemaVersion:        SynthesisPlanSchemaVersion,
+		AlgorithmID:          directPolicy.AlgorithmID,
+		AlgorithmVersion:     directPolicy.AlgorithmVersion,
+		DirectPolicyID:       directPolicy.PolicyID,
+		DirectPolicyDigest:   directPolicyDigest,
+		SecurityPolicyDigest: securityPolicyDigest,
 
 		Contract:       contract,
 		ContractDigest: contractDigest,
@@ -624,7 +705,7 @@ func synthesizeRescaleCandidate(
 	logP := []int{specialPrimeBits}
 
 	declaredLogQP := sumInts(logQ) + sumInts(logP)
-	logN, limit, err := admitLogN(
+	logN, _, err := admitLogN(
 		declaredLogQP,
 		contract.Deployment.RequiredSlots,
 		policy,
@@ -645,6 +726,15 @@ func synthesizeRescaleCandidate(
 		LogDefaultScale: scaleBits,
 	}
 
+	security, err := AssessSecurity(
+		spec,
+		contract.Deployment.SecurityBits,
+		policy.SecurityEnvelope,
+	)
+	if err != nil {
+		return SynthesizedCandidate{}, err
+	}
+
 	candidate := SynthesizedCandidate{
 		ID: fmt.Sprintf(
 			"synth_%s_%s_N%d_Q%d_S%d_%s",
@@ -658,15 +748,7 @@ func synthesizeRescaleCandidate(
 		Path: tuner.PathRescale,
 
 		Parameters: spec,
-		Security: SecurityAssessment{
-			EnvelopeID:      policy.SecurityEnvelope.ID,
-			TargetBits:      contract.Deployment.SecurityBits,
-			DeclaredLogQP:   declaredLogQP,
-			MaxAllowedLogQP: limit.MaxLogQPBits,
-			HeadroomBits: limit.MaxLogQPBits -
-				declaredLogQP,
-			AdmissionStatus: "ADMITTED_BY_DECLARED_ENVELOPE",
-		},
+		Security:   security,
 
 		RequiredRescaleLevels: contract.Deployment.RescaleLevelsConsumed,
 		LevelGuard:            policy.LevelGuard + extraLevels,

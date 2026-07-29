@@ -10,6 +10,10 @@ RETRY_FAILED=0
 QUIET_SKIPS=0
 MAX_NEW_RUNS=0
 ONLY_SEED=""
+SPLIT_ROOT_OPTION="results/thesis_grade_protocol/tabular_splits_v1"
+MODEL_IDS_OPTION="linear_poly3,mlp_square_linear_score"
+DATASET_IDS_OPTION="banknote,digits_binary,iris_binary,mnist_pool16,wdbc"
+MATERIALIZE_MODEL_INPUT=0
 
 usage() {
   cat <<'EOF'
@@ -23,6 +27,12 @@ Modes:
 Inputs and execution:
   --selection-run ID   Existing direct-autotune run ID.
   --key-repeats N      Fresh-key audit runs per frozen configuration.
+  --split-root PATH    Digest-bound split root used for selection.
+  --materialize-model-input
+                       Recompute the canonical locked-audit artifact from
+                       model-input source feature rows.
+  --model-ids CSV      Explicit model allowlist.
+  --dataset-ids CSV    Explicit dataset allowlist.
   --only-seed N        In --full mode, run only split seed N (0..4).
   --resume             Resume an existing audit ledger.
   --force              Replace only this run's locked-audit artifacts.
@@ -61,6 +71,34 @@ while [[ $# -gt 0 ]]; do
         exit 2
       fi
       KEY_REPEATS="$2"
+      shift 2
+      ;;
+    --split-root)
+      if [[ $# -lt 2 ]] || [[ -z "$2" ]]; then
+        echo "ERROR: --split-root requires a path" >&2
+        exit 2
+      fi
+      SPLIT_ROOT_OPTION="$2"
+      shift 2
+      ;;
+    --materialize-model-input)
+      MATERIALIZE_MODEL_INPUT=1
+      shift
+      ;;
+    --model-ids)
+      if [[ $# -lt 2 ]] || [[ -z "$2" ]]; then
+        echo "ERROR: --model-ids requires a comma-separated list" >&2
+        exit 2
+      fi
+      MODEL_IDS_OPTION="$2"
+      shift 2
+      ;;
+    --dataset-ids)
+      if [[ $# -lt 2 ]] || [[ -z "$2" ]]; then
+        echo "ERROR: --dataset-ids requires a comma-separated list" >&2
+        exit 2
+      fi
+      DATASET_IDS_OPTION="$2"
       shift 2
       ;;
     --only-seed)
@@ -120,12 +158,13 @@ cd "$REPOSITORY_ROOT" || exit 1
 
 BASE_ROOT="results/thesis_grade_protocol/direct_tabular_autotune_v1"
 RUN_ROOT="$BASE_ROOT/$SELECTION_RUN_ID"
-SPLIT_ROOT="results/thesis_grade_protocol/tabular_splits_v1"
+SPLIT_ROOT="$SPLIT_ROOT_OPTION"
 AUDIT_ID="${SELECTION_RUN_ID}_locked_audit_keys${KEY_REPEATS}"
 AUDIT_ROOT="$RUN_ROOT/locked_audit/$AUDIT_ID"
 RESULT_ROOT="$AUDIT_ROOT/results"
 LOG_ROOT="$AUDIT_ROOT/logs"
 SUMMARY_ROOT="$AUDIT_ROOT/summary"
+MATERIALIZED_ROOT="$AUDIT_ROOT/materialized"
 STATUS_PATH="$AUDIT_ROOT/locked_audit_status.csv"
 BINARY="$AUDIT_ROOT/flipguard-audit"
 
@@ -140,21 +179,30 @@ MODELS=(
   linear_poly3
   mlp_square_linear_score
 )
+IFS=',' read -r -a DATASETS <<<"$DATASET_IDS_OPTION"
+IFS=',' read -r -a MODELS <<<"$MODEL_IDS_OPTION"
+if [[ ${#DATASETS[@]} -eq 0 ]] || [[ ${#MODELS[@]} -eq 0 ]]; then
+  echo "ERROR: dataset and model allowlists must be non-empty" >&2
+  exit 2
+fi
+for value in "${DATASETS[@]}" "${MODELS[@]}"; do
+  if [[ ! "$value" =~ ^[A-Za-z0-9][A-Za-z0-9_]*$ ]]; then
+    echo "ERROR: invalid dataset/model ID $value" >&2
+    exit 2
+  fi
+done
 
 case "$MODE" in
   smoke)
     SEEDS=(0)
     DATASETS=(iris_binary)
     MODELS=(linear_poly3)
-    EXPECTED_RUNS=1
     ;;
   seed0)
     SEEDS=(0)
-    EXPECTED_RUNS=10
     ;;
   full)
     SEEDS=(0 1 2 3 4)
-    EXPECTED_RUNS=50
     ;;
   *)
     echo "ERROR: unsupported mode $MODE" >&2
@@ -169,6 +217,9 @@ if [[ -n "$ONLY_SEED" ]]; then
   fi
   SEEDS=("$ONLY_SEED")
 fi
+EXPECTED_RUNS=$((
+  ${#SEEDS[@]} * ${#DATASETS[@]} * ${#MODELS[@]}
+))
 
 if [[ ! -d "$RUN_ROOT/results" ]]; then
   echo "ERROR: missing selection run $RUN_ROOT/results" >&2
@@ -195,9 +246,15 @@ if [[ $FORCE -eq 1 ]]; then
   if [[ -d "$SUMMARY_ROOT" ]]; then
     find "$SUMMARY_ROOT" -type f -delete
   fi
+  if [[ -d "$MATERIALIZED_ROOT" ]]; then
+    find "$MATERIALIZED_ROOT" -type f -delete
+  fi
 fi
 
 mkdir -p "$RESULT_ROOT" "$LOG_ROOT" "$SUMMARY_ROOT"
+if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
+  mkdir -p "$MATERIALIZED_ROOT"
+fi
 
 echo "=== build locked audit binary ==="
 GOCACHE="$REPOSITORY_ROOT/$AUDIT_ROOT/go-cache" \
@@ -317,6 +374,15 @@ for seed in "${SEEDS[@]}"; do
       tag="${selection_tag}_locked_audit_keys${KEY_REPEATS}"
       result_path="$RESULT_ROOT/${tag}.json"
       stdout_log="$LOG_ROOT/${tag}.txt"
+      prepared_audit_path=""
+      AUDIT_MATERIALIZATION_ARGS=()
+      if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
+        prepared_audit_path="$MATERIALIZED_ROOT/${tag}.csv"
+        AUDIT_MATERIALIZATION_ARGS=(
+          --prepared-audit-out "$prepared_audit_path"
+          --audit-data-space model
+        )
+      fi
 
       for required in \
         "$selection_path" \
@@ -356,6 +422,9 @@ for seed in "${SEEDS[@]}"; do
       workload_started=$((workload_started + 1))
       remove_status_row "$tag"
       rm -f "$result_path" "$stdout_log"
+      if [[ -n "$prepared_audit_path" ]]; then
+        rm -f "$prepared_audit_path"
+      fi
 
       echo
       echo "AUDIT seed=$seed dataset=$dataset model=$model"
@@ -363,6 +432,7 @@ for seed in "${SEEDS[@]}"; do
       "$BINARY" \
         --selection "$selection_path" \
         --audit "$audit_path" \
+        "${AUDIT_MATERIALIZATION_ARGS[@]}" \
         --manifest "$manifest_path" \
         --key-repeats "$KEY_REPEATS" \
         --out "$result_path" \
@@ -413,10 +483,15 @@ echo "workload_failed=$workload_failed"
 echo "workload_skipped=$workload_skipped"
 echo "stopped_early=$stopped_early"
 
+SUMMARY_ARGS=()
+if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
+  SUMMARY_ARGS+=(--require-source-replay)
+fi
 python3 scripts/summarize_direct_tabular_locked_audit.py \
   --run-status "$STATUS_PATH" \
   --output-root "$SUMMARY_ROOT" \
-  --expected-runs "$EXPECTED_RUNS"
+  --expected-runs "$EXPECTED_RUNS" \
+  "${SUMMARY_ARGS[@]}"
 SUMMARY_STATUS=$?
 echo "summary_status=$SUMMARY_STATUS"
 if [[ $SUMMARY_STATUS -ne 0 ]]; then

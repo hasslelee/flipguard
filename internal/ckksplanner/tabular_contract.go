@@ -24,6 +24,7 @@ import (
 type TabularContractOptions struct {
 	ModelPath      string
 	ValidationPath string
+	SourceDataPath string
 	SplitID        string
 
 	MarginFloor  float64
@@ -35,21 +36,29 @@ type TabularContractOptions struct {
 	AllowedPaths         []tuner.ExecutionPath
 }
 
-// DefaultTabularContractOptions returns the currently declared primary
-// evaluation policy. Callers still have to provide model, validation, and split
-// identities.
+// DefaultTabularContractOptions returns backward-compatible base defaults.
+// Callers still have to provide model, validation, and split identities.
 func DefaultTabularContractOptions() TabularContractOptions {
+	policy := DefaultDirectSynthesisPolicyContract()
 	return TabularContractOptions{
-		MarginFloor:  0.001,
-		SafetyFactor: 0.5,
+		MarginFloor:  policy.PrimaryMarginFloor,
+		SafetyFactor: policy.PrimaryAlpha,
 
 		SecurityBits:         128,
-		MaxEncryptedTrials:   4,
+		MaxEncryptedTrials:   policy.MaxEncryptedTrials,
 		ValidationKeyRepeats: 1,
 		AllowedPaths: []tuner.ExecutionPath{
 			tuner.PathRescale,
 		},
 	}
+}
+
+// DefaultPrimaryTabularContractOptions returns the fresh-key policy evaluated
+// by the primary direct-synthesis and locked-audit protocol.
+func DefaultPrimaryTabularContractOptions() TabularContractOptions {
+	options := DefaultTabularContractOptions()
+	options.ValidationKeyRepeats = 3
+	return options
 }
 
 type tabularModelArtifact struct {
@@ -59,8 +68,17 @@ type tabularModelArtifact struct {
 	ModelType   string `json:"model_type"`
 	InputDim    int    `json:"input_dim"`
 
+	SelectedFeatureIndices []int                  `json:"selected_feature_indices"`
+	SelectedFeatureNames   []string               `json:"selected_feature_names"`
+	Standardization        tabularStandardization `json:"standardization"`
+
 	ScaledModelForCKKS tabularScaledModel     `json:"scaled_model_for_ckks"`
 	PolynomialScore    tabularPolynomialScore `json:"polynomial_score"`
+}
+
+type tabularStandardization struct {
+	Mean []float64 `json:"mean"`
+	Std  []float64 `json:"std"`
 }
 
 type tabularPolynomialScore struct {
@@ -125,7 +143,7 @@ func BuildTabularWorkloadContract(
 		)
 	}
 
-	samples, err := parseTabularValidation(
+	samples, provenance, err := parseTabularValidation(
 		validationBytes,
 		model.InputDim,
 	)
@@ -232,6 +250,14 @@ func BuildTabularWorkloadContract(
 	}
 
 	modelDigest := digestBytes(modelBytes)
+	if provenance.ModelSHA256 != "" &&
+		provenance.ModelSHA256 != modelDigest {
+		return WorkloadContract{}, fmt.Errorf(
+			"validation materialization model digest %s does not match model artifact %s",
+			provenance.ModelSHA256,
+			modelDigest,
+		)
+	}
 	validationArtifactDigest := digestBytes(validationBytes)
 	validationDigest := digestValidationScores(sampleOrder, plainScores)
 	graphSummary, err := summarizeTabularGraph(graph)
@@ -241,6 +267,51 @@ func BuildTabularWorkloadContract(
 	scaleDemand, err := analyzeLattigoRescaleDemand(graph)
 	if err != nil {
 		return WorkloadContract{}, err
+	}
+
+	var sourceDataBinding *ArtifactBinding
+	if strings.TrimSpace(options.SourceDataPath) != "" {
+		sourceBytes, err := os.ReadFile(options.SourceDataPath)
+		if err != nil {
+			return WorkloadContract{}, fmt.Errorf(
+				"read source data for contract binding: %w",
+				err,
+			)
+		}
+		sourceDigest := digestBytes(sourceBytes)
+		if provenance.SourceDataSHA256 == "" {
+			return WorkloadContract{}, fmt.Errorf(
+				"validation data has no materialized source digest",
+			)
+		}
+		if provenance.SourceDataSHA256 != sourceDigest {
+			return WorkloadContract{}, fmt.Errorf(
+				"validation materialization source digest %s does not match source data %s",
+				provenance.SourceDataSHA256,
+				sourceDigest,
+			)
+		}
+		if err := verifySourceMaterialization(
+			model,
+			sourceBytes,
+			samples,
+			provenance,
+		); err != nil {
+			return WorkloadContract{}, err
+		}
+		sourceDataBinding = &ArtifactBinding{
+			Path:   options.SourceDataPath,
+			SHA256: sourceDigest,
+		}
+	}
+	var inputMaterialization *InputMaterializationContract
+	if provenance.SchemaVersion != "" {
+		inputMaterialization = &InputMaterializationContract{
+			SchemaVersion:        provenance.SchemaVersion,
+			SourceFeatureSpace:   provenance.SourceFeatureSpace,
+			PreprocessingMethod:  provenance.PreprocessingMethod,
+			SourceReplayVerified: sourceDataBinding != nil,
+		}
 	}
 
 	contract := WorkloadContract{
@@ -263,6 +334,8 @@ func BuildTabularWorkloadContract(
 			Path:   options.ValidationPath,
 			SHA256: validationArtifactDigest,
 		},
+		SourceData:           sourceDataBinding,
+		InputMaterialization: inputMaterialization,
 
 		Graph: graphSummary,
 		Decision: DecisionStabilityContract{
@@ -611,27 +684,36 @@ func addTabularAffine(
 	return outputID
 }
 
+type tabularValidationProvenance struct {
+	SchemaVersion       string
+	ModelSHA256         string
+	SourceDataSHA256    string
+	SourceFeatureSpace  string
+	PreprocessingMethod string
+}
+
 func parseTabularValidation(
 	data []byte,
 	inputDim int,
-) ([]tabularValidationSample, error) {
+) ([]tabularValidationSample, tabularValidationProvenance, error) {
 	reader := csv.NewReader(strings.NewReader(string(data)))
 	header, err := reader.Read()
 	if err != nil {
-		return nil, fmt.Errorf("read tabular validation header: %w", err)
+		return nil, tabularValidationProvenance{},
+			fmt.Errorf("read tabular validation header: %w", err)
 	}
 
 	columns := make(map[string]int, len(header))
 	for index, name := range header {
 		name = strings.TrimSpace(name)
 		if name == "" {
-			return nil, fmt.Errorf(
+			return nil, tabularValidationProvenance{}, fmt.Errorf(
 				"tabular validation column %d is empty",
 				index,
 			)
 		}
 		if _, exists := columns[name]; exists {
-			return nil, fmt.Errorf(
+			return nil, tabularValidationProvenance{}, fmt.Errorf(
 				"tabular validation has duplicate column %q",
 				name,
 			)
@@ -649,15 +731,34 @@ func parseTabularValidation(
 	}
 	for _, name := range required {
 		if _, exists := columns[name]; !exists {
-			return nil, fmt.Errorf(
+			return nil, tabularValidationProvenance{}, fmt.Errorf(
 				"tabular validation is missing column %q",
 				name,
 			)
 		}
 	}
+	_, hasMaterializationSchema := columns["materialization_schema"]
+	_, hasSourceModelDigest := columns["source_model_sha256"]
+	_, hasSourceDataDigest := columns["source_data_sha256"]
+	_, hasSourceFeatureSpace := columns["source_feature_space"]
+	_, hasPreprocessingMethod := columns["preprocessing_method"]
+	hasAnyProvenance := hasMaterializationSchema ||
+		hasSourceModelDigest ||
+		hasSourceDataDigest ||
+		hasSourceFeatureSpace ||
+		hasPreprocessingMethod
+	if hasAnyProvenance &&
+		!(hasMaterializationSchema &&
+			hasSourceModelDigest &&
+			hasSourceDataDigest) {
+		return nil, tabularValidationProvenance{}, fmt.Errorf(
+			"tabular validation materialization provenance columns are incomplete",
+		)
+	}
 
 	samples := make([]tabularValidationSample, 0)
 	seenIDs := map[string]bool{}
+	provenance := tabularValidationProvenance{}
 
 	for rowNumber := 2; ; rowNumber++ {
 		record, err := reader.Read()
@@ -665,14 +766,14 @@ func parseTabularValidation(
 			break
 		}
 		if err != nil {
-			return nil, fmt.Errorf(
+			return nil, tabularValidationProvenance{}, fmt.Errorf(
 				"read tabular validation row %d: %w",
 				rowNumber,
 				err,
 			)
 		}
 		if len(record) != len(header) {
-			return nil, fmt.Errorf(
+			return nil, tabularValidationProvenance{}, fmt.Errorf(
 				"tabular validation row %d has %d fields, expected %d",
 				rowNumber,
 				len(record),
@@ -682,13 +783,13 @@ func parseTabularValidation(
 
 		id := strings.TrimSpace(record[columns["row_id"]])
 		if id == "" {
-			return nil, fmt.Errorf(
+			return nil, tabularValidationProvenance{}, fmt.Errorf(
 				"tabular validation row %d has empty row_id",
 				rowNumber,
 			)
 		}
 		if seenIDs[id] {
-			return nil, fmt.Errorf(
+			return nil, tabularValidationProvenance{}, fmt.Errorf(
 				"tabular validation has duplicate row_id %q",
 				id,
 			)
@@ -701,13 +802,13 @@ func parseTabularValidation(
 			rowNumber,
 		)
 		if err != nil {
-			return nil, err
+			return nil, tabularValidationProvenance{}, err
 		}
 		decision, err := strconv.ParseBool(
 			strings.TrimSpace(record[columns["plaintext_decision"]]),
 		)
 		if err != nil {
-			return nil, fmt.Errorf(
+			return nil, tabularValidationProvenance{}, fmt.Errorf(
 				"parse tabular validation row %d plaintext_decision: %w",
 				rowNumber,
 				err,
@@ -723,7 +824,99 @@ func parseTabularValidation(
 				rowNumber,
 			)
 			if err != nil {
-				return nil, err
+				return nil, tabularValidationProvenance{}, err
+			}
+		}
+
+		if schemaIndex, exists := columns["materialization_schema"]; exists {
+			schema := strings.TrimSpace(record[schemaIndex])
+			sourceFeatureSpace :=
+				string(TabularDataSpaceModelInput)
+			preprocessingMethod :=
+				TabularPreprocessingIdentityV1
+			switch schema {
+			case TabularValidationMaterializationSchemaV1:
+				if hasSourceFeatureSpace ||
+					hasPreprocessingMethod {
+					return nil, tabularValidationProvenance{}, fmt.Errorf(
+						"tabular validation row %d schema v1 must not declare v2 preprocessing columns",
+						rowNumber,
+					)
+				}
+			case TabularValidationMaterializationSchemaV2:
+				if !hasSourceFeatureSpace ||
+					!hasPreprocessingMethod {
+					return nil, tabularValidationProvenance{}, fmt.Errorf(
+						"tabular validation row %d schema v2 preprocessing provenance columns are incomplete",
+						rowNumber,
+					)
+				}
+				sourceFeatureSpace = strings.TrimSpace(
+					record[columns["source_feature_space"]],
+				)
+				preprocessingMethod = strings.TrimSpace(
+					record[columns["preprocessing_method"]],
+				)
+			default:
+				return nil, tabularValidationProvenance{}, fmt.Errorf(
+					"tabular validation row %d has unsupported materialization schema %q",
+					rowNumber,
+					schema,
+				)
+			}
+			modelDigestIndex := columns["source_model_sha256"]
+			sourceDigestIndex := columns["source_data_sha256"]
+			modelDigest := strings.TrimSpace(
+				record[modelDigestIndex],
+			)
+			sourceDigest := strings.TrimSpace(
+				record[sourceDigestIndex],
+			)
+			if err := validateSHA256(modelDigest); err != nil {
+				return nil, tabularValidationProvenance{}, fmt.Errorf(
+					"tabular validation row %d model digest: %w",
+					rowNumber,
+					err,
+				)
+			}
+			if err := validateSHA256(sourceDigest); err != nil {
+				return nil, tabularValidationProvenance{}, fmt.Errorf(
+					"tabular validation row %d source digest: %w",
+					rowNumber,
+					err,
+				)
+			}
+			materialization := InputMaterializationContract{
+				SchemaVersion:       schema,
+				SourceFeatureSpace:  sourceFeatureSpace,
+				PreprocessingMethod: preprocessingMethod,
+			}
+			if err := materialization.validate(); err != nil {
+				return nil, tabularValidationProvenance{}, fmt.Errorf(
+					"tabular validation row %d materialization contract: %w",
+					rowNumber,
+					err,
+				)
+			}
+			if provenance.SchemaVersion == "" {
+				provenance.SchemaVersion = schema
+				provenance.ModelSHA256 = modelDigest
+				provenance.SourceDataSHA256 = sourceDigest
+				provenance.SourceFeatureSpace =
+					sourceFeatureSpace
+				provenance.PreprocessingMethod =
+					preprocessingMethod
+			} else if provenance.SchemaVersion != schema ||
+				provenance.ModelSHA256 != modelDigest ||
+				provenance.SourceDataSHA256 != sourceDigest ||
+				provenance.SourceFeatureSpace !=
+					sourceFeatureSpace ||
+				provenance.PreprocessingMethod !=
+					preprocessingMethod {
+				return nil, tabularValidationProvenance{}, fmt.Errorf(
+					"tabular validation row %d materialization provenance changed",
+					rowNumber,
+				)
 			}
 		}
 
@@ -736,9 +929,82 @@ func parseTabularValidation(
 	}
 
 	if len(samples) == 0 {
-		return nil, fmt.Errorf("tabular validation data is empty")
+		return nil, tabularValidationProvenance{},
+			fmt.Errorf("tabular validation data is empty")
 	}
-	return samples, nil
+	return samples, provenance, nil
+}
+
+func verifySourceMaterialization(
+	model tabularModelArtifact,
+	sourceData []byte,
+	preparedSamples []tabularValidationSample,
+	provenance tabularValidationProvenance,
+) error {
+	if provenance.SchemaVersion == "" {
+		return fmt.Errorf(
+			"validation data has no materialization schema",
+		)
+	}
+	sourceRows, resolvedSpace, preprocessingMethod, err :=
+		parseTabularFeatureRows(
+			sourceData,
+			model,
+			TabularDataSpace(provenance.SourceFeatureSpace),
+		)
+	if err != nil {
+		return fmt.Errorf(
+			"replay source preprocessing: %w",
+			err,
+		)
+	}
+	if string(resolvedSpace) != provenance.SourceFeatureSpace ||
+		preprocessingMethod != provenance.PreprocessingMethod {
+		return fmt.Errorf(
+			"source preprocessing replay resolved %s/%s, expected %s/%s",
+			resolvedSpace,
+			preprocessingMethod,
+			provenance.SourceFeatureSpace,
+			provenance.PreprocessingMethod,
+		)
+	}
+	if len(sourceRows) != len(preparedSamples) {
+		return fmt.Errorf(
+			"source preprocessing produced %d rows, prepared validation has %d",
+			len(sourceRows),
+			len(preparedSamples),
+		)
+	}
+	for rowIndex, sourceRow := range sourceRows {
+		prepared := preparedSamples[rowIndex]
+		expectedID := strconv.Itoa(sourceRow.ID)
+		if prepared.ID != expectedID {
+			return fmt.Errorf(
+				"prepared validation row %d id %q does not match source preprocessing id %q",
+				rowIndex+2,
+				prepared.ID,
+				expectedID,
+			)
+		}
+		if len(sourceRow.Features) != len(prepared.Features) {
+			return fmt.Errorf(
+				"prepared validation row %d feature count does not match source preprocessing",
+				rowIndex+2,
+			)
+		}
+		for featureIndex, expected := range sourceRow.Features {
+			if prepared.Features[featureIndex] != expected {
+				return fmt.Errorf(
+					"prepared validation row %d x_%d %.17g does not match source preprocessing %.17g",
+					rowIndex+2,
+					featureIndex,
+					prepared.Features[featureIndex],
+					expected,
+				)
+			}
+		}
+	}
+	return nil
 }
 
 func parseFiniteCSVFloat(

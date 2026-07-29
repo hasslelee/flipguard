@@ -25,9 +25,9 @@ func TestSynthesizeProducesDirectExecutableProfile(t *testing.T) {
 	}
 
 	candidate := plan.InitialCandidates[0]
-	if candidate.Parameters.LogN != 13 {
+	if candidate.Parameters.LogN != 14 {
 		t.Fatalf(
-			"expected smallest admitted LogN 13, got %d",
+			"expected smallest V2-admitted LogN 14, got %d",
 			candidate.Parameters.LogN,
 		)
 	}
@@ -38,7 +38,7 @@ func TestSynthesizeProducesDirectExecutableProfile(t *testing.T) {
 		)
 	}
 	if candidate.Security.AdmissionStatus !=
-		"ADMITTED_BY_DECLARED_ENVELOPE" {
+		SecurityAdmissionPass {
 		t.Fatalf(
 			"unexpected security status %q",
 			candidate.Security.AdmissionStatus,
@@ -151,16 +151,16 @@ func TestSynthesizeMaximizesPrecisionWithinMinimumLogNTier(t *testing.T) {
 
 	candidate := plan.InitialCandidates[0]
 	if candidate.Parameters.LogN != 13 ||
-		candidate.Parameters.LogDefaultScale != 30 {
+		candidate.Parameters.LogDefaultScale != 29 {
 		t.Fatalf(
-			"expected MLP candidate N13/scale30, got N%d/scale%d",
+			"expected V2-tier MLP candidate N13/scale29, got N%d/scale%d",
 			candidate.Parameters.LogN,
 			candidate.Parameters.LogDefaultScale,
 		)
 	}
 	if candidate.AnalysisScaleBits != 18 ||
 		candidate.BackendScaleLiftBits != 2 ||
-		candidate.SameTierPrecisionGainBits != 10 {
+		candidate.SameTierPrecisionGainBits != 9 {
 		t.Fatalf(
 			"unexpected same-tier trace: %+v",
 			candidate,
@@ -190,9 +190,9 @@ func TestSynthesizeLinearSameTierCeilingIsScale26(t *testing.T) {
 
 	candidate := plan.InitialCandidates[0]
 	if candidate.Parameters.LogN != 13 ||
-		candidate.Parameters.LogDefaultScale != 26 {
+		candidate.Parameters.LogDefaultScale != 25 {
 		t.Fatalf(
-			"expected linear candidate N13/scale26, got N%d/scale%d",
+			"expected V2-tier linear candidate N13/scale25, got N%d/scale%d",
 			candidate.Parameters.LogN,
 			candidate.Parameters.LogDefaultScale,
 		)
@@ -209,6 +209,28 @@ func TestRetryablePrimeGenerationErrorIsNarrow(t *testing.T) {
 		fmt.Errorf("cannot NewParameters: invalid modulus"),
 	) {
 		t.Fatal("unexpected retry for unrelated backend error")
+	}
+}
+
+func TestDefaultPrimarySynthesisPolicyMatchesEvaluatedProtocol(
+	t *testing.T,
+) {
+	policy := DefaultPrimarySynthesisPolicy()
+	if policy.MinScaleBits != 18 ||
+		policy.MinPrimeBits != 18 ||
+		policy.SpecialPrimeBits != 30 {
+		t.Fatalf("unexpected primary policy: %+v", policy)
+	}
+}
+
+func TestDefaultPrimaryContractPolicyMatchesEvaluatedProtocol(
+	t *testing.T,
+) {
+	options := DefaultPrimaryTabularContractOptions()
+	if options.ValidationKeyRepeats != 3 ||
+		options.MarginFloor != 0.001 ||
+		options.SafetyFactor != 0.5 {
+		t.Fatalf("unexpected primary contract policy: %+v", options)
 	}
 }
 

@@ -38,6 +38,8 @@ type CandidateEvidence struct {
 	ErrorViolations int
 
 	MaxObservedError float64
+	// MaxObservedBudgetUsage is max(error / (alpha * margin)) on V_cert.
+	MaxObservedBudgetUsage float64
 
 	// AnalyticalBoundProvided explicitly states whether MaxErrorBound contains
 	// an analytical certificate bound. Presence is represented separately
@@ -65,8 +67,9 @@ type CandidateCertificate struct {
 	DecisionFlips   int
 	ErrorViolations int
 
-	MaxObservedError float64
-	MaxErrorBound    float64
+	MaxObservedError       float64
+	MaxObservedBudgetUsage float64
+	MaxErrorBound          float64
 
 	AnalyticalBoundProvided  bool
 	AnalyticalBoundSatisfied bool

@@ -35,6 +35,15 @@ type ArtifactBinding struct {
 	SHA256 string `json:"sha256"`
 }
 
+// InputMaterializationContract records how source feature rows were converted
+// into the exact model-input rows used by the encrypted backend.
+type InputMaterializationContract struct {
+	SchemaVersion        string `json:"schema_version"`
+	SourceFeatureSpace   string `json:"source_feature_space"`
+	PreprocessingMethod  string `json:"preprocessing_method"`
+	SourceReplayVerified bool   `json:"source_replay_verified"`
+}
+
 // DecisionStabilityContract defines the observed-validation decision claim
 // that candidate execution must satisfy.
 type DecisionStabilityContract struct {
@@ -94,8 +103,10 @@ type WorkloadContract struct {
 	ModelType  string `json:"model_type"`
 	SplitID    string `json:"split_id"`
 
-	ModelArtifact  ArtifactBinding `json:"model_artifact"`
-	ValidationData ArtifactBinding `json:"validation_data"`
+	ModelArtifact        ArtifactBinding               `json:"model_artifact"`
+	ValidationData       ArtifactBinding               `json:"validation_data"`
+	SourceData           *ArtifactBinding              `json:"source_data,omitempty"`
+	InputMaterialization *InputMaterializationContract `json:"input_materialization,omitempty"`
 
 	Graph       tuner.GraphSummary        `json:"graph"`
 	Decision    DecisionStabilityContract `json:"decision"`
@@ -134,6 +145,29 @@ func (contract WorkloadContract) Validate() error {
 	if err := contract.ValidationData.validate("validation data"); err != nil {
 		return err
 	}
+	if contract.SourceData != nil {
+		if err := contract.SourceData.validate("source data"); err != nil {
+			return err
+		}
+	}
+	if contract.InputMaterialization != nil {
+		if err := contract.InputMaterialization.validate(); err != nil {
+			return err
+		}
+	}
+	if contract.SourceData != nil {
+		if contract.InputMaterialization == nil ||
+			!contract.InputMaterialization.SourceReplayVerified {
+			return fmt.Errorf(
+				"bound source data requires verified input materialization replay",
+			)
+		}
+	} else if contract.InputMaterialization != nil &&
+		contract.InputMaterialization.SourceReplayVerified {
+		return fmt.Errorf(
+			"verified input materialization replay requires bound source data",
+		)
+	}
 	if err := validateGraphSummary(contract.Graph); err != nil {
 		return err
 	}
@@ -147,6 +181,49 @@ func (contract WorkloadContract) Validate() error {
 		return err
 	}
 
+	return nil
+}
+
+func (materialization InputMaterializationContract) validate() error {
+	switch materialization.SchemaVersion {
+	case TabularValidationMaterializationSchemaV1:
+		if materialization.SourceFeatureSpace !=
+			string(TabularDataSpaceModelInput) ||
+			materialization.PreprocessingMethod !=
+				TabularPreprocessingIdentityV1 {
+			return fmt.Errorf(
+				"schema %s requires model_input identity preprocessing",
+				materialization.SchemaVersion,
+			)
+		}
+	case TabularValidationMaterializationSchemaV2:
+		switch materialization.SourceFeatureSpace {
+		case string(TabularDataSpaceModelInput):
+			if materialization.PreprocessingMethod !=
+				TabularPreprocessingIdentityV1 {
+				return fmt.Errorf(
+					"model_input data requires identity preprocessing",
+				)
+			}
+		case string(TabularDataSpaceRaw):
+			if materialization.PreprocessingMethod !=
+				TabularPreprocessingSelectedStandardizationV1 {
+				return fmt.Errorf(
+					"raw data requires selected-feature standardization",
+				)
+			}
+		default:
+			return fmt.Errorf(
+				"unsupported source feature space %q",
+				materialization.SourceFeatureSpace,
+			)
+		}
+	default:
+		return fmt.Errorf(
+			"unsupported input materialization schema %q",
+			materialization.SchemaVersion,
+		)
+	}
 	return nil
 }
 

@@ -79,6 +79,12 @@ func BuildCandidateCertificateWithPolicy(
 			evidence.Candidate.ID,
 		)
 	}
+	if !isNonNegativeFinite(evidence.MaxObservedBudgetUsage) {
+		return CandidateCertificate{}, fmt.Errorf(
+			"candidate %s has invalid maximum observed budget usage",
+			evidence.Candidate.ID,
+		)
+	}
 	if !isNonNegativeFinite(evidence.MaxErrorBound) {
 		return CandidateCertificate{}, fmt.Errorf(
 			"candidate %s has invalid maximum error bound",
@@ -153,8 +159,9 @@ func BuildCandidateCertificateWithPolicy(
 		DecisionFlips:   evidence.DecisionFlips,
 		ErrorViolations: evidence.ErrorViolations,
 
-		MaxObservedError: evidence.MaxObservedError,
-		MaxErrorBound:    evidence.MaxErrorBound,
+		MaxObservedError:       evidence.MaxObservedError,
+		MaxObservedBudgetUsage: evidence.MaxObservedBudgetUsage,
+		MaxErrorBound:          evidence.MaxErrorBound,
 
 		AnalyticalBoundProvided:  boundProvided,
 		AnalyticalBoundSatisfied: boundSatisfied,

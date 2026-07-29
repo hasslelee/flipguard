@@ -26,6 +26,8 @@ const (
 type LockedAuditOptions struct {
 	SelectionResultPath string
 	AuditPath           string
+	PreparedAuditPath   string
+	AuditDataSpace      TabularDataSpace
 	SplitManifestPath   string
 	KeyRepeats          int
 }
@@ -107,9 +109,15 @@ func RunLockedTabularAudit(
 			err,
 		)
 	}
-	selected, err := validateLockedSelection(selection)
+	selected, err := ValidateSelectedAutotuneResult(selection)
 	if err != nil {
 		return LockedAuditResult{}, err
+	}
+	if err := verifyContractArtifacts(selection.Plan.Contract); err != nil {
+		return LockedAuditResult{}, fmt.Errorf(
+			"verify selection artifacts: %w",
+			err,
+		)
 	}
 
 	manifestBytes, err := os.ReadFile(options.SplitManifestPath)
@@ -127,18 +135,46 @@ func RunLockedTabularAudit(
 		)
 	}
 
-	auditBytes, err := os.ReadFile(options.AuditPath)
+	auditSourcePath := options.AuditPath
+	activeAuditPath := auditSourcePath
+	if strings.TrimSpace(options.PreparedAuditPath) != "" {
+		dataSpace := options.AuditDataSpace
+		if dataSpace == "" {
+			dataSpace = TabularDataSpaceAuto
+		}
+		if _, err := MaterializeTabularValidationWithOptions(
+			selection.Plan.Contract.ModelArtifact.Path,
+			auditSourcePath,
+			options.PreparedAuditPath,
+			TabularMaterializationOptions{
+				DataSpace: dataSpace,
+			},
+		); err != nil {
+			return LockedAuditResult{}, fmt.Errorf(
+				"materialize locked audit data: %w",
+				err,
+			)
+		}
+		activeAuditPath = options.PreparedAuditPath
+	} else if options.AuditDataSpace != "" &&
+		options.AuditDataSpace != TabularDataSpaceAuto {
+		return LockedAuditResult{}, fmt.Errorf(
+			"audit data space requires a prepared audit path",
+		)
+	}
+
+	auditSourceBytes, err := os.ReadFile(auditSourcePath)
 	if err != nil {
 		return LockedAuditResult{}, fmt.Errorf(
-			"read locked audit data: %w",
+			"read locked audit source data: %w",
 			err,
 		)
 	}
 	if err := validateLockedSplit(
 		selection.Plan.Contract,
 		manifest,
-		options.AuditPath,
-		auditBytes,
+		auditSourcePath,
+		auditSourceBytes,
 	); err != nil {
 		return LockedAuditResult{}, err
 	}
@@ -152,7 +188,7 @@ func RunLockedTabularAudit(
 			err,
 		)
 	}
-	auditRowIDs, err := readCSVRowIDs(options.AuditPath)
+	auditRowIDs, err := readCSVRowIDs(activeAuditPath)
 	if err != nil {
 		return LockedAuditResult{}, fmt.Errorf(
 			"read locked audit row IDs: %w",
@@ -198,7 +234,10 @@ func RunLockedTabularAudit(
 	contractOptions := DefaultTabularContractOptions()
 	contractOptions.ModelPath =
 		selectionContract.ModelArtifact.Path
-	contractOptions.ValidationPath = options.AuditPath
+	contractOptions.ValidationPath = activeAuditPath
+	if activeAuditPath != auditSourcePath {
+		contractOptions.SourceDataPath = auditSourcePath
+	}
 	contractOptions.SplitID =
 		selectionContract.SplitID + "/locked_audit"
 	contractOptions.MarginFloor =
@@ -281,9 +320,18 @@ func RunLockedTabularAudit(
 	}, nil
 }
 
-func validateLockedSelection(
+// ValidateSelectedAutotuneResult deterministically reproduces a serialized
+// adaptive result's synthesis plan, repair chain, trial ledger, and final SAFE
+// candidate before a locked audit may consume it.
+func ValidateSelectedAutotuneResult(
 	selection AdaptiveAutotuneResult,
 ) (SynthesizedCandidate, error) {
+	if selection.SchemaVersion != SynthesisPlanSchemaVersion {
+		return SynthesizedCandidate{}, fmt.Errorf(
+			"unsupported selection result schema version %d",
+			selection.SchemaVersion,
+		)
+	}
 	if selection.Outcome != AdaptiveOutcomeSelected ||
 		selection.Selected == nil {
 		return SynthesizedCandidate{}, fmt.Errorf(
@@ -306,21 +354,196 @@ func validateLockedSelection(
 		)
 	}
 
-	selected := *selection.Selected
-	safeMatches := 0
-	for _, trial := range selection.Trials {
-		if trial.Status == certify.StatusSafe &&
-			reflect.DeepEqual(trial.Candidate, selected) {
-			safeMatches++
-		}
-	}
-	if safeMatches != 1 {
+	reproducedPlan, err := Synthesize(
+		selection.Plan.Contract,
+		selection.Plan.Policy,
+	)
+	if err != nil {
 		return SynthesizedCandidate{}, fmt.Errorf(
-			"selected candidate has %d exact SAFE trial matches",
-			safeMatches,
+			"reproduce selection synthesis plan: %w",
+			err,
+		)
+	}
+	if !reflect.DeepEqual(reproducedPlan, selection.Plan) {
+		return SynthesizedCandidate{}, fmt.Errorf(
+			"selection synthesis plan does not reproduce",
+		)
+	}
+	if selection.TrialsUsed != len(selection.Trials) ||
+		selection.TrialsUsed == 0 ||
+		selection.TrialsUsed >
+			selection.Plan.Contract.Deployment.MaxEncryptedTrials {
+		return SynthesizedCandidate{}, fmt.Errorf(
+			"selection trial ledger mismatch: trials_used=%d records=%d budget=%d",
+			selection.TrialsUsed,
+			len(selection.Trials),
+			selection.Plan.Contract.Deployment.MaxEncryptedTrials,
+		)
+	}
+
+	selected := *selection.Selected
+	expectedCandidate := selection.Plan.InitialCandidates[0]
+	encryptedKeyRuns := 0
+	for index, trial := range selection.Trials {
+		expectedTrialIndex := index + 1
+		if trial.TrialIndex != expectedTrialIndex {
+			return SynthesizedCandidate{}, fmt.Errorf(
+				"selection trial %d records trial_index=%d",
+				expectedTrialIndex,
+				trial.TrialIndex,
+			)
+		}
+		if !reflect.DeepEqual(
+			trial.Candidate,
+			expectedCandidate,
+		) {
+			return SynthesizedCandidate{}, fmt.Errorf(
+				"selection trial %d candidate does not reproduce",
+				expectedTrialIndex,
+			)
+		}
+		if trial.KeyRepeatsRequested !=
+			selection.Plan.Contract.Deployment.
+				ValidationKeyRepeats ||
+			trial.KeyRepeatsCompleted < 0 ||
+			trial.KeyRepeatsCompleted >
+				trial.KeyRepeatsRequested {
+			return SynthesizedCandidate{}, fmt.Errorf(
+				"selection trial %d key-repeat ledger mismatch",
+				expectedTrialIndex,
+			)
+		}
+		encryptedKeyRuns += trial.KeyRepeatsCompleted
+
+		isFinal := index == len(selection.Trials)-1
+		if isFinal {
+			if trial.Status != certify.StatusSafe ||
+				!reflect.DeepEqual(
+					trial.Candidate,
+					selected,
+				) {
+				return SynthesizedCandidate{}, fmt.Errorf(
+					"selection final trial is not the selected SAFE candidate",
+				)
+			}
+			if err := validateSelectionTrialState(
+				trial,
+				selection.Plan.Contract,
+			); err != nil {
+				return SynthesizedCandidate{}, fmt.Errorf(
+					"selection trial %d: %w",
+					expectedTrialIndex,
+					err,
+				)
+			}
+			continue
+		}
+		if trial.Status == certify.StatusSafe {
+			return SynthesizedCandidate{}, fmt.Errorf(
+				"selection contains a SAFE trial before the final selection",
+			)
+		}
+		if err := validateSelectionTrialState(
+			trial,
+			selection.Plan.Contract,
+		); err != nil {
+			return SynthesizedCandidate{}, fmt.Errorf(
+				"selection trial %d: %w",
+				expectedTrialIndex,
+				err,
+			)
+		}
+		next, err := RepairCandidate(
+			selection.Plan,
+			expectedCandidate,
+			trial.FailureSignal,
+			expectedTrialIndex,
+		)
+		if err != nil {
+			return SynthesizedCandidate{}, fmt.Errorf(
+				"reproduce repair after selection trial %d: %w",
+				expectedTrialIndex,
+				err,
+			)
+		}
+		expectedCandidate = next
+	}
+	if encryptedKeyRuns != selection.EncryptedKeyRuns {
+		return SynthesizedCandidate{}, fmt.Errorf(
+			"selection encrypted-key ledger mismatch: recorded=%d reproduced=%d",
+			selection.EncryptedKeyRuns,
+			encryptedKeyRuns,
 		)
 	}
 	return selected, nil
+}
+
+func validateSelectionTrialState(
+	trial TabularTrialResult,
+	contract WorkloadContract,
+) error {
+	switch trial.Status {
+	case certify.StatusSafe:
+		if trial.FailureSignal != "" ||
+			trial.Failure != "" ||
+			trial.Assurance !=
+				certify.AssuranceObservedValidation ||
+			trial.KeyRepeatsCompleted !=
+				trial.KeyRepeatsRequested ||
+			trial.SuccessRuns !=
+				trial.KeyRepeatsRequested ||
+			trial.DecisionFlips != 0 ||
+			trial.ErrorViolations != 0 ||
+			trial.VCert !=
+				contract.Decision.CertifiableSamples ||
+			trial.VAmb !=
+				contract.Decision.AmbiguousSamples {
+			return fmt.Errorf(
+				"SAFE trial evidence is internally inconsistent",
+			)
+		}
+
+	case certify.StatusRejected:
+		if trial.FailureSignal != RepairNumericalReject ||
+			trial.Failure != "" ||
+			trial.Assurance != certify.AssuranceNone ||
+			trial.KeyRepeatsCompleted !=
+				trial.KeyRepeatsRequested ||
+			trial.SuccessRuns !=
+				trial.KeyRepeatsRequested ||
+			trial.DecisionFlips+
+				trial.ErrorViolations == 0 ||
+			trial.VCert !=
+				contract.Decision.CertifiableSamples ||
+			trial.VAmb !=
+				contract.Decision.AmbiguousSamples {
+			return fmt.Errorf(
+				"REJECTED trial evidence is internally inconsistent",
+			)
+		}
+
+	case certify.StatusFailed:
+		if trial.FailureSignal != RepairLevelFailure ||
+			strings.TrimSpace(trial.Failure) == "" ||
+			trial.Assurance != certify.AssuranceNone ||
+			trial.SuccessRuns != 0 {
+			return fmt.Errorf(
+				"FAILED trial evidence is internally inconsistent",
+			)
+		}
+
+	case certify.StatusAmbiguous:
+		return fmt.Errorf(
+			"AMBIGUOUS trial cannot precede a selected result",
+		)
+
+	default:
+		return fmt.Errorf(
+			"unsupported trial status %q",
+			trial.Status,
+		)
+	}
+	return nil
 }
 
 func validateLockedSplit(
@@ -362,16 +585,20 @@ func validateLockedSplit(
 			selectionContract.SplitID,
 		)
 	}
+	selectionPartition := selectionContract.ValidationData
+	if selectionContract.SourceData != nil {
+		selectionPartition = *selectionContract.SourceData
+	}
 	if manifest.ConfigurationValidation.Path !=
-		selectionContract.ValidationData.Path {
+		selectionPartition.Path {
 		return fmt.Errorf(
 			"split manifest validation path %q does not match selection %q",
 			manifest.ConfigurationValidation.Path,
-			selectionContract.ValidationData.Path,
+			selectionPartition.Path,
 		)
 	}
 	if manifest.ConfigurationValidation.CSVDigest !=
-		selectionContract.ValidationData.SHA256 {
+		selectionPartition.SHA256 {
 		return fmt.Errorf(
 			"split manifest validation digest does not match selection",
 		)
@@ -391,7 +618,7 @@ func validateLockedSplit(
 			actualAuditDigest,
 		)
 	}
-	if selectionContract.ValidationData.SHA256 ==
+	if selectionPartition.SHA256 ==
 		actualAuditDigest {
 		return fmt.Errorf(
 			"locked audit artifact is identical to selection validation",

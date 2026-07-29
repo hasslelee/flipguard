@@ -74,6 +74,151 @@ func TestRunLockedTabularAuditPassesWithoutRetuning(
 	}
 }
 
+func TestRunLockedTabularAuditAcceptsReplayVerifiedMaterialization(
+	t *testing.T,
+) {
+	modelPath, sourcePath := writeLinearFixture(t, false)
+	preparedPath := filepath.Join(
+		filepath.Dir(modelPath),
+		"prepared_validation.csv",
+	)
+	if _, err := MaterializeTabularValidationWithOptions(
+		modelPath,
+		sourcePath,
+		preparedPath,
+		TabularMaterializationOptions{
+			DataSpace: TabularDataSpaceModelInput,
+		},
+	); err != nil {
+		t.Fatalf("materialize validation fixture: %v", err)
+	}
+	selectionPath, selection := writeSelectionFixtureWithSource(
+		t,
+		modelPath,
+		preparedPath,
+		sourcePath,
+	)
+	auditPath := writeAuditCSVFixture(
+		t,
+		filepath.Dir(modelPath),
+		[]int{3, 4, 5},
+	)
+	manifestPath := writeSplitManifestFixture(
+		t,
+		modelPath,
+		sourcePath,
+		auditPath,
+		[]string{"0", "1", "2"},
+		[]string{"3", "4", "5"},
+	)
+	preparedAuditPath := filepath.Join(
+		filepath.Dir(modelPath),
+		"prepared_locked_audit.csv",
+	)
+
+	result, err := RunLockedTabularAudit(
+		LockedAuditOptions{
+			SelectionResultPath: selectionPath,
+			AuditPath:           auditPath,
+			PreparedAuditPath:   preparedAuditPath,
+			AuditDataSpace:      TabularDataSpaceModelInput,
+			SplitManifestPath:   manifestPath,
+			KeyRepeats:          1,
+		},
+	)
+	if err != nil {
+		t.Fatalf("run materialized locked audit: %v", err)
+	}
+	if result.Outcome != LockedAuditOutcomePass {
+		t.Fatalf(
+			"expected materialized PASS, got %s: %s",
+			result.Outcome,
+			result.Reason,
+		)
+	}
+	if selection.Plan.Contract.SourceData == nil ||
+		selection.Plan.Contract.InputMaterialization == nil ||
+		!selection.Plan.Contract.InputMaterialization.
+			SourceReplayVerified {
+		t.Fatal("selection did not bind verified source replay")
+	}
+	if result.AuditContract.SourceData == nil ||
+		result.AuditContract.SourceData.Path != auditPath ||
+		result.AuditContract.ValidationData.Path !=
+			preparedAuditPath ||
+		result.AuditContract.InputMaterialization == nil ||
+		!result.AuditContract.InputMaterialization.
+			SourceReplayVerified {
+		t.Fatal("audit did not bind verified source replay")
+	}
+}
+
+func TestRunLockedTabularAuditRejectsMutatedSelectionSource(
+	t *testing.T,
+) {
+	modelPath, sourcePath := writeLinearFixture(t, false)
+	preparedPath := filepath.Join(
+		filepath.Dir(modelPath),
+		"prepared_validation.csv",
+	)
+	if _, err := MaterializeTabularValidationWithOptions(
+		modelPath,
+		sourcePath,
+		preparedPath,
+		TabularMaterializationOptions{
+			DataSpace: TabularDataSpaceModelInput,
+		},
+	); err != nil {
+		t.Fatalf("materialize validation fixture: %v", err)
+	}
+	selectionPath, _ := writeSelectionFixtureWithSource(
+		t,
+		modelPath,
+		preparedPath,
+		sourcePath,
+	)
+	auditPath := writeAuditCSVFixture(
+		t,
+		filepath.Dir(modelPath),
+		[]int{3, 4, 5},
+	)
+	manifestPath := writeSplitManifestFixture(
+		t,
+		modelPath,
+		sourcePath,
+		auditPath,
+		[]string{"0", "1", "2"},
+		[]string{"3", "4", "5"},
+	)
+	sourceBytes, err := os.ReadFile(sourcePath)
+	if err != nil {
+		t.Fatalf("read source fixture: %v", err)
+	}
+	if err := os.WriteFile(
+		sourcePath,
+		append(sourceBytes, '\n'),
+		0o600,
+	); err != nil {
+		t.Fatalf("mutate source fixture: %v", err)
+	}
+
+	_, err = RunLockedTabularAudit(
+		LockedAuditOptions{
+			SelectionResultPath: selectionPath,
+			AuditPath:           auditPath,
+			SplitManifestPath:   manifestPath,
+			KeyRepeats:          1,
+		},
+	)
+	if err == nil ||
+		!strings.Contains(err.Error(), "source data digest changed") {
+		t.Fatalf(
+			"expected mutated source rejection, got %v",
+			err,
+		)
+	}
+}
+
 func TestRunLockedTabularAuditRejectsRowOverlap(
 	t *testing.T,
 ) {
@@ -111,16 +256,294 @@ func TestRunLockedTabularAuditRejectsRowOverlap(
 	}
 }
 
+func TestValidateSelectedAutotuneResultRejectsMutations(
+	t *testing.T,
+) {
+	modelPath, validationPath := writeLinearFixture(t, false)
+	_, valid := writeSelectionFixture(
+		t,
+		modelPath,
+		validationPath,
+	)
+
+	tests := []struct {
+		name       string
+		mutate     func(*AdaptiveAutotuneResult)
+		wantReason string
+	}{
+		{
+			name: "result schema",
+			mutate: func(result *AdaptiveAutotuneResult) {
+				result.SchemaVersion++
+			},
+			wantReason: "selection result schema version",
+		},
+		{
+			name: "contract",
+			mutate: func(result *AdaptiveAutotuneResult) {
+				result.Plan.Contract.Decision.OutputErrorBudget *= 0.5
+			},
+			wantReason: "selection contract digest mismatch",
+		},
+		{
+			name: "policy",
+			mutate: func(result *AdaptiveAutotuneResult) {
+				result.Plan.Policy.MinScaleBits++
+			},
+			wantReason: "synthesis plan does not reproduce",
+		},
+		{
+			name: "candidate and matching trial",
+			mutate: func(result *AdaptiveAutotuneResult) {
+				result.Plan.InitialCandidates[0].ID += "_mutated"
+				result.Trials[0].Candidate.ID += "_mutated"
+				result.Selected.ID += "_mutated"
+			},
+			wantReason: "synthesis plan does not reproduce",
+		},
+		{
+			name: "trial count",
+			mutate: func(result *AdaptiveAutotuneResult) {
+				result.TrialsUsed++
+			},
+			wantReason: "trial ledger mismatch",
+		},
+		{
+			name: "trial index",
+			mutate: func(result *AdaptiveAutotuneResult) {
+				result.Trials[0].TrialIndex++
+			},
+			wantReason: "records trial_index",
+		},
+		{
+			name: "key repeats",
+			mutate: func(result *AdaptiveAutotuneResult) {
+				result.Trials[0].KeyRepeatsRequested++
+			},
+			wantReason: "key-repeat ledger mismatch",
+		},
+		{
+			name: "final status",
+			mutate: func(result *AdaptiveAutotuneResult) {
+				result.Trials[len(result.Trials)-1].Status =
+					"REJECTED"
+			},
+			wantReason: "final trial is not the selected SAFE candidate",
+		},
+		{
+			name: "encrypted key count",
+			mutate: func(result *AdaptiveAutotuneResult) {
+				result.EncryptedKeyRuns++
+			},
+			wantReason: "encrypted-key ledger mismatch",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			mutated := cloneAdaptiveResult(t, valid)
+			test.mutate(&mutated)
+			_, err := ValidateSelectedAutotuneResult(mutated)
+			if err == nil ||
+				!strings.Contains(
+					err.Error(),
+					test.wantReason,
+				) {
+				t.Fatalf(
+					"expected %q rejection, got %v",
+					test.wantReason,
+					err,
+				)
+			}
+		})
+	}
+}
+
+func TestValidateSelectedAutotuneResultAcceptsReproducedRepair(
+	t *testing.T,
+) {
+	modelPath, validationPath := writeLinearFixture(t, false)
+	_, valid := writeSelectionFixture(
+		t,
+		modelPath,
+		validationPath,
+	)
+	repaired, err := RepairCandidate(
+		valid.Plan,
+		valid.Plan.InitialCandidates[0],
+		RepairNumericalReject,
+		1,
+	)
+	if err != nil {
+		t.Fatalf("build repair fixture: %v", err)
+	}
+
+	rejected := valid.Trials[0]
+	rejected.Status = "REJECTED"
+	rejected.Assurance = "NONE"
+	rejected.FailureSignal = RepairNumericalReject
+	rejected.DecisionFlips = 1
+	rejected.ErrorViolations = 1
+
+	safe := valid.Trials[0]
+	safe.TrialIndex = 2
+	safe.Candidate = repaired
+
+	valid.Trials = []TabularTrialResult{rejected, safe}
+	valid.TrialsUsed = 2
+	valid.EncryptedKeyRuns =
+		rejected.KeyRepeatsCompleted +
+			safe.KeyRepeatsCompleted
+	valid.Selected = &repaired
+
+	selected, err := ValidateSelectedAutotuneResult(valid)
+	if err != nil {
+		t.Fatalf("validate reproduced repair ledger: %v", err)
+	}
+	if !reflect.DeepEqual(selected, repaired) {
+		t.Fatal("validated repair candidate changed")
+	}
+
+	mutated := cloneAdaptiveResult(t, valid)
+	mutated.Trials[0].FailureSignal = RepairLevelFailure
+	_, err = ValidateSelectedAutotuneResult(mutated)
+	if err == nil ||
+		!strings.Contains(
+			err.Error(),
+			"REJECTED trial evidence",
+		) {
+		t.Fatalf(
+			"expected repair-signal mutation rejection, got %v",
+			err,
+		)
+	}
+}
+
+func TestRunLockedTabularAuditRejectsMutatedAuditArtifact(
+	t *testing.T,
+) {
+	modelPath, validationPath := writeLinearFixture(t, false)
+	selectionPath, _ := writeSelectionFixture(
+		t,
+		modelPath,
+		validationPath,
+	)
+	auditPath := writeAuditCSVFixture(
+		t,
+		filepath.Dir(modelPath),
+		[]int{3, 4, 5},
+	)
+	manifestPath := writeSplitManifestFixture(
+		t,
+		modelPath,
+		validationPath,
+		auditPath,
+		[]string{"0", "1", "2"},
+		[]string{"3", "4", "5"},
+	)
+	auditBytes, err := os.ReadFile(auditPath)
+	if err != nil {
+		t.Fatalf("read audit fixture: %v", err)
+	}
+	if err := os.WriteFile(
+		auditPath,
+		append(auditBytes, '\n'),
+		0o600,
+	); err != nil {
+		t.Fatalf("mutate audit fixture: %v", err)
+	}
+
+	_, err = RunLockedTabularAudit(
+		LockedAuditOptions{
+			SelectionResultPath: selectionPath,
+			AuditPath:           auditPath,
+			SplitManifestPath:   manifestPath,
+			KeyRepeats:          1,
+		},
+	)
+	if err == nil ||
+		!strings.Contains(err.Error(), "audit digest") {
+		t.Fatalf(
+			"expected mutated audit digest rejection, got %v",
+			err,
+		)
+	}
+}
+
+func TestRunLockedTabularAuditRejectsMalformedSelectionJSON(
+	t *testing.T,
+) {
+	root := t.TempDir()
+	selectionPath := filepath.Join(root, "selection.json")
+	auditPath := filepath.Join(root, "audit.csv")
+	manifestPath := filepath.Join(root, "manifest.json")
+	if err := os.WriteFile(
+		selectionPath,
+		[]byte("{not-json\n"),
+		0o600,
+	); err != nil {
+		t.Fatalf("write malformed selection: %v", err)
+	}
+
+	_, err := RunLockedTabularAudit(
+		LockedAuditOptions{
+			SelectionResultPath: selectionPath,
+			AuditPath:           auditPath,
+			SplitManifestPath:   manifestPath,
+			KeyRepeats:          1,
+		},
+	)
+	if err == nil ||
+		!strings.Contains(err.Error(), "parse selection result") {
+		t.Fatalf(
+			"expected malformed selection rejection, got %v",
+			err,
+		)
+	}
+}
+
+func cloneAdaptiveResult(
+	t *testing.T,
+	value AdaptiveAutotuneResult,
+) AdaptiveAutotuneResult {
+	t.Helper()
+
+	encoded, err := json.Marshal(value)
+	if err != nil {
+		t.Fatalf("marshal adaptive result clone: %v", err)
+	}
+	cloned := AdaptiveAutotuneResult{}
+	if err := json.Unmarshal(encoded, &cloned); err != nil {
+		t.Fatalf("unmarshal adaptive result clone: %v", err)
+	}
+	return cloned
+}
+
 func writeSelectionFixture(
 	t *testing.T,
 	modelPath string,
 	validationPath string,
+) (string, AdaptiveAutotuneResult) {
+	return writeSelectionFixtureWithSource(
+		t,
+		modelPath,
+		validationPath,
+		"",
+	)
+}
+
+func writeSelectionFixtureWithSource(
+	t *testing.T,
+	modelPath string,
+	validationPath string,
+	sourcePath string,
 ) (string, AdaptiveAutotuneResult) {
 	t.Helper()
 
 	options := DefaultTabularContractOptions()
 	options.ModelPath = modelPath
 	options.ValidationPath = validationPath
+	options.SourceDataPath = sourcePath
 	options.SplitID = "split_seed_0"
 	options.MarginFloor = 0.01
 	options.MaxEncryptedTrials = 2

@@ -114,6 +114,14 @@ func TestAggregateObservedCandidateExcludesAmbiguousObservations(
 		)
 	}
 	if math.Abs(
+		aggregation.Evidence.MaxObservedBudgetUsage-0.08,
+	) > 1e-12 {
+		t.Fatalf(
+			"expected maximum budget usage 0.08, got %.12f",
+			aggregation.Evidence.MaxObservedBudgetUsage,
+		)
+	}
+	if math.Abs(
 		aggregation.MaxObservedErrorAll-0.4,
 	) > 1e-12 {
 		t.Fatalf(
@@ -198,6 +206,14 @@ func TestAggregateObservedCandidateCountsCertifiedFailures(
 		t.Fatalf(
 			"expected one V_cert violation, got %d",
 			aggregation.Evidence.ErrorViolations,
+		)
+	}
+	if math.Abs(
+		aggregation.Evidence.MaxObservedBudgetUsage-2.8,
+	) > 1e-12 {
+		t.Fatalf(
+			"expected maximum budget usage 2.8, got %.12f",
+			aggregation.Evidence.MaxObservedBudgetUsage,
 		)
 	}
 
@@ -325,6 +341,14 @@ func TestAggregateObservedCandidateRejectsBudgetEquality(
 		t.Fatalf(
 			"expected equality to count as one violation, got %d",
 			aggregation.Evidence.ErrorViolations,
+		)
+	}
+	if math.Abs(
+		aggregation.Evidence.MaxObservedBudgetUsage-1,
+	) > 1e-12 {
+		t.Fatalf(
+			"expected equality budget usage 1, got %.12f",
+			aggregation.Evidence.MaxObservedBudgetUsage,
 		)
 	}
 }
