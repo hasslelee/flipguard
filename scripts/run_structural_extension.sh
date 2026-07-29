@@ -2,6 +2,8 @@
 set -euo pipefail
 
 ACTION="--resume"
+AUTOTUNE_BINARY=""
+AUDIT_BINARY=""
 
 usage() {
   cat <<'EOF'
@@ -13,6 +15,10 @@ audit from a clean committed measurement source.
 Options:
   --resume   Resume completed workload artifacts (default).
   --force    Replace structural selection and audit artifacts.
+  --autotune-binary PATH
+             Reuse the frozen direct-selection binary.
+  --audit-binary PATH
+             Reuse the frozen locked-audit binary.
   -h, --help Show this help.
 EOF
 }
@@ -26,6 +32,22 @@ while [[ $# -gt 0 ]]; do
     --force)
       ACTION="--force"
       shift
+      ;;
+    --autotune-binary)
+      if [[ $# -lt 2 ]] || [[ ! -f "$2" ]]; then
+        echo "ERROR: --autotune-binary requires an existing file" >&2
+        exit 2
+      fi
+      AUTOTUNE_BINARY="$2"
+      shift 2
+      ;;
+    --audit-binary)
+      if [[ $# -lt 2 ]] || [[ ! -f "$2" ]]; then
+        echo "ERROR: --audit-binary requires an existing file" >&2
+        exit 2
+      fi
+      AUDIT_BINARY="$2"
+      shift 2
       ;;
     -h|--help)
       usage
@@ -96,6 +118,10 @@ if [[ "$actual_split_digest" != "$EXPECTED_SPLIT_DIGEST" ]]; then
   exit 1
 fi
 
+AUTOTUNE_BINARY_ARGS=()
+if [[ -n "$AUTOTUNE_BINARY" ]]; then
+  AUTOTUNE_BINARY_ARGS=(--binary "$AUTOTUNE_BINARY")
+fi
 scripts/run_direct_tabular_autotune_matrix.sh \
   --full \
   --split-root "$SPLIT_ROOT" \
@@ -104,8 +130,13 @@ scripts/run_direct_tabular_autotune_matrix.sh \
   --materialize-model-input \
   --precision-floor 18 \
   --key-repeats 3 \
+  "${AUTOTUNE_BINARY_ARGS[@]}" \
   "$ACTION"
 
+AUDIT_BINARY_ARGS=()
+if [[ -n "$AUDIT_BINARY" ]]; then
+  AUDIT_BINARY_ARGS=(--binary "$AUDIT_BINARY")
+fi
 scripts/run_direct_tabular_locked_audit_matrix.sh \
   --full \
   --selection-run "$SELECTION_RUN_ID" \
@@ -113,6 +144,7 @@ scripts/run_direct_tabular_locked_audit_matrix.sh \
   --split-root "$SPLIT_ROOT" \
   --model-ids mlp_square_poly3 \
   --key-repeats 3 \
+  "${AUDIT_BINARY_ARGS[@]}" \
   "$ACTION"
 
 python3 - \

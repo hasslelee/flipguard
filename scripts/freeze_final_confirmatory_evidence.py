@@ -19,8 +19,12 @@ RUN_MANIFEST = Path(
     "run_manifest/run_manifest.json"
 )
 FINAL_COMPARISON = Path(
-    "results/thesis_grade_protocol/direct_vs_catalog_oracle_v1/"
+    "results/thesis_grade_protocol/direct_vs_catalog_oracle_v2/"
     "final_source_baseline"
+)
+RESUME_PROVENANCE = Path(
+    "results/thesis_grade_protocol/final_confirmatory_suite_v1/"
+    "resume_provenance/resume_provenance.json"
 )
 PACKS = {
     "direct_confirmatory": Path(
@@ -39,6 +43,12 @@ PACKS = {
     ),
     "bounded_oracle": Path(
         "docs/evidence/security_v2_bounded_oracle_v1"
+    ),
+    "planner_comparison": Path(
+        "docs/evidence/security_v2_bounded_oracle_v1"
+    ),
+    "validation_identity": Path(
+        "docs/evidence/validation_identity_comparison_v2"
     ),
     "policy_sensitivity": Path(
         "docs/evidence/policy_sensitivity_v1"
@@ -85,6 +95,8 @@ def generate(output: Path) -> None:
     output.mkdir(parents=True)
     run_manifest_path = REPO_ROOT / RUN_MANIFEST
     run_manifest = load_json(run_manifest_path)
+    resume_provenance_path = REPO_ROOT / RESUME_PROVENANCE
+    resume_provenance = load_json(resume_provenance_path)
     pack_records = {}
     snapshot_sources = {"run_manifest": run_manifest_path}
     for name, relative in PACKS.items():
@@ -115,6 +127,22 @@ def generate(output: Path) -> None:
         REPO_ROOT / FINAL_COMPARISON / "comparison.csv"
     )
     comparison = load_json(comparison_summary_path)
+    identity_manifest = load_json(
+        REPO_ROOT
+        / PACKS["validation_identity"]
+        / "manifest.json"
+    )
+    identity_summary = load_json(
+        REPO_ROOT
+        / PACKS["validation_identity"]
+        / "identity/summary.json"
+    )
+    if identity_summary.get("identity_class_counts") != {
+        "SOURCE_AND_SEMANTICS_MATCH_PREPARED_BYTES_DIFFER": 50
+    } or identity_summary.get("encrypted_rerun_required_workloads") != 0:
+        raise ValueError("final validation identity audit changed")
+    if comparison.get("schema_version") != 2:
+        raise ValueError("final comparison is not schema v2")
     required_counts = {
         "raw_catalog_executions": 1100,
         "security_admitted_catalog_candidates": 700,
@@ -129,6 +157,7 @@ def generate(output: Path) -> None:
         comparison_summary_path
     )
     snapshot_sources["final_comparison_rows"] = comparison_csv_path
+    snapshot_sources["resume_provenance"] = resume_provenance_path
     snapshot_dir = output / "snapshots"
     for name, source in snapshot_sources.items():
         suffix = source.suffix or ".json"
@@ -165,7 +194,7 @@ def generate(output: Path) -> None:
         encoding="utf-8",
     )
     manifest = {
-        "schema_version": 1,
+        "schema_version": 2,
         "evidence_id": "final_confirmatory_suite_v1",
         "status": "PARTIALLY_SUPPORTED",
         "paper_claim_allowed": False,
@@ -176,6 +205,54 @@ def generate(output: Path) -> None:
         "execution_source_commit": run_manifest[
             "execution_source_commit"
         ],
+        "direct_selection_execution_commit": run_manifest[
+            "execution_source_commit"
+        ],
+        "locked_audit_execution_commit": run_manifest[
+            "execution_source_commit"
+        ],
+        "validation_identity_audit_commit": resume_provenance[
+            "validation_identity_audit_commit"
+        ],
+        "comparator_builder_commit": comparison[
+            "comparison_builder_commit"
+        ],
+        "current_suite_commit": resume_provenance[
+            "current_suite_commit"
+        ],
+        "execution_critical_source_digest": resume_provenance[
+            "execution_critical_source_digest"
+        ],
+        "comparison_source_digest": resume_provenance[
+            "comparison_source_digest"
+        ],
+        "execution_critical_source_unchanged": resume_provenance[
+            "execution_critical_source_unchanged"
+        ],
+        "validation_identity": {
+            "original_reason_code": identity_manifest[
+                "original_failure_reason_code"
+            ],
+            "class_counts": identity_manifest[
+                "identity_class_counts"
+            ],
+            "encrypted_rerun_required_workloads":
+                identity_manifest[
+                    "encrypted_rerun_required_workloads"
+                ],
+            "comparator_schema": comparison[
+                "direct_vs_security_v2_catalog_comparison_schema"
+            ],
+            "source_raw_matches": 50,
+            "prepared_raw_mismatches": 50,
+            "execution_semantic_matches": 50,
+        },
+        "execution_binaries": {
+            **run_manifest["binaries"],
+            "flipguard": resume_provenance[
+                "resume_flipguard_binary"
+            ],
+        },
         "run_manifest": {
             "path": str(RUN_MANIFEST),
             "sha256": sha256(run_manifest_path),
@@ -240,6 +317,21 @@ def verify(output: Path) -> None:
     manifest = load_json(output / "manifest.json")
     if manifest.get("paper_claim_allowed") is not False:
         raise ValueError("combined evidence cannot auto-admit paper claims")
+    if (
+        manifest.get("schema_version") != 2
+        or manifest.get("execution_critical_source_unchanged") is not True
+        or manifest.get("validation_identity", {}).get(
+            "class_counts"
+        )
+        != {
+            "SOURCE_AND_SEMANTICS_MATCH_PREPARED_BYTES_DIFFER": 50
+        }
+        or manifest.get("validation_identity", {}).get(
+            "comparator_schema"
+        )
+        != 2
+    ):
+        raise ValueError("combined provenance or identity binding changed")
     for relative, expected in manifest["files"].items():
         path = output / relative
         if (

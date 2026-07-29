@@ -756,7 +756,10 @@ def main() -> int:
         raise ValueError(
             f"final mode requires 50 workloads, got {len(workloads)}"
         )
-    build_binary(binary)
+    if args.binary is None:
+        build_binary(binary)
+    elif not binary.is_file():
+        raise ValueError(f"{binary}: frozen paired-latency binary is missing")
 
     statuses: list[dict[str, Any]] = []
     record_rows: list[dict[str, Any]] = []

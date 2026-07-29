@@ -1,3 +1,5 @@
+//go:build validationidentity
+
 package ckksplanner
 
 import (

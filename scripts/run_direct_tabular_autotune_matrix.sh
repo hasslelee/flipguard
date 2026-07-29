@@ -19,6 +19,7 @@ SPLIT_ROOT_OPTION="results/thesis_grade_protocol/tabular_splits_v1"
 MODEL_IDS_OPTION="linear_poly3,mlp_square_linear_score"
 DATASET_IDS_OPTION="banknote,digits_binary,iris_binary,mnist_pool16,wdbc"
 RUN_LABEL=""
+BINARY_OVERRIDE=""
 
 usage() {
   cat <<'EOF'
@@ -46,6 +47,7 @@ Execution:
   --model-ids CSV       Explicit model allowlist.
   --dataset-ids CSV     Explicit dataset allowlist.
   --run-label ID        Result-ID component for a separate experiment.
+  --binary PATH         Reuse an immutable prebuilt autotune binary.
   --only-seed N         In --full mode, run only split seed N (0..4).
   --print-run-id        Print the derived result run ID without executing.
   --quiet-skips         Suppress one-line messages for resumed workloads.
@@ -193,6 +195,14 @@ PYEOF
         exit 2
       fi
       RUN_LABEL="$2"
+      shift 2
+      ;;
+    --binary)
+      if [[ $# -lt 2 ]] || [[ ! -f "$2" ]]; then
+        echo "ERROR: --binary requires an existing file" >&2
+        exit 2
+      fi
+      BINARY_OVERRIDE="$2"
       shift 2
       ;;
     --only-seed)
@@ -379,9 +389,17 @@ BINARY="$RUN_ROOT/bin/flipguard-autotune"
 STATUS_PATH="$RUN_ROOT/run_status.csv"
 
 echo "=== build direct autotune binary ==="
-GOCACHE="$REPOSITORY_ROOT/$RUN_ROOT/go-cache" \
-  go build -o "$BINARY" ./cmd/flipguard-autotune
-BUILD_STATUS=$?
+if [[ -n "$BINARY_OVERRIDE" ]]; then
+  cp "$BINARY_OVERRIDE" "$BINARY"
+  chmod 0755 "$BINARY"
+  BUILD_STATUS=$?
+  echo "binary_source=frozen path=$BINARY_OVERRIDE"
+else
+  GOCACHE="$REPOSITORY_ROOT/$RUN_ROOT/go-cache" \
+    go build -o "$BINARY" ./cmd/flipguard-autotune
+  BUILD_STATUS=$?
+  echo "binary_source=current_build"
+fi
 echo "binary_build_status=$BUILD_STATUS"
 if [[ $BUILD_STATUS -ne 0 ]]; then
   exit 1

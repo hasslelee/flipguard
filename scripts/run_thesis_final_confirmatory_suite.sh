@@ -92,6 +92,8 @@ SECURITY_PLANNER_ROOT="results/thesis_grade_protocol/planner_oracle_comparison_s
 FINITE_ROOT="results/thesis_grade_protocol/finite_domain_no_safe_control_v1/full"
 RUN_MANIFEST_ROOT="results/thesis_grade_protocol/final_confirmatory_suite_v1/run_manifest"
 RUN_MANIFEST_PATH="$RUN_MANIFEST_ROOT/run_manifest.json"
+RESUME_PROVENANCE_ROOT="results/thesis_grade_protocol/final_confirmatory_suite_v1/resume_provenance"
+RESUME_PROVENANCE_PATH="$RESUME_PROVENANCE_ROOT/resume_provenance.json"
 
 require_file() {
   if [[ ! -f "$1" ]]; then
@@ -173,6 +175,21 @@ python3 scripts/freeze_security_v2_bounded_oracle_evidence.py \
 python3 scripts/freeze_policy_sensitivity_evidence.py \
   --output-root docs/evidence/policy_sensitivity_v1 \
   --verify
+mkdir -p bin
+env GOCACHE=/tmp/flipguard-validation-identity-gocache \
+  go build \
+  -tags validationidentity \
+  -o bin/flipguard-validation-identity \
+  ./cmd/flipguard-validation-identity
+python3 scripts/build_validation_identity_audit.py \
+  --comparison-builder-commit \
+    1d15f3d00239971c069357861e1dbacebf2aaefb \
+  --verify
+python3 scripts/freeze_validation_identity_comparison_evidence.py \
+  --verify
+python3 scripts/build_resume_execution_provenance.py \
+  --output-root "$RESUME_PROVENANCE_ROOT" \
+  --verify
 python3 - "$SECURITY_V2_ROOT/direct_synthesis_policy_v2.json" <<'PYEOF'
 import json
 import sys
@@ -205,7 +222,11 @@ fi
 
 if [[ "$SKIP_REGRESSION" == false ]]; then
   env GOCACHE=/tmp/flipguard-final-suite-test-gocache go test ./...
+  env GOCACHE=/tmp/flipguard-final-suite-test-gocache \
+    go test -tags validationidentity ./internal/ckksplanner
   env GOCACHE=/tmp/flipguard-final-suite-vet-gocache go vet ./...
+  env GOCACHE=/tmp/flipguard-final-suite-vet-gocache \
+    go vet -tags validationidentity ./internal/ckksplanner
   python3 -m py_compile scripts/*.py
   python3 -m unittest discover \
     -s scripts/tests \
@@ -274,6 +295,7 @@ scripts/run_direct_tabular_autotune_matrix.sh \
   --safety-factor 0.5 \
   --precision-floor 18 \
   --key-repeats 3 \
+  --binary "$RUN_MANIFEST_ROOT/binaries/flipguard-autotune" \
   "$ACTION"
 assert_binary_digest \
   flipguard_autotune \
@@ -284,6 +306,7 @@ scripts/run_direct_tabular_locked_audit_matrix.sh \
   --selection-run "$FINAL_BASELINE_ID" \
   --materialize-model-input \
   --key-repeats 3 \
+  --binary "$RUN_MANIFEST_ROOT/binaries/flipguard-audit" \
   "$ACTION"
 assert_binary_digest \
   flipguard_audit \
@@ -369,12 +392,14 @@ NO_SAFE_ROOT="results/thesis_grade_protocol/no_safe_budget_control_v1/confirm_se
 python3 scripts/run_no_safe_budget_negative_controls.py \
   --mode confirm \
   --output-root "$NO_SAFE_ROOT" \
+  --binary "$RUN_MANIFEST_ROOT/binaries/flipguard-autotune" \
   "${FORCE_PYTHON[@]}"
 
 FINITE_AUDIT_ROOT="results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full"
 python3 scripts/run_finite_domain_no_safe_locked_audit.py \
   --mode confirm \
   --output-root "$FINITE_AUDIT_ROOT" \
+  --binary "$RESUME_PROVENANCE_ROOT/binaries/flipguard" \
   "${FORCE_PYTHON[@]}"
 
 NO_SAFE_PACK="docs/evidence/no_safe_controls_confirmatory_v1"
@@ -394,7 +419,12 @@ else
 fi
 require_final_no_safe_pack "$NO_SAFE_PACK/manifest.json"
 
-scripts/run_structural_extension.sh "$ACTION"
+scripts/run_structural_extension.sh \
+  --autotune-binary \
+    "$RUN_MANIFEST_ROOT/binaries/flipguard-autotune" \
+  --audit-binary \
+    "$RUN_MANIFEST_ROOT/binaries/flipguard-audit" \
+  "$ACTION"
 
 STRUCTURAL_ID="full_structural_poly3_inputmodel_floor18_keys3"
 STRUCTURAL_ROOT="$BASE_ROOT/$STRUCTURAL_ID"

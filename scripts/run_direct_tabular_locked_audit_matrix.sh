@@ -14,6 +14,7 @@ SPLIT_ROOT_OPTION="results/thesis_grade_protocol/tabular_splits_v1"
 MODEL_IDS_OPTION="linear_poly3,mlp_square_linear_score"
 DATASET_IDS_OPTION="banknote,digits_binary,iris_binary,mnist_pool16,wdbc"
 MATERIALIZE_MODEL_INPUT=0
+BINARY_OVERRIDE=""
 
 usage() {
   cat <<'EOF'
@@ -38,6 +39,7 @@ Inputs and execution:
   --force              Replace only this run's locked-audit artifacts.
   --retry-failed       Retry terminal execution failures when resuming.
   --max-new-runs N     Stop after N newly started workloads.
+  --binary PATH         Reuse an immutable prebuilt audit binary.
   --quiet-skips        Suppress one-line messages for resumed workloads.
   -h, --help           Show this help.
 EOF
@@ -131,6 +133,14 @@ while [[ $# -gt 0 ]]; do
         exit 2
       fi
       MAX_NEW_RUNS="$2"
+      shift 2
+      ;;
+    --binary)
+      if [[ $# -lt 2 ]] || [[ ! -f "$2" ]]; then
+        echo "ERROR: --binary requires an existing file" >&2
+        exit 2
+      fi
+      BINARY_OVERRIDE="$2"
       shift 2
       ;;
     -h|--help)
@@ -257,9 +267,17 @@ if [[ $MATERIALIZE_MODEL_INPUT -eq 1 ]]; then
 fi
 
 echo "=== build locked audit binary ==="
-GOCACHE="$REPOSITORY_ROOT/$AUDIT_ROOT/go-cache" \
-  go build -o "$BINARY" ./cmd/flipguard-audit
-BUILD_STATUS=$?
+if [[ -n "$BINARY_OVERRIDE" ]]; then
+  cp "$BINARY_OVERRIDE" "$BINARY"
+  chmod 0755 "$BINARY"
+  BUILD_STATUS=$?
+  echo "binary_source=frozen path=$BINARY_OVERRIDE"
+else
+  GOCACHE="$REPOSITORY_ROOT/$AUDIT_ROOT/go-cache" \
+    go build -o "$BINARY" ./cmd/flipguard-audit
+  BUILD_STATUS=$?
+  echo "binary_source=current_build"
+fi
 echo "binary_build_status=$BUILD_STATUS"
 if [[ $BUILD_STATUS -ne 0 ]]; then
   exit 1

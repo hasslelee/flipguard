@@ -8,6 +8,7 @@ import csv
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -71,6 +72,11 @@ def parse_args() -> argparse.Namespace:
         default="pilot",
     )
     parser.add_argument("--output-root", type=Path, required=True)
+    parser.add_argument(
+        "--binary",
+        type=Path,
+        help="immutable prebuilt flipguard-autotune binary",
+    )
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--quiet", action="store_true")
     return parser.parse_args()
@@ -429,7 +435,14 @@ def main() -> int:
         raise ValueError(
             "confirm mode requires clean committed control source"
         )
-    build_binary(binary)
+    if args.binary is None:
+        build_binary(binary)
+    else:
+        source_binary = (REPO_ROOT / args.binary).resolve()
+        if not source_binary.is_file():
+            raise ValueError(f"{source_binary}: frozen binary is missing")
+        binary.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source_binary, binary)
 
     statuses: list[dict[str, Any]] = []
     workload_rows: list[dict[str, Any]] = []

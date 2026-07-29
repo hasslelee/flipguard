@@ -68,6 +68,11 @@ def parse_args() -> argparse.Namespace:
         default="smoke",
     )
     parser.add_argument("--output-root", type=Path, required=True)
+    parser.add_argument(
+        "--binary",
+        type=Path,
+        help="immutable prebuilt flipguard binary",
+    )
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument("--verify", action="store_true")
@@ -1297,7 +1302,14 @@ def run(args: argparse.Namespace, output_root: Path) -> int:
         )
 
     binary = output_root / "bin/flipguard"
-    build_binary(binary)
+    if args.binary is None:
+        build_binary(binary)
+    else:
+        source_binary = (REPO_ROOT / args.binary).resolve()
+        if not source_binary.is_file():
+            raise ValueError(f"{source_binary}: frozen binary is missing")
+        binary.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source_binary, binary)
     key_repeats = 1 if args.mode == "smoke" else 3
     for seed, dataset, model in workload_scope(args.mode):
         inputs = validate_workload_inputs(seed, dataset, model)
