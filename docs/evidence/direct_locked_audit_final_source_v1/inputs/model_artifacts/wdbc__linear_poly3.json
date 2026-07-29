@@ -1,0 +1,98 @@
+{
+  "dataset_id": "wdbc",
+  "dataset_name": "WDBC Breast Cancer",
+  "model_id": "linear_poly3",
+  "model_type": "linear_poly3",
+  "task": "binary classification",
+  "label_mapping": {
+    "0": "negative",
+    "1": "positive"
+  },
+  "random_state": 42,
+  "test_size": 0.3,
+  "train_samples": 398,
+  "test_samples": 171,
+  "selected_feature_indices": [
+    10,
+    13,
+    20,
+    21,
+    23,
+    26,
+    27,
+    28
+  ],
+  "selected_feature_names": [
+    "radius error",
+    "area error",
+    "worst radius",
+    "worst texture",
+    "worst area",
+    "worst concavity",
+    "worst concave points",
+    "worst symmetry"
+  ],
+  "input_dim": 8,
+  "standardization": {
+    "mean": [
+      0.39191708542713555,
+      38.21533417085426,
+      16.266560301507546,
+      25.81630653266333,
+      879.6967336683425,
+      0.278709540201005,
+      0.11448460050251268,
+      0.2929376884422112
+    ],
+    "std": [
+      0.23050050776505346,
+      34.26891877403041,
+      4.8437163221206285,
+      6.320366432073852,
+      564.7110732005891,
+      0.2213831041612083,
+      0.06763078182644335,
+      0.06505519061391239
+    ]
+  },
+  "raw_model": {
+    "weights": [
+      -0.4434517260319853,
+      -1.044281688291898,
+      -1.922438224517086,
+      -1.2934701379968225,
+      -1.8346650544766339,
+      -0.30838772123059255,
+      -1.9736632610910012,
+      -0.7468495501783814
+    ],
+    "bias": 0.3987489232124712
+  },
+  "scaled_model_for_ckks": {
+    "weights": [
+      -0.016644062518643858,
+      -0.039194998433158976,
+      -0.07215482569749922,
+      -0.04854778227036419,
+      -0.0688604375062861,
+      -0.011574708611628846,
+      -0.07407745371134208,
+      -0.028031485448076546
+    ],
+    "bias": 0.014966233340834014
+  },
+  "max_scaled_logit_target": 1.0,
+  "polynomial_score": {
+    "formula": "0.5 + 0.197*z - 0.004*z^3",
+    "decision_threshold": 0.5
+  },
+  "metrics": {
+    "raw_accuracy": 0.9649122807017544,
+    "raw_f1": 0.9724770642201835,
+    "raw_auc": 0.9947429906542056,
+    "polynomial_decision_match_rate": 1.0,
+    "test_scaled_logit_min": -1.636607691441721,
+    "test_scaled_logit_max": 0.4334027460131174,
+    "test_scaled_logit_max_abs": 1.636607691441721
+  }
+}

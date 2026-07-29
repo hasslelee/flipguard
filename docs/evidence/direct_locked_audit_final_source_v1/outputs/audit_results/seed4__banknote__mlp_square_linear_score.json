@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "outcome": "LOCKED_AUDIT_PASS",
+  "reason": "locked candidate synth_analysis_minimum_rescale_N13_Q6_S20_0bd8533b1127 remained SAFE on disjoint audit with 3 fresh key run(s)",
+  "retuning_performed": false,
+  "selection_result": {
+    "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_final_baseline_inputmodel_floor18_keys3/results/directv1_full_final_baseline_inputmodel_floor18_keys3_seed4_banknote_mlp_square_linear_score.json",
+    "sha256": "sha256:fcba6313d347236e73dd7ed41d485c048b3996991f29d9ef52a2b8c0c8954908"
+  },
+  "split_manifest": {
+    "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_4/banknote/mlp_square_linear_score/split_manifest.json",
+    "sha256": "sha256:3b5ada00005d02f55af5f46939007f3d47256a361a3c308ca2d7e2d4fec8a15b"
+  },
+  "selection_contract_digest": "sha256:0bd8533b1127cf7a4ba00e9ad714e4566b0ccb767917b2ae7b9d294ee371cf4b",
+  "selection_workload_id": "split_seed_4/banknote/mlp_square_linear_score",
+  "audit_contract": {
+    "schema_version": 2,
+    "workload_id": "split_seed_4/locked_audit/banknote/mlp_square_linear_score",
+    "dataset_id": "banknote",
+    "model_id": "mlp_square_linear_score",
+    "model_type": "mlp_square_linear_score",
+    "split_id": "split_seed_4/locked_audit",
+    "model_artifact": {
+      "path": "datasets/tabular_suite/banknote/mlp_square_linear_score/model.json",
+      "sha256": "sha256:4f8ce6d8ca23d87fc4d3623b97f235f3836ca4c0964286f4a1c634427e1d8e31"
+    },
+    "validation_data": {
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_final_baseline_inputmodel_floor18_keys3/locked_audit/full_final_baseline_inputmodel_floor18_keys3_locked_audit_keys3/materialized/directv1_full_final_baseline_inputmodel_floor18_keys3_seed4_banknote_mlp_square_linear_score_locked_audit_keys3.csv",
+      "sha256": "sha256:50728e0a0506f08ea0b44840aa7c60911db8aa40528d91b1360f8f595ca7ba00"
+    },
+    "source_data": {
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_4/banknote/mlp_square_linear_score/locked_audit_test.csv",
+      "sha256": "sha256:bbd803d18f47dd566c13b73435667739639688e4bcd7cedf444d3eaff97055e1"
+    },
+    "input_materialization": {
+      "schema_version": "flipguard_tabular_validation_v2",
+      "source_feature_space": "model_input",
+      "preprocessing_method": "identity_model_input_v1",
+      "source_replay_verified": true
+    },
+    "graph": {
+      "multiplicative_depth": 1,
+      "add_ops": 21,
+      "mul_ops": 25,
+      "rot_ops": 0,
+      "rescale_ops": 1,
+      "notes": [
+        "derived from the exact tabular plaintext DAG",
+        "rescale count is the maximum multiplicative path depth"
+      ]
+    },
+    "decision": {
+      "threshold": 0.5,
+      "margin_floor": 0.001,
+      "safety_factor": 0.5,
+      "protected_margin": 0.012219452991614865,
+      "output_error_budget": 0.006109726495807433,
+      "validation_digest": "sha256:f623f40107c5435f9b74db04547603bca0496cef2d9a9904d24006222e08d92a",
+      "validation_samples": 207,
+      "certifiable_samples": 207,
+      "ambiguous_samples": 0
+    },
+    "calibration": {
+      "max_input_abs": 3.714075972175,
+      "max_plaintext_output_abs": 0.6212435602486858,
+      "aggregate_sensitivity": 5.138088918378379,
+      "sensitivity_method": "empirical_interval_dag_sum_v1",
+      "calibration_scope": "observed_validation_artifact:sha256:50728e0a0506f08ea0b44840aa7c60911db8aa40528d91b1360f8f595ca7ba00"
+    },
+    "deployment": {
+      "security_bits": 128,
+      "required_slots": 1,
+      "max_encrypted_trials": 1,
+      "validation_key_repeats": 3,
+      "packing_strategy": "scalar_replicated_per_ciphertext_v1",
+      "allowed_paths": [
+        "rescale"
+      ],
+      "scale_trace_method": "lattigo_v6_rescale_scale_trace_v1",
+      "rescale_levels_consumed": 3,
+      "terminal_scale_exponent": 3,
+      "required_q_primes": 6
+    }
+  },
+  "selected_candidate": {
+    "id": "synth_analysis_minimum_rescale_N13_Q6_S20_0bd8533b1127",
+    "path": "rescale",
+    "parameters": {
+      "log_n": 13,
+      "log_q": [
+        23,
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "log_p": [
+        30
+      ],
+      "log_default_scale": 20
+    },
+    "security": {
+      "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+      "target_bits": 128,
+      "declared_log_qp": 153,
+      "max_allowed_log_qp": 214,
+      "headroom_bits": 61,
+      "admission_status": "PASS",
+      "log_q": 123,
+      "log_p": 30,
+      "log_qp": 153,
+      "ciphertext_q_admission": "PASS",
+      "evaluation_key_qp_admission": "PASS",
+      "final_admission": "PASS",
+      "ciphertext_headroom_bits": 91,
+      "evaluation_key_headroom_bits": 61,
+      "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+    },
+    "required_rescale_levels": 3,
+    "level_guard": 0,
+    "precision_target_bits": 10,
+    "message_magnitude_bits": 0,
+    "analysis_scale_bits": 18,
+    "backend_scale_lift_bits": 2,
+    "backend_validation_attempts": 3,
+    "same_tier_precision_gain_bits": 0,
+    "same_tier_static_candidates_tried": 1,
+    "generation_kind": "analysis_minimum",
+    "reason": "budget=0.00697389 aggregate_sensitivity=5.08501 unit_budget=0.00137146 precision_bits=10 rescale_levels=3 terminal_scale_exponent=3 q_primes=6 level_guard=0 declared_logQP=153 analysis_scale_bits=18 backend_scale_lift_bits=2 backend_validation_attempts=3 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+  },
+  "audit_trial": {
+    "trial_index": 1,
+    "candidate": {
+      "id": "synth_analysis_minimum_rescale_N13_Q6_S20_0bd8533b1127",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 61,
+        "admission_status": "PASS",
+        "log_q": 123,
+        "log_p": 30,
+        "log_qp": 153,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 91,
+        "evaluation_key_headroom_bits": 61,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "required_rescale_levels": 3,
+      "level_guard": 0,
+      "precision_target_bits": 10,
+      "message_magnitude_bits": 0,
+      "analysis_scale_bits": 18,
+      "backend_scale_lift_bits": 2,
+      "backend_validation_attempts": 3,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 1,
+      "generation_kind": "analysis_minimum",
+      "reason": "budget=0.00697389 aggregate_sensitivity=5.08501 unit_budget=0.00137146 precision_bits=10 rescale_levels=3 terminal_scale_exponent=3 q_primes=6 level_guard=0 declared_logQP=153 analysis_scale_bits=18 backend_scale_lift_bits=2 backend_validation_attempts=3 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+    },
+    "status": "SAFE",
+    "assurance": "OBSERVED_VALIDATION",
+    "reason": "zero failures, zero decision flips, and zero error violations on V_cert=207",
+    "key_repeats_requested": 3,
+    "key_repeats_completed": 3,
+    "success_runs": 3,
+    "decision_flips": 0,
+    "error_violations": 0,
+    "max_observed_error": 0.0015495518250381313,
+    "max_error_budget_usage": 0.10856326809305775,
+    "v_cert": 207,
+    "v_amb": 0,
+    "mean_total_ms": 143.84102070209335,
+    "median_total_ms": 138.056453,
+    "p95_total_ms": 196.472668
+  }
+}

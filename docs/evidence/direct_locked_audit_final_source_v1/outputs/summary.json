@@ -1,0 +1,57 @@
+{
+  "audit_preprocessing_method_counts": {
+    "identity_model_input_v1": 50
+  },
+  "audit_source_feature_space_counts": {
+    "model_input": 50
+  },
+  "audit_source_replay_verified_runs": 50,
+  "complete": true,
+  "evaluation_unit": "10 dataset-model workloads x 5 partition seeds; 50 workload-partition instances",
+  "expected_runs": 40,
+  "failed_executions": 0,
+  "failed_tags": [],
+  "formal_confirmatory_seeds": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "locked_audit_fails": 0,
+  "locked_audit_passes": 40,
+  "outcome_counts": {
+    "LOCKED_AUDIT_PASS": 50
+  },
+  "partition_semantics": "five deterministic repeated partitions of a fixed held-out artifact",
+  "preprocessing_method_counts": {
+    "identity_model_input_v1": 50
+  },
+  "recorded_runs": 40,
+  "require_source_replay": true,
+  "retuned_runs": 0,
+  "run_status_path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_final_baseline_inputmodel_floor18_keys3/locked_audit/full_final_baseline_inputmodel_floor18_keys3_locked_audit_keys3/locked_audit_status.csv",
+  "schema_version": 1,
+  "seed_roles": {
+    "0": "development_ablation_no_retuning_locked_audit",
+    "1-4": "post_freeze_no_retuning_locked_audit"
+  },
+  "source_expected_runs": 50,
+  "source_feature_space_counts": {
+    "model_input": 50
+  },
+  "source_replay_verified_runs": 50,
+  "split_seeds": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "successful_executions": 40,
+  "total_configuration_trials": 56,
+  "total_fresh_key_runs": 120,
+  "total_selection_key_runs": 168,
+  "total_v_amb": 141,
+  "total_v_cert": 6499,
+  "zero_flip_passes": 40,
+  "zero_violation_passes": 40
+}

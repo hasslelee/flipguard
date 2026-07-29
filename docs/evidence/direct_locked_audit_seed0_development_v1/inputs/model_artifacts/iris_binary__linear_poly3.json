@@ -1,0 +1,74 @@
+{
+  "dataset_id": "iris_binary",
+  "dataset_name": "Iris binary classification",
+  "model_id": "linear_poly3",
+  "model_type": "linear_poly3",
+  "task": "binary classification",
+  "label_mapping": {
+    "0": "negative",
+    "1": "positive"
+  },
+  "random_state": 42,
+  "test_size": 0.3,
+  "train_samples": 70,
+  "test_samples": 30,
+  "selected_feature_indices": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "selected_feature_names": [
+    "sepal length (cm)",
+    "sepal width (cm)",
+    "petal length (cm)",
+    "petal width (cm)"
+  ],
+  "input_dim": 4,
+  "standardization": {
+    "mean": [
+      5.468571428571429,
+      3.078571428571429,
+      2.8614285714285725,
+      0.7742857142857144
+    ],
+    "std": [
+      0.6343822320388011,
+      0.5002550369969464,
+      1.4176734317831003,
+      0.5548965706162119
+    ]
+  },
+  "raw_model": {
+    "weights": [
+      0.8290272244679531,
+      -1.0174518315337555,
+      1.3897143026632468,
+      1.424940520266719
+    ],
+    "bias": 0.117194507824908
+  },
+  "scaled_model_for_ckks": {
+    "weights": [
+      0.13097237401479722,
+      -0.16074029644466845,
+      0.21955151296621842,
+      0.22511666355587426
+    ],
+    "bias": 0.01851476339775772
+  },
+  "max_scaled_logit_target": 1.0,
+  "polynomial_score": {
+    "formula": "0.5 + 0.197*z - 0.004*z^3",
+    "decision_threshold": 0.5
+  },
+  "metrics": {
+    "raw_accuracy": 1.0,
+    "raw_f1": 1.0,
+    "raw_auc": 1.0,
+    "polynomial_decision_match_rate": 1.0,
+    "test_scaled_logit_min": -0.8496086356992643,
+    "test_scaled_logit_max": 1.0047469057043277,
+    "test_scaled_logit_max_abs": 1.0047469057043277
+  }
+}

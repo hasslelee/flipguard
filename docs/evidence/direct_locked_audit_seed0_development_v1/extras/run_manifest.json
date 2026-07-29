@@ -1,0 +1,124 @@
+{
+  "approved_checkpoint_source_commit": "41056ad768a133b1e4ba799ada89dd9490001be8",
+  "binaries": {
+    "flipguard_audit": {
+      "bytes": 11213996,
+      "package": "./cmd/flipguard-audit",
+      "path": "results/thesis_grade_protocol/final_confirmatory_suite_v1/run_manifest/binaries/flipguard-audit",
+      "sha256": "sha256:b69a47bde5f49ee3beed5c50822446998eabd8585b6d8cb9c3698050b1bcdc96"
+    },
+    "flipguard_autotune": {
+      "bytes": 11177085,
+      "package": "./cmd/flipguard-autotune",
+      "path": "results/thesis_grade_protocol/final_confirmatory_suite_v1/run_manifest/binaries/flipguard-autotune",
+      "sha256": "sha256:48061550318d3f9fc1916aedb03907d427823a78f69b5de13577e5f3dd7e2ef6"
+    },
+    "flipguard_paired_latency": {
+      "bytes": 11018263,
+      "package": "./cmd/flipguard-paired-latency",
+      "path": "results/thesis_grade_protocol/final_confirmatory_suite_v1/run_manifest/binaries/flipguard-paired-latency",
+      "sha256": "sha256:e4c85589d548d0b82ab8dbe9ba55d979db802518a84f94dfcffbd9ba4d17245f"
+    }
+  },
+  "catalog": {
+    "admitted_profiles": [
+      "deep_chain_8_scale45",
+      "deep_chain_9_scale45",
+      "short_chain_3",
+      "short_chain_5",
+      "short_chain_6_scale38",
+      "short_chain_6_scale40",
+      "short_chain_6_scale42"
+    ],
+    "excluded_profiles": [
+      "default",
+      "scale38",
+      "scale40",
+      "scale42"
+    ],
+    "paths": [
+      "baseline_non_rescale",
+      "rescale_aware"
+    ],
+    "raw_catalog_executions": 1100,
+    "security_admitted_catalog_candidates": 700,
+    "security_excluded_catalog_candidates": 400
+  },
+  "clean_tree_status_at_freeze": "CLEAN",
+  "direct_policy": {
+    "digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "id": "flipguard_direct_synthesis_policy_v2"
+  },
+  "evaluation_policy": {
+    "confirmatory_seeds": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "development_seed": 0,
+    "no_retuning": "locked audit replays the byte-identical selected literal; synthesis and repair are forbidden",
+    "primary_alpha": 0.5,
+    "primary_margin_floor": 0.001
+  },
+  "execution_source_commit": "ebbdcb0112ea6dfeb6115239cba812e4d2707650",
+  "fixed_reference": {
+    "candidate_id": "deep_chain_8_scale45__rescale_aware",
+    "decision_status_evaluated_per_workload": true,
+    "security_admission": "PASS"
+  },
+  "host": {
+    "cpu_model": "AMD Ryzen 5 3600 6-Core Processor",
+    "logical_cpu": 2,
+    "machine": "x86_64",
+    "memory_available_at_freeze": "9184476 kB",
+    "memory_total": "16328516 kB",
+    "os_release": "PRETTY_NAME=\"Ubuntu 24.04.4 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"24.04\"\nVERSION=\"24.04.4 LTS (Noble Numbat)\"\nVERSION_CODENAME=noble\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=noble\nLOGO=ubuntu-logo",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "process_cpu_affinity": [
+      0,
+      1
+    ],
+    "uname": "Linux ckks2-VMware-Virtual-Platform 6.17.0-35-generic #35~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue May 26 19:30:42 UTC 2 x86_64 x86_64",
+    "vm_product": "VMware Virtual Platform",
+    "vm_vendor": "VMware, Inc."
+  },
+  "manifest_id": "flipguard_final_confirmatory_run_v1",
+  "paired_latency_policy": {
+    "concurrent_ckks_processes": 0,
+    "execution_order": "balanced_cyclic_and_reverse_row_rotated_v1",
+    "measurement_passes": 6,
+    "outlier_removal": "none",
+    "warmup_runs": 1
+  },
+  "schema_version": 1,
+  "security_policy": {
+    "digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+    "id": "security_guidelines_cic2025_table5_2_ternary_128_v2"
+  },
+  "source_paths": [
+    "cmd",
+    "internal",
+    "scripts",
+    "go.mod",
+    "go.sum"
+  ],
+  "splits": {
+    "primary": {
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/summary.json",
+      "sha256": "sha256:f5d887eb0e07931f8d75a300c334004bfddc4b3a533bedd25386eb2a848a2704"
+    },
+    "structural_holdout": {
+      "identity": "mlp_square_poly3_25_workload_partitions",
+      "path": "results/thesis_grade_protocol/structural_extension_splits_v1/summary.json",
+      "sha256": "sha256:8e1ac4e74e086a86944510023c0312f5ee77b0dedeaaa4dc3d1b5332607fa609"
+    }
+  },
+  "start_timestamp": "2026-07-29T14:16:06.525442+09:00",
+  "versions": {
+    "go": "go version go1.25.9 linux/amd64",
+    "lattigo_module": "github.com/tuneinsight/lattigo/v6",
+    "lattigo_version": "v6.2.0",
+    "python": "3.12.3"
+  }
+}
