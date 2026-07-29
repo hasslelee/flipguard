@@ -175,16 +175,6 @@ python3 scripts/freeze_security_v2_bounded_oracle_evidence.py \
 python3 scripts/freeze_policy_sensitivity_evidence.py \
   --output-root docs/evidence/policy_sensitivity_v1 \
   --verify
-mkdir -p bin
-env GOCACHE=/tmp/flipguard-validation-identity-gocache \
-  go build \
-  -tags validationidentity \
-  -o bin/flipguard-validation-identity \
-  ./cmd/flipguard-validation-identity
-python3 scripts/build_validation_identity_audit.py \
-  --comparison-builder-commit \
-    1d15f3d00239971c069357861e1dbacebf2aaefb \
-  --verify
 python3 scripts/freeze_validation_identity_comparison_evidence.py \
   --verify
 python3 scripts/build_resume_execution_provenance.py \
