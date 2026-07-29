@@ -19,6 +19,9 @@ const (
 
 	PrecisionSlackNone                  = "none"
 	PrecisionSlackMaximizeWithinMinLogN = "maximize_within_min_log_n"
+
+	SynthesisBudgetDecisionContract    = "decision_contract"
+	SynthesisBudgetGraphFixedTolerance = "graph_fixed_tolerance"
 )
 
 var ErrRepairExhausted = errors.New("adaptive repair exhausted")
@@ -85,7 +88,9 @@ type SynthesisPolicy struct {
 	RepairScaleStepBits int `json:"repair_scale_step_bits"`
 	MaxRepairLevels     int `json:"max_repair_levels"`
 
-	PrecisionSlackMode string `json:"precision_slack_mode"`
+	PrecisionSlackMode     string  `json:"precision_slack_mode"`
+	SynthesisBudgetMode    string  `json:"synthesis_budget_mode"`
+	FixedOutputErrorBudget float64 `json:"fixed_output_error_budget,omitempty"`
 
 	SecurityEnvelope SecurityEnvelope `json:"security_envelope"`
 }
@@ -249,7 +254,8 @@ func DefaultSynthesisPolicy() SynthesisPolicy {
 		RepairScaleStepBits: direct.NumericalRepairScaleBits,
 		MaxRepairLevels:     direct.MaxAdditionalLevels,
 
-		PrecisionSlackMode: PrecisionSlackNone,
+		PrecisionSlackMode:  PrecisionSlackNone,
+		SynthesisBudgetMode: SynthesisBudgetDecisionContract,
 
 		SecurityEnvelope: DefaultSecurityEnvelope(),
 	}
@@ -633,7 +639,11 @@ func synthesizeRescaleCandidate(
 	minimumScaleBits int,
 	extraLevels int,
 ) (SynthesizedCandidate, error) {
-	unitBudget := contract.Decision.OutputErrorBudget /
+	outputErrorBudget := contract.Decision.OutputErrorBudget
+	if policy.SynthesisBudgetMode == SynthesisBudgetGraphFixedTolerance {
+		outputErrorBudget = policy.FixedOutputErrorBudget
+	}
+	unitBudget := outputErrorBudget /
 		contract.Calibration.AggregateSensitivity
 	if !finite(unitBudget) || unitBudget <= 0 {
 		return SynthesizedCandidate{}, fmt.Errorf(
@@ -765,7 +775,7 @@ func synthesizeRescaleCandidate(
 		GenerationKind: generationKind,
 		Reason: fmt.Sprintf(
 			"budget=%.6g aggregate_sensitivity=%.6g unit_budget=%.6g precision_bits=%d rescale_levels=%d terminal_scale_exponent=%d q_primes=%d level_guard=%d declared_logQP=%d",
-			contract.Decision.OutputErrorBudget,
+			outputErrorBudget,
 			contract.Calibration.AggregateSensitivity,
 			unitBudget,
 			precisionBits,
@@ -822,6 +832,9 @@ func normalizeSynthesisPolicy(policy SynthesisPolicy) SynthesisPolicy {
 	if strings.TrimSpace(policy.PrecisionSlackMode) == "" {
 		policy.PrecisionSlackMode = defaults.PrecisionSlackMode
 	}
+	if strings.TrimSpace(policy.SynthesisBudgetMode) == "" {
+		policy.SynthesisBudgetMode = defaults.SynthesisBudgetMode
+	}
 	if strings.TrimSpace(policy.SecurityEnvelope.ID) == "" {
 		policy.SecurityEnvelope = defaults.SecurityEnvelope
 	}
@@ -849,6 +862,26 @@ func validateSynthesisPolicy(
 		return fmt.Errorf(
 			"unsupported precision slack mode %q",
 			policy.PrecisionSlackMode,
+		)
+	}
+	switch policy.SynthesisBudgetMode {
+	case SynthesisBudgetDecisionContract:
+		if policy.FixedOutputErrorBudget != 0 {
+			return fmt.Errorf(
+				"fixed output error budget is valid only in graph_fixed_tolerance mode",
+			)
+		}
+	case SynthesisBudgetGraphFixedTolerance:
+		if !finite(policy.FixedOutputErrorBudget) ||
+			policy.FixedOutputErrorBudget <= 0 {
+			return fmt.Errorf(
+				"graph-fixed synthesis requires a positive fixed output error budget",
+			)
+		}
+	default:
+		return fmt.Errorf(
+			"unsupported synthesis budget mode %q",
+			policy.SynthesisBudgetMode,
 		)
 	}
 	if policy.SecurityEnvelope.SecurityBits !=

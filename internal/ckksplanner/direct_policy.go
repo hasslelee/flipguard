@@ -19,6 +19,14 @@ type SupportedModelFormula struct {
 	Formula   string `json:"formula"`
 }
 
+type PredeclaredAblation struct {
+	ID                    string `json:"id"`
+	CandidateSynthesis    string `json:"candidate_synthesis"`
+	EncryptedValidation   bool   `json:"encrypted_validation"`
+	AdaptiveRepair        bool   `json:"adaptive_repair"`
+	DecisionIntegrityGate bool   `json:"decision_integrity_gate"`
+}
+
 type DirectSynthesisPolicyContract struct {
 	SchemaVersion       int                     `json:"schema_version"`
 	PolicyID            string                  `json:"policy_id"`
@@ -45,11 +53,12 @@ type DirectSynthesisPolicyContract struct {
 	MaxEncryptedTrials       int    `json:"max_encrypted_trials"`
 	ErrorClassifier          string `json:"error_classifier"`
 
-	SecurityPolicyID      string `json:"security_policy_id"`
-	PackingScope          string `json:"packing_scope"`
-	RequiredSlotRule      string `json:"required_slot_rule"`
-	FirstSAFEStoppingRule string `json:"first_safe_stopping_rule"`
-	NoSAFERule            string `json:"no_safe_rule"`
+	SecurityPolicyID      string                `json:"security_policy_id"`
+	PackingScope          string                `json:"packing_scope"`
+	RequiredSlotRule      string                `json:"required_slot_rule"`
+	FirstSAFEStoppingRule string                `json:"first_safe_stopping_rule"`
+	NoSAFERule            string                `json:"no_safe_rule"`
+	PredeclaredAblations  []PredeclaredAblation `json:"predeclared_ablations"`
 }
 
 // DefaultDirectSynthesisPolicyContract is the immutable primary V2 contract.
@@ -95,6 +104,36 @@ func DefaultDirectSynthesisPolicyContract() DirectSynthesisPolicyContract {
 		RequiredSlotRule:         "required_slots_must_not_exceed_N/2",
 		FirstSAFEStoppingRule:    "stop_at_first_encrypted_candidate_certified_SAFE",
 		NoSAFERule:               "return_NO_SAFE_when_trial_budget_or_monotone_repairs_are_exhausted",
+		PredeclaredAblations: []PredeclaredAblation{
+			{
+				ID:                    "graph_only_fixed_tolerance",
+				CandidateSynthesis:    "graph_fixed_tolerance:0.001",
+				EncryptedValidation:   true,
+				AdaptiveRepair:        true,
+				DecisionIntegrityGate: true,
+			},
+			{
+				ID:                    "one_shot_direct",
+				CandidateSynthesis:    "graph_plus_decision_contract",
+				EncryptedValidation:   true,
+				AdaptiveRepair:        false,
+				DecisionIntegrityGate: true,
+			},
+			{
+				ID:                    "full_flipguard",
+				CandidateSynthesis:    "graph_plus_decision_contract",
+				EncryptedValidation:   true,
+				AdaptiveRepair:        true,
+				DecisionIntegrityGate: true,
+			},
+			{
+				ID:                    "latency_only_no_certification",
+				CandidateSynthesis:    "bounded_catalog_fastest_executable",
+				EncryptedValidation:   true,
+				AdaptiveRepair:        false,
+				DecisionIntegrityGate: false,
+			},
+		},
 	}
 }
 

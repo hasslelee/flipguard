@@ -15,6 +15,7 @@ from typing import Any
 RESULT_FIELDS = [
     "run_id",
     "split_seed",
+    "partition_role",
     "dataset_id",
     "model_id",
     "workload_id",
@@ -506,6 +507,11 @@ def summarize_result(
     return {
         "run_id": status["run_id"],
         "split_seed": int(status["split_seed"]),
+        "partition_role": (
+            "development_ablation_no_retuning_locked_audit"
+            if int(status["split_seed"]) == 0
+            else "post_freeze_no_retuning_locked_audit"
+        ),
         "dataset_id": status["dataset_id"],
         "model_id": status["model_id"],
         "workload_id": workload_id,
@@ -603,6 +609,18 @@ def main() -> int:
     ]
     summary = {
         "schema_version": 1,
+        "evaluation_unit": (
+            "10 dataset-model workloads x 5 partition seeds; "
+            "50 workload-partition instances"
+        ),
+        "partition_semantics": (
+            "five deterministic repeated partitions of a fixed held-out artifact"
+        ),
+        "seed_roles": {
+            "0": "development_ablation_no_retuning_locked_audit",
+            "1-4": "post_freeze_no_retuning_locked_audit",
+        },
+        "formal_confirmatory_seeds": [1, 2, 3, 4],
         "run_status_path": str(args.run_status),
         "expected_runs": args.expected_runs,
         "recorded_runs": len(status_rows),

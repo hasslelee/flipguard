@@ -99,6 +99,16 @@ func run(args []string, stdout io.Writer) error {
 		synthesisDefaults.PrecisionSlackMode,
 		"static precision policy: none or maximize_within_min_log_n",
 	)
+	synthesisBudgetMode := flags.String(
+		"synthesis-budget-mode",
+		synthesisDefaults.SynthesisBudgetMode,
+		"candidate budget source: decision_contract or graph_fixed_tolerance",
+	)
+	fixedOutputErrorBudget := flags.Float64(
+		"fixed-output-error-budget",
+		0,
+		"fixed graph-only synthesis tolerance; requires graph_fixed_tolerance mode",
+	)
 
 	if err := flags.Parse(args); err != nil {
 		return err
@@ -155,6 +165,10 @@ func run(args []string, stdout io.Writer) error {
 	synthesisPolicy.PrecisionSlackMode = strings.TrimSpace(
 		*precisionSlackMode,
 	)
+	synthesisPolicy.SynthesisBudgetMode = strings.TrimSpace(
+		*synthesisBudgetMode,
+	)
+	synthesisPolicy.FixedOutputErrorBudget = *fixedOutputErrorBudget
 
 	plan, err := ckksplanner.Synthesize(contract, synthesisPolicy)
 	if err != nil {

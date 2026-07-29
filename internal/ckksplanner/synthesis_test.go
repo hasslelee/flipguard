@@ -136,6 +136,31 @@ func TestSynthesizeRecordsLowerExperimentalFloor(t *testing.T) {
 	}
 }
 
+func TestGraphFixedToleranceSynthesisIgnoresDecisionBudgetForCandidate(t *testing.T) {
+	contract := validContractFixture()
+	policy := DefaultPrimarySynthesisPolicy()
+	policy.SynthesisBudgetMode = SynthesisBudgetGraphFixedTolerance
+	policy.FixedOutputErrorBudget = 0.001
+
+	first, err := Synthesize(contract, policy)
+	if err != nil {
+		t.Fatalf("synthesize graph-fixed candidate: %v", err)
+	}
+	contract.Decision.OutputErrorBudget /= 100
+	second, err := Synthesize(contract, policy)
+	if err != nil {
+		t.Fatalf("resynthesize graph-fixed candidate: %v", err)
+	}
+	a := first.InitialCandidates[0].Parameters
+	b := second.InitialCandidates[0].Parameters
+	if a.LogN != b.LogN ||
+		a.LogDefaultScale != b.LogDefaultScale ||
+		fmt.Sprint(a.LogQ) != fmt.Sprint(b.LogQ) ||
+		fmt.Sprint(a.LogP) != fmt.Sprint(b.LogP) {
+		t.Fatalf("decision budget changed graph-only literal: %+v != %+v", a, b)
+	}
+}
+
 func TestSynthesizeMaximizesPrecisionWithinMinimumLogNTier(t *testing.T) {
 	contract := validContractFixture()
 	policy := DefaultSynthesisPolicy()
