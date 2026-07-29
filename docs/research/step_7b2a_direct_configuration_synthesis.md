@@ -1,9 +1,9 @@
 # Step 7B.2a: Direct CKKS Configuration Synthesis
 
-Status: implemented and validated as development evidence on 2026-07-27.
-The seed-0 audit and seeds-1--2 cumulative multi-split checkpoint are frozen
-as preliminary evidence. Split seeds 3--4 and final repeated-latency evidence
-are not frozen.
+Status: implemented and validated as preliminary empirical evidence on
+2026-07-28. The complete five-split selection and no-retuning locked-audit
+matrix and the 1,100-candidate bounded-oracle comparison are frozen. Final
+five-split paired-latency evidence remains pending.
 
 ## Research Decision
 
@@ -13,7 +13,8 @@ is no longer the first-party deployment algorithm.
 The first-party path now accepts:
 
 - a model artifact;
-- a configuration-validation dataset;
+- held-out feature data in the model's declared input space, or a frozen
+  prepared configuration-validation artifact;
 - a split identity;
 - a decision threshold and margin policy;
 - a security target and encrypted-trial budget.
@@ -26,9 +27,11 @@ not map the result to a built-in profile name.
 `internal/ckksplanner.BuildTabularWorkloadContract` performs the following
 before parameter generation:
 
-1. hashes the exact model and validation artifacts;
+1. hashes the exact model, source feature data, and prepared validation
+   artifacts when the user-facing `--data` path is used;
 2. derives the plaintext computation DAG from the model artifact;
-3. re-evaluates every validation row and rejects score or decision mismatch;
+3. deterministically materializes the plaintext score and decision from every
+   source row, then re-evaluates the prepared rows and rejects any mismatch;
 4. partitions the exact ordered validation set into `V_cert` and `V_amb`;
 5. derives the protected margin and output-error budget;
 6. propagates empirical validation intervals through the DAG for an initial
@@ -39,6 +42,50 @@ before parameter generation:
 The interval-derived sensitivity is a planning signal. It is not presented as
 a sound CKKS error bound. A candidate is `SAFE` only after encrypted validation
 through the existing certification engine.
+
+### User-facing input contract
+
+For already selected and standardized model-input data,
+`flipguard-autotune --data` accepts:
+
+```text
+row_id,label,x_0,x_1,...,x_{d-1}
+```
+
+For raw data, the CSV can expose the selected feature names recorded by the
+model artifact or indexed columns such as `x_3,x_5,...`. The materializer
+extracts the frozen selected features and applies their recorded training-set
+means and standard deviations. `--data-space auto|model|raw` makes the source
+interpretation explicit; `auto` fails closed when both raw and model-input
+representations are present.
+
+The current raw preprocessing contract is deliberately narrow:
+selected-feature extraction plus z-score standardization. Arbitrary
+preprocessing graphs are not inferred. Unexpected model-input `x_*` columns,
+missing or invalid preprocessing metadata, duplicate row IDs, non-binary
+labels, non-finite values, score mismatches, and partial materialization
+provenance are rejected.
+
+The materializer writes `scaled_logit`, `polynomial_score`,
+`plaintext_decision`, model/source digests, source feature space,
+preprocessing method, and a schema identifier into a canonical validation
+CSV. The resulting workload contract binds the source CSV, model artifact,
+prepared CSV, and transformation semantics separately. The contract builder
+replays preprocessing from source bytes and requires every prepared feature
+to match exactly; `source_replay_verified` records whether that check was
+performed. Any later byte mutation is detected before encrypted execution.
+
+The lower-level `--validation` path remains available for deterministic replay
+of an already frozen validation artifact. It is an evidence/reproduction
+interface, not the preferred first-time user flow.
+
+The software regression suite also covers all 15 committed artifact pairs
+(five datasets by three supported graph forms). It inverses each committed
+standardized test matrix through the frozen mean/std metadata, rematerializes
+the resulting named raw features, compares every prepared feature, score, and
+decision, and requires source replay verification. This is an implementation
+equivalence check, not independent empirical evidence or a raw-data
+generality claim.
 
 ## Why Depth Is Not Chain Length
 
@@ -84,19 +131,24 @@ a time. The analysis scale, backend lift, and validation-attempt count are
 recorded. All other backend errors remain fatal. The smallest admitted `LogN`
 that supports the slots and total declared `log2(QP)` is then selected.
 
-Security admission uses the uniform-ternary, Gaussian-error, classical
-128-bit limits in Table 4.2 of the 2024
+Security admission uses the uniform-ternary, Gaussian-error, Category-128
+limits in Table 5.2 of the published 2025
 [Security Guidelines for Implementing Homomorphic Encryption](https://doi.org/10.62056/anxra69p1):
 
-| LogN | Maximum declared log2(QP) |
-|---:|---:|
-| 12 | 108 |
-| 13 | 217 |
-| 14 | 438 |
-| 15 | 881 |
+| LogN | N | Maximum log2(q) |
+|---:|---:|---:|
+| 12 | 4096 | 106 |
+| 13 | 8192 | 214 |
+| 14 | 16384 | 430 |
+| 15 | 32768 | 868 |
 
-Lattigo parameter construction and this external security envelope are separate
-checks. Successful construction alone is never reported as 128-bit security.
+The runtime uses Lattigo v6.2.0 `Xs=ring.Ternary{P:2/3}` and
+`Xe=ring.DiscreteGaussian{Sigma:3.2, Bound:19.2}`. Table 5.2 assumes
+sigma 3.19, so the distributions are not described as exactly identical.
+The table is a conservative admission reference. Ciphertext objects are
+checked at Q; evaluation, relinearization, and key-switching objects are
+checked at QP; final admission requires both checks. Exact Q/P primes and
+estimator-compatible inputs are exported separately.
 
 ## Adaptive Execution
 
@@ -113,7 +165,24 @@ neighborhood.
 
 ## Commands
 
-Generate a plan without encrypted execution:
+Generate, execute, certify, and select from model-input feature data:
+
+```bash
+go run ./cmd/flipguard-autotune \
+  --model datasets/tabular_suite/banknote/linear_poly3/model.json \
+  --data /path/to/banknote_validation_raw.csv \
+  --data-space raw \
+  --split-id user_validation_v1 \
+  --out results/direct_tabular_autotune/user_validation_v1.json
+```
+
+The immutable V2 primary policy fixes margin floor `0.001`, safety factor
+`0.5`, scale/Q-prime floor `18`, special-prime floor `30`, four adaptive
+encrypted trials, and three fresh keypairs per configuration trial. CLI
+output, summaries, and evidence must carry the same policy digest.
+
+Generate a plan from a frozen prepared validation artifact without encrypted
+execution:
 
 ```bash
 go run ./cmd/flipguard-synthesize \
@@ -122,7 +191,7 @@ go run ./cmd/flipguard-synthesize \
   --split-id split_seed_0
 ```
 
-Generate, execute, certify, and select:
+Replay a frozen prepared validation artifact:
 
 ```bash
 ./scripts/run_direct_tabular_autotune.sh \
@@ -142,8 +211,15 @@ scripts/run_direct_tabular_autotune_matrix.sh --smoke --force
 # Development matrix: 5 datasets x 2 model forms x split seed 0.
 scripts/run_direct_tabular_autotune_matrix.sh --seed0 --force
 
-# Thesis matrix: the same 10 workloads x split seeds 0..4.
+# Repeated-partition matrix: 10 dataset-model workloads x seeds 0..4.
 scripts/run_direct_tabular_autotune_matrix.sh --full --force
+
+# User-input protocol: recompute and bind the canonical validation artifact
+# from model-input feature rows before synthesis and encrypted validation.
+scripts/run_direct_tabular_autotune_matrix.sh \
+  --full \
+  --materialize-model-input \
+  --force
 
 # Resume without repeating completed workloads.
 scripts/run_direct_tabular_autotune_matrix.sh --full --resume
@@ -163,7 +239,7 @@ scripts/run_direct_tabular_autotune_matrix.sh \
   --force
 
 # Fresh-key robustness: each configuration trial is certified over three
-# independently generated keypairs.
+# freshly generated keypairs.
 scripts/run_direct_tabular_autotune_matrix.sh \
   --seed0 \
   --precision-floor 18 \
@@ -172,12 +248,20 @@ scripts/run_direct_tabular_autotune_matrix.sh \
 ```
 
 `run_status.csv` is the execution ledger. The summarizer validates the
-workload identity and trial count in every successful result before writing
+workload identity and trial count in every successful result. In materialized
+mode it also verifies the current source digest and requires
+`source_replay_verified=true` before writing
 `summary/workload_results.csv`, `summary/encrypted_trials.csv`, and
 `summary/summary.json`. Configuration trials and fresh-key runs are counted
 separately. A checkpoint with fewer than the declared number of workloads is
 reported as incomplete; any recorded execution failure makes the runner exit
 nonzero.
+
+Seed 0 is development/ablation. Seeds 1-4 are post-freeze
+repeated-partition evaluation, and each audit is a no-retuning locked audit.
+These are five deterministic repeated partitions of a fixed held-out
+artifact, not five independent data splits or five independently trained
+models.
 
 ## Development Evidence
 
@@ -365,74 +449,65 @@ the execution ledger, aggregate outputs, provenance, and checksums. The
 ignored split CSV files are reproducible from tracked source data and are
 digest-bound in the manifest.
 
-This resolves the seed-0 validation-to-audit leakage concern. It does not
-resolve split robustness: only split seed 0 has been selected and audited.
-Three fresh keys on each partition also do not establish key independence.
-The next required empirical step is the predeclared five-split selection and
-locked-audit matrix.
+At that checkpoint this resolved the seed-0 validation-to-audit leakage
+concern but not split robustness. The predeclared five-split study below
+subsequently repeated the full selection and audit protocol.
 
-### Multi-split checkpoints: seeds 1 and 2
+### Complete five-split selection and locked audit
 
-The identical floor-18, three-key policy was applied to split seeds 1 and 2
-without changing synthesis, repair, margin, safety, or stopping rules after
-the seed-0 audit was observed.
+The identical floor-18, three-key policy was applied to split seeds 0 through
+4. Synthesis, repair, margin, safety, and stopping rules were not changed
+between splits. Seed 0 was re-executed into the same full-run ledger rather
+than copied from its independent development pack.
 
-Selection produced:
+| Split seed | Selected | Selection trials | Selection key runs | Initial rejected flips | Initial rejected violations | Audit PASS | Audit key runs | Audit V_cert | Audit V_amb |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 0 | 10/10 | 14 | 42 | 196 | 856 | 10/10 | 30 | 1623 | 37 |
+| 1 | 10/10 | 14 | 42 | 195 | 857 | 10/10 | 30 | 1623 | 37 |
+| 2 | 10/10 | 14 | 42 | 203 | 850 | 10/10 | 30 | 1629 | 31 |
+| 3 | 10/10 | 14 | 42 | 212 | 935 | 10/10 | 30 | 1619 | 41 |
+| 4 | 10/10 | 14 | 42 | 187 | 872 | 10/10 | 30 | 1628 | 32 |
+| **Total** | **50/50** | **70** | **210** | **993** | **4370** | **50/50** | **150** | **8122** | **178** |
 
-- 10/10 `SELECTED` outcomes and no `NO_SAFE` or execution failure;
-- 14 configuration trials and 42 fresh-key runs;
-- four initial scale-20 linear rejections followed by four SAFE scale-24
-  repairs;
-- 195 initial decision flips and 857 initial error-budget violations across
-  those four rejected trials;
-- the same data-dependent selected structure as seed 0: iris linear at
-  `N13/Q7/scale20`, the other linear workloads at `N13/Q7/scale24`, and all
-  MLP workloads at `N13/Q6/scale20`.
+All 20 initial rejections were scale-20 linear candidates. Each was rejected
+by observed encrypted validation, not by a static heuristic. A single
+feedback-directed scale repair produced a SAFE scale-24 literal. The other 30
+workloads stopped after their first encrypted trial. There were no
+`NO_SAFE` outcomes or execution failures.
 
-The seed-1 no-retuning locked audit then produced:
+The selected structure was stable across all five splits:
 
-- 10/10 `LOCKED_AUDIT_PASS` outcomes;
-- 10 configuration trials and 30 fresh-key runs;
-- zero retuned workloads, execution failures, flips, and protected
-  error-budget violations;
-- aggregate audit `V_cert=1623` and `V_amb=37`.
+- banknote, digits, MNIST, and WDBC linear:
+  `N13/Q7/scale24`, 20/20;
+- iris linear: `N13/Q7/scale20`, 5/5;
+- all MLP-square-linear workloads: `N13/Q6/scale20`, 25/25.
 
-Across the two completed split checkpoints, selection has used 28
-configuration trials and 84 fresh-key runs for 20 workloads. The corresponding
-held-out audits are 20/20 PASS over 20 frozen configuration trials and 60
-fresh-key runs, with aggregate `V_cert=3246` and `V_amb=74`. Eight initial
-rejections accumulated 386 flips and 1,709 violations before repair.
+The 70 encrypted configuration trials are 93.64% fewer than the 1,100
+executions required to evaluate all 22 fixed catalog candidates on the same
+50 workloads. With three fresh keys per candidate, the corresponding counts
+are 210 versus 3,300 key runs. This is an execution-count comparison against
+the bounded catalog protocol, not a global-optimality or latency claim.
 
-The seed-1 pack is frozen at
-[`direct_locked_audit_seed1_checkpoint_v1`](../evidence/direct_locked_audit_seed1_checkpoint_v1/README.md).
+Every selected literal was then frozen and evaluated exactly once per
+workload on the disjoint audit partition:
 
-Seed 2 reproduced the same selected structure and trial distribution:
+- 50/50 `LOCKED_AUDIT_PASS`;
+- 50 configuration trials and 150 fresh-key runs;
+- zero retuning and zero execution failures;
+- zero decision flips and zero protected error-budget violations;
+- aggregate audit `V_cert=8122` and `V_amb=178`.
 
-- 10/10 `SELECTED`, 14 configuration trials, and 42 fresh-key runs;
-- four initial linear rejections with 203 flips and 850 violations;
-- 10/10 no-retuning locked-audit PASS outcomes over 30 fresh-key runs;
-- audit `V_cert=1629`, `V_amb=31`, and zero final flips or violations.
+The primary compact evidence pack is
+[`direct_locked_audit_five_split_v1`](../evidence/direct_locked_audit_five_split_v1/README.md).
+It contains 50 selection results, 50 split manifests, 50 audit results, the
+execution ledger, aggregate outputs, provenance, and SHA-256 checksums. Earlier
+seed-specific and cumulative checkpoint packs remain as execution-history
+artifacts.
 
-The cumulative seeds-1--2 pack is frozen at
-[`direct_locked_audit_seeds1_2_checkpoint_v1`](../evidence/direct_locked_audit_seeds1_2_checkpoint_v1/README.md).
-Its full-run ledgers contain 20/50 selection workloads and 20/50 audits.
-
-Across all three completed split checkpoints, including the independently
-frozen seed-0 run:
-
-- selection: 30/30 selected workloads, 42 configuration trials, and 126
-  fresh-key runs;
-- adaptive failures: 12 initial rejections with 589 flips and 2,559
-  violations before repair;
-- locked audit: 30/30 PASS, 30 frozen configuration trials, 90 fresh-key
-  runs, and no retuning;
-- audit coverage: aggregate `V_cert=4875` and `V_amb=105`, with zero final
-  flips and violations.
-
-The full matrix intentionally remains incomplete until split seeds 0, 3, and
-4 are present in the same full-run ledger. Seed 0 already has an independent
-frozen pack, but it will also be executed or provenance-preservingly imported
-into the final ledger before five-split evidence is frozen.
+This completes the predeclared five-split no-retuning study. It does not
+establish split independence, key independence, distribution-wide safety, or
+global optimality. The evidence is also limited to the recorded datasets,
+model graphs, scalar-replicated packing, and Lattigo v6 rescale path.
 
 ## Current Claim Boundary
 

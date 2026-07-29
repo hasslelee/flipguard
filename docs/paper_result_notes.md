@@ -1,5 +1,14 @@
 # FlipGuard 실험 결과 정리
 
+> **상태: LEGACY PRELIMINARY, 논문 인용 금지.**
+>
+> 이 문서는 고정 프로파일 기반 초기 실험을 기록한 역사적 메모다.
+> 현재 FlipGuard V2의 직접 configuration 합성, 5-split locked audit,
+> 1,100-candidate bounded oracle, paired latency 및 `NO_SAFE` 근거는
+> 반영하지 않는다. 현재 논문 작업은
+> `docs/research/flipguard_v2_manuscript_draft_ko.md`와
+> `docs/research/flipguard_v2_claim_evidence_matrix.md`를 기준으로 한다.
+
 ## 1. 전체 실험 구성
 
 본 연구는 CKKS 암호화 추론에서 프로파일 선택이 출력 정확도와 판단 안정성에 미치는 영향을 분석하였다. 실험은 통제된 경계 실험, 반복 속도 실험, 공개 데이터 기반 암호화 추론, 다중 데이터셋 및 다중 모델 실험으로 구성하였다.

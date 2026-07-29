@@ -1,60 +1,59 @@
-# FlipGuard V2 claim-evidence matrix
+# FlipGuard V2 Claim-Evidence Matrix
 
-Status values:
+Status vocabulary is limited to `SUPPORTED`, `PARTIALLY_SUPPORTED`, `BLOCKED`,
+`NOT_EVALUATED`, `SUPERSEDED`, and `PILOT_ONLY`. `paper_claim_allowed` is a
+separate boolean; `BLOCKED` never means that a gate is merely closed.
 
-- FROZEN_PRELIMINARY
-- IMPLEMENTED_NOT_EVALUATED
-- PARTIALLY_SUPPORTED
-- UNSUPPORTED
-- REQUIRED_FINAL
-- NEGATIVE_CONTROL
-- REGRESSION_ONLY
+Core contribution:
 
-| Claim or component | Current evidence | Current status | Reviewer objection | Evidence required before final claim | Forbidden overclaim |
-|---|---|---|---|---|---|
-| Certify-or-reject state machine works | Unit tests and observed tabular importer | IMPLEMENTED_NOT_EVALUATED | Software correctness is not empirical safety | Mutation tests, malformed artifact tests, end-to-end failure cases | “The framework is universally safe” |
-| Existing tabular selection preserves decisions | Frozen 10-workload observed snapshot, V_cert=2645, V_amb=61 | FROZEN_PRELIMINARY | One fixed split and preliminary policy constants | Independent validation/audit sets, multiple seeds, independent keys | “General decision preservation” |
-| Latency-only tuning can be unsafe | Latency-only candidate rejected in all 10 current workloads | PARTIALLY_SUPPORTED | Candidate space and workload family may be constructed favorably | Generated candidate spaces and modernized graph suite | “All latency tuners are unsafe” |
-| FlipGuard improves latency | MLP-square preliminary speedups; Linear has zero improvement | PARTIALLY_SUPPORTED | Half the workload matrix has no improvement | Primary-model table separated from negative controls; final multi-seed audit | “Ten workloads all improve” |
-| Linear model evidence | Five datasets with zero selected speedup | NEGATIVE_CONTROL | Workload count inflation | Use only as shallow-depth/no-headroom control | “Five successful optimized workloads” |
-| Core workload evidence | Six legacy probes | REGRESSION_ONLY | Too few or synthetic inputs | Rebuild with complete predeclared datasets if used in main evaluation | “Core suite proves generality” |
-| Analytical proof contract | Scoped proof metadata and strict validation | IMPLEMENTED_NOT_EVALUATED | Metadata does not make the numeric bound sound | Sound primitive derivation and underestimation audit | “Analytical guarantee implemented” |
-| Conditional linear_poly3 envelope | Arithmetic propagation tests | IMPLEMENTED_NOT_EVALUATED | Primitive residuals are still assumed | CKKS primitive derivation tied to profile and path | “End-to-end CKKS bound” |
-| CKKS profile facts | Eleven profile digests, certificate_eligible=false | IMPLEMENTED_NOT_EVALUATED | Facts alone are not a guarantee | Derivation using exact parameter semantics | “NoiseBound is output error” |
-| Analytical execution scope | Finite set, declared box, empirical range contract | IMPLEMENTED_NOT_EVALUATED | No real workload scope builder yet | Exact artifact/input/graph/profile/path builder | “Current test range is a domain guarantee” |
-| HYBRID certification | Policy and proof plumbing exist | UNSUPPORTED | No sound bound producer | Bound calculator, proof export, observed<=predicted audit | “HYBRID results available” |
-| Planner reduces evaluation work | Step 7B.2 projection implementation and four-candidate smoke: SAFE recall 1, optimum recall 1, regret 0, pruning 0.5 for five alpha rows | IMPLEMENTED_NOT_EVALUATED | Smoke has one split/workload and cannot establish general planner quality | Full 1,100-candidate oracle comparison with safe recall, optimum recall, regret, false NO_SAFE, and overhead | “Planner finds global optimum” |
-| Automatic candidate generation | Direct digest-bound synthesis of LogN/LogQ/LogP/scale; three split checkpoints selected 30/30 workloads and all frozen literals passed disjoint three-key locked audits without retuning | PARTIALLY_SUPPORTED | Current scope is three tabular forms, scalar-replicated packing, rescale-aware Lattigo v6, and three of five split seeds | Complete the five-split study, frozen-oracle comparison, and external providers | “Fully general automatic tuner” |
-| Candidate feasibility pre-check | Lattigo-aware symbolic scale trace, 2024 HE security envelope, and literal construction check | PARTIALLY_SUPPORTED | Symbolic trace may miss future backend/model operations; security table is an admission envelope rather than a live estimator | Operation mutation tests, all declared models, and observed under/over-provision audit | “All generated candidates execute” |
-| Adaptive encrypted-trial reduction | Three completed split checkpoints used 42 configuration trials/126 key runs, including 12 REJECTED-to-SAFE repairs, versus 660/1,980 for an equally repeated fixed catalog; 30 frozen selections then passed 30 one-trial/90-key locked audits without retuning | PARTIALLY_SUPPORTED | Three of five splits are complete, and the 93.64% selection reduction is a bounded-protocol count comparison rather than a global-oracle result | Complete multi-split trial distribution, false NO_SAFE analysis, and bounded-oracle regret | “One encrypted trial always suffices” |
-| Generality across computation graphs | Direct synthesis supports linear-poly3, MLP-square-linear, and MLP-square-poly3; legacy Sobel/Harris probes remain | PARTIALLY_SUPPORTED | Primary evidence remains shallow and tabular | Deeper MLP, CNN-lite, modernized image protocols | “All models and datasets” |
-| Robustness across dataset splits | Split seeds 0, 1, and 2 each selected 10/10 workloads and passed 10/10 disjoint no-retuning audits with the same predeclared policy | PARTIALLY_SUPPORTED | Only three of five predeclared seeds are complete, which is insufficient for a final split-robustness claim | Complete split seeds 3--4 and freeze the combined selection/audit distribution | “Split-independent result” |
-| Robustness across cryptographic randomness | Across three split checkpoints, selection completed 126 fresh-key runs and locked audit completed 90 more; all 30 final validation certificates and 30 audits had zero flips/violations | PARTIALLY_SUPPORTED | Three keys per partition and three split seeds are too few for a key-independence claim; encryption randomness is not separately seeded | More key repeats across all predeclared splits with explicit randomness recording | “Key-independent safety” |
-| Safety-factor choice | alpha=0.5 current default | UNSUPPORTED | Arbitrary policy constant | Predeclared sensitivity study and policy interpretation | “0.5 is theoretically optimal” |
-| Margin-floor choice | margin_floor=0.001 current default | UNSUPPORTED | Arbitrary ambiguity cutoff | Coverage/latency/NO_SAFE sensitivity study | “0.001 is universally correct” |
-| Final latency claims | Mean/std fields in preliminary summaries | PARTIALLY_SUPPORTED | Warm-up, p95, process variance incomplete | Frozen latency protocol with raw records | “Stable production latency” |
-| Artifact reproducibility | Frozen observed evidence v1, seed-0 direct audit, and cumulative seeds-1--2 checkpoint packs share a checksum verifier | PARTIALLY_SUPPORTED | Direct evidence remains preliminary and the five-split V2 pack is incomplete | Complete the one-ledger multi-split run, final evidence freeze, and verifier | “Complete reproducibility achieved” |
+> FlipGuard directly synthesizes a CKKS configuration from a supported
+> computation graph and a threshold decision-integrity contract, validates it
+> with a small number of encrypted trials, applies bounded failure-aware
+> repairs, abstains when no SAFE candidate can be established, and replays the
+> selected literal without retuning on a locked audit set.
 
-## Immediate development dependency
+| Claim | State | paper_claim_allowed | Current evidence | Block reason / required evidence |
+|---|---|---:|---|---|
+| Direct synthesis | PARTIALLY_SUPPORTED | false | Three supported scalar-tabular formulas; 50 PRE_SECURITY_V2 selected rows; all 50 literals statically pass Security V2 | Clean-source post-freeze selection is not executed |
+| Adaptive repair | PARTIALLY_SUPPORTED | false | 20 REJECTED-to-SAFE repairs in 70 PRE_SECURITY_V2 trials; monotone `+4` scale and `+1` level rules are bounded | One-shot/graph-only/full ablation is not executed |
+| Decision-integrity certification | PARTIALLY_SUPPORTED | false | Finite `V_cert` certify-or-reject logic and mutation tests; zero preliminary selected flips/violations | This is finite observed evidence, not a domain-wide bound |
+| Trial reduction | PARTIALLY_SUPPORTED | false | 70 direct trials/210 key runs versus 1,100 catalog candidate executions | Comparison is bounded and PRE_SECURITY_V2; final clean-source accounting is absent |
+| Security-compliant bounded catalog comparison | PARTIALLY_SUPPORTED | false | V2 filtering retains 7/11 profiles and 14/22 identities; existing records are re-summarized without rerun | Final direct rows and paired arms are not yet clean-source confirmatory evidence |
+| Latency speedup | BLOCKED | false | Existing unpaired comparison is SUPERSEDED for latency; seed-0 paired pack is PILOT_ONLY | Final paired 50-instance run over frozen V2 arms is absent |
+| Security | PARTIALLY_SUPPORTED | false | Q and QP are separately checked against published Table 5.2; direct 50/50 PASS, four catalog profiles excluded | Exact estimator inputs are exported but exact estimation is NOT RUN; no universal security claim |
+| Locked audit on fixed held-out partitions | PARTIALLY_SUPPORTED | false | 50 PRE_SECURITY_V2 no-retuning audits passed with zero retuning/flips/violations | Seed 0 is development; seeds 1-4 need clean-source post-freeze replay |
+| Structural generalization | PILOT_ONLY | false | One `mlp_square_poly3` selection/audit pilot and static plans | Full structural holdout and non-tabular CNN/image graph are absent |
+| Conditional analytical claim | BLOCKED | false | Scope metadata and primitive placeholders exist | No sound primitive CKKS residual derivation or observed-versus-bound audit |
+| Planner baseline | PARTIALLY_SUPPORTED | false | Legacy catalog-pruning baseline has zero false NO_SAFE and low regret but low SAFE/optimum recall | It is not the primary contribution and cannot substitute for direct synthesis |
+| Artifact reproducibility | PARTIALLY_SUPPORTED | false | SHA-256 pre-change checkpoint, deterministic pack verifiers, policy digests, and source bindings exist | Final evidence freeze, clean replay, release tag, and archive are absent |
 
-Before implementing the finite-set analytical scope builder:
+## Evaluation Units
 
-1. freeze this reviewer protocol;
-2. bind every new implementation to a matrix row;
-3. state the reviewer concern addressed;
-4. state the falsification condition;
-5. preserve preliminary and final evidence separately.
+- Seed 0 is the development/ablation partition.
+- Seeds 1-4 are post-freeze repeated-partition evaluation.
+- The experiment comprises five deterministic repeated partitions of a fixed
+  held-out artifact.
+- Report the scope as 10 dataset-model workloads x 5 partition seeds, or 50
+  workload-partition instances.
+- Do not call these 50 independent workloads, models, or dataset splits.
+- Inferential summaries must cluster by dataset-model; repeated partitions do
+  not establish training-seed or model generalization.
 
-## Immediate analytical sequence
+## Policy Freeze
 
-1. exact finite-set digest builder;
-2. exact operation-graph specification and digest;
-3. primitive derivation scope;
-4. probabilistic or deterministic primitive error model;
-5. linear_poly3 bound calculator;
-6. observed-error versus predicted-bound audit;
-7. proof export;
-8. HYBRID integration;
-9. MLP-square propagation.
+- Primary alpha: `0.5`.
+- Alpha sensitivity: `{0.1, 0.25, 0.5, 0.75, 0.9}`.
+- Primary margin floor: `0.001`.
+- Margin floor `0.0005`: `SECONDARY_POLICY_SENSITIVITY` only.
+- No audit result may select alpha or margin floor.
+- Direct maximum encrypted trials: `4`.
 
-No HYBRID certificate may be issued before steps 1–7 pass.
+## Forbidden Claims
+
+- first application-aware CKKS configuration;
+- first direct CKKS autotuner;
+- first repair-based CKKS parameter selection;
+- optimization claims outside the declared bounded candidate domain;
+- universal model support;
+- independent evidence from the 50 repeated-partition rows;
+- latency speedup from unpaired or pilot evidence.

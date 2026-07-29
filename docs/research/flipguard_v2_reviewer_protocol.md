@@ -262,7 +262,7 @@ Required definitions:
 safe_candidate_recall =
     planner-retained SAFE candidates / all SAFE candidates
 
-global_optimum_recall =
+bounded_optimum_recall =
     fraction of workloads where the exhaustive fastest-safe candidate is
     retained by the planner
 
@@ -273,7 +273,7 @@ latency_regret =
 A planner with high pruning but low safe recall or high latency regret is not
 successful.
 
-When the exhaustive oracle has no SAFE candidate, safe recall, global optimum
+When the exhaustive oracle has no SAFE candidate, safe recall, bounded optimum
 recall, and latency regret are undefined rather than zero. False `NO_SAFE`
 requires an oracle SAFE candidate and an empty planner SAFE subset.
 

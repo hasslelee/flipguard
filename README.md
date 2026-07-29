@@ -3,16 +3,18 @@
 **Automatic CKKS Configuration with Decision-Integrity Certification**
 
 FlipGuard is a research prototype that synthesizes CKKS configurations from a
-model, validation data, and a decision policy, then certifies or rejects each
-configuration according to the final threshold decision.
+model artifact, held-out feature data, and a decision policy, then
+certifies or rejects each configuration according to the final threshold
+decision.
 
 The decision-integrity layer can also evaluate candidates supplied by manual
 configuration, the built-in finite oracle, or an external autotuner.
 
 > Status: active research prototype with a real Lattigo v6 CKKS backend. Direct
 > parameter synthesis and adaptive observed-validation certification are
-> implemented for the declared tabular/rescale scope. Final multi-seed and
-> locked-audit evidence is not yet frozen.
+> implemented for the declared tabular/rescale scope. The five-split
+> selection/locked-audit checkpoint is frozen as preliminary evidence; the
+> clean-source final confirmatory suite remains pending.
 
 ---
 
@@ -44,7 +46,8 @@ where `protected_margin` is derived from the distance between the plaintext scor
 FlipGuard currently provides:
 
 - Direct `LogN`, `LogQ`, `LogP`, and scale generation without a fixed profile catalog
-- Digest-bound model and validation workload contracts
+- Automatic feature-data-to-validation materialization with source/model digests
+- Digest-bound model, source data, and prepared validation workload contracts
 - Lattigo-aware scale and modulus-level tracing
 - 128-bit parameter admission using the recorded HE security-guideline table
 - Adaptive level/scale repair with an encrypted-trial budget
@@ -120,6 +123,40 @@ go test ./...
 
 ### Automatically synthesize and certify a tabular configuration
 
+The preferred user path takes a supported FlipGuard model artifact and a
+held-out feature CSV:
+
+```bash
+go run ./cmd/flipguard-autotune \
+  --model datasets/tabular_suite/banknote/linear_poly3/model.json \
+  --data /path/to/banknote_validation_raw.csv \
+  --data-space raw \
+  --split-id user_validation_v1 \
+  --out results/direct_tabular_autotune/user_validation_v1.json
+```
+
+For data already in the selected and standardized model-input space:
+
+```text
+row_id,label,x_0,x_1,...,x_{d-1}
+```
+
+For raw data, use the selected feature names recorded by the model artifact or
+indexed columns such as `x_3,x_5,...`. FlipGuard applies the artifact's frozen
+selected-feature means and standard deviations. `--data-space` accepts
+`auto`, `model`, or `raw`; ambiguous input fails closed instead of guessing.
+The current raw preprocessing scope is selected-feature extraction plus
+z-score standardization. Arbitrary preprocessing graphs are not inferred.
+
+FlipGuard then derives the plaintext score and decision, writes a canonical
+`.validation.csv` beside the result, binds source/model/prepared data and the
+preprocessing method, replays the source transformation against every prepared
+row, synthesizes one candidate, and repairs only after an observed encrypted
+failure.
+
+For frozen experiment replay, an already prepared validation artifact can be
+supplied through the matrix script:
+
 ```bash
 ./scripts/run_direct_tabular_autotune.sh \
   datasets/tabular_suite/banknote/mlp_square_linear_score/model.json \
@@ -128,10 +165,33 @@ go test ./...
   results/direct_tabular_autotune/development/banknote_mlp_seed0.json
 ```
 
+The main path is Graph + Decision Contract -> Direct Synthesis -> Encrypted
+Validation -> Failure-aware Repair -> Certify/Reject/NO_SAFE -> Locked Audit.
+The bounded catalog and its legacy pruning planner are evaluation-only side
+paths.
+
 The output records the exact artifact digests, derived graph and margin
-contract, direct CKKS literal, security admission, encrypted trials, and final
-selection. See
+contract, direct CKKS literal, Q/QP security admission, encrypted trials, and
+final selection. The V2 primary policy fixes `margin_floor=0.001`,
+`alpha=0.5`, scale/Q floor `18`, P floor `30`, maximum encrypted trials `4`,
+and three fresh keys per configuration trial. See
 [`docs/research/step_7b2a_direct_configuration_synthesis.md`](docs/research/step_7b2a_direct_configuration_synthesis.md).
+
+The no-retuning audit can apply the same source replay to its disjoint feature
+partition:
+
+```bash
+go run ./cmd/flipguard-audit \
+  --selection /path/to/selection.json \
+  --audit /path/to/locked_audit_source.csv \
+  --prepared-audit-out /path/to/locked_audit.validation.csv \
+  --audit-data-space model \
+  --manifest /path/to/split_manifest.json \
+  --out /path/to/locked_audit_result.json
+```
+
+Audit materialization recomputes plaintext provenance only. The selected CKKS
+literal is executed unchanged, without synthesis or repair.
 
 ### Reproduce current results
 
@@ -284,9 +344,10 @@ FlipGuard는 CKKS 기반 암호화 추론에서 **판정 안정성(decision stab
 
 CKKS는 암호화된 실수 데이터에 대해 근사 연산을 수행할 수 있다는 장점이 있지만, 근사 오차로 인해 모델 출력값이 임계값 근처에 있을 때 최종 판정이 뒤집힐 수 있다.
 
-현재 구현은 Lattigo v6 실제 CKKS backend를 사용한다. 모델과 validation
-data에서 `LogN`, `LogQ`, `LogP`, scale을 직접 생성하고, 암호화 실행 결과를
-검증해 `SAFE`, `REJECTED`, `FAILED`, `NO_SAFE` 중 하나를 반환한다.
+현재 구현은 Lattigo v6 실제 CKKS backend를 사용한다. 지원되는 model
+artifact와 held-out feature data에서 `LogN`, `LogQ`, `LogP`, scale을
+직접 생성하고, 암호화 실행 결과를 검증해 `SAFE`, `REJECTED`, `FAILED`,
+`NO_SAFE` 중 하나를 반환한다.
 
 예를 들어 다음과 같은 임계값 기반 추론 규칙이 있다고 가정한다.
 
@@ -310,7 +371,8 @@ estimated_error <= safety_factor * protected_margin
 현재 FlipGuard 구현 기능.
 
 - 고정 profile catalog를 거치지 않는 CKKS parameter 직접 생성
-- 모델·validation artifact digest가 결합된 workload contract
+- feature data에서 평문 score·decision을 자동 materialize
+- 모델·source data·prepared validation digest가 결합된 workload contract
 - Lattigo scale 및 modulus-level 추적
 - 명시된 HE security guideline 표에 따른 128-bit parameter admission
 - encrypted-trial budget을 사용하는 adaptive level/scale repair
@@ -384,6 +446,51 @@ go run ./cmd/flipguard -experiment logreg_small
 go test ./...
 ```
 
+### 모델과 특징 데이터로 configuration 자동 선택
+
+```bash
+go run ./cmd/flipguard-autotune \
+  --model datasets/tabular_suite/banknote/linear_poly3/model.json \
+  --data /path/to/banknote_validation_raw.csv \
+  --data-space raw \
+  --split-id user_validation_v1 \
+  --out results/direct_tabular_autotune/user_validation_v1.json
+```
+
+선택·표준화가 끝난 model-input CSV는 다음 열을 사용한다.
+
+```text
+row_id,label,x_0,x_1,...,x_{d-1}
+```
+
+raw CSV는 model artifact에 기록된 selected feature name 또는 원본
+index를 나타내는 `x_3,x_5,...` 열을 사용할 수 있다. FlipGuard는 artifact에
+동결된 mean/std로 selected-feature z-score standardization을 적용한다.
+`--data-space`는 `auto`, `model`, `raw`를 지원하며 모호한 입력은 추측하지
+않고 거절한다. 임의의 preprocessing graph까지 추론하는 것은 현재 범위
+밖이다.
+
+그다음 score와 threshold decision을 계산해 canonical `.validation.csv`를
+만들고, source/model/prepared artifact와 preprocessing method를 고정한 뒤
+source transformation을 prepared row별로 재검증하고 첫 후보를 직접
+합성한다. 암호화 검증 실패가 관측된 경우에만 scale 또는 level을
+수리한다.
+
+별도 locked-audit feature partition도 같은 source replay를 적용할 수 있다.
+
+```bash
+go run ./cmd/flipguard-audit \
+  --selection /path/to/selection.json \
+  --audit /path/to/locked_audit_source.csv \
+  --prepared-audit-out /path/to/locked_audit.validation.csv \
+  --audit-data-space model \
+  --manifest /path/to/split_manifest.json \
+  --out /path/to/locked_audit_result.json
+```
+
+Audit materialization은 평문 provenance만 재계산한다. 선택된 CKKS
+literal은 합성이나 repair 없이 그대로 실행된다.
+
 ### 현재 결과 재현
 
 ```bash
@@ -446,9 +553,11 @@ docs/RESULTS_LOGREG_SMALL.md
 범위는 세 가지 tabular model form, scalar-replicated packing, Lattigo v6
 rescale-aware path, observed-validation certificate이다.
 
-다음 단계는 다중 split·key·반복 latency 실험, 고정 finite oracle과의
-recall/regret 비교, locked audit, 더 깊은 MLP 및 CNN-lite 확장이다. 단일
-development run은 최종 성능 근거로 사용하지 않는다.
+현재 5개 dataset, 2개 graph, 5개 split에 대한 직접 합성 및 no-retuning
+locked audit과 1,100-candidate bounded-oracle 비교는 예비 evidence로
+동결되어 있다. 다음 단계는 clean-source final confirmatory suite,
+paired latency 확증, 더 깊은 MLP 및 CNN-lite 확장이다. 단일 development
+run이나 pilot latency는 최종 성능 근거로 사용하지 않는다.
 
 ## 8. 저장소 구조
 

@@ -1,6 +1,7 @@
-# Step 7B.2 Planner/Oracle Protocol
+# Step 7B.2 Legacy Catalog-Pruning Planner Baseline
 
-Status: protocol frozen before the full 1,100-candidate validation run.
+Status: full 1,100-candidate oracle projection complete on 2026-07-28.
+This is an evaluation-only baseline, not FlipGuard's primary contribution.
 
 ## Reviewer concern
 
@@ -101,3 +102,41 @@ results/thesis_grade_protocol/planner_oracle_comparison_v1/smoke/
 After the full validation oracle is complete, run the same script with
 `--full`. The script reads existing oracle records and performs no CKKS
 execution.
+
+## Full result
+
+The strict full run produced 250 comparison rows over 50 workloads and five
+alpha values. It projected 1,750 planner-candidate rows onto the same frozen
+oracle observations.
+
+| Scope | False NO_SAFE | Optimum recall | Mean SAFE recall | Mean latency regret | Max latency regret | Mean pruning |
+|---|---:|---:|---:|---:|---:|---:|
+| All 250 rows | 0 | 68.00% | 19.44% | 0.7366% | 8.6847% | 68.18% |
+| `linear_poly3` | 0 | 100.00% | 16.67% | 0.0000% | 0.0000% | 72.73% |
+| `mlp_square_linear_score` | 0 | 36.00% | 22.22% | 1.4731% | 8.6847% | 63.64% |
+
+Mean planning overhead was 149.091 microseconds. Results were identical across
+the five evaluated alpha values because the candidate certificate states did
+not change over the frozen alpha sweep.
+
+The legacy planner is therefore supported as a high-pruning candidate provider that
+retained at least one SAFE candidate in every evaluated group. It is not
+supported as a reliable fastest-SAFE oracle substitute: it missed the
+exhaustive optimum in 64% of the MLP rows. The complete outputs are:
+
+```text
+results/thesis_grade_protocol/planner_oracle_comparison_v1/full/
+  planner_candidates.csv
+  planner_summary.csv
+  comparison.csv
+  summary.json
+```
+
+The checksum-bound compact snapshot is:
+
+```text
+docs/evidence/full_oracle_comparison_v1/
+```
+
+It includes the full planner tables and binds the underlying oracle run
+artifacts in its manifest.
