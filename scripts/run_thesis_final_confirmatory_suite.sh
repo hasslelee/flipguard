@@ -86,8 +86,12 @@ LEGACY_BASELINE_AUDIT="$LEGACY_BASELINE_ROOT/locked_audit/full_floor18_keys3_loc
 CATALOG_ORACLE_ROOT="results/thesis_grade_protocol/tabular_validation_oracle_v1/full/summary"
 SECURITY_V2_ROOT="results/thesis_grade_protocol/security_v2_static_attestation"
 SECURITY_ORACLE_ROOT="$SECURITY_V2_ROOT/bounded_oracle_security_v2"
-LEGACY_COMPARISON_ROOT="results/thesis_grade_protocol/direct_vs_catalog_oracle_v1/full"
+SECURITY_V2_EVIDENCE="docs/evidence/security_v2_static_attestation_formal_v2"
+SECURITY_ORACLE_EVIDENCE="docs/evidence/security_v2_bounded_oracle_v1"
+SECURITY_PLANNER_ROOT="results/thesis_grade_protocol/planner_oracle_comparison_security_v2"
 FINITE_ROOT="results/thesis_grade_protocol/finite_domain_no_safe_control_v1/full"
+RUN_MANIFEST_ROOT="results/thesis_grade_protocol/final_confirmatory_suite_v1/run_manifest"
+RUN_MANIFEST_PATH="$RUN_MANIFEST_ROOT/run_manifest.json"
 
 require_file() {
   if [[ ! -f "$1" ]]; then
@@ -152,15 +156,19 @@ require_file "$LEGACY_BASELINE_ROOT/summary/summary.json"
 require_file "$LEGACY_BASELINE_ROOT/summary/workload_results.csv"
 require_file "$LEGACY_BASELINE_AUDIT/summary/summary.json"
 require_file "$CATALOG_ORACLE_ROOT/summary.json"
-require_file "$LEGACY_COMPARISON_ROOT/summary.json"
-require_file "$LEGACY_COMPARISON_ROOT/comparison.csv"
 require_file "$FINITE_ROOT/summary.json"
 require_file "$SECURITY_V2_ROOT/security_reattestation_v2.json"
 require_file "$SECURITY_V2_ROOT/direct_synthesis_policy_v2.json"
 require_file "$SECURITY_V2_ROOT/bounded_oracle_security_v2/summary.json"
 
 python3 scripts/build_security_v2_static_artifacts.py --verify
-python3 scripts/compare_direct_synthesis_to_catalog_oracle.py --verify
+python3 scripts/build_security_v2_planner_comparison.py --verify
+python3 scripts/build_security_v2_static_artifacts.py \
+  --output-root "$SECURITY_V2_EVIDENCE" \
+  --verify
+python3 scripts/freeze_security_v2_bounded_oracle_evidence.py \
+  --output-root "$SECURITY_ORACLE_EVIDENCE" \
+  --verify
 python3 scripts/freeze_policy_sensitivity_evidence.py \
   --output-root docs/evidence/policy_sensitivity_v1 \
   --verify
@@ -207,6 +215,37 @@ if [[ "$SKIP_REGRESSION" == false ]]; then
   echo "final_suite_regression=PASS"
 fi
 
+if [[ -f "$RUN_MANIFEST_PATH" ]]; then
+  python3 scripts/build_confirmatory_run_manifest.py \
+    --output-root "$RUN_MANIFEST_ROOT" \
+    --verify
+else
+  python3 scripts/build_confirmatory_run_manifest.py \
+    --output-root "$RUN_MANIFEST_ROOT"
+fi
+
+assert_binary_digest() {
+  local binary_id="$1"
+  local actual_path="$2"
+  python3 - "$RUN_MANIFEST_PATH" "$binary_id" "$actual_path" <<'PYEOF'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+manifest = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+expected = manifest["binaries"][sys.argv[2]]["sha256"]
+path = Path(sys.argv[3])
+digest = hashlib.sha256(path.read_bytes()).hexdigest()
+actual = "sha256:" + digest
+if actual != expected:
+    raise SystemExit(
+        f"ERROR: binary digest mismatch for {path}: {actual} != {expected}"
+    )
+print(f"confirmatory_binary={sys.argv[2]} digest={actual}")
+PYEOF
+}
+
 FINAL_BASELINE_ID="full_final_baseline_inputmodel_floor18_keys3"
 FINAL_BASELINE_ROOT="$BASE_ROOT/$FINAL_BASELINE_ID"
 FINAL_BASELINE_AUDIT_ID="${FINAL_BASELINE_ID}_locked_audit_keys3"
@@ -222,6 +261,9 @@ scripts/run_direct_tabular_autotune_matrix.sh \
   --precision-floor 18 \
   --key-repeats 3 \
   "$ACTION"
+assert_binary_digest \
+  flipguard_autotune \
+  "$FINAL_BASELINE_ROOT/bin/flipguard-autotune"
 
 scripts/run_direct_tabular_locked_audit_matrix.sh \
   --full \
@@ -229,6 +271,9 @@ scripts/run_direct_tabular_locked_audit_matrix.sh \
   --materialize-model-input \
   --key-repeats 3 \
   "$ACTION"
+assert_binary_digest \
+  flipguard_audit \
+  "$FINAL_BASELINE_AUDIT/flipguard-audit"
 
 if [[ -d "$FINAL_BASELINE_PACK" && "$ACTION" == "--resume" ]]; then
   require_pack_commit "$FINAL_BASELINE_PACK/manifest.json" direct
@@ -244,12 +289,38 @@ else
     --evidence-stage confirmatory \
     --selection-run-id "$FINAL_BASELINE_ID" \
     --audit-run-id "$FINAL_BASELINE_AUDIT_ID" \
-    --split-seeds 0,1,2,3,4 \
+    --split-seeds 1,2,3,4 \
     --key-repeats 3 \
     --expected-model-ids linear_poly3,mlp_square_linear_score \
     --require-max-budget-usage-below 1 \
     --require-source-replay \
     --execution-command scripts/run_thesis_final_confirmatory_suite.sh \
+    --extra-artifact run_manifest="$RUN_MANIFEST_PATH" \
+    "${FORCE_FREEZE[@]}"
+fi
+
+FINAL_DEVELOPMENT_PACK="docs/evidence/direct_locked_audit_seed0_development_v1"
+if [[ -d "$FINAL_DEVELOPMENT_PACK" && "$ACTION" == "--resume" ]]; then
+  require_pack_commit "$FINAL_DEVELOPMENT_PACK/manifest.json" direct
+  python3 scripts/freeze_direct_locked_audit_evidence.py \
+    --output-root "$FINAL_DEVELOPMENT_PACK" \
+    --verify
+else
+  python3 scripts/freeze_direct_locked_audit_evidence.py \
+    --source-root "$FINAL_BASELINE_AUDIT" \
+    --output-root "$FINAL_DEVELOPMENT_PACK" \
+    --source-commit "$SOURCE_COMMIT" \
+    --evidence-id direct_locked_audit_seed0_development_v1 \
+    --evidence-stage preliminary \
+    --selection-run-id "$FINAL_BASELINE_ID" \
+    --audit-run-id "$FINAL_BASELINE_AUDIT_ID" \
+    --split-seeds 0 \
+    --key-repeats 3 \
+    --expected-model-ids linear_poly3,mlp_square_linear_score \
+    --require-max-budget-usage-below 1 \
+    --require-source-replay \
+    --execution-command scripts/run_thesis_final_confirmatory_suite.sh \
+    --extra-artifact run_manifest="$RUN_MANIFEST_PATH" \
     "${FORCE_FREEZE[@]}"
 fi
 
@@ -306,6 +377,12 @@ STRUCTURAL_ROOT="$BASE_ROOT/$STRUCTURAL_ID"
 STRUCTURAL_AUDIT_ID="${STRUCTURAL_ID}_locked_audit_keys3"
 STRUCTURAL_AUDIT="$STRUCTURAL_ROOT/locked_audit/$STRUCTURAL_AUDIT_ID"
 STRUCTURAL_PACK="docs/evidence/structural_extension_v1"
+assert_binary_digest \
+  flipguard_autotune \
+  "$STRUCTURAL_ROOT/bin/flipguard-autotune"
+assert_binary_digest \
+  flipguard_audit \
+  "$STRUCTURAL_AUDIT/flipguard-audit"
 
 if [[ -d "$STRUCTURAL_PACK" && "$ACTION" == "--resume" ]]; then
   require_pack_commit "$STRUCTURAL_PACK/manifest.json" direct
@@ -335,10 +412,12 @@ else
       static_plan_summary=results/thesis_grade_protocol/structural_extension_v1/static_plans/summary.json \
     --extra-artifact \
       static_plans=results/thesis_grade_protocol/structural_extension_v1/static_plans/plans.csv \
+    --extra-artifact run_manifest="$RUN_MANIFEST_PATH" \
     "${FORCE_FREEZE[@]}"
 fi
 
 PAIRED_ROOT="results/thesis_grade_protocol/paired_tabular_latency_v1/full"
+PAIRED_BINARY="$RUN_MANIFEST_ROOT/binaries/flipguard-paired-latency"
 python3 scripts/run_paired_tabular_latency.py \
   --comparison "$FINAL_COMPARISON_ROOT/comparison.csv" \
   --direct-results "$FINAL_BASELINE_ROOT/summary/workload_results.csv" \
@@ -347,7 +426,9 @@ python3 scripts/run_paired_tabular_latency.py \
   --warmup-runs 1 \
   --measurement-runs 6 \
   --max-rows 6 \
+  --binary "$PAIRED_BINARY" \
   "${FORCE_PYTHON[@]}"
+assert_binary_digest flipguard_paired_latency "$PAIRED_BINARY"
 
 PAIRED_PACK="docs/evidence/paired_latency_final_v1"
 if [[ -d "$PAIRED_PACK" && "$ACTION" == "--resume" ]]; then
@@ -363,14 +444,15 @@ else
     "${FORCE_FREEZE[@]}"
 fi
 
-PAPER_ARTIFACT_ROOT="results/thesis_grade_protocol/paper_artifacts_v2/current"
-python3 scripts/build_flipguard_v2_paper_artifacts.py \
-  --profile final \
-  --output-root "$PAPER_ARTIFACT_ROOT" \
-  --force
-python3 scripts/build_flipguard_v2_paper_artifacts.py \
-  --profile final \
-  --output-root "$PAPER_ARTIFACT_ROOT" \
-  --verify
+FINAL_EVIDENCE_PACK="docs/evidence/final_confirmatory_suite_v1"
+if [[ -d "$FINAL_EVIDENCE_PACK" && "$ACTION" == "--resume" ]]; then
+  python3 scripts/freeze_final_confirmatory_evidence.py \
+    --output-root "$FINAL_EVIDENCE_PACK" \
+    --verify
+else
+  python3 scripts/freeze_final_confirmatory_evidence.py \
+    --output-root "$FINAL_EVIDENCE_PACK" \
+    "${FORCE_FREEZE[@]}"
+fi
 
-echo "final_confirmatory_suite=PASS source_commit=$SOURCE_COMMIT"
+echo "final_confirmatory_suite=PASS source_commit=$SOURCE_COMMIT paper_claim_allowed=false"

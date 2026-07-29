@@ -48,7 +48,7 @@ def direct_manifest(commit: str, workloads: int) -> dict:
 
 def valid_final_manifests(commit: str = "a" * 40) -> dict:
     return {
-        "direct": direct_manifest(commit, 50),
+        "direct": direct_manifest(commit, 40),
         "structural": direct_manifest(commit, 25),
         "no_safe": {
             "schema_version": 2,
@@ -430,19 +430,19 @@ class ManuscriptPublicationGateTest(unittest.TestCase):
 
     def test_final_claim_renderer_is_evidence_conditioned(self) -> None:
         direct = {
-            "workloads": 50,
-            "configuration_trials": 70,
-            "selection_key_runs": 210,
-            "locked_audit_key_runs": 150,
-            "locked_audit_passes": 50,
+            "workloads": 40,
+            "configuration_trials": 56,
+            "selection_key_runs": 168,
+            "locked_audit_key_runs": 120,
+            "locked_audit_passes": 40,
             "decision_flips": 0,
             "error_violations": 0,
-            "selection_source_replay_workloads": 50,
-            "audit_source_replay_workloads": 50,
+            "selection_source_replay_workloads": 40,
+            "audit_source_replay_workloads": 40,
         }
         oracle = {
-            "catalog_executions": 1100,
-            "execution_reduction_pct": 93.63636,
+            "catalog_executions": 560,
+            "execution_reduction_pct": 90.0,
         }
         no_safe = {
             "finite_no_safe": 50,
@@ -464,8 +464,8 @@ class ManuscriptPublicationGateTest(unittest.TestCase):
             no_safe,
             paired,
         )
-        self.assertIn("1,100회의 bounded-catalog", claims["result"])
-        self.assertIn("93.64%", claims["result"])
+        self.assertIn("560회의 bounded-catalog", claims["result"])
+        self.assertIn("90.00%", claims["result"])
         self.assertIn("catalog/direct", claims["result"])
         self.assertIn("50/50 workload", claims["result"])
 

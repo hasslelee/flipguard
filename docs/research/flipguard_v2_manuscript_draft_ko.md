@@ -312,7 +312,10 @@ deterministic repeated partition 5개, 즉 10 dataset-model workloads x
 ### 5.2 비교군
 
 - direct synthesis + failure-driven repair;
-- 11 built-in profiles × baseline/rescale paths = 22 candidates/workload;
+- raw catalog: 11 built-in profiles × 2 paths = 22 executed
+  candidates/workload;
+- formal Security V2 catalog: 7 admitted profiles × 2 paths = 14
+  candidates/workload;
 - graph-aware planner projection;
 - CKKS reference literal;
 - latency-only minimum candidate;
@@ -343,7 +346,9 @@ instance이며, 10,000회 workload bootstrap interval을 보고한다.
 현재 manifest 상태는 `NON_AUTHORITATIVE_SCAFFOLD`이며, 최종 evidence pack이
 동일 source commit으로 모든 gate를 통과한 뒤에만
 `FINAL_ADMISSIBLE`로 전환된다. Figure 1은 직접 합성을 주경로로,
-고정 22-candidate catalog는 평가 전용 bounded oracle로 명시한다.
+Security V2에서 admissible한 고정 14-candidate catalog만 평가 전용
+bounded oracle로 사용한다. 22-candidate 실행 ledger는 security-sensitivity
+source records로만 보존한다.
 
 제출 포맷 변환 시 사용하는 생성 artifact 매핑은 다음과 같다.
 
@@ -381,7 +386,8 @@ disjoint no-retuning audit 결과를 분리해 보고한다. 생성 Table 1의
 | Configuration trials | 70 |
 | Fresh-key validation runs | 210 |
 | Initial REJECTED then repaired | 20 |
-| Catalog candidate executions | 1,100 |
+| Raw pre-security-filter executions | 1,100 |
+| Formal Security V2 admitted candidate identities | 700 |
 | Trial-count reduction vs bounded catalog | 93.64% |
 | Locked audits passed without retuning | 50/50 |
 | Fresh-key locked-audit runs | 150 |
@@ -445,7 +451,8 @@ Table 3과 Figure 4는 encrypted performance가 아니라 정적 coverage와
 synthesis signature sensitivity를 보고한다.
 
 5개 alpha, 9개 margin floor, 50개 workload, validation/audit 두 partition에
-대해 4,500개 정적 synthesis plan을 생성했다. 기존 1,100개 candidate의
+대해 4,500개 정적 synthesis plan을 생성했다. 기존 1,100개 raw candidate
+execution ledger의
 certificate 상태와 50개 bounded-oracle 선택은 alpha 0.1–0.9에서 모두
 동일했다. 이는 현재 grid의 empirical invariance이며 alpha 0.5의 이론적
 최적성을 의미하지 않는다.

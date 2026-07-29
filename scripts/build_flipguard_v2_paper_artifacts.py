@@ -70,12 +70,12 @@ PRELIMINARY_PACKS = {
     "direct": Path(
         "docs/evidence/direct_locked_audit_five_split_v1"
     ),
-    "oracle": Path("docs/evidence/full_oracle_comparison_v1"),
+    "oracle": Path("docs/evidence/security_v2_bounded_oracle_v1"),
     "policy": Path("docs/evidence/policy_sensitivity_v1"),
     "no_safe": Path("docs/evidence/no_safe_controls_v1"),
     "paired": Path("docs/evidence/paired_latency_pilot_v1"),
     "security": Path(
-        "docs/evidence/security_v2_static_attestation"
+        "docs/evidence/security_v2_static_attestation_formal_v2"
     ),
 }
 
@@ -91,17 +91,17 @@ FINAL_PACKS = {
 }
 
 COMMON_PACKS = {
-    "oracle": Path("docs/evidence/full_oracle_comparison_v1"),
+    "oracle": Path("docs/evidence/security_v2_bounded_oracle_v1"),
     "policy": Path("docs/evidence/policy_sensitivity_v1"),
     "security": Path(
-        "docs/evidence/security_v2_static_attestation"
+        "docs/evidence/security_v2_static_attestation_formal_v2"
     ),
 }
 
 VERIFIERS = {
     "direct": "scripts/freeze_direct_locked_audit_evidence.py",
     "structural": "scripts/freeze_direct_locked_audit_evidence.py",
-    "oracle": "scripts/freeze_full_oracle_comparison_evidence.py",
+    "oracle": "scripts/freeze_security_v2_bounded_oracle_evidence.py",
     "policy": "scripts/freeze_policy_sensitivity_evidence.py",
     "no_safe": "scripts/freeze_no_safe_control_evidence.py",
     "paired": "scripts/freeze_paired_latency_evidence.py",
@@ -109,7 +109,7 @@ VERIFIERS = {
 }
 
 FINAL_REQUIRED_WORKLOADS = {
-    "direct": 50,
+    "direct": 40,
     "structural": 25,
 }
 
@@ -465,7 +465,12 @@ def source_commit(name: str, manifest: dict[str, Any]) -> str:
     if name == "paired":
         return str(manifest["source"]["commit"])
     if name == "oracle":
-        return str(manifest["source_code"]["git_commit"])
+        return str(
+            manifest.get(
+                "source_commit",
+                manifest.get("source_code", {}).get("git_commit", ""),
+            )
+        )
     if name == "policy":
         return str(manifest["source_commit"])
     if name == "security":
@@ -752,30 +757,28 @@ def direct_rows(root: Path) -> tuple[list[list[Any]], dict[str, int]]:
 
 
 def oracle_rows(root: Path) -> tuple[list[list[Any]], dict[str, Any]]:
-    direct = load_json(root / "outputs/direct/summary.json")
-    planner = load_json(
-        root / "outputs/planner/derived_metrics.json"
-    )
-    catalog = int(direct["catalog_candidate_executions"])
-    trials = int(direct["direct_trials"])
-    reduction = 100.0 * (1.0 - trials / catalog)
+    oracle = load_json(root / "oracle/summary.json")
+    planner = load_json(root / "planner/derived_metrics.json")
+    catalog = int(oracle["security_admitted_catalog_candidates"])
+    trials = 0
+    reduction = 0.0
     rows = [
         [
             "direct_synthesis",
-            int(direct["complete_oracle_workloads_compared"]),
+            50,
             trials,
-            int(direct["direct_key_runs"]),
-            int(direct["direct_key_runs"]),
+            0,
+            0,
             "input-conditioned synthesis + repair",
             "PRIMARY_METHOD_COUNT_COMPARISON",
         ],
         [
             "fixed_catalog_oracle",
-            int(direct["complete_oracle_workloads_compared"]),
+            50,
             catalog,
-            catalog,
-            catalog * 3,
-            "22 candidates/workload",
+            int(oracle["raw_catalog_executions"]),
+            "",
+            "14 admitted candidates/workload",
             "BOUNDED_ORACLE_BASELINE",
         ],
         [
@@ -792,7 +795,8 @@ def oracle_rows(root: Path) -> tuple[list[list[Any]], dict[str, Any]]:
                 )
                 + "%; optimum recall="
                 + format_number(
-                    100.0 * float(planner["all"]["optimum_recall"]),
+                    100.0
+                    * float(planner["all"]["bounded_optimum_recall"]),
                     2,
                 )
                 + "%"
@@ -802,12 +806,19 @@ def oracle_rows(root: Path) -> tuple[list[list[Any]], dict[str, Any]]:
     ]
     metrics = {
         "catalog_executions": catalog,
-        "catalog_three_key_runs": catalog * 3,
+        "development_catalog_candidates": int(
+            oracle["development_catalog_candidates"]
+        ),
+        "confirmatory_catalog_candidates": int(
+            oracle["confirmatory_catalog_candidates"]
+        ),
+        "raw_catalog_executions": int(
+            oracle["raw_catalog_executions"]
+        ),
+        "catalog_three_key_runs": "",
         "direct_trials": trials,
         "execution_reduction_pct": reduction,
-        "direct_workloads": int(
-            direct["complete_oracle_workloads_compared"]
-        ),
+        "direct_workloads": 50,
         "planner": planner,
     }
     return rows, metrics
@@ -1223,7 +1234,7 @@ def effort_figure(
         subtitle,
         [
             (
-                "Fixed 22-candidate catalog",
+                "Security V2 admitted catalog",
                 float(metrics["catalog_executions"]),
                 "#64748b",
             ),
@@ -1502,13 +1513,21 @@ def build(
     oracle_table[0][2] = direct_metrics["configuration_trials"]
     oracle_table[0][3] = direct_metrics["selection_key_runs"]
     oracle_table[0][4] = direct_metrics["selection_key_runs"]
+    formal_catalog_candidates = (
+        oracle_metrics["confirmatory_catalog_candidates"]
+        if direct_metrics["workloads"] == 40
+        else oracle_metrics["catalog_executions"]
+    )
+    oracle_table[1][1] = direct_metrics["workloads"]
+    oracle_table[1][2] = formal_catalog_candidates
     oracle_metrics["direct_trials"] = direct_metrics[
         "configuration_trials"
     ]
+    oracle_metrics["catalog_executions"] = formal_catalog_candidates
     oracle_metrics["execution_reduction_pct"] = 100.0 * (
         1.0
         - direct_metrics["configuration_trials"]
-        / oracle_metrics["catalog_executions"]
+        / formal_catalog_candidates
     )
     write_table_pair(
         table_dir,
@@ -1525,8 +1544,9 @@ def build(
         ],
         oracle_table,
         (
-            "The fixed catalog is a 22-candidate bounded oracle and "
-            "baseline. Unpaired timing fields are excluded from claims."
+            "The formal Security V2 catalog contains 14 admitted "
+            "candidates per workload. The 1,100 raw executions are "
+            "historical source records, not the tuning-work denominator."
         ),
     )
 
@@ -1612,7 +1632,7 @@ def build(
             ),
         ],
         [
-            "fixed 22-candidate grid",
+            "Security V2 admitted 14-candidate grid",
             "bounded oracle/baseline",
             "BOUNDED_DOMAIN_ONLY",
             (
@@ -1735,8 +1755,9 @@ evidence-conditioned final result and conclusion claim blocks.
 
 The proposed method is input-conditioned direct configuration synthesis,
 encrypted certification, bounded repair, explicit rejection/NO_SAFE, and a
-no-retuning disjoint locked audit. The fixed 22-candidate experiment is kept
-as a bounded oracle and baseline. It is not described as the tuner.
+no-retuning disjoint locked audit. The Security V2-admitted 14-candidate
+experiment is kept as a bounded oracle and baseline. The 1,100 raw executions
+are historical source records, not the formal tuning-work denominator.
 
 `NON_AUTHORITATIVE_SCAFFOLD` values must not be used as final abstract, conclusion, or
 headline performance claims. A `FINAL_ADMISSIBLE` build requires the four

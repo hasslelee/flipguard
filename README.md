@@ -554,7 +554,7 @@ docs/RESULTS_LOGREG_SMALL.md
 rescale-aware path, observed-validation certificate이다.
 
 현재 5개 dataset, 2개 graph, 5개 split에 대한 직접 합성 및 no-retuning
-locked audit과 1,100-candidate bounded-oracle 비교는 예비 evidence로
+locked audit과 1,100-run raw pre-security-filter ledger 비교는 예비 evidence로
 동결되어 있다. 다음 단계는 clean-source final confirmatory suite,
 paired latency 확증, 더 깊은 MLP 및 CNN-lite 확장이다. 단일 development
 run이나 pilot latency는 최종 성능 근거로 사용하지 않는다.

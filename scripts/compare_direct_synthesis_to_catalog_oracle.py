@@ -12,6 +12,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
@@ -452,6 +453,18 @@ def main() -> int:
                 "reference_candidate": oracle[
                     "reference_candidate"
                 ],
+                "reference_cryptographic_security_admitted": oracle[
+                    "reference_cryptographic_security_admitted"
+                ],
+                "reference_execution_status": oracle[
+                    "reference_execution_status"
+                ],
+                "reference_decision_certificate_status": oracle[
+                    "reference_decision_certificate_status"
+                ],
+                "reference_latency_role": oracle[
+                    "reference_latency_role"
+                ],
                 "reference_mean_total_ms": oracle[
                     "reference_mean_total_ms"
                 ],
@@ -510,6 +523,37 @@ def main() -> int:
         writer.writeheader()
         writer.writerows(output_rows)
 
+    direct_trials_all = sum(
+        int(row["direct_trials"]) for row in output_rows
+    )
+    development_rows = [
+        row for row in output_rows if int(row["split_seed"]) == 0
+    ]
+    confirmatory_rows = [
+        row for row in output_rows if int(row["split_seed"]) in {1, 2, 3, 4}
+    ]
+    direct_trials_development = sum(
+        int(row["direct_trials"]) for row in development_rows
+    )
+    direct_trials_confirmatory = sum(
+        int(row["direct_trials"]) for row in confirmatory_rows
+    )
+    security_admitted_catalog_candidates = (
+        len(output_rows) * args.expected_candidates_per_workload
+    )
+    development_catalog_candidates = (
+        len(development_rows) * args.expected_candidates_per_workload
+    )
+    confirmatory_catalog_candidates = (
+        len(confirmatory_rows) * args.expected_candidates_per_workload
+    )
+    raw_catalog_executions = int(
+        oracle_summary.get("raw_catalog_executions", 1100)
+    )
+    reference_statuses = Counter(
+        row["reference_decision_certificate_status"]
+        for row in output_rows
+    )
     summary = {
         "schema_version": 1,
         "alpha": args.alpha,
@@ -532,18 +576,46 @@ def main() -> int:
             row["catalog_outcome"] == "SELECTED"
             for row in output_rows
         ),
-        "direct_trials": sum(
-            int(row["direct_trials"])
-            for row in output_rows
-        ),
+        "direct_trials": direct_trials_all,
         "direct_key_runs": sum(
             int(row["direct_key_runs"])
             for row in output_rows
         ),
         "catalog_candidate_executions": (
-            len(output_rows)
-            * args.expected_candidates_per_workload
+            security_admitted_catalog_candidates
         ),
+        "raw_catalog_executions": raw_catalog_executions,
+        "security_admitted_catalog_candidates":
+            security_admitted_catalog_candidates,
+        "security_excluded_catalog_candidates": (
+            raw_catalog_executions
+            - security_admitted_catalog_candidates
+        ),
+        "development_catalog_candidates":
+            development_catalog_candidates,
+        "confirmatory_catalog_candidates":
+            confirmatory_catalog_candidates,
+        "direct_trials_all": direct_trials_all,
+        "direct_trials_development": direct_trials_development,
+        "direct_trials_confirmatory": direct_trials_confirmatory,
+        "formal_trial_reduction_all": (
+            1.0
+            - direct_trials_all
+            / security_admitted_catalog_candidates
+        ),
+        "formal_trial_reduction_confirmatory": (
+            1.0
+            - direct_trials_confirmatory
+            / confirmatory_catalog_candidates
+        ),
+        "reference_security_pass_count": sum(
+            row["reference_cryptographic_security_admitted"]
+            == "true"
+            for row in output_rows
+        ),
+        "reference_safe_count": reference_statuses["SAFE"],
+        "reference_rejected_count": reference_statuses["REJECTED"],
+        "reference_failed_count": reference_statuses["FAILED"],
         "direct_faster_diagnostic_count": direct_faster,
         "direct_equal_diagnostic_count": direct_equal,
         "direct_slower_diagnostic_count": direct_slower,

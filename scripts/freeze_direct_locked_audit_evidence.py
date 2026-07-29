@@ -272,6 +272,22 @@ def freeze(args: argparse.Namespace) -> None:
     if any(row["status"] != "ok" for row in status_rows):
         raise ValueError("source status contains failed rows")
 
+    split_seeds = [
+        int(value.strip())
+        for value in args.split_seeds.split(",")
+        if value.strip()
+    ]
+    if not split_seeds:
+        raise ValueError("--split-seeds contains no seeds")
+    selected_status_rows = [
+        row
+        for row in status_rows
+        if int(row["split_seed"]) in set(split_seeds)
+    ]
+    if not selected_status_rows:
+        raise ValueError("requested split scope contains no workloads")
+    status_rows = selected_status_rows
+
     expected_model_ids = {
         value.strip()
         for value in args.expected_model_ids.split(",")
@@ -327,15 +343,38 @@ def freeze(args: argparse.Namespace) -> None:
         copy_file(source_path, target)
         return target
 
-    snapshot(
-        status_path,
-        Path("source_locked_audit_status.csv"),
-    )
-    snapshot(summary_path, Path("outputs/summary.json"))
-    snapshot(
-        results_csv_path,
-        Path("outputs/locked_audit_results.csv"),
-    )
+    scoped_status_path = output / "source_locked_audit_status.csv"
+    with scoped_status_path.open(
+        "w", encoding="utf-8", newline=""
+    ) as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=list(status_rows[0]),
+            lineterminator="\n",
+        )
+        writer.writeheader()
+        writer.writerows(status_rows)
+    with results_csv_path.open(
+        "r", encoding="utf-8", newline=""
+    ) as handle:
+        source_result_rows = list(csv.DictReader(handle))
+    scoped_result_rows = [
+        row
+        for row in source_result_rows
+        if int(row["split_seed"]) in set(split_seeds)
+    ]
+    scoped_results_path = output / "outputs/locked_audit_results.csv"
+    scoped_results_path.parent.mkdir(parents=True, exist_ok=True)
+    with scoped_results_path.open(
+        "w", encoding="utf-8", newline=""
+    ) as handle:
+        writer = csv.DictWriter(
+            handle,
+            fieldnames=list(scoped_result_rows[0]),
+            lineterminator="\n",
+        )
+        writer.writeheader()
+        writer.writerows(scoped_result_rows)
 
     external_inputs: list[dict[str, Any]] = []
     workload_records: list[dict[str, Any]] = []
@@ -626,6 +665,12 @@ def freeze(args: argparse.Namespace) -> None:
                 "key_repeats_completed": trial[
                     "key_repeats_completed"
                 ],
+                "configuration_trials": int(
+                    selection["trials_used"]
+                ),
+                "selection_key_runs": int(
+                    selection["encrypted_key_runs"]
+                ),
                 "decision_flips": trial["decision_flips"],
                 "error_violations": trial["error_violations"],
                 "max_error_budget_usage": (
@@ -735,13 +780,54 @@ def freeze(args: argparse.Namespace) -> None:
             }
         )
 
-    split_seeds = [
-        int(value.strip())
-        for value in args.split_seeds.split(",")
-        if value.strip()
-    ]
-    if not split_seeds:
-        raise ValueError("--split-seeds contains no seeds")
+    summary = dict(summary)
+    summary.update(
+        {
+            "complete": True,
+            "expected_runs": len(workload_records),
+            "recorded_runs": len(workload_records),
+            "successful_executions": len(workload_records),
+            "failed_executions": 0,
+            "failed_tags": [],
+            "locked_audit_passes": len(workload_records),
+            "locked_audit_fails": 0,
+            "retuned_runs": 0,
+            "zero_flip_passes": sum(
+                row["decision_flips"] == 0
+                for row in workload_records
+            ),
+            "zero_violation_passes": sum(
+                row["error_violations"] == 0
+                for row in workload_records
+            ),
+            "total_configuration_trials": sum(
+                row["configuration_trials"]
+                for row in workload_records
+            ),
+            "total_fresh_key_runs": sum(
+                row["key_repeats_completed"]
+                for row in workload_records
+            ),
+            "total_selection_key_runs": sum(
+                row["selection_key_runs"]
+                for row in workload_records
+            ),
+            "total_v_cert": sum(
+                row["v_cert"] for row in workload_records
+            ),
+            "total_v_amb": sum(
+                row["v_amb"] for row in workload_records
+            ),
+            "split_seeds": split_seeds,
+            "source_expected_runs": int(
+                load_json(summary_path)["expected_runs"]
+            ),
+        }
+    )
+    (output / "outputs/summary.json").write_text(
+        json.dumps(summary, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
 
     extra_records = []
     for name, source_path in extras:

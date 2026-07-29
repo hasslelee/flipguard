@@ -344,6 +344,41 @@ def validate_study(
         or any(row["status"] != "ok" for row in statuses)
     ):
         raise ValueError("paired workload status matrix changed")
+    if mode == "FINAL":
+        reference_counts = summary.get("reference_status_counts", {})
+        expected_reference_counts = {
+            "security_pass": sum(
+                row.get("reference_security_admitted") == "true"
+                for row in statuses
+            ),
+            "safe": sum(
+                row.get("reference_decision_certificate_status")
+                == "SAFE"
+                for row in statuses
+            ),
+            "rejected": sum(
+                row.get("reference_decision_certificate_status")
+                == "REJECTED"
+                for row in statuses
+            ),
+            "failed": sum(
+                row.get("reference_decision_certificate_status")
+                == "FAILED"
+                for row in statuses
+            ),
+        }
+        if reference_counts != expected_reference_counts:
+            raise ValueError("reference security/certificate counts changed")
+        if any(
+            row.get("reference_latency_role")
+            not in {
+                "DECISION_PRESERVING_REFERENCE",
+                "REFERENCE_REJECTED",
+                "REFERENCE_FAILED",
+            }
+            for row in statuses
+        ):
+            raise ValueError("reference latency role changed")
 
     external: dict[str, dict[str, Any]] = {}
     for item in summary["inputs"].values():
@@ -606,12 +641,7 @@ def generate(
     flips = sum(
         summary["counts"]["decision_flips_by_arm"].values()
     )
-    final_claim_allowed = (
-        summary["mode"] == "FINAL"
-        and not summary["source"]["measurement_files_dirty"]
-        and flips == 0
-        and primary["total_ratio_workload_bootstrap_ci95_low"] > 1
-    )
+    final_claim_allowed = False
     manifest = {
         "schema_version": 1,
         "evidence_id": evidence_id,
@@ -622,9 +652,7 @@ def generate(
         ),
         "paper_claim_allowed": final_claim_allowed,
         "block_reason": (
-            ""
-            if final_claim_allowed
-            else "paired final evidence is absent or its predeclared gate did not pass"
+            "manual post-suite claim admission has not been performed"
         ),
         "mode": summary["mode"],
         "paper_latency_claim_allowed": final_claim_allowed,
@@ -637,6 +665,20 @@ def generate(
             "workloads": summary["counts"]["workloads_successful"],
             "raw_records": summary["counts"]["raw_records"],
             "decision_flips": flips,
+            "reference_security_pass":
+                summary.get("reference_status_counts", {}).get(
+                    "security_pass", 0
+                ),
+            "reference_safe":
+                summary.get("reference_status_counts", {}).get("safe", 0),
+            "reference_rejected":
+                summary.get("reference_status_counts", {}).get(
+                    "rejected", 0
+                ),
+            "reference_failed":
+                summary.get("reference_status_counts", {}).get(
+                    "failed", 0
+                ),
             "internal_files": 0,
             "external_artifacts": len(external),
         },

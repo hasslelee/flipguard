@@ -723,6 +723,23 @@ def main() -> int:
         args.alpha,
         args.max_workloads,
     )
+    reference_by_workload = {
+        (
+            f"split_seed_{row['split_seed']}/"
+            f"{row['dataset_id']}/{row['model_id']}"
+        ): {
+            "security_admitted": (
+                row["reference_cryptographic_security_admitted"]
+                == "true"
+            ),
+            "execution_status": row["reference_execution_status"],
+            "certificate_status": row[
+                "reference_decision_certificate_status"
+            ],
+            "latency_role": row["reference_latency_role"],
+        }
+        for row in workloads
+    }
     direct_results = direct_result_index(direct_results_path)
     (
         source_commit,
@@ -797,6 +814,23 @@ def main() -> int:
                     "model_id": key[2],
                     "status": "ok",
                     "action": action,
+                    "reference_security_admitted": str(
+                        reference_by_workload[result["workload_id"]][
+                            "security_admitted"
+                        ]
+                    ).lower(),
+                    "reference_execution_status":
+                        reference_by_workload[result["workload_id"]][
+                            "execution_status"
+                        ],
+                    "reference_decision_certificate_status":
+                        reference_by_workload[result["workload_id"]][
+                            "certificate_status"
+                        ],
+                    "reference_latency_role":
+                        reference_by_workload[result["workload_id"]][
+                            "latency_role"
+                        ],
                     "result_path": str(output_path.relative_to(REPO_ROOT)),
                     "result_sha256": sha256_path(output_path),
                 }
@@ -814,6 +848,23 @@ def main() -> int:
                     "model_id": key[2],
                     "status": "failed",
                     "action": action,
+                    "reference_security_admitted": str(
+                        reference_by_workload[
+                            f"split_seed_{key[0]}/{key[1]}/{key[2]}"
+                        ]["security_admitted"]
+                    ).lower(),
+                    "reference_execution_status":
+                        reference_by_workload[
+                            f"split_seed_{key[0]}/{key[1]}/{key[2]}"
+                        ]["execution_status"],
+                    "reference_decision_certificate_status":
+                        reference_by_workload[
+                            f"split_seed_{key[0]}/{key[1]}/{key[2]}"
+                        ]["certificate_status"],
+                    "reference_latency_role":
+                        reference_by_workload[
+                            f"split_seed_{key[0]}/{key[1]}/{key[2]}"
+                        ]["latency_role"],
                     "result_path": str(output_path.relative_to(REPO_ROOT)),
                     "result_sha256": "",
                     "error": str(error),
@@ -832,6 +883,10 @@ def main() -> int:
         "model_id",
         "status",
         "action",
+        "reference_security_admitted",
+        "reference_execution_status",
+        "reference_decision_certificate_status",
+        "reference_latency_role",
         "result_path",
         "result_sha256",
         "error",
@@ -874,6 +929,32 @@ def main() -> int:
     write_csv(summary_dir / "pair_summaries.csv", pair_fields, pair_rows)
 
     aggregate_pairs = aggregate_pair_rows(pair_rows)
+    safe_reference_workloads = {
+        workload_id
+        for workload_id, status in reference_by_workload.items()
+        if (
+            status["security_admitted"]
+            and status["execution_status"] == "ok"
+            and status["certificate_status"] == "SAFE"
+        )
+    }
+    safe_reference_pair_rows = [
+        row
+        for row in pair_rows
+        if (
+            row["workload_id"] in safe_reference_workloads
+            and "reference"
+            in {
+                row["numerator_arm_id"],
+                row["denominator_arm_id"],
+            }
+        )
+    ]
+    safe_reference_aggregate_pairs = (
+        aggregate_pair_rows(safe_reference_pair_rows)
+        if safe_reference_pair_rows
+        else []
+    )
     aggregate_pair_fields = (
         list(aggregate_pairs[0].keys()) if aggregate_pairs else []
     )
@@ -891,6 +972,24 @@ def main() -> int:
             flip_counts.get(row["arm_id"], 0)
             + int(row["decision_flips"])
         )
+    reference_status_counts = {
+        "security_pass": sum(
+            status["security_admitted"]
+            for status in reference_by_workload.values()
+        ),
+        "safe": sum(
+            status["certificate_status"] == "SAFE"
+            for status in reference_by_workload.values()
+        ),
+        "rejected": sum(
+            status["certificate_status"] == "REJECTED"
+            for status in reference_by_workload.values()
+        ),
+        "failed": sum(
+            status["certificate_status"] == "FAILED"
+            for status in reference_by_workload.values()
+        ),
+    }
 
     summary = {
         "schema_version": 2,
@@ -950,6 +1049,9 @@ def main() -> int:
             "decision_flips_by_arm": flip_counts,
         },
         "aggregate_pairs": aggregate_pairs,
+        "safe_reference_aggregate_pairs":
+            safe_reference_aggregate_pairs,
+        "reference_status_counts": reference_status_counts,
         "timing_diagnostics": timing_diagnostics(
             record_rows,
             arm_rows,

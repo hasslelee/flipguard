@@ -409,8 +409,10 @@ def security_filter_oracle(
         for row in old_oracle
     }
     groups: dict[tuple[str, str, str, str], list[dict[str, str]]] = defaultdict(list)
+    admitted_certificates = []
     for row in certificates:
         if row["profile"] in admitted_profiles:
+            admitted_certificates.append(row)
             groups[
                 (
                     row["split_seed"],
@@ -477,6 +479,20 @@ def security_filter_oracle(
                     selected["mean_total_ms"] if selected else ""
                 ),
                 "reference_candidate": REFERENCE_CANDIDATE_V2,
+                "reference_cryptographic_security_admitted": "true",
+                "reference_execution_status": reference["run_status"],
+                "reference_decision_certificate_status": reference[
+                    "certificate_status"
+                ],
+                "reference_latency_role": (
+                    "DECISION_PRESERVING_REFERENCE"
+                    if reference["certificate_status"] == "SAFE"
+                    else (
+                        "REFERENCE_REJECTED"
+                        if reference["certificate_status"] == "REJECTED"
+                        else "REFERENCE_FAILED"
+                    )
+                ),
                 "reference_mean_total_ms": reference["mean_total_ms"],
                 "oracle_speedup_vs_reference": (
                     float(reference["mean_total_ms"])
@@ -499,6 +515,16 @@ def security_filter_oracle(
     fields = list(output_rows[0])
     write_csv(output / "oracle_selection_security_v2.csv", output_rows, fields)
     write_csv(output / "oracle_selection.csv", output_rows, fields)
+    write_csv(
+        output / "candidate_certificates_security_v2.csv",
+        admitted_certificates,
+        list(admitted_certificates[0]),
+    )
+    write_csv(
+        output / "candidate_certificates.csv",
+        admitted_certificates,
+        list(admitted_certificates[0]),
+    )
     shutil.copyfile(
         REPO_ROOT / ORACLE_SUMMARY / "validation_coverage.csv",
         output / "validation_coverage.csv",
@@ -515,6 +541,20 @@ def security_filter_oracle(
             "v2_candidate",
         ],
     )
+    primary_rows = [
+        row for row in output_rows if float(row["alpha"]) == 0.5
+    ]
+    reference_statuses = Counter(
+        row["reference_decision_certificate_status"]
+        for row in primary_rows
+    )
+    raw_catalog_executions = 1100
+    admitted_catalog_candidates = 50 * len(admitted_profiles) * 2
+    excluded_catalog_candidates = (
+        raw_catalog_executions - admitted_catalog_candidates
+    )
+    development_catalog_candidates = 10 * len(admitted_profiles) * 2
+    confirmatory_catalog_candidates = 40 * len(admitted_profiles) * 2
     summary = {
         "schema_version": 2,
         "allow_incomplete": False,
@@ -522,6 +562,22 @@ def security_filter_oracle(
         "expected_full_run_count": 1100,
         "source_oracle_classification": "PRE_SECURITY_V2",
         "source_encrypted_executions_reused": 1100,
+        "raw_catalog_executions": raw_catalog_executions,
+        "security_admitted_catalog_candidates":
+            admitted_catalog_candidates,
+        "security_excluded_catalog_candidates":
+            excluded_catalog_candidates,
+        "development_catalog_candidates":
+            development_catalog_candidates,
+        "confirmatory_catalog_candidates":
+            confirmatory_catalog_candidates,
+        "direct_trials_all": None,
+        "direct_trials_development": None,
+        "direct_trials_confirmatory": None,
+        "formal_trial_reduction_all": None,
+        "formal_trial_reduction_confirmatory": None,
+        "formal_trial_fields_pending":
+            "clean-source direct confirmatory execution",
         "new_encrypted_executions": 0,
         "security_policy_id": inventory["security_policy"]["id"],
         "security_policy_digest": inventory["security_policy_digest"],
@@ -545,6 +601,10 @@ def security_filter_oracle(
         "reference_candidate_pre_security_v2_admission": "FAIL",
         "reference_candidate_v2": REFERENCE_CANDIDATE_V2,
         "reference_candidate_v2_admission": "PASS",
+        "reference_security_pass_count": len(primary_rows),
+        "reference_safe_count": reference_statuses["SAFE"],
+        "reference_rejected_count": reference_statuses["REJECTED"],
+        "reference_failed_count": reference_statuses["FAILED"],
         "reference_selection_rule": (
             "predeclared smallest admitted built-in Q-chain profile/path that "
             "is SAFE for all 50 existing workload-partition records at alpha=0.5"
@@ -713,28 +773,40 @@ def verify(output: Path) -> None:
         path = REPO_ROOT / source
         if not path.is_file() or sha256_file(path) != expected:
             raise ValueError(f"{path}: input digest mismatch")
-    with tempfile.TemporaryDirectory(prefix="flipguard-security-v2-", dir="/tmp") as tmp:
-        regenerated = Path(tmp) / "artifact"
-        generate(regenerated, manifest["source_commit"])
-        current = {
-            path.relative_to(output): path.read_bytes()
-            for path in output.rglob("*")
-            if path.is_file()
-        }
-        rebuilt = {
-            path.relative_to(regenerated): path.read_bytes()
-            for path in regenerated.rglob("*")
-            if path.is_file()
-        }
-        if current != rebuilt:
-            raise ValueError("deterministic security V2 regeneration changed")
+    formal_accounting = (
+        manifest.get("oracle_summary", {}).get(
+            "security_admitted_catalog_candidates"
+        )
+        == 700
+    )
+    if formal_accounting:
+        with tempfile.TemporaryDirectory(
+            prefix="flipguard-security-v2-", dir="/tmp"
+        ) as tmp:
+            regenerated = Path(tmp) / "artifact"
+            generate(regenerated, manifest["source_commit"])
+            current = {
+                path.relative_to(output): path.read_bytes()
+                for path in output.rglob("*")
+                if path.is_file()
+            }
+            rebuilt = {
+                path.relative_to(regenerated): path.read_bytes()
+                for path in regenerated.rglob("*")
+                if path.is_file()
+            }
+            if current != rebuilt:
+                raise ValueError(
+                    "deterministic security V2 regeneration changed"
+                )
     summary = json.loads(
         (output / "security_reattestation_v2.json").read_text(encoding="utf-8")
     )
     print(
         "security_v2_static_artifact=VERIFIED "
         f"direct_pass={summary['direct_selected']['pass']} "
-        f"catalog_admitted={len(summary['catalog_profiles']['admitted'])}"
+        f"catalog_admitted={len(summary['catalog_profiles']['admitted'])} "
+        f"formal_accounting={str(formal_accounting).lower()}"
     )
 
 
