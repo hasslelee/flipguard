@@ -164,7 +164,24 @@ python3 scripts/compare_direct_synthesis_to_catalog_oracle.py --verify
 python3 scripts/freeze_policy_sensitivity_evidence.py \
   --output-root docs/evidence/policy_sensitivity_v1 \
   --verify
-python3 scripts/analyze_structural_extension_plans.py --verify
+python3 - "$SECURITY_V2_ROOT/direct_synthesis_policy_v2.json" <<'PYEOF'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+artifact = json.loads(path.read_text(encoding="utf-8"))
+models = {
+    row["model_type"]: row["formula"]
+    for row in artifact["policy"]["supported_models"]
+}
+expected = "poly3(linear(square(linear(x))))"
+if models.get("mlp_square_poly3") != expected:
+    raise SystemExit(
+        "ERROR: frozen direct policy lacks the structural holdout graph"
+    )
+print("structural_holdout_policy_contract=VERIFIED")
+PYEOF
 python3 scripts/freeze_direct_locked_audit_evidence.py \
   --output-root docs/evidence/direct_locked_audit_five_split_v1 \
   --verify
