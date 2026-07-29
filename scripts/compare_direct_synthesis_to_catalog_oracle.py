@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare direct synthesis with the completed fixed-catalog oracle."""
+"""Compare direct synthesis with the security-filtered bounded catalog."""
 
 from __future__ import annotations
 
@@ -27,7 +27,13 @@ DEFAULT_DIRECT_ROOT = Path(
 )
 DEFAULT_OUTPUT_ROOT = Path(
     "results/thesis_grade_protocol/"
-    "direct_vs_catalog_oracle_v1/full"
+    "direct_vs_catalog_oracle_v2/full"
+)
+DEFAULT_IDENTITY_AUDIT_ROOT = Path(
+    "results/thesis_grade_protocol/validation_identity_audit_v2"
+)
+DEFAULT_SECURITY_ROOT = Path(
+    "results/thesis_grade_protocol/security_v2_static_attestation"
 )
 
 KEY_FIELDS = ("split_seed", "dataset_id", "model_id")
@@ -50,6 +56,17 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=DEFAULT_OUTPUT_ROOT,
     )
+    parser.add_argument(
+        "--identity-audit-root",
+        type=Path,
+        default=DEFAULT_IDENTITY_AUDIT_ROOT,
+    )
+    parser.add_argument(
+        "--security-root",
+        type=Path,
+        default=DEFAULT_SECURITY_ROOT,
+    )
+    parser.add_argument("--comparison-builder-commit")
     parser.add_argument("--alpha", type=float, default=0.5)
     parser.add_argument(
         "--expected-candidates-per-workload",
@@ -131,6 +148,103 @@ def format_number(value: float | None) -> str:
     return f"{value:.12g}"
 
 
+def validate_identity_gate(
+    workload_key: tuple[int, str, str],
+    identity: dict[str, str],
+    materialization: dict[str, Any],
+    decision: dict[str, Any],
+    coverage: dict[str, str],
+) -> None:
+    permitted_identity_classes = {
+        "SOURCE_AND_SEMANTICS_MATCH_PREPARED_BYTES_DIFFER",
+        "SOURCE_DIFFERS_SEMANTICS_MATCH",
+    }
+    if identity["identity_class"] not in permitted_identity_classes:
+        raise ValueError(
+            f"{workload_key}: validation identity class "
+            f"{identity['identity_class']} is not formally admissible"
+        )
+    if (
+        materialization.get("source_replay_verified") is not True
+        or identity["source_replay_verified"] != "true"
+    ):
+        raise ValueError(
+            f"{workload_key}: source replay is not verified"
+        )
+    required_true = (
+        "source_raw_match",
+        "ordered_row_ids_match",
+        "feature_semantics_match",
+        "decision_semantics_match",
+        "policy_match",
+    )
+    if any(identity[field] != "true" for field in required_true):
+        raise ValueError(
+            f"{workload_key}: identity gate has a failed predicate"
+        )
+    if (
+        identity["direct_ordered_row_id_digest"]
+        != identity["catalog_ordered_row_id_digest"]
+        or identity["direct_feature_semantic_digest"]
+        != identity["catalog_feature_semantic_digest"]
+        or identity["direct_decision_semantic_digest"]
+        != identity["catalog_decision_semantic_digest"]
+    ):
+        raise ValueError(
+            f"{workload_key}: canonical semantic identity mismatch"
+        )
+    if (
+        int(identity["direct_V_cert"])
+        != int(identity["catalog_V_cert"])
+        or int(identity["direct_V_cert"])
+        != int(coverage["v_cert"])
+        or int(identity["direct_V_cert"])
+        != int(decision["certifiable_samples"])
+        or int(identity["direct_V_amb"])
+        != int(identity["catalog_V_amb"])
+        or int(identity["direct_V_amb"])
+        != int(coverage["v_amb"])
+        or int(identity["direct_V_amb"])
+        != int(decision["ambiguous_samples"])
+    ):
+        raise ValueError(f"{workload_key}: coverage partition mismatch")
+    if (
+        not math.isclose(
+            float(identity["threshold"]),
+            float(coverage["threshold"]),
+            rel_tol=0.0,
+            abs_tol=1e-12,
+        )
+        or not math.isclose(
+            float(identity["threshold"]),
+            float(decision["threshold"]),
+            rel_tol=0.0,
+            abs_tol=1e-12,
+        )
+        or not math.isclose(
+            float(identity["alpha"]),
+            float(decision["safety_factor"]),
+            rel_tol=0.0,
+            abs_tol=1e-12,
+        )
+        or not math.isclose(
+            float(identity["margin_floor"]),
+            float(coverage["margin_floor"]),
+            rel_tol=0.0,
+            abs_tol=1e-12,
+        )
+        or not math.isclose(
+            float(identity["margin_floor"]),
+            float(decision["margin_floor"]),
+            rel_tol=0.0,
+            abs_tol=1e-12,
+        )
+    ):
+        raise ValueError(
+            f"{workload_key}: threshold, alpha, or margin policy mismatch"
+        )
+
+
 def geometric_mean(values: list[float]) -> float | None:
     if not values:
         return None
@@ -157,7 +271,7 @@ def verify(args: argparse.Namespace) -> int:
     summary_path = args.output_root / "summary.json"
     comparison_path = args.output_root / "comparison.csv"
     summary = load_json(summary_path)
-    if summary.get("schema_version") != 1:
+    if summary.get("schema_version") != 2:
         raise ValueError("unsupported comparison summary schema")
     for item in summary["inputs"].values():
         path = Path(item["path"])
@@ -185,6 +299,12 @@ def verify(args: argparse.Namespace) -> int:
             str(args.alpha),
             "--expected-candidates-per-workload",
             str(args.expected_candidates_per_workload),
+            "--identity-audit-root",
+            str(args.identity_audit_root),
+            "--security-root",
+            str(args.security_root),
+            "--comparison-builder-commit",
+            str(summary["comparison_builder_commit"]),
         ]
         if args.allow_incomplete:
             command.append("--allow-incomplete")
@@ -226,9 +346,28 @@ def main() -> int:
     coverage_path = args.oracle_root / "validation_coverage.csv"
     direct_summary_path = args.direct_root / "summary.json"
     direct_results_path = args.direct_root / "workload_results.csv"
+    identity_summary_path = args.identity_audit_root / "summary.json"
+    identity_matrix_path = (
+        args.identity_audit_root / "validation_identity_matrix.csv"
+    )
+    security_manifest_path = args.security_root / "manifest.json"
 
     oracle_summary = load_json(oracle_summary_path)
     direct_summary = load_json(direct_summary_path)
+    identity_summary = load_json(identity_summary_path)
+    security_manifest = load_json(security_manifest_path)
+    if identity_summary.get("schema_version") != 2:
+        raise ValueError("validation identity audit schema is not v2")
+    if identity_summary.get("workload_partition_instances") != 50:
+        raise ValueError("validation identity audit is not the full matrix")
+    if identity_summary.get("encrypted_rerun_required_workloads") != 0:
+        raise ValueError(
+            "validation identity audit requires encrypted reruns"
+        )
+    if int(oracle_summary["security_admitted_catalog_candidates"]) != 700:
+        raise ValueError(
+            "security-filtered bounded catalog denominator is not 700"
+        )
     oracle_incomplete = bool(
         oracle_summary.get("allow_incomplete")
     ) or (
@@ -245,6 +384,7 @@ def main() -> int:
 
     direct_rows = load_csv(direct_results_path)
     coverage_rows = load_csv(coverage_path)
+    identity_rows = load_csv(identity_matrix_path)
     all_oracle_rows = load_csv(oracle_selection_path)
     oracle_rows = [
         row
@@ -262,6 +402,10 @@ def main() -> int:
         coverage_rows,
         "validation coverage",
     )
+    identity_by_key = index_unique(
+        identity_rows,
+        "validation identity audit",
+    )
     oracle_by_key = index_unique(
         oracle_rows,
         f"oracle alpha={args.alpha}",
@@ -275,6 +419,33 @@ def main() -> int:
         raise ValueError(
             "direct workloads do not match validation coverage"
         )
+    if set(direct_by_key) != set(identity_by_key):
+        raise ValueError(
+            "direct workloads do not match validation identity audit"
+        )
+
+    direct_policy_id = str(security_manifest["direct_policy_id"])
+    direct_policy_digest = str(
+        security_manifest["direct_policy_digest"]
+    )
+    security_policy_id = str(security_manifest["security_policy_id"])
+    security_policy_digest = str(
+        security_manifest["security_policy_digest"]
+    )
+    if (
+        oracle_summary["security_policy_id"] != security_policy_id
+        or oracle_summary["security_policy_digest"]
+        != security_policy_digest
+    ):
+        raise ValueError("oracle security policy binding mismatch")
+    comparison_builder_commit = args.comparison_builder_commit
+    if not comparison_builder_commit:
+        comparison_builder_commit = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
 
     complete_oracle_keys = {
         key
@@ -306,6 +477,7 @@ def main() -> int:
     for key in sorted(complete_oracle_keys):
         direct = direct_by_key[key]
         coverage = coverage_by_key[key]
+        identity = identity_by_key[key]
         oracle = oracle_by_key[key]
         direct_result_path = Path(direct["result_path"])
         direct_result = load_json(direct_result_path)
@@ -329,6 +501,21 @@ def main() -> int:
             direct_contract.get("validation_data"),
             f"{direct_result_path}: validation_data",
         )
+        direct_source_binding = require_dict(
+            direct_contract.get("source_data"),
+            f"{direct_result_path}: source_data",
+        )
+        direct_materialization = require_dict(
+            direct_contract.get("input_materialization"),
+            f"{direct_result_path}: input_materialization",
+        )
+        validate_identity_gate(
+            key,
+            identity,
+            direct_materialization,
+            direct_decision,
+            coverage,
+        )
 
         if direct["status"] != "ok":
             raise ValueError(f"{key}: direct execution status is not ok")
@@ -348,18 +535,42 @@ def main() -> int:
             )
 
         if (
-            direct["validation_sha256"]
-            != coverage["validation_csv_digest"]
-            or direct["model_sha256"]
+            direct["model_sha256"]
             != coverage["model_artifact_digest"]
-            or direct_validation_binding.get("sha256")
-            != coverage["validation_csv_digest"]
             or direct_model_binding.get("sha256")
             != coverage["model_artifact_digest"]
             or direct_plan.get("contract_digest")
             != direct["contract_digest"]
+            or direct_contract.get("split_id")
+            != f"split_seed_{key[0]}"
+            or identity["split_id"] != direct_contract.get("split_id")
         ):
-            raise ValueError(f"{key}: artifact digest mismatch")
+            raise ValueError(f"{key}: model, contract, or split mismatch")
+        if (
+            direct_source_binding.get("sha256")
+            != identity["direct_source_raw_sha256"]
+            or direct_validation_binding.get("sha256")
+            != identity["direct_prepared_raw_sha256"]
+            or coverage["validation_csv_digest"]
+            != identity["catalog_source_raw_sha256"]
+            or identity["source_raw_match"] != "true"
+        ):
+            raise ValueError(f"{key}: source/prepared digest binding mismatch")
+        selected_security = require_dict(
+            direct_result.get("selected", {}).get("security"),
+            f"{direct_result_path}: selected security",
+        )
+        if (
+            direct_plan.get("direct_policy_id") != direct_policy_id
+            or direct_plan.get("direct_policy_digest")
+            != direct_policy_digest
+            or direct_plan.get("security_policy_digest")
+            != security_policy_digest
+            or selected_security.get("envelope_id")
+            != security_policy_id
+            or selected_security.get("final_admission") != "PASS"
+        ):
+            raise ValueError(f"{key}: frozen policy binding mismatch")
         if not math.isclose(
             float(direct_decision["safety_factor"]),
             args.alpha,
@@ -386,6 +597,14 @@ def main() -> int:
             or as_int(direct, "v_amb") != as_int(oracle, "v_amb")
             or as_int(direct, "v_cert") != as_int(coverage, "v_cert")
             or as_int(direct, "v_amb") != as_int(coverage, "v_amb")
+            or as_int(direct, "v_cert")
+            != as_int(identity, "direct_V_cert")
+            or as_int(direct, "v_amb")
+            != as_int(identity, "direct_V_amb")
+            or as_int(coverage, "v_cert")
+            != as_int(identity, "catalog_V_cert")
+            or as_int(coverage, "v_amb")
+            != as_int(identity, "catalog_V_amb")
             or as_int(direct, "v_cert")
             != int(direct_decision["certifiable_samples"])
             or as_int(direct, "v_amb")
@@ -484,6 +703,20 @@ def main() -> int:
                 "direct_contract_digest": direct[
                     "contract_digest"
                 ],
+                "direct_source_raw_sha256": identity[
+                    "direct_source_raw_sha256"
+                ],
+                "direct_prepared_raw_sha256": identity[
+                    "direct_prepared_raw_sha256"
+                ],
+                "catalog_source_raw_sha256": identity[
+                    "catalog_source_raw_sha256"
+                ],
+                "validation_semantic_digest": identity[
+                    "validation_semantic_digest"
+                ],
+                "identity_class": identity["identity_class"],
+                "identity_bridge_used": "true",
                 "direct_log_n": direct["log_n"],
                 "direct_q_prime_count": direct[
                     "q_prime_count"
@@ -555,7 +788,16 @@ def main() -> int:
         for row in output_rows
     )
     summary = {
-        "schema_version": 1,
+        "schema_version": 2,
+        "direct_vs_security_v2_catalog_comparison_schema": 2,
+        "encrypted_execution_commit": identity_summary[
+            "execution_source_commit"
+        ],
+        "comparison_builder_commit": comparison_builder_commit,
+        "direct_policy_id": direct_policy_id,
+        "direct_policy_digest": direct_policy_digest,
+        "security_policy_id": security_policy_id,
+        "security_policy_digest": security_policy_digest,
         "alpha": args.alpha,
         "allow_incomplete": args.allow_incomplete,
         "oracle_matrix_complete": not oracle_incomplete,
@@ -647,6 +889,18 @@ def main() -> int:
             "direct_results": {
                 "path": str(direct_results_path),
                 "sha256": sha256_file(direct_results_path),
+            },
+            "validation_identity_summary": {
+                "path": str(identity_summary_path),
+                "sha256": sha256_file(identity_summary_path),
+            },
+            "validation_identity_matrix": {
+                "path": str(identity_matrix_path),
+                "sha256": sha256_file(identity_matrix_path),
+            },
+            "security_manifest": {
+                "path": str(security_manifest_path),
+                "sha256": sha256_file(security_manifest_path),
             },
         },
         "claim_boundary": (

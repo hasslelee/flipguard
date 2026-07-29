@@ -324,11 +324,13 @@ else
     "${FORCE_FREEZE[@]}"
 fi
 
-FINAL_COMPARISON_ROOT="results/thesis_grade_protocol/direct_vs_catalog_oracle_v1/final_source_baseline"
+FINAL_COMPARISON_ROOT="results/thesis_grade_protocol/direct_vs_catalog_oracle_v2/final_source_baseline"
 if [[ -d "$FINAL_COMPARISON_ROOT" && "$ACTION" == "--resume" ]]; then
   python3 scripts/compare_direct_synthesis_to_catalog_oracle.py \
     --oracle-root "$SECURITY_ORACLE_ROOT" \
     --direct-root "$FINAL_BASELINE_ROOT/summary" \
+    --identity-audit-root results/thesis_grade_protocol/validation_identity_audit_v2 \
+    --security-root "$SECURITY_V2_ROOT" \
     --output-root "$FINAL_COMPARISON_ROOT" \
     --expected-candidates-per-workload 14 \
     --verify
@@ -336,6 +338,8 @@ else
   python3 scripts/compare_direct_synthesis_to_catalog_oracle.py \
     --oracle-root "$SECURITY_ORACLE_ROOT" \
     --direct-root "$FINAL_BASELINE_ROOT/summary" \
+    --identity-audit-root results/thesis_grade_protocol/validation_identity_audit_v2 \
+    --security-root "$SECURITY_V2_ROOT" \
     --output-root "$FINAL_COMPARISON_ROOT" \
     --expected-candidates-per-workload 14 \
     "${FORCE_FREEZE[@]}"
