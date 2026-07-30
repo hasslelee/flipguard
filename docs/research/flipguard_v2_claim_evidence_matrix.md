@@ -14,18 +14,18 @@ Core contribution:
 
 | Claim | State | paper_claim_allowed | Current evidence | Block reason / required evidence |
 |---|---|---:|---|---|
-| Direct synthesis | PARTIALLY_SUPPORTED | false | Three supported scalar-tabular formulas; 50 PRE_SECURITY_V2 selected rows; all 50 literals statically pass Security V2 | Clean-source post-freeze selection is not executed |
-| Adaptive repair | PARTIALLY_SUPPORTED | false | 20 REJECTED-to-SAFE repairs in 70 PRE_SECURITY_V2 trials; monotone `+4` scale and `+1` level rules are bounded | One-shot/graph-only/full ablation is not executed |
-| Decision-integrity certification | PARTIALLY_SUPPORTED | false | Finite `V_cert` certify-or-reject logic and mutation tests; zero preliminary selected flips/violations | This is finite observed evidence, not a domain-wide bound |
-| Trial reduction | PARTIALLY_SUPPORTED | false | Preliminary direct trials are compared to 700 Security V2-admitted candidate identities; 1,100 is retained only as the raw pre-filter execution ledger | Final clean-source seed-separated accounting is absent |
-| Security-compliant bounded catalog comparison | PARTIALLY_SUPPORTED | false | V2 filtering retains 7/11 profiles and 14/22 identities; existing records are re-summarized without rerun | Final direct rows and paired arms are not yet clean-source confirmatory evidence |
-| Latency speedup | BLOCKED | false | Existing unpaired comparison is SUPERSEDED for latency; seed-0 paired pack is PILOT_ONLY | Final paired 50-instance run over frozen V2 arms is absent |
+| Direct synthesis | SUPPORTED | false | Final clean-source selection covers 50 primary instances; the separate BSDS500 Sobel extension also synthesized and selected without catalog lookup | Paper admission remains pending; scope is the declared adapters only |
+| Adaptive repair | PARTIALLY_SUPPORTED | false | Primary confirmatory results and the Sobel holdout preserve bounded REJECTED-to-SAFE repairs; Sobel required exactly the frozen `+4` numerical repair | Predeclared graph-only/one-shot/full ablation is incomplete |
+| Decision-integrity certification | PARTIALLY_SUPPORTED | false | Final finite-set candidate certificates, negative controls, locked audits, and sample-level Sobel ledgers are verified | This remains observed finite-scope evidence, not a domain-wide analytical bound |
+| Trial reduction | SUPPORTED | false | Final direct accounting uses 70/700 all instances and 56/560 confirmatory instances, both 90% fewer candidate trials than the Security V2 bounded catalog | Paper admission remains pending |
+| Security-compliant bounded catalog comparison | SUPPORTED | false | V2 formal comparison uses only 700 admitted candidates; 400 excluded executions remain historical; paired arms are frozen | The result is bounded-catalog, never global-optimum evidence |
+| Latency speedup | PARTIALLY_SUPPORTED | false | Final paired pack has 50/50 rows; clustered direct/catalog total-latency ratio is 3.14x with all frozen arms | Within-workload timing variability and manual paper admission remain |
 | Security | PARTIALLY_SUPPORTED | false | Q and QP are separately checked against published Table 5.2; direct 50/50 PASS, four catalog profiles excluded | Exact estimator inputs are exported but exact estimation is NOT RUN; no universal security claim |
-| Locked audit on fixed held-out partitions | PARTIALLY_SUPPORTED | false | 50 PRE_SECURITY_V2 no-retuning audits passed with zero retuning/flips/violations | Seed 0 is development; seeds 1-4 need clean-source post-freeze replay |
-| Structural generalization | PILOT_ONLY | false | One `mlp_square_poly3` selection/audit pilot and static plans | Full structural holdout and non-tabular CNN/image graph are absent |
+| Locked audit on fixed held-out partitions | SUPPORTED | false | Primary final audits pass without retuning; deeper `mlp_square_poly3` preserves 24/25 PASS plus one disclosed REJECT; BSDS500 Sobel passes with 399/1 certifiable/ambiguous samples | Support is limited to the declared repeated partitions and Sobel image scope |
+| Structural generalization | PARTIALLY_SUPPORTED | false | Full `mlp_square_poly3` selection is 25/25 with audit 24 PASS and 1 numerical REJECT; BSDS500 Sobel selection/audit passes over 50+50 disjoint image clusters | Arbitrary graphs, packed full-image operators, Harris, and CNN/LeNet remain unevaluated |
 | Conditional analytical claim | BLOCKED | false | Scope metadata and primitive placeholders exist | No sound primitive CKKS residual derivation or observed-versus-bound audit |
 | Planner baseline | PARTIALLY_SUPPORTED | false | Legacy catalog-pruning baseline has zero false NO_SAFE and low regret but low SAFE/optimum recall | It is not the primary contribution and cannot substitute for direct synthesis |
-| Artifact reproducibility | PARTIALLY_SUPPORTED | false | SHA-256 pre-change checkpoint, deterministic pack verifiers, policy digests, and source bindings exist | Final evidence freeze, clean replay, release tag, and archive are absent |
+| Artifact reproducibility | PARTIALLY_SUPPORTED | false | Final confirmatory and Sobel packs have deterministic rebuild verifiers, raw ledgers, policy/binary/input digests, and pushed source commits | Release tag, external archive, and independent-machine replay remain |
 
 ## Evaluation Units
 

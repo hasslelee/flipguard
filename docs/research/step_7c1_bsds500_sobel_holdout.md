@@ -1,8 +1,9 @@
 # Step 7C.1 BSDS500 Sobel Non-Tabular Holdout
 
-Status: `PREDECLARED_NOT_EVALUATED` on 2026-07-30. The source and derived
-artifacts replay byte-identically, and the static synthesis plan is feasible.
-No encrypted result is claimed by this document.
+Status: `SUPPORTED` within the declared Sobel scope on 2026-07-30. The source
+and derived artifacts replay byte-identically. Encrypted selection and the
+no-retuning locked audit are complete with a sample-level evidence ledger.
+The broader structural-generalization claim remains `PARTIALLY_SUPPORTED`.
 
 ## Research purpose
 
@@ -153,6 +154,85 @@ The locked audit:
 An audit PASS supports only the declared Sobel patch graph and BSDS500
 extraction scope. An audit negative result is retained and lowers the claim.
 
+## Encrypted result
+
+The first complete execution produced a valid aggregate result but did not
+serialize per-patch, per-key CKKS scores. It is preserved under:
+
+```text
+run_cb71a21
+status=SUPERSEDED_DIAGNOSTIC
+reason=IMPLEMENTATION_DIAGNOSTIC_MISSING_RAW_SAMPLE_LEDGER
+```
+
+No policy or candidate rule was changed. Commit `6b0409e` added only the raw
+sample ledger and its deterministic validator. The targeted extension was
+then replayed from a clean pushed commit.
+
+Final execution provenance:
+
+| Property | Value |
+|---|---|
+| Execution commit | `6b0409e2c05ba416dd87e285005fe30d8e036de0` |
+| Autotune binary | `sha256:c5b9244c408a04635f077881abf4507f9a483141e64fe091d7f721fd93d3f604` |
+| Audit binary | `sha256:e4264ff1ceade488430dca860049d511468cf4947d1e6ae656d5cd63d02d6754` |
+| Execution-source digest | `sha256:db55ba5f6988397d97501dcfe05a3a53ab0e60d41ea289772caafab28e5530aa` |
+
+Configuration validation:
+
+| Property | Result |
+|---|---:|
+| Images / patches | 50 / 400 |
+| Initial candidate | `N13 / Q4 / scale19` |
+| Initial status | `REJECTED` |
+| Initial flips / violations | 0 / 4 |
+| Initial maximum budget usage | 1.914448 |
+| Frozen repair | `+4` bits to every Q/scale prime |
+| Selected candidate | `N13 / Q4 / scale23` |
+| Selected status | `SAFE` |
+| Selected flips / violations | 0 / 0 |
+| Selected maximum budget usage | 0.117506 |
+| Trials / repairs | 2 / 1 |
+| Fresh key runs | 6 |
+| Encrypted sample evaluations | 2,400 |
+
+Locked audit:
+
+| Property | Result |
+|---|---:|
+| Images / patches | 50 / 400 |
+| Candidate identity | byte-identical |
+| Status | `LOCKED_AUDIT_PASS` |
+| `Vcert / Vamb` | 399 / 1 |
+| Flips / violations | 0 / 0 |
+| Maximum budget usage | 0.438810 |
+| Fresh key runs | 3 |
+| Encrypted sample evaluations | 1,200 |
+| Retuning | 0 |
+
+The initial numerical rejection is important evidence for the bounded repair
+path: static feasibility and Security V2 admission did not imply decision
+safety at the minimum scale. The predeclared four-bit numerical repair was
+needed. The locked test result supports the selected literal only over the
+declared BSDS500 Sobel patch scope.
+
+Frozen evidence:
+
+```text
+docs/evidence/non_tabular_sobel_holdout_v1/
+
+manifest:
+sha256:920b55cb261555214fd0ff9c3d71fbe754e1a00bbf81c1d6140229995918a67c
+
+summary:
+sha256:3aa0bd09d683eff7069246ce9469524c1eb4d47e6e23c4ad08bb32ba378569db
+```
+
+The pack contains all 3,600 patch-by-key observations and independently
+recomputes every score error, margin budget, decision, flip, violation, and
+aggregate maximum. `paper_claim_allowed` remains false pending manual
+post-extension claim admission.
+
 ## Reproduction
 
 ```bash
@@ -173,4 +253,6 @@ go run ./cmd/flipguard-sobel-audit \
   --source-archive results/source_datasets/bsds500/BSR_bsds500.tgz \
   --extraction-manifest datasets/vision_suite/bsds500/sobel_edge_score/extraction_manifest.json \
   --out results/thesis_grade_protocol/non_tabular_sobel_holdout_v1/locked_audit.json
+
+python3 scripts/freeze_bsds500_sobel_evidence.py --verify
 ```
