@@ -1,0 +1,87 @@
+{
+  "claim_limits": [
+    "no packed CNN performance claim",
+    "no general LeNet claim",
+    "no arbitrary CNN graph claim",
+    "no multiclass encrypted argmax claim",
+    "no universal autotuning claim"
+  ],
+  "locked_audit": {
+    "ambiguous": 0,
+    "candidate_byte_identical": true,
+    "certifiable": 250,
+    "encrypted_sample_evaluations": 750,
+    "flips": 0,
+    "key_runs": 3,
+    "max_budget_usage": 0.36466897416885136,
+    "max_error": 0.0071192678172359025,
+    "mean_total_ms": 753.8722406373333,
+    "median_total_ms": 711.23374,
+    "outcome": "LOCKED_AUDIT_PASS",
+    "p95_total_ms": 1137.06139,
+    "retuning": 0,
+    "samples": 250,
+    "violations": 0
+  },
+  "paper_claim_allowed": false,
+  "paper_claim_block_reason": "one CNN-lite graph does not establish packed, LeNet, or arbitrary-CNN generalization; paper admission remains external",
+  "plaintext_task": {
+    "audit_accuracy": 0.992,
+    "task_accuracy_is_not_decision_integrity": true,
+    "validation_accuracy": 0.98
+  },
+  "policy_modification_count": 0,
+  "schema_version": "flipguard_non_tabular_mnist_cnn_lite_evidence_v1",
+  "scope": "scalar-replicated learned MNIST digit-0-vs-1 CNN-lite",
+  "selection": {
+    "ambiguous": 0,
+    "candidate_id": "synth_analysis_minimum_rescale_N13_Q5_S20_e0e2cacc6372",
+    "candidate_parameters": {
+      "log_default_scale": 20,
+      "log_n": 13,
+      "log_p": [
+        30
+      ],
+      "log_q": [
+        23,
+        20,
+        20,
+        20,
+        20
+      ]
+    },
+    "certifiable": 250,
+    "encrypted_sample_evaluations": 750,
+    "flips": 0,
+    "key_runs": 3,
+    "max_budget_usage": 0.22197737232324577,
+    "max_error": 0.006877524675315827,
+    "mean_total_ms": 803.7042736106667,
+    "median_total_ms": 744.497609,
+    "outcome": "SELECTED",
+    "p95_total_ms": 1186.123903,
+    "repairs": 0,
+    "samples": 250,
+    "security": {
+      "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap",
+      "admission_status": "PASS",
+      "ciphertext_headroom_bits": 111,
+      "ciphertext_q_admission": "PASS",
+      "declared_log_qp": 133,
+      "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+      "evaluation_key_headroom_bits": 81,
+      "evaluation_key_qp_admission": "PASS",
+      "final_admission": "PASS",
+      "headroom_bits": 81,
+      "log_p": 30,
+      "log_q": 103,
+      "log_qp": 133,
+      "max_allowed_log_qp": 214,
+      "target_bits": 128
+    },
+    "trials": 1,
+    "violations": 0
+  },
+  "status": "SUPPORTED",
+  "structural_generalization": "PARTIALLY_SUPPORTED"
+}

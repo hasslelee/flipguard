@@ -1,0 +1,17 @@
+{
+  "pre_execution_recoveries": [
+    {
+      "classification": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+      "corrected_manifest_sha256": "sha256:2a7b77721714cdc8944d09b106d6d967f42c9be0e49854ec0e602533d73b21ec",
+      "encrypted_execution_started": false,
+      "execution_commit": "515d5dd680b09dfb454b5d4b900ab7f52c84373e",
+      "invalid_manifest_sha256": "sha256:9a6bb78e83eba7cee3ea4c525ede6e507c2ab67b03ca30cef0eba6d74080a34e",
+      "reason_code": "MANIFEST_SHORT_HASH_EXPANSION_ERROR",
+      "resolved_frozen_input_commit": "c7b5b3f317d427107740d4be30098c12aa6d1cac",
+      "resolved_predeclared_protocol_commit": "a85acca1aad301927246492b83a5b57122f8698c",
+      "schema_version": "flipguard_pre_execution_recovery_v1"
+    }
+  ],
+  "schema_version": "flipguard_non_tabular_mnist_cnn_lite_evidence_v1",
+  "scientific_failures": []
+}

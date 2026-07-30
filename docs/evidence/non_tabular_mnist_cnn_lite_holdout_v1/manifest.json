@@ -1,0 +1,29 @@
+{
+  "audit_observations": 750,
+  "binary_sha256": {
+    "audit": "sha256:25d6df614eaac06350b0678c9ae75f14472be490a421fb668bae850ff7502d34",
+    "autotune": "sha256:963eef36588913024ba378f34bce0a1fedee14ed1876e5ee591f5730f5c0dffc"
+  },
+  "claim_status": "SUPPORTED",
+  "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+  "execution_adapter": "mnist_cnn_lite_scalar_replicated_graph_adapter_v1",
+  "execution_commit": "515d5dd680b09dfb454b5d4b900ab7f52c84373e",
+  "execution_critical_source_digest": "sha256:3d3b1c8bc2e3c140ebad0673861e9f3593642393b751d3ccbba76190ab2032fe",
+  "extraction_policy_digest": "sha256:06c795514837759cfb8a75a0390964f1e3cf252ceda233ee42b2de3023a8bab5",
+  "input_digests": {
+    "configuration_validation": "sha256:c91fe6bb77ba57c2249bb643da20f73d034c6629d50156a115608e55f4e4b88b",
+    "input_manifest": "sha256:d5ae46e47891b11d71a98ee4b8adf218bd525b2a5207ebfe93623bc9cffdf8f1",
+    "locked_audit_test": "sha256:dc45a3440752e36471257451f90298c0b3979c22fd68551e45ddae86b576c313",
+    "model": "sha256:28f673795c1982eb20d9cf156e527a5d61d74c2d674fc75f70dcca7b4876cf4e",
+    "source_archive": "sha256:fe4410d8dbb50f6db6482b187557c5cb8bccfbcec74eeb6abc47c858f4ffab78"
+  },
+  "locked_audit_sha256": "sha256:d4d6f9deb386a939724719ae6cc29d0798fa6bd7f9e0c4cb01c17fd951ce6523",
+  "paper_claim_allowed": false,
+  "run_manifest_sha256": "sha256:2a7b77721714cdc8944d09b106d6d967f42c9be0e49854ec0e602533d73b21ec",
+  "schema_version": "flipguard_non_tabular_mnist_cnn_lite_evidence_v1",
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "selection_observations": 750,
+  "selection_sha256": "sha256:cae1954ed0da0746c73dff3b3b888206f69eebac1ba8ec9f915b2afc660aa653",
+  "structural_generalization": "PARTIALLY_SUPPORTED",
+  "summary_sha256": "sha256:c6857a4f953653a7cfd2420dc0ee28ca20a60ab955e70380cfff5990ba120ecb"
+}
