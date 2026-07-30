@@ -1,11 +1,12 @@
-#include <seal/seal.h>
-
 #include <cstdint>
 #include <exception>
 #include <iostream>
+#include <mutex>
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+#include <seal/seal.h>
 
 namespace {
 

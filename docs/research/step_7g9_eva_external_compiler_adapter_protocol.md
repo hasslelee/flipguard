@@ -23,6 +23,8 @@ SEAL 3.6.4 omits a direct `<mutex>` include required by modern GCC. The CI
 build force-includes only that standard header through
 `CXXFLAGS="-include mutex"`; no upstream source byte is patched. The exact
 flag and unchanged upstream Git status are preserved in the replay artifact.
+The separate prime-export consumer also includes the standard header before
+SEAL's public header.
 
 ## Fixed compiler input
 
