@@ -18,6 +18,7 @@ from typing import Any
 from sage.all import N, log, oo
 
 from estimator import LWE, ND, RC
+from exact_estimator_numeric import format_53bit_real
 
 
 SCHEMA_VERSION = "flipguard_exact_security_estimator_run_v1"
@@ -89,10 +90,10 @@ def estimate_attack(
         if rop == oo:
             log2_rop = "Infinity"
         else:
-            # Estimator cost models may return 53-bit real values. Asking
-            # Sage for 16 decimal digits requires about 57 bits and turns a
-            # successful attack estimate into a post-processing failure.
-            log2_rop = str(N(log(rop, 2), digits=15))
+            # Preserve the estimator's existing 53-bit result. Requesting
+            # decimal digits through Sage can silently ask for 54+ bits and
+            # turn a successful attack estimate into a serialization failure.
+            log2_rop = format_53bit_real(log(rop, 2))
         return {
             "attack": name,
             "status": "PASS",
