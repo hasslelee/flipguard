@@ -49,12 +49,25 @@ class DecisionContractActivationRunnerTest(unittest.TestCase):
                 [row["aggregate_sensitivity"] for row in static["regimes"]],
                 [120.803, 120.803],
             )
+            for name in ("narrow_margin", "wide_margin"):
+                for suffix in ("validation", "locked_audit"):
+                    rows = (
+                        root / f"{name}_{suffix}.csv"
+                    ).read_text(encoding="ascii").splitlines()[1:]
+                    self.assertTrue(rows)
+                    self.assertTrue(
+                        all(row.split(",", 1)[0].isdigit() for row in rows)
+                    )
 
-    def test_execution_closure_is_stable_at_head(self) -> None:
+    def test_execution_closure_digest_is_deterministic(self) -> None:
         head = MODULE.git("rev-parse", "HEAD")
         self.assertEqual(
             MODULE.commit_source_digest(head),
+            MODULE.commit_source_digest(head),
+        )
+        self.assertRegex(
             MODULE.current_source_digest(head),
+            r"^sha256:[0-9a-f]{64}$",
         )
 
 

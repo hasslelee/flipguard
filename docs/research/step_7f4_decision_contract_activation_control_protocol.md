@@ -58,6 +58,8 @@ The wide interval deliberately activates the cubic node's local error
 amplification; increasing the affine weight alone would not change the
 planner's operation-error sensitivity definition.
 Each regime has a separate 32-row locked audit with disjoint row IDs.
+All row IDs are disjoint decimal integers because the encrypted tabular
+backend parses the canonical row identity as an integer.
 
 Synthetic split seeds `9101` and `9102` identify this development control and
 must never be combined with primary seeds 0-4.

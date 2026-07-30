@@ -651,6 +651,24 @@ def build_summary(
         }
         for row in rows
     )
+    encrypted_rows = sum(
+        1 for row in rows if int(row.get("key_runs", 0) or 0) > 0
+    )
+    failed_before_encryption = sum(
+        1
+        for row in rows
+        if row.get("initial_status") == "FAILED"
+        and int(row.get("key_runs", 0) or 0) == 0
+    )
+    if encrypted_rows == len(rows) and all_complete:
+        encrypted_control_state = "SUPPORTED"
+        stage_status = "PASS"
+    elif encrypted_rows == 0 and failed_before_encryption == len(rows):
+        encrypted_control_state = "BLOCKED"
+        stage_status = "RECOVERABLE_IMPLEMENTATION_FAILURE"
+    else:
+        encrypted_control_state = "PARTIALLY_SUPPORTED"
+        stage_status = "PARTIAL_SCIENTIFIC_RESULT"
     summary = {
         "schema_version": (
             "flipguard_decision_contract_activation_summary_v1"
@@ -667,14 +685,12 @@ def build_summary(
         ],
         "static_claim_state": static["static_claim_state"],
         "natural_data_decision_contract_synthesis_effect": "BLOCKED",
-        "finite_domain_decision_contract_synthesis_effect": (
-            "SUPPORTED"
-            if all_complete and static["static_claim_state"] == "SUPPORTED"
-            else "PARTIALLY_SUPPORTED"
-        ),
-        "stage_status": (
-            "PASS" if all_complete else "PARTIAL_SCIENTIFIC_RESULT"
-        ),
+        "finite_domain_decision_contract_synthesis_effect":
+            static["static_claim_state"],
+        "finite_domain_encrypted_control": encrypted_control_state,
+        "encrypted_rows": encrypted_rows,
+        "failed_before_encryption": failed_before_encryption,
+        "stage_status": stage_status,
         "policy_modifications": 0,
         "paper_claim_allowed": False,
         "rows": rows,
@@ -775,8 +791,10 @@ def main() -> int:
     print(
         "decision_contract_activation_run="
         f"{summary['stage_status']} "
-        "finite_domain_effect="
+        "static_effect="
         f"{summary['finite_domain_decision_contract_synthesis_effect']} "
+        "encrypted_control="
+        f"{summary['finite_domain_encrypted_control']} "
         f"output={run_root}"
     )
     return 0

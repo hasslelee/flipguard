@@ -69,16 +69,20 @@ type Analysis struct {
 }
 
 type regimeSpec struct {
-	ID             string
-	SplitSeed      int
-	ValidationZAbs []float64
-	AuditZAbs      []float64
+	ID                 string
+	SplitSeed          int
+	ValidationRowStart int
+	AuditRowStart      int
+	ValidationZAbs     []float64
+	AuditZAbs          []float64
 }
 
 var regimes = []regimeSpec{
 	{
-		ID:        "narrow_margin",
-		SplitSeed: 9101,
+		ID:                 "narrow_margin",
+		SplitSeed:          9101,
+		ValidationRowStart: 9101000,
+		AuditRowStart:      9101500,
 		ValidationZAbs: []float64{
 			0.0061, 0.1, 1, 2,
 			3, 4, 5, 6,
@@ -93,8 +97,10 @@ var regimes = []regimeSpec{
 		},
 	},
 	{
-		ID:        "wide_margin",
-		SplitSeed: 9102,
+		ID:                 "wide_margin",
+		SplitSeed:          9102,
+		ValidationRowStart: 9102000,
+		AuditRowStart:      9102500,
 		ValidationZAbs: []float64{
 			0.06, 0.1, 1, 2,
 			3, 4, 5, 6,
@@ -159,7 +165,10 @@ func modelBytes() ([]byte, error) {
 	return append(encoded, '\n'), nil
 }
 
-func csvBytes(prefix string, zAbs []float64) ([]byte, []string, error) {
+func csvBytes(
+	startRowID int,
+	zAbs []float64,
+) ([]byte, []string, error) {
 	var buffer bytes.Buffer
 	writer := csv.NewWriter(&buffer)
 	if err := writer.Write([]string{
@@ -172,13 +181,10 @@ func csvBytes(prefix string, zAbs []float64) ([]byte, []string, error) {
 	}
 	rowIDs := make([]string, 0, len(zAbs)*2)
 	for index, magnitude := range zAbs {
-		for _, sign := range []float64{-1, 1} {
+		for signIndex, sign := range []float64{-1, 1} {
 			z := sign * magnitude
-			rowID := fmt.Sprintf(
-				"%s_%02d_%s",
-				prefix,
-				index,
-				map[bool]string{true: "pos", false: "neg"}[sign > 0],
+			rowID := strconv.Itoa(
+				startRowID + index*2 + signIndex,
 			)
 			rowIDs = append(rowIDs, rowID)
 			if err := writer.Write([]string{
@@ -276,14 +282,14 @@ func WriteAndAnalyze(
 
 	for _, regime := range regimes {
 		validationData, validationIDs, err := csvBytes(
-			regime.ID+"_validation",
+			regime.ValidationRowStart,
 			regime.ValidationZAbs,
 		)
 		if err != nil {
 			return Analysis{}, err
 		}
 		auditData, auditIDs, err := csvBytes(
-			regime.ID+"_audit",
+			regime.AuditRowStart,
 			regime.AuditZAbs,
 		)
 		if err != nil {
