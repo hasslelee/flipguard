@@ -1,7 +1,8 @@
 # Step 7B.7 Deeper-Graph Structural Extension
 
-Status: STATIC 5-SPLIT PLAN GRID COMPLETE on 2026-07-29. Encrypted
-selection and locked audit are pending a clean source commit.
+Status: `PARTIAL_SCIENTIFIC_RESULT` on 2026-07-30. Encrypted selection
+completed 25/25; the no-retuning locked audit passed 24/25 and numerically
+rejected 1/25.
 
 ## Purpose and claim boundary
 
@@ -119,48 +120,78 @@ A structural-generalization claim requires:
 An explicit `NO_SAFE` remains correct framework behavior, but it does not
 satisfy this extension's audited-support claim and must be reported.
 
-After a complete run, freeze the raw selections and audits with the exact
-structural protocol, split, and static-plan checkpoints:
+## Confirmatory result
+
+The frozen policy selected a SAFE candidate for every one of the 25
+workload-partition instances:
+
+| Property | Result |
+|---|---:|
+| Selection `SELECTED` | 25/25 |
+| Encrypted configuration trials | 43 |
+| Failure-aware repairs | 18 |
+| Fresh selection key runs | 129 |
+| Selection `FAILED / NO_SAFE` | 0 / 0 |
+| Locked-audit PASS | 24/25 |
+| Locked-audit REJECTED | 1/25 |
+| Locked-audit execution FAILED | 0/25 |
+| Locked-audit fresh key runs | 75 |
+| Audit decision flips | 0 |
+| Audit error violations | 1 |
+| Retuning | 0 |
+| Policy modifications after audit | 0 |
+
+The negative result is:
+
+```text
+seed=4
+dataset=banknote
+model=mlp_square_poly3
+candidate=synth_analysis_minimum_rescale_N14_Q10_S22_01ae407b2f60
+failure_class=VALIDATION_NEAR_BUDGET_LIMIT_AUDIT_OVERRUN
+```
+
+Configuration validation was SAFE with maximum normalized budget usage
+0.941306. The disjoint locked audit was REJECTED with one error-budget
+violation, zero flips, and maximum usage 1.122737. This is a legitimate
+scientific negative result, not an execution failure.
+
+The candidate is not repaired or reselected. No scale, prime, alpha, margin
+floor, trial budget, split, or policy value is changed. The audit sample is not
+moved into validation. The result lowers structural generalization to
+`PARTIALLY_SUPPORTED` and prohibits a claim that validation SAFE always
+generalizes to an unseen audit partition.
+
+The failure taxonomy entry
+`VALIDATION_NEAR_BUDGET_LIMIT_AUDIT_OVERRUN` means that a candidate passed
+the predeclared alpha-margin budget on configuration validation but exceeded
+that numerical budget on a disjoint no-retuning audit. A zero-flip audit can
+still be rejected because alpha=0.5 reserves a safety factor: budget usage
+reaches rejection at 1, while crossing the decision threshold requires usage
+of at least 2.
+
+Freeze and verify the raw selections, audits, exact structural protocol,
+split, static-plan checkpoints, and preserved rejection with:
 
 ```bash
 python3 scripts/analyze_structural_extension_plans.py --verify
 
-python3 scripts/freeze_direct_locked_audit_evidence.py \
-  --source-root \
-    results/thesis_grade_protocol/direct_tabular_autotune_v1/full_structural_poly3_inputmodel_floor18_keys3/locked_audit/full_structural_poly3_inputmodel_floor18_keys3_locked_audit_keys3 \
-  --output-root docs/evidence/structural_extension_v1 \
-  --source-commit HEAD \
-  --evidence-id structural_extension_v1 \
-  --evidence-stage confirmatory \
-  --selection-run-id full_structural_poly3_inputmodel_floor18_keys3 \
-  --audit-run-id full_structural_poly3_inputmodel_floor18_keys3_locked_audit_keys3 \
-  --split-seeds 0,1,2,3,4 \
-  --key-repeats 3 \
-  --expected-model-ids mlp_square_poly3 \
-  --require-max-budget-usage-below 1 \
-  --require-source-replay \
-  --execution-command scripts/run_structural_extension.sh \
-  --source-protocol-manifest \
-    results/thesis_grade_protocol/direct_tabular_autotune_v1/full_structural_poly3_inputmodel_floor18_keys3/summary/structural_protocol.json \
-  --extra-artifact \
-    split_summary=results/thesis_grade_protocol/structural_extension_splits_v1/summary.json \
-  --extra-artifact \
-    static_plan_summary=results/thesis_grade_protocol/structural_extension_v1/static_plans/summary.json \
-  --extra-artifact \
-    static_plans=results/thesis_grade_protocol/structural_extension_v1/static_plans/plans.csv
+python3 scripts/build_structural_extension_status.py --verify
 
-python3 scripts/freeze_direct_locked_audit_evidence.py \
-  --output-root docs/evidence/structural_extension_v1 \
-  --verify
+python3 scripts/freeze_structural_extension_evidence.py --verify
 ```
 
-The freezer verifies the exact model set and every audit's normalized
-sample-specific error budget before writing the checksum manifest.
+The dedicated freezer verifies the exact model set, candidate identity,
+source replay, 24 PASS rows, the one preserved numerical rejection, zero
+retuning, and all input and result digests before checking the checksum
+manifest.
 
 ## Interpretation
 
 The extension tests whether direct synthesis scales from the primary N13
 graphs to a deeper N14 graph with ten Q primes. It addresses the immediate
 reviewer objection that the primary evaluation only varies datasets around
-two shallow graph families. CNN-lite and alternative packing remain separate
-future extensions.
+two shallow graph families. It provides partial evidence, not blanket
+generalization: one unseen audit partition exceeded the safety budget.
+CNN-lite, image operators, and alternative packing remain separate future
+extensions.
