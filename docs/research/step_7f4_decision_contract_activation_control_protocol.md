@@ -60,6 +60,8 @@ planner's operation-error sensitivity definition.
 Each regime has a separate 32-row locked audit with disjoint row IDs.
 All row IDs are disjoint decimal integers because the encrypted tabular
 backend parses the canonical row identity as an integer.
+Each generated row contains the complete backend schema:
+`row_id,label,scaled_logit,polynomial_score,plaintext_decision,x_0`.
 
 Synthetic split seeds `9101` and `9102` identify this development control and
 must never be combined with primary seeds 0-4.

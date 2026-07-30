@@ -67,6 +67,50 @@ func TestDecisionContractActivationControl(t *testing.T) {
 	}
 }
 
+func TestGeneratedControlIsBackendExecutable(t *testing.T) {
+	root := filepath.Join(t.TempDir(), "control")
+	if _, err := WriteAndAnalyze(root, "test-source-commit"); err != nil {
+		t.Fatalf("write and analyze control: %v", err)
+	}
+	options := ckksplanner.DefaultPrimaryTabularContractOptions()
+	options.ModelPath = filepath.Join(root, "model.json")
+	options.ValidationPath = filepath.Join(
+		root,
+		"narrow_margin_validation.csv",
+	)
+	options.SplitID = "split_seed_9101"
+	options.ValidationKeyRepeats = 1
+	options.MaxEncryptedTrials = 1
+	contract, err := ckksplanner.BuildTabularWorkloadContract(options)
+	if err != nil {
+		t.Fatalf("build executable control contract: %v", err)
+	}
+	plan, err := ckksplanner.Synthesize(
+		contract,
+		ckksplanner.DefaultPrimarySynthesisPolicy(),
+	)
+	if err != nil {
+		t.Fatalf("synthesize executable control: %v", err)
+	}
+	trial, err := ckksplanner.ExecuteTabularCandidate(
+		contract,
+		plan.InitialCandidates[0],
+		1,
+	)
+	if err != nil {
+		t.Fatalf("execute control candidate: %v", err)
+	}
+	if trial.KeyRepeatsCompleted != 1 {
+		t.Fatalf(
+			"control did not complete encrypted key run: %+v",
+			trial,
+		)
+	}
+	if trial.Status == "FAILED" {
+		t.Fatalf("control backend execution failed: %+v", trial)
+	}
+}
+
 func TestDecisionContractActivationRefusesOverwrite(t *testing.T) {
 	root := filepath.Join(t.TempDir(), "nested", "control")
 	if _, err := WriteAndAnalyze(root, "first-source-commit"); err != nil {

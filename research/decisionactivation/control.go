@@ -173,6 +173,8 @@ func csvBytes(
 	writer := csv.NewWriter(&buffer)
 	if err := writer.Write([]string{
 		"row_id",
+		"label",
+		"scaled_logit",
 		"polynomial_score",
 		"plaintext_decision",
 		"x_0",
@@ -187,10 +189,17 @@ func csvBytes(
 				startRowID + index*2 + signIndex,
 			)
 			rowIDs = append(rowIDs, rowID)
+			decision := score(z) >= 0.5
+			label := "0"
+			if decision {
+				label = "1"
+			}
 			if err := writer.Write([]string{
 				rowID,
+				label,
+				strconv.FormatFloat(z, 'g', 17, 64),
 				strconv.FormatFloat(score(z), 'g', 17, 64),
-				strconv.FormatBool(score(z) >= 0.5),
+				strconv.FormatBool(decision),
 				strconv.FormatFloat(z/ModelWeight, 'g', 17, 64),
 			}); err != nil {
 				return nil, nil, err
