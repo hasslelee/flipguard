@@ -18,9 +18,10 @@ import (
 )
 
 const (
-	ProviderCandidateRequestSchemaVersion = 1
-	BoundProviderCandidateSchemaVersion   = 1
-	ProviderCandidateGateSchemaVersion    = 1
+	ProviderCandidateRequestSchemaVersion         = 1
+	ProviderCandidateConcreteRequestSchemaVersion = 2
+	BoundProviderCandidateSchemaVersion           = 1
+	ProviderCandidateGateSchemaVersion            = 1
 
 	ProviderKindManual            = "manual"
 	ProviderKindBoundedCatalog    = "bounded_catalog"
@@ -187,11 +188,21 @@ func BindProviderCandidate(
 	if err != nil {
 		return BoundProviderCandidate{}, err
 	}
-	security, err := ckksplanner.AssessSecurity(
-		request.Parameters,
-		contract.Deployment.SecurityBits,
-		securityPolicy,
-	)
+	var security ckksplanner.SecurityAssessment
+	if request.SchemaVersion ==
+		ProviderCandidateConcreteRequestSchemaVersion {
+		security, err = ckksplanner.AssessConcreteSecurity(
+			request.Parameters,
+			contract.Deployment.SecurityBits,
+			securityPolicy,
+		)
+	} else {
+		security, err = ckksplanner.AssessSecurity(
+			request.Parameters,
+			contract.Deployment.SecurityBits,
+			securityPolicy,
+		)
+	}
 	if err != nil {
 		return BoundProviderCandidate{}, fmt.Errorf(
 			"assess provider candidate security: %w",
@@ -209,11 +220,12 @@ func BindProviderCandidate(
 			security.MaxAllowedLogQP,
 		)
 	}
-	if len(request.Parameters.LogQ) <
+	qPrimeCount := request.Parameters.QPrimeCount()
+	if qPrimeCount <
 		contract.Deployment.RequiredQPrimes {
 		return BoundProviderCandidate{}, fmt.Errorf(
 			"provider candidate has %d Q primes but graph contract requires at least %d",
-			len(request.Parameters.LogQ),
+			qPrimeCount,
 			contract.Deployment.RequiredQPrimes,
 		)
 	}
@@ -241,7 +253,7 @@ func BindProviderCandidate(
 		Security:   security,
 
 		RequiredRescaleLevels: contract.Deployment.RescaleLevelsConsumed,
-		LevelGuard: len(request.Parameters.LogQ) -
+		LevelGuard: qPrimeCount -
 			contract.Deployment.RequiredQPrimes,
 		PrecisionTargetBits: request.Parameters.LogDefaultScale,
 		MessageMagnitudeBits: magnitudeBits(
@@ -502,7 +514,10 @@ func RunLockedProviderCandidateAudit(
 func validateProviderCandidateRequest(
 	request ProviderCandidateRequest,
 ) error {
-	if request.SchemaVersion != ProviderCandidateRequestSchemaVersion {
+	switch request.SchemaVersion {
+	case ProviderCandidateRequestSchemaVersion,
+		ProviderCandidateConcreteRequestSchemaVersion:
+	default:
 		return fmt.Errorf(
 			"unsupported provider candidate request schema version %d",
 			request.SchemaVersion,
@@ -538,17 +553,45 @@ func validateProviderCandidateRequest(
 			"provider candidate default scale must be positive",
 		)
 	}
-	if err := validatePositivePrimeBits(
-		"LogQ",
-		request.Parameters.LogQ,
-	); err != nil {
-		return err
-	}
-	if err := validatePositivePrimeBits(
-		"LogP",
-		request.Parameters.LogP,
-	); err != nil {
-		return err
+	switch request.SchemaVersion {
+	case ProviderCandidateRequestSchemaVersion:
+		if len(request.Parameters.Q) > 0 ||
+			len(request.Parameters.P) > 0 {
+			return fmt.Errorf(
+				"provider candidate schema v1 requires logarithmic moduli only",
+			)
+		}
+		if err := validatePositivePrimeBits(
+			"LogQ",
+			request.Parameters.LogQ,
+		); err != nil {
+			return err
+		}
+		if err := validatePositivePrimeBits(
+			"LogP",
+			request.Parameters.LogP,
+		); err != nil {
+			return err
+		}
+	case ProviderCandidateConcreteRequestSchemaVersion:
+		if len(request.Parameters.LogQ) > 0 ||
+			len(request.Parameters.LogP) > 0 {
+			return fmt.Errorf(
+				"provider candidate schema v2 requires concrete moduli only",
+			)
+		}
+		if err := validatePositiveConcretePrimes(
+			"Q",
+			request.Parameters.Q,
+		); err != nil {
+			return err
+		}
+		if err := validatePositiveConcretePrimes(
+			"P",
+			request.Parameters.P,
+		); err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -590,6 +633,25 @@ func validatePositivePrimeBits(name string, values []int) error {
 	return nil
 }
 
+func validatePositiveConcretePrimes(
+	name string,
+	values []uint64,
+) error {
+	if len(values) == 0 {
+		return fmt.Errorf("provider candidate %s is empty", name)
+	}
+	for index, value := range values {
+		if value <= 1 {
+			return fmt.Errorf(
+				"provider candidate %s[%d] must be greater than one",
+				name,
+				index,
+			)
+		}
+	}
+	return nil
+}
+
 func pathAllowed(
 	path tuner.ExecutionPath,
 	allowed []tuner.ExecutionPath,
@@ -616,7 +678,7 @@ func providerCandidateID(
 		Path           tuner.ExecutionPath                  `json:"path"`
 		Parameters     ckksplanner.CKKSParameterLiteralSpec `json:"parameters"`
 	}{
-		SchemaVersion:  ProviderCandidateRequestSchemaVersion,
+		SchemaVersion:  request.SchemaVersion,
 		ProviderKind:   request.ProviderKind,
 		ProviderID:     request.ProviderID,
 		SourceDigest:   sourceDigest,

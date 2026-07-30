@@ -97,15 +97,26 @@ type SynthesisPolicy struct {
 
 // CKKSParameterLiteralSpec is a JSON-safe direct CKKS parameter literal.
 type CKKSParameterLiteralSpec struct {
-	LogN            int   `json:"log_n"`
-	LogQ            []int `json:"log_q"`
-	LogP            []int `json:"log_p"`
-	LogDefaultScale int   `json:"log_default_scale"`
+	LogN            int      `json:"log_n"`
+	LogQ            []int    `json:"log_q,omitempty"`
+	LogP            []int    `json:"log_p,omitempty"`
+	Q               []uint64 `json:"q,omitempty"`
+	P               []uint64 `json:"p,omitempty"`
+	LogDefaultScale int      `json:"log_default_scale"`
 }
 
 // DeclaredLogQPBits returns the conservative sum used by the security envelope.
 func (spec CKKSParameterLiteralSpec) DeclaredLogQPBits() int {
 	return sumInts(spec.LogQ) + sumInts(spec.LogP)
+}
+
+// QPrimeCount returns the number of ciphertext-modulus primes represented by
+// either a concrete or logarithmic literal.
+func (spec CKKSParameterLiteralSpec) QPrimeCount() int {
+	if len(spec.Q) > 0 {
+		return len(spec.Q)
+	}
+	return len(spec.LogQ)
 }
 
 // SecurityAssessment records why a candidate was admitted.
@@ -116,6 +127,7 @@ type SecurityAssessment struct {
 	MaxAllowedLogQP int    `json:"max_allowed_log_qp"`
 	HeadroomBits    int    `json:"headroom_bits"`
 	AdmissionStatus string `json:"admission_status"`
+	Measurement     string `json:"measurement,omitempty"`
 
 	LogQ  int `json:"log_q,omitempty"`
 	LogP  int `json:"log_p,omitempty"`
@@ -366,6 +378,14 @@ func (candidate SynthesizedCandidate) Profile() (
 ) {
 	literal := ckks.ParametersLiteral{
 		LogN: candidate.Parameters.LogN,
+		Q: append(
+			[]uint64(nil),
+			candidate.Parameters.Q...,
+		),
+		P: append(
+			[]uint64(nil),
+			candidate.Parameters.P...,
+		),
 		LogQ: append(
 			[]int(nil),
 			candidate.Parameters.LogQ...,

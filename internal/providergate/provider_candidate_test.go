@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -67,6 +68,149 @@ func TestProviderKindsBindDeterministically(t *testing.T) {
 				t.Fatalf("validate bound candidate: %v", err)
 			}
 		})
+	}
+}
+
+func TestProviderSchemaV1JSONRemainsStable(t *testing.T) {
+	literal := ckksplanner.CKKSParameterLiteralSpec{
+		LogN:            13,
+		LogQ:            []int{45, 40, 40},
+		LogP:            []int{45},
+		LogDefaultScale: 40,
+	}
+	encoded, err := json.Marshal(literal)
+	if err != nil {
+		t.Fatalf("marshal v1 literal: %v", err)
+	}
+	const expected = `{"log_n":13,"log_q":[45,40,40],"log_p":[45],"log_default_scale":40}`
+	if string(encoded) != expected {
+		t.Fatalf("v1 literal JSON changed:\n got %s\nwant %s", encoded, expected)
+	}
+}
+
+func TestProviderSchemaV1CandidateIdentityRemainsStable(t *testing.T) {
+	request := ProviderCandidateRequest{
+		SchemaVersion: ProviderCandidateRequestSchemaVersion,
+		ProviderKind:  ProviderKindExternalAutotuner,
+		ProviderID:    "fixture-v1",
+		Path:          tuner.PathRescale,
+		Parameters: ckksplanner.CKKSParameterLiteralSpec{
+			LogN:            13,
+			LogQ:            []int{45, 40, 40},
+			LogP:            []int{45},
+			LogDefaultScale: 40,
+		},
+	}
+	id, err := providerCandidateID(
+		request,
+		"sha256:"+strings.Repeat("0", 64),
+		"sha256:"+strings.Repeat("1", 64),
+	)
+	if err != nil {
+		t.Fatalf("compute v1 candidate ID: %v", err)
+	}
+	const expected = "provider_external_autotuner_155aa5e67f76c967"
+	if id != expected {
+		t.Fatalf("v1 candidate identity changed: got %s want %s", id, expected)
+	}
+}
+
+func TestProviderSchemaV2BindsConcretePrimeOrder(t *testing.T) {
+	contract := validContractFixture()
+	request := concreteProviderRequestFixture()
+	source := ckksplanner.ArtifactBinding{
+		Path:   "candidate.json",
+		SHA256: digestBytes([]byte("concrete candidate")),
+	}
+	first, err := BindProviderCandidate(contract, request, source)
+	if err != nil {
+		t.Fatalf("bind concrete candidate: %v", err)
+	}
+	if first.Candidate.Security.LogQP != 242 ||
+		first.Candidate.Security.FinalAdmission !=
+			ckksplanner.SecurityAdmissionPass {
+		t.Fatalf("unexpected concrete security: %+v", first.Candidate.Security)
+	}
+	profile, err := first.Candidate.Profile()
+	if err != nil {
+		t.Fatalf("materialize concrete candidate: %v", err)
+	}
+	if !reflect.DeepEqual(profile.Literal.Q, request.Parameters.Q) ||
+		!reflect.DeepEqual(profile.Literal.P, request.Parameters.P) {
+		t.Fatalf("concrete modulus order changed: %+v", profile.Literal)
+	}
+
+	reordered := request
+	reordered.Parameters.Q = append(
+		[]uint64(nil),
+		request.Parameters.Q...,
+	)
+	reordered.Parameters.Q[1], reordered.Parameters.Q[2] =
+		reordered.Parameters.Q[2], reordered.Parameters.Q[1]
+	second, err := BindProviderCandidate(contract, reordered, source)
+	if err != nil {
+		t.Fatalf("bind reordered concrete candidate: %v", err)
+	}
+	if first.Candidate.ID == second.Candidate.ID {
+		t.Fatal("concrete Q order did not change candidate identity")
+	}
+}
+
+func TestProviderSchemasRejectMixedModulusRepresentations(t *testing.T) {
+	contract := validContractFixture()
+	source := ckksplanner.ArtifactBinding{
+		Path:   "candidate.json",
+		SHA256: digestBytes([]byte("candidate")),
+	}
+	v1 := ProviderCandidateRequest{
+		SchemaVersion: ProviderCandidateRequestSchemaVersion,
+		ProviderKind:  ProviderKindManual,
+		ProviderID:    "mixed-v1",
+		Path:          contract.Deployment.AllowedPaths[0],
+		Parameters: ckksplanner.CKKSParameterLiteralSpec{
+			LogN:            14,
+			LogQ:            []int{60, 40, 40, 40},
+			LogP:            []int{61},
+			Q:               []uint64{1152921504606748673},
+			P:               []uint64{2305843009211662337},
+			LogDefaultScale: 40,
+		},
+	}
+	if _, err := BindProviderCandidate(
+		contract,
+		v1,
+		source,
+	); err == nil || !strings.Contains(err.Error(), "v1") {
+		t.Fatalf("expected v1 concrete-modulus rejection, got %v", err)
+	}
+
+	v2 := concreteProviderRequestFixture()
+	v2.Parameters.LogQ = []int{60, 20, 20, 20}
+	v2.Parameters.LogP = []int{61}
+	if _, err := BindProviderCandidate(
+		contract,
+		v2,
+		source,
+	); err == nil || !strings.Contains(err.Error(), "v2") {
+		t.Fatalf("expected v2 logarithmic-modulus rejection, got %v", err)
+	}
+}
+
+func TestProviderSchemaV2RejectsInvalidConcretePrime(t *testing.T) {
+	contract := validContractFixture()
+	request := concreteProviderRequestFixture()
+	request.Parameters.Q[1] = 3
+	_, err := BindProviderCandidate(
+		contract,
+		request,
+		ckksplanner.ArtifactBinding{
+			Path:   "candidate.json",
+			SHA256: digestBytes([]byte("candidate")),
+		},
+	)
+	if err == nil ||
+		!strings.Contains(err.Error(), "Lattigo literal validation") {
+		t.Fatalf("expected invalid Lattigo modulus rejection, got %v", err)
 	}
 }
 
@@ -366,6 +510,29 @@ func writeProviderRequest(
 		t.Fatalf("write provider request: %v", err)
 	}
 	return path
+}
+
+func concreteProviderRequestFixture() ProviderCandidateRequest {
+	return ProviderCandidateRequest{
+		SchemaVersion: ProviderCandidateConcreteRequestSchemaVersion,
+		ProviderKind:  ProviderKindExternalAutotuner,
+		ProviderID:    "aws-hit-source-replay-v1",
+		Path:          tuner.PathRescale,
+		Parameters: ckksplanner.CKKSParameterLiteralSpec{
+			LogN: 14,
+			Q: []uint64{
+				1152921504606748673,
+				1146881,
+				1179649,
+				786433,
+				1376257,
+				557057,
+				1769473,
+			},
+			P:               []uint64{2305843009211662337},
+			LogDefaultScale: 20,
+		},
+	}
 }
 
 func validContractFixture() ckksplanner.WorkloadContract {

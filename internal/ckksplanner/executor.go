@@ -533,7 +533,7 @@ func candidateDescriptor(
 
 		LogN:        candidate.Parameters.LogN,
 		Slots:       1 << (candidate.Parameters.LogN - 1),
-		ChainLength: len(candidate.Parameters.LogQ),
+		ChainLength: candidate.Parameters.QPrimeCount(),
 		ScaleBits:   candidate.Parameters.LogDefaultScale,
 
 		Family:      candidate.GenerationKind,

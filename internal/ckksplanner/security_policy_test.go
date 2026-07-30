@@ -49,6 +49,57 @@ func TestAssessSecuritySeparatesCiphertextAndEvaluationKeyObjects(t *testing.T) 
 	}
 }
 
+func TestAssessSecurityUsesConcreteModulusProductBits(t *testing.T) {
+	spec := CKKSParameterLiteralSpec{
+		LogN: 14,
+		Q: []uint64{
+			1152921504606748673,
+			1146881,
+			1179649,
+			786433,
+			1376257,
+			557057,
+			1769473,
+		},
+		P:               []uint64{2305843009211662337},
+		LogDefaultScale: 20,
+	}
+	assessment, err := AssessConcreteSecurity(
+		spec,
+		128,
+		DefaultSecurityEnvelope(),
+	)
+	if err != nil {
+		t.Fatalf("assess concrete security: %v", err)
+	}
+	if assessment.LogQ != 181 ||
+		assessment.LogP != 61 ||
+		assessment.LogQP != 242 ||
+		assessment.EvaluationKeyHeadroomBits != 188 ||
+		assessment.Measurement !=
+			"ceil_log2_concrete_modulus_product" ||
+		assessment.FinalAdmission != SecurityAdmissionPass {
+		t.Fatalf("unexpected concrete assessment: %+v", assessment)
+	}
+}
+
+func TestAssessSecurityRejectsMixedModulusRepresentations(t *testing.T) {
+	_, err := AssessConcreteSecurity(
+		CKKSParameterLiteralSpec{
+			LogN: 14,
+			LogQ: []int{60},
+			LogP: []int{61},
+			Q:    []uint64{1152921504606748673},
+			P:    []uint64{2305843009211662337},
+		},
+		128,
+		DefaultSecurityEnvelope(),
+	)
+	if err == nil {
+		t.Fatal("expected mixed modulus representation rejection")
+	}
+}
+
 func TestDirectSynthesisPolicyV2DigestIsStable(t *testing.T) {
 	policy := DefaultDirectSynthesisPolicyContract()
 	if policy.MaxEncryptedTrials != 4 ||
