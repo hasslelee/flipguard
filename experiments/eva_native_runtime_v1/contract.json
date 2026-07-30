@@ -45,10 +45,12 @@
     "split_id": "split_seed_0",
     "model_path": "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
     "model_sha256": "sha256:9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1",
-    "validation_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/configuration_validation.csv",
+    "validation_path": "experiments/eva_native_runtime_v1/inputs/configuration_validation.csv",
+    "historical_validation_source_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/configuration_validation.csv",
     "validation_sha256": "sha256:29cf99a47cd25520a15aa36d8e7fdf58328fc3a91ad54067266d443b4c04e5ea",
     "validation_rows": 14,
-    "locked_audit_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/locked_audit_test.csv",
+    "locked_audit_path": "experiments/eva_native_runtime_v1/inputs/locked_audit_test.csv",
+    "historical_locked_audit_source_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/locked_audit_test.csv",
     "locked_audit_sha256": "sha256:72a182968acd60e8c0bd5acc830627d698a9f1d2e1760dd492dbb07129a26327",
     "locked_audit_rows": 16
   },
@@ -101,6 +103,16 @@
     "validation_rejected_or_failed": "preserve result and do not run locked audit",
     "locked_audit_negative": "preserve result and do not retune",
     "policy_or_candidate_change": "INTEGRITY_BLOCK"
+  },
+  "pre_execution_recovery": {
+    "github_actions_run_id": "30561535356",
+    "source_commit": "ed133f159824cc4a3d5bf12692caec3c41f5d2c3",
+    "failure_class": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+    "reason_code": "IGNORED_SPLIT_ARTIFACT_NOT_PACKAGED_FOR_CLEAN_RUNNER",
+    "failed_stage": "STATIC_CONTRACT_PREFLIGHT",
+    "encrypted_executions": 0,
+    "candidate_trials": 0,
+    "resolution": "bind byte-identical SHA-256-preserving validation and locked-audit snapshots under the versioned experiment directory"
   },
   "claim_boundary": {
     "native_eva_seal_execution": "eligible after verified encrypted execution",

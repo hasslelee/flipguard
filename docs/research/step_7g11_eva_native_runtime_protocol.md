@@ -23,6 +23,9 @@ audit?
 
 The compiler configuration, model, formula, input scale, concrete prime
 literal, and row assignments are unchanged from the frozen compiler replay.
+The two ignored historical `results/` files are copied byte-for-byte into the
+versioned experiment directory for clean-runner replay; both SHA-256 digests
+remain unchanged.
 
 ## Decision Protocol
 
@@ -62,3 +65,11 @@ support cross-runtime numerical equivalence, broad compiler generalization,
 external search-autotuner integration, or a paper claim.
 
 `paper_claim_allowed=false`.
+
+## Pre-Execution Recovery
+
+GitHub Actions run `30561535356` stopped at static preflight because the
+contract initially referenced ignored local `results/` paths. It performed
+zero encrypted executions and zero candidate trials. The recovery packages
+byte-identical input snapshots and changes no row, split, candidate, policy,
+or execution semantics.
