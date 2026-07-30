@@ -1,0 +1,82 @@
+name: Independent Artifact Replay
+
+on:
+  push:
+    branches:
+      - feature/flipguard-auto-tuner
+    paths:
+      - .github/workflows/independent-artifact-replay.yml
+      - scripts/run_independent_machine_replay.py
+      - scripts/verify_independent_machine_replay.py
+      - scripts/tests/test_verify_independent_machine_replay.py
+  workflow_dispatch:
+    inputs:
+      source_commit:
+        description: Exact FlipGuard source commit to replay
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    name: clean-runner-replay
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Check out exact source commit
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          ref: ${{ inputs.source_commit || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Go from go.mod
+        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.12"
+
+      - name: Run independent replay
+        id: replay
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/run_independent_machine_replay.py \
+            --source-commit "${{ inputs.source_commit || github.sha }}" \
+            --output /tmp/flipguard-independent-machine-replay
+
+      - name: Verify replay artifact
+        id: verify
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/verify_independent_machine_replay.py \
+            --source-commit "${{ inputs.source_commit || github.sha }}" \
+            --result-dir /tmp/flipguard-independent-machine-replay
+
+      - name: Upload replay artifact
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: flipguard-independent-machine-replay
+          path: /tmp/flipguard-independent-machine-replay
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Enforce replay result
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${{ steps.replay.outcome }}" = "success"
+          test "${{ steps.verify.outcome }}" = "success"
