@@ -107,17 +107,21 @@ system-interoperability results, not additional novelty precedents.
   Security V2. It is nevertheless decision-REJECTED on the declared
   development workload because 6/42 sample-key observations exceed the
   predeclared numerical budget.
-- One pinned EVA v1.0.1 compiler output executes all 42 development
+- One pinned EVA v1.0.1 scale-20 compiler output executes all 42 development
   observations on its native SEAL v3.6.4 backend, but it is
   decision-REJECTED with 11 flips and 36 numerical-budget violations.
+- A later predeclared seed-0 sensitivity evaluates fixed EVA scale-20/30/40
+  arms. The scale-30 first-SAFE literal passes 42 validation and 48 untouched
+  locked-audit observations with zero flips, violations, or retuning.
 
 The HIT result is evidence that a candidate can be cryptographically admitted
 and executable while still failing the downstream decision contract. HIT is a
 formula-based automatic parameter selector, not a search autotuner. The EVA
-result supports native execution of one bound compiler output, not decision
-certification, cross-runtime equivalence, or broad compiler quality. The
-Orion, HIT, and EVA evidence does not support a broad third-party-autotuner
-integration or quality claim.
+results support scoped native certification and locked replay of one bound
+external-compiler candidate. They do not establish EVA autotuning quality,
+cross-runtime equivalence, runtime-specific security, or broad compiler
+quality. The Orion, HIT, and EVA evidence does not support a broad
+third-party-autotuner integration or quality claim.
 
 ## Application-Aware Approximate FHE
 
@@ -194,10 +198,12 @@ Forbidden:
   abstention, literal replay, and no-retuning audit. Non-tabular adapters add
   scope evidence but do not establish universal graph support.
 - Actual-provider evidence currently consists of a fail-closed Orion import,
-  a lossless but decision-REJECTED HIT literal, and a native-executed but
-  decision-REJECTED EVA compiler literal. Provider-neutral plumbing is
-  partially supported; successful encrypted third-party certification plus
-  locked audit remains open.
+  a lossless but decision-REJECTED HIT literal, rejected native EVA scale-20
+  literals, and one post-rejection development study in which a fixed
+  scale-30 EVA compiler literal passes validation and untouched locked audit.
+  Provider-neutral certification is partially supported; general autotuner
+  integration, cross-runtime equivalence, and native-runtime security remain
+  unevaluated.
 - The predeclared natural-data ablation found identical initial and selected
   path-plus-parameter literals for graph-only and decision-contract synthesis
   in 10/10 development workloads. The decision contract remains active as an

@@ -24,7 +24,7 @@ application-aware approximate HE, and the project's own negative ablations?
 | Empirical error is not an analytical bound | Application-aware AHE and CKKS analyses require explicit primitive assumptions and domain bounds | Maintain a typed error-envelope propagator that accepts separately justified primitive residual bounds | Do not infer a sound residual bound from observed maximum error, fresh-key variance, or quantiles |
 | Security and numerical correctness are separate | HE parameter standards bound cryptographic security; decision correctness depends on computation error and margin | Apply Security Policy V2 independently to Q and QP objects, then apply the decision certificate | Do not use decision preservation as evidence of cryptographic security |
 | A bounded catalog is not a global oracle | Compiler/search literature spans much larger program and parameter spaces | Use only “security-compliant bounded catalog oracle” for the fixed 700-candidate formal domain | Do not write global oracle, global optimum, or universal optimum |
-| A provider-neutral API is not itself third-party evidence | Synthetic provider-format fixtures can exercise an interface without establishing compatibility with a public system | Preserve the synthetic gate test, fail-closed Orion audit, source-replayed HIT rejection, and source-compiled EVA native rejection as distinct evidence classes | Do not call a synthetic fixture a third-party output or turn a rejected HIT/EVA literal into successful certification |
+| A provider-neutral API is not itself third-party evidence | Synthetic provider-format fixtures can exercise an interface without establishing compatibility with a public system | Preserve the synthetic gate test, fail-closed Orion audit, source-replayed HIT rejection, EVA scale-20 rejections, and the separate predeclared EVA scale-30 native locked-audit success as distinct evidence classes | Do not call a synthetic fixture a third-party output, erase rejected literals, infer EVA autotuning quality, or claim cross-runtime equivalence |
 
 ## Adopted Research Boundary
 
@@ -54,17 +54,22 @@ The post-confirmatory adapter work narrows the interoperability claim:
 - one public AWS HIT formula-derived literal is imported losslessly and passes
   Security V2, but is decision-REJECTED after six budget violations in 42
   sample-key observations;
-- one pinned EVA compiler literal executes all 42 validation observations on
-  native SEAL but is decision-REJECTED with 11 flips and 36 violations; no
-  locked audit is run;
-- no native external autotuner candidate has yet achieved SAFE validation and
-  no-retuning locked audit.
+- one pinned EVA scale-20 compiler literal executes all 42 validation
+  observations on native SEAL but is decision-REJECTED with 11 flips and 36
+  violations; no locked audit is run;
+- a separately predeclared post-rejection seed-0 sensitivity evaluates fixed
+  EVA scale-20/30/40 arms; scale 30 is the first SAFE arm and passes 48/48
+  untouched native locked-audit observations with zero retuning;
+- no public search-autotuner candidate, matched cross-runtime numerical study,
+  or native-runtime security analysis has been evaluated.
 
-This is useful negative evidence for the gate, not a successful external
-autotuner evaluation. AWS HIT is a formula-based automatic parameter
-selector, while EVA is a compiler; neither is described as a search
-autotuner. The detailed boundary is in
-`docs/research/step_7g5_external_provider_evidence_boundary.md`.
+The EVA scale-30 result is scoped successful external-compiler candidate
+certification, while the preserved HIT and EVA scale-20 outcomes remain useful
+negative evidence for the gate. AWS HIT is a formula-based automatic
+parameter selector, while EVA is a compiler; neither is described as a search
+autotuner. The detailed provider and cross-runtime boundaries are in
+`docs/research/step_7g5_external_provider_evidence_boundary.md` and
+`docs/research/step_7g13_cross_runtime_evidence_boundary.md`.
 
 ## Sources Checked
 

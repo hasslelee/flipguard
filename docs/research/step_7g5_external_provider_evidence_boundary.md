@@ -98,8 +98,8 @@ Evidence:
 - `docs/evidence/eva_external_adapter_replay_v1`;
 - `docs/evidence/eva_schedule_bound_adapter_replay_v1`.
 
-The same exact compiler output was then executed on pinned EVA's native SEAL
-v3.6.4 backend over the 14-row development validation artifact and three
+The same scale-20 compiler output was then executed on pinned EVA's native
+SEAL v3.6.4 backend over the 14-row development validation artifact and three
 fresh key contexts. All 42 encrypted observations executed, but the candidate
 was decision-REJECTED:
 
@@ -120,6 +120,42 @@ Xs/Xe, and the experiment is not a paired cross-runtime equivalence test.
 
 Evidence: `docs/evidence/eva_native_runtime_replay_v1`.
 
+After preserving that rejection, a separate predeclared seed-0 development
+sensitivity compiled and executed three fixed EVA input-scale arms in the
+order 20, 30, and 40. The output range, graph, model, validation rows, audit
+rows, compiler flags, threshold, alpha, and margin floor remained fixed.
+Every arm ran three fresh-key validation contexts:
+
+- scale 20: `REJECTED`, with 21 flips and 42 violations in 42 observations;
+- scale 30: `SAFE`, with zero flips and violations in 42 observations;
+- scale 40: `SAFE`, with zero flips and violations in 42 observations.
+
+The predeclared first-SAFE rule selected scale 30. Its byte-identical compiled
+literal then passed 48/48 untouched locked-audit observations across three new
+key contexts with zero flips, zero violations, and zero retuning. The study
+used three candidate trials, nine validation key runs, and three audit key
+runs; it invoked neither FlipGuard synthesis nor repair.
+
+This is a successful, scoped native external-compiler candidate
+certification. It is post-rejection development evidence on one model and one
+runtime, not an EVA autotuner evaluation or a confirmatory generalization
+study. Because EVA can change both the schedule and modulus chain in response
+to input scale, the arm comparison is an association between the declared
+compiler input and the observed decision outcome, not an isolated causal
+effect of scale. Native SEAL used `sec_level_type::none`, and its secret/error
+distribution differs from frozen Lattigo Security V2; runtime-specific
+security remains not evaluated.
+
+Evidence: `docs/evidence/eva_native_scale_sensitivity_v1`.
+
+The Lattigo schedule-bound replay and the native SEAL studies are not a
+matched cross-runtime experiment. The Lattigo replay covers one smoke row,
+whereas native validation covers 14 rows and three fresh keys. The shared
+scale-20 rejection direction is therefore not numerical-equivalence evidence,
+and no scale-30 Lattigo replay exists. The exact boundary and a future paired
+test contract are recorded in
+`docs/research/step_7g13_cross_runtime_evidence_boundary.md`.
+
 ## Novelty Consequence
 
 Automatic program lowering, scale management, error-latency optimization,
@@ -135,19 +171,23 @@ provider-neutral finite decision gate:
    retuning.
 
 Actual public-provider evidence currently spans Orion fail-closed imports,
-one lossless but decision-REJECTED HIT literal, and one source-compiled EVA
-literal that is decision-REJECTED under both the scoped Lattigo smoke and
-native SEAL validation. Therefore:
+one lossless but decision-REJECTED HIT literal, a scale-20 source-compiled EVA
+literal rejected in both scoped native studies, and a scale-30 EVA literal
+that passed native validation and untouched locked audit in one post-rejection
+development sensitivity. Therefore:
 
 - `provider_class_interoperability=PARTIALLY_SUPPORTED`;
 - `lossless_external_literal_import=SUPPORTED`;
 - `actual_eva_compiler_parameter_output=SUPPORTED`;
 - `schedule_bound_external_candidate_import=SUPPORTED`;
 - `general_external_compiler_interoperability=PARTIALLY_SUPPORTED`;
-- `encrypted_external_candidate_certification=BLOCKED`;
-- `locked_audit_external_schedule_replay=NOT_EVALUATED`;
+- `encrypted_external_candidate_certification=PARTIALLY_SUPPORTED`;
+- `locked_audit_external_schedule_replay=PARTIALLY_SUPPORTED`;
 - `native_eva_seal_runtime_execution=SUPPORTED`;
-- `native_eva_seal_decision_certification=BLOCKED`;
+- `native_eva_seal_decision_certification=PARTIALLY_SUPPORTED`;
+- `native_eva_seal_locked_audit=PARTIALLY_SUPPORTED`;
+- `external_precision_sensitivity=PARTIALLY_SUPPORTED`;
+- `cross_runtime_numerical_equivalence=NOT_EVALUATED`;
 - `general_external_autotuner_integration=NOT_EVALUATED`;
 - `external_autotuner_quality=NOT_EVALUATED`;
 - `paper_claim_allowed=false`.
