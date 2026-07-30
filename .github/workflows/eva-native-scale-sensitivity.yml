@@ -1,0 +1,114 @@
+name: EVA Native Scale Sensitivity
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_commit:
+        description: Exact FlipGuard source commit to evaluate
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  sensitivity:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 240
+    steps:
+      - name: Check out exact FlipGuard source
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          ref: ${{ inputs.source_commit }}
+          persist-credentials: false
+
+      - name: Verify source identity and sensitivity contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ inputs.source_commit }}"
+          python3 scripts/verify_eva_native_scale_sensitivity.py
+
+      - name: Install build dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            cmake \
+            ninja-build \
+            libboost-all-dev \
+            libprotobuf-dev \
+            protobuf-compiler \
+            python3-dev
+
+      - name: Build pinned Microsoft SEAL
+        shell: bash
+        run: |
+          set -euo pipefail
+          export CXXFLAGS="-include mutex"
+          git clone --filter=blob:none \
+            https://github.com/microsoft/SEAL.git /tmp/SEAL
+          git -C /tmp/SEAL checkout \
+            0b058d99b7f18a00e5ebb2b80caee593804b0500
+          test "$(git -C /tmp/SEAL rev-parse HEAD)" = \
+            0b058d99b7f18a00e5ebb2b80caee593804b0500
+          cmake -S /tmp/SEAL -B /tmp/SEAL/build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=/tmp/seal-install \
+            -DSEAL_THROW_ON_TRANSPARENT_CIPHERTEXT=OFF \
+            -DSEAL_USE_GAUSSIAN_NOISE=OFF \
+            -DSEAL_USE_MSGSL=OFF \
+            -DSEAL_USE_ZLIB=OFF \
+            -DSEAL_USE_ZSTD=OFF \
+            -DSEAL_BUILD_TESTS=OFF \
+            -DSEAL_BUILD_EXAMPLES=OFF
+          cmake --build /tmp/SEAL/build --parallel 2
+          cmake --install /tmp/SEAL/build
+
+      - name: Build pinned Microsoft EVA
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/microsoft/EVA.git /tmp/EVA
+          git -C /tmp/EVA checkout \
+            4cd3254c9c51340ae30c451495ce5378135758c0
+          test "$(git -C /tmp/EVA rev-parse HEAD)" = \
+            4cd3254c9c51340ae30c451495ce5378135758c0
+          git -C /tmp/EVA submodule update --init third_party/pybind11
+          cmake -S /tmp/EVA -B /tmp/EVA/build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_PREFIX_PATH=/tmp/seal-install \
+            -DUSE_GALOIS=OFF
+          cmake --build /tmp/EVA/build --parallel 2
+
+      - name: Execute all validation arms and conditional locked audit
+        shell: bash
+        env:
+          PYTHONPATH: /tmp/EVA/build/python
+        run: |
+          set -euo pipefail
+          python3 scripts/run_eva_native_scale_sensitivity.py \
+            --eva-root /tmp/EVA \
+            --seal-root /tmp/SEAL \
+            --output-root eva-native-scale-sensitivity \
+            --source-commit "${{ inputs.source_commit }}" \
+            --action-run-id "${{ github.run_id }}"
+
+      - name: Verify sensitivity result
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/verify_eva_native_scale_sensitivity.py \
+            --result-root eva-native-scale-sensitivity
+
+      - name: Upload sensitivity artifact
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: eva-native-scale-sensitivity
+          path: eva-native-scale-sensitivity
+          if-no-files-found: error
+          retention-days: 30
