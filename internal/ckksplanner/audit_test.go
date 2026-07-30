@@ -74,6 +74,63 @@ func TestRunLockedTabularAuditPassesWithoutRetuning(
 	}
 }
 
+func TestRunLockedTabularCandidateAuditPassesWithoutSynthesis(
+	t *testing.T,
+) {
+	modelPath, validationPath := writeLinearFixture(t, false)
+	selectionPath, selection := writeSelectionFixture(
+		t,
+		modelPath,
+		validationPath,
+	)
+	selectionBytes, err := os.ReadFile(selectionPath)
+	if err != nil {
+		t.Fatalf("read selection fixture: %v", err)
+	}
+	auditPath := writeAuditCSVFixture(
+		t,
+		filepath.Dir(modelPath),
+		[]int{3, 4, 5},
+	)
+	manifestPath := writeSplitManifestFixture(
+		t,
+		modelPath,
+		validationPath,
+		auditPath,
+		[]string{"0", "1", "2"},
+		[]string{"3", "4", "5"},
+	)
+
+	result, err := RunLockedTabularCandidateAudit(
+		LockedCandidateSelection{
+			SelectionResult: ArtifactBinding{
+				Path:   selectionPath,
+				SHA256: digestBytes(selectionBytes),
+			},
+			Contract:       selection.Plan.Contract,
+			ContractDigest: selection.Plan.ContractDigest,
+			Candidate:      *selection.Selected,
+		},
+		LockedAuditOptions{
+			SelectionResultPath: selectionPath,
+			AuditPath:           auditPath,
+			SplitManifestPath:   manifestPath,
+			KeyRepeats:          2,
+		},
+	)
+	if err != nil {
+		t.Fatalf("run provider-neutral locked audit: %v", err)
+	}
+	if result.Outcome != LockedAuditOutcomePass ||
+		result.RetuningPerformed ||
+		!reflect.DeepEqual(
+			result.SelectedCandidate,
+			*selection.Selected,
+		) {
+		t.Fatalf("unexpected provider-neutral audit result: %+v", result)
+	}
+}
+
 func TestRunLockedTabularAuditAcceptsReplayVerifiedMaterialization(
 	t *testing.T,
 ) {

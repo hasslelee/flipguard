@@ -32,6 +32,15 @@ type LockedAuditOptions struct {
 	KeyRepeats          int
 }
 
+// LockedCandidateSelection is a provider-neutral, already-validated selection
+// that can be replayed on a locked audit partition without synthesis.
+type LockedCandidateSelection struct {
+	SelectionResult ArtifactBinding
+	Contract        WorkloadContract
+	ContractDigest  string
+	Candidate       SynthesizedCandidate
+}
+
 // LockedAuditResult records a no-retuning evaluation on a disjoint audit set.
 type LockedAuditResult struct {
 	SchemaVersion int `json:"schema_version"`
@@ -120,6 +129,139 @@ func RunLockedTabularAudit(
 		)
 	}
 
+	return runLockedTabularCandidateAudit(
+		LockedCandidateSelection{
+			SelectionResult: ArtifactBinding{
+				Path:   options.SelectionResultPath,
+				SHA256: digestBytes(selectionBytes),
+			},
+			Contract:       selection.Plan.Contract,
+			ContractDigest: selection.Plan.ContractDigest,
+			Candidate:      selected,
+		},
+		options,
+		selectionBytes,
+	)
+}
+
+// RunLockedTabularCandidateAudit replays one provider-neutral candidate on a
+// declared disjoint audit split. Callers must validate how the candidate was
+// selected before constructing LockedCandidateSelection.
+func RunLockedTabularCandidateAudit(
+	selection LockedCandidateSelection,
+	options LockedAuditOptions,
+) (LockedAuditResult, error) {
+	if strings.TrimSpace(selection.SelectionResult.Path) == "" {
+		return LockedAuditResult{}, fmt.Errorf(
+			"locked candidate selection result path is empty",
+		)
+	}
+	if options.SelectionResultPath !=
+		selection.SelectionResult.Path {
+		return LockedAuditResult{}, fmt.Errorf(
+			"locked candidate selection result path mismatch",
+		)
+	}
+	selectionBytes, err := os.ReadFile(
+		selection.SelectionResult.Path,
+	)
+	if err != nil {
+		return LockedAuditResult{}, fmt.Errorf(
+			"read locked candidate selection result: %w",
+			err,
+		)
+	}
+	if digestBytes(selectionBytes) !=
+		selection.SelectionResult.SHA256 {
+		return LockedAuditResult{}, fmt.Errorf(
+			"locked candidate selection result digest mismatch",
+		)
+	}
+	if err := selection.Contract.Validate(); err != nil {
+		return LockedAuditResult{}, fmt.Errorf(
+			"validate locked candidate selection contract: %w",
+			err,
+		)
+	}
+	contractDigest, err := digestContract(selection.Contract)
+	if err != nil {
+		return LockedAuditResult{}, err
+	}
+	if contractDigest != selection.ContractDigest {
+		return LockedAuditResult{}, fmt.Errorf(
+			"locked candidate selection contract digest mismatch",
+		)
+	}
+	if err := verifyContractArtifacts(selection.Contract); err != nil {
+		return LockedAuditResult{}, fmt.Errorf(
+			"verify locked candidate selection artifacts: %w",
+			err,
+		)
+	}
+	if _, err := selection.Candidate.Profile(); err != nil {
+		return LockedAuditResult{}, fmt.Errorf(
+			"validate locked candidate literal: %w",
+			err,
+		)
+	}
+	securityPolicy := DefaultSecurityEnvelope()
+	security, err := AssessSecurity(
+		selection.Candidate.Parameters,
+		selection.Contract.Deployment.SecurityBits,
+		securityPolicy,
+	)
+	if err != nil {
+		return LockedAuditResult{}, fmt.Errorf(
+			"assess locked candidate security: %w",
+			err,
+		)
+	}
+	if security.FinalAdmission != SecurityAdmissionPass ||
+		!reflect.DeepEqual(security, selection.Candidate.Security) {
+		return LockedAuditResult{}, fmt.Errorf(
+			"locked candidate Security V2 metadata mismatch",
+		)
+	}
+	pathAllowed := false
+	for _, allowed := range selection.Contract.Deployment.AllowedPaths {
+		if allowed == selection.Candidate.Path {
+			pathAllowed = true
+			break
+		}
+	}
+	if !pathAllowed {
+		return LockedAuditResult{}, fmt.Errorf(
+			"locked candidate path %q is outside selection contract",
+			selection.Candidate.Path,
+		)
+	}
+
+	return runLockedTabularCandidateAudit(
+		selection,
+		options,
+		selectionBytes,
+	)
+}
+
+func runLockedTabularCandidateAudit(
+	selection LockedCandidateSelection,
+	options LockedAuditOptions,
+	selectionBytes []byte,
+) (LockedAuditResult, error) {
+	if strings.TrimSpace(options.AuditPath) == "" {
+		return LockedAuditResult{}, fmt.Errorf("audit path is empty")
+	}
+	if strings.TrimSpace(options.SplitManifestPath) == "" {
+		return LockedAuditResult{}, fmt.Errorf(
+			"split manifest path is empty",
+		)
+	}
+	if options.KeyRepeats <= 0 {
+		return LockedAuditResult{}, fmt.Errorf(
+			"audit key repeats must be positive",
+		)
+	}
+
 	manifestBytes, err := os.ReadFile(options.SplitManifestPath)
 	if err != nil {
 		return LockedAuditResult{}, fmt.Errorf(
@@ -143,7 +285,7 @@ func RunLockedTabularAudit(
 			dataSpace = TabularDataSpaceAuto
 		}
 		if _, err := MaterializeTabularValidationWithOptions(
-			selection.Plan.Contract.ModelArtifact.Path,
+			selection.Contract.ModelArtifact.Path,
 			auditSourcePath,
 			options.PreparedAuditPath,
 			TabularMaterializationOptions{
@@ -171,7 +313,7 @@ func RunLockedTabularAudit(
 		)
 	}
 	if err := validateLockedSplit(
-		selection.Plan.Contract,
+		selection.Contract,
 		manifest,
 		auditSourcePath,
 		auditSourceBytes,
@@ -180,7 +322,7 @@ func RunLockedTabularAudit(
 	}
 
 	validationRowIDs, err := readCSVRowIDs(
-		selection.Plan.Contract.ValidationData.Path,
+		selection.Contract.ValidationData.Path,
 	)
 	if err != nil {
 		return LockedAuditResult{}, fmt.Errorf(
@@ -230,7 +372,7 @@ func RunLockedTabularAudit(
 		)
 	}
 
-	selectionContract := selection.Plan.Contract
+	selectionContract := selection.Contract
 	contractOptions := DefaultTabularContractOptions()
 	contractOptions.ModelPath =
 		selectionContract.ModelArtifact.Path
@@ -249,7 +391,7 @@ func RunLockedTabularAudit(
 	contractOptions.MaxEncryptedTrials = 1
 	contractOptions.ValidationKeyRepeats = options.KeyRepeats
 	contractOptions.AllowedPaths =
-		[]tuner.ExecutionPath{selected.Path}
+		[]tuner.ExecutionPath{selection.Candidate.Path}
 
 	auditContract, err :=
 		BuildTabularWorkloadContract(contractOptions)
@@ -268,7 +410,7 @@ func RunLockedTabularAudit(
 
 	trial, err := ExecuteTabularCandidate(
 		auditContract,
-		selected,
+		selection.Candidate,
 		1,
 	)
 	if err != nil {
@@ -281,14 +423,14 @@ func RunLockedTabularAudit(
 	outcome := LockedAuditOutcomeFail
 	reason := fmt.Sprintf(
 		"locked candidate %s returned status %s on disjoint audit",
-		selected.ID,
+		selection.Candidate.ID,
 		trial.Status,
 	)
 	if trial.Status == certify.StatusSafe {
 		outcome = LockedAuditOutcomePass
 		reason = fmt.Sprintf(
 			"locked candidate %s remained SAFE on disjoint audit with %d fresh key run(s)",
-			selected.ID,
+			selection.Candidate.ID,
 			trial.KeyRepeatsCompleted,
 		)
 	}
@@ -301,21 +443,18 @@ func RunLockedTabularAudit(
 
 		RetuningPerformed: false,
 
-		SelectionResult: ArtifactBinding{
-			Path:   options.SelectionResultPath,
-			SHA256: digestBytes(selectionBytes),
-		},
+		SelectionResult: selection.SelectionResult,
 		SplitManifest: ArtifactBinding{
 			Path:   options.SplitManifestPath,
 			SHA256: digestBytes(manifestBytes),
 		},
 
-		SelectionContractDigest: selection.Plan.ContractDigest,
-		SelectionWorkloadID:     selection.Plan.Contract.WorkloadID,
+		SelectionContractDigest: selection.ContractDigest,
+		SelectionWorkloadID:     selection.Contract.WorkloadID,
 
 		AuditContract: auditContract,
 
-		SelectedCandidate: selected,
+		SelectedCandidate: selection.Candidate,
 		AuditTrial:        trial,
 	}, nil
 }

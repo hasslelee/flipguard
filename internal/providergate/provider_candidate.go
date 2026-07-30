@@ -65,9 +65,10 @@ type BoundProviderCandidate struct {
 type ProviderCandidateGateResult struct {
 	SchemaVersion int `json:"schema_version"`
 
-	BoundCandidate BoundProviderCandidate `json:"bound_candidate"`
-	Outcome        string                 `json:"outcome"`
-	Reason         string                 `json:"reason"`
+	ValidationContract ckksplanner.WorkloadContract `json:"validation_contract"`
+	BoundCandidate     BoundProviderCandidate       `json:"bound_candidate"`
+	Outcome            string                       `json:"outcome"`
+	Reason             string                       `json:"reason"`
 
 	TrialsUsed       int                            `json:"trials_used"`
 	EncryptedKeyRuns int                            `json:"encrypted_key_runs"`
@@ -330,13 +331,14 @@ func RunProviderCandidateGate(
 		return ProviderCandidateGateResult{}, err
 	}
 	result := ProviderCandidateGateResult{
-		SchemaVersion:    ProviderCandidateGateSchemaVersion,
-		BoundCandidate:   bound,
-		Outcome:          ProviderGateOutcomeNoSafe,
-		Reason:           "bound provider candidate was not certified SAFE",
-		TrialsUsed:       1,
-		EncryptedKeyRuns: trial.KeyRepeatsCompleted,
-		Trial:            trial,
+		SchemaVersion:      ProviderCandidateGateSchemaVersion,
+		ValidationContract: contract,
+		BoundCandidate:     bound,
+		Outcome:            ProviderGateOutcomeNoSafe,
+		Reason:             "bound provider candidate was not certified SAFE",
+		TrialsUsed:         1,
+		EncryptedKeyRuns:   trial.KeyRepeatsCompleted,
+		Trial:              trial,
 	}
 	if trial.Status == certify.StatusSafe {
 		selected := bound.Candidate
@@ -345,6 +347,156 @@ func RunProviderCandidateGate(
 		result.Selected = &selected
 	}
 	return result, nil
+}
+
+// LoadProviderCandidateGateResult parses a completed one-literal selection
+// strictly and binds its exact source bytes for locked-audit replay.
+func LoadProviderCandidateGateResult(
+	path string,
+) (
+	ProviderCandidateGateResult,
+	ckksplanner.ArtifactBinding,
+	error,
+) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return ProviderCandidateGateResult{},
+			ckksplanner.ArtifactBinding{},
+			fmt.Errorf(
+				"read provider candidate gate result %s: %w",
+				path,
+				err,
+			)
+	}
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	var result ProviderCandidateGateResult
+	if err := decoder.Decode(&result); err != nil {
+		return ProviderCandidateGateResult{},
+			ckksplanner.ArtifactBinding{},
+			fmt.Errorf(
+				"decode provider candidate gate result %s: %w",
+				path,
+				err,
+			)
+	}
+	var trailing any
+	if err := decoder.Decode(&trailing); err != io.EOF {
+		if err == nil {
+			err = fmt.Errorf("unexpected trailing JSON value")
+		}
+		return ProviderCandidateGateResult{},
+			ckksplanner.ArtifactBinding{},
+			fmt.Errorf(
+				"decode provider candidate gate result %s: %w",
+				path,
+				err,
+			)
+	}
+	return result, ckksplanner.ArtifactBinding{
+		Path:   path,
+		SHA256: digestBytes(data),
+	}, nil
+}
+
+// ValidateProviderCandidateGateResult reproduces every trusted binding and
+// checks the one-trial ledger before a locked audit may consume it.
+func ValidateProviderCandidateGateResult(
+	result ProviderCandidateGateResult,
+) error {
+	if result.SchemaVersion != ProviderCandidateGateSchemaVersion {
+		return fmt.Errorf(
+			"unsupported provider candidate gate schema version %d",
+			result.SchemaVersion,
+		)
+	}
+	if err := result.ValidationContract.Validate(); err != nil {
+		return fmt.Errorf(
+			"validate provider gate workload contract: %w",
+			err,
+		)
+	}
+	if err := ValidateBoundProviderCandidate(
+		result.ValidationContract,
+		result.BoundCandidate,
+	); err != nil {
+		return err
+	}
+	if result.TrialsUsed != 1 ||
+		result.Trial.TrialIndex != 1 ||
+		result.EncryptedKeyRuns != result.Trial.KeyRepeatsCompleted ||
+		result.Trial.KeyRepeatsRequested !=
+			result.ValidationContract.Deployment.ValidationKeyRepeats ||
+		!reflect.DeepEqual(
+			result.Trial.Candidate,
+			result.BoundCandidate.Candidate,
+		) {
+		return fmt.Errorf("provider candidate gate trial ledger mismatch")
+	}
+
+	switch result.Trial.Status {
+	case certify.StatusSafe:
+		if result.Outcome != ProviderGateOutcomeSelected ||
+			result.Selected == nil ||
+			!reflect.DeepEqual(
+				*result.Selected,
+				result.BoundCandidate.Candidate,
+			) {
+			return fmt.Errorf(
+				"SAFE provider candidate gate result is not SELECTED",
+			)
+		}
+	case certify.StatusRejected, certify.StatusFailed:
+		if result.Outcome != ProviderGateOutcomeNoSafe ||
+			result.Selected != nil {
+			return fmt.Errorf(
+				"non-SAFE provider candidate gate result is not NO_SAFE",
+			)
+		}
+	default:
+		return fmt.Errorf(
+			"unsupported provider candidate gate status %q",
+			result.Trial.Status,
+		)
+	}
+	return nil
+}
+
+// RunLockedProviderCandidateAudit verifies a completed provider selection and
+// replays its exact selected literal on the declared disjoint audit split.
+func RunLockedProviderCandidateAudit(
+	selectionResultPath string,
+	options ckksplanner.LockedAuditOptions,
+) (ckksplanner.LockedAuditResult, error) {
+	result, selectionBinding, err :=
+		LoadProviderCandidateGateResult(selectionResultPath)
+	if err != nil {
+		return ckksplanner.LockedAuditResult{}, err
+	}
+	if err := ValidateProviderCandidateGateResult(result); err != nil {
+		return ckksplanner.LockedAuditResult{}, err
+	}
+	if result.Outcome != ProviderGateOutcomeSelected ||
+		result.Selected == nil {
+		return ckksplanner.LockedAuditResult{}, fmt.Errorf(
+			"provider candidate gate result has no SAFE selected literal",
+		)
+	}
+	if options.SelectionResultPath != selectionResultPath {
+		return ckksplanner.LockedAuditResult{}, fmt.Errorf(
+			"provider locked-audit selection path mismatch",
+		)
+	}
+	return ckksplanner.RunLockedTabularCandidateAudit(
+		ckksplanner.LockedCandidateSelection{
+			SelectionResult: selectionBinding,
+			Contract:        result.ValidationContract,
+			ContractDigest: result.BoundCandidate.
+				ContractDigest,
+			Candidate: *result.Selected,
+		},
+		options,
+	)
 }
 
 func validateProviderCandidateRequest(

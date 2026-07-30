@@ -7,6 +7,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/hasslelee/flipguard/internal/certify"
 	"github.com/hasslelee/flipguard/internal/ckksplanner"
 	"github.com/hasslelee/flipguard/internal/tuner"
 )
@@ -275,6 +276,75 @@ func TestProviderBindingRejectsInsufficientSlotsAndLevels(t *testing.T) {
 		source,
 	); err == nil || !strings.Contains(err.Error(), "Q primes") {
 		t.Fatalf("expected Q-chain failure, got %v", err)
+	}
+}
+
+func TestValidateProviderCandidateGateResultRejectsLedgerMutation(
+	t *testing.T,
+) {
+	contract := validContractFixture()
+	plan, err := ckksplanner.Synthesize(
+		contract,
+		ckksplanner.DefaultSynthesisPolicy(),
+	)
+	if err != nil {
+		t.Fatalf("synthesize fixture: %v", err)
+	}
+	request := ProviderCandidateRequest{
+		SchemaVersion: ProviderCandidateRequestSchemaVersion,
+		ProviderKind:  ProviderKindManual,
+		ProviderID:    "manual-v1",
+		Path:          plan.InitialCandidates[0].Path,
+		Parameters:    plan.InitialCandidates[0].Parameters,
+	}
+	path := writeProviderRequest(t, request)
+	bound, err := LoadAndBindProviderCandidate(contract, path)
+	if err != nil {
+		t.Fatalf("bind provider candidate: %v", err)
+	}
+	selected := bound.Candidate
+	result := ProviderCandidateGateResult{
+		SchemaVersion:      ProviderCandidateGateSchemaVersion,
+		ValidationContract: contract,
+		BoundCandidate:     bound,
+		Outcome:            ProviderGateOutcomeSelected,
+		Reason:             "fixture SAFE",
+		TrialsUsed:         1,
+		EncryptedKeyRuns:   1,
+		Trial: ckksplanner.TabularTrialResult{
+			TrialIndex:          1,
+			Candidate:           bound.Candidate,
+			Status:              certify.StatusSafe,
+			KeyRepeatsRequested: 1,
+			KeyRepeatsCompleted: 1,
+		},
+		Selected: &selected,
+	}
+	if err := ValidateProviderCandidateGateResult(result); err != nil {
+		t.Fatalf("validate provider gate fixture: %v", err)
+	}
+
+	result.EncryptedKeyRuns = 2
+	if err := ValidateProviderCandidateGateResult(result); err == nil ||
+		!strings.Contains(err.Error(), "ledger mismatch") {
+		t.Fatalf("expected ledger mutation failure, got %v", err)
+	}
+}
+
+func TestLoadProviderCandidateGateResultRejectsUnknownJSONField(
+	t *testing.T,
+) {
+	path := filepath.Join(t.TempDir(), "selection.json")
+	if err := os.WriteFile(
+		path,
+		[]byte(`{"schema_version":1,"unexpected":true}`),
+		0o600,
+	); err != nil {
+		t.Fatalf("write provider gate result: %v", err)
+	}
+	if _, _, err := LoadProviderCandidateGateResult(path); err == nil ||
+		!strings.Contains(err.Error(), "unknown field") {
+		t.Fatalf("expected unknown-field failure, got %v", err)
 	}
 }
 
