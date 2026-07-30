@@ -186,6 +186,16 @@ func (contract WorkloadContract) Validate() error {
 
 func (materialization InputMaterializationContract) validate() error {
 	switch materialization.SchemaVersion {
+	case VisionPatchMaterializationSchemaV1:
+		if materialization.SourceFeatureSpace !=
+			VisionPatchSourceFeatureSpaceV1 ||
+			materialization.PreprocessingMethod !=
+				BSDS500SobelPatchExtractionV1 {
+			return fmt.Errorf(
+				"schema %s requires the frozen BSDS500 Sobel patch extraction",
+				materialization.SchemaVersion,
+			)
+		}
 	case TabularValidationMaterializationSchemaV1:
 		if materialization.SourceFeatureSpace !=
 			string(TabularDataSpaceModelInput) ||
