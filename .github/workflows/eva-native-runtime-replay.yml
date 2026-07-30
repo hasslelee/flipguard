@@ -5,7 +5,6 @@ on:
     branches:
       - feature/flipguard-auto-tuner
     paths:
-      - .github/workflows/eva-native-runtime-replay.yml
       - experiments/eva_native_runtime_v1/contract.json
       - scripts/run_eva_native_runtime.py
       - scripts/verify_eva_native_runtime.py
@@ -16,6 +15,14 @@ on:
         description: Exact FlipGuard source commit to evaluate
         required: true
         type: string
+      run_mode:
+        description: Native EVA protocol to execute
+        required: true
+        default: native_runtime_replay
+        type: choice
+        options:
+          - native_runtime_replay
+          - scale_sensitivity
 
 permissions:
   contents: read
@@ -31,13 +38,17 @@ jobs:
           ref: ${{ inputs.source_commit || github.sha }}
           persist-credentials: false
 
-      - name: Verify source identity and native contract
+      - name: Verify source identity and selected native contract
         shell: bash
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = \
             "${{ inputs.source_commit || github.sha }}"
-          python3 scripts/verify_eva_native_runtime.py
+          if [[ "${{ inputs.run_mode }}" == "scale_sensitivity" ]]; then
+            python3 scripts/verify_eva_native_scale_sensitivity.py
+          else
+            python3 scripts/verify_eva_native_runtime.py
+          fi
 
       - name: Install build dependencies
         shell: bash
@@ -95,6 +106,7 @@ jobs:
           cmake --build /tmp/EVA/build --parallel 2
 
       - name: Execute native EVA and conditional locked audit
+        if: ${{ inputs.run_mode != 'scale_sensitivity' }}
         shell: bash
         env:
           PYTHONPATH: /tmp/EVA/build/python
@@ -108,6 +120,7 @@ jobs:
             --action-run-id "${{ github.run_id }}"
 
       - name: Verify native runtime result
+        if: ${{ inputs.run_mode != 'scale_sensitivity' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -115,10 +128,41 @@ jobs:
             --result-root eva-native-runtime-replay
 
       - name: Upload native runtime artifact
-        if: always()
+        if: ${{ always() && inputs.run_mode != 'scale_sensitivity' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: eva-native-runtime-replay
           path: eva-native-runtime-replay
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Execute all scale-sensitivity validation arms
+        if: ${{ inputs.run_mode == 'scale_sensitivity' }}
+        shell: bash
+        env:
+          PYTHONPATH: /tmp/EVA/build/python
+        run: |
+          set -euo pipefail
+          python3 scripts/run_eva_native_scale_sensitivity.py \
+            --eva-root /tmp/EVA \
+            --seal-root /tmp/SEAL \
+            --output-root eva-native-scale-sensitivity \
+            --source-commit "${{ inputs.source_commit }}" \
+            --action-run-id "${{ github.run_id }}"
+
+      - name: Verify scale-sensitivity result
+        if: ${{ inputs.run_mode == 'scale_sensitivity' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/verify_eva_native_scale_sensitivity.py \
+            --result-root eva-native-scale-sensitivity
+
+      - name: Upload scale-sensitivity artifact
+        if: ${{ always() && inputs.run_mode == 'scale_sensitivity' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: eva-native-scale-sensitivity
+          path: eva-native-scale-sensitivity
           if-no-files-found: error
           retention-days: 30
