@@ -1,6 +1,15 @@
 name: EVA External Compiler Replay
 
 on:
+  push:
+    branches:
+      - feature/flipguard-auto-tuner
+    paths:
+      - .github/workflows/eva-external-compiler-replay.yml
+      - experiments/eva_external_adapter_v1/contract.json
+      - scripts/export_eva_external_candidate.py
+      - scripts/verify_eva_external_adapter_contract.py
+      - tools/eva-seal-prime-exporter/**
   workflow_dispatch:
     inputs:
       source_commit:
@@ -19,14 +28,15 @@ jobs:
       - name: Check out exact FlipGuard source
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
         with:
-          ref: ${{ inputs.source_commit }}
+          ref: ${{ inputs.source_commit || github.sha }}
           persist-credentials: false
 
       - name: Verify source identity and contract
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "${{ inputs.source_commit }}"
+          test "$(git rev-parse HEAD)" = \
+            "${{ inputs.source_commit || github.sha }}"
           python3 scripts/verify_eva_external_adapter_contract.py
 
       - name: Install build dependencies
@@ -109,7 +119,7 @@ jobs:
               /tmp/eva-prime-exporter/eva-seal-prime-exporter \
             --output "$out/compiler_output.json" \
             --dot-output "$out/compiled_program.dot" \
-            --flipguard-commit "${{ inputs.source_commit }}" \
+            --flipguard-commit "${{ inputs.source_commit || github.sha }}" \
             --action-run-id "${{ github.run_id }}"
           cmake --version > "$out/cmake_version.txt"
           c++ --version > "$out/cxx_version.txt"
