@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "adapter_id": "orion_lattigo_config_adapter_v1",
+  "status": "BLOCKED_SEMANTIC_MISMATCH",
+  "source": {
+    "repository_url": "https://github.com/baahl-nyu/orion",
+    "commit": "be8a827350a147d610fe3bb998b5bea8de814ff8",
+    "path": "configs/mlp.yml",
+    "sha256": "sha256:127d92a99cf6c5f91550d42a99cd164a44724a0a91e146a055092c4dc8cd481b"
+  },
+  "backend": {
+    "module": "github.com/baahl-nyu/lattigo/v6",
+    "version": "v6.2.0",
+    "commit": "a9699d924dcc2628153b1ca3bf41d65b26299a86"
+  },
+  "parsed_parameters": {
+    "log_n": 13,
+    "log_q": [
+      29,
+      26,
+      26,
+      26,
+      26,
+      26
+    ],
+    "log_p": [
+      29,
+      29
+    ],
+    "log_scale": 26,
+    "h": 8192,
+    "ring_type": "ConjugateInvariant"
+  },
+  "target_literal": {
+    "log_n": 13,
+    "log_q": [
+      29,
+      26,
+      26,
+      26,
+      26,
+      26
+    ],
+    "log_p": [
+      29,
+      29
+    ],
+    "log_default_scale": 26
+  },
+  "mappings": [
+    {
+      "source_field": "ckks_params.LogN",
+      "target_field": "parameters.log_n",
+      "status": "EXACT",
+      "detail": "integer values and ordering transfer without conversion"
+    },
+    {
+      "source_field": "ckks_params.LogQ",
+      "target_field": "parameters.log_q",
+      "status": "EXACT",
+      "detail": "integer values and ordering transfer without conversion"
+    },
+    {
+      "source_field": "ckks_params.LogP",
+      "target_field": "parameters.log_p",
+      "status": "EXACT",
+      "detail": "integer values and ordering transfer without conversion"
+    },
+    {
+      "source_field": "ckks_params.LogScale",
+      "target_field": "parameters.log_default_scale",
+      "status": "EXACT",
+      "detail": "integer values and ordering transfer without conversion"
+    },
+    {
+      "source_field": "ckks_params.RingType",
+      "target_field": "Lattigo ring type",
+      "status": "MISMATCH",
+      "detail": "Orion requests conjugate-invariant packing while the frozen FlipGuard candidate runtime uses the standard ring"
+    },
+    {
+      "source_field": "ckks_params.H",
+      "target_field": "Security V2 runtime Xs",
+      "status": "MISMATCH",
+      "detail": "Orion constructs ring.Ternary{H:8192}; Security V2 is fixed to ring.Ternary{P:2/3}"
+    },
+    {
+      "source_field": "implicit backend Xe",
+      "target_field": "Security V2 runtime Xe",
+      "status": "UNVERIFIED",
+      "detail": "the Orion YAML does not serialize Xe; exact equality with ring.DiscreteGaussian{Sigma:3.2,Bound:19.2} cannot be proven from the candidate artifact alone"
+    },
+    {
+      "source_field": "backend.module",
+      "target_field": "FlipGuard Lattigo module",
+      "status": "UNVERIFIED",
+      "detail": "Orion is pinned to a distinct Lattigo fork; repository equivalence is not assumed"
+    }
+  ],
+  "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "security_assessment": {
+    "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "target_bits": 128,
+    "declared_log_qp": 217,
+    "max_allowed_log_qp": 214,
+    "headroom_bits": -3,
+    "admission_status": "FAIL",
+    "log_q": 159,
+    "log_p": 58,
+    "log_qp": 217,
+    "ciphertext_q_admission": "PASS",
+    "evaluation_key_qp_admission": "FAIL",
+    "final_admission": "FAIL",
+    "ciphertext_headroom_bits": 55,
+    "evaluation_key_headroom_bits": -3,
+    "admission_reason": "at least one required runtime object exceeds the conservative Table 5.2 cap"
+  },
+  "block_reasons": [
+    "RING_TYPE_MISMATCH",
+    "SECRET_DISTRIBUTION_MISMATCH",
+    "ERROR_DISTRIBUTION_NOT_SERIALIZED",
+    "BACKEND_IMPLEMENTATION_NOT_IDENTICAL",
+    "SECURITY_V2_INADMISSIBLE"
+  ],
+  "encrypted_execution": false,
+  "policy_modification_count": 0,
+  "candidate_request_emitted": false
+}

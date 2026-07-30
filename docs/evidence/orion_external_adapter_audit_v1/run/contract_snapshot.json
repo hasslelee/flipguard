@@ -1,0 +1,147 @@
+{
+  "schema_version": "flipguard_orion_external_adapter_contract_v1",
+  "status": "PREDECLARED_BEFORE_STATIC_AUDIT",
+  "adapter_id": "orion_lattigo_config_adapter_v1",
+  "paper_claim_allowed": false,
+  "purpose": "test whether actual public Orion CKKS configuration artifacts can be imported into the frozen FlipGuard provider gate without silently changing runtime or security semantics",
+  "upstream": {
+    "project": "Orion",
+    "repository_url": "https://github.com/baahl-nyu/orion",
+    "commit": "be8a827350a147d610fe3bb998b5bea8de814ff8",
+    "license": "MIT",
+    "backend_module": "github.com/baahl-nyu/lattigo/v6",
+    "backend_version": "v6.2.0",
+    "backend_commit": "a9699d924dcc2628153b1ca3bf41d65b26299a86",
+    "comparison_backend_module": "github.com/tuneinsight/lattigo/v6",
+    "comparison_backend_version": "v6.2.0",
+    "comparison_backend_commit": "c1fd095f08602e2d4ef571db015fc553fdd2d845"
+  },
+  "sources": [
+    {
+      "source_id": "orion_mlp_config",
+      "repository": "orion",
+      "path": "configs/mlp.yml",
+      "sha256": "sha256:127d92a99cf6c5f91550d42a99cd164a44724a0a91e146a055092c4dc8cd481b",
+      "role": "candidate_config"
+    },
+    {
+      "source_id": "orion_lola_config",
+      "repository": "orion",
+      "path": "configs/lola.yml",
+      "sha256": "sha256:cbd84622cc81de3686c8cbe9eb823d03f7eff2a0a03afc66bf48ee9a772c260a",
+      "role": "candidate_config"
+    },
+    {
+      "source_id": "orion_resnet_config",
+      "repository": "orion",
+      "path": "configs/resnet.yml",
+      "sha256": "sha256:8456eee4bf14356f3914ae01a2e204ce0bd76b8e8eacc99c3653b3ec92de6bb5",
+      "role": "candidate_config"
+    },
+    {
+      "source_id": "orion_scheme_constructor",
+      "repository": "orion",
+      "path": "orion/backend/lattigo/scheme.go",
+      "sha256": "sha256:962d5c20ea9f318bbf97a67749f4339a89b97ef6d4740b05925e0a97c901e51a",
+      "role": "runtime_semantics"
+    },
+    {
+      "source_id": "orion_parameter_parser",
+      "repository": "orion",
+      "path": "orion/backend/python/parameters.py",
+      "sha256": "sha256:70128bc33d60db001ad14067d1affd48bb33b37dbb19ed7307676d52da32e970",
+      "role": "schema_semantics"
+    },
+    {
+      "source_id": "orion_go_module",
+      "repository": "orion",
+      "path": "orion/backend/lattigo/go.mod",
+      "sha256": "sha256:85e793ffab8abf6ba951431139f9dae86b90505913ad513bf8872ced0cd32bd6",
+      "role": "backend_provenance"
+    },
+    {
+      "source_id": "orion_license",
+      "repository": "orion",
+      "path": "LICENSE",
+      "sha256": "sha256:6b93991f536d8a8cb59e524bd7c856b87683d39789430658b47e96b424f82c8a",
+      "role": "license"
+    },
+    {
+      "source_id": "orion_lattigo_ckks_params",
+      "repository": "orion_lattigo",
+      "path": "schemes/ckks/params.go",
+      "sha256": "sha256:7683558d7caec2064e46bd49a1b0cc17bb7f9d0cd7e4969856d4999a6bd75afa",
+      "role": "fork_backend_semantics"
+    },
+    {
+      "source_id": "flipguard_lattigo_ckks_params",
+      "repository": "comparison_lattigo",
+      "path": "schemes/ckks/params.go",
+      "sha256": "sha256:9dc38d2a922c24ed0caf159284dacc754d416068028ddc8a77657e6dffc29e87",
+      "role": "target_backend_semantics"
+    }
+  ],
+  "configurations": [
+    {
+      "config_id": "orion_mlp_public_config",
+      "source_id": "orion_mlp_config",
+      "predicted_status": "BLOCKED_SEMANTIC_MISMATCH",
+      "predicted_reasons": [
+        "RING_TYPE_MISMATCH",
+        "SECRET_DISTRIBUTION_MISMATCH",
+        "ERROR_DISTRIBUTION_NOT_SERIALIZED",
+        "BACKEND_IMPLEMENTATION_NOT_IDENTICAL",
+        "SECURITY_V2_INADMISSIBLE"
+      ]
+    },
+    {
+      "config_id": "orion_lola_public_config",
+      "source_id": "orion_lola_config",
+      "predicted_status": "BLOCKED_SEMANTIC_MISMATCH",
+      "predicted_reasons": [
+        "RING_TYPE_MISMATCH",
+        "SECRET_DISTRIBUTION_MISMATCH",
+        "ERROR_DISTRIBUTION_NOT_SERIALIZED",
+        "BACKEND_IMPLEMENTATION_NOT_IDENTICAL",
+        "SECURITY_V2_INADMISSIBLE"
+      ]
+    },
+    {
+      "config_id": "orion_resnet_public_config",
+      "source_id": "orion_resnet_config",
+      "predicted_status": "BLOCKED_SEMANTIC_MISMATCH",
+      "predicted_reasons": [
+        "SECRET_DISTRIBUTION_MISMATCH",
+        "ERROR_DISTRIBUTION_NOT_SERIALIZED",
+        "BACKEND_IMPLEMENTATION_NOT_IDENTICAL",
+        "SECURITY_POLICY_UNSUPPORTED_LOGN"
+      ]
+    }
+  ],
+  "frozen_policies": {
+    "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+    "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "policy_modification_allowed": false
+  },
+  "execution": {
+    "encrypted_execution_allowed": false,
+    "candidate_request_emission_requires_exact_semantics": true,
+    "source_fetch_requires_full_commit_and_sha256": true,
+    "existing_evidence_overwrite_allowed": false
+  },
+  "fail_closed_rules": [
+    "do not erase RingType when translating an Orion configuration",
+    "do not replace fixed-H ternary Xs with uniform ternary Xs",
+    "do not infer an exact Xe distribution from a YAML file that does not serialize Xe",
+    "do not assume a forked backend is byte-identical to the target backend",
+    "do not execute a candidate outside the Security V2 LogN table or modulus cap"
+  ],
+  "claim_boundary": {
+    "actual_public_source_provenance": "eligible for static evaluation",
+    "lossless_orion_candidate_import": "must remain BLOCKED unless every mapping is exact and Security V2 passes",
+    "third_party_autotuner_integration": "NOT_EVALUATED because Orion's public YAML files are compiler configurations, not outputs attributed to an autotuning run",
+    "encrypted_external_candidate_certification": "NOT_EVALUATED",
+    "paper_claim_allowed": false
+  }
+}

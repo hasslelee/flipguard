@@ -1,0 +1,96 @@
+{
+  "schema_version": "flipguard_orion_upstream_source_manifest_v1",
+  "sources": [
+    {
+      "fetch_attempt_limit": 3,
+      "local_path": "raw_sources/orion_mlp_config/mlp.yml",
+      "path": "configs/mlp.yml",
+      "repository": "orion",
+      "role": "candidate_config",
+      "sha256": "sha256:127d92a99cf6c5f91550d42a99cd164a44724a0a91e146a055092c4dc8cd481b",
+      "source_id": "orion_mlp_config",
+      "url": "https://raw.githubusercontent.com/baahl-nyu/orion/be8a827350a147d610fe3bb998b5bea8de814ff8/configs/mlp.yml"
+    },
+    {
+      "fetch_attempt_limit": 3,
+      "local_path": "raw_sources/orion_lola_config/lola.yml",
+      "path": "configs/lola.yml",
+      "repository": "orion",
+      "role": "candidate_config",
+      "sha256": "sha256:cbd84622cc81de3686c8cbe9eb823d03f7eff2a0a03afc66bf48ee9a772c260a",
+      "source_id": "orion_lola_config",
+      "url": "https://raw.githubusercontent.com/baahl-nyu/orion/be8a827350a147d610fe3bb998b5bea8de814ff8/configs/lola.yml"
+    },
+    {
+      "fetch_attempt_limit": 3,
+      "local_path": "raw_sources/orion_resnet_config/resnet.yml",
+      "path": "configs/resnet.yml",
+      "repository": "orion",
+      "role": "candidate_config",
+      "sha256": "sha256:8456eee4bf14356f3914ae01a2e204ce0bd76b8e8eacc99c3653b3ec92de6bb5",
+      "source_id": "orion_resnet_config",
+      "url": "https://raw.githubusercontent.com/baahl-nyu/orion/be8a827350a147d610fe3bb998b5bea8de814ff8/configs/resnet.yml"
+    },
+    {
+      "fetch_attempt_limit": 3,
+      "local_path": "raw_sources/orion_scheme_constructor/scheme.go",
+      "path": "orion/backend/lattigo/scheme.go",
+      "repository": "orion",
+      "role": "runtime_semantics",
+      "sha256": "sha256:962d5c20ea9f318bbf97a67749f4339a89b97ef6d4740b05925e0a97c901e51a",
+      "source_id": "orion_scheme_constructor",
+      "url": "https://raw.githubusercontent.com/baahl-nyu/orion/be8a827350a147d610fe3bb998b5bea8de814ff8/orion/backend/lattigo/scheme.go"
+    },
+    {
+      "fetch_attempt_limit": 3,
+      "local_path": "raw_sources/orion_parameter_parser/parameters.py",
+      "path": "orion/backend/python/parameters.py",
+      "repository": "orion",
+      "role": "schema_semantics",
+      "sha256": "sha256:70128bc33d60db001ad14067d1affd48bb33b37dbb19ed7307676d52da32e970",
+      "source_id": "orion_parameter_parser",
+      "url": "https://raw.githubusercontent.com/baahl-nyu/orion/be8a827350a147d610fe3bb998b5bea8de814ff8/orion/backend/python/parameters.py"
+    },
+    {
+      "fetch_attempt_limit": 3,
+      "local_path": "raw_sources/orion_go_module/go.mod",
+      "path": "orion/backend/lattigo/go.mod",
+      "repository": "orion",
+      "role": "backend_provenance",
+      "sha256": "sha256:85e793ffab8abf6ba951431139f9dae86b90505913ad513bf8872ced0cd32bd6",
+      "source_id": "orion_go_module",
+      "url": "https://raw.githubusercontent.com/baahl-nyu/orion/be8a827350a147d610fe3bb998b5bea8de814ff8/orion/backend/lattigo/go.mod"
+    },
+    {
+      "fetch_attempt_limit": 3,
+      "local_path": "raw_sources/orion_license/LICENSE",
+      "path": "LICENSE",
+      "repository": "orion",
+      "role": "license",
+      "sha256": "sha256:6b93991f536d8a8cb59e524bd7c856b87683d39789430658b47e96b424f82c8a",
+      "source_id": "orion_license",
+      "url": "https://raw.githubusercontent.com/baahl-nyu/orion/be8a827350a147d610fe3bb998b5bea8de814ff8/LICENSE"
+    },
+    {
+      "fetch_attempt_limit": 3,
+      "local_path": "raw_sources/orion_lattigo_ckks_params/params.go",
+      "path": "schemes/ckks/params.go",
+      "repository": "orion_lattigo",
+      "role": "fork_backend_semantics",
+      "sha256": "sha256:7683558d7caec2064e46bd49a1b0cc17bb7f9d0cd7e4969856d4999a6bd75afa",
+      "source_id": "orion_lattigo_ckks_params",
+      "url": "https://raw.githubusercontent.com/baahl-nyu/lattigo/a9699d924dcc2628153b1ca3bf41d65b26299a86/schemes/ckks/params.go"
+    },
+    {
+      "fetch_attempt_limit": 3,
+      "local_path": "raw_sources/flipguard_lattigo_ckks_params/params.go",
+      "path": "schemes/ckks/params.go",
+      "repository": "comparison_lattigo",
+      "role": "target_backend_semantics",
+      "sha256": "sha256:9dc38d2a922c24ed0caf159284dacc754d416068028ddc8a77657e6dffc29e87",
+      "source_id": "flipguard_lattigo_ckks_params",
+      "url": "https://raw.githubusercontent.com/tuneinsight/lattigo/c1fd095f08602e2d4ef571db015fc553fdd2d845/schemes/ckks/params.go"
+    }
+  ],
+  "upstream_commit": "be8a827350a147d610fe3bb998b5bea8de814ff8"
+}

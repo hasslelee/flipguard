@@ -1,0 +1,71 @@
+{
+  "claim_states": {
+    "actual_public_orion_source_provenance": "SUPPORTED",
+    "encrypted_external_candidate_certification": "NOT_EVALUATED",
+    "lossless_orion_candidate_import": "BLOCKED",
+    "orion_schema_translation": "PARTIALLY_SUPPORTED",
+    "third_party_autotuner_integration": "NOT_EVALUATED",
+    "third_party_compiler_configuration_integration": "BLOCKED"
+  },
+  "classification": "STATIC_FAIL_CLOSED_INTEROPERABILITY_AUDIT",
+  "configurations": [
+    {
+      "block_reasons": [
+        "BACKEND_IMPLEMENTATION_NOT_IDENTICAL",
+        "ERROR_DISTRIBUTION_NOT_SERIALIZED",
+        "RING_TYPE_MISMATCH",
+        "SECRET_DISTRIBUTION_MISMATCH",
+        "SECURITY_V2_INADMISSIBLE"
+      ],
+      "candidate_request_emitted": false,
+      "config_id": "orion_mlp_public_config",
+      "encrypted_execution": false,
+      "log_n": 13,
+      "log_qp": 217,
+      "security_admission": "FAIL",
+      "status": "BLOCKED_SEMANTIC_MISMATCH"
+    },
+    {
+      "block_reasons": [
+        "BACKEND_IMPLEMENTATION_NOT_IDENTICAL",
+        "ERROR_DISTRIBUTION_NOT_SERIALIZED",
+        "RING_TYPE_MISMATCH",
+        "SECRET_DISTRIBUTION_MISMATCH",
+        "SECURITY_V2_INADMISSIBLE"
+      ],
+      "candidate_request_emitted": false,
+      "config_id": "orion_lola_public_config",
+      "encrypted_execution": false,
+      "log_n": 13,
+      "log_qp": 217,
+      "security_admission": "FAIL",
+      "status": "BLOCKED_SEMANTIC_MISMATCH"
+    },
+    {
+      "block_reasons": [
+        "BACKEND_IMPLEMENTATION_NOT_IDENTICAL",
+        "ERROR_DISTRIBUTION_NOT_SERIALIZED",
+        "SECRET_DISTRIBUTION_MISMATCH",
+        "SECURITY_POLICY_UNSUPPORTED_LOGN"
+      ],
+      "candidate_request_emitted": false,
+      "config_id": "orion_resnet_public_config",
+      "encrypted_execution": false,
+      "log_n": 16,
+      "log_qp": null,
+      "security_admission": "UNSUPPORTED_LOGN",
+      "status": "BLOCKED_SEMANTIC_MISMATCH"
+    }
+  ],
+  "counts": {
+    "actual_public_configurations": 3,
+    "blocked_semantic_mismatch": 3,
+    "candidate_requests_emitted": 0,
+    "encrypted_executions": 0,
+    "importable_exact": 0,
+    "policy_modifications": 0
+  },
+  "paper_claim_allowed": false,
+  "schema_version": "flipguard_orion_external_adapter_run_v1",
+  "status": "PASS"
+}

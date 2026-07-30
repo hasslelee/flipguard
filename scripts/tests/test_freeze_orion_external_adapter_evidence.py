@@ -41,6 +41,20 @@ class FreezeOrionExternalAdapterEvidenceTest(unittest.TestCase):
             "docs/evidence/orion_external_adapter_audit_v1",
         )
 
+    def test_frozen_actual_orion_pack_verifies(self) -> None:
+        summary = MODULE.verify()
+        self.assertEqual(summary["status"], "PASS")
+        self.assertEqual(
+            summary["counts"]["actual_public_configurations"],
+            3,
+        )
+        self.assertEqual(
+            summary["counts"]["blocked_semantic_mismatch"],
+            3,
+        )
+        self.assertEqual(summary["counts"]["encrypted_executions"], 0)
+        self.assertFalse(summary["paper_claim_allowed"])
+
 
 if __name__ == "__main__":
     unittest.main()
