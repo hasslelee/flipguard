@@ -1,0 +1,348 @@
+guidelines-pinned-8f1ff7e	Set up job	﻿2026-07-30T10:16:37.8688312Z Current runner version: '2.336.0'
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8725040Z ##[group]Runner Image Provisioner
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8726385Z Hosted Compute Agent
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8727805Z Version: 20260707.563
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8728929Z Commit: 02667638d2b423fbc733a8e32a88b44996a3ba6e
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8730305Z Build Date: 2026-07-07T19:33:50Z
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8731515Z Worker ID: {cece15b8-2bfb-467f-804d-c81046d27523}
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8732841Z Azure Region: eastus
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8734006Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8736262Z ##[group]Operating System
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8737689Z Ubuntu
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8738739Z 24.04.4
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8739627Z LTS
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8740521Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8741418Z ##[group]Runner Image
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8742409Z Image: ubuntu-24.04
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8743363Z Version: 20260720.247.2
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8745120Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260720.247/images/ubuntu/Ubuntu2404-Readme.md
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8748719Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260720.247
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8750361Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8752226Z ##[group]GITHUB_TOKEN Permissions
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8755003Z Contents: read
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8756065Z Metadata: read
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8757360Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8760584Z Secret source: Actions
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.8762818Z Prepare workflow directory
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.9382514Z Prepare all required actions
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:37.9451543Z Getting action download info
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:38.1340040Z Download action repository 'actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd' (SHA:93cb6efe18208431cddfb8368fd83d5badbf9bfd)
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:38.3109682Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T10:16:38.5155405Z Complete job name: guidelines-pinned-8f1ff7e
+guidelines-pinned-8f1ff7e	Initialize containers	﻿2026-07-30T10:16:38.5674717Z ##[group]Checking docker version
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.5688195Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.6396003Z '1.48'
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.6408575Z Docker daemon API version: '1.48'
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.6409514Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.6570083Z '1.48'
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.6583318Z Docker client API version: '1.48'
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.6589031Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.6592418Z ##[group]Clean up resources from previous jobs
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.6597891Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=728b02"
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.6743277Z ##[command]/usr/bin/docker network prune --force --filter "label=728b02"
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.6869103Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.6869663Z ##[group]Create local container network
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.6879728Z ##[command]/usr/bin/docker network create --label 728b02 github_network_ab42573a6c264ef2b23cbc090f99edaf
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.7462198Z 12e775bb9395cdb77e44d15e0d4e3885daa8a1dbc231056c15b2d1615725dbf8
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.7482233Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.7508254Z ##[group]Starting job container
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.7531683Z ##[command]/usr/bin/docker pull sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9351573Z docker.io/sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879: Pulling from sagemath/sagemath
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9354202Z 9cb31e2e37ea: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9356950Z 95196ab8b4d7: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9358510Z d5b5226fa347: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9359457Z b1f7e16221bb: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9360608Z 4ed3a858aa77: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9361949Z 4f4fb700ef54: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9363082Z bfe7b0d67bbb: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9363946Z b8c8dc23623d: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9364690Z c691011bd802: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9365938Z c691011bd802: Waiting
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9366780Z b1f7e16221bb: Waiting
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9367930Z b8c8dc23623d: Waiting
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9368596Z 4f4fb700ef54: Waiting
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9369443Z bfe7b0d67bbb: Waiting
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9370175Z 4ed3a858aa77: Waiting
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9641758Z d5b5226fa347: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9651237Z 95196ab8b4d7: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9652573Z 95196ab8b4d7: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9968438Z 4ed3a858aa77: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:38.9969561Z 4ed3a858aa77: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:39.0268995Z 4f4fb700ef54: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:39.0270397Z 4f4fb700ef54: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:39.0692904Z 9cb31e2e37ea: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:39.0699035Z 9cb31e2e37ea: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:39.1086472Z b8c8dc23623d: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:39.1088120Z b8c8dc23623d: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:39.1485910Z c691011bd802: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:39.1487908Z c691011bd802: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:39.3713283Z b1f7e16221bb: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:39.3714877Z b1f7e16221bb: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:40.4639427Z 9cb31e2e37ea: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:43.2644429Z bfe7b0d67bbb: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:43.2645190Z bfe7b0d67bbb: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:45.2134203Z 95196ab8b4d7: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:45.7623913Z d5b5226fa347: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:48.5190431Z b1f7e16221bb: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:48.5376715Z 4ed3a858aa77: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:16:48.5671650Z 4f4fb700ef54: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.1610068Z bfe7b0d67bbb: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.1728170Z b8c8dc23623d: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.1835650Z c691011bd802: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.1961399Z Digest: sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.1969470Z Status: Downloaded newer image for sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.1978857Z docker.io/sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.2059576Z ##[command]/usr/bin/docker create --name 7d3fc76222664c6cb485470589181d04_sagemathsagemathsha25660dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879_a58d51 --label 728b02 --workdir /__w/flipguard/flipguard --network github_network_ab42573a6c264ef2b23cbc090f99edaf --user root -e "HOME=/github/home" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work":"/__w" -v "/home/runner/actions-runner/extracted/externals":"/__e":ro -v "/home/runner/work/_temp":"/__w/_temp" -v "/home/runner/work/_actions":"/__w/_actions" -v "/opt/hostedtoolcache":"/__t" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" --entrypoint "tail" sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879 "-f" "/dev/null"
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.2324386Z 9051a48b61c9e742ba50251e0af6662984be6e4773abdf9d3d5cdd4191bde950
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.2349671Z ##[command]/usr/bin/docker start 9051a48b61c9e742ba50251e0af6662984be6e4773abdf9d3d5cdd4191bde950
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.4255682Z 9051a48b61c9e742ba50251e0af6662984be6e4773abdf9d3d5cdd4191bde950
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.4275142Z ##[command]/usr/bin/docker ps --all --filter id=9051a48b61c9e742ba50251e0af6662984be6e4773abdf9d3d5cdd4191bde950 --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.4398705Z 9051a48b61c9e742ba50251e0af6662984be6e4773abdf9d3d5cdd4191bde950 Up Less than a second
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.4419064Z ##[command]/usr/bin/docker inspect --format "{{range .Config.Env}}{{println .}}{{end}}" 9051a48b61c9e742ba50251e0af6662984be6e4773abdf9d3d5cdd4191bde950
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.4552007Z HOME=/github/home
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.4552872Z GITHUB_ACTIONS=true
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.4557864Z CI=true
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.4559196Z PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.4560131Z LC_ALL=C.UTF-8
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.4560808Z LANG=C.UTF-8
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.4561049Z SHELL=/bin/bash
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.4575197Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.4585231Z ##[group]Waiting for all services to be ready
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T10:17:28.4587960Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Check out exact source commit	﻿2026-07-30T10:17:28.4895111Z ##[group]Run actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4895859Z with:
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4896101Z   ref: 11243c4c1f094bea80d9c44534ad88039c7ae3bb
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4896419Z   persist-credentials: false
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4896730Z   repository: hasslelee/flipguard
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4899343Z   token: ***
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4899552Z   ssh-strict: true
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4899753Z   ssh-user: git
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4899940Z   clean: true
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4900145Z   sparse-checkout-cone-mode: true
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4900398Z   fetch-depth: 1
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4900592Z   fetch-tags: false
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4900813Z   show-progress: true
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4901018Z   lfs: false
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4901198Z   submodules: false
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4901401Z   set-safe-directory: true
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4901912Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.4963900Z ##[command]/usr/bin/docker exec  9051a48b61c9e742ba50251e0af6662984be6e4773abdf9d3d5cdd4191bde950 sh -c "cat /etc/*release | grep ^ID"
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.7000950Z Syncing repository: hasslelee/flipguard
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.7002837Z ##[group]Getting Git version info
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.7003272Z Working directory is '/__w/flipguard/flipguard'
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.7003872Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.7004131Z Deleting the contents of '/__w/flipguard/flipguard'
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.7004600Z The repository will be downloaded using the GitHub REST API
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.7005198Z To create a local Git repository instead, add Git 2.18 or higher to the PATH
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:28.7005611Z Downloading the archive
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:31.2612417Z Writing archive to disk
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:31.2738412Z Extracting the archive
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:31.2844862Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /__w/flipguard/flipguard/aa46bd16-5319-403f-8baa-c42e60d2ad77 -f /__w/flipguard/flipguard/aa46bd16-5319-403f-8baa-c42e60d2ad77.tar.gz
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T10:17:31.7958087Z Resolved version hasslelee-flipguard-11243c4
+guidelines-pinned-8f1ff7e	Verify source identity	﻿2026-07-30T10:17:31.8279247Z ##[group]Run set -euo pipefail
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T10:17:31.8279657Z [36;1mset -euo pipefail[0m
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T10:17:31.8279949Z [36;1mtest "$(git rev-parse HEAD)" = \[0m
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T10:17:31.8280308Z [36;1m  "11243c4c1f094bea80d9c44534ad88039c7ae3bb"[0m
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T10:17:31.8283975Z shell: bash --noprofile --norc -e -o pipefail {0}
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T10:17:31.8284322Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T10:17:31.8895663Z /__w/_temp/8ffab45c-88c4-4b1f-92b3-c024e594ba02.sh: line 2: git: command not found
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T10:17:31.8945335Z ##[error]Process completed with exit code 1.
+guidelines-pinned-8f1ff7e	Upload estimator artifact	﻿2026-07-30T10:17:31.9054685Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T10:17:31.9056423Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T10:17:31.9056816Z with:
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T10:17:31.9057312Z   name: exact-security-estimator-guidelines-pinned-8f1ff7e
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T10:17:31.9057728Z   path: exact-security-estimator/guidelines-pinned-8f1ff7e
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T10:17:31.9058069Z   if-no-files-found: error
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T10:17:31.9058294Z   retention-days: 30
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T10:17:31.9058504Z   compression-level: 6
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T10:17:31.9058713Z   overwrite: false
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T10:17:31.9058922Z   include-hidden-files: false
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T10:17:31.9059158Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T10:17:31.9063403Z ##[command]/usr/bin/docker exec  9051a48b61c9e742ba50251e0af6662984be6e4773abdf9d3d5cdd4191bde950 sh -c "cat /etc/*release | grep ^ID"
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T10:17:32.1728675Z (node:50) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T10:17:32.1729661Z (Use `node --trace-deprecation ...` to show where the warning was created)
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T10:17:32.1763547Z ##[error]No files were found with the provided path: exact-security-estimator/guidelines-pinned-8f1ff7e. No artifacts will be uploaded.
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	﻿2026-07-30T10:17:32.2077998Z Post job cleanup.
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	2026-07-30T10:17:32.2090472Z ##[command]/usr/bin/docker exec  9051a48b61c9e742ba50251e0af6662984be6e4773abdf9d3d5cdd4191bde950 sh -c "cat /etc/*release | grep ^ID"
+guidelines-pinned-8f1ff7e	Stop containers	﻿2026-07-30T10:17:32.4181500Z Stop and remove container: 7d3fc76222664c6cb485470589181d04_sagemathsagemathsha25660dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879_a58d51
+guidelines-pinned-8f1ff7e	Stop containers	2026-07-30T10:17:32.4188242Z ##[command]/usr/bin/docker rm --force 9051a48b61c9e742ba50251e0af6662984be6e4773abdf9d3d5cdd4191bde950
+guidelines-pinned-8f1ff7e	Stop containers	2026-07-30T10:17:32.5961827Z 9051a48b61c9e742ba50251e0af6662984be6e4773abdf9d3d5cdd4191bde950
+guidelines-pinned-8f1ff7e	Stop containers	2026-07-30T10:17:32.5991796Z Remove container network: github_network_ab42573a6c264ef2b23cbc090f99edaf
+guidelines-pinned-8f1ff7e	Stop containers	2026-07-30T10:17:32.5996189Z ##[command]/usr/bin/docker network rm github_network_ab42573a6c264ef2b23cbc090f99edaf
+guidelines-pinned-8f1ff7e	Stop containers	2026-07-30T10:17:32.6955870Z github_network_ab42573a6c264ef2b23cbc090f99edaf
+guidelines-pinned-8f1ff7e	Complete job	﻿2026-07-30T10:17:32.7032048Z Cleaning up orphan processes
+guidelines-pinned-8f1ff7e	Complete job	2026-07-30T10:17:32.7360938Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+current-3e48ef4	Set up job	﻿2026-07-30T10:16:38.2215339Z Current runner version: '2.336.0'
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2240916Z ##[group]Runner Image Provisioner
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2241972Z Hosted Compute Agent
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2242573Z Version: 20260707.563
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2243152Z Commit: 02667638d2b423fbc733a8e32a88b44996a3ba6e
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2243984Z Build Date: 2026-07-07T19:33:50Z
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2244647Z Worker ID: {9b3fa41c-74a1-4b37-b3ff-840616f8259e}
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2245368Z Azure Region: westus
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2245941Z ##[endgroup]
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2247714Z ##[group]Operating System
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2248515Z Ubuntu
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2249028Z 24.04.4
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2249507Z LTS
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2250071Z ##[endgroup]
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2250607Z ##[group]Runner Image
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2251243Z Image: ubuntu-24.04
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2251805Z Version: 20260720.247.2
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2252839Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260720.247/images/ubuntu/Ubuntu2404-Readme.md
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2254983Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260720.247
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2255992Z ##[endgroup]
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2257047Z ##[group]GITHUB_TOKEN Permissions
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2259474Z Contents: read
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2260123Z Metadata: read
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2260710Z ##[endgroup]
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2262832Z Secret source: Actions
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2263895Z Prepare workflow directory
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2723422Z Prepare all required actions
+current-3e48ef4	Set up job	2026-07-30T10:16:38.2772372Z Getting action download info
+current-3e48ef4	Set up job	2026-07-30T10:16:38.6229813Z Download action repository 'actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd' (SHA:93cb6efe18208431cddfb8368fd83d5badbf9bfd)
+current-3e48ef4	Set up job	2026-07-30T10:16:38.7701072Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+current-3e48ef4	Set up job	2026-07-30T10:16:39.0425852Z Complete job name: current-3e48ef4
+current-3e48ef4	Initialize containers	﻿2026-07-30T10:16:39.0941729Z ##[group]Checking docker version
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.0954754Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.1947514Z '1.48'
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.1964805Z Docker daemon API version: '1.48'
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.1965667Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.2141707Z '1.48'
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.2155130Z Docker client API version: '1.48'
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.2163362Z ##[endgroup]
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.2167558Z ##[group]Clean up resources from previous jobs
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.2173168Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=15759d"
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.2320820Z ##[command]/usr/bin/docker network prune --force --filter "label=15759d"
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.2454141Z ##[endgroup]
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.2454698Z ##[group]Create local container network
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.2464727Z ##[command]/usr/bin/docker network create --label 15759d github_network_700b1d3048bb43dfb526e16a5f9f18c7
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.3050088Z 63eb3ec8402ebba8b6b6dc1df6badb537bf3c02bc3b8ec24d204700ab4fd0563
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.3092719Z ##[endgroup]
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.3122972Z ##[group]Starting job container
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.3145565Z ##[command]/usr/bin/docker pull sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9682320Z docker.io/sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879: Pulling from sagemath/sagemath
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9694975Z 9cb31e2e37ea: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9696514Z 95196ab8b4d7: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9698235Z d5b5226fa347: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9699545Z b1f7e16221bb: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9700951Z 4ed3a858aa77: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9702277Z 4f4fb700ef54: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9703740Z bfe7b0d67bbb: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9705125Z b8c8dc23623d: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9706348Z c691011bd802: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9708462Z bfe7b0d67bbb: Waiting
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9709717Z b8c8dc23623d: Waiting
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9710909Z c691011bd802: Waiting
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9712088Z b1f7e16221bb: Waiting
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9713309Z 4ed3a858aa77: Waiting
+current-3e48ef4	Initialize containers	2026-07-30T10:16:39.9714629Z 4f4fb700ef54: Waiting
+current-3e48ef4	Initialize containers	2026-07-30T10:16:40.3563984Z d5b5226fa347: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T10:16:40.3566012Z d5b5226fa347: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T10:16:40.3568065Z 95196ab8b4d7: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T10:16:40.4482050Z 9cb31e2e37ea: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T10:16:40.4483637Z 9cb31e2e37ea: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T10:16:40.5960166Z 4ed3a858aa77: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T10:16:40.5968699Z 4ed3a858aa77: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T10:16:40.6785670Z 4f4fb700ef54: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T10:16:40.6787126Z 4f4fb700ef54: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T10:16:40.9100342Z b8c8dc23623d: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T10:16:40.9102355Z b8c8dc23623d: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T10:16:41.1304529Z c691011bd802: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T10:16:41.1306166Z c691011bd802: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T10:16:41.4699065Z b1f7e16221bb: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T10:16:41.4701790Z b1f7e16221bb: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T10:16:41.8310346Z 9cb31e2e37ea: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T10:16:44.8639048Z bfe7b0d67bbb: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T10:16:44.8639782Z bfe7b0d67bbb: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T10:16:44.9263513Z 95196ab8b4d7: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T10:16:46.3810683Z d5b5226fa347: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T10:16:49.1205333Z b1f7e16221bb: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T10:16:49.1621174Z 4ed3a858aa77: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T10:16:49.1714818Z 4f4fb700ef54: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.1806184Z bfe7b0d67bbb: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.1907393Z b8c8dc23623d: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.2020867Z c691011bd802: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.2210624Z Digest: sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.2217124Z Status: Downloaded newer image for sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.2225524Z docker.io/sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.2306475Z ##[command]/usr/bin/docker create --name c3e93d877c804e1cb1945403e4100029_sagemathsagemathsha25660dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879_06d890 --label 15759d --workdir /__w/flipguard/flipguard --network github_network_700b1d3048bb43dfb526e16a5f9f18c7 --user root -e "HOME=/github/home" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work":"/__w" -v "/home/runner/actions-runner/extracted/externals":"/__e":ro -v "/home/runner/work/_temp":"/__w/_temp" -v "/home/runner/work/_actions":"/__w/_actions" -v "/opt/hostedtoolcache":"/__t" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" --entrypoint "tail" sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879 "-f" "/dev/null"
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.2562025Z 0a8b3560a748770d731ef39d8d223542e944bca70714e1ced533746f23034412
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.2583789Z ##[command]/usr/bin/docker start 0a8b3560a748770d731ef39d8d223542e944bca70714e1ced533746f23034412
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.4720408Z 0a8b3560a748770d731ef39d8d223542e944bca70714e1ced533746f23034412
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.4753930Z ##[command]/usr/bin/docker ps --all --filter id=0a8b3560a748770d731ef39d8d223542e944bca70714e1ced533746f23034412 --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.4881271Z 0a8b3560a748770d731ef39d8d223542e944bca70714e1ced533746f23034412 Up Less than a second
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.4902238Z ##[command]/usr/bin/docker inspect --format "{{range .Config.Env}}{{println .}}{{end}}" 0a8b3560a748770d731ef39d8d223542e944bca70714e1ced533746f23034412
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.5030286Z HOME=/github/home
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.5030755Z GITHUB_ACTIONS=true
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.5031136Z CI=true
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.5032103Z PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.5032727Z LC_ALL=C.UTF-8
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.5033055Z LANG=C.UTF-8
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.5033366Z SHELL=/bin/bash
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.5052124Z ##[endgroup]
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.5062062Z ##[group]Waiting for all services to be ready
+current-3e48ef4	Initialize containers	2026-07-30T10:17:28.5063794Z ##[endgroup]
+current-3e48ef4	Check out exact source commit	﻿2026-07-30T10:17:28.5378721Z ##[group]Run actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5379471Z with:
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5379722Z   ref: 11243c4c1f094bea80d9c44534ad88039c7ae3bb
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5380036Z   persist-credentials: false
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5380344Z   repository: hasslelee/flipguard
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5382997Z   token: ***
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5383199Z   ssh-strict: true
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5383396Z   ssh-user: git
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5383581Z   clean: true
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5383782Z   sparse-checkout-cone-mode: true
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5384036Z   fetch-depth: 1
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5384227Z   fetch-tags: false
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5384448Z   show-progress: true
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5384650Z   lfs: false
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5384829Z   submodules: false
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5385029Z   set-safe-directory: true
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5385472Z ##[endgroup]
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.5449893Z ##[command]/usr/bin/docker exec  0a8b3560a748770d731ef39d8d223542e944bca70714e1ced533746f23034412 sh -c "cat /etc/*release | grep ^ID"
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.7587667Z Syncing repository: hasslelee/flipguard
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.7589117Z ##[group]Getting Git version info
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.7589493Z Working directory is '/__w/flipguard/flipguard'
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.7590048Z ##[endgroup]
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.7590307Z Deleting the contents of '/__w/flipguard/flipguard'
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.7590695Z The repository will be downloaded using the GitHub REST API
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.7591154Z To create a local Git repository instead, add Git 2.18 or higher to the PATH
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:28.7658562Z Downloading the archive
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:31.5024970Z Writing archive to disk
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:31.5133936Z Extracting the archive
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:31.5238080Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /__w/flipguard/flipguard/990e635f-5f23-4d24-9433-aa8768969966 -f /__w/flipguard/flipguard/990e635f-5f23-4d24-9433-aa8768969966.tar.gz
+current-3e48ef4	Check out exact source commit	2026-07-30T10:17:32.0330959Z Resolved version hasslelee-flipguard-11243c4
+current-3e48ef4	Verify source identity	﻿2026-07-30T10:17:32.0672256Z ##[group]Run set -euo pipefail
+current-3e48ef4	Verify source identity	2026-07-30T10:17:32.0672640Z [36;1mset -euo pipefail[0m
+current-3e48ef4	Verify source identity	2026-07-30T10:17:32.0672909Z [36;1mtest "$(git rev-parse HEAD)" = \[0m
+current-3e48ef4	Verify source identity	2026-07-30T10:17:32.0673274Z [36;1m  "11243c4c1f094bea80d9c44534ad88039c7ae3bb"[0m
+current-3e48ef4	Verify source identity	2026-07-30T10:17:32.0676899Z shell: bash --noprofile --norc -e -o pipefail {0}
+current-3e48ef4	Verify source identity	2026-07-30T10:17:32.0677544Z ##[endgroup]
+current-3e48ef4	Verify source identity	2026-07-30T10:17:32.1288113Z /__w/_temp/af75cfc2-ac6f-4d83-a726-060d8c0b4af5.sh: line 2: git: command not found
+current-3e48ef4	Verify source identity	2026-07-30T10:17:32.1330616Z ##[error]Process completed with exit code 1.
+current-3e48ef4	Upload estimator artifact	﻿2026-07-30T10:17:32.1436788Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+current-3e48ef4	Upload estimator artifact	2026-07-30T10:17:32.1439288Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+current-3e48ef4	Upload estimator artifact	2026-07-30T10:17:32.1439687Z with:
+current-3e48ef4	Upload estimator artifact	2026-07-30T10:17:32.1439927Z   name: exact-security-estimator-current-3e48ef4
+current-3e48ef4	Upload estimator artifact	2026-07-30T10:17:32.1440268Z   path: exact-security-estimator/current-3e48ef4
+current-3e48ef4	Upload estimator artifact	2026-07-30T10:17:32.1440565Z   if-no-files-found: error
+current-3e48ef4	Upload estimator artifact	2026-07-30T10:17:32.1440790Z   retention-days: 30
+current-3e48ef4	Upload estimator artifact	2026-07-30T10:17:32.1440999Z   compression-level: 6
+current-3e48ef4	Upload estimator artifact	2026-07-30T10:17:32.1441207Z   overwrite: false
+current-3e48ef4	Upload estimator artifact	2026-07-30T10:17:32.1441409Z   include-hidden-files: false
+current-3e48ef4	Upload estimator artifact	2026-07-30T10:17:32.1441640Z ##[endgroup]
+current-3e48ef4	Upload estimator artifact	2026-07-30T10:17:32.1445601Z ##[command]/usr/bin/docker exec  0a8b3560a748770d731ef39d8d223542e944bca70714e1ced533746f23034412 sh -c "cat /etc/*release | grep ^ID"
+current-3e48ef4	Upload estimator artifact	2026-07-30T10:17:32.4102851Z (node:50) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+current-3e48ef4	Upload estimator artifact	2026-07-30T10:17:32.4103747Z (Use `node --trace-deprecation ...` to show where the warning was created)
+current-3e48ef4	Upload estimator artifact	2026-07-30T10:17:32.4138617Z ##[error]No files were found with the provided path: exact-security-estimator/current-3e48ef4. No artifacts will be uploaded.
+current-3e48ef4	Post Check out exact source commit	﻿2026-07-30T10:17:32.4437959Z Post job cleanup.
+current-3e48ef4	Post Check out exact source commit	2026-07-30T10:17:32.4446068Z ##[command]/usr/bin/docker exec  0a8b3560a748770d731ef39d8d223542e944bca70714e1ced533746f23034412 sh -c "cat /etc/*release | grep ^ID"
+current-3e48ef4	Stop containers	﻿2026-07-30T10:17:32.6540834Z Stop and remove container: c3e93d877c804e1cb1945403e4100029_sagemathsagemathsha25660dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879_06d890
+current-3e48ef4	Stop containers	2026-07-30T10:17:32.6545978Z ##[command]/usr/bin/docker rm --force 0a8b3560a748770d731ef39d8d223542e944bca70714e1ced533746f23034412
+current-3e48ef4	Stop containers	2026-07-30T10:17:32.8231633Z 0a8b3560a748770d731ef39d8d223542e944bca70714e1ced533746f23034412
+current-3e48ef4	Stop containers	2026-07-30T10:17:32.8261467Z Remove container network: github_network_700b1d3048bb43dfb526e16a5f9f18c7
+current-3e48ef4	Stop containers	2026-07-30T10:17:32.8265651Z ##[command]/usr/bin/docker network rm github_network_700b1d3048bb43dfb526e16a5f9f18c7
+current-3e48ef4	Stop containers	2026-07-30T10:17:32.9302414Z github_network_700b1d3048bb43dfb526e16a5f9f18c7
+current-3e48ef4	Complete job	﻿2026-07-30T10:17:32.9372492Z Cleaning up orphan processes
+current-3e48ef4	Complete job	2026-07-30T10:17:33.0822310Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

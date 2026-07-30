@@ -1,0 +1,1057 @@
+current-3e48ef4	Set up job	﻿2026-07-30T11:09:59.7867670Z Current runner version: '2.336.0'
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7890671Z ##[group]Runner Image Provisioner
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7891399Z Hosted Compute Agent
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7891988Z Version: 20260707.563
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7892492Z Commit: 02667638d2b423fbc733a8e32a88b44996a3ba6e
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7893044Z Build Date: 2026-07-07T19:33:50Z
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7893859Z Worker ID: {ca20d1c6-8ae4-4a83-8bf7-f47d91216d53}
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7894459Z Azure Region: northcentralus
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7894987Z ##[endgroup]
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7896197Z ##[group]Operating System
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7896704Z Ubuntu
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7897178Z 24.04.4
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7897590Z LTS
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7897990Z ##[endgroup]
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7898522Z ##[group]Runner Image
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7899023Z Image: ubuntu-24.04
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7899870Z Version: 20260720.247.2
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7900734Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260720.247/images/ubuntu/Ubuntu2404-Readme.md
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7902178Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260720.247
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7902962Z ##[endgroup]
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7904092Z ##[group]GITHUB_TOKEN Permissions
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7905910Z Contents: read
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7906496Z Metadata: read
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7906963Z ##[endgroup]
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7908744Z Secret source: Actions
+current-3e48ef4	Set up job	2026-07-30T11:09:59.7909665Z Prepare workflow directory
+current-3e48ef4	Set up job	2026-07-30T11:09:59.8343195Z Prepare all required actions
+current-3e48ef4	Set up job	2026-07-30T11:09:59.8399630Z Getting action download info
+current-3e48ef4	Set up job	2026-07-30T11:10:00.0443078Z Download action repository 'actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd' (SHA:93cb6efe18208431cddfb8368fd83d5badbf9bfd)
+current-3e48ef4	Set up job	2026-07-30T11:10:00.3661436Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+current-3e48ef4	Set up job	2026-07-30T11:10:00.5982037Z Complete job name: current-3e48ef4
+current-3e48ef4	Initialize containers	﻿2026-07-30T11:10:00.6408607Z ##[group]Checking docker version
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.6419460Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.8854815Z '1.48'
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.8870143Z Docker daemon API version: '1.48'
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.8870963Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.9019018Z '1.48'
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.9030215Z Docker client API version: '1.48'
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.9035691Z ##[endgroup]
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.9038289Z ##[group]Clean up resources from previous jobs
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.9042835Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=afddca"
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.9177392Z ##[command]/usr/bin/docker network prune --force --filter "label=afddca"
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.9301259Z ##[endgroup]
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.9301761Z ##[group]Create local container network
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.9310921Z ##[command]/usr/bin/docker network create --label afddca github_network_3a1142fdbbf740638e3e0cc4f20181b4
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.9848024Z f3c074742cfa55c11da80567148df12fc054fc96b407d1a02059be18a17f75af
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.9862814Z ##[endgroup]
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.9886749Z ##[group]Starting job container
+current-3e48ef4	Initialize containers	2026-07-30T11:10:00.9920790Z ##[command]/usr/bin/docker pull sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4881939Z docker.io/sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879: Pulling from sagemath/sagemath
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4886649Z 9cb31e2e37ea: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4887655Z 95196ab8b4d7: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4888599Z d5b5226fa347: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4889534Z b1f7e16221bb: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4890495Z 4ed3a858aa77: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4891287Z 4f4fb700ef54: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4891969Z bfe7b0d67bbb: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4892688Z b8c8dc23623d: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4893434Z c691011bd802: Pulling fs layer
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4895326Z 4ed3a858aa77: Waiting
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4896031Z 4f4fb700ef54: Waiting
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4896615Z bfe7b0d67bbb: Waiting
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4897246Z b8c8dc23623d: Waiting
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4897853Z c691011bd802: Waiting
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.4898514Z b1f7e16221bb: Waiting
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.6119839Z 95196ab8b4d7: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.6121278Z 95196ab8b4d7: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.6122415Z d5b5226fa347: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.6123454Z d5b5226fa347: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.6920750Z 4ed3a858aa77: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.6923035Z 4ed3a858aa77: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.6982609Z 9cb31e2e37ea: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.6984824Z 9cb31e2e37ea: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.7788243Z 4f4fb700ef54: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.8535463Z b8c8dc23623d: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.8539858Z b8c8dc23623d: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.9323083Z c691011bd802: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T11:10:01.9327050Z c691011bd802: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:02.0119097Z b1f7e16221bb: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T11:10:02.0121479Z b1f7e16221bb: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:02.8150499Z 9cb31e2e37ea: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:03.2062992Z 95196ab8b4d7: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:05.3137587Z bfe7b0d67bbb: Verifying Checksum
+current-3e48ef4	Initialize containers	2026-07-30T11:10:05.3138026Z bfe7b0d67bbb: Download complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:10.6443109Z d5b5226fa347: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:14.2349886Z b1f7e16221bb: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:14.2536464Z 4ed3a858aa77: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:14.2640314Z 4f4fb700ef54: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.0034167Z bfe7b0d67bbb: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.0114634Z b8c8dc23623d: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.0928099Z c691011bd802: Pull complete
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.1034354Z Digest: sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.1039313Z Status: Downloaded newer image for sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.1047748Z docker.io/sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.1129241Z ##[command]/usr/bin/docker create --name fb682c45b8984996b153821bcbbf8b35_sagemathsagemathsha25660dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879_8d3f38 --label afddca --workdir /__w/flipguard/flipguard --network github_network_3a1142fdbbf740638e3e0cc4f20181b4 --user root -e "HOME=/github/home" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work":"/__w" -v "/home/runner/actions-runner/cached/2.336.0/externals":"/__e":ro -v "/home/runner/work/_temp":"/__w/_temp" -v "/home/runner/work/_actions":"/__w/_actions" -v "/opt/hostedtoolcache":"/__t" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" --entrypoint "tail" sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879 "-f" "/dev/null"
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.1323463Z 0d1ed3620468d1edc66eec3f732b9c500779bf44d1b8ee65eaa0169620b044e3
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.1341477Z ##[command]/usr/bin/docker start 0d1ed3620468d1edc66eec3f732b9c500779bf44d1b8ee65eaa0169620b044e3
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.2815227Z 0d1ed3620468d1edc66eec3f732b9c500779bf44d1b8ee65eaa0169620b044e3
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.2832739Z ##[command]/usr/bin/docker ps --all --filter id=0d1ed3620468d1edc66eec3f732b9c500779bf44d1b8ee65eaa0169620b044e3 --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.2931215Z 0d1ed3620468d1edc66eec3f732b9c500779bf44d1b8ee65eaa0169620b044e3 Up Less than a second
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.2948411Z ##[command]/usr/bin/docker inspect --format "{{range .Config.Env}}{{println .}}{{end}}" 0d1ed3620468d1edc66eec3f732b9c500779bf44d1b8ee65eaa0169620b044e3
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.3039914Z GITHUB_ACTIONS=true
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.3040184Z CI=true
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.3040400Z HOME=/github/home
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.3040955Z PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.3041265Z LC_ALL=C.UTF-8
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.3041706Z LANG=C.UTF-8
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.3042021Z SHELL=/bin/bash
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.3061502Z ##[endgroup]
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.3069394Z ##[group]Waiting for all services to be ready
+current-3e48ef4	Initialize containers	2026-07-30T11:10:54.3070805Z ##[endgroup]
+current-3e48ef4	Install Git for provenance checkout	﻿2026-07-30T11:10:54.3233266Z ##[group]Run set -euo pipefail
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:54.3233582Z [36;1mset -euo pipefail[0m
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:54.3234040Z [36;1mapt-get update[0m
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:54.3234330Z [36;1mapt-get install -y --no-install-recommends git ca-certificates[0m
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:54.3234637Z [36;1mgit --version[0m
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:54.3238017Z shell: bash --noprofile --norc -e -o pipefail {0}
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:54.3238436Z ##[endgroup]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:54.4534183Z Get:1 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:54.6264284Z Get:2 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:54.6676953Z Get:3 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:54.7036648Z Get:4 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:54.7238436Z Get:5 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:54.7378758Z Get:6 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:54.7483062Z Get:7 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:55.0022292Z Get:8 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:55.0100458Z Get:9 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1616 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:55.0147102Z Get:10 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [7763 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:55.0696187Z Get:11 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [92.7 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:55.0707636Z Get:12 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [4484 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:55.1570001Z Get:13 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [35.6 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:55.1585221Z Get:14 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [82.8 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:55.3281776Z Get:15 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1314 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:56.0471041Z Get:16 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [4151 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:56.4220060Z Get:17 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [7472 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:56.6848820Z Get:18 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [84.1 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:56.9188647Z Fetched 47.4 MB in 3s (18.8 MB/s)
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:57.6664983Z Reading package lists...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.4462706Z Reading package lists...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.6141649Z Building dependency tree...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.6141980Z Reading state information...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.7406375Z The following additional packages will be installed:
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.7407312Z   git-man libbrotli1 libcurl3-gnutls liberror-perl libexpat1 libgdbm-compat4
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.7408822Z   libgdbm6 libldap-2.5-0 libnghttp2-14 libperl5.34 libpsl5 librtmp1 libsasl2-2
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.7416699Z   libsasl2-modules-db libssh-4 perl perl-base perl-modules-5.34
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.7417705Z Suggested packages:
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.7418394Z   gettext-base git-daemon-run | git-daemon-sysvinit git-doc git-email git-gui
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.7418914Z   gitk gitweb git-cvs git-mediawiki git-svn gdbm-l10n perl-doc
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.7419377Z   libterm-readline-gnu-perl | libterm-readline-perl-perl make
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.7419702Z   libtap-harness-archive-perl
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.7419905Z Recommended packages:
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.7420304Z   patch less ssh-client libldap-common publicsuffix libsasl2-modules netbase
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.8728915Z The following NEW packages will be installed:
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.8730064Z   ca-certificates git git-man libbrotli1 libcurl3-gnutls liberror-perl
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.8730709Z   libexpat1 libgdbm-compat4 libgdbm6 libldap-2.5-0 libnghttp2-14 libperl5.34
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.8732611Z   libpsl5 librtmp1 libsasl2-2 libsasl2-modules-db libssh-4 perl
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.8733337Z   perl-modules-5.34
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.8742335Z The following packages will be upgraded:
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:58.8743307Z   perl-base
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:59.1370697Z 1 upgraded, 19 newly installed, 0 to remove and 74 not upgraded.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:59.1371203Z Need to get 15.5 MB of archives.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:59.1371478Z After this operation, 73.3 MB of additional disk space will be used.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:10:59.1371936Z Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 perl-base amd64 5.34.0-3ubuntu1.7 [1763 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:00.4487573Z Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 perl-modules-5.34 all 5.34.0-3ubuntu1.7 [2977 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:00.7640877Z Get:3 http://archive.ubuntu.com/ubuntu jammy/main amd64 libgdbm6 amd64 1.23-1 [33.9 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:00.7648246Z Get:4 http://archive.ubuntu.com/ubuntu jammy/main amd64 libgdbm-compat4 amd64 1.23-1 [6606 B]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:00.7649955Z Get:5 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libperl5.34 amd64 5.34.0-3ubuntu1.7 [4817 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.0185320Z Get:6 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 perl amd64 5.34.0-3ubuntu1.7 [232 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.0237724Z Get:7 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 ca-certificates all 20260601~22.04.1 [141 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.0274143Z Get:8 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libexpat1 amd64 2.4.7-1ubuntu0.7 [92.1 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.0291444Z Get:9 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libnghttp2-14 amd64 1.43.0-1ubuntu0.4 [76.9 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.0322921Z Get:10 http://archive.ubuntu.com/ubuntu jammy/main amd64 libpsl5 amd64 0.21.0-1.2build2 [58.4 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.0339939Z Get:11 http://archive.ubuntu.com/ubuntu jammy/main amd64 libbrotli1 amd64 1.0.9-2build6 [315 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.0810201Z Get:12 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libsasl2-modules-db amd64 2.1.27+dfsg2-3ubuntu1.2 [20.5 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.0814056Z Get:13 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libsasl2-2 amd64 2.1.27+dfsg2-3ubuntu1.2 [53.8 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.0823516Z Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libldap-2.5-0 amd64 2.5.20+dfsg-0ubuntu0.22.04.1 [184 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.1441171Z Get:15 http://archive.ubuntu.com/ubuntu jammy/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2build4 [58.2 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.2694641Z Get:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libssh-4 amd64 0.9.6-2ubuntu0.22.04.7 [187 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.2708912Z Get:17 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libcurl3-gnutls amd64 7.81.0-1ubuntu1.25 [284 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.2744415Z Get:18 http://archive.ubuntu.com/ubuntu jammy/main amd64 liberror-perl all 0.17029-1 [26.5 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.2747401Z Get:19 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 git-man all 1:2.34.1-1ubuntu1.17 [954 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.2869927Z Get:20 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 git amd64 1:2.34.1-1ubuntu1.17 [3174 kB]
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:01.9912078Z debconf: delaying package configuration, since apt-utils is not installed
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.0575444Z Fetched 15.5 MB in 3s (6143 kB/s)
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2766014Z (Reading database ... 
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2766781Z (Reading database ... 5%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2767078Z (Reading database ... 10%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2767367Z (Reading database ... 15%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2767648Z (Reading database ... 20%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2767923Z (Reading database ... 25%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2768206Z (Reading database ... 30%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2768488Z (Reading database ... 35%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2769079Z (Reading database ... 40%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2769343Z (Reading database ... 45%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2769630Z (Reading database ... 50%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2769906Z (Reading database ... 55%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2770179Z (Reading database ... 60%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2783357Z (Reading database ... 65%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2787830Z (Reading database ... 70%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2790910Z (Reading database ... 75%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2794440Z (Reading database ... 80%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2800335Z (Reading database ... 85%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2804770Z (Reading database ... 90%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2812353Z (Reading database ... 95%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2812656Z (Reading database ... 100%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2813077Z (Reading database ... 8926 files and directories currently installed.)
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.2868772Z Preparing to unpack .../perl-base_5.34.0-3ubuntu1.7_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:02.3355167Z Unpacking perl-base (5.34.0-3ubuntu1.7) over (5.34.0-3ubuntu1.3) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:03.9611774Z Setting up perl-base (5.34.0-3ubuntu1.7) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0932126Z Selecting previously unselected package perl-modules-5.34.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0943630Z (Reading database ... 
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0944369Z (Reading database ... 5%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0944796Z (Reading database ... 10%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0945062Z (Reading database ... 15%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0945288Z (Reading database ... 20%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0945562Z (Reading database ... 25%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0945779Z (Reading database ... 30%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0946001Z (Reading database ... 35%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0946235Z (Reading database ... 40%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0946461Z (Reading database ... 45%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0946682Z (Reading database ... 50%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0946905Z (Reading database ... 55%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0947127Z (Reading database ... 60%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0947355Z (Reading database ... 65%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0956751Z (Reading database ... 70%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0959866Z (Reading database ... 75%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0963172Z (Reading database ... 80%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0968205Z (Reading database ... 85%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0973613Z (Reading database ... 90%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0982683Z (Reading database ... 95%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0983057Z (Reading database ... 100%
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0983357Z (Reading database ... 8926 files and directories currently installed.)
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0986947Z Preparing to unpack .../00-perl-modules-5.34_5.34.0-3ubuntu1.7_all.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.0994925Z Unpacking perl-modules-5.34 (5.34.0-3ubuntu1.7) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.3271095Z Selecting previously unselected package libgdbm6:amd64.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.3285532Z Preparing to unpack .../01-libgdbm6_1.23-1_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.3302503Z Unpacking libgdbm6:amd64 (1.23-1) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.3426149Z Selecting previously unselected package libgdbm-compat4:amd64.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.3434587Z Preparing to unpack .../02-libgdbm-compat4_1.23-1_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.3442061Z Unpacking libgdbm-compat4:amd64 (1.23-1) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.3564787Z Selecting previously unselected package libperl5.34:amd64.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.3573161Z Preparing to unpack .../03-libperl5.34_5.34.0-3ubuntu1.7_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.3581600Z Unpacking libperl5.34:amd64 (5.34.0-3ubuntu1.7) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.4959396Z Selecting previously unselected package perl.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.4972047Z Preparing to unpack .../04-perl_5.34.0-3ubuntu1.7_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.5017617Z Unpacking perl (5.34.0-3ubuntu1.7) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.5222839Z Selecting previously unselected package ca-certificates.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.5233172Z Preparing to unpack .../05-ca-certificates_20260601~22.04.1_all.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.5241368Z Unpacking ca-certificates (20260601~22.04.1) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.5548841Z Selecting previously unselected package libexpat1:amd64.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.5559359Z Preparing to unpack .../06-libexpat1_2.4.7-1ubuntu0.7_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.5567419Z Unpacking libexpat1:amd64 (2.4.7-1ubuntu0.7) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.5895465Z Selecting previously unselected package libnghttp2-14:amd64.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.5905066Z Preparing to unpack .../07-libnghttp2-14_1.43.0-1ubuntu0.4_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.5913313Z Unpacking libnghttp2-14:amd64 (1.43.0-1ubuntu0.4) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6040477Z Selecting previously unselected package libpsl5:amd64.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6049220Z Preparing to unpack .../08-libpsl5_0.21.0-1.2build2_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6057082Z Unpacking libpsl5:amd64 (0.21.0-1.2build2) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6179322Z Selecting previously unselected package libbrotli1:amd64.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6187918Z Preparing to unpack .../09-libbrotli1_1.0.9-2build6_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6196365Z Unpacking libbrotli1:amd64 (1.0.9-2build6) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6343266Z Selecting previously unselected package libsasl2-modules-db:amd64.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6351728Z Preparing to unpack .../10-libsasl2-modules-db_2.1.27+dfsg2-3ubuntu1.2_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6359522Z Unpacking libsasl2-modules-db:amd64 (2.1.27+dfsg2-3ubuntu1.2) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6584414Z Selecting previously unselected package libsasl2-2:amd64.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6592734Z Preparing to unpack .../11-libsasl2-2_2.1.27+dfsg2-3ubuntu1.2_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6600787Z Unpacking libsasl2-2:amd64 (2.1.27+dfsg2-3ubuntu1.2) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6730545Z Selecting previously unselected package libldap-2.5-0:amd64.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6739675Z Preparing to unpack .../12-libldap-2.5-0_2.5.20+dfsg-0ubuntu0.22.04.1_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6748229Z Unpacking libldap-2.5-0:amd64 (2.5.20+dfsg-0ubuntu0.22.04.1) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6890223Z Selecting previously unselected package librtmp1:amd64.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6898854Z Preparing to unpack .../13-librtmp1_2.4+20151223.gitfa8646d.1-2build4_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.6907427Z Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build4) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7028615Z Selecting previously unselected package libssh-4:amd64.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7037479Z Preparing to unpack .../14-libssh-4_0.9.6-2ubuntu0.22.04.7_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7046033Z Unpacking libssh-4:amd64 (0.9.6-2ubuntu0.22.04.7) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7180635Z Selecting previously unselected package libcurl3-gnutls:amd64.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7188891Z Preparing to unpack .../15-libcurl3-gnutls_7.81.0-1ubuntu1.25_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7197310Z Unpacking libcurl3-gnutls:amd64 (7.81.0-1ubuntu1.25) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7327681Z Selecting previously unselected package liberror-perl.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7336137Z Preparing to unpack .../16-liberror-perl_0.17029-1_all.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7344542Z Unpacking liberror-perl (0.17029-1) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7463498Z Selecting previously unselected package git-man.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7472615Z Preparing to unpack .../17-git-man_1%3a2.34.1-1ubuntu1.17_all.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7480250Z Unpacking git-man (1:2.34.1-1ubuntu1.17) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7683141Z Selecting previously unselected package git.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7692878Z Preparing to unpack .../18-git_1%3a2.34.1-1ubuntu1.17_amd64.deb ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.7737662Z Unpacking git (1:2.34.1-1ubuntu1.17) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.8723463Z Setting up libexpat1:amd64 (2.4.7-1ubuntu0.7) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.8744457Z Setting up libpsl5:amd64 (0.21.0-1.2build2) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.8765219Z Setting up libbrotli1:amd64 (1.0.9-2build6) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.8786589Z Setting up libnghttp2-14:amd64 (1.43.0-1ubuntu0.4) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.8807171Z Setting up perl-modules-5.34 (5.34.0-3ubuntu1.7) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.8827570Z Setting up libsasl2-modules-db:amd64 (2.1.27+dfsg2-3ubuntu1.2) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.8847650Z Setting up ca-certificates (20260601~22.04.1) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.9363520Z debconf: unable to initialize frontend: Dialog
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.9364116Z debconf: (TERM is not set, so the dialog frontend is not usable.)
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:04.9364441Z debconf: falling back to frontend: Readline
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.2673079Z Updating certificates in /etc/ssl/certs...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.7389876Z 121 added, 0 removed; done.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.7537877Z Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build4) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.7557481Z Setting up libsasl2-2:amd64 (2.1.27+dfsg2-3ubuntu1.2) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.7577018Z Setting up libssh-4:amd64 (0.9.6-2ubuntu0.22.04.7) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.7597696Z Setting up git-man (1:2.34.1-1ubuntu1.17) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.7617412Z Setting up libgdbm6:amd64 (1.23-1) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.7638793Z Setting up libldap-2.5-0:amd64 (2.5.20+dfsg-0ubuntu0.22.04.1) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.7659643Z Setting up libgdbm-compat4:amd64 (1.23-1) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.7680101Z Setting up libperl5.34:amd64 (5.34.0-3ubuntu1.7) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.7699991Z Setting up libcurl3-gnutls:amd64 (7.81.0-1ubuntu1.25) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.7720029Z Setting up perl (5.34.0-3ubuntu1.7) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.7798773Z Setting up liberror-perl (0.17029-1) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.7821154Z Setting up git (1:2.34.1-1ubuntu1.17) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.7887135Z Processing triggers for libc-bin (2.35-0ubuntu3.8) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.8539027Z Processing triggers for ca-certificates (20260601~22.04.1) ...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:05.8600225Z Updating certificates in /etc/ssl/certs...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:06.2256393Z 0 added, 0 removed; done.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:06.2256977Z Running hooks in /etc/ca-certificates/update.d...
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:06.2263333Z done.
+current-3e48ef4	Install Git for provenance checkout	2026-07-30T11:11:06.2444658Z git version 2.34.1
+current-3e48ef4	Check out exact source commit	﻿2026-07-30T11:11:06.2623615Z ##[group]Run actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2624152Z with:
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2624353Z   ref: 2e145031d286072f63940af092e739d35ee96803
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2624580Z   persist-credentials: false
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2624789Z   repository: hasslelee/flipguard
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2626634Z   token: ***
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2626808Z   ssh-strict: true
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2626967Z   ssh-user: git
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2627131Z   clean: true
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2627291Z   sparse-checkout-cone-mode: true
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2627485Z   fetch-depth: 1
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2627639Z   fetch-tags: false
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2627800Z   show-progress: true
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2627957Z   lfs: false
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2628097Z   submodules: false
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2628250Z   set-safe-directory: true
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2628426Z ##[endgroup]
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.2665111Z ##[command]/usr/bin/docker exec  0d1ed3620468d1edc66eec3f732b9c500779bf44d1b8ee65eaa0169620b044e3 sh -c "cat /etc/*release | grep ^ID"
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4305963Z Syncing repository: hasslelee/flipguard
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4307495Z ##[group]Getting Git version info
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4307895Z Working directory is '/__w/flipguard/flipguard'
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4308482Z [command]/usr/bin/git version
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4308755Z git version 2.34.1
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4309812Z ##[endgroup]
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4322075Z Temporarily overriding HOME='/__w/_temp/38de13f5-3f43-4a1d-b05b-9bb37ca32ec3' before making global git config changes
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4322760Z Adding repository directory to the temporary git global config as a safe directory
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4327506Z [command]/usr/bin/git config --global --add safe.directory /__w/flipguard/flipguard
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4355809Z Deleting the contents of '/__w/flipguard/flipguard'
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4359225Z ##[group]Initializing the repository
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4362268Z [command]/usr/bin/git init /__w/flipguard/flipguard
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4392447Z hint: Using 'master' as the name for the initial branch. This default branch name
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4393104Z hint: is subject to change. To configure the initial branch name to use in all
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4395828Z hint: of your new repositories, which will suppress this warning, call:
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4396221Z hint: 
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4396608Z hint: 	git config --global init.defaultBranch <name>
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4396857Z hint: 
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4397116Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4397677Z hint: 'development'. The just-created branch can be renamed via this command:
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4397961Z hint: 
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4398155Z hint: 	git branch -m <name>
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4407166Z Initialized empty Git repository in /__w/flipguard/flipguard/.git/
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4416341Z [command]/usr/bin/git remote add origin https://github.com/hasslelee/flipguard
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4445317Z ##[endgroup]
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4445869Z ##[group]Disabling automatic garbage collection
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4448302Z [command]/usr/bin/git config --local gc.auto 0
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4472540Z ##[endgroup]
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4472938Z ##[group]Setting up auth
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4479361Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4504328Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4727425Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4760910Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.4981307Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.5020330Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.5227790Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.5261459Z ##[endgroup]
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.5261915Z ##[group]Fetching the repository
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:06.5268477Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 2e145031d286072f63940af092e739d35ee96803
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.6277699Z From https://github.com/hasslelee/flipguard
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.6278121Z  * branch            2e145031d286072f63940af092e739d35ee96803 -> FETCH_HEAD
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.6294209Z ##[endgroup]
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.6294671Z ##[group]Determining the checkout info
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.6299858Z ##[endgroup]
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.6300974Z [command]/usr/bin/git sparse-checkout disable
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.6335117Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.6360284Z ##[group]Checking out the ref
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.6363509Z [command]/usr/bin/git checkout --progress --force 2e145031d286072f63940af092e739d35ee96803
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9784178Z Note: switching to '2e145031d286072f63940af092e739d35ee96803'.
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9784556Z 
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9784781Z You are in 'detached HEAD' state. You can look around, make experimental
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9785182Z changes and commit them, and you can discard any commits you make in this
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9785536Z state without impacting any branches by switching back to a branch.
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9785737Z 
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9785884Z If you want to create a new branch to retain commits you create, you may
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9786213Z do so (now or later) by using -c with the switch command. Example:
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9786400Z 
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9786482Z   git switch -c <new-branch-name>
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9786611Z 
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9786701Z Or undo this operation with:
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9786822Z 
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9786889Z   git switch -
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9786988Z 
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9787145Z Turn off this advice by setting config variable advice.detachedHead to false
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9787374Z 
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9787508Z HEAD is now at 2e14503 Trigger estimator when assurance inputs change
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9803567Z ##[endgroup]
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9841318Z [command]/usr/bin/git log -1 --format=%H
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9864112Z 2e145031d286072f63940af092e739d35ee96803
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9872829Z ##[group]Removing auth
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9875926Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:07.9903260Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:08.0109978Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:08.0131187Z http.https://github.com/.extraheader
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:08.0142175Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:08.0206186Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:08.0411294Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:08.0454780Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+current-3e48ef4	Check out exact source commit	2026-07-30T11:11:08.0636445Z ##[endgroup]
+current-3e48ef4	Verify source identity	﻿2026-07-30T11:11:08.0786926Z ##[group]Run set -euo pipefail
+current-3e48ef4	Verify source identity	2026-07-30T11:11:08.0787186Z [36;1mset -euo pipefail[0m
+current-3e48ef4	Verify source identity	2026-07-30T11:11:08.0787377Z [36;1mactual_head="$([0m
+current-3e48ef4	Verify source identity	2026-07-30T11:11:08.0787630Z [36;1m  git -c "safe.directory=$GITHUB_WORKSPACE" rev-parse HEAD[0m
+current-3e48ef4	Verify source identity	2026-07-30T11:11:08.0787912Z [36;1m)"[0m
+current-3e48ef4	Verify source identity	2026-07-30T11:11:08.0788081Z [36;1mtest "$actual_head" = \[0m
+current-3e48ef4	Verify source identity	2026-07-30T11:11:08.0788316Z [36;1m  "2e145031d286072f63940af092e739d35ee96803"[0m
+current-3e48ef4	Verify source identity	2026-07-30T11:11:08.0788690Z shell: bash --noprofile --norc -e -o pipefail {0}
+current-3e48ef4	Verify source identity	2026-07-30T11:11:08.0788945Z ##[endgroup]
+current-3e48ef4	Fetch pinned estimator source	﻿2026-07-30T11:11:08.1287355Z ##[group]Run set -euo pipefail
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:08.1287617Z [36;1mset -euo pipefail[0m
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:08.1287831Z [36;1mgit clone --filter=blob:none \[0m
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:08.1288098Z [36;1m  https://github.com/malb/lattice-estimator.git \[0m
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:08.1288356Z [36;1m  /tmp/lattice-estimator[0m
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:08.1288584Z [36;1mgit -C /tmp/lattice-estimator checkout \[0m
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:08.1288854Z [36;1m  "3e48ef421ec256afddb3e7d2249a77eab6e9ba12"[0m
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:08.1289160Z [36;1mtest "$(git -C /tmp/lattice-estimator rev-parse HEAD)" = \[0m
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:08.1289450Z [36;1m  "3e48ef421ec256afddb3e7d2249a77eab6e9ba12"[0m
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:08.1289809Z shell: bash --noprofile --norc -e -o pipefail {0}
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:08.1290043Z ##[endgroup]
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:08.1738342Z Cloning into '/tmp/lattice-estimator'...
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2348753Z Note: switching to '3e48ef421ec256afddb3e7d2249a77eab6e9ba12'.
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2349153Z 
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2349400Z You are in 'detached HEAD' state. You can look around, make experimental
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2350182Z changes and commit them, and you can discard any commits you make in this
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2350717Z state without impacting any branches by switching back to a branch.
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2351014Z 
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2351157Z If you want to create a new branch to retain commits you create, you may
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2351485Z do so (now or later) by using -c with the switch command. Example:
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2351668Z 
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2351760Z   git switch -c <new-branch-name>
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2351897Z 
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2351981Z Or undo this operation with:
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2352100Z 
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2352175Z   git switch -
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2352266Z 
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2352428Z Turn off this advice by setting config variable advice.detachedHead to false
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2352655Z 
+current-3e48ef4	Fetch pinned estimator source	2026-07-30T11:11:09.2352864Z HEAD is now at 3e48ef4 Merge pull request #218 from identitymapping/fix/sis-euclidean-trivial-check
+current-3e48ef4	Run exact Q and QP estimates	﻿2026-07-30T11:11:09.2421180Z ##[group]Run set -euo pipefail
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2421552Z [36;1mset -euo pipefail[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2421780Z [36;1mout="exact-security-estimator/current-3e48ef4"[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2439053Z [36;1mmkdir -p "$out"[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2439348Z [36;1mexport FLIPGUARD_SAGE_VERSION="$(sage --version)"[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2439644Z [36;1mexport PYTHONPATH="/tmp/lattice-estimator"[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2439939Z [36;1msage -python scripts/run_exact_security_estimator.py \[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2440370Z [36;1m  --input docs/evidence/security_v2_static_attestation_formal_v2/lattice_estimator_inputs_v2.json \[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2440763Z [36;1m  --output "$out/results.json" \[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2441014Z [36;1m  --estimator-root /tmp/lattice-estimator \[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2441337Z [36;1m  --estimator-commit "3e48ef421ec256afddb3e7d2249a77eab6e9ba12" \[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2441634Z [36;1m  --model-id "current-3e48ef4" \[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2441877Z [36;1m  --model-role "CURRENT_ESTIMATOR_SENSITIVITY" \[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2442219Z [36;1m  --source-commit "2e145031d286072f63940af092e739d35ee96803"[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2442545Z [36;1msage -python scripts/verify_exact_security_estimator.py \[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2442854Z [36;1m  --result "$out/results.json" \[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2443081Z [36;1m  --require-complete-attack-coverage[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2443347Z [36;1msha256sum "$out/results.json" > "$out/SHA256SUMS"[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2443622Z [36;1mgit -C /tmp/lattice-estimator status --short > \[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2444154Z [36;1m  "$out/estimator_git_status.txt"[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2444385Z [36;1mtest ! -s "$out/estimator_git_status.txt"[0m
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2444768Z shell: bash --noprofile --norc -e -o pipefail {0}
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2444991Z env:
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2445352Z   FLIPGUARD_CONTAINER_IMAGE: sagemath/sagemath:10.6@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:11:09.2445764Z ##[endgroup]
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:18:41.1274854Z exact_security_estimator=current-3e48ef4 output=exact-security-estimator/current-3e48ef4/results.json
+current-3e48ef4	Run exact Q and QP estimates	2026-07-30T11:18:43.6394047Z exact_security_estimator=VERIFIED model=current-3e48ef4 status=FALSIFIED_UNDER_ESTIMATOR_MODEL attack_failures=0
+current-3e48ef4	Upload estimator artifact	﻿2026-07-30T11:18:43.6576400Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.6577918Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.6578218Z with:
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.6578409Z   name: exact-security-estimator-current-3e48ef4
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.6578667Z   path: exact-security-estimator/current-3e48ef4
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.6578891Z   if-no-files-found: error
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.6579067Z   retention-days: 30
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.6579230Z   compression-level: 6
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.6579425Z   overwrite: false
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.6579590Z   include-hidden-files: false
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.6579772Z ##[endgroup]
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.6582916Z ##[command]/usr/bin/docker exec  0d1ed3620468d1edc66eec3f732b9c500779bf44d1b8ee65eaa0169620b044e3 sh -c "cat /etc/*release | grep ^ID"
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.8745090Z (node:3117) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.8745962Z (Use `node --trace-deprecation ...` to show where the warning was created)
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.8825781Z With the provided path, there will be 3 files uploaded
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.8826541Z Artifact name is valid!
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:43.8826825Z Root directory input is valid!
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:44.0535608Z Beginning upload of artifact content to blob storage
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:44.0745134Z (node:3117) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:44.1842628Z Uploaded bytes 4575
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:44.2185477Z Finished uploading artifact content to blob storage!
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:44.2186233Z SHA256 digest of uploaded artifact zip is 6b5fdde2e48b5d4a1419df3e3d9beab90e718033874899a1d916e636591af6af
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:44.2187813Z Finalizing artifact upload
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:44.3981907Z Artifact exact-security-estimator-current-3e48ef4.zip successfully finalized. Artifact ID 8757480851
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:44.3983073Z Artifact exact-security-estimator-current-3e48ef4 has been successfully uploaded! Final size is 4575 bytes. Artifact ID is 8757480851
+current-3e48ef4	Upload estimator artifact	2026-07-30T11:18:44.3987408Z Artifact download URL: https://github.com/hasslelee/flipguard/actions/runs/30537489124/artifacts/8757480851
+current-3e48ef4	Post Check out exact source commit	﻿2026-07-30T11:18:44.4164077Z Post job cleanup.
+current-3e48ef4	Post Check out exact source commit	2026-07-30T11:18:44.4169773Z ##[command]/usr/bin/docker exec  0d1ed3620468d1edc66eec3f732b9c500779bf44d1b8ee65eaa0169620b044e3 sh -c "cat /etc/*release | grep ^ID"
+current-3e48ef4	Post Check out exact source commit	2026-07-30T11:18:44.5703533Z [command]/usr/bin/git version
+current-3e48ef4	Post Check out exact source commit	2026-07-30T11:18:44.5739247Z git version 2.34.1
+current-3e48ef4	Post Check out exact source commit	2026-07-30T11:18:44.5774163Z Temporarily overriding HOME='/__w/_temp/f19f4551-ba49-4848-acb3-ebe4844e34bc' before making global git config changes
+current-3e48ef4	Post Check out exact source commit	2026-07-30T11:18:44.5775178Z Adding repository directory to the temporary git global config as a safe directory
+current-3e48ef4	Post Check out exact source commit	2026-07-30T11:18:44.5780739Z [command]/usr/bin/git config --global --add safe.directory /__w/flipguard/flipguard
+current-3e48ef4	Post Check out exact source commit	2026-07-30T11:18:44.5808816Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+current-3e48ef4	Post Check out exact source commit	2026-07-30T11:18:44.5837715Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+current-3e48ef4	Post Check out exact source commit	2026-07-30T11:18:44.6134593Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+current-3e48ef4	Post Check out exact source commit	2026-07-30T11:18:44.6137175Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+current-3e48ef4	Post Check out exact source commit	2026-07-30T11:18:44.6401626Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+current-3e48ef4	Post Check out exact source commit	2026-07-30T11:18:44.6439442Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+current-3e48ef4	Stop containers	﻿2026-07-30T11:18:44.6834832Z Stop and remove container: fb682c45b8984996b153821bcbbf8b35_sagemathsagemathsha25660dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879_8d3f38
+current-3e48ef4	Stop containers	2026-07-30T11:18:44.6838989Z ##[command]/usr/bin/docker rm --force 0d1ed3620468d1edc66eec3f732b9c500779bf44d1b8ee65eaa0169620b044e3
+current-3e48ef4	Stop containers	2026-07-30T11:18:45.1986928Z 0d1ed3620468d1edc66eec3f732b9c500779bf44d1b8ee65eaa0169620b044e3
+current-3e48ef4	Stop containers	2026-07-30T11:18:45.2013162Z Remove container network: github_network_3a1142fdbbf740638e3e0cc4f20181b4
+current-3e48ef4	Stop containers	2026-07-30T11:18:45.2017221Z ##[command]/usr/bin/docker network rm github_network_3a1142fdbbf740638e3e0cc4f20181b4
+current-3e48ef4	Stop containers	2026-07-30T11:18:45.3646965Z github_network_3a1142fdbbf740638e3e0cc4f20181b4
+current-3e48ef4	Complete job	﻿2026-07-30T11:18:45.3719130Z Cleaning up orphan processes
+current-3e48ef4	Complete job	2026-07-30T11:18:45.4000206Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+guidelines-pinned-8f1ff7e	Set up job	﻿2026-07-30T11:10:06.5436879Z Current runner version: '2.336.0'
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5460508Z ##[group]Runner Image Provisioner
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5461464Z Hosted Compute Agent
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5462057Z Version: 20260707.563
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5462700Z Commit: 02667638d2b423fbc733a8e32a88b44996a3ba6e
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5463451Z Build Date: 2026-07-07T19:33:50Z
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5464333Z Worker ID: {abeb7271-b921-4460-86f6-0e20c9520e0c}
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5465011Z Azure Region: westus
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5465634Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5467150Z ##[group]Operating System
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5467851Z Ubuntu
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5468374Z 24.04.4
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5468861Z LTS
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5469449Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5470020Z ##[group]Runner Image
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5470577Z Image: ubuntu-24.04
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5471192Z Version: 20260720.247.2
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5472228Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260720.247/images/ubuntu/Ubuntu2404-Readme.md
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5474782Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260720.247
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5475760Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5476912Z ##[group]GITHUB_TOKEN Permissions
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5478963Z Contents: read
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5479739Z Metadata: read
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5480305Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5482316Z Secret source: Actions
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5483383Z Prepare workflow directory
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5903752Z Prepare all required actions
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.5952891Z Getting action download info
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:06.9509868Z Download action repository 'actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd' (SHA:93cb6efe18208431cddfb8368fd83d5badbf9bfd)
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:07.1210527Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+guidelines-pinned-8f1ff7e	Set up job	2026-07-30T11:10:07.3272351Z Complete job name: guidelines-pinned-8f1ff7e
+guidelines-pinned-8f1ff7e	Initialize containers	﻿2026-07-30T11:10:07.3779499Z ##[group]Checking docker version
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:07.3792530Z ##[command]/usr/bin/docker version --format '{{.Server.APIVersion}}'
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:07.9519378Z '1.48'
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:07.9532527Z Docker daemon API version: '1.48'
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:07.9533294Z ##[command]/usr/bin/docker version --format '{{.Client.APIVersion}}'
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:07.9691986Z '1.48'
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:07.9704309Z Docker client API version: '1.48'
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:07.9709128Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:07.9711906Z ##[group]Clean up resources from previous jobs
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:07.9717409Z ##[command]/usr/bin/docker ps --all --quiet --no-trunc --filter "label=c388de"
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:07.9861022Z ##[command]/usr/bin/docker network prune --force --filter "label=c388de"
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:07.9988451Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:07.9988995Z ##[group]Create local container network
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:07.9999212Z ##[command]/usr/bin/docker network create --label c388de github_network_d7409326f2b6460eb1f9bb8c4986252a
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.0555736Z cc1db7b6efe9119dc9fc898af95ce007a463ba92ee9faedfb5ae7511b3b5b251
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.0575239Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.0599505Z ##[group]Starting job container
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.0621722Z ##[command]/usr/bin/docker pull sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6790827Z docker.io/sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879: Pulling from sagemath/sagemath
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6808151Z 9cb31e2e37ea: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6809719Z 95196ab8b4d7: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6810620Z d5b5226fa347: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6811255Z b1f7e16221bb: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6811862Z 4ed3a858aa77: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6812375Z 4f4fb700ef54: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6812908Z bfe7b0d67bbb: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6813438Z b8c8dc23623d: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6814189Z c691011bd802: Pulling fs layer
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6815086Z b1f7e16221bb: Waiting
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6815541Z 4ed3a858aa77: Waiting
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6815993Z 4f4fb700ef54: Waiting
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6816434Z c691011bd802: Waiting
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6816877Z bfe7b0d67bbb: Waiting
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.6817377Z b8c8dc23623d: Waiting
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.9048630Z d5b5226fa347: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.9050057Z d5b5226fa347: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.9122849Z 95196ab8b4d7: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.9124562Z 95196ab8b4d7: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.9950665Z 9cb31e2e37ea: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:08.9952855Z 9cb31e2e37ea: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:09.1292577Z 4ed3a858aa77: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:09.2199871Z 4f4fb700ef54: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:09.4434904Z b8c8dc23623d: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:09.4436507Z b8c8dc23623d: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:09.5133785Z b1f7e16221bb: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:09.5135278Z b1f7e16221bb: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:09.6716248Z c691011bd802: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:09.6717972Z c691011bd802: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:10.2908830Z 9cb31e2e37ea: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:13.5506484Z bfe7b0d67bbb: Verifying Checksum
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:13.5507372Z bfe7b0d67bbb: Download complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:13.6585604Z 95196ab8b4d7: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:15.0546236Z d5b5226fa347: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:17.7116237Z b1f7e16221bb: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:17.7310500Z 4ed3a858aa77: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:17.7522975Z 4f4fb700ef54: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.0519308Z bfe7b0d67bbb: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.0626638Z b8c8dc23623d: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.0744915Z c691011bd802: Pull complete
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.0881938Z Digest: sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.0888965Z Status: Downloaded newer image for sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.0897742Z docker.io/sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.0978777Z ##[command]/usr/bin/docker create --name f321499530964a559891f6b48a873485_sagemathsagemathsha25660dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879_9e1bdc --label c388de --workdir /__w/flipguard/flipguard --network github_network_d7409326f2b6460eb1f9bb8c4986252a --user root -e "HOME=/github/home" -e GITHUB_ACTIONS=true -e CI=true -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work":"/__w" -v "/home/runner/actions-runner/extracted/externals":"/__e":ro -v "/home/runner/work/_temp":"/__w/_temp" -v "/home/runner/work/_actions":"/__w/_actions" -v "/opt/hostedtoolcache":"/__t" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" --entrypoint "tail" sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879 "-f" "/dev/null"
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.1259127Z 9e5d7567a9166d1beb015c91878f793fa4ce2b7ae8235631eeee6ff6ecfe639d
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.1279737Z ##[command]/usr/bin/docker start 9e5d7567a9166d1beb015c91878f793fa4ce2b7ae8235631eeee6ff6ecfe639d
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.3260266Z 9e5d7567a9166d1beb015c91878f793fa4ce2b7ae8235631eeee6ff6ecfe639d
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.3290004Z ##[command]/usr/bin/docker ps --all --filter id=9e5d7567a9166d1beb015c91878f793fa4ce2b7ae8235631eeee6ff6ecfe639d --filter status=running --no-trunc --format "{{.ID}} {{.Status}}"
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.3404719Z 9e5d7567a9166d1beb015c91878f793fa4ce2b7ae8235631eeee6ff6ecfe639d Up Less than a second
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.3424074Z ##[command]/usr/bin/docker inspect --format "{{range .Config.Env}}{{println .}}{{end}}" 9e5d7567a9166d1beb015c91878f793fa4ce2b7ae8235631eeee6ff6ecfe639d
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.3544449Z HOME=/github/home
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.3544889Z GITHUB_ACTIONS=true
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.3545407Z CI=true
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.3545885Z PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.3546766Z LC_ALL=C.UTF-8
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.3547019Z LANG=C.UTF-8
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.3547219Z SHELL=/bin/bash
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.3553590Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.3562673Z ##[group]Waiting for all services to be ready
+guidelines-pinned-8f1ff7e	Initialize containers	2026-07-30T11:10:55.3564993Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	﻿2026-07-30T11:10:55.3768789Z ##[group]Run set -euo pipefail
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:55.3769156Z [36;1mset -euo pipefail[0m
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:55.3769425Z [36;1mapt-get update[0m
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:55.3769781Z [36;1mapt-get install -y --no-install-recommends git ca-certificates[0m
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:55.3770169Z [36;1mgit --version[0m
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:55.3774223Z shell: bash --noprofile --norc -e -o pipefail {0}
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:55.3774881Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:55.7379634Z Get:1 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:55.7776453Z Get:2 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:56.4233283Z Get:3 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1314 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:56.6932015Z Get:4 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:56.9137606Z Get:5 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:57.1351760Z Get:6 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:57.2169539Z Get:7 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:57.3018726Z Get:8 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [7472 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:57.8097635Z Get:9 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:57.8376898Z Get:10 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:57.9107320Z Get:11 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [4151 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:58.0656260Z Get:12 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [84.1 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:58.7628360Z Get:13 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1616 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:58.7828100Z Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [92.7 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:58.7837099Z Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [7763 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:58.9368664Z Get:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [4484 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:59.0345094Z Get:17 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [82.8 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:59.0367725Z Get:18 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [35.6 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:10:59.7988021Z Fetched 47.4 MB in 4s (10.9 MB/s)
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:00.6941774Z Reading package lists...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.6061334Z Reading package lists...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.7833329Z Building dependency tree...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.7834330Z Reading state information...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9146169Z The following additional packages will be installed:
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9147306Z   git-man libbrotli1 libcurl3-gnutls liberror-perl libexpat1 libgdbm-compat4
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9148607Z   libgdbm6 libldap-2.5-0 libnghttp2-14 libperl5.34 libpsl5 librtmp1 libsasl2-2
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9176309Z   libsasl2-modules-db libssh-4 perl perl-base perl-modules-5.34
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9177118Z Suggested packages:
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9177758Z   gettext-base git-daemon-run | git-daemon-sysvinit git-doc git-email git-gui
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9178660Z   gitk gitweb git-cvs git-mediawiki git-svn gdbm-l10n perl-doc
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9179451Z   libterm-readline-gnu-perl | libterm-readline-perl-perl make
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9180113Z   libtap-harness-archive-perl
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9180558Z Recommended packages:
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9181161Z   patch less ssh-client libldap-common publicsuffix libsasl2-modules netbase
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9725289Z The following NEW packages will be installed:
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9727055Z   ca-certificates git git-man libbrotli1 libcurl3-gnutls liberror-perl
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9728650Z   libexpat1 libgdbm-compat4 libgdbm6 libldap-2.5-0 libnghttp2-14 libperl5.34
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9732325Z   libpsl5 librtmp1 libsasl2-2 libsasl2-modules-db libssh-4 perl
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9734552Z   perl-modules-5.34
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9761931Z The following packages will be upgraded:
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:01.9762482Z   perl-base
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:02.2632613Z 1 upgraded, 19 newly installed, 0 to remove and 74 not upgraded.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:02.2633473Z Need to get 15.5 MB of archives.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:02.2634352Z After this operation, 73.3 MB of additional disk space will be used.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:03.7021720Z Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 perl-base amd64 5.34.0-3ubuntu1.7 [1763 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:03.7022756Z Get:2 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 perl-modules-5.34 all 5.34.0-3ubuntu1.7 [2977 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.0484644Z Get:3 http://archive.ubuntu.com/ubuntu jammy/main amd64 libgdbm6 amd64 1.23-1 [33.9 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.0503974Z Get:4 http://archive.ubuntu.com/ubuntu jammy/main amd64 libgdbm-compat4 amd64 1.23-1 [6606 B]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.0508998Z Get:5 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libperl5.34 amd64 5.34.0-3ubuntu1.7 [4817 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.3276803Z Get:6 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 perl amd64 5.34.0-3ubuntu1.7 [232 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.3331501Z Get:7 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 ca-certificates all 20260601~22.04.1 [141 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.3375805Z Get:8 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libexpat1 amd64 2.4.7-1ubuntu0.7 [92.1 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.3402908Z Get:9 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libnghttp2-14 amd64 1.43.0-1ubuntu0.4 [76.9 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.3662608Z Get:10 http://archive.ubuntu.com/ubuntu jammy/main amd64 libpsl5 amd64 0.21.0-1.2build2 [58.4 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.3880466Z Get:11 http://archive.ubuntu.com/ubuntu jammy/main amd64 libbrotli1 amd64 1.0.9-2build6 [315 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.3961747Z Get:12 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libsasl2-modules-db amd64 2.1.27+dfsg2-3ubuntu1.2 [20.5 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.3968350Z Get:13 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libsasl2-2 amd64 2.1.27+dfsg2-3ubuntu1.2 [53.8 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.3980960Z Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libldap-2.5-0 amd64 2.5.20+dfsg-0ubuntu0.22.04.1 [184 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.4660011Z Get:15 http://archive.ubuntu.com/ubuntu jammy/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2build4 [58.2 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.6052327Z Get:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libssh-4 amd64 0.9.6-2ubuntu0.22.04.7 [187 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.6076362Z Get:17 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libcurl3-gnutls amd64 7.81.0-1ubuntu1.25 [284 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.6118609Z Get:18 http://archive.ubuntu.com/ubuntu jammy/main amd64 liberror-perl all 0.17029-1 [26.5 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.6121007Z Get:19 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 git-man all 1:2.34.1-1ubuntu1.17 [954 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.6251899Z Get:20 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 git amd64 1:2.34.1-1ubuntu1.17 [3174 kB]
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7594084Z debconf: delaying package configuration, since apt-utils is not installed
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7806260Z Fetched 15.5 MB in 3s (5743 kB/s)
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7970695Z (Reading database ... 
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7971121Z (Reading database ... 5%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7971525Z (Reading database ... 10%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7971831Z (Reading database ... 15%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7972074Z (Reading database ... 20%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7972316Z (Reading database ... 25%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7972555Z (Reading database ... 30%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7972788Z (Reading database ... 35%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7973023Z (Reading database ... 40%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7973516Z (Reading database ... 45%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7973748Z (Reading database ... 50%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7974365Z (Reading database ... 55%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7974599Z (Reading database ... 60%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7980006Z (Reading database ... 65%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7984342Z (Reading database ... 70%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.7991154Z (Reading database ... 75%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.8058868Z (Reading database ... 80%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.8059345Z (Reading database ... 85%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.8059726Z (Reading database ... 90%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.8060051Z (Reading database ... 95%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.8060292Z (Reading database ... 100%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.8060631Z (Reading database ... 8926 files and directories currently installed.)
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.8061114Z Preparing to unpack .../perl-base_5.34.0-3ubuntu1.7_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:04.8136307Z Unpacking perl-base (5.34.0-3ubuntu1.7) over (5.34.0-3ubuntu1.3) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4209281Z Setting up perl-base (5.34.0-3ubuntu1.7) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4417057Z Selecting previously unselected package perl-modules-5.34.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4431111Z (Reading database ... 
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4431761Z (Reading database ... 5%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4432141Z (Reading database ... 10%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4432494Z (Reading database ... 15%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4432741Z (Reading database ... 20%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4433019Z (Reading database ... 25%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4433258Z (Reading database ... 30%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4433492Z (Reading database ... 35%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4433726Z (Reading database ... 40%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4434232Z (Reading database ... 45%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4434473Z (Reading database ... 50%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4434710Z (Reading database ... 55%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4434946Z (Reading database ... 60%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4435184Z (Reading database ... 65%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4443482Z (Reading database ... 70%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4451175Z (Reading database ... 75%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4455083Z (Reading database ... 80%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4459876Z (Reading database ... 85%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4467468Z (Reading database ... 90%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4476428Z (Reading database ... 95%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4476945Z (Reading database ... 100%
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4480667Z (Reading database ... 8926 files and directories currently installed.)
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4481512Z Preparing to unpack .../00-perl-modules-5.34_5.34.0-3ubuntu1.7_all.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.4489603Z Unpacking perl-modules-5.34 (5.34.0-3ubuntu1.7) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.6927235Z Selecting previously unselected package libgdbm6:amd64.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.6942701Z Preparing to unpack .../01-libgdbm6_1.23-1_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.6957686Z Unpacking libgdbm6:amd64 (1.23-1) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.7111366Z Selecting previously unselected package libgdbm-compat4:amd64.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.7121525Z Preparing to unpack .../02-libgdbm-compat4_1.23-1_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.7130630Z Unpacking libgdbm-compat4:amd64 (1.23-1) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.7273454Z Selecting previously unselected package libperl5.34:amd64.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.7282296Z Preparing to unpack .../03-libperl5.34_5.34.0-3ubuntu1.7_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.7291419Z Unpacking libperl5.34:amd64 (5.34.0-3ubuntu1.7) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.8827483Z Selecting previously unselected package perl.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.8842312Z Preparing to unpack .../04-perl_5.34.0-3ubuntu1.7_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.8916488Z Unpacking perl (5.34.0-3ubuntu1.7) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.9157905Z Selecting previously unselected package ca-certificates.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.9171160Z Preparing to unpack .../05-ca-certificates_20260601~22.04.1_all.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.9187221Z Unpacking ca-certificates (20260601~22.04.1) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.9546222Z Selecting previously unselected package libexpat1:amd64.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.9557330Z Preparing to unpack .../06-libexpat1_2.4.7-1ubuntu0.7_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.9568203Z Unpacking libexpat1:amd64 (2.4.7-1ubuntu0.7) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.9724676Z Selecting previously unselected package libnghttp2-14:amd64.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.9733986Z Preparing to unpack .../07-libnghttp2-14_1.43.0-1ubuntu0.4_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.9743214Z Unpacking libnghttp2-14:amd64 (1.43.0-1ubuntu0.4) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.9899006Z Selecting previously unselected package libpsl5:amd64.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.9907899Z Preparing to unpack .../08-libpsl5_0.21.0-1.2build2_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:05.9917316Z Unpacking libpsl5:amd64 (0.21.0-1.2build2) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0090636Z Selecting previously unselected package libbrotli1:amd64.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0099515Z Preparing to unpack .../09-libbrotli1_1.0.9-2build6_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0111563Z Unpacking libbrotli1:amd64 (1.0.9-2build6) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0288633Z Selecting previously unselected package libsasl2-modules-db:amd64.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0297252Z Preparing to unpack .../10-libsasl2-modules-db_2.1.27+dfsg2-3ubuntu1.2_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0314717Z Unpacking libsasl2-modules-db:amd64 (2.1.27+dfsg2-3ubuntu1.2) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0459351Z Selecting previously unselected package libsasl2-2:amd64.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0468248Z Preparing to unpack .../11-libsasl2-2_2.1.27+dfsg2-3ubuntu1.2_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0478223Z Unpacking libsasl2-2:amd64 (2.1.27+dfsg2-3ubuntu1.2) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0635207Z Selecting previously unselected package libldap-2.5-0:amd64.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0643322Z Preparing to unpack .../12-libldap-2.5-0_2.5.20+dfsg-0ubuntu0.22.04.1_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0655920Z Unpacking libldap-2.5-0:amd64 (2.5.20+dfsg-0ubuntu0.22.04.1) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0817063Z Selecting previously unselected package librtmp1:amd64.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0825945Z Preparing to unpack .../13-librtmp1_2.4+20151223.gitfa8646d.1-2build4_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0836543Z Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build4) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0987521Z Selecting previously unselected package libssh-4:amd64.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.0996253Z Preparing to unpack .../14-libssh-4_0.9.6-2ubuntu0.22.04.7_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.1007944Z Unpacking libssh-4:amd64 (0.9.6-2ubuntu0.22.04.7) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.1215226Z Selecting previously unselected package libcurl3-gnutls:amd64.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.1223789Z Preparing to unpack .../15-libcurl3-gnutls_7.81.0-1ubuntu1.25_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.1233676Z Unpacking libcurl3-gnutls:amd64 (7.81.0-1ubuntu1.25) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.1397525Z Selecting previously unselected package liberror-perl.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.1407118Z Preparing to unpack .../16-liberror-perl_0.17029-1_all.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.1415537Z Unpacking liberror-perl (0.17029-1) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.1569707Z Selecting previously unselected package git-man.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.1579215Z Preparing to unpack .../17-git-man_1%3a2.34.1-1ubuntu1.17_all.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.1594724Z Unpacking git-man (1:2.34.1-1ubuntu1.17) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.1844675Z Selecting previously unselected package git.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.1854085Z Preparing to unpack .../18-git_1%3a2.34.1-1ubuntu1.17_amd64.deb ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.1905409Z Unpacking git (1:2.34.1-1ubuntu1.17) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.3113684Z Setting up libexpat1:amd64 (2.4.7-1ubuntu0.7) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.3142885Z Setting up libpsl5:amd64 (0.21.0-1.2build2) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.3169973Z Setting up libbrotli1:amd64 (1.0.9-2build6) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.3197764Z Setting up libnghttp2-14:amd64 (1.43.0-1ubuntu0.4) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.3222813Z Setting up perl-modules-5.34 (5.34.0-3ubuntu1.7) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.3251119Z Setting up libsasl2-modules-db:amd64 (2.1.27+dfsg2-3ubuntu1.2) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.3276690Z Setting up ca-certificates (20260601~22.04.1) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.3930076Z debconf: unable to initialize frontend: Dialog
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.3930776Z debconf: (TERM is not set, so the dialog frontend is not usable.)
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.3931420Z debconf: falling back to frontend: Readline
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:06.7894245Z Updating certificates in /etc/ssl/certs...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.3513461Z 121 added, 0 removed; done.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.3647261Z Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build4) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.3670012Z Setting up libsasl2-2:amd64 (2.1.27+dfsg2-3ubuntu1.2) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.3693992Z Setting up libssh-4:amd64 (0.9.6-2ubuntu0.22.04.7) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.3730484Z Setting up git-man (1:2.34.1-1ubuntu1.17) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.3758849Z Setting up libgdbm6:amd64 (1.23-1) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.3787767Z Setting up libldap-2.5-0:amd64 (2.5.20+dfsg-0ubuntu0.22.04.1) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.3814400Z Setting up libgdbm-compat4:amd64 (1.23-1) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.3840249Z Setting up libperl5.34:amd64 (5.34.0-3ubuntu1.7) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.3878277Z Setting up libcurl3-gnutls:amd64 (7.81.0-1ubuntu1.25) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.3910695Z Setting up perl (5.34.0-3ubuntu1.7) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.4014198Z Setting up liberror-perl (0.17029-1) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.4046668Z Setting up git (1:2.34.1-1ubuntu1.17) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.4123320Z Processing triggers for libc-bin (2.35-0ubuntu3.8) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.4249400Z Processing triggers for ca-certificates (20260601~22.04.1) ...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.4295444Z Updating certificates in /etc/ssl/certs...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.8772471Z 0 added, 0 removed; done.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.8773146Z Running hooks in /etc/ca-certificates/update.d...
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.8781711Z done.
+guidelines-pinned-8f1ff7e	Install Git for provenance checkout	2026-07-30T11:11:07.8993678Z git version 2.34.1
+guidelines-pinned-8f1ff7e	Check out exact source commit	﻿2026-07-30T11:11:07.9217292Z ##[group]Run actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9217708Z with:
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9217929Z   ref: 2e145031d286072f63940af092e739d35ee96803
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9218231Z   persist-credentials: false
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9218486Z   repository: hasslelee/flipguard
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9221032Z   token: ***
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9221234Z   ssh-strict: true
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9221431Z   ssh-user: git
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9221619Z   clean: true
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9221827Z   sparse-checkout-cone-mode: true
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9222093Z   fetch-depth: 1
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9222281Z   fetch-tags: false
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9222481Z   show-progress: true
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9222684Z   lfs: false
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9222861Z   submodules: false
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9223063Z   set-safe-directory: true
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9223290Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:07.9269715Z ##[command]/usr/bin/docker exec  9e5d7567a9166d1beb015c91878f793fa4ce2b7ae8235631eeee6ff6ecfe639d sh -c "cat /etc/*release | grep ^ID"
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1190538Z Syncing repository: hasslelee/flipguard
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1192521Z ##[group]Getting Git version info
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1193096Z Working directory is '/__w/flipguard/flipguard'
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1194272Z [command]/usr/bin/git version
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1194706Z git version 2.34.1
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1196251Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1204278Z Temporarily overriding HOME='/__w/_temp/ead9a219-249e-47a8-b3e7-935a9be6cbd8' before making global git config changes
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1205656Z Adding repository directory to the temporary git global config as a safe directory
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1209434Z [command]/usr/bin/git config --global --add safe.directory /__w/flipguard/flipguard
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1241870Z Deleting the contents of '/__w/flipguard/flipguard'
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1246657Z ##[group]Initializing the repository
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1250394Z [command]/usr/bin/git init /__w/flipguard/flipguard
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1293389Z hint: Using 'master' as the name for the initial branch. This default branch name
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1294605Z hint: is subject to change. To configure the initial branch name to use in all
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1295518Z hint: of your new repositories, which will suppress this warning, call:
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1296180Z hint: 
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1297378Z hint: 	git config --global init.defaultBranch <name>
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1297926Z hint: 
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1298429Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1299647Z hint: 'development'. The just-created branch can be renamed via this command:
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1300371Z hint: 
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1300733Z hint: 	git branch -m <name>
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1301328Z Initialized empty Git repository in /__w/flipguard/flipguard/.git/
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1304258Z [command]/usr/bin/git remote add origin https://github.com/hasslelee/flipguard
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1339665Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1340704Z ##[group]Disabling automatic garbage collection
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1342003Z [command]/usr/bin/git config --local gc.auto 0
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1371820Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1372366Z ##[group]Setting up auth
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1378920Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1410322Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1675092Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1706689Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.1975380Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.2010049Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.2260945Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.2300497Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.2301030Z ##[group]Fetching the repository
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:08.2310304Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 2e145031d286072f63940af092e739d35ee96803
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.5518646Z From https://github.com/hasslelee/flipguard
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.5519154Z  * branch            2e145031d286072f63940af092e739d35ee96803 -> FETCH_HEAD
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.5545301Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.5546109Z ##[group]Determining the checkout info
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.5546925Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.5547422Z [command]/usr/bin/git sparse-checkout disable
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.5585744Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.5621486Z ##[group]Checking out the ref
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.5622047Z [command]/usr/bin/git checkout --progress --force 2e145031d286072f63940af092e739d35ee96803
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9832159Z Note: switching to '2e145031d286072f63940af092e739d35ee96803'.
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9832999Z 
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9833436Z You are in 'detached HEAD' state. You can look around, make experimental
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9834997Z changes and commit them, and you can discard any commits you make in this
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9836084Z state without impacting any branches by switching back to a branch.
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9836717Z 
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9837071Z If you want to create a new branch to retain commits you create, you may
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9837734Z do so (now or later) by using -c with the switch command. Example:
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9838114Z 
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9838265Z   git switch -c <new-branch-name>
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9838506Z 
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9838667Z Or undo this operation with:
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9838890Z 
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9839012Z   git switch -
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9839181Z 
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9839427Z Turn off this advice by setting config variable advice.detachedHead to false
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9839791Z 
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9839999Z HEAD is now at 2e14503 Trigger estimator when assurance inputs change
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9856833Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9899214Z [command]/usr/bin/git log -1 --format=%H
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9926657Z 2e145031d286072f63940af092e739d35ee96803
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9945446Z ##[group]Removing auth
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9947866Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:09.9976571Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:10.0218946Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:10.0243680Z http.https://github.com/.extraheader
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:10.0255792Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:10.0287234Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:10.0526612Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:10.0556181Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+guidelines-pinned-8f1ff7e	Check out exact source commit	2026-07-30T11:11:10.0789303Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Verify source identity	﻿2026-07-30T11:11:10.0970325Z ##[group]Run set -euo pipefail
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T11:11:10.0970649Z [36;1mset -euo pipefail[0m
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T11:11:10.0970887Z [36;1mactual_head="$([0m
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T11:11:10.0971201Z [36;1m  git -c "safe.directory=$GITHUB_WORKSPACE" rev-parse HEAD[0m
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T11:11:10.0971545Z [36;1m)"[0m
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T11:11:10.0971740Z [36;1mtest "$actual_head" = \[0m
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T11:11:10.0972021Z [36;1m  "2e145031d286072f63940af092e739d35ee96803"[0m
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T11:11:10.0972484Z shell: bash --noprofile --norc -e -o pipefail {0}
+guidelines-pinned-8f1ff7e	Verify source identity	2026-07-30T11:11:10.0972791Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	﻿2026-07-30T11:11:10.1564784Z ##[group]Run set -euo pipefail
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:10.1565144Z [36;1mset -euo pipefail[0m
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:10.1565401Z [36;1mgit clone --filter=blob:none \[0m
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:10.1565764Z [36;1m  https://github.com/malb/lattice-estimator.git \[0m
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:10.1566114Z [36;1m  /tmp/lattice-estimator[0m
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:10.1566412Z [36;1mgit -C /tmp/lattice-estimator checkout \[0m
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:10.1566759Z [36;1m  "8f1ff7e20a4d3391e3badff1d76825314db225bc"[0m
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:10.1567135Z [36;1mtest "$(git -C /tmp/lattice-estimator rev-parse HEAD)" = \[0m
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:10.1567540Z [36;1m  "8f1ff7e20a4d3391e3badff1d76825314db225bc"[0m
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:10.1567985Z shell: bash --noprofile --norc -e -o pipefail {0}
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:10.1568281Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:10.2105734Z Cloning into '/tmp/lattice-estimator'...
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0787313Z Note: switching to '8f1ff7e20a4d3391e3badff1d76825314db225bc'.
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0787818Z 
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0788072Z You are in 'detached HEAD' state. You can look around, make experimental
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0788644Z changes and commit them, and you can discard any commits you make in this
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0789105Z state without impacting any branches by switching back to a branch.
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0789363Z 
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0789542Z If you want to create a new branch to retain commits you create, you may
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0789961Z do so (now or later) by using -c with the switch command. Example:
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0790201Z 
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0790305Z   git switch -c <new-branch-name>
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0790464Z 
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0790561Z Or undo this operation with:
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0790714Z 
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0790789Z   git switch -
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0790903Z 
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0791101Z Turn off this advice by setting config variable advice.detachedHead to false
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0791401Z 
+guidelines-pinned-8f1ff7e	Fetch pinned estimator source	2026-07-30T11:11:12.0791554Z HEAD is now at 8f1ff7e Merge pull request #121 from GuilhemN/main
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	﻿2026-07-30T11:11:12.0896254Z ##[group]Run set -euo pipefail
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0896590Z [36;1mset -euo pipefail[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0896921Z [36;1mout="exact-security-estimator/guidelines-pinned-8f1ff7e"[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0897453Z [36;1mmkdir -p "$out"[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0897737Z [36;1mexport FLIPGUARD_SAGE_VERSION="$(sage --version)"[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0898119Z [36;1mexport PYTHONPATH="/tmp/lattice-estimator"[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0898531Z [36;1msage -python scripts/run_exact_security_estimator.py \[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0899105Z [36;1m  --input docs/evidence/security_v2_static_attestation_formal_v2/lattice_estimator_inputs_v2.json \[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0899621Z [36;1m  --output "$out/results.json" \[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0899934Z [36;1m  --estimator-root /tmp/lattice-estimator \[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0900335Z [36;1m  --estimator-commit "8f1ff7e20a4d3391e3badff1d76825314db225bc" \[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0900755Z [36;1m  --model-id "guidelines-pinned-8f1ff7e" \[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0901109Z [36;1m  --model-role "GUIDELINE_PINNED_REPLAY" \[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0901469Z [36;1m  --source-commit "2e145031d286072f63940af092e739d35ee96803"[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0901896Z [36;1msage -python scripts/verify_exact_security_estimator.py \[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0902253Z [36;1m  --result "$out/results.json" \[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0902555Z [36;1m  --require-complete-attack-coverage[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0902900Z [36;1msha256sum "$out/results.json" > "$out/SHA256SUMS"[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0903268Z [36;1mgit -C /tmp/lattice-estimator status --short > \[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0903594Z [36;1m  "$out/estimator_git_status.txt"[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0904136Z [36;1mtest ! -s "$out/estimator_git_status.txt"[0m
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0904585Z shell: bash --noprofile --norc -e -o pipefail {0}
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0904865Z env:
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0905333Z   FLIPGUARD_CONTAINER_IMAGE: sagemath/sagemath:10.6@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:11:12.0905887Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:22:57.0394594Z exact_security_estimator=guidelines-pinned-8f1ff7e output=exact-security-estimator/guidelines-pinned-8f1ff7e/results.json
+guidelines-pinned-8f1ff7e	Run exact Q and QP estimates	2026-07-30T11:22:59.0552080Z exact_security_estimator=VERIFIED model=guidelines-pinned-8f1ff7e status=FALSIFIED_UNDER_ESTIMATOR_MODEL attack_failures=0
+guidelines-pinned-8f1ff7e	Upload estimator artifact	﻿2026-07-30T11:22:59.0761713Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.0763543Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.0764236Z with:
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.0764516Z   name: exact-security-estimator-guidelines-pinned-8f1ff7e
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.0764921Z   path: exact-security-estimator/guidelines-pinned-8f1ff7e
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.0765248Z   if-no-files-found: error
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.0765462Z   retention-days: 30
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.0765676Z   compression-level: 6
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.0765893Z   overwrite: false
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.0766091Z   include-hidden-files: false
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.0766322Z ##[endgroup]
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.0770031Z ##[command]/usr/bin/docker exec  9e5d7567a9166d1beb015c91878f793fa4ce2b7ae8235631eeee6ff6ecfe639d sh -c "cat /etc/*release | grep ^ID"
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.3404708Z (node:3125) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.3406159Z (Use `node --trace-deprecation ...` to show where the warning was created)
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.3505902Z With the provided path, there will be 3 files uploaded
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.3506950Z Artifact name is valid!
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.3507349Z Root directory input is valid!
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.6913775Z Beginning upload of artifact content to blob storage
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:22:59.7197784Z (node:3125) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:23:00.0053590Z Uploaded bytes 4609
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:23:00.0848068Z Finished uploading artifact content to blob storage!
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:23:00.0851786Z SHA256 digest of uploaded artifact zip is 0aa1cac232696ce427792fb10b64998e588123aac287ca2891b0fd807a17596c
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:23:00.0853025Z Finalizing artifact upload
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:23:00.3333415Z Artifact exact-security-estimator-guidelines-pinned-8f1ff7e.zip successfully finalized. Artifact ID 8757595697
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:23:00.3335329Z Artifact exact-security-estimator-guidelines-pinned-8f1ff7e has been successfully uploaded! Final size is 4609 bytes. Artifact ID is 8757595697
+guidelines-pinned-8f1ff7e	Upload estimator artifact	2026-07-30T11:23:00.3340250Z Artifact download URL: https://github.com/hasslelee/flipguard/actions/runs/30537489124/artifacts/8757595697
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	﻿2026-07-30T11:23:00.3541262Z Post job cleanup.
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	2026-07-30T11:23:00.3548823Z ##[command]/usr/bin/docker exec  9e5d7567a9166d1beb015c91878f793fa4ce2b7ae8235631eeee6ff6ecfe639d sh -c "cat /etc/*release | grep ^ID"
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	2026-07-30T11:23:00.5359293Z [command]/usr/bin/git version
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	2026-07-30T11:23:00.5404059Z git version 2.34.1
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	2026-07-30T11:23:00.5450370Z Temporarily overriding HOME='/__w/_temp/2dc77d36-b11c-4d31-8958-d5682bb3b98a' before making global git config changes
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	2026-07-30T11:23:00.5451731Z Adding repository directory to the temporary git global config as a safe directory
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	2026-07-30T11:23:00.5455809Z [command]/usr/bin/git config --global --add safe.directory /__w/flipguard/flipguard
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	2026-07-30T11:23:00.5496676Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	2026-07-30T11:23:00.5554521Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	2026-07-30T11:23:00.5827348Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	2026-07-30T11:23:00.5887858Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	2026-07-30T11:23:00.6140607Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+guidelines-pinned-8f1ff7e	Post Check out exact source commit	2026-07-30T11:23:00.6179693Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+guidelines-pinned-8f1ff7e	Stop containers	﻿2026-07-30T11:23:00.6587618Z Stop and remove container: f321499530964a559891f6b48a873485_sagemathsagemathsha25660dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879_9e1bdc
+guidelines-pinned-8f1ff7e	Stop containers	2026-07-30T11:23:00.6593835Z ##[command]/usr/bin/docker rm --force 9e5d7567a9166d1beb015c91878f793fa4ce2b7ae8235631eeee6ff6ecfe639d
+guidelines-pinned-8f1ff7e	Stop containers	2026-07-30T11:23:00.9017022Z 9e5d7567a9166d1beb015c91878f793fa4ce2b7ae8235631eeee6ff6ecfe639d
+guidelines-pinned-8f1ff7e	Stop containers	2026-07-30T11:23:00.9046033Z Remove container network: github_network_d7409326f2b6460eb1f9bb8c4986252a
+guidelines-pinned-8f1ff7e	Stop containers	2026-07-30T11:23:00.9050309Z ##[command]/usr/bin/docker network rm github_network_d7409326f2b6460eb1f9bb8c4986252a
+guidelines-pinned-8f1ff7e	Stop containers	2026-07-30T11:23:01.0087699Z github_network_d7409326f2b6460eb1f9bb8c4986252a
+guidelines-pinned-8f1ff7e	Complete job	﻿2026-07-30T11:23:01.0155490Z Cleaning up orphan processes
+guidelines-pinned-8f1ff7e	Complete job	2026-07-30T11:23:01.0498350Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
