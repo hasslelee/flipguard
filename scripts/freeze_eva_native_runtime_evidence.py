@@ -35,6 +35,17 @@ def sha256_path(path: Path) -> str:
     return "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def normalized_log_bytes(path: Path) -> bytes:
+    """Return a stable text representation of a GitHub Actions log."""
+    text = path.read_text(encoding="utf-8")
+    lines = [line.rstrip(" \t") for line in text.splitlines()]
+    return ("\n".join(lines) + "\n").encode("utf-8")
+
+
+def copy_normalized_log(source: Path, destination: Path) -> None:
+    destination.write_bytes(normalized_log_bytes(source))
+
+
 def tree_digest(root: Path) -> str:
     digest = hashlib.sha256()
     for path in sorted(root.rglob("*")):
@@ -222,8 +233,8 @@ def freeze(
     shutil.copytree(source_root, output / "raw")
     shutil.copy2(CONTRACT, output / "contract.json")
     shutil.copy2(PROTOCOL, output / "protocol.md")
-    shutil.copy2(recovery_log, output / "preflight_failure.log")
-    shutil.copy2(execution_log, output / "execution.log")
+    copy_normalized_log(recovery_log, output / "preflight_failure.log")
+    copy_normalized_log(execution_log, output / "execution.log")
     summary = build_summary(result, contract)
     (output / "summary.json").write_bytes(
         VERIFIER.canonical_json(summary)
@@ -242,6 +253,9 @@ def freeze(
             output / "raw/manifest.json"
         ),
         "raw_tree_sha256": tree_digest(output / "raw"),
+        "log_representation": "TRAILING_SPACE_TAB_NORMALIZED_TEXT_V1",
+        "source_preflight_failure_log_sha256": sha256_path(recovery_log),
+        "source_execution_log_sha256": sha256_path(execution_log),
         "preflight_failure_log_sha256": sha256_path(
             output / "preflight_failure.log"
         ),
@@ -304,6 +318,11 @@ def verify(output: Path = OUTPUT_DEFAULT) -> dict[str, Any]:
         "frozen native raw tree changed",
     )
     VERIFIER.require(
+        manifest["log_representation"]
+        == "TRAILING_SPACE_TAB_NORMALIZED_TEXT_V1",
+        "frozen log representation changed",
+    )
+    VERIFIER.require(
         manifest["summary_sha256"] == sha256_path(output / "summary.json"),
         "frozen native summary digest changed",
     )
@@ -317,6 +336,12 @@ def verify(output: Path = OUTPUT_DEFAULT) -> dict[str, Any]:
         == sha256_path(output / "execution.log"),
         "frozen execution log digest changed",
     )
+    for name in ("preflight_failure.log", "execution.log"):
+        VERIFIER.require(
+            (output / name).read_bytes()
+            == normalized_log_bytes(output / name),
+            f"frozen log is not normalized: {name}",
+        )
     VERIFIER.require(
         manifest["paper_claim_allowed"] is False,
         "frozen native paper gate changed",

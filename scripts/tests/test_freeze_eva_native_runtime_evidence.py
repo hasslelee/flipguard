@@ -1,4 +1,5 @@
 import importlib.util
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -16,6 +17,17 @@ SPEC.loader.exec_module(MODULE)
 
 
 class EVANativeRuntimeEvidenceTest(unittest.TestCase):
+    def test_log_normalization_preserves_content_and_line_boundaries(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / "actions.log"
+            source.write_bytes(b"first \t \r\nsecond\t\r\nthird")
+            self.assertEqual(
+                MODULE.normalized_log_bytes(source),
+                b"first\nsecond\nthird\n",
+            )
+
     def test_summary_preserves_safe_native_boundary(self) -> None:
         contract = MODULE.VERIFIER.load_json(MODULE.CONTRACT)
         result = {
