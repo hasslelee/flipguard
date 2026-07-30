@@ -24,6 +24,7 @@ application-aware approximate HE, and the project's own negative ablations?
 | Empirical error is not an analytical bound | Application-aware AHE and CKKS analyses require explicit primitive assumptions and domain bounds | Maintain a typed error-envelope propagator that accepts separately justified primitive residual bounds | Do not infer a sound residual bound from observed maximum error, fresh-key variance, or quantiles |
 | Security and numerical correctness are separate | HE parameter standards bound cryptographic security; decision correctness depends on computation error and margin | Apply Security Policy V2 independently to Q and QP objects, then apply the decision certificate | Do not use decision preservation as evidence of cryptographic security |
 | A bounded catalog is not a global oracle | Compiler/search literature spans much larger program and parameter spaces | Use only “security-compliant bounded catalog oracle” for the fixed 700-candidate formal domain | Do not write global oracle, global optimum, or universal optimum |
+| A provider-neutral API is not itself third-party evidence | Synthetic provider-format fixtures can exercise an interface without establishing compatibility with a public system | Preserve the synthetic gate test, the fail-closed Orion audit, and the source-replayed HIT rejection as distinct evidence classes | Do not call a synthetic fixture a third-party autotuner output or turn a rejected HIT literal into successful certification |
 
 ## Adopted Research Boundary
 
@@ -43,6 +44,24 @@ and shows that latency-only selection can choose decision-unsafe literals.
 It does not currently show that natural decision margins alter the synthesized
 CKKS literal.
 
+## Actual-Provider Audit
+
+The post-confirmatory adapter work narrows the interoperability claim:
+
+- four provider classes pass the common gate only in a development fixture;
+- three public Orion configurations are blocked before encryption because
+  their exact runtime/security semantics cannot be preserved;
+- one public AWS HIT formula-derived literal is imported losslessly and passes
+  Security V2, but is decision-REJECTED after six budget violations in 42
+  sample-key observations;
+- no native external autotuner candidate has yet achieved SAFE validation and
+  no-retuning locked audit.
+
+This is useful negative evidence for the gate, not a successful external
+autotuner evaluation. AWS HIT is described as a formula-based automatic
+parameter selector, not as a search autotuner. The detailed boundary is in
+`docs/research/step_7g5_external_provider_evidence_boundary.md`.
+
 ## Sources Checked
 
 - CHET, PLDI 2019, DOI `10.1145/3314221.3314628`.
@@ -54,6 +73,9 @@ CKKS literal.
 - Application-Aware Approximate Homomorphic Encryption, IACR Communications
   in Cryptology 2(4), 2026, DOI `10.62056/ayl83z10k` (preprint:
   ePrint 2024/203).
+- AWS Homomorphic Implementor's Toolkit, source-pinned public
+  `lattigo-backend` implementation.
+- Orion, source-pinned public compiler configurations and Lattigo backend.
 - HEIR, arXiv:2508.11095.
 - FHE-Agent, arXiv:2511.18653.
 - Rotom, ePrint 2025/1319 and USENIX Security 2026.

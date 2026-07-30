@@ -37,8 +37,12 @@ materializes exact Lattigo Q/P primes and re-attests:
 
 It writes `security_reattestation_v2.csv`,
 `security_reattestation_v2.json`, and
-`lattice_estimator_inputs_v2.json`. Exact estimator inputs are exported; an
-exact estimator run is currently `NOT_RUN`.
+`lattice_estimator_inputs_v2.json`. The later, non-retuning
+`exact_security_estimator_v1` sensitivity executes two pinned estimator
+models over 18 exact Q/QP objects each. Every Security V2-admitted object
+passes both models; the excluded N14/QP object is sub-128 in both. The result
+remains qualified because the estimator matches the Gaussian sigma but does
+not model Lattigo's explicit truncation bound.
 
 The completed static replay admits all 50 direct selected rows with minimum
 QP headroom 13 bits and no identity change. It admits seven catalog profiles

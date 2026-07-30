@@ -93,6 +93,27 @@ deterministic, provider-agnostic gate whose acceptance rule is expressed in
 the final application's decision space. Model architecture, packing, and
 activation search remain outside the present contribution.
 
+## Public-Provider Interoperability Evidence
+
+The repository separately audits actual public source artifacts; these are
+system-interoperability results, not additional novelty precedents.
+
+- Source-pinned Orion configurations are parsed together with their backend
+  semantics. All three checked configurations fail closed before encrypted
+  execution because lossless translation into the frozen Lattigo v6/Security
+  V2 runtime is not possible.
+- One source-replayed AWS HIT formula-derived literal preserves the exact
+  ordered Lattigo v2 Q/P primes when imported into Lattigo v6 and passes
+  Security V2. It is nevertheless decision-REJECTED on the declared
+  development workload because 6/42 sample-key observations exceed the
+  predeclared numerical budget.
+
+The HIT result is evidence that a candidate can be cryptographically admitted
+and executable while still failing the downstream decision contract. HIT is a
+formula-based automatic parameter selector, not a search autotuner. Neither
+the Orion audit nor the HIT rejection supports a broad third-party-autotuner
+integration or quality claim.
+
 ## Application-Aware Approximate FHE
 
 [Application-Aware Approximate Homomorphic Encryption (IACR Communications
@@ -167,6 +188,10 @@ Forbidden:
 - The remaining defensible boundary is decision-space admission, explicit
   abstention, literal replay, and no-retuning audit. Non-tabular adapters add
   scope evidence but do not establish universal graph support.
+- Actual-provider evidence currently consists of a fail-closed Orion import
+  audit and a lossless but decision-REJECTED HIT literal. Provider-neutral
+  plumbing is partially supported; successful encrypted third-party
+  certification plus locked audit remains open.
 - The predeclared natural-data ablation found identical initial and selected
   path-plus-parameter literals for graph-only and decision-contract synthesis
   in 10/10 development workloads. The decision contract remains active as an
