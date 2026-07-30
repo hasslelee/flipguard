@@ -56,6 +56,9 @@ class ExternalSourceFetchTest(unittest.TestCase):
                 }
                 for spec in MODULE.SOURCE_SPECS
             ],
+            "derived_extractions": [
+                MODULE.ensure_bsds500_extraction(REPO_ROOT)
+            ],
             "encrypted_execution": {
                 "candidate_trials": 0,
                 "key_runs": 0,

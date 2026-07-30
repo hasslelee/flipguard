@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 import subprocess
+import tarfile
 import tempfile
 import time
 import urllib.request
@@ -46,6 +47,21 @@ SOURCE_SPECS = (
         "bytes": 70763455,
     },
 )
+BSDS500_EXTRACTION = {
+    "source_id": "berkeley_bsds500_archive_v1",
+    "archive_path": (
+        "results/source_datasets/bsds500/BSR_bsds500.tgz"
+    ),
+    "extraction_root": "results/source_datasets/bsds500/BSR",
+    "image_root": (
+        "results/source_datasets/bsds500/BSR/BSDS500/data/images"
+    ),
+    "partition_counts": {
+        "train": 200,
+        "val": 100,
+        "test": 200,
+    },
+}
 
 
 def canonical_json(value: Any) -> bytes:
@@ -172,6 +188,53 @@ def ensure_source(
     }
 
 
+def validate_bsds500_extraction(source_root: Path) -> dict[str, int]:
+    image_root = source_root / BSDS500_EXTRACTION["image_root"]
+    counts = {}
+    for partition, expected in BSDS500_EXTRACTION[
+        "partition_counts"
+    ].items():
+        root = image_root / partition
+        if not root.is_dir():
+            raise ValueError(
+                f"missing BSDS500 image partition: {root}"
+            )
+        count = len(list(root.glob("*.jpg")))
+        if count != expected:
+            raise ValueError(
+                f"{root}: images={count}; expected {expected}"
+            )
+        counts[partition] = count
+    return counts
+
+
+def ensure_bsds500_extraction(source_root: Path) -> dict[str, Any]:
+    archive = source_root / BSDS500_EXTRACTION["archive_path"]
+    extraction_root = source_root / BSDS500_EXTRACTION["extraction_root"]
+    image_root = source_root / BSDS500_EXTRACTION["image_root"]
+    if image_root.is_dir():
+        disposition = "EXISTING_VERIFIED"
+    else:
+        if extraction_root.exists():
+            raise ValueError(
+                "refusing to overwrite incomplete BSDS500 extraction: "
+                f"{extraction_root}"
+            )
+        with tarfile.open(archive, mode="r:gz") as handle:
+            handle.extractall(
+                archive.parent,
+                filter="data",
+            )
+        disposition = "EXTRACTED_VERIFIED"
+    counts = validate_bsds500_extraction(source_root)
+    return {
+        **BSDS500_EXTRACTION,
+        "partition_counts": counts,
+        "total_images": sum(counts.values()),
+        "disposition": disposition,
+    }
+
+
 def source_commit() -> str:
     return subprocess.check_output(
         ["git", "rev-parse", "HEAD"],
@@ -201,6 +264,7 @@ def fetch(
         )
         for spec in SOURCE_SPECS
     ]
+    extractions = [ensure_bsds500_extraction(source_root)]
     manifest = {
         "schema_version": SCHEMA_VERSION,
         "status": "PASS",
@@ -209,6 +273,7 @@ def fetch(
         "started_at": started_at,
         "ended_at": utc_timestamp(),
         "sources": records,
+        "derived_extractions": extractions,
         "encrypted_execution": {
             "candidate_trials": 0,
             "key_runs": 0,
@@ -255,6 +320,27 @@ def verify(source_root: Path, manifest_path: Path) -> dict[str, Any]:
                 f"{spec['source_id']}: invalid disposition"
             )
         validate_source(source_root / spec["path"], spec)
+    if len(manifest.get("derived_extractions", [])) != 1:
+        raise ValueError("external source extraction inventory mismatch")
+    extraction = manifest["derived_extractions"][0]
+    for key in (
+        "source_id",
+        "archive_path",
+        "extraction_root",
+        "image_root",
+    ):
+        if extraction[key] != BSDS500_EXTRACTION[key]:
+            raise ValueError(f"BSDS500 extraction {key} mismatch")
+    if extraction["disposition"] not in {
+        "EXTRACTED_VERIFIED",
+        "EXISTING_VERIFIED",
+    }:
+        raise ValueError("invalid BSDS500 extraction disposition")
+    counts = validate_bsds500_extraction(source_root)
+    if extraction["partition_counts"] != counts:
+        raise ValueError("BSDS500 extraction counts mismatch")
+    if extraction["total_images"] != sum(counts.values()):
+        raise ValueError("BSDS500 extraction total mismatch")
     if manifest["encrypted_execution"] != {
         "candidate_trials": 0,
         "key_runs": 0,

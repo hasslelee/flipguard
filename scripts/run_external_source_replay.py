@@ -162,7 +162,15 @@ def run_check(
         "bsds500_sobel_export",
         "bsds500_harris_export",
     }:
-        semantic_pass = semantic_pass and b"artifact=PASS" in completed.stdout
+        expected_tokens = {
+            "mnist_export": b"mnist_cnn_lite_source_replay=PASS",
+            "bsds500_sobel_export": b"bsds500_sobel_holdout=PASS",
+            "bsds500_harris_export": b"bsds500_harris_holdout=PASS",
+        }
+        semantic_pass = (
+            semantic_pass
+            and expected_tokens[name] in completed.stdout
+        )
     elif name in {"git_diff_check", "final_clean_tree"}:
         semantic_pass = semantic_pass and not completed.stdout.strip()
     return {
