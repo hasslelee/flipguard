@@ -188,12 +188,20 @@ func (materialization InputMaterializationContract) validate() error {
 	switch materialization.SchemaVersion {
 	case VisionPatchMaterializationSchemaV1:
 		if materialization.SourceFeatureSpace !=
-			VisionPatchSourceFeatureSpaceV1 ||
-			materialization.PreprocessingMethod !=
-				BSDS500SobelPatchExtractionV1 {
+			VisionPatchSourceFeatureSpaceV1 {
 			return fmt.Errorf(
-				"schema %s requires the frozen BSDS500 Sobel patch extraction",
+				"schema %s requires normalized image patches",
 				materialization.SchemaVersion,
+			)
+		}
+		switch materialization.PreprocessingMethod {
+		case BSDS500SobelPatchExtractionV1,
+			BSDS500HarrisPatchExtractionV1:
+		default:
+			return fmt.Errorf(
+				"schema %s has unsupported frozen vision extraction %q",
+				materialization.SchemaVersion,
+				materialization.PreprocessingMethod,
 			)
 		}
 	case TabularValidationMaterializationSchemaV1:
