@@ -1,6 +1,11 @@
 name: Exact Security Estimator
 
 on:
+  push:
+    branches:
+      - feature/flipguard-auto-tuner
+    paths:
+      - .github/workflows/exact-security-estimator.yml
   workflow_dispatch:
     inputs:
       source_commit:
@@ -33,14 +38,15 @@ jobs:
       - name: Check out exact source commit
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
         with:
-          ref: ${{ inputs.source_commit }}
+          ref: ${{ inputs.source_commit || github.sha }}
           persist-credentials: false
 
       - name: Verify source identity
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "${{ inputs.source_commit }}"
+          test "$(git rev-parse HEAD)" = \
+            "${{ inputs.source_commit || github.sha }}"
 
       - name: Fetch pinned estimator source
         shell: bash
@@ -71,7 +77,7 @@ jobs:
             --estimator-commit "${{ matrix.estimator_commit }}" \
             --model-id "${{ matrix.model_id }}" \
             --model-role "${{ matrix.model_role }}" \
-            --source-commit "${{ inputs.source_commit }}"
+            --source-commit "${{ inputs.source_commit || github.sha }}"
           python3 scripts/verify_exact_security_estimator.py \
             --result "$out/results.json"
           sha256sum "$out/results.json" > "$out/SHA256SUMS"
@@ -87,4 +93,3 @@ jobs:
           path: exact-security-estimator/${{ matrix.model_id }}
           if-no-files-found: error
           retention-days: 30
-

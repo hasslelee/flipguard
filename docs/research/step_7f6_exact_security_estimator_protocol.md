@@ -71,4 +71,10 @@ The workflow preserves the exact source commit, estimator commit, container
 identity, raw per-attack results, and SHA-256 index. A separate local verifier
 recomputes all 18 exact modulus identities without requiring Sage.
 
+The feature-branch bootstrap uses a path-limited `push` event for the workflow
+file because GitHub registers manual-dispatch workflows from the default
+branch. Once registered on the default branch, `workflow_dispatch` requires an
+explicit source commit. In both cases the job checks out and verifies the
+event-bound full commit before estimation.
+
 `paper_claim_allowed=false`.
