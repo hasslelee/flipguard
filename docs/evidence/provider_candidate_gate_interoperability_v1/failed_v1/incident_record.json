@@ -1,0 +1,29 @@
+{
+  "schema_version": "flipguard_provider_candidate_gate_incident_v1",
+  "classification": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+  "reason_code": "SELECTION_SPLIT_ID_MANIFEST_MISMATCH",
+  "source_commit": "f84ecff1ea98a505f5a895f5c352fcbc9101f7a8",
+  "contract_sha256": "sha256:429dcf909626a4eaaa36e730b134b9d3be9ef71132de0f708e96897a888dd3a7",
+  "selection_results": {
+    "completed": 4,
+    "selected": 4,
+    "no_safe": 0
+  },
+  "locked_audit_results": {
+    "encrypted_executions_started": 0,
+    "pre_execution_blocks": 4,
+    "reason": "split manifest seed implies split_seed_0 while the selection contract used provider_gate_v1/split_seed_0"
+  },
+  "integrity_assessment": {
+    "model_artifact_correct": true,
+    "validation_artifact_correct": true,
+    "partition_seed_correct": true,
+    "security_policy_correct": true,
+    "candidate_literals_correct": true,
+    "selection_contract_identity_usable_for_final_evidence": false,
+    "encrypted_audit_rerun_required": true,
+    "selection_rerun_required": true
+  },
+  "disposition": "HISTORICAL_FAILED_RUN_PRESERVED",
+  "paper_claim_allowed": false
+}
