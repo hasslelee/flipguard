@@ -476,7 +476,7 @@ def build(
     audit_trial = audit["audit_trial"]
     summary = {
         "schema_version": SCHEMA_VERSION,
-        "status": "SUPPORTED_WITHIN_DECLARED_SCOPE",
+        "status": "SUPPORTED",
         "paper_claim_allowed": False,
         "block_reason": (
             "manual post-extension claim admission and paper review are pending"
@@ -542,7 +542,7 @@ def build(
         },
         "claim_boundary": {
             "non_tabular_sobel_holdout":
-                "SUPPORTED_WITHIN_DECLARED_SCOPE",
+                "SUPPORTED",
             "structural_generalization":
                 "PARTIALLY_SUPPORTED",
             "arbitrary_graph_generalization":
