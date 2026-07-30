@@ -1,0 +1,11 @@
+primitive_id,operation,required_derivation,current_status,diagnostic_substitution_allowed,blocks_instantiated_certificate
+input_encode_encrypt,input,absolute decoded-slot error after encode and public-key encrypt,MISSING,false,true
+model_scalar_encoding,mul_model_scalar,absolute encoded coefficient error and multiply residual,MISSING,false,true
+fixed_scalar_encoding,mul_fixed_scalar,absolute encoded fixed-coefficient error and multiply residual,MISSING,false,true
+plaintext_encoding_at_level,encode_plaintext_at_level,absolute encoding error at the concrete level and scale,MISSING,false,true
+ciphertext_addition,add_ciphertexts,"absolute residual, including a justification when exactly zero",MISSING,false,true
+ciphertext_plaintext_addition,add_ciphertext_plaintext,"absolute residual, including level and scale preconditions",MISSING,false,true
+ciphertext_multiplication,mul_ciphertexts,absolute multiplication residual beyond operand uncertainty,MISSING,false,true
+relinearization,relinearize,absolute key-switching residual for the exact Q/P decomposition,MISSING,false,true
+rescale,rescale_to_default,absolute RNS rounding and scale-adjustment residual,MISSING,false,true
+level_alignment,align_level_to,absolute modulus-drop or alignment residual,MISSING,false,true
