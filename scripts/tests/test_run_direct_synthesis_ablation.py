@@ -82,6 +82,26 @@ class RunDirectSynthesisAblationTest(unittest.TestCase):
                 rebound[partition]["path"],
             )
 
+    def test_selection_accounting_includes_every_trial(self) -> None:
+        selection = {
+            "plan": {
+                "contract": {
+                    "decision": {"validation_samples": 7}
+                }
+            },
+            "trials": [
+                {"key_repeats_completed": 3},
+                {"key_repeats_completed": 3},
+            ],
+        }
+        self.assertEqual(
+            {
+                "key_runs": 6,
+                "encrypted_sample_evaluations": 42,
+            },
+            MODULE.selection_accounting(selection),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1006,6 +1006,24 @@ def trial_metrics(
     }
 
 
+def selection_accounting(
+    selection: dict[str, Any],
+) -> dict[str, int]:
+    samples = int(
+        selection["plan"]["contract"]["decision"][
+            "validation_samples"
+        ]
+    )
+    key_runs = sum(
+        int(trial["key_repeats_completed"])
+        for trial in selection["trials"]
+    )
+    return {
+        "key_runs": key_runs,
+        "encrypted_sample_evaluations": samples * key_runs,
+    }
+
+
 def audit_metrics(audit: dict[str, Any]) -> dict[str, Any]:
     trial = audit["audit_trial"]
     samples = int(
@@ -1098,6 +1116,7 @@ def summarize(
                 "repair_causes": ";".join(full_causes),
                 "security_admission": "PASS",
                 **trial_metrics(full_trial, samples),
+                **selection_accounting(full),
                 **audit_metrics(full_audit),
             }
         )
@@ -1137,6 +1156,7 @@ def summarize(
                     ]
                 ),
             ),
+            **selection_accounting(graph),
         }
         if graph["outcome"] == "SELECTED" and \
                 graph_audit_state["status"] not in (
@@ -1246,13 +1266,31 @@ def summarize(
             "latency_only_no_certification",
         )
     }
-    full_by_workload = {
-        (row["dataset_id"], row["model_id"]): row
-        for row in arm_rows["full_flipguard"]
+    full_results = {
+        (row["dataset_id"], row["model_id"]): json.loads(
+            workload_paths(row)["full_selection"].read_text(
+                encoding="ascii"
+            )
+        )
+        for row in direct_rows
     }
-    graph_by_workload = {
-        (row["dataset_id"], row["model_id"]): row
-        for row in arm_rows["graph_only_fixed_tolerance"]
+    graph_results = {
+        (
+            plan["dataset_id"],
+            plan["model_id"],
+        ): json.loads(
+            (
+                run_root
+                / "graph_only/selection/results"
+                / f"{plan['tag']}.json"
+            ).read_text(encoding="ascii")
+        )
+        for plan in manifest["plans"]
+        if (
+            run_root
+            / "graph_only/selection/results"
+            / f"{plan['tag']}.json"
+        ).is_file()
     }
     summary = {
         "schema_version": SCHEMA_VERSION,
@@ -1309,6 +1347,33 @@ def summarize(
                     row["audit_status"] == "LOCKED_AUDIT_FAIL"
                     for row in values
                 ),
+                "audit_flips": sum(
+                    int(row["audit_flips"])
+                    for row in values
+                    if row["audit_flips"] != ""
+                ),
+                "audit_violations": sum(
+                    int(row["audit_violations"])
+                    for row in values
+                    if row["audit_violations"] != ""
+                ),
+                "audit_key_runs": sum(
+                    int(row["audit_key_runs"])
+                    for row in values
+                    if row["audit_key_runs"] != ""
+                ),
+                "audit_encrypted_sample_evaluations": sum(
+                    int(row["audit_encrypted_sample_evaluations"])
+                    for row in values
+                    if row[
+                        "audit_encrypted_sample_evaluations"
+                    ] != ""
+                ),
+                "audit_retuning": sum(
+                    int(row["audit_retuning"])
+                    for row in values
+                    if row["audit_retuning"] != ""
+                ),
                 "audit_not_applicable": sum(
                     str(row["audit_status"]).startswith(
                         "NOT_APPLICABLE"
@@ -1327,15 +1392,60 @@ def summarize(
             for row in arm_rows["one_shot_direct"]
         ),
         "graph_only_initial_literal_differs_from_full": sum(
-            graph_by_workload[key]["candidate_id"]
-            != full_by_workload[key]["candidate_id"]
-            for key in graph_by_workload
+            (
+                graph_results[key]["trials"][0]["candidate"]["path"],
+                graph_results[key]["trials"][0]["candidate"][
+                    "parameters"
+                ],
+            )
+            != (
+                full_results[key]["trials"][0]["candidate"]["path"],
+                full_results[key]["trials"][0]["candidate"][
+                    "parameters"
+                ],
+            )
+            for key in graph_results
         ),
         "graph_only_selected_literal_differs_from_full": sum(
-            graph_by_workload[key]["candidate_id"]
-            != full_by_workload[key]["candidate_id"]
-            for key in graph_by_workload
-            if graph_by_workload[key]["outcome"] == "SELECTED"
+            (
+                graph_results[key]["selected"]["path"],
+                graph_results[key]["selected"]["parameters"],
+            )
+            != (
+                full_results[key]["selected"]["path"],
+                full_results[key]["selected"]["parameters"],
+            )
+            for key in graph_results
+            if graph_results[key]["outcome"] == "SELECTED"
+        ),
+        "graph_only_candidate_id_representation_differs": sum(
+            graph_results[key]["selected"]["id"]
+            != full_results[key]["selected"]["id"]
+            for key in graph_results
+            if graph_results[key]["outcome"] == "SELECTED"
+        ),
+        "decision_contract_effect_count": sum(
+            (
+                graph_results[key]["trials"][0]["candidate"]["path"],
+                graph_results[key]["trials"][0]["candidate"][
+                    "parameters"
+                ],
+                graph_results[key]["trials_used"],
+                graph_results[key]["outcome"],
+            )
+            != (
+                full_results[key]["trials"][0]["candidate"]["path"],
+                full_results[key]["trials"][0]["candidate"][
+                    "parameters"
+                ],
+                full_results[key]["trials_used"],
+                full_results[key]["outcome"],
+            )
+            for key in graph_results
+        ),
+        "candidate_id_difference_reason": (
+            "candidate IDs bind policy/contract identity; literal "
+            "identity is path plus CKKS parameters"
         ),
         "latency_only_non_safe_selected": sum(
             row["validation_status"] != "SAFE"
