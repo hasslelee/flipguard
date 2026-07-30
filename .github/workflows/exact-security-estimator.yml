@@ -90,7 +90,8 @@ jobs:
             --model-role "${{ matrix.model_role }}" \
             --source-commit "${{ inputs.source_commit || github.sha }}"
           sage -python scripts/verify_exact_security_estimator.py \
-            --result "$out/results.json"
+            --result "$out/results.json" \
+            --require-complete-attack-coverage
           sha256sum "$out/results.json" > "$out/SHA256SUMS"
           git -C /tmp/lattice-estimator status --short > \
             "$out/estimator_git_status.txt"

@@ -243,12 +243,26 @@ def verify(result_path: Path, input_path: Path = INPUT_DEFAULT) -> dict[str, Any
     }
 
 
+def require_complete_attack_coverage(summary: dict[str, Any]) -> None:
+    if summary["attack_failures"] != 0:
+        raise ValueError(
+            "exact estimator attack coverage is incomplete: "
+            f"{summary['attack_failures']} failures"
+        )
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--result", type=Path, required=True)
     parser.add_argument("--input", type=Path, default=INPUT_DEFAULT)
+    parser.add_argument(
+        "--require-complete-attack-coverage",
+        action="store_true",
+    )
     args = parser.parse_args()
     summary = verify(args.result, args.input)
+    if args.require_complete_attack_coverage:
+        require_complete_attack_coverage(summary)
     print(
         "exact_security_estimator=VERIFIED "
         f"model={summary['model_id']} "

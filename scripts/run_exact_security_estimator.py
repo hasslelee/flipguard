@@ -89,7 +89,10 @@ def estimate_attack(
         if rop == oo:
             log2_rop = "Infinity"
         else:
-            log2_rop = str(N(log(rop, 2), digits=16))
+            # Estimator cost models may return 53-bit real values. Asking
+            # Sage for 16 decimal digits requires about 57 bits and turns a
+            # successful attack estimate into a post-processing failure.
+            log2_rop = str(N(log(rop, 2), digits=15))
         return {
             "attack": name,
             "status": "PASS",

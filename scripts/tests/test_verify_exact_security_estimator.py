@@ -115,6 +115,13 @@ class ExactSecurityEstimatorVerifierTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "paper claim gate"):
                 MODULE.verify(output)
 
+    def test_complete_attack_gate_rejects_partial_result(self) -> None:
+        with self.assertRaisesRegex(ValueError, "coverage is incomplete"):
+            MODULE.require_complete_attack_coverage(
+                {"attack_failures": 1}
+            )
+        MODULE.require_complete_attack_coverage({"attack_failures": 0})
+
 
 if __name__ == "__main__":
     unittest.main()
