@@ -9,6 +9,7 @@ import json
 import os
 import subprocess
 import time
+import traceback
 from functools import reduce
 from operator import mul
 from pathlib import Path
@@ -104,6 +105,7 @@ def estimate_attack(
             "status": "FAILED",
             "error_type": type(error).__name__,
             "error": str(error),
+            "traceback": traceback.format_exc(),
             "elapsed_seconds": round(time.monotonic() - started, 6),
         }
 

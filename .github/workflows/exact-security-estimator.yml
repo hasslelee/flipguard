@@ -89,7 +89,7 @@ jobs:
             --model-id "${{ matrix.model_id }}" \
             --model-role "${{ matrix.model_role }}" \
             --source-commit "${{ inputs.source_commit || github.sha }}"
-          python3 scripts/verify_exact_security_estimator.py \
+          sage -python scripts/verify_exact_security_estimator.py \
             --result "$out/results.json"
           sha256sum "$out/results.json" > "$out/SHA256SUMS"
           git -C /tmp/lattice-estimator status --short > \
