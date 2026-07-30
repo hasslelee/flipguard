@@ -6,6 +6,10 @@ on:
       - feature/flipguard-auto-tuner
     paths:
       - .github/workflows/exact-security-estimator.yml
+      - scripts/exact_estimator_numeric.py
+      - scripts/run_exact_security_estimator.py
+      - scripts/verify_exact_security_estimator.py
+      - docs/evidence/security_v2_static_attestation_formal_v2/lattice_estimator_inputs_v2.json
   workflow_dispatch:
     inputs:
       source_commit:
