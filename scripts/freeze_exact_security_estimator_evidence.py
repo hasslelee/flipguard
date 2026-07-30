@@ -36,6 +36,7 @@ RECOVERY_COLLECTION_NAMES = (
     "ci_run_30534290032_recovery",
     "ci_run_30534465125_recovery",
     "ci_run_30535672009_recovery",
+    "ci_run_30536553892_recovery",
 )
 OUTPUT_DEFAULT = (
     REPO_ROOT / "docs/evidence/exact_security_estimator_v1"
@@ -292,17 +293,21 @@ def verify_collection(
             raise ValueError(
                 f"unsupported recovery classification: {classification}"
             )
-        expected_conclusion = (
-            "success"
-            if classification
-            == "PARTIAL_ESTIMATOR_POSTPROCESSING_RECOVERY"
-            else "failure"
-        )
-        require_equal(
-            manifest["workflow_conclusion"],
-            expected_conclusion,
-            "recovery workflow conclusion",
-        )
+        if classification == "PARTIAL_ESTIMATOR_POSTPROCESSING_RECOVERY":
+            if manifest["workflow_conclusion"] not in {
+                "success",
+                "failure",
+            }:
+                raise ValueError(
+                    "partial post-processing recovery has invalid "
+                    "workflow conclusion"
+                )
+        else:
+            require_equal(
+                manifest["workflow_conclusion"],
+                "failure",
+                "recovery workflow conclusion",
+            )
         if classification == "PRE_ESTIMATOR_IMPLEMENTATION_RECOVERY":
             if not manifest["missing_expected_artifacts"]:
                 raise ValueError(
@@ -528,6 +533,23 @@ def freeze(
         for result in partial_results
     ):
         raise ValueError("fourth recovery reason is not preserved")
+    native_precision_results = [
+        load_json(path)
+        for path in result_paths(
+            raw_root / RECOVERY_COLLECTION_NAMES[4]
+        ).values()
+    ]
+    if not all(
+        any(
+            "precision of 54 bits"
+            in attack.get("traceback", "")
+            for row in result["objects"]
+            for attack in row["attacks"]
+            if attack["status"] == "FAILED"
+        )
+        for result in native_precision_results
+    ):
+        raise ValueError("fifth recovery reason is not preserved")
 
     paths = result_paths(complete)
     admissions = static_admission_map()
