@@ -1,0 +1,51 @@
+{
+  "by_model": {
+    "mlp_square_poly3": {
+      "mean_encrypted_trials": 1.72,
+      "mean_of_workload_mean_latency_ms": 560.1335139738285,
+      "selected_runs": 25
+    }
+  },
+  "complete": true,
+  "encrypted_trial_status_counts": {
+    "REJECTED": 18,
+    "SAFE": 25
+  },
+  "evaluation_unit": "10 dataset-model workloads x 5 partition seeds; 50 workload-partition instances",
+  "expected_runs": 25,
+  "failed_runs": 0,
+  "failed_tags": [],
+  "formal_confirmatory_seeds": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "initial_rejected_runs": 18,
+  "max_encrypted_trials": 2,
+  "mean_encrypted_trials_per_successful_run": 1.72,
+  "no_safe_runs": 0,
+  "partition_semantics": "five deterministic repeated partitions of a fixed held-out artifact",
+  "preprocessing_method_counts": {
+    "identity_model_input_v1": 25
+  },
+  "recorded_runs": 25,
+  "repaired_runs": 18,
+  "require_source_replay": true,
+  "run_status_path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_structural_poly3_inputmodel_floor18_keys3/run_status.csv",
+  "schema_version": 1,
+  "seed_roles": {
+    "0": "development_ablation",
+    "1-4": "post_freeze_repeated_partition_evaluation"
+  },
+  "selected_runs": 25,
+  "source_feature_space_counts": {
+    "model_input": 25
+  },
+  "source_replay_verified_runs": 25,
+  "successful_runs": 25,
+  "total_encrypted_key_runs": 129,
+  "total_encrypted_trials": 43,
+  "zero_flip_selected_runs": 25,
+  "zero_violation_selected_runs": 25
+}
