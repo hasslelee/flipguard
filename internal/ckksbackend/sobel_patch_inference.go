@@ -19,11 +19,12 @@ type CKKSSobelPatchConfig struct {
 }
 
 type CKKSSobelPatchRecord struct {
-	RowID      int    `json:"row_id"`
-	ImageID    string `json:"image_id"`
-	PatchIndex int    `json:"patch_index"`
-	CenterX    int    `json:"center_x"`
-	CenterY    int    `json:"center_y"`
+	RowID           int    `json:"row_id"`
+	ImageID         string `json:"image_id"`
+	SourcePartition string `json:"source_partition"`
+	PatchIndex      int    `json:"patch_index"`
+	CenterX         int    `json:"center_x"`
+	CenterY         int    `json:"center_y"`
 
 	PlainScore float64 `json:"plain_score"`
 	CKKSScore  float64 `json:"ckks_score"`
@@ -54,14 +55,15 @@ type sobelPatchModel struct {
 }
 
 type sobelPatchRow struct {
-	RowID         int
-	ImageID       string
-	PatchIndex    int
-	CenterX       int
-	CenterY       int
-	Pixels        [9]float64
-	PlainScore    float64
-	PlainDecision bool
+	RowID           int
+	ImageID         string
+	SourcePartition string
+	PatchIndex      int
+	CenterX         int
+	CenterY         int
+	Pixels          [9]float64
+	PlainScore      float64
+	PlainDecision   bool
 }
 
 func (c Context) RunCKKSSobelPatchInference(
@@ -210,6 +212,7 @@ func (c Context) runSobelPatch(
 	return CKKSSobelPatchRecord{
 		RowID:           row.RowID,
 		ImageID:         row.ImageID,
+		SourcePartition: row.SourcePartition,
 		PatchIndex:      row.PatchIndex,
 		CenterX:         row.CenterX,
 		CenterY:         row.CenterY,
@@ -280,7 +283,8 @@ func loadSobelPatchRows(
 		header[name] = index
 	}
 	required := []string{
-		"row_id", "image_id", "patch_index", "center_x", "center_y",
+		"row_id", "image_id", "source_partition",
+		"patch_index", "center_x", "center_y",
 		"p00", "p01", "p02", "p10", "p11", "p12", "p20", "p21", "p22",
 		"plaintext_score", "decision_threshold", "plaintext_decision",
 	}
@@ -343,6 +347,13 @@ func loadSobelPatchRows(
 				rowIndex+2,
 			)
 		}
+		sourcePartition, err := value("source_partition")
+		if err != nil || sourcePartition == "" {
+			return nil, fmt.Errorf(
+				"row %d invalid source_partition",
+				rowIndex+2,
+			)
+		}
 		patchIndex, err := parseInt("patch_index")
 		if err != nil {
 			return nil, err
@@ -356,7 +367,7 @@ func loadSobelPatchRows(
 			return nil, err
 		}
 		var pixels [9]float64
-		for index, name := range required[5:14] {
+		for index, name := range required[6:15] {
 			pixel, err := parseFloat(name)
 			if err != nil || pixel < 0 || pixel > 1 {
 				return nil, fmt.Errorf(
@@ -392,14 +403,15 @@ func loadSobelPatchRows(
 			)
 		}
 		rows = append(rows, sobelPatchRow{
-			RowID:         rowID,
-			ImageID:       imageID,
-			PatchIndex:    patchIndex,
-			CenterX:       centerX,
-			CenterY:       centerY,
-			Pixels:        pixels,
-			PlainScore:    plainScore,
-			PlainDecision: plainDecision,
+			RowID:           rowID,
+			ImageID:         imageID,
+			SourcePartition: sourcePartition,
+			PatchIndex:      patchIndex,
+			CenterX:         centerX,
+			CenterY:         centerY,
+			Pixels:          pixels,
+			PlainScore:      plainScore,
+			PlainDecision:   plainDecision,
 		})
 	}
 	return rows, nil

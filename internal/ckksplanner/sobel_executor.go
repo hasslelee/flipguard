@@ -3,6 +3,7 @@ package ckksplanner
 import (
 	"errors"
 	"fmt"
+	"math"
 	"strconv"
 
 	"github.com/hasslelee/flipguard/internal/certify"
@@ -36,6 +37,39 @@ type SobelTrialResult struct {
 	MeanTotalMS                float64 `json:"mean_total_ms"`
 	MedianMS                   float64 `json:"median_total_ms"`
 	P95MS                      float64 `json:"p95_total_ms"`
+
+	SampleLedger []SobelSampleObservation `json:"sample_ledger"`
+}
+
+type SobelSampleObservation struct {
+	KeyRun int `json:"key_run"`
+
+	RowID           int    `json:"row_id"`
+	ImageID         string `json:"image_id"`
+	SourcePartition string `json:"source_partition"`
+	PatchIndex      int    `json:"patch_index"`
+	CenterX         int    `json:"center_x"`
+	CenterY         int    `json:"center_y"`
+
+	PlainScore float64 `json:"plain_score"`
+	CKKSScore  float64 `json:"ckks_score"`
+	Threshold  float64 `json:"threshold"`
+	Margin     float64 `json:"margin"`
+	AbsError   float64 `json:"abs_error"`
+
+	Certifiable      bool    `json:"certifiable"`
+	ErrorBudget      float64 `json:"error_budget"`
+	ErrorBudgetUsage float64 `json:"error_budget_usage"`
+	ErrorViolation   bool    `json:"error_violation"`
+
+	PlainDecision bool `json:"plain_decision"`
+	CKKSDecision  bool `json:"ckks_decision"`
+	DecisionFlip  bool `json:"decision_flip"`
+
+	EncodeEncryptMS float64 `json:"encode_encrypt_ms"`
+	EvalOnlyMS      float64 `json:"eval_only_ms"`
+	DecryptDecodeMS float64 `json:"decrypt_decode_ms"`
+	TotalEvalMS     float64 `json:"total_eval_ms"`
 }
 
 type AdaptiveSobelAutotuneResult struct {
@@ -85,6 +119,12 @@ func ExecuteSobelCandidate(
 		TrialIndex:          trialIndex,
 		Candidate:           candidate,
 		KeyRepeatsRequested: contract.Deployment.ValidationKeyRepeats,
+		SampleLedger: make(
+			[]SobelSampleObservation,
+			0,
+			contract.Decision.ValidationSamples*
+				contract.Deployment.ValidationKeyRepeats,
+		),
 	}
 	profile, err := candidate.Profile()
 	if err != nil {
@@ -163,6 +203,51 @@ func ExecuteSobelCandidate(
 			totalLatencies = append(
 				totalLatencies,
 				record.TotalEvalMS,
+			)
+			margin := math.Abs(
+				record.PlainScore -
+					contract.Decision.Threshold,
+			)
+			certifiable :=
+				margin > contract.Decision.MarginFloor
+			errorBudget := 0.0
+			errorBudgetUsage := 0.0
+			errorViolation := false
+			if certifiable {
+				errorBudget =
+					contract.Decision.SafetyFactor * margin
+				errorBudgetUsage =
+					record.AbsError / errorBudget
+				errorViolation =
+					record.AbsError >= errorBudget
+			}
+			result.SampleLedger = append(
+				result.SampleLedger,
+				SobelSampleObservation{
+					KeyRun:           keyRun,
+					RowID:            record.RowID,
+					ImageID:          record.ImageID,
+					SourcePartition:  record.SourcePartition,
+					PatchIndex:       record.PatchIndex,
+					CenterX:          record.CenterX,
+					CenterY:          record.CenterY,
+					PlainScore:       record.PlainScore,
+					CKKSScore:        record.CKKSScore,
+					Threshold:        contract.Decision.Threshold,
+					Margin:           margin,
+					AbsError:         record.AbsError,
+					Certifiable:      certifiable,
+					ErrorBudget:      errorBudget,
+					ErrorBudgetUsage: errorBudgetUsage,
+					ErrorViolation:   errorViolation,
+					PlainDecision:    record.PlainDecision,
+					CKKSDecision:     record.CKKSDecision,
+					DecisionFlip:     record.DecisionFlip,
+					EncodeEncryptMS:  record.EncodeEncryptMS,
+					EvalOnlyMS:       record.EvalOnlyMS,
+					DecryptDecodeMS:  record.DecryptDecodeMS,
+					TotalEvalMS:      record.TotalEvalMS,
+				},
 			)
 		}
 		result.KeyRepeatsCompleted = keyRun

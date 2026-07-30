@@ -3,6 +3,7 @@ package ckksplanner
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"os"
 	"reflect"
 	"strings"
@@ -282,6 +283,16 @@ func ValidateSelectedSobelAutotuneResult(
 			P95MS:               trial.P95MS,
 		}
 		encryptedSamples += trial.EncryptedSampleEvaluations
+		if err := validateSobelSampleLedger(
+			trial,
+			selection.Plan.Contract,
+		); err != nil {
+			return SynthesizedCandidate{}, fmt.Errorf(
+				"Sobel trial %d sample ledger: %w",
+				trial.TrialIndex,
+				err,
+			)
+		}
 		if trial.Status == certify.StatusSafe ||
 			trial.Status == certify.StatusRejected {
 			expected := selection.Plan.Contract.Decision.ValidationSamples *
@@ -309,4 +320,136 @@ func ValidateSelectedSobelAutotuneResult(
 		)
 	}
 	return selected, nil
+}
+
+func validateSobelSampleLedger(
+	trial SobelTrialResult,
+	contract WorkloadContract,
+) error {
+	if len(trial.SampleLedger) !=
+		trial.EncryptedSampleEvaluations {
+		return fmt.Errorf(
+			"rows=%d encrypted_sample_evaluations=%d",
+			len(trial.SampleLedger),
+			trial.EncryptedSampleEvaluations,
+		)
+	}
+	if len(trial.SampleLedger) == 0 &&
+		trial.Status != certify.StatusFailed {
+		return fmt.Errorf("non-FAILED trial has no sample ledger")
+	}
+
+	flips := 0
+	violations := 0
+	maxError := 0.0
+	maxUsage := 0.0
+	seen := make(
+		map[string]struct{},
+		len(trial.SampleLedger),
+	)
+	for index, sample := range trial.SampleLedger {
+		if sample.KeyRun <= 0 ||
+			sample.KeyRun > trial.KeyRepeatsCompleted {
+			return fmt.Errorf(
+				"row %d has invalid key run",
+				index,
+			)
+		}
+		identity := fmt.Sprintf(
+			"%d/%d",
+			sample.KeyRun,
+			sample.RowID,
+		)
+		if _, exists := seen[identity]; exists {
+			return fmt.Errorf(
+				"duplicate key/sample identity %s",
+				identity,
+			)
+		}
+		seen[identity] = struct{}{}
+		if sample.ImageID == "" ||
+			sample.SourcePartition == "" ||
+			!closeFloat(
+				sample.Threshold,
+				contract.Decision.Threshold,
+			) {
+			return fmt.Errorf(
+				"row %d identity changed",
+				index,
+			)
+		}
+
+		margin := math.Abs(
+			sample.PlainScore - sample.Threshold,
+		)
+		observedError := math.Abs(
+			sample.CKKSScore - sample.PlainScore,
+		)
+		certifiable :=
+			margin > contract.Decision.MarginFloor
+		plainDecision :=
+			sample.PlainScore >= sample.Threshold
+		ckksDecision :=
+			sample.CKKSScore >= sample.Threshold
+		if !closeFloat(sample.Margin, margin) ||
+			!closeFloat(sample.AbsError, observedError) ||
+			sample.Certifiable != certifiable ||
+			sample.PlainDecision != plainDecision ||
+			sample.CKKSDecision != ckksDecision ||
+			sample.DecisionFlip !=
+				(plainDecision != ckksDecision) {
+			return fmt.Errorf(
+				"row %d derived observation changed",
+				index,
+			)
+		}
+		if !certifiable {
+			if sample.ErrorBudget != 0 ||
+				sample.ErrorBudgetUsage != 0 ||
+				sample.ErrorViolation {
+				return fmt.Errorf(
+					"row %d ambiguous budget changed",
+					index,
+				)
+			}
+			continue
+		}
+
+		budget := contract.Decision.SafetyFactor * margin
+		usage := observedError / budget
+		violation := observedError >= budget
+		if !closeFloat(sample.ErrorBudget, budget) ||
+			!closeFloat(sample.ErrorBudgetUsage, usage) ||
+			sample.ErrorViolation != violation {
+			return fmt.Errorf(
+				"row %d budget observation changed",
+				index,
+			)
+		}
+		maxError = math.Max(maxError, observedError)
+		maxUsage = math.Max(maxUsage, usage)
+		if sample.DecisionFlip {
+			flips++
+		}
+		if violation {
+			violations++
+		}
+	}
+	if flips != trial.DecisionFlips ||
+		violations != trial.ErrorViolations ||
+		!closeFloat(maxError, trial.MaxObservedError) ||
+		!closeFloat(maxUsage, trial.MaxErrorBudgetUsage) {
+		return fmt.Errorf(
+			"aggregate mismatch flips=%d/%d violations=%d/%d max_error=%.12g/%.12g max_usage=%.12g/%.12g",
+			flips,
+			trial.DecisionFlips,
+			violations,
+			trial.ErrorViolations,
+			maxError,
+			trial.MaxObservedError,
+			maxUsage,
+			trial.MaxErrorBudgetUsage,
+		)
+	}
+	return nil
 }
