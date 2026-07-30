@@ -60,12 +60,16 @@ class ExactSecurityEstimatorCollectorTest(unittest.TestCase):
 
     def test_incomplete_collection_classification_is_explicit(self) -> None:
         self.assertEqual(
-            MODULE.collection_classification({"missing"}),
+            MODULE.collection_classification({"missing"}, "failure"),
             "PRE_ESTIMATOR_IMPLEMENTATION_RECOVERY",
         )
         self.assertEqual(
-            MODULE.collection_classification(set()),
+            MODULE.collection_classification(set(), "success"),
             "COMPLETE_ARTIFACT_COLLECTION",
+        )
+        self.assertEqual(
+            MODULE.collection_classification(set(), "failure"),
+            "POST_ESTIMATOR_ARTIFACT_FINALIZATION_RECOVERY",
         )
 
 

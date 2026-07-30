@@ -97,12 +97,15 @@ def list_artifacts(run_id: int) -> list[dict[str, Any]]:
     return payload["artifacts"]
 
 
-def collection_classification(missing: set[str]) -> str:
-    return (
-        "PRE_ESTIMATOR_IMPLEMENTATION_RECOVERY"
-        if missing
-        else "COMPLETE_ARTIFACT_COLLECTION"
-    )
+def collection_classification(
+    missing: set[str],
+    workflow_conclusion: str,
+) -> str:
+    if workflow_conclusion == "success" and not missing:
+        return "COMPLETE_ARTIFACT_COLLECTION"
+    if missing:
+        return "PRE_ESTIMATOR_IMPLEMENTATION_RECOVERY"
+    return "POST_ESTIMATOR_ARTIFACT_FINALIZATION_RECOVERY"
 
 
 def collect(
@@ -119,6 +122,11 @@ def collect(
     missing = EXPECTED_ARTIFACTS - names
     if missing and not allow_incomplete:
         raise ValueError(f"missing workflow artifacts: {sorted(missing)}")
+    if run["conclusion"] != "success" and not allow_incomplete:
+        raise ValueError(
+            "workflow conclusion is not success; use --allow-incomplete "
+            "to preserve a recovery run"
+        )
 
     with tempfile.TemporaryDirectory(
         prefix="flipguard-exact-security-ci-",
@@ -198,7 +206,10 @@ def collect(
             "head_sha": run["headSha"],
             "event": run["event"],
             "workflow_conclusion": run["conclusion"],
-            "collection_classification": collection_classification(missing),
+            "collection_classification": collection_classification(
+                missing,
+                run["conclusion"],
+            ),
             "missing_expected_artifacts": sorted(missing),
             "job_conclusions": {
                 job["name"]: job["conclusion"] for job in run["jobs"]

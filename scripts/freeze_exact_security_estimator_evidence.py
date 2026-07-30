@@ -34,6 +34,7 @@ COMPLETE_COLLECTION_NAME = "ci_run_30534465125"
 RECOVERY_COLLECTION_NAMES = (
     "ci_run_30534037217_recovery",
     "ci_run_30534290032_recovery",
+    "ci_run_30534465125_recovery",
 )
 OUTPUT_DEFAULT = (
     REPO_ROOT / "docs/evidence/exact_security_estimator_v1"
@@ -227,6 +228,20 @@ def result_paths(collection: Path) -> dict[str, Path]:
     return paths
 
 
+def estimator_object_count(collection: Path) -> int:
+    total = 0
+    for model_id in EXPECTED_MODELS:
+        path = (
+            collection
+            / "artifacts"
+            / f"exact-security-estimator-{model_id}"
+            / "results.json"
+        )
+        if path.is_file():
+            total += len(load_json(path).get("objects", []))
+    return total
+
+
 def verify_collection(
     collection: Path,
     *,
@@ -251,18 +266,32 @@ def verify_collection(
             "complete missing artifacts",
         )
     else:
-        require_equal(
-            manifest["collection_classification"],
+        classification = manifest["collection_classification"]
+        if classification not in {
             "PRE_ESTIMATOR_IMPLEMENTATION_RECOVERY",
-            "recovery classification",
-        )
+            "POST_ESTIMATOR_ARTIFACT_FINALIZATION_RECOVERY",
+        }:
+            raise ValueError(
+                f"unsupported recovery classification: {classification}"
+            )
         require_equal(
             manifest["workflow_conclusion"],
             "failure",
             "recovery workflow conclusion",
         )
-        if not manifest["missing_expected_artifacts"]:
-            raise ValueError("recovery must record missing artifacts")
+        if classification == "PRE_ESTIMATOR_IMPLEMENTATION_RECOVERY":
+            if not manifest["missing_expected_artifacts"]:
+                raise ValueError(
+                    "pre-estimator recovery must record missing artifacts"
+                )
+        else:
+            require_equal(
+                manifest["missing_expected_artifacts"],
+                [],
+                "post-estimator recovery artifacts",
+            )
+            for path in result_paths(collection).values():
+                VERIFY.verify(path, INPUT_PATH)
     return manifest
 
 
@@ -436,6 +465,10 @@ def freeze(
         recovery_manifests.append(
             verify_collection(raw_root / name, complete=False)
         )
+    recovery_object_counts = [
+        estimator_object_count(raw_root / name)
+        for name in RECOVERY_COLLECTION_NAMES
+    ]
     recovery_logs = [
         (raw_root / name / "workflow.log").read_text(encoding="utf-8")
         for name in RECOVERY_COLLECTION_NAMES
@@ -444,6 +477,8 @@ def freeze(
         raise ValueError("first recovery reason is not preserved")
     if "dubious ownership" not in recovery_logs[1]:
         raise ValueError("second recovery reason is not preserved")
+    if "python3: command not found" not in recovery_logs[2]:
+        raise ValueError("third recovery reason is not preserved")
 
     paths = result_paths(complete)
     admissions = static_admission_map()
@@ -476,8 +511,10 @@ def freeze(
         "source_signature_rows": 14,
         "unique_modulus_identities": 9,
         "objects_per_model": 18,
-        "implementation_recoveries": 2,
-        "estimator_objects_in_recoveries": 0,
+        "implementation_recoveries": len(RECOVERY_COLLECTION_NAMES),
+        "estimator_objects_in_recoveries": sum(
+            recovery_object_counts
+        ),
         "security_policy_modified": False,
         "security_claim": "PARTIALLY_SUPPORTED",
         "exact_distribution_claim_allowed": False,
@@ -532,9 +569,9 @@ def freeze(
                 "workflow_conclusion": recovery[
                     "workflow_conclusion"
                 ],
-                "estimator_objects": 0,
+                "estimator_objects": recovery_object_counts[index],
             }
-            for recovery in recovery_manifests
+            for index, recovery in enumerate(recovery_manifests)
         ],
         "summary_sha256": sha256_path(output / "summary.json"),
         "joined_results_sha256": sha256_path(
@@ -551,10 +588,11 @@ def freeze(
     (output / "manifest.json").write_bytes(canonical_json(manifest))
     readme = """# Exact Security Estimator Evidence V1
 
-This pack preserves two pre-estimator CI recoveries and the complete
-guideline-pinned/current exact-modulus sensitivity run. Estimator results are
-joined to Security V2 Q/ QP object admission; excluded objects are not
-reintroduced into the formal candidate set.
+This pack preserves two pre-estimator CI recoveries, one post-estimator
+artifact-finalization recovery, and the complete guideline-pinned/current
+exact-modulus sensitivity run. Estimator results are joined to Security V2
+Q/QP object admission; excluded objects are not reintroduced into the formal
+candidate set.
 
 The error sigma is matched, but the estimator does not model Lattigo's
 explicit Gaussian truncation bound. Security remains PARTIALLY_SUPPORTED and
