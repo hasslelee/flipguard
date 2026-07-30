@@ -97,6 +97,32 @@ Until that matrix is frozen and verified:
 - external-autotuner interoperability: `NOT_EVALUATED`;
 - `paper_claim_allowed=false`.
 
+## Predeclared Development Matrix
+
+The first matrix is now fixed in
+`experiments/provider_candidate_gate_v1/contract.json`. It uses only the
+development partition:
+
+- workload: seed 0, `iris_binary/linear_poly3`;
+- configuration validation: 14 rows;
+- disjoint locked audit: 16 rows;
+- fresh-key repeats: three for validation and three for audit;
+- one exact encrypted candidate trial per provider arm;
+- provider order: manual, Security-V2 bounded catalog, external-format
+  fixture, and direct synthesizer.
+
+The manual, external-format, and direct arms intentionally carry the same
+frozen direct literal. This isolates provider-label and source-binding behavior
+from parameter quality. The catalog arm carries the frozen Security-V2
+bounded-catalog fastest-SAFE literal for this development workload at
+`alpha=0.5`. A SAFE validation result is replayed without synthesis or repair
+on the locked audit split. A scientific `REJECTED`, `FAILED`, or `NO_SAFE`
+result is retained and does not change any literal or policy.
+
+The external arm is a hand-authored schema-compatibility fixture. Success
+cannot be reported as an evaluation of FHE-Agent or any other third-party
+autotuner. Actual external-tool integration remains `NOT_EVALUATED`.
+
 ## Prohibited Interpretation
 
 This adapter does not make FlipGuard a compiler, prove arbitrary autotuner
