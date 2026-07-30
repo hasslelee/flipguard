@@ -184,6 +184,7 @@ def build_summary(
 def freeze(
     source_root: Path,
     recovery_log: Path,
+    execution_log: Path,
     output: Path,
     freezer_commit: str,
 ) -> None:
@@ -195,13 +196,25 @@ def freeze(
     if not recovery_log.is_file():
         raise ValueError(f"missing preflight recovery log: {recovery_log}")
     recovery_text = recovery_log.read_text(encoding="utf-8")
-    if (
-        "30561535356" not in recovery_text
-        and "missing bound artifact" not in recovery_text
+    for run_id, marker in (
+        ("30561535356", "missing bound artifact"),
+        ("30562143758", "compiled DOT changed"),
     ):
-        raise ValueError("preflight recovery log identity is missing")
+        if run_id not in recovery_text or marker not in recovery_text:
+            raise ValueError(
+                f"preflight recovery log is missing run {run_id}"
+            )
+    if not execution_log.is_file():
+        raise ValueError(f"missing native execution log: {execution_log}")
     contract = VERIFIER.load_json(CONTRACT)
     result = VERIFIER.load_json(source_root / "manifest.json")
+    execution_text = execution_log.read_text(encoding="utf-8")
+    if (
+        result["action_run_id"] not in execution_text
+        or result["source_commit"] not in execution_text
+        or '"validation_status": "REJECTED"' not in execution_text
+    ):
+        raise ValueError("native execution log identity is incomplete")
     if result_check["paper_claim_allowed"] is not False:
         raise ValueError("native result paper gate changed")
 
@@ -210,6 +223,7 @@ def freeze(
     shutil.copy2(CONTRACT, output / "contract.json")
     shutil.copy2(PROTOCOL, output / "protocol.md")
     shutil.copy2(recovery_log, output / "preflight_failure.log")
+    shutil.copy2(execution_log, output / "execution.log")
     summary = build_summary(result, contract)
     (output / "summary.json").write_bytes(
         VERIFIER.canonical_json(summary)
@@ -231,6 +245,7 @@ def freeze(
         "preflight_failure_log_sha256": sha256_path(
             output / "preflight_failure.log"
         ),
+        "execution_log_sha256": sha256_path(output / "execution.log"),
         "summary_sha256": sha256_path(output / "summary.json"),
         "direct_policy_digest": VERIFIER.DIRECT_DIGEST,
         "security_policy_digest": VERIFIER.SECURITY_DIGEST,
@@ -293,6 +308,16 @@ def verify(output: Path = OUTPUT_DEFAULT) -> dict[str, Any]:
         "frozen native summary digest changed",
     )
     VERIFIER.require(
+        manifest["preflight_failure_log_sha256"]
+        == sha256_path(output / "preflight_failure.log"),
+        "frozen preflight log digest changed",
+    )
+    VERIFIER.require(
+        manifest["execution_log_sha256"]
+        == sha256_path(output / "execution.log"),
+        "frozen execution log digest changed",
+    )
+    VERIFIER.require(
         manifest["paper_claim_allowed"] is False,
         "frozen native paper gate changed",
     )
@@ -312,6 +337,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source-root", type=Path)
     parser.add_argument("--preflight-failure-log", type=Path)
+    parser.add_argument("--execution-log", type=Path)
     parser.add_argument("--output", type=Path, default=OUTPUT_DEFAULT)
     parser.add_argument("--verify", action="store_true")
     args = parser.parse_args()
@@ -323,9 +349,14 @@ def main() -> None:
     if args.verify:
         print(json.dumps(verify(output), indent=2, sort_keys=True))
         return
-    if args.source_root is None or args.preflight_failure_log is None:
+    if (
+        args.source_root is None
+        or args.preflight_failure_log is None
+        or args.execution_log is None
+    ):
         raise ValueError(
-            "--source-root and --preflight-failure-log are required"
+            "--source-root, --preflight-failure-log, and --execution-log "
+            "are required"
         )
     source_root = (
         args.source_root
@@ -337,8 +368,13 @@ def main() -> None:
         if args.preflight_failure_log.is_absolute()
         else REPO_ROOT / args.preflight_failure_log
     )
+    execution_log = (
+        args.execution_log
+        if args.execution_log.is_absolute()
+        else REPO_ROOT / args.execution_log
+    )
     head, _ = clean_source_gate()
-    freeze(source_root, recovery_log, output, head)
+    freeze(source_root, recovery_log, execution_log, output, head)
     print(
         f"eva_native_runtime_evidence=FROZEN output={output} "
         f"freezer_commit={head}"

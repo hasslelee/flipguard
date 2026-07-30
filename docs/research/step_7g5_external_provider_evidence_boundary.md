@@ -98,6 +98,28 @@ Evidence:
 - `docs/evidence/eva_external_adapter_replay_v1`;
 - `docs/evidence/eva_schedule_bound_adapter_replay_v1`.
 
+The same exact compiler output was then executed on pinned EVA's native SEAL
+v3.6.4 backend over the 14-row development validation artifact and three
+fresh key contexts. All 42 encrypted observations executed, but the candidate
+was decision-REJECTED:
+
+- decision flips: 11;
+- alpha-times-margin violations: 36;
+- maximum absolute error: `1.784804773973152`;
+- maximum normalized budget usage: `58.5611405658713`;
+- locked audit: not run;
+- synthesis, repair, and retuning: 0.
+
+The three key repeats had 14, 13, and 9 violations, respectively, so the
+result is not localized to one failed execution. Native EVA plaintext replay
+matched the bound CSV scores within `4.21e-13`, separating graph/input
+identity from encrypted numerical error. This supports native EVA/SEAL
+execution of the bound compiler output, but not native decision
+certification. SEAL's pinned secret/error semantics differ from Lattigo's
+Xs/Xe, and the experiment is not a paired cross-runtime equivalence test.
+
+Evidence: `docs/evidence/eva_native_runtime_replay_v1`.
+
 ## Novelty Consequence
 
 Automatic program lowering, scale management, error-latency optimization,
@@ -113,8 +135,9 @@ provider-neutral finite decision gate:
    retuning.
 
 Actual public-provider evidence currently spans Orion fail-closed imports,
-one lossless but decision-REJECTED HIT literal, and one source-compiled,
-schedule-bound but decision-REJECTED EVA literal. Therefore:
+one lossless but decision-REJECTED HIT literal, and one source-compiled EVA
+literal that is decision-REJECTED under both the scoped Lattigo smoke and
+native SEAL validation. Therefore:
 
 - `provider_class_interoperability=PARTIALLY_SUPPORTED`;
 - `lossless_external_literal_import=SUPPORTED`;
@@ -123,7 +146,8 @@ schedule-bound but decision-REJECTED EVA literal. Therefore:
 - `general_external_compiler_interoperability=PARTIALLY_SUPPORTED`;
 - `encrypted_external_candidate_certification=BLOCKED`;
 - `locked_audit_external_schedule_replay=NOT_EVALUATED`;
-- `native_eva_seal_runtime_execution=NOT_EVALUATED`;
+- `native_eva_seal_runtime_execution=SUPPORTED`;
+- `native_eva_seal_decision_certification=BLOCKED`;
 - `general_external_autotuner_integration=NOT_EVALUATED`;
 - `external_autotuner_quality=NOT_EVALUATED`;
 - `paper_claim_allowed=false`.

@@ -107,11 +107,16 @@ system-interoperability results, not additional novelty precedents.
   Security V2. It is nevertheless decision-REJECTED on the declared
   development workload because 6/42 sample-key observations exceed the
   predeclared numerical budget.
+- One pinned EVA v1.0.1 compiler output executes all 42 development
+  observations on its native SEAL v3.6.4 backend, but it is
+  decision-REJECTED with 11 flips and 36 numerical-budget violations.
 
 The HIT result is evidence that a candidate can be cryptographically admitted
 and executable while still failing the downstream decision contract. HIT is a
-formula-based automatic parameter selector, not a search autotuner. Neither
-the Orion audit nor the HIT rejection supports a broad third-party-autotuner
+formula-based automatic parameter selector, not a search autotuner. The EVA
+result supports native execution of one bound compiler output, not decision
+certification, cross-runtime equivalence, or broad compiler quality. The
+Orion, HIT, and EVA evidence does not support a broad third-party-autotuner
 integration or quality claim.
 
 ## Application-Aware Approximate FHE
@@ -188,10 +193,11 @@ Forbidden:
 - The remaining defensible boundary is decision-space admission, explicit
   abstention, literal replay, and no-retuning audit. Non-tabular adapters add
   scope evidence but do not establish universal graph support.
-- Actual-provider evidence currently consists of a fail-closed Orion import
-  audit and a lossless but decision-REJECTED HIT literal. Provider-neutral
-  plumbing is partially supported; successful encrypted third-party
-  certification plus locked audit remains open.
+- Actual-provider evidence currently consists of a fail-closed Orion import,
+  a lossless but decision-REJECTED HIT literal, and a native-executed but
+  decision-REJECTED EVA compiler literal. Provider-neutral plumbing is
+  partially supported; successful encrypted third-party certification plus
+  locked audit remains open.
 - The predeclared natural-data ablation found identical initial and selected
   path-plus-parameter literals for graph-only and decision-contract synthesis
   in 10/10 development workloads. The decision contract remains active as an

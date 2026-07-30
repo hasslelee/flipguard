@@ -66,6 +66,28 @@ external search-autotuner integration, or a paper claim.
 
 `paper_claim_allowed=false`.
 
+## Observed Outcome
+
+Clean-runner source commit
+`4611ae2bedcc92e69d8eb22539f64b429a137d4f`, GitHub Actions run
+`30563021551`, completed the fixed native validation:
+
+- encrypted observations: 42/42 successful;
+- fresh key contexts: 3/3;
+- decision flips: 11;
+- numerical-budget violations: 36;
+- maximum absolute error: `1.784804773973152`;
+- maximum normalized budget usage: `58.5611405658713`;
+- validation status: `REJECTED`;
+- locked audit: `NOT_EVALUATED`;
+- synthesis, repair, and retuning: 0.
+
+Violation counts by key repeat were 14, 13, and 9. The maximum difference
+between native EVA plaintext evaluation and the bound CSV plaintext score was
+`4.21e-13`. The result therefore supports native execution and rejects
+decision certification for this literal; it is not attributed to a source
+graph or plaintext-score mismatch.
+
 ## Pre-Execution Recovery
 
 GitHub Actions run `30561535356` stopped at static preflight because the
