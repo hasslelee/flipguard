@@ -26,6 +26,9 @@ RESUME_PROVENANCE = Path(
     "results/thesis_grade_protocol/final_confirmatory_suite_v1/"
     "resume_provenance/resume_provenance.json"
 )
+AUTONOMOUS_ROOT = Path(
+    "results/thesis_grade_protocol/autonomous_execution_v1"
+)
 PACKS = {
     "direct_confirmatory": Path(
         "docs/evidence/direct_locked_audit_final_source_v1"
@@ -37,6 +40,9 @@ PACKS = {
         "docs/evidence/no_safe_controls_confirmatory_v1"
     ),
     "structural": Path("docs/evidence/structural_extension_v1"),
+    "structural_failure_analysis": Path(
+        "docs/evidence/structural_audit_failure_analysis_v1"
+    ),
     "paired": Path("docs/evidence/paired_latency_final_v1"),
     "security": Path(
         "docs/evidence/security_v2_static_attestation_formal_v2"
@@ -59,6 +65,11 @@ PACKS = {
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument(
+        "--resume-provenance",
+        type=Path,
+        default=RESUME_PROVENANCE,
+    )
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--verify", action="store_true")
     return parser.parse_args()
@@ -89,16 +100,28 @@ def load_json(path: Path) -> dict[str, Any]:
     return value
 
 
-def generate(output: Path) -> None:
+def generate(output: Path, resume_provenance_relative: Path) -> None:
     if output.exists():
         raise ValueError(f"{output} exists; use --force")
     output.mkdir(parents=True)
     run_manifest_path = REPO_ROOT / RUN_MANIFEST
     run_manifest = load_json(run_manifest_path)
-    resume_provenance_path = REPO_ROOT / RESUME_PROVENANCE
+    resume_provenance_path = REPO_ROOT / resume_provenance_relative
     resume_provenance = load_json(resume_provenance_path)
     pack_records = {}
-    snapshot_sources = {"run_manifest": run_manifest_path}
+    snapshot_sources = {
+        "run_manifest": run_manifest_path,
+        "resume_provenance": resume_provenance_path,
+    }
+    for name in (
+        "window.json",
+        "stage_dependency_graph.json",
+        "stage_ledger.jsonl",
+        "recovery_log.jsonl",
+    ):
+        path = REPO_ROOT / AUTONOMOUS_ROOT / name
+        if path.is_file():
+            snapshot_sources[f"autonomous_{path.stem}"] = path
     for name, relative in PACKS.items():
         root = REPO_ROOT / relative
         manifest_path = root / "manifest.json"
@@ -157,7 +180,6 @@ def generate(output: Path) -> None:
         comparison_summary_path
     )
     snapshot_sources["final_comparison_rows"] = comparison_csv_path
-    snapshot_sources["resume_provenance"] = resume_provenance_path
     snapshot_dir = output / "snapshots"
     for name, source in snapshot_sources.items():
         suffix = source.suffix or ".json"
@@ -257,6 +279,10 @@ def generate(output: Path) -> None:
             "path": str(RUN_MANIFEST),
             "sha256": sha256(run_manifest_path),
         },
+        "resume_provenance": {
+            "path": str(resume_provenance_relative),
+            "sha256": sha256(resume_provenance_path),
+        },
         "security_policy": run_manifest["security_policy"],
         "direct_policy": run_manifest["direct_policy"],
         "catalog_accounting": required_counts,
@@ -343,6 +369,13 @@ def verify(output: Path) -> None:
     run_manifest_path = REPO_ROOT / manifest["run_manifest"]["path"]
     if sha256(run_manifest_path) != manifest["run_manifest"]["sha256"]:
         raise ValueError("combined run manifest binding changed")
+    resume_provenance_path = (
+        REPO_ROOT / manifest["resume_provenance"]["path"]
+    )
+    if sha256(resume_provenance_path) != manifest[
+        "resume_provenance"
+    ]["sha256"]:
+        raise ValueError("combined resume provenance binding changed")
     for record in manifest["packs"].values():
         root = REPO_ROOT / record["path"]
         if tree_digest(root) != record["tree_sha256"]:
@@ -378,7 +411,7 @@ def main() -> int:
         return 0
     if output.exists() and args.force:
         shutil.rmtree(output)
-    generate(output)
+    generate(output, args.resume_provenance)
     verify(output)
     return 0
 
