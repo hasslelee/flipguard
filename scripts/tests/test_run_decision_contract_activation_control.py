@@ -61,12 +61,10 @@ class DecisionContractActivationRunnerTest(unittest.TestCase):
 
     def test_execution_closure_digest_is_deterministic(self) -> None:
         head = MODULE.git("rev-parse", "HEAD")
-        self.assertEqual(
-            MODULE.commit_source_digest(head),
-            MODULE.commit_source_digest(head),
-        )
+        first = MODULE.commit_source_digest(head)
+        self.assertEqual(first, MODULE.commit_source_digest(head))
         self.assertRegex(
-            MODULE.current_source_digest(head),
+            first,
             r"^sha256:[0-9a-f]{64}$",
         )
 

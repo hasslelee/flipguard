@@ -9,6 +9,7 @@ import hashlib
 import importlib.util
 import json
 import shutil
+import subprocess
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -65,6 +66,32 @@ def sha256_path(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return "sha256:" + digest.hexdigest()
+
+
+def sha256_bytes(value: bytes) -> str:
+    return "sha256:" + hashlib.sha256(value).hexdigest()
+
+
+def git_blob(commit: str, relative: str) -> bytes:
+    completed = subprocess.run(
+        ["git", "show", f"{commit}:{relative}"],
+        cwd=REPO_ROOT,
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    return completed.stdout
+
+
+def verify_historical_source_map(
+    source_commit: str,
+    source_files: dict[str, str],
+) -> None:
+    for relative, expected in source_files.items():
+        if sha256_bytes(git_blob(source_commit, relative)) != expected:
+            raise ValueError(
+                f"ablation historical execution source changed: {relative}"
+            )
 
 
 def validate_summary(summary: dict[str, Any]) -> None:
@@ -212,14 +239,14 @@ def validate_run(
             state["paper_claim_allowed"]:
         raise ValueError("ablation provenance changed")
     if manifest["execution_critical_source_digest"] != \
-            RUNNER.execution_source_closure()[1]:
+            RUNNER.canonical_digest(
+                manifest["execution_critical_source_files"]
+            ):
         raise ValueError("ablation execution source closure changed")
-    for relative, expected in \
-            manifest["execution_critical_source_files"].items():
-        if sha256_path(REPO_ROOT / relative) != expected:
-            raise ValueError(
-                f"ablation execution source changed: {relative}"
-            )
+    verify_historical_source_map(
+        manifest["source_commit"],
+        manifest["execution_critical_source_files"],
+    )
     for binary in manifest["binaries"].values():
         if sha256_path(REPO_ROOT / binary["path"]) != binary["sha256"]:
             raise ValueError("ablation execution binary changed")

@@ -93,6 +93,33 @@ def sha256_path(path: Path) -> str:
     return "sha256:" + digest.hexdigest()
 
 
+def sha256_bytes(value: bytes) -> str:
+    return "sha256:" + hashlib.sha256(value).hexdigest()
+
+
+def git_blob(commit: str, relative: str) -> bytes:
+    completed = subprocess.run(
+        ["git", "show", f"{commit}:{relative}"],
+        cwd=REPO_ROOT,
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    return completed.stdout
+
+
+def verify_historical_source_map(
+    source_commit: str,
+    source_files: dict[str, str],
+) -> None:
+    for relative, expected in source_files.items():
+        if sha256_bytes(git_blob(source_commit, relative)) != expected:
+            raise ValueError(
+                "independent-seed historical execution source changed: "
+                f"{relative}"
+            )
+
+
 def validate_candidate(candidate: dict[str, Any]) -> None:
     security = candidate["security"]
     if security["envelope_id"] != \
@@ -148,12 +175,10 @@ def validate_run(run_root: Path) -> tuple[dict, dict, dict]:
                 run_manifest["execution_critical_source_files"]
             ):
         raise ValueError("independent-seed source closure changed")
-    for relative, expected in \
-            run_manifest["execution_critical_source_files"].items():
-        if sha256_path(REPO_ROOT / relative) != expected:
-            raise ValueError(
-                f"independent-seed execution source changed: {relative}"
-            )
+    verify_historical_source_map(
+        run_manifest["source_commit"],
+        run_manifest["execution_critical_source_files"],
+    )
     for binary in run_manifest["binaries"].values():
         if sha256_path(REPO_ROOT / binary["path"]) != binary["sha256"]:
             raise ValueError("independent-seed binary changed")
