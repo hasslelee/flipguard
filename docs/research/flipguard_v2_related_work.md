@@ -95,12 +95,12 @@ activation search remain outside the present contribution.
 
 ## Application-Aware Approximate FHE
 
-[Application-Aware Approximate Homomorphic Encryption (ePrint
-2024/203)](https://eprint.iacr.org/2024/203) formalizes an application using
-both a circuit and an allowed input domain, and argues that parameter
-generation, error estimation, and runtime validators should be tied to that
-application specification. This is the closest conceptual foundation for
-FlipGuard's workload contract.
+[Application-Aware Approximate Homomorphic Encryption (IACR Communications
+in Cryptology 2(4), 2026)](https://doi.org/10.62056/ayl83z10k) formalizes an
+application using both a circuit and an allowed input domain, and argues that
+parameter generation, error estimation, and runtime validators should be tied
+to that application specification. This is the closest conceptual foundation
+for FlipGuard's workload contract. The earlier version is ePrint 2024/203.
 
 The distinction must remain explicit:
 

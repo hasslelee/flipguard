@@ -51,7 +51,9 @@ CKKS literal.
 - ELASM, USENIX Security 2023.
 - HECO, USENIX Security 2023.
 - DaCapo, USENIX Security 2024.
-- Application-Aware Approximate Homomorphic Encryption, ePrint 2024/203.
+- Application-Aware Approximate Homomorphic Encryption, IACR Communications
+  in Cryptology 2(4), 2026, DOI `10.62056/ayl83z10k` (preprint:
+  ePrint 2024/203).
 - HEIR, arXiv:2508.11095.
 - FHE-Agent, arXiv:2511.18653.
 - Rotom, ePrint 2025/1319 and USENIX Security 2026.
