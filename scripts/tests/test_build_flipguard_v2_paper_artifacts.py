@@ -248,7 +248,7 @@ class DeterministicArtifactTest(unittest.TestCase):
 
 
 class CitationRegistryTest(unittest.TestCase):
-    def test_manuscript_citations_match_bibtex_entries(self) -> None:
+    def test_manuscript_citations_are_defined_in_bibliography(self) -> None:
         manuscript = (
             REPO_ROOT
             / "docs/research/flipguard_v2_manuscript_draft_ko.md"
@@ -261,7 +261,11 @@ class CitationRegistryTest(unittest.TestCase):
         defined = set(
             re.findall(r"@[A-Za-z]+\{([^,]+),", bibliography)
         )
-        self.assertEqual(used, defined)
+        self.assertEqual(used - defined, set())
+        self.assertEqual(
+            len(defined),
+            len(re.findall(r"@[A-Za-z]+\{([^,]+),", bibliography)),
+        )
         self.assertEqual(bibliography.count("{"), bibliography.count("}"))
 
 

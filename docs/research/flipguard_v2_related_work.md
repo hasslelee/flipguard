@@ -46,12 +46,28 @@ direct synthesizer are candidate providers evaluated by the same gate.
   backends, and hardware targets. Its CKKS parameter selection is not yet
   described as completely automated, but its program and backend scope is
   substantially broader than FlipGuard's current adapters.
+- [Orbit (USENIX Security 2026 / ePrint
+  2026/213)](https://www.usenix.org/conference/usenixsecurity26/presentation/zhou)
+  jointly optimizes CKKS rescale and bootstrap placement with an integer
+  linear program over level and scale constraints. Its compiler optimization
+  scope and CNN evaluation are broader than FlipGuard's current literal
+  synthesis.
+- [Rotom (USENIX Security 2026 / ePrint
+  2025/1319)](https://www.usenix.org/conference/usenixsecurity26/presentation/chen-edward)
+  searches tensor-layout assignments and autovectorizes high-level tensor
+  programs into optimized HE programs.
+- [Libra (USENIX Security
+  2026)](https://www.usenix.org/conference/usenixsecurity26/presentation/bian-song)
+  co-optimizes cross-scheme FHE patterns and GPU scheduling. It further
+  demonstrates that backend, scheme, and hardware scheduling are separate
+  optimization dimensions not addressed by FlipGuard.
 
 These systems establish that graph lowering, scale placement, output-error
-optimization, and automatic cryptographic configuration are prior art.
-FlipGuard treats such systems as possible candidate providers. Its claimed
-contribution is the downstream decision-integrity admission and audit
-contract, not replacement of their compiler optimizations.
+optimization, tensor packing, bootstrapping placement, hardware scheduling,
+and automatic cryptographic configuration are prior art. FlipGuard treats
+such systems as possible candidate providers. Its claimed contribution is the
+downstream decision-integrity admission and audit contract, not replacement
+of their compiler optimizations.
 
 ## Automated Search and Model Adaptation
 
@@ -104,7 +120,9 @@ The distinction must remain explicit:
 | CHET, EVA, HECO, HEIR | Program lowering and encrypted execution | Candidate provider or backend |
 | HECATE | Scale placement and runtime | Candidate provider |
 | ELASM | Output error versus latency | Strong error-aware baseline; not decision-margin admission |
-| DaCapo | Bootstrapping placement | Orthogonal provider for deeper programs |
+| DaCapo, Orbit | Bootstrapping and scale placement | Orthogonal providers for deeper programs |
+| Rotom | Tensor packing and autovectorization | Broader tensor-layout provider |
+| Libra | Cross-scheme GPU code generation | Backend and hardware optimization outside current scope |
 | AutoPrivacy, AutoFHE | Model/HE co-design and accuracy-latency | Broader model adaptation; frozen-model assumption differs |
 | Fuzzy/LP selector | User-priority-guided HE parameters | Parameter-selection baseline |
 | FHE-Agent | Agent-guided feasible CKKS configuration and repair | Closest automation baseline; broader graph coverage |
@@ -127,12 +145,18 @@ Forbidden:
 - “FlipGuard provides a formal application-domain correctness guarantee.”
 - “FlipGuard supports arbitrary neural networks.”
 - “Decision preservation makes the underlying CKKS parameters secure.”
+- “Decision margins generally produce different CKKS parameters on natural
+  workloads.”
 
 ## Primary-Source Audit Notes
 
 - HECATE and ELASM establish that scale placement and numerical
   error/latency management are existing compiler objectives.
-- DaCapo establishes automated bootstrapping placement for deeper programs.
+- DaCapo and Orbit establish automated bootstrapping placement; Orbit also
+  couples rescale placement to the CKKS level budget.
+- Rotom and Libra establish that packing/layout and hardware scheduling are
+  substantial automated optimization problems outside FlipGuard's current
+  scalar-replicated execution scope.
 - FHE-Agent establishes static pruning, encrypted calibration, and
   failure-guided repair over much broader neural-network graphs.
 - HEIR establishes a modern multi-level compiler IR and broad backend
@@ -143,3 +167,8 @@ Forbidden:
 - The remaining defensible boundary is decision-space admission, explicit
   abstention, literal replay, and no-retuning audit. Non-tabular adapters add
   scope evidence but do not establish universal graph support.
+- The predeclared natural-data ablation found identical initial and selected
+  path-plus-parameter literals for graph-only and decision-contract synthesis
+  in 10/10 development workloads. The decision contract remains active as an
+  empirical admission/rejection rule, but a distinct natural-workload
+  parameter-synthesis effect is currently blocked.
