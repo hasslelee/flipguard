@@ -18,6 +18,7 @@
     "compiler_output_sha256": "sha256:605cc94bb1df230f9d58b1cbbeb66a26d11b6ae44ed4ad46dfca0925cd711dea",
     "compiled_program_path": "docs/evidence/eva_external_adapter_replay_v1/run/compiled_program.dot",
     "compiled_program_sha256": "sha256:3c5ec469e692ea17dd413180c6c37c5042ef7bb5bfedd968d19447242fd72bca",
+    "compiled_program_semantic_sha256": "sha256:403b0d9e5ee96ff9484c0ad598ac73355c03e907d23996b8a882e2d28fd12513",
     "program_id": "iris_linear_poly3_scalar_v1",
     "vector_size": 1,
     "poly_modulus_degree": 16384,
@@ -104,16 +105,28 @@
     "locked_audit_negative": "preserve result and do not retune",
     "policy_or_candidate_change": "INTEGRITY_BLOCK"
   },
-  "pre_execution_recovery": {
-    "github_actions_run_id": "30561535356",
-    "source_commit": "ed133f159824cc4a3d5bf12692caec3c41f5d2c3",
-    "failure_class": "RECOVERABLE_IMPLEMENTATION_FAILURE",
-    "reason_code": "IGNORED_SPLIT_ARTIFACT_NOT_PACKAGED_FOR_CLEAN_RUNNER",
-    "failed_stage": "STATIC_CONTRACT_PREFLIGHT",
-    "encrypted_executions": 0,
-    "candidate_trials": 0,
-    "resolution": "bind byte-identical SHA-256-preserving validation and locked-audit snapshots under the versioned experiment directory"
-  },
+  "pre_execution_recoveries": [
+    {
+      "github_actions_run_id": "30561535356",
+      "source_commit": "ed133f159824cc4a3d5bf12692caec3c41f5d2c3",
+      "failure_class": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+      "reason_code": "IGNORED_SPLIT_ARTIFACT_NOT_PACKAGED_FOR_CLEAN_RUNNER",
+      "failed_stage": "STATIC_CONTRACT_PREFLIGHT",
+      "encrypted_executions": 0,
+      "candidate_trials": 0,
+      "resolution": "bind byte-identical SHA-256-preserving validation and locked-audit snapshots under the versioned experiment directory"
+    },
+    {
+      "github_actions_run_id": "30562143758",
+      "source_commit": "074cff9b68d6e2ee8d1e926ac32f19426e82735b",
+      "failure_class": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+      "reason_code": "RAW_DOT_SERIALIZATION_IDENTITY_MISMATCH",
+      "failed_stage": "COMPILED_PROGRAM_IDENTITY_PREFLIGHT",
+      "encrypted_executions": 0,
+      "candidate_trials": 0,
+      "resolution": "preserve both raw digests and require an ID/order-independent DAG semantic digest before native execution"
+    }
+  ],
   "claim_boundary": {
     "native_eva_seal_execution": "eligible after verified encrypted execution",
     "native_eva_seal_decision_certification": "eligible only after SAFE validation and PASS locked audit",

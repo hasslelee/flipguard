@@ -73,3 +73,11 @@ contract initially referenced ignored local `results/` paths. It performed
 zero encrypted executions and zero candidate trials. The recovery packages
 byte-identical input snapshots and changes no row, split, candidate, policy,
 or execution semantics.
+
+Run `30562143758` then stopped after compilation and before key generation
+because a repeated EVA compilation produced a different raw DOT digest. It
+also performed zero encrypted executions and zero candidate trials. The
+recovery preserves expected and observed raw DOT digests separately and adds
+an ID/order-independent canonical DAG digest. Native execution is allowed
+only when the canonical node labels, attributes, operand edges, and topology
+match the frozen graph; a semantic mismatch remains an integrity block.

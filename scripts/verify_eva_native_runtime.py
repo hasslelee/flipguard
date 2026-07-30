@@ -8,6 +8,7 @@ import csv
 import hashlib
 import json
 import math
+import re
 from pathlib import Path
 from typing import Any
 
@@ -40,6 +41,91 @@ def load_json(path: Path) -> dict[str, Any]:
 
 def sha256_path(path: Path) -> str:
     return "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def dot_semantic_digest(content: bytes) -> str:
+    node_pattern = re.compile(
+        r'^([A-Za-z0-9_]+) \[(?:shape=box )?label="([^"]+)"\];$'
+    )
+    edge_pattern = re.compile(
+        r'^([A-Za-z0-9_]+) -> ([A-Za-z0-9_]+)'
+        r'(?: \[label="([^"]+)"\])?;$'
+    )
+    labels: dict[str, str] = {}
+    incoming: dict[str, list[tuple[str, str]]] = {}
+    outgoing: dict[str, list[tuple[str, str]]] = {}
+    for raw_line in content.decode("utf-8").splitlines():
+        line = raw_line.strip()
+        node_match = node_pattern.match(line)
+        if node_match:
+            node, label = node_match.groups()
+            labels[node] = label
+            incoming.setdefault(node, [])
+            outgoing.setdefault(node, [])
+            continue
+        edge_match = edge_pattern.match(line)
+        if edge_match:
+            source, target, edge_label = edge_match.groups()
+            edge_label = edge_label or ""
+            incoming.setdefault(target, []).append((source, edge_label))
+            outgoing.setdefault(source, []).append((target, edge_label))
+            incoming.setdefault(source, [])
+            outgoing.setdefault(target, [])
+            continue
+        if line and not line.startswith("digraph ") and line != "}":
+            raise ValueError(f"unsupported EVA DOT line: {line}")
+    nodes = set(incoming) | set(outgoing) | set(labels)
+    require(nodes and nodes == set(labels), "EVA DOT node inventory changed")
+    hashes: dict[str, str] = {}
+    remaining = set(nodes)
+    while remaining:
+        ready = sorted(
+            node
+            for node in remaining
+            if all(source in hashes for source, _ in incoming[node])
+        )
+        require(ready, "EVA DOT is cyclic or incomplete")
+        for node in ready:
+            parent_facts = sorted(
+                [{
+                    "edge": edge_label,
+                    "hash": hashes[source],
+                }
+                for source, edge_label in incoming[node]],
+                key=lambda item: (item["edge"], item["hash"]),
+            )
+            payload = {
+                "label": labels[node],
+                "incoming": parent_facts,
+            }
+            hashes[node] = (
+                "sha256:" + hashlib.sha256(canonical_json(payload)).hexdigest()
+            )
+            remaining.remove(node)
+    node_facts = sorted(
+        (
+            labels[node],
+            hashes[node],
+            len(incoming[node]),
+            len(outgoing[node]),
+        )
+        for node in nodes
+    )
+    edge_facts = sorted(
+        (
+            hashes[source],
+            edge_label,
+            hashes[target],
+        )
+        for source in nodes
+        for target, edge_label in outgoing[source]
+    )
+    payload = {
+        "schema_version": "eva_dot_semantic_dag_v1",
+        "nodes": node_facts,
+        "edges": edge_facts,
+    }
+    return "sha256:" + hashlib.sha256(canonical_json(payload)).hexdigest()
 
 
 def require(condition: bool, message: str) -> None:
@@ -90,6 +176,11 @@ def validate_contract(
             == compiler[digest_key],
             f"{path_key} digest changed",
         )
+    require(
+        dot_semantic_digest(resolve(compiler["compiled_program_path"]).read_bytes())
+        == compiler["compiled_program_semantic_sha256"],
+        "bound compiled program semantic digest changed",
+    )
     compiler_output = load_json(resolve(compiler["compiler_output_path"]))
     candidate_parameters = compiler_output["candidate_request"]["parameters"]
     concrete = compiler_output["concrete_seal_materialization"]
@@ -305,12 +396,76 @@ def verify_result(
         manifest["policy_modifications"] == 0,
         "result policy modifications changed",
     )
+    compiler = contract["compiler_binding"]
+    require(
+        manifest["compiler_output_sha256"]
+        == compiler["compiler_output_sha256"],
+        "result compiler output binding changed",
+    )
+    require(
+        manifest["compiled_program_identity"]["expected_raw_sha256"]
+        == compiler["compiled_program_sha256"],
+        "result expected compiled program binding changed",
+    )
+    observed_dot = root / "compiled_program.dot"
+    require(
+        manifest["compiled_program_identity"]["observed_raw_sha256"]
+        == sha256_path(observed_dot),
+        "result observed compiled program binding changed",
+    )
+    require(
+        manifest["compiled_program_identity"]["semantic_sha256"]
+        == compiler["compiled_program_semantic_sha256"],
+        "result compiled program semantic binding changed",
+    )
+    require(
+        dot_semantic_digest(observed_dot.read_bytes())
+        == compiler["compiled_program_semantic_sha256"],
+        "observed compiled program semantics changed",
+    )
+    candidate = manifest["candidate"]
+    require(
+        candidate["poly_modulus_degree"]
+        == compiler["poly_modulus_degree"],
+        "result candidate degree changed",
+    )
+    require(candidate["prime_bits"] == compiler["prime_bits"], "prime bits changed")
+    require(candidate["q"] == compiler["q"], "result candidate Q changed")
+    require(candidate["p"] == compiler["p"], "result candidate P changed")
+    require(
+        candidate["input_scale_bits"] == compiler["input_scale_bits"],
+        "result candidate scale changed",
+    )
+    require(
+        manifest["runtime_security_claim"]
+        == contract["security_interpretation"][
+            "formal_security_v2_runtime_claim"
+        ],
+        "result runtime security boundary changed",
+    )
     decision = contract["decision_contract"]
+    workload = contract["workload"]
+    protocol = contract["execution_protocol"]
     validation = verify_ledger(
         root / "validation_ledger.csv",
         threshold=decision["threshold"],
         alpha=decision["primary_alpha"],
         margin_floor=decision["primary_margin_floor"],
+    )
+    require(
+        validation["sample_count"] == workload["validation_rows"],
+        "validation sample population changed",
+    )
+    require(
+        validation["key_repeats"]
+        == protocol["validation_key_repeats"],
+        "validation key population changed",
+    )
+    require(
+        validation["observations"]
+        == workload["validation_rows"]
+        * protocol["validation_key_repeats"],
+        "validation observation population changed",
     )
     require(
         validation == manifest["validation"]["counts"],
@@ -341,6 +496,21 @@ def verify_result(
             margin_floor=decision["primary_margin_floor"],
         )
         require(
+            audit["sample_count"] == workload["locked_audit_rows"],
+            "audit sample population changed",
+        )
+        require(
+            audit["key_repeats"]
+            == protocol["locked_audit_key_repeats"],
+            "audit key population changed",
+        )
+        require(
+            audit["observations"]
+            == workload["locked_audit_rows"]
+            * protocol["locked_audit_key_repeats"],
+            "audit observation population changed",
+        )
+        require(
             audit == manifest["locked_audit"]["counts"],
             "audit aggregate changed",
         )
@@ -365,6 +535,37 @@ def verify_result(
             not (root / "locked_audit_ledger.csv").exists(),
             "unexpected locked audit ledger",
         )
+    expected_overall = (
+        "PASS"
+        if expected_validation == "SAFE" and audit_status == "SAFE"
+        else "PARTIAL_SCIENTIFIC_RESULT"
+    )
+    require(manifest["status"] == expected_overall, "overall status changed")
+    accounting = manifest["accounting"]
+    require(accounting["candidate_trials"] == 1, "candidate trial count changed")
+    require(accounting["synthesis_calls"] == 0, "synthesis count changed")
+    require(accounting["repair_calls"] == 0, "repair count changed")
+    require(accounting["retuning"] == 0, "retuning count changed")
+    require(
+        accounting["validation_key_runs"] == validation["key_repeats"],
+        "validation key accounting changed",
+    )
+    require(
+        accounting["validation_encrypted_sample_evaluations"]
+        == validation["observations"],
+        "validation sample accounting changed",
+    )
+    expected_audit_counts = manifest["locked_audit"].get("counts", {})
+    require(
+        accounting["locked_audit_key_runs"]
+        == expected_audit_counts.get("key_repeats", 0),
+        "audit key accounting changed",
+    )
+    require(
+        accounting["locked_audit_encrypted_sample_evaluations"]
+        == expected_audit_counts.get("observations", 0),
+        "audit sample accounting changed",
+    )
     return {
         "status": manifest["status"],
         "validation_status": expected_validation,

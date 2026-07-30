@@ -315,8 +315,12 @@ def main() -> None:
     dot = compiled.to_DOT().encode("utf-8")
     dot_digest = "sha256:" + hashlib.sha256(dot).hexdigest()
     compiler = contract["compiler_binding"]
-    if dot_digest != compiler["compiled_program_sha256"]:
-        raise ValueError("INTEGRITY_BLOCK: compiled DOT changed")
+    semantic_digest = VERIFIER.dot_semantic_digest(dot)
+    if semantic_digest != compiler["compiled_program_semantic_sha256"]:
+        raise ValueError(
+            "INTEGRITY_BLOCK: compiled DOT semantics changed "
+            f"{semantic_digest}"
+        )
     if list(parameters.prime_bits) != compiler["prime_bits"]:
         raise ValueError("INTEGRITY_BLOCK: EVA prime bits changed")
     if parameters.poly_modulus_degree != compiler["poly_modulus_degree"]:
@@ -387,6 +391,16 @@ def main() -> None:
         "contract_sha256": VERIFIER.sha256_path(contract_path),
         "compiler_output_sha256": compiler["compiler_output_sha256"],
         "compiled_program_sha256": dot_digest,
+        "compiled_program_identity": {
+            "expected_raw_sha256": compiler["compiled_program_sha256"],
+            "observed_raw_sha256": dot_digest,
+            "semantic_sha256": semantic_digest,
+            "identity_class": (
+                "BYTE_IDENTICAL"
+                if dot_digest == compiler["compiled_program_sha256"]
+                else "SEMANTICALLY_IDENTICAL_REPRESENTATION_DIFFERENCE"
+            ),
+        },
         "candidate": {
             "provider": "microsoft_eva_v1.0.1_seal3.6.4",
             "poly_modulus_degree": parameters.poly_modulus_degree,
