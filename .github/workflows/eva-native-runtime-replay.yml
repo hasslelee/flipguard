@@ -1,0 +1,124 @@
+name: EVA Native Runtime Replay
+
+on:
+  push:
+    branches:
+      - feature/flipguard-auto-tuner
+    paths:
+      - .github/workflows/eva-native-runtime-replay.yml
+      - experiments/eva_native_runtime_v1/contract.json
+      - scripts/run_eva_native_runtime.py
+      - scripts/verify_eva_native_runtime.py
+      - scripts/export_eva_external_candidate.py
+  workflow_dispatch:
+    inputs:
+      source_commit:
+        description: Exact FlipGuard source commit to evaluate
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 240
+    steps:
+      - name: Check out exact FlipGuard source
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          ref: ${{ inputs.source_commit || github.sha }}
+          persist-credentials: false
+
+      - name: Verify source identity and native contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = \
+            "${{ inputs.source_commit || github.sha }}"
+          python3 scripts/verify_eva_native_runtime.py
+
+      - name: Install build dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            cmake \
+            ninja-build \
+            libboost-all-dev \
+            libprotobuf-dev \
+            protobuf-compiler \
+            python3-dev
+
+      - name: Build pinned Microsoft SEAL
+        shell: bash
+        run: |
+          set -euo pipefail
+          export CXXFLAGS="-include mutex"
+          git clone --filter=blob:none \
+            https://github.com/microsoft/SEAL.git /tmp/SEAL
+          git -C /tmp/SEAL checkout \
+            0b058d99b7f18a00e5ebb2b80caee593804b0500
+          test "$(git -C /tmp/SEAL rev-parse HEAD)" = \
+            0b058d99b7f18a00e5ebb2b80caee593804b0500
+          cmake -S /tmp/SEAL -B /tmp/SEAL/build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=/tmp/seal-install \
+            -DSEAL_THROW_ON_TRANSPARENT_CIPHERTEXT=OFF \
+            -DSEAL_USE_GAUSSIAN_NOISE=OFF \
+            -DSEAL_USE_MSGSL=OFF \
+            -DSEAL_USE_ZLIB=OFF \
+            -DSEAL_USE_ZSTD=OFF \
+            -DSEAL_BUILD_TESTS=OFF \
+            -DSEAL_BUILD_EXAMPLES=OFF
+          cmake --build /tmp/SEAL/build --parallel 2
+          cmake --install /tmp/SEAL/build
+
+      - name: Build pinned Microsoft EVA
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/microsoft/EVA.git /tmp/EVA
+          git -C /tmp/EVA checkout \
+            4cd3254c9c51340ae30c451495ce5378135758c0
+          test "$(git -C /tmp/EVA rev-parse HEAD)" = \
+            4cd3254c9c51340ae30c451495ce5378135758c0
+          git -C /tmp/EVA submodule update --init third_party/pybind11
+          cmake -S /tmp/EVA -B /tmp/EVA/build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_PREFIX_PATH=/tmp/seal-install \
+            -DUSE_GALOIS=OFF
+          cmake --build /tmp/EVA/build --parallel 2
+
+      - name: Execute native EVA and conditional locked audit
+        shell: bash
+        env:
+          PYTHONPATH: /tmp/EVA/build/python
+        run: |
+          set -euo pipefail
+          python3 scripts/run_eva_native_runtime.py \
+            --eva-root /tmp/EVA \
+            --seal-root /tmp/SEAL \
+            --output-root eva-native-runtime-replay \
+            --source-commit "${{ inputs.source_commit || github.sha }}" \
+            --action-run-id "${{ github.run_id }}"
+
+      - name: Verify native runtime result
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/verify_eva_native_runtime.py \
+            --result-root eva-native-runtime-replay
+
+      - name: Upload native runtime artifact
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: eva-native-runtime-replay
+          path: eva-native-runtime-replay
+          if-no-files-found: error
+          retention-days: 30

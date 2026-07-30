@@ -1,0 +1,113 @@
+{
+  "schema_version": "flipguard_eva_native_runtime_contract_v1",
+  "status": "PREDECLARED_BEFORE_NATIVE_ENCRYPTED_EXECUTION",
+  "classification": "SOURCE_REPLAYED_PUBLIC_COMPILER_NATIVE_RUNTIME_CONTROL",
+  "paper_claim_allowed": false,
+  "upstream": {
+    "eva_repository": "https://github.com/microsoft/EVA",
+    "eva_tag": "v1.0.1",
+    "eva_commit": "4cd3254c9c51340ae30c451495ce5378135758c0",
+    "seal_repository": "https://github.com/microsoft/SEAL",
+    "seal_tag": "v3.6.4",
+    "seal_commit": "0b058d99b7f18a00e5ebb2b80caee593804b0500"
+  },
+  "compiler_binding": {
+    "parameter_contract_path": "experiments/eva_external_adapter_v1/contract.json",
+    "parameter_contract_sha256": "sha256:5da5bf7e12f41893a90b7fe746c59948479dbfdfe45c2a4a8e9f76b41f283842",
+    "compiler_output_path": "docs/evidence/eva_external_adapter_replay_v1/run/compiler_output.json",
+    "compiler_output_sha256": "sha256:605cc94bb1df230f9d58b1cbbeb66a26d11b6ae44ed4ad46dfca0925cd711dea",
+    "compiled_program_path": "docs/evidence/eva_external_adapter_replay_v1/run/compiled_program.dot",
+    "compiled_program_sha256": "sha256:3c5ec469e692ea17dd413180c6c37c5042ef7bb5bfedd968d19447242fd72bca",
+    "program_id": "iris_linear_poly3_scalar_v1",
+    "vector_size": 1,
+    "poly_modulus_degree": 16384,
+    "prime_bits": [
+      60,
+      60,
+      60,
+      60
+    ],
+    "q": [
+      1152921504605962241,
+      1152921504606584833,
+      1152921504606683137
+    ],
+    "p": [
+      1152921504606748673
+    ],
+    "input_scale_bits": 20,
+    "formula": "z=bias+sum_i(weight_i*x_i); score=0.5+0.197*z-0.004*z^3"
+  },
+  "workload": {
+    "role": "seed0_development_external_runtime_control",
+    "dataset_id": "iris_binary",
+    "model_id": "linear_poly3",
+    "split_id": "split_seed_0",
+    "model_path": "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+    "model_sha256": "sha256:9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1",
+    "validation_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/configuration_validation.csv",
+    "validation_sha256": "sha256:29cf99a47cd25520a15aa36d8e7fdf58328fc3a91ad54067266d443b4c04e5ea",
+    "validation_rows": 14,
+    "locked_audit_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/locked_audit_test.csv",
+    "locked_audit_sha256": "sha256:72a182968acd60e8c0bd5acc830627d698a9f1d2e1760dd492dbb07129a26327",
+    "locked_audit_rows": 16
+  },
+  "decision_contract": {
+    "threshold": 0.5,
+    "primary_alpha": 0.5,
+    "primary_margin_floor": 0.001,
+    "certifiable_rule": "abs(plaintext_score-threshold)>margin_floor",
+    "error_violation_rule": "absolute_error>=alpha*decision_margin",
+    "decision_rule": "score>=threshold",
+    "validation_safe_rule": "failed_observations=0 AND flips=0 AND violations=0",
+    "audit_gate": "run only after validation SAFE",
+    "audit_replay": "byte-identical compiled program and parameter object; fresh keys; no retuning"
+  },
+  "execution_protocol": {
+    "validation_key_repeats": 3,
+    "locked_audit_key_repeats": 3,
+    "candidate_trials": 1,
+    "sample_packing": "one scalar per encrypted EVA vector of size one",
+    "key_policy": "one fresh native SEAL context per key repeat",
+    "sample_policy": "encrypt and execute every row independently within its repeat",
+    "failure_policy": "record individual failure and continue remaining rows",
+    "outlier_removal": false,
+    "synthesis_calls": 0,
+    "repair_calls": 0,
+    "retuning": 0
+  },
+  "security_interpretation": {
+    "static_candidate_security_v2_admission": "PASS",
+    "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+    "direct_policy_id": "flipguard_direct_synthesis_policy_v2",
+    "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "log_n": 14,
+    "log_q": 180,
+    "log_p": 60,
+    "log_qp": 240,
+    "table_cap": 430,
+    "table_headroom_bits": 190,
+    "native_seal_secret": "uniform_ternary_-1_0_1",
+    "native_seal_error": "centered_binomial_stddev_3.2",
+    "native_seal_context_security_enforcement": "sec_level_type::none",
+    "lattigo_xs_xe_distribution_identity": false,
+    "formal_security_v2_runtime_claim": "NOT_EVALUATED_DIFFERENT_RUNTIME_DISTRIBUTION",
+    "interpretation": "The exact Q/P literal passes the frozen static cap. Native SEAL numerical execution is evaluated separately and is not evidence of exact Lattigo distribution identity."
+  },
+  "falsification": {
+    "source_or_digest_mismatch": "INTEGRITY_BLOCK",
+    "compiler_or_parameter_mismatch": "INTEGRITY_BLOCK",
+    "validation_rejected_or_failed": "preserve result and do not run locked audit",
+    "locked_audit_negative": "preserve result and do not retune",
+    "policy_or_candidate_change": "INTEGRITY_BLOCK"
+  },
+  "claim_boundary": {
+    "native_eva_seal_execution": "eligible after verified encrypted execution",
+    "native_eva_seal_decision_certification": "eligible only after SAFE validation and PASS locked audit",
+    "cross_runtime_numerical_equivalence": "NOT_EVALUATED_UNPAIRED_DIFFERENT_DISTRIBUTIONS",
+    "general_external_compiler_interoperability": "PARTIALLY_SUPPORTED",
+    "general_external_autotuner_integration": "NOT_EVALUATED",
+    "paper_claim_allowed": false
+  }
+}
