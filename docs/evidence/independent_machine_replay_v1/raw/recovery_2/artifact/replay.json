@@ -1,0 +1,521 @@
+{
+  "checks": [
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "ended_at": "2026-07-30T10:42:24.017018Z",
+      "exit_code": 0,
+      "name": "source_identity",
+      "started_at": "2026-07-30T10:42:24.015469Z",
+      "status": "PASS",
+      "stderr": {
+        "bytes": 0,
+        "path": "source_identity.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 41,
+        "path": "source_identity.stdout.txt",
+        "sha256": "d227b023907c955103f1fd009784618ab49fb969ee1346788ca3db47ff021196"
+      }
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "ended_at": "2026-07-30T10:42:24.335986Z",
+      "exit_code": 0,
+      "name": "initial_clean_tree",
+      "started_at": "2026-07-30T10:42:24.017327Z",
+      "status": "PASS",
+      "stderr": {
+        "bytes": 0,
+        "path": "initial_clean_tree.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "initial_clean_tree.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "go",
+        "test",
+        "./...",
+        "-skip",
+        "^(TestBuildCNNLiteWorkloadContractAndSynthesize|TestCNNLiteAuditContractUsesOfficialTestRows|TestCNNLiteInitialCandidateOneRowSmoke|TestBuildHarrisWorkloadContractAndSynthesize)$"
+      ],
+      "ended_at": "2026-07-30T10:43:31.894044Z",
+      "exit_code": 1,
+      "name": "go_test",
+      "started_at": "2026-07-30T10:42:24.336268Z",
+      "status": "FAIL",
+      "stderr": {
+        "bytes": 503,
+        "path": "go_test.stderr.txt",
+        "sha256": "237250c2198e8fa6abca13d6a5e25e99c8d59c97ca885bc75f3e1fe63a44f729"
+      },
+      "stdout": {
+        "bytes": 2077,
+        "path": "go_test.stdout.txt",
+        "sha256": "267bbde8e6176c9e05b8f413297e3b5821c75bc15e420100bffe1685488a9662"
+      }
+    },
+    {
+      "command": [
+        "go",
+        "vet",
+        "./..."
+      ],
+      "ended_at": "2026-07-30T10:43:34.698159Z",
+      "exit_code": 0,
+      "name": "go_vet",
+      "started_at": "2026-07-30T10:43:31.894334Z",
+      "status": "PASS",
+      "stderr": {
+        "bytes": 0,
+        "path": "go_vet.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "go_vet.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_*.py"
+      ],
+      "ended_at": "2026-07-30T10:43:43.945084Z",
+      "exit_code": 0,
+      "name": "python_unittest",
+      "started_at": "2026-07-30T10:43:34.698389Z",
+      "status": "PASS",
+      "stderr": {
+        "bytes": 223,
+        "path": "python_unittest.stderr.txt",
+        "sha256": "fc7026576c1cce657ca02d8dafbeecda54f90fbf5f264889bc91a8f2f56a94e6"
+      },
+      "stdout": {
+        "bytes": 676,
+        "path": "python_unittest.stdout.txt",
+        "sha256": "c51cac14cbd758eef2922bac5914f57b1fc8188e4004c1491e55dc76d9323a11"
+      }
+    },
+    {
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "-m",
+        "py_compile",
+        "docs/evidence/no_safe_controls_confirmatory_v1/source/scripts/build_finite_domain_no_safe_control.py",
+        "docs/evidence/no_safe_controls_confirmatory_v1/source/scripts/freeze_no_safe_control_evidence.py",
+        "docs/evidence/no_safe_controls_confirmatory_v1/source/scripts/run_finite_domain_no_safe_locked_audit.py",
+        "docs/evidence/no_safe_controls_confirmatory_v1/source/scripts/run_no_safe_budget_negative_controls.py",
+        "docs/evidence/no_safe_controls_v1/source/scripts/build_finite_domain_no_safe_control.py",
+        "docs/evidence/no_safe_controls_v1/source/scripts/run_no_safe_budget_negative_controls.py",
+        "docs/evidence/paired_latency_final_v1/source/scripts/freeze_paired_latency_evidence.py",
+        "docs/evidence/paired_latency_final_v1/source/scripts/run_paired_tabular_latency.py",
+        "docs/evidence/paired_latency_pilot_v1/source/scripts/freeze_paired_latency_evidence.py",
+        "docs/evidence/paired_latency_pilot_v1/source/scripts/run_paired_tabular_latency.py",
+        "docs/evidence/policy_sensitivity_v1/source/scripts/analyze_thesis_policy_sensitivity.py",
+        "docs/evidence/policy_sensitivity_v1/source/scripts/freeze_policy_sensitivity_evidence.py",
+        "docs/evidence/structural_audit_failure_analysis_v1/sources/analyzer.py",
+        "docs/evidence/validation_identity_comparison_v2/identity/verify_validation_identity_audit.py",
+        "docs/evidence/validation_identity_comparison_v2/verify_evidence.py",
+        "scripts/analyze_ckks_profile_parameters_and_safety.py",
+        "scripts/analyze_margin_floor_challenger.py",
+        "scripts/analyze_structural_audit_failure.py",
+        "scripts/analyze_structural_extension_plans.py",
+        "scripts/analyze_tabular_model_operation_counts.py",
+        "scripts/analyze_tabular_selection_strategies.py",
+        "scripts/analyze_thesis_policy_sensitivity.py",
+        "scripts/build_conditional_analytical_readiness_v2.py",
+        "scripts/build_confirmatory_run_manifest.py",
+        "scripts/build_development_status.py",
+        "scripts/build_experiment_evidence_summary.py",
+        "scripts/build_final_research_summary.py",
+        "scripts/build_finite_domain_no_safe_control.py",
+        "scripts/build_flipguard_v2_paper_artifacts.py",
+        "scripts/build_paper_figures.py",
+        "scripts/build_paper_grade_evidence_pack.py",
+        "scripts/build_planner_guided_actual_execution_summary.py",
+        "scripts/build_planner_guided_validation_summary.py",
+        "scripts/build_presentation_ready_results.py",
+        "scripts/build_resume_execution_provenance.py",
+        "scripts/build_security_v2_planner_comparison.py",
+        "scripts/build_security_v2_static_artifacts.py",
+        "scripts/build_seminar_figures.py",
+        "scripts/build_seminar_figures_en.py",
+        "scripts/build_structural_extension_status.py",
+        "scripts/build_submission_readiness_pack.py",
+        "scripts/build_tabular_margin_coverage.py",
+        "scripts/build_thesis_grade_tabular_splits.py",
+        "scripts/build_tuner_benchmark_summary.py",
+        "scripts/build_validation_identity_audit.py",
+        "scripts/collect_exact_security_estimator_ci.py",
+        "scripts/compare_direct_synthesis_to_catalog_oracle.py",
+        "scripts/derive_mlp_linear_score_suite.py",
+        "scripts/export_bsds500_harris_holdout.py",
+        "scripts/export_bsds500_sobel_holdout.py",
+        "scripts/export_independent_training_seed_extension.py",
+        "scripts/export_mnist_cnn_lite_holdout.py",
+        "scripts/export_mnist_pool16_suite.py",
+        "scripts/export_tabular_suite.py",
+        "scripts/extract_planner_guided_profiles.py",
+        "scripts/freeze_bsds500_harris_evidence.py",
+        "scripts/freeze_bsds500_sobel_evidence.py",
+        "scripts/freeze_conditional_analytical_readiness_v2.py",
+        "scripts/freeze_decision_contract_activation_evidence.py",
+        "scripts/freeze_direct_locked_audit_evidence.py",
+        "scripts/freeze_direct_synthesis_ablation_evidence.py",
+        "scripts/freeze_exact_security_estimator_evidence.py",
+        "scripts/freeze_final_confirmatory_evidence.py",
+        "scripts/freeze_full_oracle_comparison_evidence.py",
+        "scripts/freeze_independent_training_seed_evidence.py",
+        "scripts/freeze_mnist_cnn_lite_evidence.py",
+        "scripts/freeze_no_safe_control_evidence.py",
+        "scripts/freeze_paired_latency_evidence.py",
+        "scripts/freeze_policy_sensitivity_evidence.py",
+        "scripts/freeze_research_completion_checkpoint_v1.py",
+        "scripts/freeze_research_completion_checkpoint_v2.py",
+        "scripts/freeze_security_v2_bounded_oracle_evidence.py",
+        "scripts/freeze_structural_audit_failure_analysis.py",
+        "scripts/freeze_structural_extension_evidence.py",
+        "scripts/freeze_validation_identity_comparison_evidence.py",
+        "scripts/manage_autonomous_suite_state.py",
+        "scripts/merge_tabular_into_final_summary.py",
+        "scripts/plot_tabular_extended_analysis.py",
+        "scripts/plot_tabular_profile_sweep.py",
+        "scripts/run_decision_contract_activation_control.py",
+        "scripts/run_direct_synthesis_ablation.py",
+        "scripts/run_exact_security_estimator.py",
+        "scripts/run_finite_domain_no_safe_locked_audit.py",
+        "scripts/run_independent_machine_replay.py",
+        "scripts/run_independent_training_seed_extension.py",
+        "scripts/run_no_safe_budget_negative_controls.py",
+        "scripts/run_paired_tabular_latency.py",
+        "scripts/summarize_ckks_speed_repetitions.py",
+        "scripts/summarize_core_tuner_repeated.py",
+        "scripts/summarize_direct_tabular_autotune.py",
+        "scripts/summarize_direct_tabular_locked_audit.py",
+        "scripts/summarize_tabular_profile_sweep_repeated.py",
+        "scripts/summarize_tabular_suite_inference.py",
+        "scripts/summarize_thesis_grade_tabular_validation.py",
+        "scripts/summarize_wdbc_profile_sweep.py",
+        "scripts/tests/test_analyze_structural_audit_failure.py",
+        "scripts/tests/test_build_conditional_analytical_readiness_v2.py",
+        "scripts/tests/test_build_flipguard_v2_paper_artifacts.py",
+        "scripts/tests/test_build_structural_extension_status.py",
+        "scripts/tests/test_collect_exact_security_estimator_ci.py",
+        "scripts/tests/test_direct_catalog_identity_gate.py",
+        "scripts/tests/test_export_bsds500_harris_holdout.py",
+        "scripts/tests/test_export_bsds500_sobel_holdout.py",
+        "scripts/tests/test_export_independent_training_seed_extension.py",
+        "scripts/tests/test_export_mnist_cnn_lite_holdout.py",
+        "scripts/tests/test_freeze_bsds500_harris_evidence.py",
+        "scripts/tests/test_freeze_bsds500_sobel_evidence.py",
+        "scripts/tests/test_freeze_conditional_analytical_readiness_v2.py",
+        "scripts/tests/test_freeze_decision_contract_activation_evidence.py",
+        "scripts/tests/test_freeze_direct_synthesis_ablation_evidence.py",
+        "scripts/tests/test_freeze_exact_security_estimator_evidence.py",
+        "scripts/tests/test_freeze_independent_training_seed_evidence.py",
+        "scripts/tests/test_freeze_mnist_cnn_lite_evidence.py",
+        "scripts/tests/test_freeze_research_completion_checkpoint_v1.py",
+        "scripts/tests/test_freeze_research_completion_checkpoint_v2.py",
+        "scripts/tests/test_manage_autonomous_suite_state.py",
+        "scripts/tests/test_resume_execution_provenance.py",
+        "scripts/tests/test_run_decision_contract_activation_control.py",
+        "scripts/tests/test_run_direct_synthesis_ablation.py",
+        "scripts/tests/test_run_independent_training_seed_extension.py",
+        "scripts/tests/test_source_replay_protocol.py",
+        "scripts/tests/test_validation_identity_audit.py",
+        "scripts/tests/test_verify_bsds500_harris_holdout.py",
+        "scripts/tests/test_verify_bsds500_sobel_holdout.py",
+        "scripts/tests/test_verify_exact_security_estimator.py",
+        "scripts/tests/test_verify_independent_machine_replay.py",
+        "scripts/tests/test_verify_independent_training_seed_extension.py",
+        "scripts/tests/test_verify_mnist_cnn_lite_holdout.py",
+        "scripts/train_wdbc_logreg3.py",
+        "scripts/verify_bsds500_harris_holdout.py",
+        "scripts/verify_bsds500_sobel_holdout.py",
+        "scripts/verify_exact_security_estimator.py",
+        "scripts/verify_independent_machine_replay.py",
+        "scripts/verify_independent_training_seed_extension.py",
+        "scripts/verify_mnist_cnn_lite_holdout.py",
+        "scripts/verify_tabular_certification_evidence.py",
+        "scripts/verify_validation_identity_audit.py",
+        "scripts/verify_validation_identity_comparison_evidence.py"
+      ],
+      "ended_at": "2026-07-30T10:43:44.375157Z",
+      "exit_code": 0,
+      "name": "python_py_compile",
+      "started_at": "2026-07-30T10:43:43.945469Z",
+      "status": "PASS",
+      "stderr": {
+        "bytes": 0,
+        "path": "python_py_compile.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "python_py_compile.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "bash",
+        "-n",
+        "scripts/audit_tuner_csv_sources.sh",
+        "scripts/check_lattigo_compat.sh",
+        "scripts/run_ckks_auto_tuner_eval.sh",
+        "scripts/run_ckks_auto_tuner_from_csv.sh",
+        "scripts/run_ckks_auto_tuner_smoke.sh",
+        "scripts/run_ckks_bias_probe.sh",
+        "scripts/run_ckks_boundary.sh",
+        "scripts/run_ckks_boundary_repeat.sh",
+        "scripts/run_ckks_boundary_sweep.sh",
+        "scripts/run_ckks_certificate_audit.sh",
+        "scripts/run_ckks_cubic_probe.sh",
+        "scripts/run_ckks_final_check.sh",
+        "scripts/run_ckks_full_logreg.sh",
+        "scripts/run_ckks_harris_corner_tuner.sh",
+        "scripts/run_ckks_large_certificate_audit.sh",
+        "scripts/run_ckks_linear.sh",
+        "scripts/run_ckks_linear_regression_tuner.sh",
+        "scripts/run_ckks_mul_probe.sh",
+        "scripts/run_ckks_output_accuracy.sh",
+        "scripts/run_ckks_paper_table.sh",
+        "scripts/run_ckks_policy_comparison.sh",
+        "scripts/run_ckks_polynomial.sh",
+        "scripts/run_ckks_polynomial_regression.sh",
+        "scripts/run_ckks_polynomial_regression_tuner.sh",
+        "scripts/run_ckks_profile_benchmark.sh",
+        "scripts/run_ckks_profile_mode_comparison.sh",
+        "scripts/run_ckks_roundtrip.sh",
+        "scripts/run_ckks_scale_probe.sh",
+        "scripts/run_ckks_sobel_edge_tuner.sh",
+        "scripts/run_ckks_tabular_certification.sh",
+        "scripts/run_ckks_tagged_pipeline.sh",
+        "scripts/run_ckks_timing_benchmark.sh",
+        "scripts/run_core_tuner_repeated.sh",
+        "scripts/run_direct_tabular_autotune.sh",
+        "scripts/run_direct_tabular_autotune_matrix.sh",
+        "scripts/run_direct_tabular_locked_audit_matrix.sh",
+        "scripts/run_logreg_small.sh",
+        "scripts/run_margin_floor_challenger.sh",
+        "scripts/run_planner_guided_actual_execution.sh",
+        "scripts/run_planner_guided_validation_summary.sh",
+        "scripts/run_structural_extension.sh",
+        "scripts/run_tabular_profile_sweep_repeated.sh",
+        "scripts/run_thesis_final_confirmatory_suite.sh",
+        "scripts/run_thesis_grade_planner_oracle_comparison.sh",
+        "scripts/run_thesis_grade_tabular_validation_oracle.sh",
+        "scripts/run_tuner_benchmark_summary.sh",
+        "scripts/run_tuner_planner_demo.sh"
+      ],
+      "ended_at": "2026-07-30T10:43:44.377366Z",
+      "exit_code": 0,
+      "name": "bash_syntax",
+      "started_at": "2026-07-30T10:43:44.375380Z",
+      "status": "PASS",
+      "stderr": {
+        "bytes": 0,
+        "path": "bash_syntax.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "bash_syntax.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "ended_at": "2026-07-30T10:43:44.384137Z",
+      "exit_code": 0,
+      "name": "git_diff_check",
+      "started_at": "2026-07-30T10:43:44.377566Z",
+      "status": "PASS",
+      "stderr": {
+        "bytes": 0,
+        "path": "git_diff_check.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "git_diff_check.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "scripts/freeze_research_completion_checkpoint_v1.py",
+        "--verify"
+      ],
+      "ended_at": "2026-07-30T10:43:45.107976Z",
+      "exit_code": 0,
+      "name": "checkpoint_v1",
+      "started_at": "2026-07-30T10:43:44.384323Z",
+      "status": "PASS",
+      "stderr": {
+        "bytes": 0,
+        "path": "checkpoint_v1.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 78,
+        "path": "checkpoint_v1.stdout.txt",
+        "sha256": "19cf003b8ec4d48eb54451eac583d2a2fe5fc3789b6f222a185c7b98a4a34f58"
+      }
+    },
+    {
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "scripts/freeze_research_completion_checkpoint_v2.py",
+        "--verify"
+      ],
+      "ended_at": "2026-07-30T10:43:47.240162Z",
+      "exit_code": 0,
+      "name": "checkpoint_v2",
+      "started_at": "2026-07-30T10:43:45.108268Z",
+      "status": "PASS",
+      "stderr": {
+        "bytes": 0,
+        "path": "checkpoint_v2.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 78,
+        "path": "checkpoint_v2.stdout.txt",
+        "sha256": "be2c1dc413967515993a5fed772c238b7877282941e88f948675eeed7e428f94"
+      }
+    },
+    {
+      "command": [
+        "git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "ended_at": "2026-07-30T10:43:47.257255Z",
+      "exit_code": 0,
+      "name": "final_clean_tree",
+      "started_at": "2026-07-30T10:43:47.240443Z",
+      "status": "PASS",
+      "stderr": {
+        "bytes": 0,
+        "path": "final_clean_tree.stderr.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "path": "final_clean_tree.stdout.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "classification": "INDEPENDENT_MACHINE_DETERMINISTIC_REPLAY",
+  "encrypted_execution": {
+    "candidate_trials": 0,
+    "key_runs": 0,
+    "sample_evaluations": 0
+  },
+  "ended_at": "2026-07-30T10:43:47.266097Z",
+  "environment": {
+    "cpu_count": 4,
+    "git": "git version 2.54.0",
+    "go": "go version go1.25.9 linux/amd64",
+    "machine": "x86_64",
+    "memory_bytes": 16766423040,
+    "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+    "processor": "x86_64",
+    "python": "Python 3.12.13"
+  },
+  "paper_claim_allowed": false,
+  "policies": {
+    "direct_policy_v2": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "policy_retuning": 0,
+    "security_policy_v2": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055"
+  },
+  "schema_version": "flipguard_independent_machine_replay_v1",
+  "source_commit": "289dbb2f6fae02f4cf0ec1e4cc8d8e8a50178b74",
+  "source_replay_scope": {
+    "committed_checkpoint_replay_independent_of_raw_results": true,
+    "inputs": [
+      {
+        "available": false,
+        "path": "results/source_datasets/mnist/mnist_784.arff.gz"
+      },
+      {
+        "available": false,
+        "path": "results/source_datasets/bsds500/BSR_bsds500.tgz"
+      },
+      {
+        "available": false,
+        "path": "results/thesis_grade_protocol/paper_artifacts_v2/current/appendix/evidence_manifest.json"
+      },
+      {
+        "available": false,
+        "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_structural_poly3_inputmodel_floor18_keys3/summary/summary.json"
+      },
+      {
+        "available": false,
+        "path": "results/thesis_grade_protocol/non_tabular_harris_holdout_v1/run_a4ccd0b/run_manifest.json"
+      },
+      {
+        "available": false,
+        "path": "results/thesis_grade_protocol/direct_synthesis_ablation_v1/run_062e1a9/run_manifest.json"
+      },
+      {
+        "available": false,
+        "path": "results/thesis_grade_protocol/independent_training_seed_extension_v1/run_f3cfd7f/run_manifest.json"
+      },
+      {
+        "available": false,
+        "path": "results/thesis_grade_protocol/non_tabular_mnist_cnn_lite_holdout_v1/run_515d5dd/run_manifest.json"
+      }
+    ],
+    "missing": [
+      "results/source_datasets/mnist/mnist_784.arff.gz",
+      "results/source_datasets/bsds500/BSR_bsds500.tgz",
+      "results/thesis_grade_protocol/paper_artifacts_v2/current/appendix/evidence_manifest.json",
+      "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_structural_poly3_inputmodel_floor18_keys3/summary/summary.json",
+      "results/thesis_grade_protocol/non_tabular_harris_holdout_v1/run_a4ccd0b/run_manifest.json",
+      "results/thesis_grade_protocol/direct_synthesis_ablation_v1/run_062e1a9/run_manifest.json",
+      "results/thesis_grade_protocol/independent_training_seed_extension_v1/run_f3cfd7f/run_manifest.json",
+      "results/thesis_grade_protocol/non_tabular_mnist_cnn_lite_holdout_v1/run_515d5dd/run_manifest.json"
+    ],
+    "portable_go_test_exclusions": [
+      "TestBuildCNNLiteWorkloadContractAndSynthesize",
+      "TestCNNLiteAuditContractUsesOfficialTestRows",
+      "TestCNNLiteInitialCandidateOneRowSmoke",
+      "TestBuildHarrisWorkloadContractAndSynthesize"
+    ],
+    "portable_tests_skip_missing_external_inputs": true,
+    "status": "NOT_EVALUATED_ON_CLEAN_CLONE"
+  },
+  "started_at": "2026-07-30T10:42:24.010147Z",
+  "status": "FAIL"
+}

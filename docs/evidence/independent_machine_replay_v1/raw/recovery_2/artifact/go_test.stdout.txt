@@ -1,0 +1,32 @@
+?   	github.com/hasslelee/flipguard/cmd/flipguard	[no test files]
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-audit	0.003s
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-autotune	0.004s
+?   	github.com/hasslelee/flipguard/cmd/flipguard-cnn-lite-audit	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-cnn-lite-autotune	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-harris-audit	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-harris-autotune	[no test files]
+--- FAIL: TestRunRequiresInputs (0.00s)
+    main_test.go:15: expected missing model error, got --data is required
+FAIL
+FAIL	github.com/hasslelee/flipguard/cmd/flipguard-materialize-tabular	0.015s
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-paired-latency	0.003s
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-planner-oracle	0.004s
+?   	github.com/hasslelee/flipguard/cmd/flipguard-security-inventory	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-sobel-audit	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-sobel-autotune	[no test files]
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-synthesize	0.005s
+ok  	github.com/hasslelee/flipguard/internal/analysis	0.003s
+ok  	github.com/hasslelee/flipguard/internal/benchmarks	0.016s
+ok  	github.com/hasslelee/flipguard/internal/certify	0.014s
+ok  	github.com/hasslelee/flipguard/internal/ckksbackend	44.075s
+ok  	github.com/hasslelee/flipguard/internal/ckksplanner	6.706s
+ok  	github.com/hasslelee/flipguard/internal/experiment	0.006s
+?   	github.com/hasslelee/flipguard/internal/ir	[no test files]
+ok  	github.com/hasslelee/flipguard/internal/report	0.014s
+ok  	github.com/hasslelee/flipguard/internal/runtime	0.005s
+ok  	github.com/hasslelee/flipguard/internal/scheduler	0.004s
+ok  	github.com/hasslelee/flipguard/internal/tuner	0.004s
+ok  	github.com/hasslelee/flipguard/research/analyticalv2	0.153s
+ok  	github.com/hasslelee/flipguard/research/decisionactivation	2.698s
+?   	github.com/hasslelee/flipguard/research/decisionactivation/cmd	[no test files]
+FAIL

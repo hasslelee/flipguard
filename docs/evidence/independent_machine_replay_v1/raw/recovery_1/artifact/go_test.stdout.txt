@@ -1,0 +1,38 @@
+?   	github.com/hasslelee/flipguard/cmd/flipguard	[no test files]
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-audit	0.004s
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-autotune	0.004s
+?   	github.com/hasslelee/flipguard/cmd/flipguard-cnn-lite-audit	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-cnn-lite-autotune	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-harris-audit	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-harris-autotune	[no test files]
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-materialize-tabular	0.016s
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-paired-latency	0.004s
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-planner-oracle	0.004s
+?   	github.com/hasslelee/flipguard/cmd/flipguard-security-inventory	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-sobel-audit	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-sobel-autotune	[no test files]
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-synthesize	0.004s
+ok  	github.com/hasslelee/flipguard/internal/analysis	0.003s
+ok  	github.com/hasslelee/flipguard/internal/benchmarks	0.017s
+ok  	github.com/hasslelee/flipguard/internal/certify	0.018s
+ok  	github.com/hasslelee/flipguard/internal/ckksbackend	44.269s
+--- FAIL: TestBuildCNNLiteWorkloadContractAndSynthesize (0.00s)
+    cnn_lite_contract_test.go:23: BuildCNNLiteWorkloadContract failed: read MNIST source: open ../../results/source_datasets/mnist/mnist_784.arff.gz: no such file or directory
+--- FAIL: TestCNNLiteAuditContractUsesOfficialTestRows (0.00s)
+    cnn_lite_contract_test.go:88: BuildCNNLiteWorkloadContract failed: read MNIST source: open ../../results/source_datasets/mnist/mnist_784.arff.gz: no such file or directory
+--- FAIL: TestCNNLiteInitialCandidateOneRowSmoke (0.00s)
+    cnn_lite_contract_test.go:108: BuildCNNLiteWorkloadContract failed: read MNIST source: open ../../results/source_datasets/mnist/mnist_784.arff.gz: no such file or directory
+--- FAIL: TestBuildHarrisWorkloadContractAndSynthesize (0.00s)
+    harris_contract_test.go:35: BuildHarrisWorkloadContract failed: read Harris source archive: open ../../results/source_datasets/bsds500/BSR_bsds500.tgz: no such file or directory
+FAIL
+FAIL	github.com/hasslelee/flipguard/internal/ckksplanner	6.613s
+ok  	github.com/hasslelee/flipguard/internal/experiment	0.006s
+?   	github.com/hasslelee/flipguard/internal/ir	[no test files]
+ok  	github.com/hasslelee/flipguard/internal/report	0.008s
+ok  	github.com/hasslelee/flipguard/internal/runtime	0.003s
+ok  	github.com/hasslelee/flipguard/internal/scheduler	0.004s
+ok  	github.com/hasslelee/flipguard/internal/tuner	0.005s
+ok  	github.com/hasslelee/flipguard/research/analyticalv2	0.142s
+ok  	github.com/hasslelee/flipguard/research/decisionactivation	2.750s
+?   	github.com/hasslelee/flipguard/research/decisionactivation/cmd	[no test files]
+FAIL
