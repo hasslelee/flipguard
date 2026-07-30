@@ -99,7 +99,7 @@ Until that matrix is frozen and verified:
 
 ## Predeclared Development Matrix
 
-The first matrix is now fixed in
+The corrected matrix is fixed in
 `experiments/provider_candidate_gate_v1/contract.json`. It uses only the
 development partition:
 
@@ -122,6 +122,17 @@ result is retained and does not change any literal or policy.
 The external arm is a hand-authored schema-compatibility fixture. Success
 cannot be reported as an evaluation of FHE-Agent or any other third-party
 autotuner. Actual external-tool integration remains `NOT_EVALUATED`.
+
+The superseded V1 contract used the correct seed-0 files but labeled its
+selection contract `provider_gate_v1/split_seed_0`. The split manifest
+correctly requires `split_seed_0`, so all four locked audits failed closed
+before encrypted audit execution. The V1 run and exact contract bytes are
+retained at
+`results/thesis_grade_protocol/provider_candidate_gate_v1/run_f84ecff`.
+Contract V2 changes only `workload.split_id`; candidates, policies, data, and
+execution semantics are unchanged. Because the contract digest participates in
+candidate identity, all four validation selections must nevertheless be
+rerun under V2 rather than reused.
 
 ## Prohibited Interpretation
 

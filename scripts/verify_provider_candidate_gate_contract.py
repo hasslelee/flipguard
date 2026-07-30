@@ -16,7 +16,7 @@ DEFAULT_CONTRACT = Path(
     "experiments/provider_candidate_gate_v1/contract.json"
 )
 SCHEMA_VERSION = (
-    "flipguard_provider_candidate_gate_interoperability_contract_v1"
+    "flipguard_provider_candidate_gate_interoperability_contract_v2"
 )
 SECURITY_POLICY_DIGEST = (
     "sha256:"
@@ -162,6 +162,19 @@ def validate_contract(path: Path = DEFAULT_CONTRACT) -> dict[str, Any]:
         contract["paper_claim_allowed"] is False,
         "provider interoperability paper gate opened",
     )
+    recovery = contract["recovery_from"]
+    require(
+        recovery["superseded_contract_sha256"] ==
+        "sha256:"
+        "429dcf909626a4eaaa36e730b134b9d3be9ef71132de0f708e96897a888dd3a7"
+        and recovery["reason_code"] ==
+        "SELECTION_SPLIT_ID_MANIFEST_MISMATCH"
+        and recovery["execution_semantics_changed"] is False
+        and recovery["candidate_literals_changed"] is False
+        and recovery["policy_changed"] is False
+        and recovery["corrected_field"] == "workload.split_id",
+        "provider interoperability recovery declaration changed",
+    )
 
     workload = contract["workload"]
     require(
@@ -170,6 +183,7 @@ def validate_contract(path: Path = DEFAULT_CONTRACT) -> dict[str, Any]:
             workload["seed_role"],
             workload["dataset_id"],
             workload["model_id"],
+            workload["split_id"],
             workload["validation_rows"],
             workload["audit_rows"],
         ) == (
@@ -177,6 +191,7 @@ def validate_contract(path: Path = DEFAULT_CONTRACT) -> dict[str, Any]:
             "development",
             "iris_binary",
             "linear_poly3",
+            "split_seed_0",
             14,
             16,
         ),

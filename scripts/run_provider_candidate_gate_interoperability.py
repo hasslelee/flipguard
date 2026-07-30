@@ -9,6 +9,7 @@ import importlib.util
 import json
 import os
 import platform
+import shutil
 import subprocess
 import tempfile
 from datetime import datetime, timezone
@@ -250,6 +251,8 @@ def initialize(
     (output_root / "logs").mkdir()
     (output_root / "selection").mkdir()
     (output_root / "audit").mkdir()
+    contract_snapshot = output_root / "contract_snapshot.json"
+    shutil.copyfile(contract_path, contract_snapshot)
 
     certify_binary = output_root / "bin/flipguard-certify-candidate"
     audit_binary = output_root / "bin/flipguard-audit-candidate"
@@ -265,6 +268,9 @@ def initialize(
         "origin_commit": origin,
         "working_tree_clean": True,
         "contract_path": str(contract_path.relative_to(REPO_ROOT)),
+        "contract_snapshot_path": str(
+            contract_snapshot.relative_to(REPO_ROOT)
+        ),
         "contract_sha256": sha256_path(contract_path),
         "security_policy_digest":
             contract["policy"]["security_policy_digest"],
@@ -323,6 +329,9 @@ def verify_resume(
         manifest["source_commit"] != head
         or manifest["origin_commit"] != origin
         or manifest["contract_sha256"] != sha256_path(contract_path)
+        or manifest["contract_sha256"] != sha256_path(
+            REPO_ROOT / manifest["contract_snapshot_path"]
+        )
         or manifest["execution_critical_source_files"] != source_files
         or manifest["execution_critical_source_digest"] != source_digest
         or state["run_manifest_sha256"] !=
@@ -650,7 +659,11 @@ def verify_output(
     if (
         manifest["schema_version"] != SCHEMA_VERSION
         or manifest["contract_sha256"] != sha256_path(contract_path)
-        or state["stage"] != "PASS"
+        or state["stage"] != summary["status"]
+        or state["stage"] not in (
+            "PASS",
+            "PARTIAL_IMPLEMENTATION_FAILURE",
+        )
         or state["paper_claim_allowed"]
         or summary["paper_claim_allowed"]
         or summary["counts"]["arms"] != 4
@@ -785,15 +798,15 @@ def main() -> int:
     for arm in contract["arms"]:
         run_arm(contract, arm, output_root, state)
 
-    state["stage"] = "PASS"
+    summary = build_summary(contract, output_root, state)
+    state["stage"] = summary["status"]
     state["completed_at"] = datetime.now(timezone.utc).isoformat()
     save_atomic(output_root / "state.json", state)
-    summary = build_summary(contract, output_root, state)
     save_atomic(output_root / "summary.json", summary)
     write_sha256sums(output_root)
     verify_output(contract_path, output_root)
     print(
-        "provider_candidate_gate_run=PASS "
+        f"provider_candidate_gate_run={summary['status']} "
         f"arms={summary['counts']['arms']} "
         f"selected={summary['counts']['selected']} "
         f"audit_pass={summary['counts']['locked_audit_pass']} "
@@ -801,7 +814,7 @@ def main() -> int:
         f"implementation_failures={summary['counts']['implementation_failures']} "
         "paper_claim_allowed=false"
     )
-    return 0
+    return 0 if summary["counts"]["implementation_failures"] == 0 else 2
 
 
 if __name__ == "__main__":

@@ -1,7 +1,16 @@
 {
-  "schema_version": "flipguard_provider_candidate_gate_interoperability_contract_v1",
+  "schema_version": "flipguard_provider_candidate_gate_interoperability_contract_v2",
   "status": "PREDECLARED_BEFORE_ENCRYPTED_EXECUTION",
   "paper_claim_allowed": false,
+  "recovery_from": {
+    "superseded_contract_sha256": "sha256:429dcf909626a4eaaa36e730b134b9d3be9ef71132de0f708e96897a888dd3a7",
+    "failed_run_path": "results/thesis_grade_protocol/provider_candidate_gate_v1/run_f84ecff",
+    "reason_code": "SELECTION_SPLIT_ID_MANIFEST_MISMATCH",
+    "execution_semantics_changed": false,
+    "candidate_literals_changed": false,
+    "policy_changed": false,
+    "corrected_field": "workload.split_id"
+  },
   "scope": {
     "evaluation_role": "development_interoperability_control",
     "provider_agnostic_binding_claim": "one literal from each declared provider class is admitted or rejected by the same fail-closed gate",
@@ -13,7 +22,7 @@
     "seed_role": "development",
     "dataset_id": "iris_binary",
     "model_id": "linear_poly3",
-    "split_id": "provider_gate_v1/split_seed_0",
+    "split_id": "split_seed_0",
     "model_path": "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
     "model_sha256": "sha256:9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1",
     "validation_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/configuration_validation.csv",
