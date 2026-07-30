@@ -204,6 +204,16 @@ func (materialization InputMaterializationContract) validate() error {
 				materialization.PreprocessingMethod,
 			)
 		}
+	case MNISTCNNLiteMaterializationSchemaV1:
+		if materialization.SourceFeatureSpace !=
+			MNISTCNNLiteSourceFeatureSpaceV1 ||
+			materialization.PreprocessingMethod !=
+				MNISTCNNLiteExtractionPolicyV1 {
+			return fmt.Errorf(
+				"schema %s requires the frozen MNIST 7x7 mean-pool materialization",
+				materialization.SchemaVersion,
+			)
+		}
 	case TabularValidationMaterializationSchemaV1:
 		if materialization.SourceFeatureSpace !=
 			string(TabularDataSpaceModelInput) ||
