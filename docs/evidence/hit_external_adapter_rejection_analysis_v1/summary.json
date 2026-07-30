@@ -1,0 +1,61 @@
+{
+  "claim_effects": {
+    "decision_integrity_gate_value": "PARTIALLY_SUPPORTED",
+    "external_candidate_certification": "BLOCKED",
+    "general_external_autotuner_integration": "NOT_EVALUATED",
+    "hit_candidate_quality": "NOT_EVALUATED_SINGLE_NEGATIVE",
+    "lossless_external_literal_import": "SUPPORTED"
+  },
+  "classification": "EXPLANATORY_POST_HOC_NO_RERUN",
+  "decision_contract": {
+    "margin_floor": 0.001,
+    "maximum_margin": 0.19387790673000005,
+    "median_margin": 0.120491103747,
+    "minimum_error_budget": 0.027404394813499988,
+    "minimum_margin": 0.054808789626999976,
+    "normalized_flip_guarantee_boundary": 2.0,
+    "safety_factor": 0.5,
+    "threshold": 0.5
+  },
+  "encrypted_executions_added": 0,
+  "failure_class": "EXTERNAL_SELECTOR_PRECISION_BUDGET_REJECT",
+  "interpretation": {
+    "policy_use": "explanatory only; no candidate repair, reselection, retuning, or encrypted rerun",
+    "why_no_flip": "the maximum normalized budget usage remained below 1/alpha=2, so every absolute error remained below its decision margin",
+    "why_rejected": "six encrypted sample-key observations exceeded the predeclared alpha-times-margin safety budget"
+  },
+  "localization_limit": {
+    "reason": "the frozen TabularTrialResult stores aggregate violation counts and maxima but no sample-key observation ledger",
+    "same_rows_across_repeats": null,
+    "sample_level_encrypted_scores": "NOT_AVAILABLE_TABULAR_TRIAL_RESULT_V1",
+    "violating_key_repeat_count": null,
+    "violating_sample_count": null
+  },
+  "observed_aggregate": {
+    "all_observations_below_guaranteed_flip_boundary": true,
+    "decision_flips": 0,
+    "error_violations": 6,
+    "max_error_over_minimum_budget_upper_bound": 1.7810897855859733,
+    "max_normalized_budget_usage": 1.7591747988305817,
+    "max_observed_error": 0.048809687682490055,
+    "status": "REJECTED",
+    "violation_observation_fraction": 0.14285714285714285
+  },
+  "paper_claim_allowed": false,
+  "policy_modifications": 0,
+  "schema_version": "flipguard_hit_external_rejection_analysis_v1",
+  "source_evidence": {
+    "candidate_id": "provider_external_autotuner_d1df08d8015ba99d",
+    "manifest_sha256": "sha256:eff6b7270744d6cc699c05eb86c64398d2cfe2354ef810daae5d0e20d3de1986",
+    "path": "docs/evidence/hit_external_adapter_replay_v1",
+    "selection_sha256": "sha256:7e6c85feed9081d1bd329e147f3ba72a7bc8b065f0d8eed29fa2cf82d599c129"
+  },
+  "workload": {
+    "dataset_id": "iris_binary",
+    "key_repeats": 3,
+    "model_id": "linear_poly3",
+    "observation_count": 42,
+    "split_id": "split_seed_0",
+    "validation_rows": 14
+  }
+}
