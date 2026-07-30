@@ -242,7 +242,7 @@ func (c Context) evalTabularEVALinearPoly3Score(
 
 	cubicCoefficient, err := c.encodeReplicatedPlaintextAtScale(
 		runtimeState.encoder,
-		-0.004,
+		0.004,
 		1,
 		20,
 	)
