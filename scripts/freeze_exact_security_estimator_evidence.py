@@ -30,7 +30,7 @@ RAW_ROOT_DEFAULT = (
     REPO_ROOT
     / "results/thesis_grade_protocol/exact_security_estimator_v1"
 )
-COMPLETE_COLLECTION_NAME = "ci_run_30534465125"
+COMPLETE_COLLECTION_NAME = "ci_run_30537489124"
 RECOVERY_COLLECTION_NAMES = (
     "ci_run_30534037217_recovery",
     "ci_run_30534290032_recovery",
