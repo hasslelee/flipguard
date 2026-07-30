@@ -1,0 +1,48 @@
+{
+  "command": [
+    "/home/ckks2/flipguard/results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/bin/flipguard",
+    "-experiment",
+    "ckks_tabular_inference",
+    "-ckks-profile-name",
+    "short_chain_3",
+    "-ckks-evaluation-mode",
+    "rescale",
+    "-ckks-output-tag",
+    "finiteauditv1_confirm_seed0_wdbc_linear_poly3_short_chain_3_rescale_aware_key3"
+  ],
+  "environment": {
+    "TABULAR_DATASET_ID": "wdbc",
+    "TABULAR_DATA_ROOT": "/home/ckks2/flipguard/results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/materialized/split_seed_0",
+    "TABULAR_MODEL_ID": "linear_poly3"
+  },
+  "exit_code": 1,
+  "failure_class": "EXPECTED_PARAMETER_FAILURE",
+  "inputs": {
+    "audit": {
+      "bytes": 15706,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/wdbc/linear_poly3/locked_audit_test.csv",
+      "sha256": "sha256:6263df52fc6f46695a0ac16f728100cbae02fee9ceaf7cf686a3fc93918bb6ee"
+    },
+    "manifest": {
+      "bytes": 3472,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/wdbc/linear_poly3/split_manifest.json",
+      "sha256": "sha256:e09bb64ee63522e58ff415c37e45ad77d11ea2c6e7acc3b8ead6898e3fd12d9b"
+    },
+    "model": {
+      "bytes": 2187,
+      "path": "datasets/tabular_suite/wdbc/linear_poly3/model.json",
+      "sha256": "sha256:50d82e12fc96b3084084fba4f370487f7a20d16371905c21d7cb024f9e07f759"
+    }
+  },
+  "log": {
+    "bytes": 1358,
+    "path": "results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/logs/seed0_wdbc_linear_poly3_short_chain_3_rescale_aware_key3.log",
+    "sha256": "sha256:d2a323a95370c4080e033f6c3a019c74ddd971a1d0fc1a42707bde61e8ae8f3f"
+  },
+  "raw": {},
+  "schema_version": 1,
+  "source_commit": "7c0ad0c43fa80d53cf5e951a1c006d920ea9878c",
+  "source_digest": "sha256:4957147f1a5486fd957185f15ae7601bd71090571c9a687d7ca9fdc5e30dd9c4",
+  "status": "FAILED",
+  "tag": "finiteauditv1_confirm_seed0_wdbc_linear_poly3_short_chain_3_rescale_aware_key3"
+}

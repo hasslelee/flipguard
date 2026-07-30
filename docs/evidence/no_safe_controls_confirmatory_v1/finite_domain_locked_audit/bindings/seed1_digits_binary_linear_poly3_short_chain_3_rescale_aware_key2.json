@@ -1,0 +1,48 @@
+{
+  "command": [
+    "/home/ckks2/flipguard/results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/bin/flipguard",
+    "-experiment",
+    "ckks_tabular_inference",
+    "-ckks-profile-name",
+    "short_chain_3",
+    "-ckks-evaluation-mode",
+    "rescale",
+    "-ckks-output-tag",
+    "finiteauditv1_confirm_seed1_digits_binary_linear_poly3_short_chain_3_rescale_aware_key2"
+  ],
+  "environment": {
+    "TABULAR_DATASET_ID": "digits_binary",
+    "TABULAR_DATA_ROOT": "/home/ckks2/flipguard/results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/materialized/split_seed_1",
+    "TABULAR_MODEL_ID": "linear_poly3"
+  },
+  "exit_code": 1,
+  "failure_class": "EXPECTED_PARAMETER_FAILURE",
+  "inputs": {
+    "audit": {
+      "bytes": 49255,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/digits_binary/linear_poly3/locked_audit_test.csv",
+      "sha256": "sha256:5e4437a93ea0b4c125c28c0f6b278f399397203429e782738577f2dcfd5b4bae"
+    },
+    "manifest": {
+      "bytes": 8320,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/digits_binary/linear_poly3/split_manifest.json",
+      "sha256": "sha256:635f0bc79149f57bcf80b2f994d617114ffe3c47ba0f98093e0264f5d13578de"
+    },
+    "model": {
+      "bytes": 2164,
+      "path": "datasets/tabular_suite/digits_binary/linear_poly3/model.json",
+      "sha256": "sha256:4732af06a200e574b79412c23f8a91a98989217b2dc0ffb6e5f48ddd4e9caa36"
+    }
+  },
+  "log": {
+    "bytes": 1376,
+    "path": "results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/logs/seed1_digits_binary_linear_poly3_short_chain_3_rescale_aware_key2.log",
+    "sha256": "sha256:fc7346db0dfc1f956ec8a85abffe0e555f098819f9dbe6ead2bc286cb6eb8af4"
+  },
+  "raw": {},
+  "schema_version": 1,
+  "source_commit": "7c0ad0c43fa80d53cf5e951a1c006d920ea9878c",
+  "source_digest": "sha256:4957147f1a5486fd957185f15ae7601bd71090571c9a687d7ca9fdc5e30dd9c4",
+  "status": "FAILED",
+  "tag": "finiteauditv1_confirm_seed1_digits_binary_linear_poly3_short_chain_3_rescale_aware_key2"
+}

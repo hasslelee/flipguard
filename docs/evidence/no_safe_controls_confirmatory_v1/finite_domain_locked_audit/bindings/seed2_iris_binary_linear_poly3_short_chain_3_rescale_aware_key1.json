@@ -1,0 +1,48 @@
+{
+  "command": [
+    "/home/ckks2/flipguard/results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/bin/flipguard",
+    "-experiment",
+    "ckks_tabular_inference",
+    "-ckks-profile-name",
+    "short_chain_3",
+    "-ckks-evaluation-mode",
+    "rescale",
+    "-ckks-output-tag",
+    "finiteauditv1_confirm_seed2_iris_binary_linear_poly3_short_chain_3_rescale_aware_key1"
+  ],
+  "environment": {
+    "TABULAR_DATASET_ID": "iris_binary",
+    "TABULAR_DATA_ROOT": "/home/ckks2/flipguard/results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/materialized/split_seed_2",
+    "TABULAR_MODEL_ID": "linear_poly3"
+  },
+  "exit_code": 1,
+  "failure_class": "EXPECTED_PARAMETER_FAILURE",
+  "inputs": {
+    "audit": {
+      "bytes": 1978,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_2/iris_binary/linear_poly3/locked_audit_test.csv",
+      "sha256": "sha256:85f71415cfb9eb7574ee3e59df36396690957afd53ff1a4cea1a89ece6fa9d27"
+    },
+    "manifest": {
+      "bytes": 1695,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_2/iris_binary/linear_poly3/split_manifest.json",
+      "sha256": "sha256:3af66d9208d6bbf002ff08af32dfe7ca973932d6af29289ddf53b7608bd72e07"
+    },
+    "model": {
+      "bytes": 1610,
+      "path": "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+      "sha256": "sha256:9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1"
+    }
+  },
+  "log": {
+    "bytes": 1372,
+    "path": "results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/logs/seed2_iris_binary_linear_poly3_short_chain_3_rescale_aware_key1.log",
+    "sha256": "sha256:79496ebd42103a96c2a16580703e7de00b9a6930a17230459ae5688cea360070"
+  },
+  "raw": {},
+  "schema_version": 1,
+  "source_commit": "7c0ad0c43fa80d53cf5e951a1c006d920ea9878c",
+  "source_digest": "sha256:4957147f1a5486fd957185f15ae7601bd71090571c9a687d7ca9fdc5e30dd9c4",
+  "status": "FAILED",
+  "tag": "finiteauditv1_confirm_seed2_iris_binary_linear_poly3_short_chain_3_rescale_aware_key1"
+}

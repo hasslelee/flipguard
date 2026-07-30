@@ -1,0 +1,340 @@
+{
+  "claim_boundary": "This is a budgeted abstention control. NO_SAFE means no SAFE candidate was admitted within one encrypted trial; it does not mean no CKKS configuration exists globally.",
+  "control_result": "PASS",
+  "counts": {
+    "expected_workloads": 40,
+    "failed_workloads": 0,
+    "no_safe_non_linear": 0,
+    "no_safe_with_selection": 0,
+    "outcomes": {
+      "NO_SAFE": 16,
+      "SELECTED": 24
+    },
+    "outcomes_by_model": {
+      "linear_poly3": {
+        "NO_SAFE": 16,
+        "SELECTED": 4
+      },
+      "mlp_square_linear_score": {
+        "SELECTED": 20
+      }
+    },
+    "successful_workloads": 40,
+    "unexpected_outcomes": 0,
+    "unsafe_selected": 0
+  },
+  "evidence_status": "CONFIRMATORY_NEGATIVE_CONTROL",
+  "falsification": {
+    "expected_outcome_map": {
+      "iris_binary_linear_poly3": "SELECTED",
+      "mlp_square_linear_score": "SELECTED",
+      "non_iris_linear_poly3": "NO_SAFE"
+    },
+    "forbid_selected_payload_on_no_safe": true,
+    "forbid_unsafe_selected": true,
+    "no_safe_expected_only_for_linear_control": true,
+    "requires_both_selected_and_no_safe": true
+  },
+  "mode": "CONFIRM",
+  "outputs": {
+    "run_status": {
+      "path": "results/thesis_grade_protocol/no_safe_budget_control_v1/confirm_seeds1_4/summary/run_status.csv",
+      "sha256": "sha256:dc3985b9100e8665a3f8a903a8482582c62b11f45fd19004b6d6dedadec0695b"
+    },
+    "workload_results": {
+      "path": "results/thesis_grade_protocol/no_safe_budget_control_v1/confirm_seeds1_4/summary/workload_results.csv",
+      "sha256": "sha256:325e5f9bc5a4b7a52044a3dc3381e846762f6b6cfbf223dbc8e53479967538c7"
+    }
+  },
+  "protocol": {
+    "datasets": [
+      "banknote",
+      "digits_binary",
+      "iris_binary",
+      "mnist_pool16",
+      "wdbc"
+    ],
+    "key_repeats": 3,
+    "margin_floor": 0.001,
+    "max_encrypted_trials": 1,
+    "min_prime_bits": 18,
+    "min_scale_bits": 18,
+    "models": [
+      "linear_poly3",
+      "mlp_square_linear_score"
+    ],
+    "partition": "disjoint_locked_audit_test",
+    "safety_factor": 0.5,
+    "special_prime_bits": 30,
+    "split_seeds": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "schema_version": 1,
+  "source": {
+    "commit": "7c0ad0c43fa80d53cf5e951a1c006d920ea9878c",
+    "digest": "sha256:a7b904eb118c8a94bb7b2ce46042285fc86157356f64ab5b1f5739a4b61067ed",
+    "dirty": false,
+    "files": {
+      "cmd/flipguard-autotune/main.go": {
+        "bytes": 7360,
+        "sha256": "sha256:14ae00a2a51e021a8fe68ada128be4d9bd85768a30d441d121feaa37e4fd0a38"
+      },
+      "go.mod": {
+        "bytes": 570,
+        "sha256": "sha256:002398be2c55fc464db27c92805c96abc7aae8e6e8106dd083d9b0b76cf8a179"
+      },
+      "go.sum": {
+        "bytes": 2614,
+        "sha256": "sha256:ba0b56d4f4d13fd01648402ad271b0c27a6722830ca2f652fcd94e4cfdcb508d"
+      },
+      "internal/certify/analytical_finite_set.go": {
+        "bytes": 6538,
+        "sha256": "sha256:9ad7385e2f0c273263afa0a7bba5afa4be011187297f8be2f048fb665b5efffe"
+      },
+      "internal/certify/analytical_operation_graph.go": {
+        "bytes": 15788,
+        "sha256": "sha256:18b295024e905666c1e3514e099c65dc3c695f0761232de12691aa548e358bde"
+      },
+      "internal/certify/analytical_proof.go": {
+        "bytes": 3439,
+        "sha256": "sha256:cf9f425d771cab08ca95c917731442e0883c6b434901c36ca5ccaf7eec04fdfe"
+      },
+      "internal/certify/analytical_scope.go": {
+        "bytes": 8235,
+        "sha256": "sha256:9dffd3ad0f6650463d6d8a14bffadfde34614f467f5b1809a0b3f5a0fe2455bc"
+      },
+      "internal/certify/analytical_source_bundle.go": {
+        "bytes": 8128,
+        "sha256": "sha256:89cc7292f2b60e1b58d2ca9ea6a48dd6c9d8c89d16e0d82f4188d70a5053f4b6"
+      },
+      "internal/certify/certificate.go": {
+        "bytes": 2783,
+        "sha256": "sha256:adb4c54f13b554f9b32f948f0752b5e82036089331d0b630c76cdd13e1a44bea"
+      },
+      "internal/certify/coverage.go": {
+        "bytes": 4132,
+        "sha256": "sha256:d7ee39e0510dd0ecc34e8ffef6f29cc4421e7dae1be53986b43b73520e632561"
+      },
+      "internal/certify/engine.go": {
+        "bytes": 12035,
+        "sha256": "sha256:c3df2875ec8695680e767083a2c8947ae0358a03b1bee65d648fa62c5ac4153f"
+      },
+      "internal/certify/observation.go": {
+        "bytes": 8297,
+        "sha256": "sha256:7d33cc70df0eca59e2f63bf3f737ebd4e6617accea0f6651a41a6b59a8f6791e"
+      },
+      "internal/certify/policy.go": {
+        "bytes": 1768,
+        "sha256": "sha256:723f87620c3325c7cf08c1d60ca7492240274385ed5c4a35fe4e2796bf92de26"
+      },
+      "internal/certify/scope.go": {
+        "bytes": 2234,
+        "sha256": "sha256:26c846c71ea14585a0963c5c2589ad2ec2fc1f38f88a11b25303a710622a4166"
+      },
+      "internal/certify/status.go": {
+        "bytes": 1693,
+        "sha256": "sha256:d50ce15f0f0f1613ffa090cc725035830d7a695bb140394e756e2c829690ba72"
+      },
+      "internal/certify/tabular_artifact.go": {
+        "bytes": 18735,
+        "sha256": "sha256:73afdffd301ee6663896ed8a68cf4752e4419662cde482df02c8afeed051be25"
+      },
+      "internal/certify/tabular_linear_poly3_graph.go": {
+        "bytes": 8034,
+        "sha256": "sha256:28f8f79f7e3d1efd423699a53d571c4ebe52758de7c1781ef932c2987e1e7df7"
+      },
+      "internal/certify/tabular_model_metadata.go": {
+        "bytes": 4740,
+        "sha256": "sha256:a5b3da9ff5b2b0a21472269156b7465a3bf947f5c71a6a407e9413883da0c664"
+      },
+      "internal/certify/tabular_status_scanner.go": {
+        "bytes": 21093,
+        "sha256": "sha256:221682278c518a970692acd05a89bb3fcde27c2d1d4919bd0304ebe49c04ff6c"
+      },
+      "internal/ckksbackend/analytical_profile_facts.go": {
+        "bytes": 10034,
+        "sha256": "sha256:2d703eaa4190ff4c5c4e52d5b71d262871e5eefba46a2261557c8720729bd69a"
+      },
+      "internal/ckksbackend/bias_probe.go": {
+        "bytes": 5937,
+        "sha256": "sha256:e9b7ecf80c242fa10e414725551ce3e19b0341e606bd70897b197b8258d6d897"
+      },
+      "internal/ckksbackend/ckks_certificate_audit.go": {
+        "bytes": 4614,
+        "sha256": "sha256:0e4be04336c30fbb8f71af926ca856a6f4d15c745cdf7eb9d474404823ed2980"
+      },
+      "internal/ckksbackend/ckks_timing_benchmark.go": {
+        "bytes": 18168,
+        "sha256": "sha256:fce8781eb47777981b55c8383c5ae59ecacc79546d6bfcf2cbeafe3b1eed1389"
+      },
+      "internal/ckksbackend/config.go": {
+        "bytes": 3565,
+        "sha256": "sha256:fa68562e61a0eed6d4512dd7e91ba62ad5ddd28c9b0440c3546ab6ac0f81b41f"
+      },
+      "internal/ckksbackend/context.go": {
+        "bytes": 3302,
+        "sha256": "sha256:296c4ff70639aae276b8da27398eb25880b511219f78b983ff195835501fe6e1"
+      },
+      "internal/ckksbackend/cubic_probe.go": {
+        "bytes": 4116,
+        "sha256": "sha256:bc12d27fd120c90d5a0e550ef57fa2fe52b8a4c79b76c5285d1beb6ea0d552eb"
+      },
+      "internal/ckksbackend/full_logreg.go": {
+        "bytes": 6971,
+        "sha256": "sha256:00a24f1b5dc3f2cd32047dc143aae7619b6660ea8437bf9177ad1fd9c6a20338"
+      },
+      "internal/ckksbackend/full_logreg_boundary.go": {
+        "bytes": 2651,
+        "sha256": "sha256:9d20bee5a389626bef5e7d9a9fec5a2bb5c4bcef2f22fc86ad405eeb9ea2e8c3"
+      },
+      "internal/ckksbackend/full_logreg_boundary_repeat.go": {
+        "bytes": 3771,
+        "sha256": "sha256:c7267e573d59cafd922d19430f2cf0e30abad05d79ebb4c9d952940de8924cc2"
+      },
+      "internal/ckksbackend/full_logreg_boundary_sweep.go": {
+        "bytes": 4951,
+        "sha256": "sha256:a68af353d2b4f526e24c3eb8f38bdd2578a33c12a6a611daf188d2b8a9f86011"
+      },
+      "internal/ckksbackend/harris_corner_response.go": {
+        "bytes": 11552,
+        "sha256": "sha256:4d361dbe54c62e0071a72ec90f6ddaf838b7457921573d9dd61ce3171820d08e"
+      },
+      "internal/ckksbackend/input.go": {
+        "bytes": 3574,
+        "sha256": "sha256:579ebd3ce46eb8b89d9cf2f42c7ed046238fd70f0469c2d507e9d4909573e454"
+      },
+      "internal/ckksbackend/linear.go": {
+        "bytes": 5312,
+        "sha256": "sha256:db31ebe53fed0191ba141135e95e0582dc4c2537009eeb1632bfe17e3ab17a90"
+      },
+      "internal/ckksbackend/linear_regression.go": {
+        "bytes": 7114,
+        "sha256": "sha256:9e42b8b2f2b99c331737b3369459b36e840969672459a90598e6e3f5b3207e3e"
+      },
+      "internal/ckksbackend/metrics.go": {
+        "bytes": 1172,
+        "sha256": "sha256:a4cad72e0b64eb6ad72ae48784d6c8087630b4ce54b39fe2b409f83fc52fcc52"
+      },
+      "internal/ckksbackend/mlp_square.go": {
+        "bytes": 13667,
+        "sha256": "sha256:973dd1420b12812490481a593487cb4c943b8295b5660fbb0b02ed2033a5ed6d"
+      },
+      "internal/ckksbackend/mul_probe.go": {
+        "bytes": 6622,
+        "sha256": "sha256:14fa2208d1b717067e8742fc67593765ae03b68ef3c020c51450477dd39e4303"
+      },
+      "internal/ckksbackend/paired_tabular_latency.go": {
+        "bytes": 20690,
+        "sha256": "sha256:4e6711a6ee7e95ab464049595bdd273a14ede54db239f853a11eb0066e8be126"
+      },
+      "internal/ckksbackend/policy.go": {
+        "bytes": 3317,
+        "sha256": "sha256:8bcd8a8a039cb81c14ce9ce001868f5840a5c7ce756ca12c20cf56ba4820148e"
+      },
+      "internal/ckksbackend/polynomial.go": {
+        "bytes": 4484,
+        "sha256": "sha256:8008ae7354b8617e6a351f861b7b086d2f4c3af3e6ed9c8d12e1ac7a4f1d679b"
+      },
+      "internal/ckksbackend/polynomial_regression.go": {
+        "bytes": 8309,
+        "sha256": "sha256:1a6649756bd2b30f91312e54c5ba41c57549f97249f7879af44cea5b34eb9e6b"
+      },
+      "internal/ckksbackend/profile.go": {
+        "bytes": 8704,
+        "sha256": "sha256:075e99c47ae06f378c72b95b20b258d9f9da664ef3d5a9b5a08b35fb4a6f592a"
+      },
+      "internal/ckksbackend/roundtrip.go": {
+        "bytes": 1077,
+        "sha256": "sha256:f9e17febe76e9bfdbe918c5e1b7c48dfb20bbba8c68063381da5b2a79cbf2ed2"
+      },
+      "internal/ckksbackend/scale_probe.go": {
+        "bytes": 5166,
+        "sha256": "sha256:0490bb0970bc2a6571acffeb2967b693ee1bb4f8d75eda26a326d2a16524500e"
+      },
+      "internal/ckksbackend/sobel_edge.go": {
+        "bytes": 11784,
+        "sha256": "sha256:b1fcd79a40b5f61b631fe723c4ce3328488b61e366bcabce9b73eeeaf4813d01"
+      },
+      "internal/ckksbackend/tabular_inference.go": {
+        "bytes": 21173,
+        "sha256": "sha256:dad48640d76098a03865d377438d45138467d49b019373b3ccd51b5110cfc15b"
+      },
+      "internal/ckksbackend/tabular_threshold_validation.go": {
+        "bytes": 1008,
+        "sha256": "sha256:0df20e9881f35748276a7c8bfa0b0727b9bd6ad4ce692d9a5ebb512d4e836697"
+      },
+      "internal/ckksbackend/wdbc_inference.go": {
+        "bytes": 18722,
+        "sha256": "sha256:416efbc85cfc213465b3541369568f527a8d3d05fa670ad7e203f43d2c36c363"
+      },
+      "internal/ckksplanner/audit.go": {
+        "bytes": 19378,
+        "sha256": "sha256:4e951927d9fb209dbd3450c87568503921ba2f29a4dc42ca74380012f42bb272"
+      },
+      "internal/ckksplanner/contract.go": {
+        "bytes": 13978,
+        "sha256": "sha256:c3d81260316756a5c31b0580cf2e2a87338bc2fd50016d3af80fabf24f8d2780"
+      },
+      "internal/ckksplanner/direct_policy.go": {
+        "bytes": 6142,
+        "sha256": "sha256:e706efc63008153f047de84580a62f3403e62c0e3fde18d86fb69da65af4bb97"
+      },
+      "internal/ckksplanner/executor.go": {
+        "bytes": 14362,
+        "sha256": "sha256:e52c817972a1f7856131b2959a864f77c8914fde7b4d7beb1c689a92e9314c6b"
+      },
+      "internal/ckksplanner/security_policy.go": {
+        "bytes": 3920,
+        "sha256": "sha256:b16902ebbe4c175095a675c69953767358a733373ce369d6cda7addacf84b13e"
+      },
+      "internal/ckksplanner/synthesis.go": {
+        "bytes": 28685,
+        "sha256": "sha256:ce72a13adfaf9ea226976dc42028d4d78bd6926d757c7ad38a371180aa5e5501"
+      },
+      "internal/ckksplanner/tabular_contract.go": {
+        "bytes": 33914,
+        "sha256": "sha256:1fe5f3801ba0b0aa387908d40e4b6731a8bca316c2ef1ad70a40ed2fdf00ec66"
+      },
+      "internal/ckksplanner/tabular_materialize.go": {
+        "bytes": 20831,
+        "sha256": "sha256:b6e287c0cefd1689420f0b4ab3e7da2551886a932e65a9d85c7e310c4b98f469"
+      },
+      "internal/ckksplanner/validation_identity.go": {
+        "bytes": 14601,
+        "sha256": "sha256:a2ccda644cb1a9f22163f90c0ad423c575e4198a41ade21ec2d0dcf7e9c8d45c"
+      },
+      "internal/tuner/cost.go": {
+        "bytes": 1275,
+        "sha256": "sha256:36d5877d8958c136b21208b1d899e2f1c6704e86ff2122dda7bdba52249e5db1"
+      },
+      "internal/tuner/generator.go": {
+        "bytes": 5339,
+        "sha256": "sha256:79852eb7497883db7ce0cea7fa8abc177c36dac5d480ed6c68aef61c2004059b"
+      },
+      "internal/tuner/planner.go": {
+        "bytes": 13176,
+        "sha256": "sha256:4dd00f96527b295c28d0009e660f75dd9ce9f36e10edf171efc6c13ca9c13a67"
+      },
+      "internal/tuner/profile_resolver.go": {
+        "bytes": 7527,
+        "sha256": "sha256:94c4d7b6e0d86643b2d29c9c9d9125182f6652d2c4f716620ed193aa0a99412e"
+      },
+      "internal/tuner/selector.go": {
+        "bytes": 1456,
+        "sha256": "sha256:4cf33171cb4f8f57ce58029fde7d2bc7c68a01f3cd5392f15510882ae611d818"
+      },
+      "internal/tuner/types.go": {
+        "bytes": 2974,
+        "sha256": "sha256:da674a615211ec635703b9e0875cf7e7b3809a1c3bc39338343082ac0812f213"
+      },
+      "scripts/run_no_safe_budget_negative_controls.py": {
+        "bytes": 22895,
+        "sha256": "sha256:d01d89ae7fc6dd1e6721e7bd5d0265c01c051a46513810b04898e72eb3761f21"
+      }
+    }
+  }
+}
