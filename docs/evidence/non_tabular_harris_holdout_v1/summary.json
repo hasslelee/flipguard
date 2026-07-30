@@ -1,0 +1,53 @@
+{
+  "accounting": {
+    "total_candidate_trials": 2,
+    "total_encrypted_sample_evaluations": 1200,
+    "total_fresh_key_runs": 6
+  },
+  "block_reason": "manual post-extension claim admission and paper review are pending",
+  "claim_boundary": {
+    "arbitrary_graph_generalization": "NOT_EVALUATED",
+    "cnn_generalization": "NOT_EVALUATED",
+    "full_image_corner_accuracy": "NOT_EVALUATED",
+    "multi_graph_vision_extension": "SUPPORTED",
+    "non_tabular_harris_holdout": "SUPPORTED",
+    "structural_generalization": "PARTIALLY_SUPPORTED"
+  },
+  "locked_audit": {
+    "candidate_identity_equal": true,
+    "encrypted_sample_evaluations": 600,
+    "flips": 0,
+    "fresh_key_runs": 3,
+    "max_budget_usage": 0.019487168974487747,
+    "outcome": "LOCKED_AUDIT_PASS",
+    "retuning": 0,
+    "status": "SAFE",
+    "v_amb": 1,
+    "v_cert": 199,
+    "violations": 0
+  },
+  "paper_claim_allowed": false,
+  "schema_version": "flipguard_non_tabular_harris_evidence_v1",
+  "scope": "BSDS500 single-window Harris response threshold under scalar-replicated packing",
+  "selection": {
+    "encrypted_sample_evaluations": 600,
+    "fresh_key_runs": 3,
+    "outcome": "SELECTED",
+    "repairs": 0,
+    "security_headroom_bits": 14,
+    "selected_candidate": "synth_analysis_minimum_rescale_N13_Q6_S26_b9a6f9573340",
+    "selected_flips": 0,
+    "selected_max_budget_usage": 0.017141840887655954,
+    "selected_violations": 0,
+    "trials": 1
+  },
+  "source": {
+    "audit_images": 50,
+    "dataset": "BSDS500",
+    "patches_per_image": 4,
+    "train_threshold_images": 100,
+    "validation_audit_image_overlap": 0,
+    "validation_images": 50
+  },
+  "status": "SUPPORTED"
+}

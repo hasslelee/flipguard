@@ -1,9 +1,9 @@
 # Step 7C.2 BSDS500 Harris Non-Tabular Holdout
 
-Status: `PREDECLARED_NOT_EVALUATED` on 2026-07-30. Source replay, plaintext
-graph equivalence, static synthesis, Security V2 admission, and one-patch CKKS
-smoke execution pass. No encrypted selection or locked-audit result is claimed
-by this document.
+Status: `SUPPORTED` within the declared Harris scope on 2026-07-30. Source
+replay, plaintext graph equivalence, encrypted selection, and no-retuning
+locked audit pass with a sample-level evidence ledger. Structural
+generalization remains `PARTIALLY_SUPPORTED`.
 
 ## Research question
 
@@ -178,6 +178,72 @@ Success supports only this scalar-replicated single-window Harris graph over
 the declared BSDS500 extraction. It does not support arbitrary graphs, packed
 full-image execution, CNNs, or universal autotuning.
 
+## Encrypted result
+
+Execution provenance:
+
+| Property | Value |
+|---|---|
+| Execution commit | `a4ccd0be562c4dac2ddac52b95bcaeb112e30d3b` |
+| Autotune binary | `sha256:e43184f084411fdd5568cfe5f6723ed77dbe86064e88d60d15f8af25943cd93e` |
+| Audit binary | `sha256:79354bf0312fc6e32df48fdccf9ac034af56c96b768265fe8ed21aa3a9a9f5d3` |
+| Execution-source digest | `sha256:00ec55fda7a671f46e4335d550199f003c16b5d9d9b1f6d474a842d81e08171b` |
+| Run manifest | `sha256:8feb6a0a4a38eeb6f1bd48db1603228e54c290afef199f29fe42be36e08318ac` |
+
+Configuration validation:
+
+| Property | Result |
+|---|---:|
+| Images / windows | 50 / 200 |
+| Outcome | `SELECTED` |
+| Trials / repairs | 1 / 0 |
+| Selected candidate | `N13 / Q6 / scale26` |
+| Security V2 headroom | 14 bits |
+| Fresh key runs | 3 |
+| Encrypted sample evaluations | 600 |
+| `Vcert / Vamb` | 200 / 0 |
+| Flips / violations | 0 / 0 |
+| Maximum observed error | 0.0125688 |
+| Maximum budget usage | 0.0171418 |
+| Mean / median / p95 per-window total | 750.85 / 716.98 / 942.27 ms |
+
+Locked audit:
+
+| Property | Result |
+|---|---:|
+| Images / windows | 50 / 200 |
+| Candidate identity | byte-identical |
+| Outcome | `LOCKED_AUDIT_PASS` |
+| Fresh key runs | 3 |
+| Encrypted sample evaluations | 600 |
+| `Vcert / Vamb` | 199 / 1 |
+| Flips / violations | 0 / 0 |
+| Maximum observed error | 0.0136456 |
+| Maximum budget usage | 0.0194872 |
+| Mean / median / p95 per-window total | 812.03 / 798.30 / 983.82 ms |
+| Retuning | 0 |
+
+The one audit window within the frozen margin floor remains ambiguous in all
+three key repeats and carries no certification budget. Its plaintext and CKKS
+decisions agree, but it is not counted in `Vcert`.
+
+Frozen evidence:
+
+```text
+docs/evidence/non_tabular_harris_holdout_v1/
+
+manifest:
+sha256:3c0d441dffea891aa90d5ab35635ba8ce26f7fe4fbbf7bc56ff502db3f6fc4ca
+
+summary:
+sha256:9e5989db378b6eef050cd2e90443521851481841ca2af37d1e9dbbedb53bc199
+```
+
+The pack contains all 1,200 window-by-key observations and deterministically
+recomputes the execution-source closure, policy/binary/input bindings, score
+errors, margins, budgets, decisions, flips, violations, and aggregate maxima.
+`paper_claim_allowed` remains false.
+
 ## Reproduction
 
 ```bash
@@ -197,4 +263,6 @@ go run ./cmd/flipguard-harris-audit \
   --source-archive results/source_datasets/bsds500/BSR_bsds500.tgz \
   --extraction-manifest datasets/vision_suite/bsds500/harris_corner_response/extraction_manifest.json \
   --out results/thesis_grade_protocol/non_tabular_harris_holdout_v1/locked_audit.json
+
+python3 scripts/freeze_bsds500_harris_evidence.py --verify
 ```
