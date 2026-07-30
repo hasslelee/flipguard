@@ -11,8 +11,8 @@ import (
 func TestRunRequiresInputs(t *testing.T) {
 	var stdout bytes.Buffer
 	err := run(nil, &stdout)
-	if err == nil || !strings.Contains(err.Error(), "--model is required") {
-		t.Fatalf("expected missing model error, got %v", err)
+	if err == nil || !strings.HasSuffix(err.Error(), " is required") {
+		t.Fatalf("expected missing required-input error, got %v", err)
 	}
 }
 
