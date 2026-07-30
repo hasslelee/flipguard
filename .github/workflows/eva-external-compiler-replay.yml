@@ -60,6 +60,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # SEAL 3.6.4 relies on a transitive <mutex> include that modern GCC
+          # no longer provides. Force-including the standard header preserves
+          # the pinned upstream source bytes and cryptographic semantics.
+          export CXXFLAGS="-include mutex"
           git clone --filter=blob:none \
             https://github.com/microsoft/SEAL.git /tmp/SEAL
           git -C /tmp/SEAL checkout \
@@ -129,7 +133,7 @@ jobs:
           protoc --version > "$out/protoc_version.txt"
           python3 --version > "$out/python_version.txt"
           grep -E \
-            '^(SEAL_USE_GAUSSIAN_NOISE|SEAL_THROW_ON_TRANSPARENT_CIPHERTEXT):' \
+            '^(CMAKE_CXX_FLAGS|SEAL_USE_GAUSSIAN_NOISE|SEAL_THROW_ON_TRANSPARENT_CIPHERTEXT):' \
             /tmp/SEAL/build/CMakeCache.txt \
             > "$out/seal_build_flags.txt"
           git -C /tmp/EVA status --short > "$out/eva_git_status.txt"

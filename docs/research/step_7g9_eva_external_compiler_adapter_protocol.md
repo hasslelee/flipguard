@@ -19,6 +19,11 @@ The adapter runs the actual EVA compiler in isolated CI. It does not port the
 selector formula into FlipGuard. The compiler output is then materialized by
 the pinned `seal::CoeffModulus::Create` implementation.
 
+SEAL 3.6.4 omits a direct `<mutex>` include required by modern GCC. The CI
+build force-includes only that standard header through
+`CXXFLAGS="-include mutex"`; no upstream source byte is patched. The exact
+flag and unchanged upstream Git status are preserved in the replay artifact.
+
 ## Fixed compiler input
 
 - Development workload: seed 0, Iris binary, `linear_poly3`.
