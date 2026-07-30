@@ -100,11 +100,18 @@ def list_artifacts(run_id: int) -> list[dict[str, Any]]:
 def collection_classification(
     missing: set[str],
     workflow_conclusion: str,
+    attack_failures: int,
 ) -> str:
-    if workflow_conclusion == "success" and not missing:
+    if (
+        workflow_conclusion == "success"
+        and not missing
+        and attack_failures == 0
+    ):
         return "COMPLETE_ARTIFACT_COLLECTION"
     if missing:
         return "PRE_ESTIMATOR_IMPLEMENTATION_RECOVERY"
+    if attack_failures:
+        return "PARTIAL_ESTIMATOR_POSTPROCESSING_RECOVERY"
     return "POST_ESTIMATOR_ARTIFACT_FINALIZATION_RECOVERY"
 
 
@@ -169,6 +176,7 @@ def collect(
         (staging / "run_metadata.json").write_bytes(canonical_json(run))
 
         artifact_records = []
+        attack_failures = 0
         for artifact in sorted(artifacts, key=lambda item: item["name"]):
             if artifact["name"] not in EXPECTED_ARTIFACTS:
                 continue
@@ -196,6 +204,22 @@ def collect(
                     "files": files,
                 }
             )
+            result_path = root / "results.json"
+            if result_path.is_file():
+                result = json.loads(
+                    result_path.read_text(encoding="utf-8")
+                )
+                attack_failures += int(
+                    result.get("summary", {}).get(
+                        "attack_failures",
+                        0,
+                    )
+                )
+        if attack_failures and not allow_incomplete:
+            raise ValueError(
+                "estimator attack coverage is incomplete; use "
+                "--allow-incomplete to preserve a recovery run"
+            )
         manifest = {
             "schema_version": (
                 "flipguard_exact_security_estimator_ci_collection_v1"
@@ -209,8 +233,10 @@ def collect(
             "collection_classification": collection_classification(
                 missing,
                 run["conclusion"],
+                attack_failures,
             ),
             "missing_expected_artifacts": sorted(missing),
+            "attack_failures": attack_failures,
             "job_conclusions": {
                 job["name"]: job["conclusion"] for job in run["jobs"]
             },

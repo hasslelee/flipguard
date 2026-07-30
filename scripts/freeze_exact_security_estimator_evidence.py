@@ -35,6 +35,7 @@ RECOVERY_COLLECTION_NAMES = (
     "ci_run_30534037217_recovery",
     "ci_run_30534290032_recovery",
     "ci_run_30534465125_recovery",
+    "ci_run_30535672009_recovery",
 )
 OUTPUT_DEFAULT = (
     REPO_ROOT / "docs/evidence/exact_security_estimator_v1"
@@ -242,6 +243,22 @@ def estimator_object_count(collection: Path) -> int:
     return total
 
 
+def estimator_attack_failure_count(collection: Path) -> int:
+    total = 0
+    for model_id in EXPECTED_MODELS:
+        path = (
+            collection
+            / "artifacts"
+            / f"exact-security-estimator-{model_id}"
+            / "results.json"
+        )
+        if path.is_file():
+            total += int(
+                load_json(path)["summary"]["attack_failures"]
+            )
+    return total
+
+
 def verify_collection(
     collection: Path,
     *,
@@ -270,13 +287,20 @@ def verify_collection(
         if classification not in {
             "PRE_ESTIMATOR_IMPLEMENTATION_RECOVERY",
             "POST_ESTIMATOR_ARTIFACT_FINALIZATION_RECOVERY",
+            "PARTIAL_ESTIMATOR_POSTPROCESSING_RECOVERY",
         }:
             raise ValueError(
                 f"unsupported recovery classification: {classification}"
             )
+        expected_conclusion = (
+            "success"
+            if classification
+            == "PARTIAL_ESTIMATOR_POSTPROCESSING_RECOVERY"
+            else "failure"
+        )
         require_equal(
             manifest["workflow_conclusion"],
-            "failure",
+            expected_conclusion,
             "recovery workflow conclusion",
         )
         if classification == "PRE_ESTIMATOR_IMPLEMENTATION_RECOVERY":
@@ -292,6 +316,10 @@ def verify_collection(
             )
             for path in result_paths(collection).values():
                 VERIFY.verify(path, INPUT_PATH)
+            if estimator_attack_failure_count(collection) == 0:
+                raise ValueError(
+                    "post-estimator recovery has no attack failures"
+                )
     return manifest
 
 
@@ -469,6 +497,10 @@ def freeze(
         estimator_object_count(raw_root / name)
         for name in RECOVERY_COLLECTION_NAMES
     ]
+    recovery_attack_failure_counts = [
+        estimator_attack_failure_count(raw_root / name)
+        for name in RECOVERY_COLLECTION_NAMES
+    ]
     recovery_logs = [
         (raw_root / name / "workflow.log").read_text(encoding="utf-8")
         for name in RECOVERY_COLLECTION_NAMES
@@ -479,6 +511,23 @@ def freeze(
         raise ValueError("second recovery reason is not preserved")
     if "python3: command not found" not in recovery_logs[2]:
         raise ValueError("third recovery reason is not preserved")
+    partial_results = [
+        load_json(path)
+        for path in result_paths(
+            raw_root / RECOVERY_COLLECTION_NAMES[3]
+        ).values()
+    ]
+    if not all(
+        any(
+            "use at most 53 bits"
+            in attack.get("traceback", "")
+            for row in result["objects"]
+            for attack in row["attacks"]
+            if attack["status"] == "FAILED"
+        )
+        for result in partial_results
+    ):
+        raise ValueError("fourth recovery reason is not preserved")
 
     paths = result_paths(complete)
     admissions = static_admission_map()
@@ -514,6 +563,9 @@ def freeze(
         "implementation_recoveries": len(RECOVERY_COLLECTION_NAMES),
         "estimator_objects_in_recoveries": sum(
             recovery_object_counts
+        ),
+        "attack_failures_in_recoveries": sum(
+            recovery_attack_failure_counts
         ),
         "security_policy_modified": False,
         "security_claim": "PARTIALLY_SUPPORTED",
@@ -570,6 +622,7 @@ def freeze(
                     "workflow_conclusion"
                 ],
                 "estimator_objects": recovery_object_counts[index],
+                "attack_failures": recovery_attack_failure_counts[index],
             }
             for index, recovery in enumerate(recovery_manifests)
         ],
@@ -589,10 +642,10 @@ def freeze(
     readme = """# Exact Security Estimator Evidence V1
 
 This pack preserves two pre-estimator CI recoveries, one post-estimator
-artifact-finalization recovery, and the complete guideline-pinned/current
-exact-modulus sensitivity run. Estimator results are joined to Security V2
-Q/QP object admission; excluded objects are not reintroduced into the formal
-candidate set.
+artifact-finalization recovery, one partial post-processing recovery, and the
+complete guideline-pinned/current exact-modulus sensitivity run. Estimator
+results are joined to Security V2 Q/QP object admission; excluded objects are
+not reintroduced into the formal candidate set.
 
 The error sigma is matched, but the estimator does not model Lattigo's
 explicit Gaussian truncation bound. Security remains PARTIALLY_SUPPORTED and
