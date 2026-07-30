@@ -1,7 +1,8 @@
 # Step 7G.5: Actual External-Provider Evidence Boundary
 
-Status: static research-direction audit after the Orion and AWS HIT adapter
-experiments. This document changes no policy, candidate, or frozen evidence.
+Status: static research-direction audit after the Orion, AWS HIT, and
+Microsoft EVA adapter experiments. This document changes no policy,
+candidate, or frozen evidence.
 `paper_claim_allowed=false`.
 
 ## Question
@@ -64,6 +65,39 @@ Evidence:
 - `docs/evidence/hit_external_adapter_replay_v1`;
 - `docs/evidence/hit_external_adapter_rejection_analysis_v1`.
 
+### Microsoft EVA compiler replay
+
+Pinned EVA v1.0.1 source and SEAL v3.6.4 were replayed to compile the
+predeclared seed-0 Iris `linear_poly3` program. The compiler emitted the exact
+ordered three-prime Q chain and one-prime P chain, its compiled DOT graph, and
+a Security-V2-admitted `LogN=14`, `LogQP=240` literal. The default FlipGuard
+lowering could not consume the compiler's three-prime schedule because it
+required seven Q primes, so the first parameter-only adapter stopped before
+encrypted execution.
+
+A second immutable contract bound the same exact literal to the compiler's
+actual scale/level schedule rather than regenerating parameters. The first
+one-row development smoke exposed and preserved a cubic-sign implementation
+bug. After the minimum semantic correction, a clean-source replay completed
+under frozen Lattigo v6.2.0 Xs/Xe but was decision-REJECTED:
+
+- Security V2 admission: PASS;
+- decision flips: 0;
+- budget violations: 1;
+- maximum normalized budget usage: `9.410894423253259`;
+- repair, synthesis, and retuning calls: 0.
+
+The predeclared smoke gate therefore prevented the 14-row formal validation
+and locked audit. This supports source-replayed compiler output and
+schedule-bound fail-closed import. It does not support an encrypted SAFE EVA
+candidate, native EVA/SEAL runtime equivalence, or general external-compiler
+interoperability.
+
+Evidence:
+
+- `docs/evidence/eva_external_adapter_replay_v1`;
+- `docs/evidence/eva_schedule_bound_adapter_replay_v1`.
+
 ## Novelty Consequence
 
 Automatic program lowering, scale management, error-latency optimization,
@@ -78,12 +112,18 @@ provider-neutral finite decision gate:
 5. replay only a selected literal on a disjoint locked audit without
    retuning.
 
-Actual public-provider evidence currently spans one fail-closed static import
-and one lossless but decision-REJECTED encrypted import. Therefore:
+Actual public-provider evidence currently spans Orion fail-closed imports,
+one lossless but decision-REJECTED HIT literal, and one source-compiled,
+schedule-bound but decision-REJECTED EVA literal. Therefore:
 
 - `provider_class_interoperability=PARTIALLY_SUPPORTED`;
 - `lossless_external_literal_import=SUPPORTED`;
+- `actual_eva_compiler_parameter_output=SUPPORTED`;
+- `schedule_bound_external_candidate_import=SUPPORTED`;
+- `general_external_compiler_interoperability=PARTIALLY_SUPPORTED`;
 - `encrypted_external_candidate_certification=BLOCKED`;
+- `locked_audit_external_schedule_replay=NOT_EVALUATED`;
+- `native_eva_seal_runtime_execution=NOT_EVALUATED`;
 - `general_external_autotuner_integration=NOT_EVALUATED`;
 - `external_autotuner_quality=NOT_EVALUATED`;
 - `paper_claim_allowed=false`.
