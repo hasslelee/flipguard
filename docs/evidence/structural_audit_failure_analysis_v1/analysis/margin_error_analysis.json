@@ -1,0 +1,107 @@
+{
+  "analysis_id": "structural_audit_failure_analysis_v1",
+  "analysis_type": "EXPLANATORY_POST_HOC_STATIC_NO_POLICY_CHANGE",
+  "claim_effect": {
+    "candidate_reselection_authorized": false,
+    "locked_audit_result": "24/25 PASS; 1/25 numerical REJECT",
+    "policy_change_authorized": false,
+    "structural_generalization": "PARTIALLY_SUPPORTED"
+  },
+  "digests": {
+    "audit_prepared": "sha256:86b474cc0ec589c5e45b5a74ba0434f2300abe9a87eebae07a96d03c3ee988a4",
+    "audit_result": "sha256:3ad4d089cc6ade9bb21cf4195b7f1fd491a7d10872d320ff17696ace2be6b91c",
+    "audit_source": "sha256:2a2bd06a059445c3585f65c6cea00852b9ccd1c5f93ea948d45375ce10875cd3",
+    "direct_policy": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "model": "sha256:6760bae998b56504742d017fd671a36d3527d0d0df22fc9707c4205ca7019408",
+    "security_policy": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+    "selection_contract": "sha256:01ae407b2f605b37f97a5f0c243127fab20919a5529a4b3f0b96549aa27675b7",
+    "selection_result": "sha256:f652f8184aa22abf5aeab55163a666d5dde904d05b709f3d323de0680e7bf652",
+    "split_manifest": "sha256:fa6b9b88fa5b95a847d2dfd03250f2a7a4aaef6386a60b9352261d29204a6fc0",
+    "validation_prepared": "sha256:bd15357a82c4e54cb24e8bd1197b88f59f9993169091cb3db33cd95ef65c3b8c",
+    "validation_source": "sha256:fa9fc988c7ae5a12765983d70029cdb8de616e35091ba71bb96e27ec9a12f096"
+  },
+  "error_analysis": {
+    "absolute_error_increase_at_population_maximum": true,
+    "audit_min_margin_vs_validation_min_margin_ratio": 1.098497768389908,
+    "cause": "The aggregate audit maximum absolute error increased while the audit minimum margin did not decrease. This supports an aggregate numerical-error-overrun explanation, but the exact offending observation cannot be attributed because per-sample CKKS scores were not persisted.",
+    "margin_decrease_only": false,
+    "sample_level_causal_attribution": "NOT_DETERMINABLE",
+    "selection_to_audit_max_error_ratio": 1.1472196420449041,
+    "selection_to_audit_max_usage_ratio": 1.1927441936918965
+  },
+  "failure_class": "VALIDATION_NEAR_BUDGET_LIMIT_AUDIT_OVERRUN",
+  "margin_analysis": {
+    "audit": {
+      "maximum": 0.16488317020702975,
+      "median": 0.08291288067965968,
+      "minimum": 0.013421993227908047,
+      "p05": 0.02589162982007015,
+      "p25": 0.055933155501136644,
+      "p75": 0.10550323578541929,
+      "p95": 0.13478491567126058,
+      "samples": 207
+    },
+    "failing_sample_outside_validation_margin_distribution": "NOT_DETERMINABLE_WITHOUT_PERSISTED_SAMPLE_ID",
+    "failure_margin_upper_bound": 0.11411022742123238,
+    "possible_rows_using_aggregate_max_error_upper_bound": 190,
+    "row_id_overlap": 0,
+    "rows_compatible_with_exact_max_usage_and_max_error_bound": 174,
+    "same_row_in_validation": false,
+    "validation": {
+      "maximum": 0.14135386657760035,
+      "median": 0.08174789765999568,
+      "minimum": 0.012218498402214284,
+      "p05": 0.026959751718124127,
+      "p25": 0.05798050395565679,
+      "p75": 0.10221162556019836,
+      "p95": 0.12512767502039682,
+      "samples": 205
+    }
+  },
+  "no_flip_explanation": {
+    "alpha": 0.5,
+    "budget_violation_threshold_usage": 1.0,
+    "decision_flip_requires_usage_at_least": 2.0,
+    "explanation": "The protected error budget is alpha times the decision margin. With alpha=0.5, a budget violation starts at usage 1, while crossing the threshold requires usage at least 2. The observed maximum usage was below 2, so the numerical certificate could reject without any decision flip.",
+    "observed_max_usage": 1.122737288611133
+  },
+  "observation_accounting": {
+    "all_three_key_aggregate": false,
+    "audit_samples": 207,
+    "key_repeat_identity": "NOT_RECORDED_IN_EXECUTION_ARTIFACT",
+    "key_repeats": 3,
+    "one_key_repeat_only": true,
+    "one_sample_only": true,
+    "sample_identity": "NOT_RECORDED_IN_EXECUTION_ARTIFACT",
+    "sample_key_observations": 621,
+    "violating_observations": 1,
+    "violation_scope": "EXACTLY_ONE_SAMPLE_KEY_REPEAT_OBSERVATION"
+  },
+  "preserved_result": {
+    "audit_flips": 0,
+    "audit_max_error": 0.06405790366885711,
+    "audit_max_usage": 1.122737288611133,
+    "audit_status": "REJECTED",
+    "audit_violations": 1,
+    "policy_modification_after_audit": 0,
+    "retuning": false,
+    "selection_flips": 0,
+    "selection_max_error": 0.055837523453377,
+    "selection_max_usage": 0.9413060189678464,
+    "selection_status": "SAFE",
+    "selection_violations": 0
+  },
+  "recording_limit": {
+    "aggregate_counts_persisted": true,
+    "future_instrumentation_note": "Persist sample/key observations in future protocols before execution; do not reconstruct or rerun this frozen audit.",
+    "per_key_errors_persisted": false,
+    "per_sample_ckks_scores_persisted": false
+  },
+  "schema_version": 1,
+  "workload": {
+    "candidate_literal": "synth_analysis_minimum_rescale_N14_Q10_S22_01ae407b2f60",
+    "dataset": "banknote",
+    "model": "mlp_square_poly3",
+    "seed": 4
+  }
+}
