@@ -1,0 +1,60 @@
+{
+  "policy": {
+    "ckks_protocol": {
+      "alpha": 0.5,
+      "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+      "key_repeats_audit": 3,
+      "key_repeats_selection": 3,
+      "margin_floor": 0.001,
+      "maximum_encrypted_trials": 4,
+      "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055"
+    },
+    "datasets": [
+      "iris_binary",
+      "wdbc",
+      "digits_binary"
+    ],
+    "model": {
+      "activation": "square",
+      "beta1": 0.9,
+      "beta2": 0.999,
+      "decision_threshold": 0.5,
+      "epochs": 3000,
+      "epsilon": 1e-08,
+      "hidden_units": 4,
+      "initialization": "numpy_pcg64_declared_training_seed",
+      "l2_penalty": 0.0001,
+      "learning_rate": 0.01,
+      "max_training_scaled_logit": 1.0,
+      "model_id": "mlp_square_linear_score",
+      "model_type": "mlp_square_linear_score",
+      "optimizer": "full_batch_adam",
+      "score_formula": "0.5 + 0.197*z"
+    },
+    "policy_id": "flipguard_independent_training_seed_v1",
+    "preprocessing": {
+      "feature_rank": "absolute_train_pearson_then_source_index_v1",
+      "fit_scope": "model_training_only",
+      "maximum_features": 8,
+      "standardization": "population_mean_std_zero_safe_v1"
+    },
+    "role_assignment": {
+      "algorithm": "sha256_stratified_rank_v1",
+      "domain": "flipguard_independent_training_seed_v1",
+      "evaluation_fraction_per_label": 0.2,
+      "maximum_rows_per_label_per_evaluation_role": 48,
+      "role_order": [
+        "configuration_validation",
+        "locked_audit",
+        "model_training"
+      ]
+    },
+    "schema_version": "flipguard_independent_training_seed_suite_v1",
+    "training_seeds": [
+      1729,
+      2718,
+      3141
+    ]
+  },
+  "policy_digest": "sha256:e9353654e5ec899fc91ce70e8dd501905b95973bcb8493cc1d27f3ffc77af1cb"
+}

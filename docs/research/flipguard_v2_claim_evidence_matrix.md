@@ -14,18 +14,19 @@ Core contribution:
 
 | Claim | State | paper_claim_allowed | Current evidence | Block reason / required evidence |
 |---|---|---:|---|---|
-| Direct synthesis | SUPPORTED | false | Final clean-source selection covers 50 primary instances; separate BSDS500 Sobel, Harris, and MNIST CNN-lite adapters also synthesize and select without catalog lookup | Paper admission remains pending; scope is the declared adapters only |
+| Direct synthesis | SUPPORTED | false | Final clean-source selection covers 50 primary instances; nine newly trained models across three declared training/data-split seeds select without catalog lookup; separate BSDS500 Sobel, Harris, and MNIST CNN-lite adapters also synthesize and select | Paper admission remains pending; scope is the declared models and adapters only |
 | Adaptive repair | PARTIALLY_SUPPORTED | false | Primary confirmatory results and the Sobel holdout preserve bounded REJECTED-to-SAFE repairs; Sobel required exactly the frozen `+4` numerical repair, while Harris selected one-shot | Predeclared graph-only/one-shot/full ablation is incomplete |
 | Decision-integrity certification | PARTIALLY_SUPPORTED | false | Final finite-set candidate certificates, negative controls, locked audits, and sample-level Sobel, Harris, and MNIST CNN-lite ledgers are verified | This remains observed finite-scope evidence, not a domain-wide analytical bound |
 | Trial reduction | SUPPORTED | false | Final direct accounting uses 70/700 all instances and 56/560 confirmatory instances, both 90% fewer candidate trials than the Security V2 bounded catalog | Paper admission remains pending |
 | Security-compliant bounded catalog comparison | SUPPORTED | false | V2 formal comparison uses only 700 admitted candidates; 400 excluded executions remain historical; paired arms are frozen | The result is bounded-catalog, never global-optimum evidence |
 | Latency speedup | PARTIALLY_SUPPORTED | false | Final paired pack has 50/50 rows; clustered direct/catalog total-latency ratio is 3.14x with all frozen arms | Within-workload timing variability and manual paper admission remain |
 | Security | PARTIALLY_SUPPORTED | false | Q and QP are separately checked against published Table 5.2; direct 50/50 PASS, four catalog profiles excluded | Exact estimator inputs are exported but exact estimation is NOT RUN; no universal security claim |
-| Locked audit on fixed held-out partitions | SUPPORTED | false | Primary final audits pass without retuning; deeper `mlp_square_poly3` preserves 24/25 PASS plus one disclosed REJECT; BSDS500 Sobel/Harris and MNIST CNN-lite pass on their disjoint locked-audit inputs | Support is limited to the declared repeated partitions and graph/input scopes |
+| Locked audit on fixed held-out partitions | SUPPORTED | false | Primary final audits pass without retuning; nine independently trained model instances pass 9/9 on disjoint audit roles; deeper `mlp_square_poly3` preserves 24/25 PASS plus one disclosed REJECT; BSDS500 Sobel/Harris and MNIST CNN-lite pass on their disjoint locked-audit inputs | Support is limited to the declared repeated partitions, training seeds, and graph/input scopes |
+| Training/model-seed generalization | PARTIALLY_SUPPORTED | false | Three datasets x three predeclared independent training/data-split seeds produce nine distinct trained models; direct selection and byte-identical audit replay pass 9/9 with no retuning | Three datasets and three seeds cannot establish universal training-seed or model generalization |
 | Structural generalization | PARTIALLY_SUPPORTED | false | Full `mlp_square_poly3` selection is 25/25 with audit 24 PASS and 1 numerical REJECT; BSDS500 Sobel and depth-2 Harris pass selection/audit over 50+50 image clusters; scalar-replicated MNIST CNN-lite passes on 250+250 disjoint images | Arbitrary graphs, packed CNN/full-image operators, general LeNet, and universal graph support remain unevaluated |
 | Conditional analytical claim | BLOCKED | false | Scope metadata and primitive placeholders exist | No sound primitive CKKS residual derivation or observed-versus-bound audit |
 | Planner baseline | PARTIALLY_SUPPORTED | false | Legacy catalog-pruning baseline has zero false NO_SAFE and low regret but low SAFE/optimum recall | It is not the primary contribution and cannot substitute for direct synthesis |
-| Artifact reproducibility | PARTIALLY_SUPPORTED | false | Final confirmatory, Sobel, Harris, and MNIST CNN-lite packs have deterministic rebuild verifiers, raw ledgers, policy/binary/input digests, and pushed source commits | Release tag, external archive, and independent-machine replay remain |
+| Artifact reproducibility | PARTIALLY_SUPPORTED | false | Final confirmatory, Sobel, Harris, MNIST CNN-lite, and independent-training-seed packs have deterministic rebuild verifiers, raw ledgers, policy/binary/input digests, and pushed source commits | Nine overwritten pre-CKKS recovery logs are disclosed; release tag, external archive, and independent-machine replay remain |
 
 ## Evaluation Units
 
@@ -38,6 +39,10 @@ Core contribution:
 - Do not call these 50 independent workloads, models, or dataset splits.
 - Inferential summaries must cluster by dataset-model; repeated partitions do
   not establish training-seed or model generalization.
+- The separate training-seed extension contains nine newly trained models
+  across three datasets and three predeclared seeds. It is reported as a
+  scoped robustness extension, not as nine independent datasets or universal
+  model-seed generalization.
 
 ## Policy Freeze
 

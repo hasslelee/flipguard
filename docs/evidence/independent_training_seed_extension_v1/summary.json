@@ -1,0 +1,65 @@
+{
+  "claim_limits": [
+    "no universal training-seed robustness claim",
+    "no independent-dataset inference from nine rows",
+    "no bounded-catalog or global-optimum claim",
+    "no packed inference claim",
+    "no model-accuracy improvement claim"
+  ],
+  "instances": 9,
+  "locked_audit": {
+    "encrypted_sample_evaluations": 1854,
+    "failed": 0,
+    "flips": 0,
+    "key_runs": 27,
+    "maximum_budget_usage": 0.3386803280520625,
+    "maximum_error": 0.0006760616548230902,
+    "pass": 9,
+    "rejected": 0,
+    "retuning": 0,
+    "v_amb": 31,
+    "v_cert": 587,
+    "violations": 0
+  },
+  "paper_claim_allowed": false,
+  "paper_claim_block_reason": "three datasets and three declared seeds do not establish universal training-seed or model generalization",
+  "recoveries": {
+    "encrypted_selection_reruns": 0,
+    "numeric_to_string_manifest_views": 9,
+    "overwritten_attempt1_parser_failure_logs": 9,
+    "post_result_accounting": 1,
+    "preserved_pre_ckks_parser_failure_logs": 18,
+    "semantic_split_changes": 0,
+    "successful_logs_reusing_attempt1_paths": 9
+  },
+  "schema_version": "flipguard_independent_training_seed_evidence_v1",
+  "scope": "three datasets x three independent training/data-split seeds for mlp_square_linear_score",
+  "security": {
+    "admitted": 9,
+    "inadmissible": 0,
+    "minimum_headroom_bits": 61
+  },
+  "selection": {
+    "encrypted_sample_evaluations": 1854,
+    "flips": 0,
+    "key_runs": 27,
+    "maximum_budget_usage": 0.19678292512898402,
+    "maximum_error": 0.00039069471118119425,
+    "no_safe": 0,
+    "repairs": 0,
+    "selected": 9,
+    "trials": 9,
+    "v_amb": 43,
+    "v_cert": 575,
+    "violations": 0
+  },
+  "static_preflight": {
+    "candidate_id_identical": 0,
+    "candidate_id_representation_changes": 9,
+    "literal_parameters_identical": 9,
+    "reason": "candidate IDs bind the prepared-contract path; selection literals retain identical CKKS parameters and Security V2 facts"
+  },
+  "status": "SUPPORTED",
+  "trained_model_digests": 9,
+  "training_seed_generalization": "PARTIALLY_SUPPORTED"
+}
