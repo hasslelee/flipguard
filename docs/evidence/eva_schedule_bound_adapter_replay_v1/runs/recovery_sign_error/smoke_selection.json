@@ -1,0 +1,254 @@
+{
+  "schema_version": 1,
+  "validation_contract": {
+    "schema_version": 2,
+    "workload_id": "split_seed_0/iris_binary/linear_poly3",
+    "dataset_id": "iris_binary",
+    "model_id": "linear_poly3",
+    "model_type": "linear_poly3",
+    "split_id": "split_seed_0",
+    "model_artifact": {
+      "path": "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+      "sha256": "sha256:9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1"
+    },
+    "validation_data": {
+      "path": "/home/ckks2/flipguard/results/thesis_grade_protocol/eva_schedule_bound_adapter_v1/run_441af726/smoke_validation.csv",
+      "sha256": "sha256:e2a4a70856905abd06e509d1bfab3299a097d817e68a2a560a5d0e628c89a44d"
+    },
+    "graph": {
+      "multiplicative_depth": 2,
+      "add_ops": 4,
+      "mul_ops": 6,
+      "rot_ops": 0,
+      "rescale_ops": 2,
+      "notes": [
+        "derived from the exact tabular plaintext DAG",
+        "rescale count is the maximum multiplicative path depth"
+      ]
+    },
+    "decision": {
+      "threshold": 0.5,
+      "margin_floor": 0.001,
+      "safety_factor": 0.5,
+      "protected_margin": 0.09405884955299998,
+      "output_error_budget": 0.04702942477649999,
+      "validation_digest": "sha256:c7ae4aca33a714d377cdb0021f215456d78a1721166bf2e6b4eac4a084e646ac",
+      "validation_samples": 1,
+      "certifiable_samples": 1,
+      "ambiguous_samples": 0
+    },
+    "calibration": {
+      "max_input_abs": 0.889787833466,
+      "max_plaintext_output_abs": 0.405941150447,
+      "aggregate_sensitivity": 2.5539094818356864,
+      "sensitivity_method": "empirical_interval_dag_sum_v1",
+      "calibration_scope": "observed_validation_artifact:sha256:e2a4a70856905abd06e509d1bfab3299a097d817e68a2a560a5d0e628c89a44d"
+    },
+    "deployment": {
+      "security_bits": 128,
+      "required_slots": 1,
+      "max_encrypted_trials": 4,
+      "validation_key_repeats": 1,
+      "packing_strategy": "scalar_replicated_per_ciphertext_v1",
+      "allowed_paths": [
+        "rescale"
+      ],
+      "scale_trace_method": "lattigo_v6_rescale_scale_trace_v1",
+      "rescale_levels_consumed": 6,
+      "terminal_scale_exponent": 1,
+      "required_q_primes": 7
+    }
+  },
+  "bound_candidate": {
+    "schema_version": 1,
+    "request": {
+      "schema_version": 3,
+      "provider_kind": "external_autotuner",
+      "provider_id": "microsoft_eva_v1.0.1_seal3.6.4_schedule_replay_v1",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 14,
+        "q": [
+          1152921504605962241,
+          1152921504606584833,
+          1152921504606683137
+        ],
+        "p": [
+          1152921504606748673
+        ],
+        "log_default_scale": 20
+      },
+      "execution_schedule": {
+        "schema_version": 1,
+        "schedule_id": "microsoft_eva_v1.0.1_iris_linear_poly3_scalar_v1",
+        "contract_artifact": {
+          "path": "experiments/eva_schedule_bound_adapter_v1/execution_schedule.json",
+          "sha256": "sha256:e69ec06e57e7a2833eedea2d455a8192d03cf2884e1b4090284d43c03326cc6b"
+        }
+      }
+    },
+    "source_artifact": {
+      "path": "experiments/eva_schedule_bound_adapter_v1/candidate_request.json",
+      "sha256": "sha256:5f14244bdc21b0b99ad5d77bb0d4e49e6582a3d8deab19b6805f55678d8e1d95"
+    },
+    "contract_digest": "sha256:a9ecf886f19543350d9acadfb3ddd2ab38773a27cab3f6d9719412f2c6094b4d",
+    "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+    "policy_retuning": 0,
+    "candidate": {
+      "id": "provider_external_autotuner_de8d82905e8b2578",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 14,
+        "q": [
+          1152921504605962241,
+          1152921504606584833,
+          1152921504606683137
+        ],
+        "p": [
+          1152921504606748673
+        ],
+        "log_default_scale": 20
+      },
+      "security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 240,
+        "max_allowed_log_qp": 430,
+        "headroom_bits": 190,
+        "admission_status": "PASS",
+        "measurement": "ceil_log2_concrete_modulus_product",
+        "log_q": 180,
+        "log_p": 60,
+        "log_qp": 240,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 250,
+        "evaluation_key_headroom_bits": 190,
+        "admission_reason": "concrete ciphertext Q and evaluation-key QP products are within the conservative Table 5.2 cap"
+      },
+      "required_rescale_levels": 2,
+      "level_guard": 0,
+      "precision_target_bits": 20,
+      "message_magnitude_bits": 0,
+      "analysis_scale_bits": 0,
+      "backend_scale_lift_bits": 0,
+      "backend_validation_attempts": 0,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 0,
+      "generation_kind": "provider_import_external_autotuner",
+      "reason": "exact literal imported from external_autotuner provider microsoft_eva_v1.0.1_seal3.6.4_schedule_replay_v1; SAFE requires encrypted validation"
+    },
+    "execution_schedule": {
+      "schema_version": 1,
+      "schedule_id": "microsoft_eva_v1.0.1_iris_linear_poly3_scalar_v1",
+      "adapter_id": "external_schedule:microsoft_eva_v1.0.1_linear_poly3_scalar_v1",
+      "contract_artifact": {
+        "path": "experiments/eva_schedule_bound_adapter_v1/execution_schedule.json",
+        "sha256": "sha256:e69ec06e57e7a2833eedea2d455a8192d03cf2884e1b4090284d43c03326cc6b"
+      },
+      "compiled_program": {
+        "path": "docs/evidence/eva_external_adapter_replay_v1/run/compiled_program.dot",
+        "sha256": "sha256:3c5ec469e692ea17dd413180c6c37c5042ef7bb5bfedd968d19447242fd72bca"
+      },
+      "compiler_output": {
+        "path": "docs/evidence/eva_external_adapter_replay_v1/run/compiler_output.json",
+        "sha256": "sha256:605cc94bb1df230f9d58b1cbbeb66a26d11b6ae44ed4ad46dfca0925cd711dea"
+      },
+      "required_q_primes": 3,
+      "rescale_levels": 2,
+      "input_scale_bits": 20,
+      "output_scale_bits": 20,
+      "policy_retuning": 0
+    }
+  },
+  "outcome": "NO_SAFE",
+  "reason": "bound provider candidate was not certified SAFE",
+  "trials_used": 1,
+  "encrypted_key_runs": 1,
+  "trial": {
+    "trial_index": 1,
+    "candidate": {
+      "id": "provider_external_autotuner_de8d82905e8b2578",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 14,
+        "q": [
+          1152921504605962241,
+          1152921504606584833,
+          1152921504606683137
+        ],
+        "p": [
+          1152921504606748673
+        ],
+        "log_default_scale": 20
+      },
+      "security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 240,
+        "max_allowed_log_qp": 430,
+        "headroom_bits": 190,
+        "admission_status": "PASS",
+        "measurement": "ceil_log2_concrete_modulus_product",
+        "log_q": 180,
+        "log_p": 60,
+        "log_qp": 240,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 250,
+        "evaluation_key_headroom_bits": 190,
+        "admission_reason": "concrete ciphertext Q and evaluation-key QP products are within the conservative Table 5.2 cap"
+      },
+      "required_rescale_levels": 2,
+      "level_guard": 0,
+      "precision_target_bits": 20,
+      "message_magnitude_bits": 0,
+      "analysis_scale_bits": 0,
+      "backend_scale_lift_bits": 0,
+      "backend_validation_attempts": 0,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 0,
+      "generation_kind": "provider_import_external_autotuner",
+      "reason": "exact literal imported from external_autotuner provider microsoft_eva_v1.0.1_seal3.6.4_schedule_replay_v1; SAFE requires encrypted validation"
+    },
+    "status": "REJECTED",
+    "assurance": "NONE",
+    "reason": "rejected on V_cert: decision_flips=1 error_violations=1",
+    "failure_signal": "NUMERICAL_REJECT",
+    "key_repeats_requested": 1,
+    "key_repeats_completed": 1,
+    "success_runs": 1,
+    "decision_flips": 1,
+    "error_violations": 1,
+    "max_observed_error": 0.29333100506227044,
+    "max_error_budget_usage": 6.237180370720678,
+    "v_cert": 1,
+    "v_amb": 0,
+    "mean_total_ms": 113.688253,
+    "median_total_ms": 113.688253,
+    "p95_total_ms": 113.688253,
+    "encrypted_sample_evaluations": 1,
+    "sample_ledger": [
+      {
+        "schema_version": 2,
+        "sample_id": "1",
+        "key_repeat": 1,
+        "plaintext_score": 0.405941150447,
+        "ckks_score": 0.6992721555092705,
+        "threshold": 0.5,
+        "decision_margin": 0.09405884955299998,
+        "error_budget": 0.04702942477649999,
+        "absolute_error": 0.29333100506227044,
+        "normalized_budget_usage": 6.237180370720678,
+        "certifiable": true,
+        "plaintext_decision": false,
+        "ckks_decision": true,
+        "decision_flip": true,
+        "error_violation": true
+      }
+    ]
+  }
+}

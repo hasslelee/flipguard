@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "schedule_id": "microsoft_eva_v1.0.1_iris_linear_poly3_scalar_v1",
+  "adapter_id": "external_schedule:microsoft_eva_v1.0.1_linear_poly3_scalar_v1",
+  "provider_id": "microsoft_eva_v1.0.1_seal3.6.4_schedule_replay_v1",
+  "workload_id": "split_seed_0/iris_binary/linear_poly3",
+  "model_type": "linear_poly3",
+  "model_artifact_sha256": "sha256:9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1",
+  "score_formula": "0.5 + 0.197*z - 0.004*z^3",
+  "compiled_program": {
+    "path": "docs/evidence/eva_external_adapter_replay_v1/run/compiled_program.dot",
+    "sha256": "sha256:3c5ec469e692ea17dd413180c6c37c5042ef7bb5bfedd968d19447242fd72bca"
+  },
+  "compiler_output": {
+    "path": "docs/evidence/eva_external_adapter_replay_v1/run/compiler_output.json",
+    "sha256": "sha256:605cc94bb1df230f9d58b1cbbeb66a26d11b6ae44ed4ad46dfca0925cd711dea"
+  },
+  "parameters": {
+    "log_n": 14,
+    "q": [
+      1152921504605962241,
+      1152921504606584833,
+      1152921504606683137
+    ],
+    "p": [
+      1152921504606748673
+    ],
+    "log_default_scale": 20
+  },
+  "input_scale_bits": 20,
+  "output_scale_bits": 20,
+  "required_q_primes": 3,
+  "rescale_levels": 2,
+  "packing_strategy": "scalar_replicated_per_ciphertext_v1",
+  "retuning": 0
+}
