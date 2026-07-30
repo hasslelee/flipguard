@@ -122,6 +122,14 @@ class RunIndependentTrainingSeedExtensionTest(unittest.TestCase):
             converted["locked_audit_test"]["csv_digest"],
         )
 
+    def test_resume_logs_use_distinct_epoch_namespace(self) -> None:
+        root = Path("/tmp/run")
+        state = {"resume_records": [{}, {}]}
+        self.assertEqual(
+            root / "audit/logs/tag.resume2.log",
+            MODULE.resume_log_base(root, state, "audit", "tag"),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

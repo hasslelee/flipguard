@@ -555,6 +555,21 @@ def execute_with_retries(
     return False, 3, last_error
 
 
+def resume_log_base(
+    run_root: Path,
+    state: dict[str, Any],
+    stage: str,
+    tag: str,
+) -> Path:
+    epoch = len(state.get("resume_records", []))
+    return (
+        run_root
+        / stage
+        / "logs"
+        / f"{tag}.resume{epoch}.log"
+    )
+
+
 def validate_selection_result(result: dict[str, Any]) -> str:
     plan = result["plan"]
     if plan["direct_policy_digest"] != DIRECT_POLICY_DIGEST or \
@@ -752,7 +767,12 @@ def execute_extension(
                 ]
                 success, attempts, detail = execute_with_retries(
                     command,
-                    run_root / "selection/logs" / f"{tag}.log",
+                    resume_log_base(
+                        run_root,
+                        state,
+                        "selection",
+                        tag,
+                    ),
                 )
                 if not success:
                     workload["selection"] = {
@@ -886,7 +906,12 @@ def execute_extension(
             ]
             success, attempts, detail = execute_with_retries(
                 command,
-                run_root / "audit/logs" / f"{tag}.log",
+                resume_log_base(
+                    run_root,
+                    state,
+                    "audit",
+                    tag,
+                ),
             )
             if not success:
                 workload["locked_audit"] = {
