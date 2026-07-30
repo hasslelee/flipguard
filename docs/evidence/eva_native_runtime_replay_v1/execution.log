@@ -1,0 +1,1452 @@
+EXECUTION_RUN=30563021551
+replay	Set up job	﻿2026-07-30T16:47:06.3475506Z Current runner version: '2.336.0'
+replay	Set up job	2026-07-30T16:47:06.3499201Z ##[group]Runner Image Provisioner
+replay	Set up job	2026-07-30T16:47:06.3500234Z Hosted Compute Agent
+replay	Set up job	2026-07-30T16:47:06.3500855Z Version: 20260707.563
+replay	Set up job	2026-07-30T16:47:06.3501524Z Commit: 02667638d2b423fbc733a8e32a88b44996a3ba6e
+replay	Set up job	2026-07-30T16:47:06.3502258Z Build Date: 2026-07-07T19:33:50Z
+replay	Set up job	2026-07-30T16:47:06.3502955Z Worker ID: {51fa0b3a-356c-4fda-8e0e-0794a54b1de0}
+replay	Set up job	2026-07-30T16:47:06.3503725Z Azure Region: westus2
+replay	Set up job	2026-07-30T16:47:06.3504312Z ##[endgroup]
+replay	Set up job	2026-07-30T16:47:06.3505670Z ##[group]Operating System
+replay	Set up job	2026-07-30T16:47:06.3506426Z Ubuntu
+replay	Set up job	2026-07-30T16:47:06.3506966Z 22.04.5
+replay	Set up job	2026-07-30T16:47:06.3507525Z LTS
+replay	Set up job	2026-07-30T16:47:06.3508278Z ##[endgroup]
+replay	Set up job	2026-07-30T16:47:06.3508854Z ##[group]Runner Image
+replay	Set up job	2026-07-30T16:47:06.3509860Z Image: ubuntu-22.04
+replay	Set up job	2026-07-30T16:47:06.3510448Z Version: 20260720.234.2
+replay	Set up job	2026-07-30T16:47:06.3511516Z Included Software: https://github.com/actions/runner-images/blob/ubuntu22/20260720.234/images/ubuntu/Ubuntu2204-Readme.md
+replay	Set up job	2026-07-30T16:47:06.3513300Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu22%2F20260720.234
+replay	Set up job	2026-07-30T16:47:06.3514334Z ##[endgroup]
+replay	Set up job	2026-07-30T16:47:06.3515462Z ##[group]GITHUB_TOKEN Permissions
+replay	Set up job	2026-07-30T16:47:06.3517547Z Contents: read
+replay	Set up job	2026-07-30T16:47:06.3518451Z Metadata: read
+replay	Set up job	2026-07-30T16:47:06.3519038Z ##[endgroup]
+replay	Set up job	2026-07-30T16:47:06.3521089Z Secret source: Actions
+replay	Set up job	2026-07-30T16:47:06.3522193Z Prepare workflow directory
+replay	Set up job	2026-07-30T16:47:06.3852240Z Prepare all required actions
+replay	Set up job	2026-07-30T16:47:06.3923680Z Getting action download info
+replay	Set up job	2026-07-30T16:47:06.7381334Z Download action repository 'actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd' (SHA:93cb6efe18208431cddfb8368fd83d5badbf9bfd)
+replay	Set up job	2026-07-30T16:47:06.8718546Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+replay	Set up job	2026-07-30T16:47:07.0855598Z Complete job name: replay
+replay	Check out exact FlipGuard source	﻿2026-07-30T16:47:07.1640422Z ##[group]Run actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1641471Z with:
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1641944Z   ref: 4611ae2bedcc92e69d8eb22539f64b429a137d4f
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1642549Z   persist-credentials: false
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1643070Z   repository: hasslelee/flipguard
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1646751Z   token: ***
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1647185Z   ssh-strict: true
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1647607Z   ssh-user: git
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1648214Z   clean: true
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1648644Z   sparse-checkout-cone-mode: true
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1649146Z   fetch-depth: 1
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1649557Z   fetch-tags: false
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1649982Z   show-progress: true
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1650408Z   lfs: false
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1650800Z   submodules: false
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1651220Z   set-safe-directory: true
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.1651924Z ##[endgroup]
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.2682649Z Syncing repository: hasslelee/flipguard
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.2684465Z ##[group]Getting Git version info
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.2685286Z Working directory is '/home/runner/work/flipguard/flipguard'
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.2687037Z [command]/usr/bin/git version
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.2771643Z git version 2.54.0
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.2828745Z ##[endgroup]
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.2844227Z Temporarily overriding HOME='/home/runner/work/_temp/a8e42684-cbcf-4e02-9488-b3720d2c0ca1' before making global git config changes
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.2846492Z Adding repository directory to the temporary git global config as a safe directory
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.2850577Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/flipguard/flipguard
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.2889357Z Deleting the contents of '/home/runner/work/flipguard/flipguard'
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.2894041Z ##[group]Initializing the repository
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.2899670Z [command]/usr/bin/git init /home/runner/work/flipguard/flipguard
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.2999064Z hint: Using 'master' as the name for the initial branch. This default branch name
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3000958Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3003103Z hint: to use in all of your new repositories, which will suppress this warning,
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3004585Z hint: call:
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3005524Z hint:
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3006546Z hint: 	git config --global init.defaultBranch <name>
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3007796Z hint:
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3009235Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3011121Z hint: 'development'. The just-created branch can be renamed via this command:
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3013814Z hint:
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3014800Z hint: 	git branch -m <name>
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3015762Z hint:
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3016929Z hint: Disable this message with "git config set advice.defaultBranchName false"
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3018992Z Initialized empty Git repository in /home/runner/work/flipguard/flipguard/.git/
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3022218Z [command]/usr/bin/git remote add origin https://github.com/hasslelee/flipguard
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3050976Z ##[endgroup]
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3052301Z ##[group]Disabling automatic garbage collection
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3055666Z [command]/usr/bin/git config --local gc.auto 0
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3090105Z ##[endgroup]
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3091407Z ##[group]Setting up auth
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3098519Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3143203Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3508353Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3550764Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3801380Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.3836126Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.4081692Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.4120861Z ##[endgroup]
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.4121884Z ##[group]Fetching the repository
+replay	Check out exact FlipGuard source	2026-07-30T16:47:07.4130007Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 4611ae2bedcc92e69d8eb22539f64b429a137d4f
+replay	Check out exact FlipGuard source	2026-07-30T16:47:08.6906207Z From https://github.com/hasslelee/flipguard
+replay	Check out exact FlipGuard source	2026-07-30T16:47:08.6910295Z  * branch            4611ae2bedcc92e69d8eb22539f64b429a137d4f -> FETCH_HEAD
+replay	Check out exact FlipGuard source	2026-07-30T16:47:08.6936161Z ##[endgroup]
+replay	Check out exact FlipGuard source	2026-07-30T16:47:08.6938111Z ##[group]Determining the checkout info
+replay	Check out exact FlipGuard source	2026-07-30T16:47:08.6940010Z ##[endgroup]
+replay	Check out exact FlipGuard source	2026-07-30T16:47:08.6946115Z [command]/usr/bin/git sparse-checkout disable
+replay	Check out exact FlipGuard source	2026-07-30T16:47:08.6995618Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+replay	Check out exact FlipGuard source	2026-07-30T16:47:08.7031440Z ##[group]Checking out the ref
+replay	Check out exact FlipGuard source	2026-07-30T16:47:08.7034354Z [command]/usr/bin/git checkout --progress --force 4611ae2bedcc92e69d8eb22539f64b429a137d4f
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1647713Z Note: switching to '4611ae2bedcc92e69d8eb22539f64b429a137d4f'.
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1649632Z
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1650456Z You are in 'detached HEAD' state. You can look around, make experimental
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1652370Z changes and commit them, and you can discard any commits you make in this
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1654287Z state without impacting any branches by switching back to a branch.
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1655419Z
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1655833Z If you want to create a new branch to retain commits you create, you may
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1656713Z do so (now or later) by using -c with the switch command. Example:
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1657203Z
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1657481Z   git switch -c <new-branch-name>
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1658389Z
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1658641Z Or undo this operation with:
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1658969Z
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1659164Z   git switch -
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1659433Z
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1659859Z Turn off this advice by setting config variable advice.detachedHead to false
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1660456Z
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1660767Z HEAD is now at 4611ae2 Harden EVA native replay provenance
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1674911Z ##[endgroup]
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1731123Z [command]/usr/bin/git log -1 --format=%H
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1760509Z 4611ae2bedcc92e69d8eb22539f64b429a137d4f
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1774262Z ##[group]Removing auth
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1775530Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.1813767Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.2071013Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.2098983Z http.https://github.com/.extraheader
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.2106401Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.2140583Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.2389572Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.2423210Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+replay	Check out exact FlipGuard source	2026-07-30T16:47:09.2666689Z ##[endgroup]
+replay	Verify source identity and native contract	﻿2026-07-30T16:47:09.2884607Z ##[group]Run set -euo pipefail
+replay	Verify source identity and native contract	2026-07-30T16:47:09.2885064Z [36;1mset -euo pipefail[0m
+replay	Verify source identity and native contract	2026-07-30T16:47:09.2885395Z [36;1mtest "$(git rev-parse HEAD)" = \[0m
+replay	Verify source identity and native contract	2026-07-30T16:47:09.2885808Z [36;1m  "4611ae2bedcc92e69d8eb22539f64b429a137d4f"[0m
+replay	Verify source identity and native contract	2026-07-30T16:47:09.2886229Z [36;1mpython3 scripts/verify_eva_native_runtime.py[0m
+replay	Verify source identity and native contract	2026-07-30T16:47:09.3005406Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+replay	Verify source identity and native contract	2026-07-30T16:47:09.3005991Z ##[endgroup]
+replay	Verify source identity and native contract	2026-07-30T16:47:09.3475234Z {
+replay	Verify source identity and native contract	2026-07-30T16:47:09.3476466Z   "contract_sha256": "sha256:832f4c9a2c846595bf53cf33da68aa5a034e015e4c9353c0767ce73d6dcd6df3",
+replay	Verify source identity and native contract	2026-07-30T16:47:09.3477476Z   "contract_status": "PREDECLARED_BEFORE_NATIVE_ENCRYPTED_EXECUTION",
+replay	Verify source identity and native contract	2026-07-30T16:47:09.3478424Z   "paper_claim_allowed": false
+replay	Verify source identity and native contract	2026-07-30T16:47:09.3478873Z }
+replay	Install build dependencies	﻿2026-07-30T16:47:09.3555895Z ##[group]Run set -euo pipefail
+replay	Install build dependencies	2026-07-30T16:47:09.3556287Z [36;1mset -euo pipefail[0m
+replay	Install build dependencies	2026-07-30T16:47:09.3556583Z [36;1msudo apt-get update[0m
+replay	Install build dependencies	2026-07-30T16:47:09.3556955Z [36;1msudo apt-get install -y --no-install-recommends \[0m
+replay	Install build dependencies	2026-07-30T16:47:09.3557357Z [36;1m  build-essential \[0m
+replay	Install build dependencies	2026-07-30T16:47:09.3557645Z [36;1m  cmake \[0m
+replay	Install build dependencies	2026-07-30T16:47:09.3558202Z [36;1m  ninja-build \[0m
+replay	Install build dependencies	2026-07-30T16:47:09.3558506Z [36;1m  libboost-all-dev \[0m
+replay	Install build dependencies	2026-07-30T16:47:09.3558806Z [36;1m  libprotobuf-dev \[0m
+replay	Install build dependencies	2026-07-30T16:47:09.3559102Z [36;1m  protobuf-compiler \[0m
+replay	Install build dependencies	2026-07-30T16:47:09.3559397Z [36;1m  python3-dev[0m
+replay	Install build dependencies	2026-07-30T16:47:09.3614497Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+replay	Install build dependencies	2026-07-30T16:47:09.3614943Z ##[endgroup]
+replay	Install build dependencies	2026-07-30T16:47:09.4804391Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+replay	Install build dependencies	2026-07-30T16:47:09.5220975Z Hit:6 https://packages.microsoft.com/repos/azure-cli jammy InRelease
+replay	Install build dependencies	2026-07-30T16:47:09.5231510Z Hit:2 http://azure.archive.ubuntu.com/ubuntu jammy InRelease
+replay	Install build dependencies	2026-07-30T16:47:09.5233250Z Get:7 https://packages.microsoft.com/ubuntu/22.04/prod jammy InRelease [3632 B]
+replay	Install build dependencies	2026-07-30T16:47:09.5250871Z Get:3 http://azure.archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+replay	Install build dependencies	2026-07-30T16:47:09.5303564Z Get:4 http://azure.archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+replay	Install build dependencies	2026-07-30T16:47:09.5342753Z Get:5 http://azure.archive.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+replay	Install build dependencies	2026-07-30T16:47:09.5690163Z Get:8 https://dl.google.com/linux/chrome-stable/deb stable InRelease [2548 B]
+replay	Install build dependencies	2026-07-30T16:47:09.7303005Z Get:9 https://packages.microsoft.com/ubuntu/22.04/prod jammy/main arm64 Packages [287 kB]
+replay	Install build dependencies	2026-07-30T16:47:09.7469119Z Get:10 https://packages.microsoft.com/ubuntu/22.04/prod jammy/main amd64 Packages [484 kB]
+replay	Install build dependencies	2026-07-30T16:47:09.7507061Z Get:11 https://packages.microsoft.com/ubuntu/22.04/prod jammy/main armhf Packages [22.0 kB]
+replay	Install build dependencies	2026-07-30T16:47:09.8134780Z Get:12 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [3680 kB]
+replay	Install build dependencies	2026-07-30T16:47:09.8308753Z Get:13 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main Translation-en [550 kB]
+replay	Install build dependencies	2026-07-30T16:47:09.8358941Z Get:14 http://azure.archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [6341 kB]
+replay	Install build dependencies	2026-07-30T16:47:09.8679592Z Get:15 http://azure.archive.ubuntu.com/ubuntu jammy-updates/restricted Translation-en [1215 kB]
+replay	Install build dependencies	2026-07-30T16:47:09.8756027Z Get:16 http://azure.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1279 kB]
+replay	Install build dependencies	2026-07-30T16:47:09.8835790Z Get:17 http://azure.archive.ubuntu.com/ubuntu jammy-updates/universe Translation-en [322 kB]
+replay	Install build dependencies	2026-07-30T16:47:09.8870266Z Get:18 http://azure.archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [76.5 kB]
+replay	Install build dependencies	2026-07-30T16:47:09.8895918Z Get:19 http://azure.archive.ubuntu.com/ubuntu jammy-updates/multiverse Translation-en [15.9 kB]
+replay	Install build dependencies	2026-07-30T16:47:10.0069369Z Get:20 http://azure.archive.ubuntu.com/ubuntu jammy-security/main amd64 Packages [3411 kB]
+replay	Install build dependencies	2026-07-30T16:47:10.0239474Z Get:21 http://azure.archive.ubuntu.com/ubuntu jammy-security/main Translation-en [482 kB]
+replay	Install build dependencies	2026-07-30T16:47:10.0711569Z Get:28 https://dl.google.com/linux/chrome-stable/deb stable/main amd64 Packages [1412 B]
+replay	Install build dependencies	2026-07-30T16:47:10.0755121Z Get:22 http://azure.archive.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [6105 kB]
+replay	Install build dependencies	2026-07-30T16:47:10.1057194Z Get:23 http://azure.archive.ubuntu.com/ubuntu jammy-security/restricted Translation-en [1172 kB]
+replay	Install build dependencies	2026-07-30T16:47:10.1114795Z Get:24 http://azure.archive.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1046 kB]
+replay	Install build dependencies	2026-07-30T16:47:10.1176787Z Get:25 http://azure.archive.ubuntu.com/ubuntu jammy-security/universe Translation-en [234 kB]
+replay	Install build dependencies	2026-07-30T16:47:10.1216761Z Get:26 http://azure.archive.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [69.1 kB]
+replay	Install build dependencies	2026-07-30T16:47:10.1235336Z Get:27 http://azure.archive.ubuntu.com/ubuntu jammy-security/multiverse Translation-en [12.9 kB]
+replay	Install build dependencies	2026-07-30T16:47:15.0748324Z Fetched 27.2 MB in 3s (8706 kB/s)
+replay	Install build dependencies	2026-07-30T16:47:16.0920802Z Reading package lists...
+replay	Install build dependencies	2026-07-30T16:47:16.1555604Z Reading package lists...
+replay	Install build dependencies	2026-07-30T16:47:16.3594695Z Building dependency tree...
+replay	Install build dependencies	2026-07-30T16:47:16.3606758Z Reading state information...
+replay	Install build dependencies	2026-07-30T16:47:16.5176174Z build-essential is already the newest version (12.9ubuntu3).
+replay	Install build dependencies	2026-07-30T16:47:16.5178166Z build-essential set to manually installed.
+replay	Install build dependencies	2026-07-30T16:47:16.5180039Z python3-dev is already the newest version (3.10.6-1~22.04.1).
+replay	Install build dependencies	2026-07-30T16:47:16.5181954Z The following additional packages will be installed:
+replay	Install build dependencies	2026-07-30T16:47:16.5184110Z   cmake-data dh-elpa-helper ibverbs-providers libboost-atomic-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5186029Z   libboost-atomic1.74-dev libboost-atomic1.74.0 libboost-chrono-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5188137Z   libboost-chrono1.74-dev libboost-chrono1.74.0 libboost-container-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5190070Z   libboost-container1.74-dev libboost-container1.74.0 libboost-context-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5191920Z   libboost-context1.74-dev libboost-context1.74.0 libboost-coroutine-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5193852Z   libboost-coroutine1.74-dev libboost-coroutine1.74.0 libboost-date-time-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5195473Z   libboost-date-time1.74-dev libboost-date-time1.74.0 libboost-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5196697Z   libboost-exception-dev libboost-exception1.74-dev libboost-fiber-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5198884Z   libboost-fiber1.74-dev libboost-fiber1.74.0 libboost-filesystem-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5200186Z   libboost-filesystem1.74-dev libboost-filesystem1.74.0 libboost-graph-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5201573Z   libboost-graph-parallel-dev libboost-graph-parallel1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5202737Z   libboost-graph-parallel1.74.0 libboost-graph1.74-dev libboost-graph1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5203830Z   libboost-iostreams-dev libboost-iostreams1.74-dev libboost-iostreams1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5204756Z   libboost-locale-dev libboost-locale1.74-dev libboost-locale1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5205598Z   libboost-log-dev libboost-log1.74-dev libboost-log1.74.0 libboost-math-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5206439Z   libboost-math1.74-dev libboost-math1.74.0 libboost-mpi-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5207131Z   libboost-mpi-python-dev libboost-mpi-python1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5207695Z   libboost-mpi-python1.74.0 libboost-mpi1.74-dev libboost-mpi1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5208540Z   libboost-nowide-dev libboost-nowide1.74-dev libboost-nowide1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5209017Z   libboost-numpy-dev libboost-numpy1.74-dev libboost-numpy1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5209550Z   libboost-program-options-dev libboost-program-options1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5210480Z   libboost-program-options1.74.0 libboost-python-dev libboost-python1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5211424Z   libboost-python1.74.0 libboost-random-dev libboost-random1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5212233Z   libboost-random1.74.0 libboost-regex-dev libboost-regex1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5212912Z   libboost-regex1.74.0 libboost-serialization-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5213584Z   libboost-serialization1.74-dev libboost-serialization1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5214283Z   libboost-stacktrace-dev libboost-stacktrace1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5215023Z   libboost-stacktrace1.74.0 libboost-system-dev libboost-system1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5215705Z   libboost-system1.74.0 libboost-test-dev libboost-test1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5216137Z   libboost-test1.74.0 libboost-thread-dev libboost-thread1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5216569Z   libboost-thread1.74.0 libboost-timer-dev libboost-timer1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5217001Z   libboost-timer1.74.0 libboost-tools-dev libboost-type-erasure-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5217485Z   libboost-type-erasure1.74-dev libboost-type-erasure1.74.0 libboost-wave-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5218225Z   libboost-wave1.74-dev libboost-wave1.74.0 libboost1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5218713Z   libboost1.74-tools-dev libevent-2.1-7 libevent-dev libevent-extra-2.1-7
+replay	Install build dependencies	2026-07-30T16:47:16.5219204Z   libevent-openssl-2.1-7 libfabric1 libhwloc-dev libhwloc-plugins libhwloc15
+replay	Install build dependencies	2026-07-30T16:47:16.5219681Z   libibverbs-dev libibverbs1 libjs-jquery-ui libjsoncpp25 libnl-3-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5220418Z   libnl-route-3-200 libnl-route-3-dev libnuma-dev libopenmpi-dev libopenmpi3
+replay	Install build dependencies	2026-07-30T16:47:16.5220914Z   libpmix-dev libpmix2 libprotobuf23 libprotoc23 libpsm-infinipath1 libpsm2-2
+replay	Install build dependencies	2026-07-30T16:47:16.5221400Z   librdmacm1 librhash0 libucx0 libxnvctrl0 mpi-default-bin mpi-default-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5221814Z   ocl-icd-libopencl1 openmpi-bin openmpi-common
+replay	Install build dependencies	2026-07-30T16:47:16.5222106Z Suggested packages:
+replay	Install build dependencies	2026-07-30T16:47:16.5222410Z   cmake-doc cmake-format libboost-doc graphviz libboost1.74-doc gccxml
+replay	Install build dependencies	2026-07-30T16:47:16.5222863Z   libboost-contract1.74-dev libmpfrc++-dev libntl-dev xsltproc doxygen
+replay	Install build dependencies	2026-07-30T16:47:16.5223329Z   docbook-xml docbook-xsl default-jdk fop libhwloc-contrib-plugins
+replay	Install build dependencies	2026-07-30T16:47:16.5223760Z   libjs-jquery-ui-docs openmpi-doc opencl-icd protobuf-mode-el
+replay	Install build dependencies	2026-07-30T16:47:16.5224094Z Recommended packages:
+replay	Install build dependencies	2026-07-30T16:47:16.5224316Z   libcoarrays-openmpi-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5728898Z The following NEW packages will be installed:
+replay	Install build dependencies	2026-07-30T16:47:16.5730179Z   cmake cmake-data dh-elpa-helper ibverbs-providers libboost-all-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5731537Z   libboost-atomic-dev libboost-atomic1.74-dev libboost-atomic1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5732378Z   libboost-chrono-dev libboost-chrono1.74-dev libboost-chrono1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5733735Z   libboost-container-dev libboost-container1.74-dev libboost-container1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5734665Z   libboost-context-dev libboost-context1.74-dev libboost-context1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5735563Z   libboost-coroutine-dev libboost-coroutine1.74-dev libboost-coroutine1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5736361Z   libboost-date-time-dev libboost-date-time1.74-dev libboost-date-time1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5737049Z   libboost-dev libboost-exception-dev libboost-exception1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5737670Z   libboost-fiber-dev libboost-fiber1.74-dev libboost-fiber1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5738493Z   libboost-filesystem-dev libboost-filesystem1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5739550Z   libboost-filesystem1.74.0 libboost-graph-dev libboost-graph-parallel-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5740546Z   libboost-graph-parallel1.74-dev libboost-graph-parallel1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5741207Z   libboost-graph1.74-dev libboost-graph1.74.0 libboost-iostreams-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5741943Z   libboost-iostreams1.74-dev libboost-iostreams1.74.0 libboost-locale-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5742617Z   libboost-locale1.74-dev libboost-locale1.74.0 libboost-log-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5743199Z   libboost-log1.74-dev libboost-log1.74.0 libboost-math-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5743767Z   libboost-math1.74-dev libboost-math1.74.0 libboost-mpi-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5744324Z   libboost-mpi-python-dev libboost-mpi-python1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5744868Z   libboost-mpi-python1.74.0 libboost-mpi1.74-dev libboost-mpi1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5745336Z   libboost-nowide-dev libboost-nowide1.74-dev libboost-nowide1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5745798Z   libboost-numpy-dev libboost-numpy1.74-dev libboost-numpy1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5746264Z   libboost-program-options-dev libboost-program-options1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5746777Z   libboost-program-options1.74.0 libboost-python-dev libboost-python1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5747313Z   libboost-python1.74.0 libboost-random-dev libboost-random1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5747786Z   libboost-random1.74.0 libboost-regex-dev libboost-regex1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5748318Z   libboost-regex1.74.0 libboost-serialization-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5748717Z   libboost-serialization1.74-dev libboost-serialization1.74.0
+replay	Install build dependencies	2026-07-30T16:47:16.5749134Z   libboost-stacktrace-dev libboost-stacktrace1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5749571Z   libboost-stacktrace1.74.0 libboost-system-dev libboost-system1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5750049Z   libboost-system1.74.0 libboost-test-dev libboost-test1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5750497Z   libboost-test1.74.0 libboost-thread-dev libboost-thread1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5750946Z   libboost-thread1.74.0 libboost-timer-dev libboost-timer1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5751607Z   libboost-timer1.74.0 libboost-tools-dev libboost-type-erasure-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5752128Z   libboost-type-erasure1.74-dev libboost-type-erasure1.74.0 libboost-wave-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5752622Z   libboost-wave1.74-dev libboost-wave1.74.0 libboost1.74-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5753103Z   libboost1.74-tools-dev libevent-2.1-7 libevent-dev libevent-extra-2.1-7
+replay	Install build dependencies	2026-07-30T16:47:16.5753626Z   libevent-openssl-2.1-7 libfabric1 libhwloc-dev libhwloc-plugins libhwloc15
+replay	Install build dependencies	2026-07-30T16:47:16.5754138Z   libibverbs-dev libibverbs1 libjs-jquery-ui libjsoncpp25 libnl-3-dev
+replay	Install build dependencies	2026-07-30T16:47:16.5754647Z   libnl-route-3-200 libnl-route-3-dev libnuma-dev libopenmpi-dev libopenmpi3
+replay	Install build dependencies	2026-07-30T16:47:16.5755136Z   libpmix-dev libpmix2 libprotobuf-dev libprotobuf23 libprotoc23
+replay	Install build dependencies	2026-07-30T16:47:16.5755586Z   libpsm-infinipath1 libpsm2-2 librdmacm1 librhash0 libucx0 libxnvctrl0
+replay	Install build dependencies	2026-07-30T16:47:16.5756063Z   mpi-default-bin mpi-default-dev ninja-build ocl-icd-libopencl1 openmpi-bin
+replay	Install build dependencies	2026-07-30T16:47:16.5756456Z   openmpi-common protobuf-compiler
+replay	Install build dependencies	2026-07-30T16:47:16.5937612Z 0 upgraded, 137 newly installed, 0 to remove and 87 not upgraded.
+replay	Install build dependencies	2026-07-30T16:47:16.5938822Z Need to get 50.3 MB of archives.
+replay	Install build dependencies	2026-07-30T16:47:16.5939581Z After this operation, 413 MB of additional disk space will be used.
+replay	Install build dependencies	2026-07-30T16:47:16.5940600Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+replay	Install build dependencies	2026-07-30T16:47:16.6856894Z Get:2 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libjsoncpp25 amd64 1.9.5-3 [80.0 kB]
+replay	Install build dependencies	2026-07-30T16:47:16.7585198Z Get:3 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 librhash0 amd64 1.4.2-1ubuntu1 [125 kB]
+replay	Install build dependencies	2026-07-30T16:47:16.8325582Z Get:4 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 dh-elpa-helper all 2.0.9ubuntu1 [7610 B]
+replay	Install build dependencies	2026-07-30T16:47:16.9028046Z Get:5 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 cmake-data all 3.22.1-1ubuntu1.22.04.2 [1913 kB]
+replay	Install build dependencies	2026-07-30T16:47:16.9901804Z Get:6 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 cmake amd64 3.22.1-1ubuntu1.22.04.2 [5010 kB]
+replay	Install build dependencies	2026-07-30T16:47:17.1609566Z Get:7 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libnl-route-3-200 amd64 3.5.0-0.1 [180 kB]
+replay	Install build dependencies	2026-07-30T16:47:17.2346830Z Get:8 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libibverbs1 amd64 39.0-1 [69.3 kB]
+replay	Install build dependencies	2026-07-30T16:47:17.3069403Z Get:9 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 ibverbs-providers amd64 39.0-1 [341 kB]
+replay	Install build dependencies	2026-07-30T16:47:17.3804584Z Get:10 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost1.74-dev amd64 1.74.0-14ubuntu3 [9609 kB]
+replay	Install build dependencies	2026-07-30T16:47:17.5770161Z Get:11 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-dev amd64 1.74.0.3ubuntu7 [3490 B]
+replay	Install build dependencies	2026-07-30T16:47:17.6465208Z Get:12 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost1.74-tools-dev amd64 1.74.0-14ubuntu3 [1351 kB]
+replay	Install build dependencies	2026-07-30T16:47:17.7262503Z Get:13 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-tools-dev amd64 1.74.0.3ubuntu7 [3428 B]
+replay	Install build dependencies	2026-07-30T16:47:17.7959338Z Get:14 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-atomic1.74.0 amd64 1.74.0-14ubuntu3 [224 kB]
+replay	Install build dependencies	2026-07-30T16:47:17.8679285Z Get:15 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-atomic1.74-dev amd64 1.74.0-14ubuntu3 [221 kB]
+replay	Install build dependencies	2026-07-30T16:47:17.9462342Z Get:16 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-atomic-dev amd64 1.74.0.3ubuntu7 [3544 B]
+replay	Install build dependencies	2026-07-30T16:47:18.0167802Z Get:17 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-chrono1.74.0 amd64 1.74.0-14ubuntu3 [232 kB]
+replay	Install build dependencies	2026-07-30T16:47:18.0889194Z Get:18 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-chrono1.74-dev amd64 1.74.0-14ubuntu3 [239 kB]
+replay	Install build dependencies	2026-07-30T16:47:18.1615349Z Get:19 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-chrono-dev amd64 1.74.0.3ubuntu7 [3854 B]
+replay	Install build dependencies	2026-07-30T16:47:18.2317176Z Get:20 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-container1.74.0 amd64 1.74.0-14ubuntu3 [246 kB]
+replay	Install build dependencies	2026-07-30T16:47:18.3036276Z Get:21 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-container1.74-dev amd64 1.74.0-14ubuntu3 [254 kB]
+replay	Install build dependencies	2026-07-30T16:47:18.3751526Z Get:22 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-container-dev amd64 1.74.0.3ubuntu7 [3712 B]
+replay	Install build dependencies	2026-07-30T16:47:18.4445064Z Get:23 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-date-time1.74.0 amd64 1.74.0-14ubuntu3 [221 kB]
+replay	Install build dependencies	2026-07-30T16:47:18.5149171Z Get:24 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-serialization1.74.0 amd64 1.74.0-14ubuntu3 [327 kB]
+replay	Install build dependencies	2026-07-30T16:47:18.5891433Z Get:25 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-serialization1.74-dev amd64 1.74.0-14ubuntu3 [375 kB]
+replay	Install build dependencies	2026-07-30T16:47:18.6614101Z Get:26 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-date-time1.74-dev amd64 1.74.0-14ubuntu3 [226 kB]
+replay	Install build dependencies	2026-07-30T16:47:18.7325861Z Get:27 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-system1.74.0 amd64 1.74.0-14ubuntu3 [221 kB]
+replay	Install build dependencies	2026-07-30T16:47:18.8044771Z Get:28 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-system1.74-dev amd64 1.74.0-14ubuntu3 [218 kB]
+replay	Install build dependencies	2026-07-30T16:47:18.8760812Z Get:29 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-thread1.74.0 amd64 1.74.0-14ubuntu3 [262 kB]
+replay	Install build dependencies	2026-07-30T16:47:18.9514868Z Get:30 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-thread1.74-dev amd64 1.74.0-14ubuntu3 [272 kB]
+replay	Install build dependencies	2026-07-30T16:47:19.0249152Z Get:31 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-context1.74.0 amd64 1.74.0-14ubuntu3 [223 kB]
+replay	Install build dependencies	2026-07-30T16:47:19.0991955Z Get:32 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-context1.74-dev amd64 1.74.0-14ubuntu3 [220 kB]
+replay	Install build dependencies	2026-07-30T16:47:19.1779830Z Get:33 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-context-dev amd64 1.74.0.3ubuntu7 [3456 B]
+replay	Install build dependencies	2026-07-30T16:47:19.2475012Z Get:34 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-coroutine1.74.0 amd64 1.74.0-14ubuntu3 [235 kB]
+replay	Install build dependencies	2026-07-30T16:47:19.3206517Z Get:35 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-coroutine1.74-dev amd64 1.74.0-14ubuntu3 [244 kB]
+replay	Install build dependencies	2026-07-30T16:47:19.3934289Z Get:36 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-coroutine-dev amd64 1.74.0.3ubuntu7 [3520 B]
+replay	Install build dependencies	2026-07-30T16:47:19.4640881Z Get:37 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-date-time-dev amd64 1.74.0.3ubuntu7 [3248 B]
+replay	Install build dependencies	2026-07-30T16:47:19.5341590Z Get:38 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-exception1.74-dev amd64 1.74.0-14ubuntu3 [217 kB]
+replay	Install build dependencies	2026-07-30T16:47:19.6114453Z Get:39 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-exception-dev amd64 1.74.0.3ubuntu7 [3250 B]
+replay	Install build dependencies	2026-07-30T16:47:19.6814561Z Get:40 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-filesystem1.74.0 amd64 1.74.0-14ubuntu3 [264 kB]
+replay	Install build dependencies	2026-07-30T16:47:19.7592083Z Get:41 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-filesystem1.74-dev amd64 1.74.0-14ubuntu3 [287 kB]
+replay	Install build dependencies	2026-07-30T16:47:19.9230061Z Get:42 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-fiber1.74.0 amd64 1.74.0-14ubuntu3 [242 kB]
+replay	Install build dependencies	2026-07-30T16:47:19.9977322Z Get:43 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-fiber1.74-dev amd64 1.74.0-14ubuntu3 [254 kB]
+replay	Install build dependencies	2026-07-30T16:47:20.0706112Z Get:44 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-fiber-dev amd64 1.74.0.3ubuntu7 [3674 B]
+replay	Install build dependencies	2026-07-30T16:47:20.1429568Z Get:45 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-filesystem-dev amd64 1.74.0.3ubuntu7 [3280 B]
+replay	Install build dependencies	2026-07-30T16:47:20.2121377Z Get:46 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-regex1.74.0 amd64 1.74.0-14ubuntu3 [511 kB]
+replay	Install build dependencies	2026-07-30T16:47:20.2893836Z Get:47 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-graph1.74.0 amd64 1.74.0-14ubuntu3 [304 kB]
+replay	Install build dependencies	2026-07-30T16:47:20.3640283Z Get:48 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-regex1.74-dev amd64 1.74.0-14ubuntu3 [596 kB]
+replay	Install build dependencies	2026-07-30T16:47:20.4495658Z Get:49 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-test1.74.0 amd64 1.74.0-14ubuntu3 [446 kB]
+replay	Install build dependencies	2026-07-30T16:47:20.6124071Z Get:50 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-test1.74-dev amd64 1.74.0-14ubuntu3 [564 kB]
+replay	Install build dependencies	2026-07-30T16:47:21.0009937Z Get:51 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-graph1.74-dev amd64 1.74.0-14ubuntu3 [335 kB]
+replay	Install build dependencies	2026-07-30T16:47:21.2383410Z Get:52 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-graph-dev amd64 1.74.0.3ubuntu7 [3348 B]
+replay	Install build dependencies	2026-07-30T16:47:21.3073840Z Get:53 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libpsm-infinipath1 amd64 3.3+20.604758e7-6.1 [170 kB]
+replay	Install build dependencies	2026-07-30T16:47:21.4386184Z Get:54 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libpsm2-2 amd64 11.2.185-1 [182 kB]
+replay	Install build dependencies	2026-07-30T16:47:21.5154357Z Get:55 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 librdmacm1 amd64 39.0-1 [71.2 kB]
+replay	Install build dependencies	2026-07-30T16:47:21.5867276Z Get:56 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libfabric1 amd64 1.11.0-3 [558 kB]
+replay	Install build dependencies	2026-07-30T16:47:21.6881144Z Get:57 http://azure.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 libhwloc15 amd64 2.7.0-2ubuntu1 [159 kB]
+replay	Install build dependencies	2026-07-30T16:47:21.7596518Z Get:58 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 libxnvctrl0 amd64 510.47.03-0ubuntu1.22.04.1 [11.4 kB]
+replay	Install build dependencies	2026-07-30T16:47:21.8292477Z Get:59 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 ocl-icd-libopencl1 amd64 2.2.14-3 [39.1 kB]
+replay	Install build dependencies	2026-07-30T16:47:21.8997704Z Get:60 http://azure.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 libhwloc-plugins amd64 2.7.0-2ubuntu1 [15.6 kB]
+replay	Install build dependencies	2026-07-30T16:47:21.9703405Z Get:61 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libpmix2 amd64 4.1.2-2ubuntu1 [604 kB]
+replay	Install build dependencies	2026-07-30T16:47:22.2288722Z Get:62 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libucx0 amd64 1.12.1~rc2-1 [891 kB]
+replay	Install build dependencies	2026-07-30T16:47:22.5330825Z Get:63 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libopenmpi3 amd64 4.1.2-2ubuntu1 [2594 kB]
+replay	Install build dependencies	2026-07-30T16:47:23.1587056Z Get:64 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-mpi1.74.0 amd64 1.74.0-14ubuntu3 [259 kB]
+replay	Install build dependencies	2026-07-30T16:47:23.2753437Z Get:65 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-graph-parallel1.74.0 amd64 1.74.0-14ubuntu3 [266 kB]
+replay	Install build dependencies	2026-07-30T16:47:23.3919122Z Get:66 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-graph-parallel1.74-dev amd64 1.74.0-14ubuntu3 [277 kB]
+replay	Install build dependencies	2026-07-30T16:47:23.5896612Z Get:67 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-graph-parallel-dev amd64 1.74.0.3ubuntu7 [3384 B]
+replay	Install build dependencies	2026-07-30T16:47:23.6605412Z Get:68 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-iostreams1.74.0 amd64 1.74.0-14ubuntu3 [245 kB]
+replay	Install build dependencies	2026-07-30T16:47:23.7729111Z Get:69 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-iostreams1.74-dev amd64 1.74.0-14ubuntu3 [252 kB]
+replay	Install build dependencies	2026-07-30T16:47:23.9615628Z Get:70 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-iostreams-dev amd64 1.74.0.3ubuntu7 [3238 B]
+replay	Install build dependencies	2026-07-30T16:47:24.0327522Z Get:71 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-locale1.74.0 amd64 1.74.0-14ubuntu3 [413 kB]
+replay	Install build dependencies	2026-07-30T16:47:24.2637586Z Get:72 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-locale1.74-dev amd64 1.74.0-14ubuntu3 [594 kB]
+replay	Install build dependencies	2026-07-30T16:47:24.3521262Z Get:73 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-locale-dev amd64 1.74.0.3ubuntu7 [3572 B]
+replay	Install build dependencies	2026-07-30T16:47:24.4392363Z Get:74 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-log1.74.0 amd64 1.74.0-14ubuntu3 [592 kB]
+replay	Install build dependencies	2026-07-30T16:47:24.5952350Z Get:75 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-log1.74-dev amd64 1.74.0-14ubuntu3 [853 kB]
+replay	Install build dependencies	2026-07-30T16:47:24.8429962Z Get:76 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-log-dev amd64 1.74.0.3ubuntu7 [3446 B]
+replay	Install build dependencies	2026-07-30T16:47:24.9130320Z Get:77 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-math1.74.0 amd64 1.74.0-14ubuntu3 [423 kB]
+replay	Install build dependencies	2026-07-30T16:47:25.0573345Z Get:78 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-math1.74-dev amd64 1.74.0-14ubuntu3 [620 kB]
+replay	Install build dependencies	2026-07-30T16:47:25.2219737Z Get:79 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-math-dev amd64 1.74.0.3ubuntu7 [3454 B]
+replay	Install build dependencies	2026-07-30T16:47:25.2963840Z Get:80 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 openmpi-common all 4.1.2-2ubuntu1 [162 kB]
+replay	Install build dependencies	2026-07-30T16:47:25.3904011Z Get:81 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libnl-3-dev amd64 3.5.0-0.1 [101 kB]
+replay	Install build dependencies	2026-07-30T16:47:25.4828617Z Get:82 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libnl-route-3-dev amd64 3.5.0-0.1 [202 kB]
+replay	Install build dependencies	2026-07-30T16:47:25.5859439Z Get:83 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libibverbs-dev amd64 39.0-1 [628 kB]
+replay	Install build dependencies	2026-07-30T16:47:25.8639733Z Get:84 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libnuma-dev amd64 2.0.14-3ubuntu2 [35.9 kB]
+replay	Install build dependencies	2026-07-30T16:47:26.0344972Z Get:85 http://azure.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 libhwloc-dev amd64 2.7.0-2ubuntu1 [256 kB]
+replay	Install build dependencies	2026-07-30T16:47:26.3254277Z Get:86 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libevent-2.1-7 amd64 2.1.12-stable-1build3 [148 kB]
+replay	Install build dependencies	2026-07-30T16:47:26.4225129Z Get:87 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libevent-extra-2.1-7 amd64 2.1.12-stable-1build3 [65.4 kB]
+replay	Install build dependencies	2026-07-30T16:47:26.5020547Z Get:88 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libevent-openssl-2.1-7 amd64 2.1.12-stable-1build3 [15.8 kB]
+replay	Install build dependencies	2026-07-30T16:47:26.5717097Z Get:89 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libevent-dev amd64 2.1.12-stable-1build3 [278 kB]
+replay	Install build dependencies	2026-07-30T16:47:26.6978509Z Get:90 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libpmix-dev amd64 4.1.2-2ubuntu1 [805 kB]
+replay	Install build dependencies	2026-07-30T16:47:26.8880472Z Get:91 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libjs-jquery-ui all 1.13.1+dfsg-1 [253 kB]
+replay	Install build dependencies	2026-07-30T16:47:26.9679380Z Get:92 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 openmpi-bin amd64 4.1.2-2ubuntu1 [116 kB]
+replay	Install build dependencies	2026-07-30T16:47:27.0412298Z Get:93 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libopenmpi-dev amd64 4.1.2-2ubuntu1 [867 kB]
+replay	Install build dependencies	2026-07-30T16:47:27.1558200Z Get:94 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 mpi-default-dev amd64 1.14 [3698 B]
+replay	Install build dependencies	2026-07-30T16:47:27.2241939Z Get:95 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-mpi1.74-dev amd64 1.74.0-14ubuntu3 [285 kB]
+replay	Install build dependencies	2026-07-30T16:47:27.3071961Z Get:96 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-mpi-dev amd64 1.74.0.3ubuntu7 [3328 B]
+replay	Install build dependencies	2026-07-30T16:47:27.3754095Z Get:97 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-python1.74.0 amd64 1.74.0-14ubuntu3 [299 kB]
+replay	Install build dependencies	2026-07-30T16:47:27.4562126Z Get:98 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 mpi-default-bin amd64 1.14 [2898 B]
+replay	Install build dependencies	2026-07-30T16:47:27.5255917Z Get:99 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-mpi-python1.74.0 amd64 1.74.0-14ubuntu3 [351 kB]
+replay	Install build dependencies	2026-07-30T16:47:27.6081620Z Get:100 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-mpi-python1.74-dev amd64 1.74.0-14ubuntu3 [225 kB]
+replay	Install build dependencies	2026-07-30T16:47:27.6853926Z Get:101 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-mpi-python-dev amd64 1.74.0.3ubuntu7 [3382 B]
+replay	Install build dependencies	2026-07-30T16:47:27.7545662Z Get:102 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-numpy1.74.0 amd64 1.74.0-14ubuntu3 [229 kB]
+replay	Install build dependencies	2026-07-30T16:47:27.8286996Z Get:103 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-numpy1.74-dev amd64 1.74.0-14ubuntu3 [233 kB]
+replay	Install build dependencies	2026-07-30T16:47:27.9024981Z Get:104 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-numpy-dev amd64 1.74.0.3ubuntu7 [3286 B]
+replay	Install build dependencies	2026-07-30T16:47:27.9709575Z Get:105 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-program-options1.74.0 amd64 1.74.0-14ubuntu3 [311 kB]
+replay	Install build dependencies	2026-07-30T16:47:28.0418546Z Get:106 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-program-options1.74-dev amd64 1.74.0-14ubuntu3 [380 kB]
+replay	Install build dependencies	2026-07-30T16:47:28.1137200Z Get:107 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-program-options-dev amd64 1.74.0.3ubuntu7 [3266 B]
+replay	Install build dependencies	2026-07-30T16:47:28.1824723Z Get:108 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-python1.74-dev amd64 1.74.0-14ubuntu3 [323 kB]
+replay	Install build dependencies	2026-07-30T16:47:28.2536556Z Get:109 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-python-dev amd64 1.74.0.3ubuntu7 [3538 B]
+replay	Install build dependencies	2026-07-30T16:47:28.3229444Z Get:110 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-random1.74.0 amd64 1.74.0-14ubuntu3 [231 kB]
+replay	Install build dependencies	2026-07-30T16:47:28.3932077Z Get:111 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-random1.74-dev amd64 1.74.0-14ubuntu3 [231 kB]
+replay	Install build dependencies	2026-07-30T16:47:28.4650538Z Get:112 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-random-dev amd64 1.74.0.3ubuntu7 [3258 B]
+replay	Install build dependencies	2026-07-30T16:47:28.5339228Z Get:113 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-regex-dev amd64 1.74.0.3ubuntu7 [3510 B]
+replay	Install build dependencies	2026-07-30T16:47:28.6027045Z Get:114 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-serialization-dev amd64 1.74.0.3ubuntu7 [3468 B]
+replay	Install build dependencies	2026-07-30T16:47:28.6772478Z Get:115 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-stacktrace1.74.0 amd64 1.74.0-14ubuntu3 [267 kB]
+replay	Install build dependencies	2026-07-30T16:47:28.7510733Z Get:116 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-stacktrace1.74-dev amd64 1.74.0-14ubuntu3 [232 kB]
+replay	Install build dependencies	2026-07-30T16:47:28.8218632Z Get:117 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-stacktrace-dev amd64 1.74.0.3ubuntu7 [3260 B]
+replay	Install build dependencies	2026-07-30T16:47:28.8910596Z Get:118 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-system-dev amd64 1.74.0.3ubuntu7 [3390 B]
+replay	Install build dependencies	2026-07-30T16:47:28.9600888Z Get:119 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-test-dev amd64 1.74.0.3ubuntu7 [3274 B]
+replay	Install build dependencies	2026-07-30T16:47:29.0294649Z Get:120 http://azure.archive.ubuntu.com/ubuntu jammy/main amd64 libboost-thread-dev amd64 1.74.0.3ubuntu7 [3266 B]
+replay	Install build dependencies	2026-07-30T16:47:29.0980147Z Get:121 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-timer1.74.0 amd64 1.74.0-14ubuntu3 [228 kB]
+replay	Install build dependencies	2026-07-30T16:47:29.1690414Z Get:122 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-timer1.74-dev amd64 1.74.0-14ubuntu3 [231 kB]
+replay	Install build dependencies	2026-07-30T16:47:29.2394519Z Get:123 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-timer-dev amd64 1.74.0.3ubuntu7 [3380 B]
+replay	Install build dependencies	2026-07-30T16:47:29.3078213Z Get:124 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-type-erasure1.74.0 amd64 1.74.0-14ubuntu3 [234 kB]
+replay	Install build dependencies	2026-07-30T16:47:29.3783444Z Get:125 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-type-erasure1.74-dev amd64 1.74.0-14ubuntu3 [239 kB]
+replay	Install build dependencies	2026-07-30T16:47:29.4553527Z Get:126 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-type-erasure-dev amd64 1.74.0.3ubuntu7 [3344 B]
+replay	Install build dependencies	2026-07-30T16:47:29.5244879Z Get:127 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-wave1.74.0 amd64 1.74.0-14ubuntu3 [449 kB]
+replay	Install build dependencies	2026-07-30T16:47:29.5994065Z Get:128 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-wave1.74-dev amd64 1.74.0-14ubuntu3 [496 kB]
+replay	Install build dependencies	2026-07-30T16:47:29.6738364Z Get:129 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-wave-dev amd64 1.74.0.3ubuntu7 [3292 B]
+replay	Install build dependencies	2026-07-30T16:47:29.7430918Z Get:130 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-nowide1.74.0 amd64 1.74.0-14ubuntu3 [223 kB]
+replay	Install build dependencies	2026-07-30T16:47:29.8143278Z Get:131 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-nowide1.74-dev amd64 1.74.0-14ubuntu3 [220 kB]
+replay	Install build dependencies	2026-07-30T16:47:29.8854585Z Get:132 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-nowide-dev amd64 1.74.0.3ubuntu7 [3322 B]
+replay	Install build dependencies	2026-07-30T16:47:29.9538618Z Get:133 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 libboost-all-dev amd64 1.74.0.3ubuntu7 [2268 B]
+replay	Install build dependencies	2026-07-30T16:47:30.0226462Z Get:134 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 libprotobuf23 amd64 3.12.4-1ubuntu7.22.04.6 [877 kB]
+replay	Install build dependencies	2026-07-30T16:47:30.0997438Z Get:135 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 libprotoc23 amd64 3.12.4-1ubuntu7.22.04.6 [662 kB]
+replay	Install build dependencies	2026-07-30T16:47:30.1752555Z Get:136 http://azure.archive.ubuntu.com/ubuntu jammy/universe amd64 ninja-build amd64 1.10.1-1 [111 kB]
+replay	Install build dependencies	2026-07-30T16:47:30.2444995Z Get:137 http://azure.archive.ubuntu.com/ubuntu jammy-updates/main amd64 libprotobuf-dev amd64 3.12.4-1ubuntu7.22.04.6 [1347 kB]
+replay	Install build dependencies	2026-07-30T16:47:30.3377044Z Get:138 http://azure.archive.ubuntu.com/ubuntu jammy-updates/universe amd64 protobuf-compiler amd64 3.12.4-1ubuntu7.22.04.6 [29.2 kB]
+replay	Install build dependencies	2026-07-30T16:47:30.8900144Z Fetched 50.3 MB in 14s (3653 kB/s)
+replay	Install build dependencies	2026-07-30T16:47:30.9185905Z Selecting previously unselected package libjsoncpp25:amd64.
+replay	Install build dependencies	2026-07-30T16:47:30.9549203Z (Reading database ...
+replay	Install build dependencies	2026-07-30T16:47:30.9549652Z (Reading database ... 5%
+replay	Install build dependencies	2026-07-30T16:47:30.9550294Z (Reading database ... 10%
+replay	Install build dependencies	2026-07-30T16:47:30.9550894Z (Reading database ... 15%
+replay	Install build dependencies	2026-07-30T16:47:30.9551336Z (Reading database ... 20%
+replay	Install build dependencies	2026-07-30T16:47:30.9551773Z (Reading database ... 25%
+replay	Install build dependencies	2026-07-30T16:47:30.9552370Z (Reading database ... 30%
+replay	Install build dependencies	2026-07-30T16:47:30.9552915Z (Reading database ... 35%
+replay	Install build dependencies	2026-07-30T16:47:30.9553410Z (Reading database ... 40%
+replay	Install build dependencies	2026-07-30T16:47:30.9553887Z (Reading database ... 45%
+replay	Install build dependencies	2026-07-30T16:47:30.9554341Z (Reading database ... 50%
+replay	Install build dependencies	2026-07-30T16:47:31.0672581Z (Reading database ... 55%
+replay	Install build dependencies	2026-07-30T16:47:31.1169924Z (Reading database ... 60%
+replay	Install build dependencies	2026-07-30T16:47:31.1697293Z (Reading database ... 65%
+replay	Install build dependencies	2026-07-30T16:47:31.3051855Z (Reading database ... 70%
+replay	Install build dependencies	2026-07-30T16:47:31.4727651Z (Reading database ... 75%
+replay	Install build dependencies	2026-07-30T16:47:31.5771161Z (Reading database ... 80%
+replay	Install build dependencies	2026-07-30T16:47:31.7520313Z (Reading database ... 85%
+replay	Install build dependencies	2026-07-30T16:47:31.9600758Z (Reading database ... 90%
+replay	Install build dependencies	2026-07-30T16:47:32.0859321Z (Reading database ... 95%
+replay	Install build dependencies	2026-07-30T16:47:32.0860003Z (Reading database ... 100%
+replay	Install build dependencies	2026-07-30T16:47:32.0860953Z (Reading database ... 259812 files and directories currently installed.)
+replay	Install build dependencies	2026-07-30T16:47:32.0912951Z Preparing to unpack .../000-libjsoncpp25_1.9.5-3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:32.0949567Z Unpacking libjsoncpp25:amd64 (1.9.5-3) ...
+replay	Install build dependencies	2026-07-30T16:47:32.1191851Z Selecting previously unselected package librhash0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:32.1377578Z Preparing to unpack .../001-librhash0_1.4.2-1ubuntu1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:32.1387208Z Unpacking librhash0:amd64 (1.4.2-1ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:32.1600281Z Selecting previously unselected package dh-elpa-helper.
+replay	Install build dependencies	2026-07-30T16:47:32.1784509Z Preparing to unpack .../002-dh-elpa-helper_2.0.9ubuntu1_all.deb ...
+replay	Install build dependencies	2026-07-30T16:47:32.1793025Z Unpacking dh-elpa-helper (2.0.9ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:32.2017357Z Selecting previously unselected package cmake-data.
+replay	Install build dependencies	2026-07-30T16:47:32.2202447Z Preparing to unpack .../003-cmake-data_3.22.1-1ubuntu1.22.04.2_all.deb ...
+replay	Install build dependencies	2026-07-30T16:47:32.2282017Z Unpacking cmake-data (3.22.1-1ubuntu1.22.04.2) ...
+replay	Install build dependencies	2026-07-30T16:47:32.8013085Z Selecting previously unselected package cmake.
+replay	Install build dependencies	2026-07-30T16:47:32.8215553Z Preparing to unpack .../004-cmake_3.22.1-1ubuntu1.22.04.2_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:32.8222768Z Unpacking cmake (3.22.1-1ubuntu1.22.04.2) ...
+replay	Install build dependencies	2026-07-30T16:47:32.9174618Z Selecting previously unselected package libnl-route-3-200:amd64.
+replay	Install build dependencies	2026-07-30T16:47:32.9366867Z Preparing to unpack .../005-libnl-route-3-200_3.5.0-0.1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:32.9375118Z Unpacking libnl-route-3-200:amd64 (3.5.0-0.1) ...
+replay	Install build dependencies	2026-07-30T16:47:32.9623361Z Selecting previously unselected package libibverbs1:amd64.
+replay	Install build dependencies	2026-07-30T16:47:32.9813187Z Preparing to unpack .../006-libibverbs1_39.0-1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:32.9822016Z Unpacking libibverbs1:amd64 (39.0-1) ...
+replay	Install build dependencies	2026-07-30T16:47:33.0065378Z Selecting previously unselected package ibverbs-providers:amd64.
+replay	Install build dependencies	2026-07-30T16:47:33.0255736Z Preparing to unpack .../007-ibverbs-providers_39.0-1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:33.0392363Z Unpacking ibverbs-providers:amd64 (39.0-1) ...
+replay	Install build dependencies	2026-07-30T16:47:33.0720062Z Selecting previously unselected package libboost1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:33.0911524Z Preparing to unpack .../008-libboost1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:33.0921524Z Unpacking libboost1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:35.8318605Z Selecting previously unselected package libboost-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:35.8575222Z Preparing to unpack .../009-libboost-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:35.8584433Z Unpacking libboost-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:35.8797314Z Selecting previously unselected package libboost1.74-tools-dev.
+replay	Install build dependencies	2026-07-30T16:47:35.9000660Z Preparing to unpack .../010-libboost1.74-tools-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:35.9008541Z Unpacking libboost1.74-tools-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.0020791Z Selecting previously unselected package libboost-tools-dev.
+replay	Install build dependencies	2026-07-30T16:47:36.0230625Z Preparing to unpack .../011-libboost-tools-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.0239562Z Unpacking libboost-tools-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:36.0459211Z Selecting previously unselected package libboost-atomic1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.0668405Z Preparing to unpack .../012-libboost-atomic1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.0677503Z Unpacking libboost-atomic1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.0969779Z Selecting previously unselected package libboost-atomic1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.1174562Z Preparing to unpack .../013-libboost-atomic1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.1182251Z Unpacking libboost-atomic1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.1471375Z Selecting previously unselected package libboost-atomic-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.1674701Z Preparing to unpack .../014-libboost-atomic-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.1682894Z Unpacking libboost-atomic-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:36.1896262Z Selecting previously unselected package libboost-chrono1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.2101447Z Preparing to unpack .../015-libboost-chrono1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.2110211Z Unpacking libboost-chrono1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.2401742Z Selecting previously unselected package libboost-chrono1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.2605073Z Preparing to unpack .../016-libboost-chrono1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.2613581Z Unpacking libboost-chrono1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.2909623Z Selecting previously unselected package libboost-chrono-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.3115380Z Preparing to unpack .../017-libboost-chrono-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.3124173Z Unpacking libboost-chrono-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:36.3341352Z Selecting previously unselected package libboost-container1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.3542442Z Preparing to unpack .../018-libboost-container1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.3552444Z Unpacking libboost-container1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.3833588Z Selecting previously unselected package libboost-container1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.4039194Z Preparing to unpack .../019-libboost-container1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.4048145Z Unpacking libboost-container1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.4347260Z Selecting previously unselected package libboost-container-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.4550443Z Preparing to unpack .../020-libboost-container-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.4558418Z Unpacking libboost-container-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:36.4770266Z Selecting previously unselected package libboost-date-time1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.4971972Z Preparing to unpack .../021-libboost-date-time1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.4980686Z Unpacking libboost-date-time1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.5278312Z Selecting previously unselected package libboost-serialization1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.5480950Z Preparing to unpack .../022-libboost-serialization1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.5489929Z Unpacking libboost-serialization1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.5788238Z Selecting previously unselected package libboost-serialization1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.5988961Z Preparing to unpack .../023-libboost-serialization1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.5997089Z Unpacking libboost-serialization1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.6352920Z Selecting previously unselected package libboost-date-time1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.6557049Z Preparing to unpack .../024-libboost-date-time1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.6565089Z Unpacking libboost-date-time1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.6855681Z Selecting previously unselected package libboost-system1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.7059169Z Preparing to unpack .../025-libboost-system1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.7068464Z Unpacking libboost-system1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.7361426Z Selecting previously unselected package libboost-system1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.7568627Z Preparing to unpack .../026-libboost-system1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.7578326Z Unpacking libboost-system1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.7879101Z Selecting previously unselected package libboost-thread1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.8081849Z Preparing to unpack .../027-libboost-thread1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.8090762Z Unpacking libboost-thread1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.8383859Z Selecting previously unselected package libboost-thread1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.8589946Z Preparing to unpack .../028-libboost-thread1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.8597576Z Unpacking libboost-thread1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.8908093Z Selecting previously unselected package libboost-context1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.9118800Z Preparing to unpack .../029-libboost-context1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.9127481Z Unpacking libboost-context1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.9442368Z Selecting previously unselected package libboost-context1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:36.9652446Z Preparing to unpack .../030-libboost-context1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:36.9661215Z Unpacking libboost-context1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:36.9970690Z Selecting previously unselected package libboost-context-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.0186623Z Preparing to unpack .../031-libboost-context-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.0196636Z Unpacking libboost-context-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:37.0416475Z Selecting previously unselected package libboost-coroutine1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.0627184Z Preparing to unpack .../032-libboost-coroutine1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.0635978Z Unpacking libboost-coroutine1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:37.0916362Z Selecting previously unselected package libboost-coroutine1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.1125620Z Preparing to unpack .../033-libboost-coroutine1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.1134419Z Unpacking libboost-coroutine1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:37.1432416Z Selecting previously unselected package libboost-coroutine-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.1641762Z Preparing to unpack .../034-libboost-coroutine-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.1650994Z Unpacking libboost-coroutine-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:37.1860241Z Selecting previously unselected package libboost-date-time-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.2063385Z Preparing to unpack .../035-libboost-date-time-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.2075560Z Unpacking libboost-date-time-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:37.2280774Z Selecting previously unselected package libboost-exception1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.2485501Z Preparing to unpack .../036-libboost-exception1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.2495116Z Unpacking libboost-exception1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:37.2791986Z Selecting previously unselected package libboost-exception-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.2994320Z Preparing to unpack .../037-libboost-exception-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.3002541Z Unpacking libboost-exception-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:37.3224891Z Selecting previously unselected package libboost-filesystem1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.3463336Z Preparing to unpack .../038-libboost-filesystem1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.3470666Z Unpacking libboost-filesystem1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:37.3765445Z Selecting previously unselected package libboost-filesystem1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.3976010Z Preparing to unpack .../039-libboost-filesystem1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.3983922Z Unpacking libboost-filesystem1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:37.4321761Z Selecting previously unselected package libboost-fiber1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.4542358Z Preparing to unpack .../040-libboost-fiber1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.4551377Z Unpacking libboost-fiber1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:37.4844208Z Selecting previously unselected package libboost-fiber1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.5059480Z Preparing to unpack .../041-libboost-fiber1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.5071978Z Unpacking libboost-fiber1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:37.5392338Z Selecting previously unselected package libboost-fiber-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.5601222Z Preparing to unpack .../042-libboost-fiber-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.5610620Z Unpacking libboost-fiber-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:37.5820364Z Selecting previously unselected package libboost-filesystem-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.6027145Z Preparing to unpack .../043-libboost-filesystem-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.6037770Z Unpacking libboost-filesystem-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:37.6249265Z Selecting previously unselected package libboost-regex1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.6451216Z Preparing to unpack .../044-libboost-regex1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.6461275Z Unpacking libboost-regex1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:37.6788880Z Selecting previously unselected package libboost-graph1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.6993545Z Preparing to unpack .../045-libboost-graph1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.7002741Z Unpacking libboost-graph1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:37.7292490Z Selecting previously unselected package libboost-regex1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.7497737Z Preparing to unpack .../046-libboost-regex1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.7507249Z Unpacking libboost-regex1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:37.7892478Z Selecting previously unselected package libboost-test1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.8103473Z Preparing to unpack .../047-libboost-test1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.8114324Z Unpacking libboost-test1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:37.8423487Z Selecting previously unselected package libboost-test1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.8629850Z Preparing to unpack .../048-libboost-test1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.8638639Z Unpacking libboost-test1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:37.9099982Z Selecting previously unselected package libboost-graph1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.9308192Z Preparing to unpack .../049-libboost-graph1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.9317130Z Unpacking libboost-graph1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:37.9641290Z Selecting previously unselected package libboost-graph-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:37.9848879Z Preparing to unpack .../050-libboost-graph-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:37.9876448Z Unpacking libboost-graph-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:38.0109560Z Selecting previously unselected package libpsm-infinipath1.
+replay	Install build dependencies	2026-07-30T16:47:38.0322508Z Preparing to unpack .../051-libpsm-infinipath1_3.3+20.604758e7-6.1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.0331252Z Unpacking libpsm-infinipath1 (3.3+20.604758e7-6.1) ...
+replay	Install build dependencies	2026-07-30T16:47:38.0721104Z Selecting previously unselected package libpsm2-2.
+replay	Install build dependencies	2026-07-30T16:47:38.0927616Z Preparing to unpack .../052-libpsm2-2_11.2.185-1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.0936695Z Unpacking libpsm2-2 (11.2.185-1) ...
+replay	Install build dependencies	2026-07-30T16:47:38.1271360Z Selecting previously unselected package librdmacm1:amd64.
+replay	Install build dependencies	2026-07-30T16:47:38.1476931Z Preparing to unpack .../053-librdmacm1_39.0-1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.1496855Z Unpacking librdmacm1:amd64 (39.0-1) ...
+replay	Install build dependencies	2026-07-30T16:47:38.1731479Z Selecting previously unselected package libfabric1:amd64.
+replay	Install build dependencies	2026-07-30T16:47:38.1934807Z Preparing to unpack .../054-libfabric1_1.11.0-3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.1945283Z Unpacking libfabric1:amd64 (1.11.0-3) ...
+replay	Install build dependencies	2026-07-30T16:47:38.2224520Z Selecting previously unselected package libhwloc15:amd64.
+replay	Install build dependencies	2026-07-30T16:47:38.2427965Z Preparing to unpack .../055-libhwloc15_2.7.0-2ubuntu1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.2439626Z Unpacking libhwloc15:amd64 (2.7.0-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:38.2697011Z Selecting previously unselected package libxnvctrl0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:38.2902797Z Preparing to unpack .../056-libxnvctrl0_510.47.03-0ubuntu1.22.04.1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.2912884Z Unpacking libxnvctrl0:amd64 (510.47.03-0ubuntu1.22.04.1) ...
+replay	Install build dependencies	2026-07-30T16:47:38.3145057Z Selecting previously unselected package ocl-icd-libopencl1:amd64.
+replay	Install build dependencies	2026-07-30T16:47:38.3350294Z Preparing to unpack .../057-ocl-icd-libopencl1_2.2.14-3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.3362019Z Unpacking ocl-icd-libopencl1:amd64 (2.2.14-3) ...
+replay	Install build dependencies	2026-07-30T16:47:38.3607179Z Selecting previously unselected package libhwloc-plugins:amd64.
+replay	Install build dependencies	2026-07-30T16:47:38.3810875Z Preparing to unpack .../058-libhwloc-plugins_2.7.0-2ubuntu1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.3820326Z Unpacking libhwloc-plugins:amd64 (2.7.0-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:38.4045071Z Selecting previously unselected package libpmix2:amd64.
+replay	Install build dependencies	2026-07-30T16:47:38.4248223Z Preparing to unpack .../059-libpmix2_4.1.2-2ubuntu1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.4257733Z Unpacking libpmix2:amd64 (4.1.2-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:38.4600672Z Selecting previously unselected package libucx0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:38.4807097Z Preparing to unpack .../060-libucx0_1.12.1~rc2-1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.4816709Z Unpacking libucx0:amd64 (1.12.1~rc2-1) ...
+replay	Install build dependencies	2026-07-30T16:47:38.5167785Z Selecting previously unselected package libopenmpi3:amd64.
+replay	Install build dependencies	2026-07-30T16:47:38.5373614Z Preparing to unpack .../061-libopenmpi3_4.1.2-2ubuntu1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.5383918Z Unpacking libopenmpi3:amd64 (4.1.2-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:38.6146209Z Selecting previously unselected package libboost-mpi1.74.0.
+replay	Install build dependencies	2026-07-30T16:47:38.6360275Z Preparing to unpack .../062-libboost-mpi1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.6368517Z Unpacking libboost-mpi1.74.0 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:38.6667383Z Selecting previously unselected package libboost-graph-parallel1.74.0.
+replay	Install build dependencies	2026-07-30T16:47:38.6876893Z Preparing to unpack .../063-libboost-graph-parallel1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.6897517Z Unpacking libboost-graph-parallel1.74.0 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:38.7194985Z Selecting previously unselected package libboost-graph-parallel1.74-dev.
+replay	Install build dependencies	2026-07-30T16:47:38.7404811Z Preparing to unpack .../064-libboost-graph-parallel1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.7413172Z Unpacking libboost-graph-parallel1.74-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:38.7723827Z Selecting previously unselected package libboost-graph-parallel-dev.
+replay	Install build dependencies	2026-07-30T16:47:38.7937437Z Preparing to unpack .../065-libboost-graph-parallel-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.7945227Z Unpacking libboost-graph-parallel-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:38.8171301Z Selecting previously unselected package libboost-iostreams1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:38.8385634Z Preparing to unpack .../066-libboost-iostreams1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.8395053Z Unpacking libboost-iostreams1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:38.8692708Z Selecting previously unselected package libboost-iostreams1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:38.8902813Z Preparing to unpack .../067-libboost-iostreams1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.8911458Z Unpacking libboost-iostreams1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:38.9237113Z Selecting previously unselected package libboost-iostreams-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:38.9442814Z Preparing to unpack .../068-libboost-iostreams-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.9451413Z Unpacking libboost-iostreams-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:38.9667146Z Selecting previously unselected package libboost-locale1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:38.9873152Z Preparing to unpack .../069-libboost-locale1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:38.9881134Z Unpacking libboost-locale1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:39.0183559Z Selecting previously unselected package libboost-locale1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:39.0392059Z Preparing to unpack .../070-libboost-locale1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.0400624Z Unpacking libboost-locale1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:39.0788728Z Selecting previously unselected package libboost-locale-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:39.0996563Z Preparing to unpack .../071-libboost-locale-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.1005676Z Unpacking libboost-locale-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:39.1222881Z Selecting previously unselected package libboost-log1.74.0.
+replay	Install build dependencies	2026-07-30T16:47:39.1428740Z Preparing to unpack .../072-libboost-log1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.1439648Z Unpacking libboost-log1.74.0 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:39.1774958Z Selecting previously unselected package libboost-log1.74-dev.
+replay	Install build dependencies	2026-07-30T16:47:39.1984280Z Preparing to unpack .../073-libboost-log1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.1993800Z Unpacking libboost-log1.74-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:39.2495716Z Selecting previously unselected package libboost-log-dev.
+replay	Install build dependencies	2026-07-30T16:47:39.2731655Z Preparing to unpack .../074-libboost-log-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.2741440Z Unpacking libboost-log-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:39.2961621Z Selecting previously unselected package libboost-math1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:39.3170882Z Preparing to unpack .../075-libboost-math1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.3180304Z Unpacking libboost-math1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:39.3511279Z Selecting previously unselected package libboost-math1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:39.3729555Z Preparing to unpack .../076-libboost-math1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.3739311Z Unpacking libboost-math1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:39.4221588Z Selecting previously unselected package libboost-math-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:39.4433280Z Preparing to unpack .../077-libboost-math-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.4444173Z Unpacking libboost-math-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:39.4659564Z Selecting previously unselected package openmpi-common.
+replay	Install build dependencies	2026-07-30T16:47:39.4870825Z Preparing to unpack .../078-openmpi-common_4.1.2-2ubuntu1_all.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.4879952Z Unpacking openmpi-common (4.1.2-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:39.5286776Z Selecting previously unselected package libnl-3-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:39.5498533Z Preparing to unpack .../079-libnl-3-dev_3.5.0-0.1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.5506699Z Unpacking libnl-3-dev:amd64 (3.5.0-0.1) ...
+replay	Install build dependencies	2026-07-30T16:47:39.5962587Z Selecting previously unselected package libnl-route-3-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:39.6175180Z Preparing to unpack .../080-libnl-route-3-dev_3.5.0-0.1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.6183266Z Unpacking libnl-route-3-dev:amd64 (3.5.0-0.1) ...
+replay	Install build dependencies	2026-07-30T16:47:39.6443910Z Selecting previously unselected package libibverbs-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:39.6652653Z Preparing to unpack .../081-libibverbs-dev_39.0-1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.6661005Z Unpacking libibverbs-dev:amd64 (39.0-1) ...
+replay	Install build dependencies	2026-07-30T16:47:39.7433940Z Selecting previously unselected package libnuma-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:39.7644673Z Preparing to unpack .../082-libnuma-dev_2.0.14-3ubuntu2_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.7653992Z Unpacking libnuma-dev:amd64 (2.0.14-3ubuntu2) ...
+replay	Install build dependencies	2026-07-30T16:47:39.8764354Z Selecting previously unselected package libhwloc-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:39.9011250Z Preparing to unpack .../083-libhwloc-dev_2.7.0-2ubuntu1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.9025000Z Unpacking libhwloc-dev:amd64 (2.7.0-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:39.9496661Z Selecting previously unselected package libevent-2.1-7:amd64.
+replay	Install build dependencies	2026-07-30T16:47:39.9705783Z Preparing to unpack .../084-libevent-2.1-7_2.1.12-stable-1build3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:39.9714409Z Unpacking libevent-2.1-7:amd64 (2.1.12-stable-1build3) ...
+replay	Install build dependencies	2026-07-30T16:47:39.9971541Z Selecting previously unselected package libevent-extra-2.1-7:amd64.
+replay	Install build dependencies	2026-07-30T16:47:40.0179885Z Preparing to unpack .../085-libevent-extra-2.1-7_2.1.12-stable-1build3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:40.0188842Z Unpacking libevent-extra-2.1-7:amd64 (2.1.12-stable-1build3) ...
+replay	Install build dependencies	2026-07-30T16:47:40.0425458Z Selecting previously unselected package libevent-openssl-2.1-7:amd64.
+replay	Install build dependencies	2026-07-30T16:47:40.0635783Z Preparing to unpack .../086-libevent-openssl-2.1-7_2.1.12-stable-1build3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:40.0645122Z Unpacking libevent-openssl-2.1-7:amd64 (2.1.12-stable-1build3) ...
+replay	Install build dependencies	2026-07-30T16:47:40.0868623Z Selecting previously unselected package libevent-dev.
+replay	Install build dependencies	2026-07-30T16:47:40.1077000Z Preparing to unpack .../087-libevent-dev_2.1.12-stable-1build3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:40.1084967Z Unpacking libevent-dev (2.1.12-stable-1build3) ...
+replay	Install build dependencies	2026-07-30T16:47:40.1453498Z Selecting previously unselected package libpmix-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:40.1662549Z Preparing to unpack .../088-libpmix-dev_4.1.2-2ubuntu1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:40.1670453Z Unpacking libpmix-dev:amd64 (4.1.2-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:40.2086276Z Selecting previously unselected package libjs-jquery-ui.
+replay	Install build dependencies	2026-07-30T16:47:40.2298569Z Preparing to unpack .../089-libjs-jquery-ui_1.13.1+dfsg-1_all.deb ...
+replay	Install build dependencies	2026-07-30T16:47:40.2307509Z Unpacking libjs-jquery-ui (1.13.1+dfsg-1) ...
+replay	Install build dependencies	2026-07-30T16:47:40.3151997Z Selecting previously unselected package openmpi-bin.
+replay	Install build dependencies	2026-07-30T16:47:40.3363304Z Preparing to unpack .../090-openmpi-bin_4.1.2-2ubuntu1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:40.3372100Z Unpacking openmpi-bin (4.1.2-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:40.3748750Z Selecting previously unselected package libopenmpi-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:40.3962350Z Preparing to unpack .../091-libopenmpi-dev_4.1.2-2ubuntu1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:40.4071214Z Unpacking libopenmpi-dev:amd64 (4.1.2-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:40.6768989Z Selecting previously unselected package mpi-default-dev.
+replay	Install build dependencies	2026-07-30T16:47:40.6985762Z Preparing to unpack .../092-mpi-default-dev_1.14_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:40.6996707Z Unpacking mpi-default-dev (1.14) ...
+replay	Install build dependencies	2026-07-30T16:47:40.7213480Z Selecting previously unselected package libboost-mpi1.74-dev.
+replay	Install build dependencies	2026-07-30T16:47:40.7425458Z Preparing to unpack .../093-libboost-mpi1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:40.7433311Z Unpacking libboost-mpi1.74-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:40.7756331Z Selecting previously unselected package libboost-mpi-dev.
+replay	Install build dependencies	2026-07-30T16:47:40.7968240Z Preparing to unpack .../094-libboost-mpi-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:40.7978911Z Unpacking libboost-mpi-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:40.8203516Z Selecting previously unselected package libboost-python1.74.0.
+replay	Install build dependencies	2026-07-30T16:47:40.8415858Z Preparing to unpack .../095-libboost-python1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:40.8423626Z Unpacking libboost-python1.74.0 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:40.8726136Z Selecting previously unselected package mpi-default-bin.
+replay	Install build dependencies	2026-07-30T16:47:40.8950344Z Preparing to unpack .../096-mpi-default-bin_1.14_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:40.8959009Z Unpacking mpi-default-bin (1.14) ...
+replay	Install build dependencies	2026-07-30T16:47:40.9184657Z Selecting previously unselected package libboost-mpi-python1.74.0.
+replay	Install build dependencies	2026-07-30T16:47:40.9395693Z Preparing to unpack .../097-libboost-mpi-python1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:40.9402932Z Unpacking libboost-mpi-python1.74.0 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:40.9712568Z Selecting previously unselected package libboost-mpi-python1.74-dev.
+replay	Install build dependencies	2026-07-30T16:47:40.9922804Z Preparing to unpack .../098-libboost-mpi-python1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:40.9930358Z Unpacking libboost-mpi-python1.74-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:41.0231322Z Selecting previously unselected package libboost-mpi-python-dev.
+replay	Install build dependencies	2026-07-30T16:47:41.0442696Z Preparing to unpack .../099-libboost-mpi-python-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.0450482Z Unpacking libboost-mpi-python-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:41.0677205Z Selecting previously unselected package libboost-numpy1.74.0.
+replay	Install build dependencies	2026-07-30T16:47:41.0893396Z Preparing to unpack .../100-libboost-numpy1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.0905132Z Unpacking libboost-numpy1.74.0 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:41.1200023Z Selecting previously unselected package libboost-numpy1.74-dev.
+replay	Install build dependencies	2026-07-30T16:47:41.1409887Z Preparing to unpack .../101-libboost-numpy1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.1418490Z Unpacking libboost-numpy1.74-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:41.1719208Z Selecting previously unselected package libboost-numpy-dev.
+replay	Install build dependencies	2026-07-30T16:47:41.1929918Z Preparing to unpack .../102-libboost-numpy-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.1938434Z Unpacking libboost-numpy-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:41.2158345Z Selecting previously unselected package libboost-program-options1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:41.2366135Z Preparing to unpack .../103-libboost-program-options1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.2375860Z Unpacking libboost-program-options1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:41.2673595Z Selecting previously unselected package libboost-program-options1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:41.2884391Z Preparing to unpack .../104-libboost-program-options1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.2892203Z Unpacking libboost-program-options1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:41.3241938Z Selecting previously unselected package libboost-program-options-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:41.3456286Z Preparing to unpack .../105-libboost-program-options-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.3465926Z Unpacking libboost-program-options-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:41.3691930Z Selecting previously unselected package libboost-python1.74-dev.
+replay	Install build dependencies	2026-07-30T16:47:41.3906396Z Preparing to unpack .../106-libboost-python1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.3914639Z Unpacking libboost-python1.74-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:41.4241758Z Selecting previously unselected package libboost-python-dev.
+replay	Install build dependencies	2026-07-30T16:47:41.4453432Z Preparing to unpack .../107-libboost-python-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.4463899Z Unpacking libboost-python-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:41.4686739Z Selecting previously unselected package libboost-random1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:41.4901563Z Preparing to unpack .../108-libboost-random1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.4909897Z Unpacking libboost-random1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:41.5201866Z Selecting previously unselected package libboost-random1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:41.5413650Z Preparing to unpack .../109-libboost-random1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.5420565Z Unpacking libboost-random1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:41.5724836Z Selecting previously unselected package libboost-random-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:41.5939162Z Preparing to unpack .../110-libboost-random-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.5949952Z Unpacking libboost-random-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:41.6162588Z Selecting previously unselected package libboost-regex-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:41.6368553Z Preparing to unpack .../111-libboost-regex-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.6379023Z Unpacking libboost-regex-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:41.6586472Z Selecting previously unselected package libboost-serialization-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:41.6795753Z Preparing to unpack .../112-libboost-serialization-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.6806620Z Unpacking libboost-serialization-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:41.7024195Z Selecting previously unselected package libboost-stacktrace1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:41.7233505Z Preparing to unpack .../113-libboost-stacktrace1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.7241777Z Unpacking libboost-stacktrace1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:41.7546058Z Selecting previously unselected package libboost-stacktrace1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:41.7755441Z Preparing to unpack .../114-libboost-stacktrace1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.7762730Z Unpacking libboost-stacktrace1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:41.8099580Z Selecting previously unselected package libboost-stacktrace-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:41.8314355Z Preparing to unpack .../115-libboost-stacktrace-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.8323624Z Unpacking libboost-stacktrace-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:41.8546072Z Selecting previously unselected package libboost-system-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:41.8764368Z Preparing to unpack .../116-libboost-system-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.8773228Z Unpacking libboost-system-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:41.8995000Z Selecting previously unselected package libboost-test-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:41.9208708Z Preparing to unpack .../117-libboost-test-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.9219020Z Unpacking libboost-test-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:41.9440031Z Selecting previously unselected package libboost-thread-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:41.9651148Z Preparing to unpack .../118-libboost-thread-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:41.9663161Z Unpacking libboost-thread-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:41.9885608Z Selecting previously unselected package libboost-timer1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:42.0098047Z Preparing to unpack .../119-libboost-timer1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.0109257Z Unpacking libboost-timer1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:42.0404072Z Selecting previously unselected package libboost-timer1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:42.0619995Z Preparing to unpack .../120-libboost-timer1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.0630338Z Unpacking libboost-timer1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:42.0940249Z Selecting previously unselected package libboost-timer-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:42.1161326Z Preparing to unpack .../121-libboost-timer-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.1171469Z Unpacking libboost-timer-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:42.1402049Z Selecting previously unselected package libboost-type-erasure1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:42.1616098Z Preparing to unpack .../122-libboost-type-erasure1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.1625447Z Unpacking libboost-type-erasure1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:42.1916243Z Selecting previously unselected package libboost-type-erasure1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:42.2133302Z Preparing to unpack .../123-libboost-type-erasure1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.2145825Z Unpacking libboost-type-erasure1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:42.2470080Z Selecting previously unselected package libboost-type-erasure-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:42.2685600Z Preparing to unpack .../124-libboost-type-erasure-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.2695102Z Unpacking libboost-type-erasure-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:42.2921161Z Selecting previously unselected package libboost-wave1.74.0:amd64.
+replay	Install build dependencies	2026-07-30T16:47:42.3132886Z Preparing to unpack .../125-libboost-wave1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.3143653Z Unpacking libboost-wave1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:42.3470914Z Selecting previously unselected package libboost-wave1.74-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:42.3682933Z Preparing to unpack .../126-libboost-wave1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.3693371Z Unpacking libboost-wave1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:42.4124203Z Selecting previously unselected package libboost-wave-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:42.4337668Z Preparing to unpack .../127-libboost-wave-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.4346544Z Unpacking libboost-wave-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:42.4572699Z Selecting previously unselected package libboost-nowide1.74.0.
+replay	Install build dependencies	2026-07-30T16:47:42.4783366Z Preparing to unpack .../128-libboost-nowide1.74.0_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.4795297Z Unpacking libboost-nowide1.74.0 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:42.5091765Z Selecting previously unselected package libboost-nowide1.74-dev.
+replay	Install build dependencies	2026-07-30T16:47:42.5302540Z Preparing to unpack .../129-libboost-nowide1.74-dev_1.74.0-14ubuntu3_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.5311397Z Unpacking libboost-nowide1.74-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:42.5614371Z Selecting previously unselected package libboost-nowide-dev.
+replay	Install build dependencies	2026-07-30T16:47:42.5826994Z Preparing to unpack .../130-libboost-nowide-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.5835348Z Unpacking libboost-nowide-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:42.6051520Z Selecting previously unselected package libboost-all-dev.
+replay	Install build dependencies	2026-07-30T16:47:42.6260719Z Preparing to unpack .../131-libboost-all-dev_1.74.0.3ubuntu7_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.6269150Z Unpacking libboost-all-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:42.6492543Z Selecting previously unselected package libprotobuf23:amd64.
+replay	Install build dependencies	2026-07-30T16:47:42.6702739Z Preparing to unpack .../132-libprotobuf23_3.12.4-1ubuntu7.22.04.6_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.6711134Z Unpacking libprotobuf23:amd64 (3.12.4-1ubuntu7.22.04.6) ...
+replay	Install build dependencies	2026-07-30T16:47:42.7050525Z Selecting previously unselected package libprotoc23:amd64.
+replay	Install build dependencies	2026-07-30T16:47:42.7267632Z Preparing to unpack .../133-libprotoc23_3.12.4-1ubuntu7.22.04.6_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.7278077Z Unpacking libprotoc23:amd64 (3.12.4-1ubuntu7.22.04.6) ...
+replay	Install build dependencies	2026-07-30T16:47:42.7585580Z Selecting previously unselected package ninja-build.
+replay	Install build dependencies	2026-07-30T16:47:42.7799898Z Preparing to unpack .../134-ninja-build_1.10.1-1_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.7808171Z Unpacking ninja-build (1.10.1-1) ...
+replay	Install build dependencies	2026-07-30T16:47:42.8217154Z Selecting previously unselected package libprotobuf-dev:amd64.
+replay	Install build dependencies	2026-07-30T16:47:42.8431761Z Preparing to unpack .../135-libprotobuf-dev_3.12.4-1ubuntu7.22.04.6_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.8443042Z Unpacking libprotobuf-dev:amd64 (3.12.4-1ubuntu7.22.04.6) ...
+replay	Install build dependencies	2026-07-30T16:47:42.9215586Z Selecting previously unselected package protobuf-compiler.
+replay	Install build dependencies	2026-07-30T16:47:42.9427715Z Preparing to unpack .../136-protobuf-compiler_3.12.4-1ubuntu7.22.04.6_amd64.deb ...
+replay	Install build dependencies	2026-07-30T16:47:42.9436392Z Unpacking protobuf-compiler (3.12.4-1ubuntu7.22.04.6) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0060834Z Setting up libboost-chrono1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0087591Z Setting up libboost-system1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0112943Z Setting up libevent-extra-2.1-7:amd64 (2.1.12-stable-1build3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0136291Z Setting up libboost1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0158071Z Setting up libboost-atomic1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0184797Z Setting up libboost-iostreams1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0208204Z Setting up libboost-program-options1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0231945Z Setting up libboost-chrono1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0259347Z Setting up libboost-stacktrace1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0284063Z Setting up libevent-openssl-2.1-7:amd64 (2.1.12-stable-1build3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0308834Z Setting up libboost-nowide1.74.0 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0332806Z Setting up libboost-filesystem1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0357517Z Setting up libprotobuf23:amd64 (3.12.4-1ubuntu7.22.04.6) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0380779Z Setting up libboost-exception1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0405507Z Setting up libboost-exception-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0428647Z Setting up ninja-build (1.10.1-1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0451672Z Setting up libboost-program-options1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0474014Z Setting up libnuma-dev:amd64 (2.0.14-3ubuntu2) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0495672Z Setting up libnl-route-3-200:amd64 (3.5.0-0.1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0518234Z Setting up libxnvctrl0:amd64 (510.47.03-0ubuntu1.22.04.1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0542686Z Setting up libprotobuf-dev:amd64 (3.12.4-1ubuntu7.22.04.6) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0565905Z Setting up libjs-jquery-ui (1.13.1+dfsg-1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0592345Z Setting up libboost-test1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0623245Z Setting up libboost-program-options-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0649680Z Setting up dh-elpa-helper (2.0.9ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0670321Z Setting up libprotoc23:amd64 (3.12.4-1ubuntu7.22.04.6) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0693144Z Setting up libboost-system1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0717305Z Setting up libboost-nowide1.74-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0740174Z Setting up libboost-regex1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0764703Z Setting up libhwloc15:amd64 (2.7.0-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0786656Z Setting up libboost-context1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0811397Z Setting up libevent-2.1-7:amd64 (2.1.12-stable-1build3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0838763Z Setting up libboost-graph1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0861404Z Setting up libboost-random1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0885026Z Setting up libjsoncpp25:amd64 (1.9.5-3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0906895Z Setting up libboost1.74-tools-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0930865Z Setting up libboost-atomic1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0956273Z Setting up libboost-math1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.0977815Z Setting up libboost-serialization1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1000947Z Setting up libboost-atomic-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1026178Z Setting up libboost-container1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1048312Z Setting up libboost-regex1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1073441Z Setting up libnl-3-dev:amd64 (3.5.0-0.1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1106144Z Setting up ocl-icd-libopencl1:amd64 (2.2.14-3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1128905Z Setting up librhash0:amd64 (1.4.2-1ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1153363Z Setting up libpsm2-2 (11.2.185-1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1176238Z Setting up openmpi-common (4.1.2-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1201934Z Setting up libhwloc-dev:amd64 (2.7.0-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1227360Z Setting up cmake-data (3.22.1-1ubuntu1.22.04.2) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1789164Z Setting up libboost-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1814637Z Setting up libboost-math1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1836810Z Setting up libpsm-infinipath1 (3.3+20.604758e7-6.1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1919927Z update-alternatives: using /usr/lib/libpsm1/libpsm_infinipath.so.1.16 to provide /usr/lib/x86_64-linux-gnu/libpsm_infinipath.so.1 (libpsm_infinipath.so.1) in auto mode
+replay	Install build dependencies	2026-07-30T16:47:43.1940221Z Setting up libboost-filesystem1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1962440Z Setting up libboost-date-time1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.1986870Z Setting up libboost-python1.74.0 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.2014906Z Setting up libboost-fiber1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.2039794Z Setting up libboost-stacktrace1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.2063086Z Setting up libboost-test1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.2086796Z Setting up libboost-regex-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.2109238Z Setting up libboost-timer1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.2131249Z Setting up libboost-filesystem-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.2152955Z Setting up libboost-thread1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.2184782Z Setting up libboost-numpy1.74.0 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.2219869Z Setting up libboost-log1.74.0 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.2244326Z Setting up libibverbs1:amd64 (39.0-1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.2739138Z Setting up protobuf-compiler (3.12.4-1ubuntu7.22.04.6) ...
+replay	Install build dependencies	2026-07-30T16:47:43.2764548Z Setting up ibverbs-providers:amd64 (39.0-1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3017101Z Setting up libboost-container1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3038203Z Setting up libboost-chrono-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3070040Z Setting up libboost-math-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3091063Z Setting up libboost-coroutine1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3111724Z Setting up libboost-system-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3146378Z Setting up libboost-tools-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3182192Z Setting up libhwloc-plugins:amd64 (2.7.0-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3209116Z Setting up libboost-nowide-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3237583Z Setting up libboost-container-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3258563Z Setting up libboost-python1.74-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3279146Z Setting up libboost-python-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3313308Z Setting up libboost-test-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3470656Z Setting up libboost-iostreams1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3492490Z Setting up libnl-route-3-dev:amd64 (3.5.0-0.1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3514377Z Setting up libevent-dev (2.1.12-stable-1build3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3537339Z Setting up libboost-random1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3558117Z Setting up libboost-timer1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3579505Z Setting up libboost-numpy1.74-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3604676Z Setting up libboost-serialization1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3626293Z Setting up libboost-wave1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3645721Z Setting up libboost-stacktrace-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3672627Z Setting up cmake (3.22.1-1ubuntu1.22.04.2) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3696302Z Setting up libboost-locale1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3717489Z Setting up libboost-timer-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3742966Z Setting up libboost-type-erasure1.74.0:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3770164Z Setting up librdmacm1:amd64 (39.0-1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3795200Z Setting up libucx0:amd64 (1.12.1~rc2-1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3818665Z Setting up libboost-wave1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3841164Z Setting up libpmix2:amd64 (4.1.2-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3876332Z Setting up libboost-random-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3899339Z Setting up libboost-wave-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3920816Z Setting up libboost-iostreams-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3948039Z Setting up libibverbs-dev:amd64 (39.0-1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.3980629Z Setting up libboost-date-time1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4003051Z Setting up libboost-graph1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4025414Z Setting up libboost-numpy-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4047770Z Setting up libboost-serialization-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4068578Z Setting up libboost-date-time-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4094748Z Setting up libboost-thread1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4116899Z Setting up libpmix-dev:amd64 (4.1.2-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4139456Z Setting up libboost-thread-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4162197Z Setting up libfabric1:amd64 (1.11.0-3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4184662Z Setting up libboost-graph-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4207093Z Setting up libboost-log1.74-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4229314Z Setting up libopenmpi3:amd64 (4.1.2-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4316475Z Setting up libboost-mpi1.74.0 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4339164Z Setting up libboost-context1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4359403Z Setting up libboost-fiber1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4380156Z Setting up libboost-type-erasure1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4401322Z Setting up libboost-locale1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4432756Z Setting up libboost-coroutine1.74-dev:amd64 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4455314Z Setting up libboost-coroutine-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4476617Z Setting up libboost-graph-parallel1.74.0 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4497677Z Setting up libboost-log-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4517824Z Setting up openmpi-bin (4.1.2-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4623387Z update-alternatives: using /usr/bin/mpirun.openmpi to provide /usr/bin/mpirun (mpirun) in auto mode
+replay	Install build dependencies	2026-07-30T16:47:43.4688894Z update-alternatives: using /usr/bin/mpicc.openmpi to provide /usr/bin/mpicc (mpi) in auto mode
+replay	Install build dependencies	2026-07-30T16:47:43.4728689Z Setting up libboost-fiber-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4748339Z Setting up mpi-default-bin (1.14) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4770023Z Setting up libboost-locale-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4792833Z Setting up libboost-context-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4813920Z Setting up libboost-type-erasure-dev:amd64 (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4840182Z Setting up libboost-graph-parallel1.74-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4859965Z Setting up libopenmpi-dev:amd64 (4.1.2-2ubuntu1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.4938806Z update-alternatives: using /usr/lib/x86_64-linux-gnu/openmpi/include to provide /usr/include/x86_64-linux-gnu/mpi (mpi-x86_64-linux-gnu) in auto mode
+replay	Install build dependencies	2026-07-30T16:47:43.4963969Z Setting up libboost-mpi-python1.74.0 (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.6231803Z Setting up libboost-graph-parallel-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.6253110Z Setting up mpi-default-dev (1.14) ...
+replay	Install build dependencies	2026-07-30T16:47:43.6277002Z Setting up libboost-mpi1.74-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.6308747Z Setting up libboost-mpi-python1.74-dev (1.74.0-14ubuntu3) ...
+replay	Install build dependencies	2026-07-30T16:47:43.6329053Z Setting up libboost-mpi-python-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.6348943Z Setting up libboost-mpi-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.6370601Z Setting up libboost-all-dev (1.74.0.3ubuntu7) ...
+replay	Install build dependencies	2026-07-30T16:47:43.6398478Z Processing triggers for man-db (2.10.2-1) ...
+replay	Install build dependencies	2026-07-30T16:47:43.6419378Z Not building database; man-db/auto-update is not 'true'.
+replay	Install build dependencies	2026-07-30T16:47:43.6434837Z Processing triggers for libc-bin (2.35-0ubuntu3.13) ...
+replay	Install build dependencies	2026-07-30T16:47:44.2695274Z
+replay	Install build dependencies	2026-07-30T16:47:44.2695903Z Running kernel seems to be up-to-date.
+replay	Install build dependencies	2026-07-30T16:47:44.2696452Z
+replay	Install build dependencies	2026-07-30T16:47:44.2696690Z No services need to be restarted.
+replay	Install build dependencies	2026-07-30T16:47:44.2697125Z
+replay	Install build dependencies	2026-07-30T16:47:44.2697356Z No containers need to be restarted.
+replay	Install build dependencies	2026-07-30T16:47:44.2697799Z
+replay	Install build dependencies	2026-07-30T16:47:44.2698333Z No user sessions are running outdated binaries.
+replay	Install build dependencies	2026-07-30T16:47:44.2698887Z
+replay	Install build dependencies	2026-07-30T16:47:44.2699282Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+replay	Build pinned Microsoft SEAL	﻿2026-07-30T16:47:45.5000163Z ##[group]Run set -euo pipefail
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5000516Z [36;1mset -euo pipefail[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5000783Z [36;1mexport CXXFLAGS="-include mutex"[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5001108Z [36;1mgit clone --filter=blob:none \[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5001490Z [36;1m  https://github.com/microsoft/SEAL.git /tmp/SEAL[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5001853Z [36;1mgit -C /tmp/SEAL checkout \[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5002181Z [36;1m  0b058d99b7f18a00e5ebb2b80caee593804b0500[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5002535Z [36;1mtest "$(git -C /tmp/SEAL rev-parse HEAD)" = \[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5002876Z [36;1m  0b058d99b7f18a00e5ebb2b80caee593804b0500[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5003229Z [36;1mcmake -S /tmp/SEAL -B /tmp/SEAL/build -G Ninja \[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5003613Z [36;1m  -DCMAKE_BUILD_TYPE=Release \[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5003929Z [36;1m  -DCMAKE_INSTALL_PREFIX=/tmp/seal-install \[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5004284Z [36;1m  -DSEAL_THROW_ON_TRANSPARENT_CIPHERTEXT=OFF \[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5004621Z [36;1m  -DSEAL_USE_GAUSSIAN_NOISE=OFF \[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5004945Z [36;1m  -DSEAL_USE_MSGSL=OFF \[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5005201Z [36;1m  -DSEAL_USE_ZLIB=OFF \[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5005455Z [36;1m  -DSEAL_USE_ZSTD=OFF \[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5005708Z [36;1m  -DSEAL_BUILD_TESTS=OFF \[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5005975Z [36;1m  -DSEAL_BUILD_EXAMPLES=OFF[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5006276Z [36;1mcmake --build /tmp/SEAL/build --parallel 2[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5006602Z [36;1mcmake --install /tmp/SEAL/build[0m
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5066809Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5067219Z ##[endgroup]
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:45.5421058Z Cloning into '/tmp/SEAL'...
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0390962Z Note: switching to '0b058d99b7f18a00e5ebb2b80caee593804b0500'.
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0391469Z
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0391789Z You are in 'detached HEAD' state. You can look around, make experimental
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0392563Z changes and commit them, and you can discard any commits you make in this
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0393333Z state without impacting any branches by switching back to a branch.
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0393779Z
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0394424Z If you want to create a new branch to retain commits you create, you may
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0395546Z do so (now or later) by using -c with the switch command. Example:
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0396262Z
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0396794Z   git switch -c <new-branch-name>
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0397192Z
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0397439Z Or undo this operation with:
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0397774Z
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0398331Z   git switch -
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0398732Z
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0399478Z Turn off this advice by setting config variable advice.detachedHead to false
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0400322Z
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0400818Z HEAD is now at 0b058d9 Merge pull request #322 from g2flyer/hexl-install-fix
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.0741802Z -- Build type (CMAKE_BUILD_TYPE): Release
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.7001738Z -- The CXX compiler identification is GNU 11.4.0
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.7896332Z -- The C compiler identification is GNU 11.4.0
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:47.8080138Z -- Detecting CXX compiler ABI info
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.0815606Z -- Detecting CXX compiler ABI info - done
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.1002731Z -- Check for working CXX compiler: /usr/bin/c++ - skipped
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.1009439Z -- Detecting CXX compile features
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.1018674Z -- Detecting CXX compile features - done
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.1239650Z -- Detecting C compiler ABI info
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.1834120Z -- Detecting C compiler ABI info - done
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.2003790Z -- Check for working C compiler: /usr/bin/cc - skipped
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.2007709Z -- Detecting C compile features
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.2012717Z -- Detecting C compile features - done
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.2519881Z -- Microsoft SEAL debug mode: OFF
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.2520779Z -- SEAL_USE_CXX17: ON
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.6432080Z -- SEAL_BUILD_DEPS: ON
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.6570859Z -- SEAL_USE_MSGSL: OFF
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.6571437Z -- SEAL_USE_ZLIB: OFF
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.6572479Z -- SEAL_USE_ZSTD: OFF
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.6573014Z -- SEAL_USE_INTEL_HEXL: OFF
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.6578707Z -- BUILD_SHARED_LIBS: OFF
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.6579366Z -- SEAL_THROW_ON_TRANSPARENT_CIPHERTEXT: OFF
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.6579834Z -- SEAL_USE_GAUSSIAN_NOISE: OFF
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.6580215Z -- SEAL_DEFAULT_PRNG: Blake2xb
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.6580598Z -- Performing Test SEAL_ARM64
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.8533874Z -- Performing Test SEAL_ARM64 - Failed
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:48.8538819Z -- Looking for C++ include x86intrin.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:49.4756521Z -- Looking for C++ include x86intrin.h - found
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:49.4757394Z -- SEAL_USE_INTRIN: ON
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:51.7942364Z -- Performing Test SEAL_MEMSET_S_FOUND
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:51.9916438Z -- Performing Test SEAL_MEMSET_S_FOUND - Failed
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:51.9921804Z -- Looking for explicit_bzero
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.0475845Z -- Looking for explicit_bzero - found
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.0479848Z -- Looking for explicit_memset
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.0785115Z -- Looking for explicit_memset - not found
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.0786279Z -- SEAL_USE_MEMSET_S: OFF
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.0786786Z -- SEAL_USE_EXPLICIT_BZERO: ON
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.0787259Z -- SEAL_USE_EXPLICIT_MEMSET: OFF
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.1063249Z -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.1660150Z -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.1676154Z -- Found Threads: TRUE
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.1679660Z -- SEAL_BUILD_SEAL_C: OFF
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.1739823Z -- SEAL_BUILD_EXAMPLES: OFF
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.1740397Z -- SEAL_BUILD_TESTS: OFF
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.1740910Z -- SEAL_BUILD_BENCH: OFF
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.1749647Z -- Configuring done (5.1s)
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.1832994Z -- Generating done (0.0s)
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:52.1837197Z -- Build files have been written to: /tmp/SEAL/build
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:54.0173297Z [1/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/batchencoder.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:54.1388082Z [2/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/ciphertext.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:55.6453505Z [3/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/ckks.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:56.2826316Z [4/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/context.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:57.6369337Z [5/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/decryptor.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:57.7423072Z [6/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/encryptionparams.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:47:59.4208970Z [7/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/encryptor.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:01.5129832Z [8/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/keygenerator.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:01.5782106Z [9/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/evaluator.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:02.3087442Z [10/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/memorymanager.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:03.0807815Z [11/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/kswitchkeys.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:03.4069290Z [12/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/modulus.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:04.5179106Z [13/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/plaintext.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:04.5775038Z [14/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/randomgen.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:05.4330638Z [15/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/serialization.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:05.7861712Z [16/40] Building C object CMakeFiles/seal.dir/native/src/seal/util/blake2b.c.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:05.8366960Z [17/40] Building C object CMakeFiles/seal.dir/native/src/seal/util/blake2xb.c.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:06.0720829Z [18/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/valcheck.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:06.4672135Z [19/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/clipnormal.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:06.7199146Z [20/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/common.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:07.0464430Z [21/40] Building C object CMakeFiles/seal.dir/native/src/seal/util/fips202.c.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:07.3496748Z [22/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/croots.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:08.1840318Z [23/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/globals.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:08.4094700Z [24/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/galois.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:08.8210577Z [25/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/hash.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:09.5432180Z [26/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/iterator.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:09.7722303Z [27/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/mempool.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:10.6866022Z [28/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/numth.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:10.8302901Z [29/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/polyarithsmallmod.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:12.5421524Z [30/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/rlwe.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:13.8326815Z [31/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/rns.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:13.9421658Z [32/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/scalingvariant.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:14.9711209Z [33/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/streambuf.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:15.0737669Z [34/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/ntt.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:15.9638078Z [35/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/uintarith.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:16.0145622Z [36/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/uintarithmod.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:16.8700611Z [37/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/uintcore.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.1053545Z [38/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/uintarithsmallmod.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.3452154Z [39/40] Building CXX object CMakeFiles/seal.dir/native/src/seal/util/ztools.cpp.o
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8883255Z [40/40] Linking CXX static library lib/libseal-3.6.a
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8917565Z -- Install configuration: "Release"
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8920644Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/config.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8923150Z -- Installing: /tmp/seal-install/lib/libseal-3.6.a
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8942585Z -- Installing: /tmp/seal-install/lib/cmake/SEAL-3.6/SEALTargets.cmake
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8944598Z -- Installing: /tmp/seal-install/lib/cmake/SEAL-3.6/SEALTargets-release.cmake
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8946364Z -- Installing: /tmp/seal-install/lib/cmake/SEAL-3.6/SEALConfig.cmake
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8948362Z -- Installing: /tmp/seal-install/lib/cmake/SEAL-3.6/SEALConfigVersion.cmake
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8950642Z -- Installing: /tmp/seal-install/lib/pkgconfig/seal.pc
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8954309Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/batchencoder.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8956000Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/ciphertext.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8958066Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/ckks.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8960180Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/modulus.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8961851Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/context.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8963849Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/decryptor.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8965366Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/dynarray.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8967347Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/encryptionparams.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8969252Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/encryptor.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8971231Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/evaluator.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8973675Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/galoiskeys.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8975153Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/keygenerator.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8976880Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/kswitchkeys.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8978722Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/memorymanager.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8980409Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/plaintext.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8982403Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/publickey.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8983887Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/randomgen.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8985593Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/randomtostd.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8987030Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/relinkeys.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8988815Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/seal.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8990406Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/secretkey.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8992263Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/serializable.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8993832Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/serialization.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8995502Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/valcheck.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.8997376Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/version.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9001316Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/blake2.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9002988Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/blake2-impl.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9004490Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/clang.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9006145Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/clipnormal.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9007695Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/common.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9009798Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/croots.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9011261Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/defines.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9013120Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/dwthandler.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9014760Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/fips202.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9016292Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/galois.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9018051Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/gcc.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9020262Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/globals.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9021567Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/hash.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9023075Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/hestdparms.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9024635Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/intel_seal_ext.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9026112Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/iterator.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9029112Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/locks.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9030754Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/mempool.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9032401Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/msvc.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9033955Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/numth.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9035611Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/pointer.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9037789Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/polyarithsmallmod.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9040011Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/polycore.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9041584Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/rlwe.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9043180Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/rns.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9045068Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/scalingvariant.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9046487Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/ntt.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9048474Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/streambuf.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9050085Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/uintarith.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9052220Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/uintarithmod.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9053933Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/uintarithsmallmod.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9055810Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/uintcore.h
+replay	Build pinned Microsoft SEAL	2026-07-30T16:48:17.9057687Z -- Installing: /tmp/seal-install/include/SEAL-3.6/seal/util/ztools.h
+replay	Build pinned Microsoft EVA	﻿2026-07-30T16:48:17.9096946Z ##[group]Run set -euo pipefail
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9097278Z [36;1mset -euo pipefail[0m
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9097527Z [36;1mgit clone --filter=blob:none \[0m
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9098115Z [36;1m  https://github.com/microsoft/EVA.git /tmp/EVA[0m
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9098550Z [36;1mgit -C /tmp/EVA checkout \[0m
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9098845Z [36;1m  4cd3254c9c51340ae30c451495ce5378135758c0[0m
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9099306Z [36;1mtest "$(git -C /tmp/EVA rev-parse HEAD)" = \[0m
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9099722Z [36;1m  4cd3254c9c51340ae30c451495ce5378135758c0[0m
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9100114Z [36;1mgit -C /tmp/EVA submodule update --init third_party/pybind11[0m
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9100526Z [36;1mcmake -S /tmp/EVA -B /tmp/EVA/build -G Ninja \[0m
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9100849Z [36;1m  -DCMAKE_BUILD_TYPE=Release \[0m
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9101151Z [36;1m  -DCMAKE_PREFIX_PATH=/tmp/seal-install \[0m
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9101456Z [36;1m  -DUSE_GALOIS=OFF[0m
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9101734Z [36;1mcmake --build /tmp/EVA/build --parallel 2[0m
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9159555Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9159922Z ##[endgroup]
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:17.9263784Z Cloning into '/tmp/EVA'...
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8908400Z Note: switching to '4cd3254c9c51340ae30c451495ce5378135758c0'.
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8909044Z
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8909475Z You are in 'detached HEAD' state. You can look around, make experimental
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8910517Z changes and commit them, and you can discard any commits you make in this
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8911628Z state without impacting any branches by switching back to a branch.
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8912085Z
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8912353Z If you want to create a new branch to retain commits you create, you may
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8913037Z do so (now or later) by using -c with the switch command. Example:
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8913438Z
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8913621Z   git switch -c <new-branch-name>
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8914026Z
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8914215Z Or undo this operation with:
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8914552Z
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8914731Z   git switch -
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8915005Z
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8915474Z Turn off this advice by setting config variable advice.detachedHead to false
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8916206Z
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.8916473Z HEAD is now at 4cd3254 Bump version to 1.0.1
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.9156554Z Submodule 'third_party/pybind11' (https://github.com/pybind/pybind11) registered for path 'third_party/pybind11'
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:18.9184012Z Cloning into '/tmp/EVA/third_party/pybind11'...
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:20.2711637Z Submodule path 'third_party/pybind11': checked out 'f1abf5d9159b805674197f6bc443592e631c9130'
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:20.3329606Z -- The CXX compiler identification is GNU 11.4.0
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:20.3418821Z -- Detecting CXX compiler ABI info
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:20.4027464Z -- Detecting CXX compiler ABI info - done
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:20.4198487Z -- Check for working CXX compiler: /usr/bin/c++ - skipped
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:20.4202144Z -- Detecting CXX compile features
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:20.4208861Z -- Detecting CXX compile features - done
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:20.4357652Z -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:20.5070826Z -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:20.5080811Z -- Found Threads: TRUE
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:20.5086963Z -- Microsoft SEAL -> Version 3.6.4 detected
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:20.5092677Z -- Microsoft SEAL -> Targets available: SEAL::seal
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:20.5356155Z -- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found suitable version "3.12.4", minimum required is "3.6")
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.4245607Z -- Found Python: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter Development Development.Module Development.Embed
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.4254892Z CMake Deprecation Warning at third_party/pybind11/CMakeLists.txt:8 (cmake_minimum_required):
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.4255774Z   Compatibility with CMake < 3.10 will be removed from a future version of
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.4256420Z   CMake.
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.4256929Z
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.4257288Z   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.4258257Z   to tell CMake that the project requires at least <min> but has been updated
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.4258940Z   to work with policies introduced by <max> or earlier.
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.4259296Z
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.4259302Z
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.4312492Z -- pybind11 v2.6.1
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.4737809Z -- Performing Test HAS_FLTO
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.9243146Z -- Performing Test HAS_FLTO - Success
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.9301677Z -- Configuring done (1.7s)
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.9410864Z -- Generating done (0.0s)
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.9415452Z -- Build files have been written to: /tmp/EVA/build
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.9551241Z [1/27] Running cpp protocol buffer compiler on known_type.proto
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.9574488Z [2/27] Running cpp protocol buffer compiler on eva.proto
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.9604406Z [3/27] Running cpp protocol buffer compiler on ckks.proto
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:21.9636763Z [4/27] Running cpp protocol buffer compiler on seal.proto
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:22.1136176Z [5/27] Building CXX object eva/CMakeFiles/eva.dir/version.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:22.4541807Z [6/27] Building CXX object eva/CMakeFiles/eva.dir/util/logging.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:24.9999690Z [7/27] Building CXX object eva/CMakeFiles/eva.dir/eva.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:25.0442046Z [8/27] Building CXX object eva/CMakeFiles/eva.dir/serialization/known_type.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:26.6721607Z [9/27] Building CXX object eva/CMakeFiles/eva.dir/serialization/eva_serialization.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:27.1460589Z [10/27] Building CXX object eva/CMakeFiles/eva.dir/serialization/save_load.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:27.8194713Z [11/27] Building CXX object eva/CMakeFiles/eva.dir/serialization/ckks_serialization.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:29.0264567Z [12/27] Building CXX object eva/CMakeFiles/eva.dir/ir/term.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:30.7931261Z [13/27] Building CXX object eva/CMakeFiles/eva.dir/serialization/seal_serialization.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:30.9362910Z [14/27] Building CXX object eva/CMakeFiles/eva.dir/ir/program.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:31.6670189Z [15/27] Building CXX object eva/CMakeFiles/eva.dir/ir/attributes.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:31.7105051Z [16/27] Building CXX object eva/CMakeFiles/eva.dir/ir/attribute_list.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:32.1739234Z [17/27] Building CXX object eva/CMakeFiles/eva.dir/ckks/ckks_config.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:32.7992107Z [18/27] Building CXX object eva/CMakeFiles/eva.dir/common/reference_executor.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:33.5738468Z [19/27] Building CXX object eva/serialization/CMakeFiles/protobuf.dir/known_type.pb.cc.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:34.8995671Z [20/27] Building CXX object eva/serialization/CMakeFiles/protobuf.dir/eva.pb.cc.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:36.6967216Z [21/27] Building CXX object eva/CMakeFiles/eva.dir/seal/seal.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:37.1410803Z [22/27] Building CXX object eva/serialization/CMakeFiles/protobuf.dir/ckks.pb.cc.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:39.1927605Z [23/27] Building CXX object eva/serialization/CMakeFiles/protobuf.dir/seal.pb.cc.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:39.3147141Z [24/27] Linking CXX static library eva/libeva.a
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:43.8553770Z [25/27] Building CXX object python/eva/CMakeFiles/eva_py.dir/wrapper.cpp.o
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:50.8318171Z [26/27] Linking CXX shared module python/eva/_eva.cpython-310-x86_64-linux-gnu.so
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:50.8318894Z lto-wrapper: warning: using serial compilation of 8 LTRANS jobs
+replay	Build pinned Microsoft EVA	2026-07-30T16:48:50.8352694Z [27/27] Running utility command for python
+replay	Execute native EVA and conditional locked audit	﻿2026-07-30T16:48:50.8411647Z ##[group]Run set -euo pipefail
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:50.8411981Z [36;1mset -euo pipefail[0m
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:50.8412264Z [36;1mpython3 scripts/run_eva_native_runtime.py \[0m
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:50.8412571Z [36;1m  --eva-root /tmp/EVA \[0m
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:50.8412827Z [36;1m  --seal-root /tmp/SEAL \[0m
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:50.8413120Z [36;1m  --output-root eva-native-runtime-replay \[0m
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:50.8413514Z [36;1m  --source-commit "4611ae2bedcc92e69d8eb22539f64b429a137d4f" \[0m
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:50.8413900Z [36;1m  --action-run-id "30563021551"[0m
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:50.8470580Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:50.8470978Z env:
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:50.8471211Z   PYTHONPATH: /tmp/EVA/build/python
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:50.8471514Z ##[endgroup]
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:51.0521472Z WARNING: Program specifies vector size 1 while at least 8192 slots are required for security. This does not affect correctness, as the smaller vector size will be transparently emulated. However, using a vector size up to 8192 would come at no additional cost.
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3605724Z {
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3606156Z   "accounting": {
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3606497Z     "candidate_trials": 1,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3606919Z     "locked_audit_encrypted_sample_evaluations": 0,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3607452Z     "locked_audit_key_runs": 0,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3607808Z     "repair_calls": 0,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3608356Z     "retuning": 0,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3608694Z     "synthesis_calls": 0,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3609108Z     "validation_encrypted_sample_evaluations": 42,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3609578Z     "validation_key_runs": 3
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3609917Z   },
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3610190Z   "action_run_id": "30563021551",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3610567Z   "candidate": {
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3610884Z     "input_scale_bits": 20,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3611230Z     "p": [
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3611497Z       1152921504606748673
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3611809Z     ],
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3612085Z     "poly_modulus_degree": 16384,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3612468Z     "prime_bits": [
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3612763Z       60,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3613009Z       60,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3613253Z       60,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3613499Z       60
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3613745Z     ],
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3614066Z     "provider": "microsoft_eva_v1.0.1_seal3.6.4",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3614498Z     "q": [
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3614763Z       1152921504605962241,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3615094Z       1152921504606584833,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3615408Z       1152921504606683137
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3615706Z     ]
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3615948Z   },
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3616201Z   "claim_states": {
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3616620Z     "cross_runtime_numerical_equivalence": "NOT_EVALUATED",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3617375Z     "general_external_compiler_interoperability": "PARTIALLY_SUPPORTED",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3618370Z     "native_eva_seal_decision_certification": "BLOCKED",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3618974Z     "native_eva_seal_execution": "SUPPORTED"
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3619415Z   },
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3619938Z   "classification": "SOURCE_REPLAYED_PUBLIC_COMPILER_NATIVE_RUNTIME_CONTROL",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3620634Z   "compiled_program_identity": {
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3621436Z     "expected_raw_sha256": "sha256:3c5ec469e692ea17dd413180c6c37c5042ef7bb5bfedd968d19447242fd72bca",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3622403Z     "identity_class": "SEMANTICALLY_IDENTICAL_REPRESENTATION_DIFFERENCE",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3623716Z     "observed_raw_sha256": "sha256:6927dd0dbffa35bc10dff733bd32ba631201b9b6e3fcc1e30eef915df82d4220",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3624692Z     "semantic_sha256": "sha256:403b0d9e5ee96ff9484c0ad598ac73355c03e907d23996b8a882e2d28fd12513"
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3625387Z   },
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3626058Z   "compiled_program_sha256": "sha256:6927dd0dbffa35bc10dff733bd32ba631201b9b6e3fcc1e30eef915df82d4220",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3627328Z   "compiler_output_sha256": "sha256:605cc94bb1df230f9d58b1cbbeb66a26d11b6ae44ed4ad46dfca0925cd711dea",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3628788Z   "contract_sha256": "sha256:832f4c9a2c846595bf53cf33da68aa5a034e015e4c9353c0767ce73d6dcd6df3",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3630297Z   "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3631136Z   "locked_audit": {
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3631514Z     "reason": "validation did not establish SAFE",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3631978Z     "retuning": 0,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3632308Z     "status": "NOT_EVALUATED"
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3632698Z   },
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3633007Z   "paper_claim_allowed": false,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3633438Z   "policy_modifications": 0,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3633798Z   "runtime": {
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3634139Z     "backend": "native_eva_seal",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3634656Z     "eva_commit": "4cd3254c9c51340ae30c451495ce5378135758c0",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3635248Z     "platform": "Linux-6.8.0-1062-azure-x86_64-with-glibc2.35",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3635763Z     "python": "3.10.12",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3636231Z     "seal_commit": "0b058d99b7f18a00e5ebb2b80caee593804b0500",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3636823Z     "seal_error": "centered_binomial_stddev_3.2",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3637287Z     "seal_secret": "uniform_ternary_-1_0_1"
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3637713Z   },
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3638437Z   "runtime_security_claim": "NOT_EVALUATED_DIFFERENT_RUNTIME_DISTRIBUTION",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3639239Z   "schema_version": "flipguard_eva_native_runtime_result_v1",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3640109Z   "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3640922Z   "source_commit": "4611ae2bedcc92e69d8eb22539f64b429a137d4f",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3641448Z   "status": "PARTIAL_SCIENTIFIC_RESULT",
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3641859Z   "validation": {
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3642160Z     "counts": {
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3642465Z       "decision_flips": 11,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3642824Z       "error_violations": 36,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3643191Z       "execution_failures": 0,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3643542Z       "key_repeats": 3,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3643892Z       "max_absolute_error": 1.784804773973152,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3644371Z       "max_normalized_budget_usage": 58.5611405658713,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3644835Z       "observations": 42,
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3645170Z       "sample_count": 14
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3645491Z     },
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3645763Z     "status": "REJECTED"
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3646079Z   }
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:48:53.3646327Z }
+replay	Verify native runtime result	﻿2026-07-30T16:48:53.3777267Z ##[group]Run set -euo pipefail
+replay	Verify native runtime result	2026-07-30T16:48:53.3777603Z [36;1mset -euo pipefail[0m
+replay	Verify native runtime result	2026-07-30T16:48:53.3778174Z [36;1mpython3 scripts/verify_eva_native_runtime.py \[0m
+replay	Verify native runtime result	2026-07-30T16:48:53.3778541Z [36;1m  --result-root eva-native-runtime-replay[0m
+replay	Verify native runtime result	2026-07-30T16:48:53.3835218Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+replay	Verify native runtime result	2026-07-30T16:48:53.3835574Z ##[endgroup]
+replay	Verify native runtime result	2026-07-30T16:48:53.4292728Z {
+replay	Verify native runtime result	2026-07-30T16:48:53.4293370Z   "locked_audit_status": "NOT_EVALUATED",
+replay	Verify native runtime result	2026-07-30T16:48:53.4294295Z   "manifest_sha256": "sha256:0a42fc6c5bc5fd1a737e8a627c8fa8cda019ff930ecf663fa6d47a0fd5dd8e95",
+replay	Verify native runtime result	2026-07-30T16:48:53.4295221Z   "paper_claim_allowed": false,
+replay	Verify native runtime result	2026-07-30T16:48:53.4295737Z   "status": "PARTIAL_SCIENTIFIC_RESULT",
+replay	Verify native runtime result	2026-07-30T16:48:53.4296271Z   "validation_status": "REJECTED"
+replay	Verify native runtime result	2026-07-30T16:48:53.4296727Z }
+replay	Upload native runtime artifact	﻿2026-07-30T16:48:53.4403902Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+replay	Upload native runtime artifact	2026-07-30T16:48:53.4406115Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+replay	Upload native runtime artifact	2026-07-30T16:48:53.4406506Z with:
+replay	Upload native runtime artifact	2026-07-30T16:48:53.4406715Z   name: eva-native-runtime-replay
+replay	Upload native runtime artifact	2026-07-30T16:48:53.4406985Z   path: eva-native-runtime-replay
+replay	Upload native runtime artifact	2026-07-30T16:48:53.4407245Z   if-no-files-found: error
+replay	Upload native runtime artifact	2026-07-30T16:48:53.4407472Z   retention-days: 30
+replay	Upload native runtime artifact	2026-07-30T16:48:53.4407680Z   compression-level: 6
+replay	Upload native runtime artifact	2026-07-30T16:48:53.4408151Z   overwrite: false
+replay	Upload native runtime artifact	2026-07-30T16:48:53.4408415Z   include-hidden-files: false
+replay	Upload native runtime artifact	2026-07-30T16:48:53.4408644Z ##[endgroup]
+replay	Upload native runtime artifact	2026-07-30T16:48:53.6330429Z (node:4966) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+replay	Upload native runtime artifact	2026-07-30T16:48:53.6332259Z (Use `node --trace-deprecation ...` to show where the warning was created)
+replay	Upload native runtime artifact	2026-07-30T16:48:53.6438906Z With the provided path, there will be 4 files uploaded
+replay	Upload native runtime artifact	2026-07-30T16:48:53.6442799Z Artifact name is valid!
+replay	Upload native runtime artifact	2026-07-30T16:48:53.6443412Z Root directory input is valid!
+replay	Upload native runtime artifact	2026-07-30T16:48:54.0094560Z Beginning upload of artifact content to blob storage
+replay	Upload native runtime artifact	2026-07-30T16:48:54.0346379Z (node:4966) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+replay	Upload native runtime artifact	2026-07-30T16:48:59.3265836Z Uploaded bytes 6031
+replay	Upload native runtime artifact	2026-07-30T16:48:59.4076349Z Finished uploading artifact content to blob storage!
+replay	Upload native runtime artifact	2026-07-30T16:48:59.4077520Z SHA256 digest of uploaded artifact zip is 3f689de1e2b218539965baad8f17b8da1d0908d7c9908bae32fbde4ca0173144
+replay	Upload native runtime artifact	2026-07-30T16:48:59.4078767Z Finalizing artifact upload
+replay	Upload native runtime artifact	2026-07-30T16:48:59.7859959Z Artifact eva-native-runtime-replay.zip successfully finalized. Artifact ID 8767722291
+replay	Upload native runtime artifact	2026-07-30T16:48:59.7862090Z Artifact eva-native-runtime-replay has been successfully uploaded! Final size is 6031 bytes. Artifact ID is 8767722291
+replay	Upload native runtime artifact	2026-07-30T16:48:59.7868716Z Artifact download URL: https://github.com/hasslelee/flipguard/actions/runs/30563021551/artifacts/8767722291
+replay	Post Check out exact FlipGuard source	﻿2026-07-30T16:48:59.8067703Z Post job cleanup.
+replay	Post Check out exact FlipGuard source	2026-07-30T16:48:59.8942686Z [command]/usr/bin/git version
+replay	Post Check out exact FlipGuard source	2026-07-30T16:48:59.9021464Z git version 2.54.0
+replay	Post Check out exact FlipGuard source	2026-07-30T16:48:59.9066276Z Temporarily overriding HOME='/home/runner/work/_temp/689c332b-70a5-4b89-8b99-76a0045c4e8f' before making global git config changes
+replay	Post Check out exact FlipGuard source	2026-07-30T16:48:59.9068380Z Adding repository directory to the temporary git global config as a safe directory
+replay	Post Check out exact FlipGuard source	2026-07-30T16:48:59.9072669Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/flipguard/flipguard
+replay	Post Check out exact FlipGuard source	2026-07-30T16:48:59.9115341Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+replay	Post Check out exact FlipGuard source	2026-07-30T16:48:59.9159232Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+replay	Post Check out exact FlipGuard source	2026-07-30T16:48:59.9451566Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+replay	Post Check out exact FlipGuard source	2026-07-30T16:48:59.9483538Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+replay	Post Check out exact FlipGuard source	2026-07-30T16:48:59.9792601Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+replay	Post Check out exact FlipGuard source	2026-07-30T16:48:59.9831094Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+replay	Complete job	﻿2026-07-30T16:49:00.0274367Z Cleaning up orphan processes
+replay	Complete job	2026-07-30T16:49:00.0594848Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

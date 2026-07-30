@@ -1,0 +1,71 @@
+RECOVERY_RUN=30561535356
+replay	Verify source identity and native contract	﻿2026-07-30T16:27:40.1007642Z ##[group]Run set -euo pipefail
+replay	Verify source identity and native contract	2026-07-30T16:27:40.1008079Z [36;1mset -euo pipefail[0m
+replay	Verify source identity and native contract	2026-07-30T16:27:40.1008397Z [36;1mtest "$(git rev-parse HEAD)" = \[0m
+replay	Verify source identity and native contract	2026-07-30T16:27:40.1008800Z [36;1m  "ed133f159824cc4a3d5bf12692caec3c41f5d2c3"[0m
+replay	Verify source identity and native contract	2026-07-30T16:27:40.1009206Z [36;1mpython3 scripts/verify_eva_native_runtime.py[0m
+replay	Verify source identity and native contract	2026-07-30T16:27:40.1139678Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+replay	Verify source identity and native contract	2026-07-30T16:27:40.1140124Z ##[endgroup]
+replay	Verify source identity and native contract	2026-07-30T16:27:40.2233964Z Traceback (most recent call last):
+replay	Verify source identity and native contract	2026-07-30T16:27:40.2234863Z   File "/home/runner/work/flipguard/flipguard/scripts/verify_eva_native_runtime.py", line 416, in <module>
+replay	Verify source identity and native contract	2026-07-30T16:27:40.2235631Z     main()
+replay	Verify source identity and native contract	2026-07-30T16:27:40.2236330Z   File "/home/runner/work/flipguard/flipguard/scripts/verify_eva_native_runtime.py", line 388, in main
+replay	Verify source identity and native contract	2026-07-30T16:27:40.2237165Z     contract = validate_contract(contract_path)
+replay	Verify source identity and native contract	2026-07-30T16:27:40.2237853Z   File "/home/runner/work/flipguard/flipguard/scripts/verify_eva_native_runtime.py", line 122, in validate_contract
+replay	Verify source identity and native contract	2026-07-30T16:27:40.2238596Z     sha256_path(resolve(workload[path_key]))
+replay	Verify source identity and native contract	2026-07-30T16:27:40.2239215Z   File "/home/runner/work/flipguard/flipguard/scripts/verify_eva_native_runtime.py", line 52, in resolve
+replay	Verify source identity and native contract	2026-07-30T16:27:40.2239930Z     require(path.is_file(), f"missing bound artifact: {relative}")
+replay	Verify source identity and native contract	2026-07-30T16:27:40.2240609Z   File "/home/runner/work/flipguard/flipguard/scripts/verify_eva_native_runtime.py", line 47, in require
+replay	Verify source identity and native contract	2026-07-30T16:27:40.2241211Z     raise ValueError(message)
+replay	Verify source identity and native contract	2026-07-30T16:27:40.2241978Z ValueError: missing bound artifact: results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/configuration_validation.csv
+replay	Verify source identity and native contract	2026-07-30T16:27:40.2340722Z ##[error]Process completed with exit code 1.
+replay	Upload native runtime artifact	﻿2026-07-30T16:27:40.2526385Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+replay	Upload native runtime artifact	2026-07-30T16:27:40.2528854Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+replay	Upload native runtime artifact	2026-07-30T16:27:40.2529551Z with:
+replay	Upload native runtime artifact	2026-07-30T16:27:40.2529806Z   name: eva-native-runtime-replay
+replay	Upload native runtime artifact	2026-07-30T16:27:40.2530121Z   path: eva-native-runtime-replay
+replay	Upload native runtime artifact	2026-07-30T16:27:40.2530421Z   if-no-files-found: error
+replay	Upload native runtime artifact	2026-07-30T16:27:40.2530696Z   retention-days: 30
+replay	Upload native runtime artifact	2026-07-30T16:27:40.2530952Z   compression-level: 6
+replay	Upload native runtime artifact	2026-07-30T16:27:40.2531210Z   overwrite: false
+replay	Upload native runtime artifact	2026-07-30T16:27:40.2531463Z   include-hidden-files: false
+replay	Upload native runtime artifact	2026-07-30T16:27:40.2531737Z ##[endgroup]
+replay	Upload native runtime artifact	2026-07-30T16:27:40.4488231Z (node:2108) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+replay	Upload native runtime artifact	2026-07-30T16:27:40.4490506Z (Use `node --trace-deprecation ...` to show where the warning was created)
+replay	Upload native runtime artifact	2026-07-30T16:27:40.4517268Z ##[error]No files were found with the provided path: eva-native-runtime-replay. No artifacts will be uploaded.
+
+RECOVERY_RUN=30562143758
+replay	Execute native EVA and conditional locked audit	﻿2026-07-30T16:37:39.9344095Z ##[group]Run set -euo pipefail
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:39.9344410Z [36;1mset -euo pipefail[0m
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:39.9344670Z [36;1mpython3 scripts/run_eva_native_runtime.py \[0m
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:39.9345013Z [36;1m  --eva-root /tmp/EVA \[0m
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:39.9345270Z [36;1m  --seal-root /tmp/SEAL \[0m
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:39.9345565Z [36;1m  --output-root eva-native-runtime-replay \[0m
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:39.9345945Z [36;1m  --source-commit "074cff9b68d6e2ee8d1e926ac32f19426e82735b" \[0m
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:39.9346319Z [36;1m  --action-run-id "30562143758"[0m
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:39.9375558Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:39.9376013Z env:
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:39.9376255Z   PYTHONPATH: /tmp/EVA/build/python
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:39.9376500Z ##[endgroup]
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:40.2337604Z WARNING: Program specifies vector size 1 while at least 8192 slots are required for security. This does not affect correctness, as the smaller vector size will be transparently emulated. However, using a vector size up to 8192 would come at no additional cost.
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:40.4222951Z Traceback (most recent call last):
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:40.4223827Z   File "/home/runner/work/flipguard/flipguard/scripts/run_eva_native_runtime.py", line 456, in <module>
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:40.4224591Z     main()
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:40.4225015Z   File "/home/runner/work/flipguard/flipguard/scripts/run_eva_native_runtime.py", line 319, in main
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:40.4225601Z     raise ValueError("INTEGRITY_BLOCK: compiled DOT changed")
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:40.4226027Z ValueError: INTEGRITY_BLOCK: compiled DOT changed
+replay	Execute native EVA and conditional locked audit	2026-07-30T16:37:40.4346406Z ##[error]Process completed with exit code 1.
+replay	Upload native runtime artifact	﻿2026-07-30T16:37:40.4415079Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+replay	Upload native runtime artifact	2026-07-30T16:37:40.4416434Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+replay	Upload native runtime artifact	2026-07-30T16:37:40.4416778Z with:
+replay	Upload native runtime artifact	2026-07-30T16:37:40.4417044Z   name: eva-native-runtime-replay
+replay	Upload native runtime artifact	2026-07-30T16:37:40.4417338Z   path: eva-native-runtime-replay
+replay	Upload native runtime artifact	2026-07-30T16:37:40.4417610Z   if-no-files-found: error
+replay	Upload native runtime artifact	2026-07-30T16:37:40.4417884Z   retention-days: 30
+replay	Upload native runtime artifact	2026-07-30T16:37:40.4418476Z   compression-level: 6
+replay	Upload native runtime artifact	2026-07-30T16:37:40.4418761Z   overwrite: false
+replay	Upload native runtime artifact	2026-07-30T16:37:40.4419011Z   include-hidden-files: false
+replay	Upload native runtime artifact	2026-07-30T16:37:40.4419257Z ##[endgroup]
+replay	Upload native runtime artifact	2026-07-30T16:37:40.5674003Z (node:4724) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+replay	Upload native runtime artifact	2026-07-30T16:37:40.5674848Z (Use `node --trace-deprecation ...` to show where the warning was created)
+replay	Upload native runtime artifact	2026-07-30T16:37:40.5700591Z ##[error]No files were found with the provided path: eva-native-runtime-replay. No artifacts will be uploaded.
