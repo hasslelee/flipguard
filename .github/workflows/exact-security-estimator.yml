@@ -35,6 +35,14 @@ jobs:
             model_role: CURRENT_ESTIMATOR_SENSITIVITY
             estimator_commit: 3e48ef421ec256afddb3e7d2249a77eab6e9ba12
     steps:
+      - name: Install Git for provenance checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          apt-get update
+          apt-get install -y --no-install-recommends git ca-certificates
+          git --version
+
       - name: Check out exact source commit
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
         with:

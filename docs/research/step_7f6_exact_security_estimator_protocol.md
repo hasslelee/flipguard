@@ -77,4 +77,11 @@ branch. Once registered on the default branch, `workflow_dispatch` requires an
 explicit source commit. In both cases the job checks out and verifies the
 event-bound full commit before estimation.
 
+Bootstrap run `30534037217` is retained as
+`PRE_ESTIMATOR_IMPLEMENTATION_RECOVERY`: the pinned Sage image did not contain
+Git, both jobs stopped at source-identity verification, no estimator object was
+created, and no security result was produced. The recovery installs only Git
+and CA certificates before checkout; it does not change the estimator model,
+input, attack set, or Security Policy V2.
+
 `paper_claim_allowed=false`.
