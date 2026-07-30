@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import importlib.util
+import json
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -80,6 +82,44 @@ class RunIndependentTrainingSeedExtensionTest(unittest.TestCase):
         self.assertEqual(
             33,
             MODULE.audit_encrypted_evaluations(audit),
+        )
+
+    def test_manifest_compatibility_preserves_assignment(self) -> None:
+        payload = {
+            "configuration_validation": {
+                "path": "validation.csv",
+                "csv_digest": "sha256:validation",
+                "row_ids": [1, 2],
+            },
+            "locked_audit_test": {
+                "path": "audit.csv",
+                "csv_digest": "sha256:audit",
+                "row_ids": [3, 4],
+            },
+        }
+        with tempfile.TemporaryDirectory(
+            dir=MODULE.REPO_ROOT,
+        ) as temporary:
+            root = Path(temporary)
+            source = root / "source.json"
+            output = root / "output.json"
+            source.write_text(
+                json.dumps(payload),
+                encoding="ascii",
+            )
+            recovery = MODULE.build_audit_compatibility_manifest(
+                source,
+                output,
+            )
+            converted = json.loads(output.read_text(encoding="ascii"))
+        self.assertFalse(recovery["semantic_assignment_changed"])
+        self.assertEqual(
+            ["1", "2"],
+            converted["configuration_validation"]["row_ids"],
+        )
+        self.assertEqual(
+            "sha256:audit",
+            converted["locked_audit_test"]["csv_digest"],
         )
 
 

@@ -604,6 +604,55 @@ def validate_audit_result(
     return outcome
 
 
+def build_audit_compatibility_manifest(
+    source_path: Path,
+    output_path: Path,
+) -> dict[str, Any]:
+    source = json.loads(source_path.read_text(encoding="ascii"))
+    converted = json.loads(source_path.read_text(encoding="ascii"))
+    changed = 0
+    for partition in (
+        "configuration_validation",
+        "locked_audit_test",
+    ):
+        original_ids = source[partition]["row_ids"]
+        converted_ids = [str(value) for value in original_ids]
+        if len(set(converted_ids)) != len(converted_ids):
+            raise ValueError(
+                "INTEGRITY_BLOCK: row ID conversion is not injective"
+            )
+        changed += sum(
+            not isinstance(value, str) for value in original_ids
+        )
+        converted[partition]["row_ids"] = converted_ids
+    converted["representation_recovery"] = {
+        "classification": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+        "reason_code": "NUMERIC_ROW_IDS_IN_STRING_SCHEMA",
+        "source_manifest_path": str(
+            source_path.relative_to(REPO_ROOT)
+        ),
+        "source_manifest_sha256": sha256_path(source_path),
+        "semantic_assignment_changed": False,
+        "converted_row_id_values": changed,
+    }
+    write_atomic(output_path, converted)
+    replay = json.loads(output_path.read_text(encoding="ascii"))
+    for partition in (
+        "configuration_validation",
+        "locked_audit_test",
+    ):
+        if [str(value) for value in source[partition]["row_ids"]] != \
+                replay[partition]["row_ids"] or \
+                source[partition]["path"] != replay[partition]["path"] or \
+                source[partition]["csv_digest"] != \
+                    replay[partition]["csv_digest"]:
+            raise ValueError(
+                "INTEGRITY_BLOCK: compatibility manifest changed "
+                f"{partition} semantics"
+            )
+    return converted["representation_recovery"]
+
+
 def selection_encrypted_evaluations(
     result: dict[str, Any],
 ) -> int:
@@ -747,16 +796,69 @@ def execute_extension(
                 }
             write_atomic(run_root / "state.json", state)
 
-        if workload["selection"].get("outcome") != "SELECTED" or \
-                workload["locked_audit"]["status"] != "PENDING":
+        if workload["selection"].get("outcome") != "SELECTED":
+            continue
+        if workload["locked_audit"]["status"] == \
+                "RECOVERABLE_IMPLEMENTATION_FAILURE":
+            original_manifest = json.loads(
+                paths["manifest"].read_text(encoding="ascii")
+            )
+            numeric_ids = any(
+                not isinstance(value, str)
+                for partition in (
+                    "configuration_validation",
+                    "locked_audit_test",
+                )
+                for value in original_manifest[partition]["row_ids"]
+            )
+            if numeric_ids and not (
+                run_root / "audit/results" / f"{tag}.json"
+            ).exists():
+                workload["locked_audit"] = {"status": "PENDING"}
+            else:
+                continue
+        if workload["locked_audit"]["status"] != "PENDING":
             continue
         selection = json.loads(
             selection_path.read_text(encoding="ascii")
         )
         audit_path = run_root / "audit/results" / f"{tag}.json"
         prepared_audit = run_root / "audit/prepared" / f"{tag}.csv"
+        compatibility_manifest = (
+            run_root / "audit/manifests" / f"{tag}.json"
+        )
         audit_path.parent.mkdir(parents=True, exist_ok=True)
         prepared_audit.parent.mkdir(parents=True, exist_ok=True)
+        compatibility_manifest.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+        representation_recovery = (
+            build_audit_compatibility_manifest(
+                paths["manifest"],
+                compatibility_manifest,
+            )
+        )
+        recovery_record = {
+            "timestamp": now(),
+            "tag": tag,
+            **representation_recovery,
+            "compatibility_manifest_path": str(
+                compatibility_manifest.relative_to(REPO_ROOT)
+            ),
+            "compatibility_manifest_sha256":
+                sha256_path(compatibility_manifest),
+            "encrypted_selection_rerun": False,
+            "prior_audit_reached_ckks_execution": False,
+        }
+        if not any(
+            record.get("reason_code")
+            == "NUMERIC_ROW_IDS_IN_STRING_SCHEMA"
+            and record.get("tag") == tag
+            for record in state["recoveries"]
+        ):
+            state["recoveries"].append(recovery_record)
+            write_atomic(run_root / "state.json", state)
         if audit_path.is_file():
             if not prepared_audit.is_file():
                 raise ValueError(
@@ -776,7 +878,7 @@ def execute_extension(
                 "--audit-data-space",
                 "raw",
                 "--manifest",
-                str(paths["manifest"].relative_to(REPO_ROOT)),
+                str(compatibility_manifest.relative_to(REPO_ROOT)),
                 "--key-repeats",
                 "3",
                 "--out",
@@ -808,6 +910,10 @@ def execute_extension(
             "result_path": str(audit_path.relative_to(REPO_ROOT)),
             "result_sha256": sha256_path(audit_path),
             "prepared_audit_sha256": sha256_path(prepared_audit),
+            "source_split_manifest_sha256":
+                sha256_path(paths["manifest"]),
+            "compatibility_manifest_sha256":
+                sha256_path(compatibility_manifest),
             "retuning": 0,
             "key_runs": audit["audit_trial"]["key_repeats_completed"],
             "encrypted_sample_evaluations":
