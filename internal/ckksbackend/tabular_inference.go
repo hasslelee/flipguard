@@ -345,10 +345,33 @@ func (c Context) evalTabularModel(
 ) (tabularModelEvalResult, error) {
 	switch model.ModelType {
 	case "linear_poly3":
+		if evaluationMode ==
+			CKKSEvaluationModeEVAV101LinearPoly3 {
+			return c.evalTabularEVALinearModel(
+				runtimeState,
+				inputs,
+				model.ScaledModelForCKKS.Weights,
+				model.ScaledModelForCKKS.Bias,
+			)
+		}
 		return c.evalTabularLinearModel(runtimeState, inputs, model.ScaledModelForCKKS.Weights, model.ScaledModelForCKKS.Bias)
 	case "mlp_square_poly3":
+		if evaluationMode ==
+			CKKSEvaluationModeEVAV101LinearPoly3 {
+			return tabularModelEvalResult{}, fmt.Errorf(
+				"EVA schedule supports only linear_poly3, got %q",
+				model.ModelType,
+			)
+		}
 		return c.evalTabularSquareMLPModel(runtimeState, inputs, model.ScaledModelForCKKS, evaluationMode)
 	case "mlp_square_linear_score":
+		if evaluationMode ==
+			CKKSEvaluationModeEVAV101LinearPoly3 {
+			return tabularModelEvalResult{}, fmt.Errorf(
+				"EVA schedule supports only linear_poly3, got %q",
+				model.ModelType,
+			)
+		}
 		return c.evalTabularSquareMLPModel(runtimeState, inputs, model.ScaledModelForCKKS, evaluationMode)
 	default:
 		return tabularModelEvalResult{}, fmt.Errorf("unsupported tabular model_type %q", model.ModelType)
@@ -513,6 +536,13 @@ func (c Context) evalTabularOutputScore(
 ) (ckksTimedPolynomialResult, error) {
 	switch formula {
 	case "0.5 + 0.197*z - 0.004*z^3":
+		if evaluationMode ==
+			CKKSEvaluationModeEVAV101LinearPoly3 {
+			return c.evalTabularEVALinearPoly3Score(
+				runtimeState,
+				zCipher,
+			)
+		}
 		return c.evalTimedPolynomial(runtimeState, zCipher, evaluationMode)
 	case "0.5 + 0.197*z":
 		return c.evalTabularAffineOutputScore(runtimeState, zCipher)

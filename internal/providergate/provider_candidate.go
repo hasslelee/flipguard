@@ -20,6 +20,7 @@ import (
 const (
 	ProviderCandidateRequestSchemaVersion         = 1
 	ProviderCandidateConcreteRequestSchemaVersion = 2
+	ProviderCandidateScheduleRequestSchemaVersion = 3
 	BoundProviderCandidateSchemaVersion           = 1
 	ProviderCandidateGateSchemaVersion            = 1
 
@@ -43,6 +44,8 @@ type ProviderCandidateRequest struct {
 
 	Path       tuner.ExecutionPath                  `json:"path"`
 	Parameters ckksplanner.CKKSParameterLiteralSpec `json:"parameters"`
+
+	ExecutionSchedule *ProviderExecutionScheduleBinding `json:"execution_schedule,omitempty"`
 }
 
 // BoundProviderCandidate records the exact provider artifact and all
@@ -59,6 +62,8 @@ type BoundProviderCandidate struct {
 	PolicyRetuning       int    `json:"policy_retuning"`
 
 	Candidate ckksplanner.SynthesizedCandidate `json:"candidate"`
+
+	ExecutionSchedule *BoundProviderExecutionSchedule `json:"execution_schedule,omitempty"`
 }
 
 // ProviderCandidateGateResult is a one-literal certify-or-reject result. The
@@ -210,13 +215,27 @@ func BindProviderCandidate(
 			security.MaxAllowedLogQP,
 		)
 	}
+	executionSchedule, err := bindProviderExecutionSchedule(
+		contract,
+		request,
+	)
+	if err != nil {
+		return BoundProviderCandidate{}, err
+	}
 	qPrimeCount := request.Parameters.QPrimeCount()
-	if qPrimeCount <
-		contract.Deployment.RequiredQPrimes {
+	requiredQPrimes := contract.Deployment.RequiredQPrimes
+	requiredRescaleLevels :=
+		contract.Deployment.RescaleLevelsConsumed
+	if executionSchedule != nil {
+		requiredQPrimes = executionSchedule.RequiredQPrimes
+		requiredRescaleLevels =
+			executionSchedule.RescaleLevels
+	}
+	if qPrimeCount < requiredQPrimes {
 		return BoundProviderCandidate{}, fmt.Errorf(
 			"provider candidate has %d Q primes but graph contract requires at least %d",
 			qPrimeCount,
-			contract.Deployment.RequiredQPrimes,
+			requiredQPrimes,
 		)
 	}
 	slots := 1 << (request.Parameters.LogN - 1)
@@ -242,9 +261,9 @@ func BindProviderCandidate(
 		Parameters: request.Parameters,
 		Security:   security,
 
-		RequiredRescaleLevels: contract.Deployment.RescaleLevelsConsumed,
+		RequiredRescaleLevels: requiredRescaleLevels,
 		LevelGuard: qPrimeCount -
-			contract.Deployment.RequiredQPrimes,
+			requiredQPrimes,
 		PrecisionTargetBits: request.Parameters.LogDefaultScale,
 		MessageMagnitudeBits: magnitudeBits(
 			contract.Calibration.MaxPlaintextOutputAbs,
@@ -273,6 +292,7 @@ func BindProviderCandidate(
 		SecurityPolicyDigest: securityPolicyDigest,
 		PolicyRetuning:       0,
 		Candidate:            candidate,
+		ExecutionSchedule:    executionSchedule,
 	}, nil
 }
 
@@ -326,14 +346,20 @@ func RunProviderCandidateGate(
 	}
 	var trial ckksplanner.TabularTrialResult
 	var err error
-	if bound.Request.SchemaVersion ==
+	if bound.Request.SchemaVersion >=
 		ProviderCandidateConcreteRequestSchemaVersion {
+		executionScheduleID := ""
+		if bound.ExecutionSchedule != nil {
+			executionScheduleID =
+				bound.ExecutionSchedule.ScheduleID
+		}
 		trial, err = ckksplanner.ExecuteTabularCandidateWithOptions(
 			contract,
 			bound.Candidate,
 			1,
 			ckksplanner.TabularCandidateExecutionOptions{
 				CaptureSampleLedger: true,
+				ExecutionScheduleID: executionScheduleID,
 			},
 		)
 	} else {
@@ -475,7 +501,7 @@ func ValidateProviderCandidateGateResult(
 			result.Trial.Status,
 		)
 	}
-	if result.BoundCandidate.Request.SchemaVersion ==
+	if result.BoundCandidate.Request.SchemaVersion >=
 		ProviderCandidateConcreteRequestSchemaVersion &&
 		result.Trial.Status != certify.StatusFailed {
 		if err := ckksplanner.ValidateTabularSampleLedger(
@@ -516,13 +542,19 @@ func RunLockedProviderCandidateAudit(
 			"provider locked-audit selection path mismatch",
 		)
 	}
+	executionScheduleID := ""
+	if result.BoundCandidate.ExecutionSchedule != nil {
+		executionScheduleID =
+			result.BoundCandidate.ExecutionSchedule.ScheduleID
+	}
 	return ckksplanner.RunLockedTabularCandidateAudit(
 		ckksplanner.LockedCandidateSelection{
 			SelectionResult: selectionBinding,
 			Contract:        result.ValidationContract,
 			ContractDigest: result.BoundCandidate.
 				ContractDigest,
-			Candidate: *result.Selected,
+			Candidate:           *result.Selected,
+			ExecutionScheduleID: executionScheduleID,
 		},
 		options,
 	)
@@ -533,7 +565,8 @@ func validateProviderCandidateRequest(
 ) error {
 	switch request.SchemaVersion {
 	case ProviderCandidateRequestSchemaVersion,
-		ProviderCandidateConcreteRequestSchemaVersion:
+		ProviderCandidateConcreteRequestSchemaVersion,
+		ProviderCandidateScheduleRequestSchemaVersion:
 	default:
 		return fmt.Errorf(
 			"unsupported provider candidate request schema version %d",
@@ -572,6 +605,11 @@ func validateProviderCandidateRequest(
 	}
 	switch request.SchemaVersion {
 	case ProviderCandidateRequestSchemaVersion:
+		if request.ExecutionSchedule != nil {
+			return fmt.Errorf(
+				"provider candidate schema v1 cannot bind an execution schedule",
+			)
+		}
 		if len(request.Parameters.Q) > 0 ||
 			len(request.Parameters.P) > 0 {
 			return fmt.Errorf(
@@ -591,6 +629,13 @@ func validateProviderCandidateRequest(
 			return err
 		}
 	case ProviderCandidateConcreteRequestSchemaVersion:
+		if request.ExecutionSchedule != nil {
+			return fmt.Errorf(
+				"provider candidate schema v2 cannot bind an execution schedule",
+			)
+		}
+		fallthrough
+	case ProviderCandidateScheduleRequestSchemaVersion:
 		if len(request.Parameters.LogQ) > 0 ||
 			len(request.Parameters.LogP) > 0 {
 			return fmt.Errorf(
@@ -608,6 +653,13 @@ func validateProviderCandidateRequest(
 			request.Parameters.P,
 		); err != nil {
 			return err
+		}
+		if request.SchemaVersion ==
+			ProviderCandidateScheduleRequestSchemaVersion &&
+			request.ExecutionSchedule == nil {
+			return fmt.Errorf(
+				"provider candidate schema v3 requires an execution schedule",
+			)
 		}
 	}
 	return nil
@@ -687,21 +739,23 @@ func providerCandidateID(
 	contractDigest string,
 ) (string, error) {
 	identity := struct {
-		SchemaVersion  int                                  `json:"schema_version"`
-		ProviderKind   string                               `json:"provider_kind"`
-		ProviderID     string                               `json:"provider_id"`
-		SourceDigest   string                               `json:"source_digest"`
-		ContractDigest string                               `json:"contract_digest"`
-		Path           tuner.ExecutionPath                  `json:"path"`
-		Parameters     ckksplanner.CKKSParameterLiteralSpec `json:"parameters"`
+		SchemaVersion     int                                  `json:"schema_version"`
+		ProviderKind      string                               `json:"provider_kind"`
+		ProviderID        string                               `json:"provider_id"`
+		SourceDigest      string                               `json:"source_digest"`
+		ContractDigest    string                               `json:"contract_digest"`
+		Path              tuner.ExecutionPath                  `json:"path"`
+		Parameters        ckksplanner.CKKSParameterLiteralSpec `json:"parameters"`
+		ExecutionSchedule *ProviderExecutionScheduleBinding    `json:"execution_schedule,omitempty"`
 	}{
-		SchemaVersion:  request.SchemaVersion,
-		ProviderKind:   request.ProviderKind,
-		ProviderID:     request.ProviderID,
-		SourceDigest:   sourceDigest,
-		ContractDigest: contractDigest,
-		Path:           request.Path,
-		Parameters:     request.Parameters,
+		SchemaVersion:     request.SchemaVersion,
+		ProviderKind:      request.ProviderKind,
+		ProviderID:        request.ProviderID,
+		SourceDigest:      sourceDigest,
+		ContractDigest:    contractDigest,
+		Path:              request.Path,
+		Parameters:        request.Parameters,
+		ExecutionSchedule: request.ExecutionSchedule,
 	}
 	encoded, err := json.Marshal(identity)
 	if err != nil {

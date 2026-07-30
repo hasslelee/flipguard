@@ -35,10 +35,11 @@ type LockedAuditOptions struct {
 // LockedCandidateSelection is a provider-neutral, already-validated selection
 // that can be replayed on a locked audit partition without synthesis.
 type LockedCandidateSelection struct {
-	SelectionResult ArtifactBinding
-	Contract        WorkloadContract
-	ContractDigest  string
-	Candidate       SynthesizedCandidate
+	SelectionResult     ArtifactBinding
+	Contract            WorkloadContract
+	ContractDigest      string
+	Candidate           SynthesizedCandidate
+	ExecutionScheduleID string
 }
 
 // LockedAuditResult records a no-retuning evaluation on a disjoint audit set.
@@ -408,10 +409,14 @@ func runLockedTabularCandidateAudit(
 		)
 	}
 
-	trial, err := ExecuteTabularCandidate(
+	trial, err := ExecuteTabularCandidateWithOptions(
 		auditContract,
 		selection.Candidate,
 		1,
+		TabularCandidateExecutionOptions{
+			CaptureSampleLedger: selection.ExecutionScheduleID != "",
+			ExecutionScheduleID: selection.ExecutionScheduleID,
+		},
 	)
 	if err != nil {
 		return LockedAuditResult{}, fmt.Errorf(

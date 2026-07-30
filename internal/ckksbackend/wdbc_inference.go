@@ -564,6 +564,8 @@ func normalizeCKKSEvaluationMode(mode string) (string, error) {
 		return CKKSEvaluationModeNaive, nil
 	case CKKSEvaluationModeRescale, "rescale_aware":
 		return CKKSEvaluationModeRescale, nil
+	case CKKSEvaluationModeEVAV101LinearPoly3:
+		return CKKSEvaluationModeEVAV101LinearPoly3, nil
 	default:
 		return "", fmt.Errorf("unsupported CKKS evaluation mode %q", mode)
 	}

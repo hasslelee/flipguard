@@ -16,6 +16,11 @@ const (
 
 	// CKKSEvaluationModeRescale uses a rescale-aware polynomial evaluation path.
 	CKKSEvaluationModeRescale = "rescale"
+
+	// CKKSEvaluationModeEVAV101LinearPoly3 replays the exact scale and level
+	// schedule emitted by Microsoft EVA v1.0.1 for the pinned scalar
+	// linear_poly3 program.
+	CKKSEvaluationModeEVAV101LinearPoly3 = "external_schedule:microsoft_eva_v1.0.1_linear_poly3_scalar_v1"
 )
 
 // CKKSTimingBenchmarkConfig controls CKKS timing benchmark repetitions.

@@ -1,0 +1,77 @@
+{
+  "schema_version": "flipguard_eva_schedule_bound_adapter_contract_v1",
+  "status": "PREDECLARED_BEFORE_ENCRYPTED_EXECUTION",
+  "paper_claim_allowed": false,
+  "classification": "SOURCE_REPLAYED_PUBLIC_COMPILER_SCHEDULE",
+  "upstream_evidence": {
+    "manifest_path": "docs/evidence/eva_external_adapter_replay_v1/manifest.json",
+    "manifest_sha256": "sha256:2c83dda1d0e74e319f06bd223631c7d2b21cf6de4ec244a046abcd08d8b76c18",
+    "eva_commit": "4cd3254c9c51340ae30c451495ce5378135758c0",
+    "seal_commit": "0b058d99b7f18a00e5ebb2b80caee593804b0500"
+  },
+  "schedule": {
+    "schedule_id": "microsoft_eva_v1.0.1_iris_linear_poly3_scalar_v1",
+    "contract_path": "experiments/eva_schedule_bound_adapter_v1/execution_schedule.json",
+    "contract_sha256": "sha256:e69ec06e57e7a2833eedea2d455a8192d03cf2884e1b4090284d43c03326cc6b",
+    "candidate_request_path": "experiments/eva_schedule_bound_adapter_v1/candidate_request.json",
+    "compiled_program_sha256": "sha256:3c5ec469e692ea17dd413180c6c37c5042ef7bb5bfedd968d19447242fd72bca",
+    "compiler_output_sha256": "sha256:605cc94bb1df230f9d58b1cbbeb66a26d11b6ae44ed4ad46dfca0925cd711dea",
+    "rescale_levels": 2,
+    "required_q_primes": 3,
+    "input_scale_bits": 20,
+    "output_scale_bits": 20,
+    "parameter_only_predecessor_status": "BLOCKED_GRAPH_COMPATIBILITY"
+  },
+  "workload": {
+    "split_seed": 0,
+    "seed_role": "development",
+    "dataset_id": "iris_binary",
+    "model_id": "linear_poly3",
+    "split_id": "split_seed_0",
+    "model_path": "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+    "model_sha256": "sha256:9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1",
+    "validation_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/configuration_validation.csv",
+    "validation_sha256": "sha256:29cf99a47cd25520a15aa36d8e7fdf58328fc3a91ad54067266d443b4c04e5ea",
+    "validation_rows": 14,
+    "audit_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/locked_audit_test.csv",
+    "audit_sha256": "sha256:72a182968acd60e8c0bd5acc830627d698a9f1d2e1760dd492dbb07129a26327",
+    "audit_rows": 16,
+    "split_manifest_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/split_manifest.json",
+    "split_manifest_sha256": "sha256:c76e7b0478fffbbac4d24ff41a86fa7694cf3f5719e462270eb780b2531760d1"
+  },
+  "policy": {
+    "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+    "direct_policy_id": "flipguard_direct_synthesis_policy_v2",
+    "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "margin_floor": 0.001,
+    "safety_factor": 0.5,
+    "validation_key_repeats": 3,
+    "audit_key_repeats": 3,
+    "candidate_trials": 1,
+    "synthesis_calls": 0,
+    "repair_calls": 0,
+    "retuning": 0
+  },
+  "execution_order": [
+    "static_contract_verification",
+    "single_row_backend_smoke_diagnostic",
+    "one_literal_validation_with_three_fresh_keys",
+    "byte_identical_schedule_and_literal_locked_audit_if_safe",
+    "freeze_evidence"
+  ],
+  "outcome_policy": {
+    "smoke_failure": "record implementation failure; do not run validation until fixed without changing schedule or policy",
+    "validation_safe": "run locked audit with the same schedule and literal",
+    "validation_rejected_or_failed": "record NO_SAFE and do not run audit",
+    "audit_negative": "preserve scientific negative and do not retune",
+    "identity_security_or_source_failure": "INTEGRITY_BLOCK"
+  },
+  "claim_boundary": {
+    "schedule_bound_external_candidate_import": "NOT_EVALUATED",
+    "encrypted_external_candidate_certification": "NOT_EVALUATED",
+    "native_eva_seal_runtime_execution": "NOT_EVALUATED",
+    "general_external_compiler_interoperability": "PARTIALLY_SUPPORTED",
+    "paper_claim_allowed": false
+  }
+}

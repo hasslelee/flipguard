@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/hasslelee/flipguard/internal/certify"
+	"github.com/hasslelee/flipguard/internal/ckksbackend"
 	"github.com/hasslelee/flipguard/internal/ckksplanner"
 	"github.com/hasslelee/flipguard/internal/tuner"
 )
@@ -153,6 +154,85 @@ func TestProviderSchemaV2BindsConcretePrimeOrder(t *testing.T) {
 	}
 	if first.Candidate.ID == second.Candidate.ID {
 		t.Fatal("concrete Q order did not change candidate identity")
+	}
+}
+
+func TestProviderSchemaV3BindsPinnedEVASchedule(t *testing.T) {
+	contract := validEVAScheduleContractFixture()
+	request := evaScheduleProviderRequestFixture(t)
+	source := ckksplanner.ArtifactBinding{
+		Path:   "eva-schedule-candidate.json",
+		SHA256: digestBytes([]byte("eva schedule candidate")),
+	}
+	bound, err := BindProviderCandidate(contract, request, source)
+	if err != nil {
+		t.Fatalf("bind EVA schedule candidate: %v", err)
+	}
+	if bound.ExecutionSchedule == nil {
+		t.Fatal("bound EVA schedule is missing")
+	}
+	if bound.ExecutionSchedule.RequiredQPrimes != 3 ||
+		bound.ExecutionSchedule.RescaleLevels != 2 ||
+		bound.Candidate.RequiredRescaleLevels != 2 ||
+		bound.Candidate.LevelGuard != 0 {
+		t.Fatalf(
+			"unexpected EVA schedule requirements: %+v candidate=%+v",
+			bound.ExecutionSchedule,
+			bound.Candidate,
+		)
+	}
+	if bound.Candidate.Security.FinalAdmission !=
+		ckksplanner.SecurityAdmissionPass {
+		t.Fatalf(
+			"EVA schedule candidate is not Security V2 admitted: %+v",
+			bound.Candidate.Security,
+		)
+	}
+}
+
+func TestProviderSchemaV2CannotBypassDefaultGraphRequirements(
+	t *testing.T,
+) {
+	contract := validEVAScheduleContractFixture()
+	request := evaScheduleProviderRequestFixture(t)
+	request.SchemaVersion =
+		ProviderCandidateConcreteRequestSchemaVersion
+	request.ExecutionSchedule = nil
+	_, err := BindProviderCandidate(
+		contract,
+		request,
+		ckksplanner.ArtifactBinding{
+			Path:   "eva-parameter-only-candidate.json",
+			SHA256: digestBytes([]byte("eva parameter-only candidate")),
+		},
+	)
+	if err == nil || !strings.Contains(err.Error(), "Q primes") {
+		t.Fatalf(
+			"expected parameter-only graph compatibility rejection, got %v",
+			err,
+		)
+	}
+}
+
+func TestProviderSchemaV3RejectsScheduleMutation(t *testing.T) {
+	contract := validEVAScheduleContractFixture()
+	request := evaScheduleProviderRequestFixture(t)
+	request.ExecutionSchedule.ContractArtifact.SHA256 =
+		digestBytes([]byte("mutated schedule contract"))
+	_, err := BindProviderCandidate(
+		contract,
+		request,
+		ckksplanner.ArtifactBinding{
+			Path:   "eva-schedule-candidate.json",
+			SHA256: digestBytes([]byte("eva schedule candidate")),
+		},
+	)
+	if err == nil ||
+		!strings.Contains(err.Error(), "contract digest mismatch") {
+		t.Fatalf(
+			"expected schedule contract digest rejection, got %v",
+			err,
+		)
 	}
 }
 
@@ -533,6 +613,108 @@ func concreteProviderRequestFixture() ProviderCandidateRequest {
 			LogDefaultScale: 20,
 		},
 	}
+}
+
+func evaScheduleProviderRequestFixture(
+	t *testing.T,
+) ProviderCandidateRequest {
+	t.Helper()
+	repoRoot, err := filepath.Abs(filepath.Join("..", ".."))
+	if err != nil {
+		t.Fatalf("resolve repository root: %v", err)
+	}
+	compiledProgram := filepath.Join(
+		repoRoot,
+		"docs/evidence/eva_external_adapter_replay_v1/run/compiled_program.dot",
+	)
+	compilerOutput := filepath.Join(
+		repoRoot,
+		"docs/evidence/eva_external_adapter_replay_v1/run/compiler_output.json",
+	)
+	scheduleContract := ProviderExecutionScheduleContract{
+		SchemaVersion:       ProviderExecutionScheduleContractSchemaVersion,
+		ScheduleID:          ckksbackend.ExternalExecutionScheduleEVAV101LinearPoly3,
+		AdapterID:           ckksbackend.CKKSEvaluationModeEVAV101LinearPoly3,
+		ProviderID:          evaV101ProviderID,
+		WorkloadID:          evaV101WorkloadID,
+		ModelType:           "linear_poly3",
+		ModelArtifactSHA256: evaV101ModelSHA256,
+		ScoreFormula:        "0.5 + 0.197*z - 0.004*z^3",
+		CompiledProgram: ckksplanner.ArtifactBinding{
+			Path:   compiledProgram,
+			SHA256: evaV101CompiledProgramSHA256,
+		},
+		CompilerOutput: ckksplanner.ArtifactBinding{
+			Path:   compilerOutput,
+			SHA256: evaV101CompilerOutputSHA256,
+		},
+		Parameters: ckksplanner.CKKSParameterLiteralSpec{
+			LogN: 14,
+			Q: []uint64{
+				1152921504605962241,
+				1152921504606584833,
+				1152921504606683137,
+			},
+			P:               []uint64{1152921504606748673},
+			LogDefaultScale: 20,
+		},
+		InputScaleBits:  20,
+		OutputScaleBits: 20,
+		RequiredQPrimes: 3,
+		RescaleLevels:   2,
+		PackingStrategy: ckksplanner.ScalarReplicatedPackingV1,
+		Retuning:        0,
+	}
+	data, err := json.MarshalIndent(scheduleContract, "", "  ")
+	if err != nil {
+		t.Fatalf("marshal EVA schedule contract: %v", err)
+	}
+	data = append(data, '\n')
+	schedulePath := filepath.Join(
+		t.TempDir(),
+		"eva_execution_schedule.json",
+	)
+	if err := os.WriteFile(schedulePath, data, 0o600); err != nil {
+		t.Fatalf("write EVA schedule contract: %v", err)
+	}
+	return ProviderCandidateRequest{
+		SchemaVersion: ProviderCandidateScheduleRequestSchemaVersion,
+		ProviderKind:  ProviderKindExternalAutotuner,
+		ProviderID:    evaV101ProviderID,
+		Path:          tuner.PathRescale,
+		Parameters:    scheduleContract.Parameters,
+		ExecutionSchedule: &ProviderExecutionScheduleBinding{
+			SchemaVersion: ProviderExecutionScheduleBindingSchemaVersion,
+			ScheduleID:    scheduleContract.ScheduleID,
+			ContractArtifact: ckksplanner.ArtifactBinding{
+				Path:   schedulePath,
+				SHA256: digestBytes(data),
+			},
+		},
+	}
+}
+
+func validEVAScheduleContractFixture() ckksplanner.WorkloadContract {
+	contract := validContractFixture()
+	contract.WorkloadID = evaV101WorkloadID
+	contract.DatasetID = "iris_binary"
+	contract.ModelID = "linear_poly3"
+	contract.ModelType = "linear_poly3"
+	contract.SplitID = "split_seed_0"
+	contract.ModelArtifact = ckksplanner.ArtifactBinding{
+		Path:   "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+		SHA256: evaV101ModelSHA256,
+	}
+	contract.Graph = tuner.GraphSummary{
+		MultiplicativeDepth: 2,
+		AddOps:              4,
+		MulOps:              6,
+		RescaleOps:          2,
+	}
+	contract.Deployment.RescaleLevelsConsumed = 6
+	contract.Deployment.TerminalScaleExponent = 1
+	contract.Deployment.RequiredQPrimes = 7
+	return contract
 }
 
 func validContractFixture() ckksplanner.WorkloadContract {

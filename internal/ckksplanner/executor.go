@@ -55,6 +55,7 @@ type TabularTrialResult struct {
 // the encrypted evaluation or certification policy.
 type TabularCandidateExecutionOptions struct {
 	CaptureSampleLedger bool
+	ExecutionScheduleID string
 }
 
 // AdaptiveAutotuneResult is the end-to-end first-party planner result.
@@ -130,6 +131,23 @@ func ExecuteTabularCandidateWithOptions(
 	evaluationMode, err := evaluationModeForCandidate(candidate)
 	if err != nil {
 		return TabularTrialResult{}, err
+	}
+	if options.ExecutionScheduleID != "" {
+		schedule, err := ckksbackend.LookupExternalExecutionSchedule(
+			options.ExecutionScheduleID,
+		)
+		if err != nil {
+			return TabularTrialResult{}, err
+		}
+		if schedule.ModelType != contract.ModelType {
+			return TabularTrialResult{}, fmt.Errorf(
+				"external execution schedule %s supports model type %s, got %s",
+				schedule.ScheduleID,
+				schedule.ModelType,
+				contract.ModelType,
+			)
+		}
+		evaluationMode = schedule.EvaluationMode
 	}
 
 	config := ckksbackend.DefaultCKKSTabularInferenceConfig(
