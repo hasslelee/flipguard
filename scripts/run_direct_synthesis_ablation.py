@@ -674,6 +674,61 @@ def validate_graph_audit(
     return outcome
 
 
+def build_path_binding_manifest(
+    source_path: Path,
+    validation_source: Path,
+    audit_source: Path,
+    output_path: Path,
+) -> dict[str, Any]:
+    source = json.loads(source_path.read_text(encoding="ascii"))
+    replay = json.loads(source_path.read_text(encoding="ascii"))
+    expected = {
+        "configuration_validation": validation_source,
+        "locked_audit_test": audit_source,
+    }
+    original_paths = {}
+    for partition, artifact in expected.items():
+        if source[partition]["csv_digest"] != sha256_path(artifact):
+            raise ValueError(
+                "INTEGRITY_BLOCK: split manifest digest does not "
+                f"match {artifact}"
+            )
+        original_paths[partition] = source[partition]["path"]
+        replay[partition]["path"] = str(
+            artifact.relative_to(REPO_ROOT)
+        )
+    replay["representation_recovery"] = {
+        "classification": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+        "reason_code": "FROZEN_EQUIVALENT_PATH_BINDING_MISMATCH",
+        "source_manifest_path": str(
+            source_path.relative_to(REPO_ROOT)
+        ),
+        "source_manifest_sha256": sha256_path(source_path),
+        "original_paths": original_paths,
+        "bound_paths": {
+            partition: replay[partition]["path"]
+            for partition in expected
+        },
+        "row_membership_changed": False,
+        "csv_digest_changed": False,
+        "encrypted_execution_before_recovery": False,
+    }
+    write_atomic(output_path, replay)
+    observed = json.loads(output_path.read_text(encoding="ascii"))
+    for partition in expected:
+        if observed[partition]["row_ids"] != \
+                source[partition]["row_ids"] or \
+                observed[partition]["csv_digest"] != \
+                source[partition]["csv_digest"] or \
+                observed[partition]["path"] != \
+                replay[partition]["path"]:
+            raise ValueError(
+                "INTEGRITY_BLOCK: path-binding manifest changed "
+                f"{partition} semantics"
+            )
+    return replay["representation_recovery"]
+
+
 def execute_graph_arm(
     run_root: Path,
     manifest: dict[str, Any],
@@ -789,19 +844,57 @@ def execute_graph_arm(
             write_atomic(run_root / "state.json", state)
         if workload["graph_selection"].get("outcome") != "SELECTED":
             continue
+        audit_path = (
+            run_root / "graph_only/audit/results" / f"{tag}.json"
+        )
+        if workload["graph_audit"]["status"] == \
+                "RECOVERABLE_IMPLEMENTATION_FAILURE" and \
+                not audit_path.exists():
+            workload["graph_audit"] = {"status": "PENDING"}
         if workload["graph_audit"]["status"] != "PENDING":
             continue
         selection = json.loads(
             selection_path.read_text(encoding="ascii")
         )
-        audit_path = (
-            run_root / "graph_only/audit/results" / f"{tag}.json"
-        )
         prepared_audit = (
             run_root / "graph_only/audit/prepared" / f"{tag}.csv"
         )
+        compatibility_manifest = (
+            run_root / "graph_only/audit/manifests" / f"{tag}.json"
+        )
         audit_path.parent.mkdir(parents=True, exist_ok=True)
         prepared_audit.parent.mkdir(parents=True, exist_ok=True)
+        compatibility_manifest.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+        representation_recovery = build_path_binding_manifest(
+            paths["split_manifest"],
+            paths["validation_source"],
+            paths["audit_source"],
+            compatibility_manifest,
+        )
+        if not any(
+            record.get("reason_code")
+            == "FROZEN_EQUIVALENT_PATH_BINDING_MISMATCH"
+            and record.get("tag") == tag
+            for record in state["recoveries"]
+        ):
+            state["recoveries"].append(
+                {
+                    "timestamp": now(),
+                    "tag": tag,
+                    **representation_recovery,
+                    "compatibility_manifest_path": str(
+                        compatibility_manifest.relative_to(REPO_ROOT)
+                    ),
+                    "compatibility_manifest_sha256":
+                        sha256_path(compatibility_manifest),
+                    "selection_rerun": False,
+                    "prior_audit_reached_ckks_execution": False,
+                }
+            )
+            write_atomic(run_root / "state.json", state)
         command = [
             audit_binary,
             "--selection",
@@ -813,7 +906,7 @@ def execute_graph_arm(
             "--audit-data-space",
             "model",
             "--manifest",
-            str(paths["split_manifest"].relative_to(REPO_ROOT)),
+            str(compatibility_manifest.relative_to(REPO_ROOT)),
             "--key-repeats",
             "3",
             "--out",
@@ -847,6 +940,10 @@ def execute_graph_arm(
             "result_path": str(audit_path.relative_to(REPO_ROOT)),
             "result_sha256": sha256_path(audit_path),
             "prepared_audit_sha256": sha256_path(prepared_audit),
+            "source_split_manifest_sha256":
+                sha256_path(paths["split_manifest"]),
+            "compatibility_manifest_sha256":
+                sha256_path(compatibility_manifest),
             "retuning": 0,
             "key_runs": trial["key_repeats_completed"],
             "encrypted_sample_evaluations": (

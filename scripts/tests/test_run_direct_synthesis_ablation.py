@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import importlib.util
+import json
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -45,6 +47,40 @@ class RunDirectSynthesisAblationTest(unittest.TestCase):
         }
         with self.assertRaises(ValueError):
             MODULE.validate_security(candidate)
+
+    def test_path_binding_changes_only_manifest_paths(self) -> None:
+        row = MODULE.load_direct_workloads()[0]
+        paths = MODULE.workload_paths(row)
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "manifest.json"
+            recovery = MODULE.build_path_binding_manifest(
+                paths["split_manifest"],
+                paths["validation_source"],
+                paths["audit_source"],
+                output,
+            )
+            source = json.loads(
+                paths["split_manifest"].read_text(encoding="ascii")
+            )
+            rebound = json.loads(output.read_text(encoding="ascii"))
+        self.assertFalse(recovery["row_membership_changed"])
+        self.assertFalse(recovery["csv_digest_changed"])
+        for partition in (
+            "configuration_validation",
+            "locked_audit_test",
+        ):
+            self.assertEqual(
+                source[partition]["row_ids"],
+                rebound[partition]["row_ids"],
+            )
+            self.assertEqual(
+                source[partition]["csv_digest"],
+                rebound[partition]["csv_digest"],
+            )
+            self.assertNotEqual(
+                source[partition]["path"],
+                rebound[partition]["path"],
+            )
 
 
 if __name__ == "__main__":
