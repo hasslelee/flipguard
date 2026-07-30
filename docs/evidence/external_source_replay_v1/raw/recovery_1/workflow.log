@@ -1,0 +1,383 @@
+official-source-replay	Set up job	﻿2026-07-30T11:31:54.1592664Z Current runner version: '2.336.0'
+official-source-replay	Set up job	2026-07-30T11:31:54.1618078Z ##[group]Runner Image Provisioner
+official-source-replay	Set up job	2026-07-30T11:31:54.1619037Z Hosted Compute Agent
+official-source-replay	Set up job	2026-07-30T11:31:54.1619656Z Version: 20260707.563
+official-source-replay	Set up job	2026-07-30T11:31:54.1620564Z Commit: 02667638d2b423fbc733a8e32a88b44996a3ba6e
+official-source-replay	Set up job	2026-07-30T11:31:54.1621435Z Build Date: 2026-07-07T19:33:50Z
+official-source-replay	Set up job	2026-07-30T11:31:54.1622183Z Worker ID: {0e6cd490-7e2e-4e0d-86ca-f9374b72be43}
+official-source-replay	Set up job	2026-07-30T11:31:54.1622961Z Azure Region: westcentralus
+official-source-replay	Set up job	2026-07-30T11:31:54.1623599Z ##[endgroup]
+official-source-replay	Set up job	2026-07-30T11:31:54.1625367Z ##[group]Operating System
+official-source-replay	Set up job	2026-07-30T11:31:54.1626460Z Ubuntu
+official-source-replay	Set up job	2026-07-30T11:31:54.1627060Z 24.04.4
+official-source-replay	Set up job	2026-07-30T11:31:54.1627571Z LTS
+official-source-replay	Set up job	2026-07-30T11:31:54.1628174Z ##[endgroup]
+official-source-replay	Set up job	2026-07-30T11:31:54.1628749Z ##[group]Runner Image
+official-source-replay	Set up job	2026-07-30T11:31:54.1629403Z Image: ubuntu-24.04
+official-source-replay	Set up job	2026-07-30T11:31:54.1630040Z Version: 20260720.247.2
+official-source-replay	Set up job	2026-07-30T11:31:54.1631342Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260720.247/images/ubuntu/Ubuntu2404-Readme.md
+official-source-replay	Set up job	2026-07-30T11:31:54.1633112Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260720.247
+official-source-replay	Set up job	2026-07-30T11:31:54.1634065Z ##[endgroup]
+official-source-replay	Set up job	2026-07-30T11:31:54.1635305Z ##[group]GITHUB_TOKEN Permissions
+official-source-replay	Set up job	2026-07-30T11:31:54.1637495Z Contents: read
+official-source-replay	Set up job	2026-07-30T11:31:54.1638226Z Metadata: read
+official-source-replay	Set up job	2026-07-30T11:31:54.1638813Z ##[endgroup]
+official-source-replay	Set up job	2026-07-30T11:31:54.1641223Z Secret source: Actions
+official-source-replay	Set up job	2026-07-30T11:31:54.1642372Z Prepare workflow directory
+official-source-replay	Set up job	2026-07-30T11:31:54.2023971Z Prepare all required actions
+official-source-replay	Set up job	2026-07-30T11:31:54.2071825Z Getting action download info
+official-source-replay	Set up job	2026-07-30T11:31:54.5216723Z Download action repository 'actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd' (SHA:93cb6efe18208431cddfb8368fd83d5badbf9bfd)
+official-source-replay	Set up job	2026-07-30T11:31:54.6828936Z Download action repository 'actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16' (SHA:924ae3a1cded613372ab5595356fb5720e22ba16)
+official-source-replay	Set up job	2026-07-30T11:31:55.4477859Z Download action repository 'actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1' (SHA:ece7cb06caefa5fff74198d8649806c4678c61a1)
+official-source-replay	Set up job	2026-07-30T11:31:55.5257570Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+official-source-replay	Set up job	2026-07-30T11:31:55.7699655Z Complete job name: official-source-replay
+official-source-replay	Check out exact source commit	﻿2026-07-30T11:31:55.8548326Z ##[group]Run actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8549694Z with:
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8550522Z   ref: 9b51e94916ee27de168aca7e8ed70dd5b1b013cf
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8551330Z   fetch-depth: 0
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8551873Z   persist-credentials: false
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8552534Z   repository: hasslelee/flipguard
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8560647Z   token: ***
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8561125Z   ssh-strict: true
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8561625Z   ssh-user: git
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8562117Z   clean: true
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8562633Z   sparse-checkout-cone-mode: true
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8563308Z   fetch-tags: false
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8563839Z   show-progress: true
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8564391Z   lfs: false
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8564852Z   submodules: false
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8565373Z   set-safe-directory: true
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.8566162Z ##[endgroup]
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9586200Z Syncing repository: hasslelee/flipguard
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9588772Z ##[group]Getting Git version info
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9590091Z Working directory is '/home/runner/work/flipguard/flipguard'
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9591901Z [command]/usr/bin/git version
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9628143Z git version 2.54.0
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9649641Z ##[endgroup]
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9664723Z Temporarily overriding HOME='/home/runner/work/_temp/a0d59058-cc80-415a-acda-d5f305951e52' before making global git config changes
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9667251Z Adding repository directory to the temporary git global config as a safe directory
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9670737Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/flipguard/flipguard
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9724531Z Deleting the contents of '/home/runner/work/flipguard/flipguard'
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9729226Z ##[group]Initializing the repository
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9736744Z [command]/usr/bin/git init /home/runner/work/flipguard/flipguard
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9814119Z hint: Using 'master' as the name for the initial branch. This default branch name
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9816505Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9819377Z hint: to use in all of your new repositories, which will suppress this warning,
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9821188Z hint: call:
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9821848Z hint:
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9822767Z hint: 	git config --global init.defaultBranch <name>
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9823995Z hint:
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9825111Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9827207Z hint: 'development'. The just-created branch can be renamed via this command:
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9828888Z hint:
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9829584Z hint: 	git branch -m <name>
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9830615Z hint:
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9831907Z hint: Disable this message with "git config set advice.defaultBranchName false"
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9833972Z Initialized empty Git repository in /home/runner/work/flipguard/flipguard/.git/
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9836350Z [command]/usr/bin/git remote add origin https://github.com/hasslelee/flipguard
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9874411Z ##[endgroup]
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9875820Z ##[group]Disabling automatic garbage collection
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9878129Z [command]/usr/bin/git config --local gc.auto 0
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9920756Z ##[endgroup]
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9921675Z ##[group]Setting up auth
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9922686Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+official-source-replay	Check out exact source commit	2026-07-30T11:31:55.9957658Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+official-source-replay	Check out exact source commit	2026-07-30T11:31:56.0289982Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+official-source-replay	Check out exact source commit	2026-07-30T11:31:56.0330818Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+official-source-replay	Check out exact source commit	2026-07-30T11:31:56.0597448Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+official-source-replay	Check out exact source commit	2026-07-30T11:31:56.0637543Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+official-source-replay	Check out exact source commit	2026-07-30T11:31:56.0911360Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+official-source-replay	Check out exact source commit	2026-07-30T11:31:56.0951853Z ##[endgroup]
+official-source-replay	Check out exact source commit	2026-07-30T11:31:56.0953035Z ##[group]Fetching the repository
+official-source-replay	Check out exact source commit	2026-07-30T11:31:56.0962292Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+official-source-replay	Check out exact source commit	2026-07-30T11:31:57.6927397Z From https://github.com/hasslelee/flipguard
+official-source-replay	Check out exact source commit	2026-07-30T11:31:57.6929783Z  * [new branch]      feature/flipguard-auto-tuner -> origin/feature/flipguard-auto-tuner
+official-source-replay	Check out exact source commit	2026-07-30T11:31:57.6931422Z  * [new branch]      main       -> origin/main
+official-source-replay	Check out exact source commit	2026-07-30T11:31:57.6967679Z [command]/usr/bin/git rev-parse --verify --quiet 9b51e94916ee27de168aca7e8ed70dd5b1b013cf^{object}
+official-source-replay	Check out exact source commit	2026-07-30T11:31:57.6998020Z 9b51e94916ee27de168aca7e8ed70dd5b1b013cf
+official-source-replay	Check out exact source commit	2026-07-30T11:31:57.7005982Z ##[endgroup]
+official-source-replay	Check out exact source commit	2026-07-30T11:31:57.7007915Z ##[group]Determining the checkout info
+official-source-replay	Check out exact source commit	2026-07-30T11:31:57.7009863Z ##[endgroup]
+official-source-replay	Check out exact source commit	2026-07-30T11:31:57.7014562Z [command]/usr/bin/git sparse-checkout disable
+official-source-replay	Check out exact source commit	2026-07-30T11:31:57.7064027Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+official-source-replay	Check out exact source commit	2026-07-30T11:31:57.7099210Z ##[group]Checking out the ref
+official-source-replay	Check out exact source commit	2026-07-30T11:31:57.7104601Z [command]/usr/bin/git checkout --progress --force 9b51e94916ee27de168aca7e8ed70dd5b1b013cf
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1347631Z Note: switching to '9b51e94916ee27de168aca7e8ed70dd5b1b013cf'.
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1348692Z 
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1349070Z You are in 'detached HEAD' state. You can look around, make experimental
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1349810Z changes and commit them, and you can discard any commits you make in this
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1350802Z state without impacting any branches by switching back to a branch.
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1351322Z 
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1351605Z If you want to create a new branch to retain commits you create, you may
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1352294Z do so (now or later) by using -c with the switch command. Example:
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1352704Z 
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1352920Z   git switch -c <new-branch-name>
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1353215Z 
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1353391Z Or undo this operation with:
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1353656Z 
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1353804Z   git switch -
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1354025Z 
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1375386Z Turn off this advice by setting config variable advice.detachedHead to false
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1375809Z 
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1376044Z HEAD is now at 9b51e94 Add clean-runner external source replay
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1422847Z ##[endgroup]
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1426240Z [command]/usr/bin/git log -1 --format=%H
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1458725Z 9b51e94916ee27de168aca7e8ed70dd5b1b013cf
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1468105Z ##[group]Removing auth
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1472435Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1506288Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1752294Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1783285Z http.https://github.com/.extraheader
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1789500Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.1826644Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.2071193Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.2110020Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+official-source-replay	Check out exact source commit	2026-07-30T11:31:58.2433844Z ##[endgroup]
+official-source-replay	Set up Go from go.mod	﻿2026-07-30T11:31:58.2608627Z ##[group]Run actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+official-source-replay	Set up Go from go.mod	2026-07-30T11:31:58.2609042Z with:
+official-source-replay	Set up Go from go.mod	2026-07-30T11:31:58.2609262Z   go-version-file: go.mod
+official-source-replay	Set up Go from go.mod	2026-07-30T11:31:58.2609499Z   cache: true
+official-source-replay	Set up Go from go.mod	2026-07-30T11:31:58.2609709Z   check-latest: false
+official-source-replay	Set up Go from go.mod	2026-07-30T11:31:58.2612541Z   token: ***
+official-source-replay	Set up Go from go.mod	2026-07-30T11:31:58.2612769Z ##[endgroup]
+official-source-replay	Set up Go from go.mod	2026-07-30T11:31:58.3834627Z Setup go version spec 1.25.9
+official-source-replay	Set up Go from go.mod	2026-07-30T11:31:58.3847162Z Attempting to download 1.25.9...
+official-source-replay	Set up Go from go.mod	2026-07-30T11:31:59.2635396Z matching 1.25.9...
+official-source-replay	Set up Go from go.mod	2026-07-30T11:31:59.2681739Z Acquiring 1.25.9 from https://github.com/actions/go-versions/releases/download/1.25.9-24114140790/go-1.25.9-linux-x64.tar.gz
+official-source-replay	Set up Go from go.mod	2026-07-30T11:31:59.9689602Z Extracting Go...
+official-source-replay	Set up Go from go.mod	2026-07-30T11:31:59.9799071Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/4c0c6250-e33b-43ef-a3af-d93d59101e4a -f /home/runner/work/_temp/80d47f49-13bf-4c34-9b5f-0a9a637beb6e
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:01.5760054Z Successfully extracted go to /home/runner/work/_temp/4c0c6250-e33b-43ef-a3af-d93d59101e4a
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:01.5761215Z Adding to the cache ...
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:05.9749741Z Successfully cached go to /opt/hostedtoolcache/go/1.25.9/x64
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:05.9752835Z Added go to the path
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:05.9755100Z Successfully set up Go version 1.25.9
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:05.9944334Z [command]/opt/hostedtoolcache/go/1.25.9/x64/bin/go env GOMODCACHE
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:05.9991330Z [command]/opt/hostedtoolcache/go/1.25.9/x64/bin/go env GOCACHE
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:06.0012440Z /home/runner/go/pkg/mod
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:06.0028082Z /home/runner/.cache/go-build
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:06.2043895Z Cache hit for: setup-go-Linux-x64-ubuntu24-go-1.25.9-6aeb210f88c3451cfc600b1fcf5fb96c3e04b4e9d9150d2f223f4fa60ca13683
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.4290123Z Received 36646129 of 49229041 (74.4%), 34.9 MBs/sec
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.4968538Z Received 49229041 of 49229041 (100.0%), 44.0 MBs/sec
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.4970446Z Cache Size: ~47 MB (49229041 B)
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.5002802Z [command]/usr/bin/tar -xf /home/runner/work/_temp/3d79eff9-c8e4-4484-abb9-f1e24dd6ad14/cache.tzst -P -C /home/runner/work/flipguard/flipguard --use-compress-program unzstd
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9352390Z Cache restored successfully
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9394360Z Cache restored from key: setup-go-Linux-x64-ubuntu24-go-1.25.9-6aeb210f88c3451cfc600b1fcf5fb96c3e04b4e9d9150d2f223f4fa60ca13683
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9425983Z go version go1.25.9 linux/amd64
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9426573Z 
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9427245Z ##[group]go env
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9547875Z AR='ar'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9548191Z CC='gcc'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9548414Z CGO_CFLAGS='-O2 -g'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9548650Z CGO_CPPFLAGS=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9548881Z CGO_CXXFLAGS='-O2 -g'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9549106Z CGO_ENABLED='1'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9549315Z CGO_FFLAGS='-O2 -g'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9549545Z CGO_LDFLAGS='-O2 -g'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9549769Z CXX='g++'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9549974Z GCCGO='gccgo'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9550467Z GO111MODULE=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9550678Z GOAMD64='v1'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9550897Z GOARCH='amd64'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9551092Z GOAUTH='netrc'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9551288Z GOBIN=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9551512Z GOCACHE='/home/runner/.cache/go-build'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9551787Z GOCACHEPROG=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9551996Z GODEBUG=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9552207Z GOENV='/home/runner/.config/go/env'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9552461Z GOEXE=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9552654Z GOEXPERIMENT=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9552859Z GOFIPS140='off'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9553061Z GOFLAGS=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9553715Z GOGCCFLAGS='-fPIC -m64 -pthread -Wl,--no-gc-sections -fmessage-length=0 -ffile-prefix-map=/tmp/go-build4198509284=/tmp/go-build -gno-record-gcc-switches'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9554374Z GOHOSTARCH='amd64'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9554587Z GOHOSTOS='linux'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9554794Z GOINSECURE=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9555115Z GOMOD='/home/runner/work/flipguard/flipguard/go.mod'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9555476Z GOMODCACHE='/home/runner/go/pkg/mod'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9555757Z GONOPROXY=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9556234Z GONOSUMDB=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9556433Z GOOS='linux'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9556638Z GOPATH='/home/runner/go'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9556864Z GOPRIVATE=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9557445Z GOPROXY='https://proxy.golang.org,direct'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9558006Z GOROOT='/opt/hostedtoolcache/go/1.25.9/x64'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9558502Z GOSUMDB='sum.golang.org'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9558939Z GOTELEMETRY='local'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9559423Z GOTELEMETRYDIR='/home/runner/.config/go/telemetry'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9559892Z GOTMPDIR=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9560391Z GOTOOLCHAIN='local'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9560988Z GOTOOLDIR='/opt/hostedtoolcache/go/1.25.9/x64/pkg/tool/linux_amd64'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9561589Z GOVCS=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9561897Z GOVERSION='go1.25.9'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9562224Z GOWORK=''
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9562499Z PKG_CONFIG='pkg-config'
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9562752Z 
+official-source-replay	Set up Go from go.mod	2026-07-30T11:32:07.9563253Z ##[endgroup]
+official-source-replay	Set up Python 3.12	﻿2026-07-30T11:32:07.9858953Z ##[group]Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:07.9859590Z with:
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:07.9859899Z   python-version: 3.12
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:07.9860459Z   cache: pip
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:07.9860828Z   cache-dependency-path: requirements-ci.txt
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:07.9861301Z   check-latest: false
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:07.9865875Z   token: ***
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:07.9866214Z   update-environment: true
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:07.9866602Z   allow-prereleases: false
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:07.9866964Z   freethreaded: false
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:07.9867292Z env:
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:07.9867805Z   GOTOOLCHAIN: local
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:07.9868136Z ##[endgroup]
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:08.1214364Z ##[group]Installed versions
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:08.1302253Z Successfully set up CPython (3.12.13)
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:08.1303083Z ##[endgroup]
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:08.1611713Z [command]/opt/hostedtoolcache/Python/3.12.13/x64/bin/pip cache dir
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:08.5081890Z /home/runner/.cache/pip
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:08.7415520Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.12.13-pip-69b6c2c503626946b8784e35cfc2ea24980ad255375cc8a99be888e73f0ce5e6
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:09.8845403Z Received 4950245 of 4950245 (100.0%), 5.2 MBs/sec
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:09.8846082Z Cache Size: ~5 MB (4950245 B)
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:09.8882178Z [command]/usr/bin/tar -xf /home/runner/work/_temp/def5c962-c97f-4eb8-ad80-31a9360ca680/cache.tzst -P -C /home/runner/work/flipguard/flipguard --use-compress-program unzstd
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:09.9047658Z Cache restored successfully
+official-source-replay	Set up Python 3.12	2026-07-30T11:32:09.9055417Z Cache restored from key: setup-python-Linux-x64-24.04-Ubuntu-python-3.12.13-pip-69b6c2c503626946b8784e35cfc2ea24980ad255375cc8a99be888e73f0ce5e6
+official-source-replay	Install pinned Python dependencies	﻿2026-07-30T11:32:09.9235867Z ##[group]Run set -euo pipefail
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:09.9236244Z [36;1mset -euo pipefail[0m
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:09.9236625Z [36;1mpython3 -m pip install --requirement requirements-ci.txt[0m
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:09.9292813Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:09.9293176Z env:
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:09.9293395Z   GOTOOLCHAIN: local
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:09.9293703Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:09.9294137Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib/pkgconfig
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:09.9294559Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:09.9294946Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:09.9295331Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:09.9295710Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:09.9296058Z ##[endgroup]
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:10.7266371Z Collecting Pillow==10.2.0 (from -r requirements-ci.txt (line 1))
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:10.7282162Z   Using cached pillow-10.2.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (9.7 kB)
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:10.7330399Z Using cached pillow-10.2.0-cp312-cp312-manylinux_2_28_x86_64.whl (4.5 MB)
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:10.7569255Z Installing collected packages: Pillow
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:11.0382916Z Successfully installed Pillow-10.2.0
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:11.0391493Z 
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:11.0392021Z [notice] A new release of pip is available: 26.1.2 -> 26.2
+official-source-replay	Install pinned Python dependencies	2026-07-30T11:32:11.0393057Z [notice] To update, run: pip install --upgrade pip
+official-source-replay	Fetch byte-pinned official sources	﻿2026-07-30T11:32:11.0862183Z ##[group]Run set -euo pipefail
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:11.0862542Z [36;1mset -euo pipefail[0m
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:11.0862840Z [36;1mmkdir -p /tmp/flipguard-external-source[0m
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:11.0863230Z [36;1mpython3 scripts/fetch_external_source_inputs.py \[0m
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:11.0863639Z [36;1m  --output /tmp/flipguard-external-source/fetch.json[0m
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:11.0912867Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:11.0913226Z env:
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:11.0913439Z   GOTOOLCHAIN: local
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:11.0913745Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:11.0914183Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib/pkgconfig
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:11.0914608Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:11.0914988Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:11.0915374Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:11.0915754Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:11.0916125Z ##[endgroup]
+official-source-replay	Fetch byte-pinned official sources	2026-07-30T11:32:18.6013702Z external_source_fetch=PASS sources=2
+official-source-replay	Run external source replay	﻿2026-07-30T11:32:18.6199747Z ##[group]Run set -euo pipefail
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6200103Z [36;1mset -euo pipefail[0m
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6200706Z [36;1mpython3 scripts/run_external_source_replay.py \[0m
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6201351Z [36;1m  --source-commit "9b51e94916ee27de168aca7e8ed70dd5b1b013cf" \[0m
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6201847Z [36;1m  --fetch-manifest /tmp/flipguard-external-source/fetch.json \[0m
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6202278Z [36;1m  --output /tmp/flipguard-external-source/replay[0m
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6250736Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6251090Z env:
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6251295Z   GOTOOLCHAIN: local
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6251598Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6252041Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib/pkgconfig
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6252473Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6252865Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6253292Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6253689Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib
+official-source-replay	Run external source replay	2026-07-30T11:32:18.6254054Z ##[endgroup]
+official-source-replay	Run external source replay	2026-07-30T11:32:46.5954759Z external_source_replay=FAIL checks=8 output=/tmp/flipguard-external-source/replay
+official-source-replay	Run external source replay	2026-07-30T11:32:46.6042117Z ##[error]Process completed with exit code 1.
+official-source-replay	Verify external source replay	﻿2026-07-30T11:32:46.6095066Z ##[group]Run set -euo pipefail
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6095388Z [36;1mset -euo pipefail[0m
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6095707Z [36;1mpython3 scripts/verify_external_source_replay.py \[0m
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6096177Z [36;1m  --source-commit "9b51e94916ee27de168aca7e8ed70dd5b1b013cf" \[0m
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6096647Z [36;1m  --result-dir /tmp/flipguard-external-source/replay[0m
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6145786Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6146135Z env:
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6146342Z   GOTOOLCHAIN: local
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6146648Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6147095Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib/pkgconfig
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6147531Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6147909Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6148297Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6148715Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6149058Z ##[endgroup]
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6597028Z Traceback (most recent call last):
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6604520Z   File "/home/runner/work/flipguard/flipguard/scripts/verify_external_source_replay.py", line 168, in <module>
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6605431Z     main()
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6606298Z   File "/home/runner/work/flipguard/flipguard/scripts/verify_external_source_replay.py", line 160, in main
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6607281Z     record = verify(args.result_dir, args.source_commit)
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6608051Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6608856Z   File "/home/runner/work/flipguard/flipguard/scripts/verify_external_source_replay.py", line 79, in verify
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6609547Z     require_equal(record["status"], "PASS", "replay status")
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6610499Z   File "/home/runner/work/flipguard/flipguard/scripts/verify_external_source_replay.py", line 42, in require_equal
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6611087Z     raise ValueError(
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6611386Z ValueError: replay status: expected 'PASS', got 'FAIL'
+official-source-replay	Verify external source replay	2026-07-30T11:32:46.6656523Z ##[error]Process completed with exit code 1.
+official-source-replay	Upload source replay artifact	﻿2026-07-30T11:32:46.6705439Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6706798Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6707193Z with:
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6707629Z   name: flipguard-external-source-replay
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6707961Z   path: /tmp/flipguard-external-source/replay
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6708263Z   if-no-files-found: error
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6708509Z   retention-days: 30
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6708736Z   compression-level: 6
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6708961Z   overwrite: false
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6709184Z   include-hidden-files: false
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6709432Z env:
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6709627Z   GOTOOLCHAIN: local
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6709904Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6710654Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib/pkgconfig
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6711070Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6711463Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6711841Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6712213Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.6712551Z ##[endgroup]
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.8336366Z (node:2699) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.8337557Z (Use `node --trace-deprecation ...` to show where the warning was created)
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.8427027Z With the provided path, there will be 19 files uploaded
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.8434551Z Artifact name is valid!
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:46.8435067Z Root directory input is valid!
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:47.0985056Z Beginning upload of artifact content to blob storage
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:47.1390749Z (node:2699) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:47.3680144Z Uploaded bytes 6801
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:47.4308780Z Finished uploading artifact content to blob storage!
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:47.4309842Z SHA256 digest of uploaded artifact zip is ce2b449e4c2c8af4d96c81793341d5383d355cb08ffef5864d6757d4be60e5a0
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:47.4310970Z Finalizing artifact upload
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:47.6478658Z Artifact flipguard-external-source-replay.zip successfully finalized. Artifact ID 8757851404
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:47.6480056Z Artifact flipguard-external-source-replay has been successfully uploaded! Final size is 6801 bytes. Artifact ID is 8757851404
+official-source-replay	Upload source replay artifact	2026-07-30T11:32:47.6486666Z Artifact download URL: https://github.com/hasslelee/flipguard/actions/runs/30538909521/artifacts/8757851404
+official-source-replay	Enforce source replay result	﻿2026-07-30T11:32:47.6613778Z ##[group]Run set -euo pipefail
+official-source-replay	Enforce source replay result	2026-07-30T11:32:47.6614094Z [36;1mset -euo pipefail[0m
+official-source-replay	Enforce source replay result	2026-07-30T11:32:47.6614363Z [36;1mtest "failure" = "success"[0m
+official-source-replay	Enforce source replay result	2026-07-30T11:32:47.6614648Z [36;1mtest "failure" = "success"[0m
+official-source-replay	Enforce source replay result	2026-07-30T11:32:47.6663594Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+official-source-replay	Enforce source replay result	2026-07-30T11:32:47.6663959Z env:
+official-source-replay	Enforce source replay result	2026-07-30T11:32:47.6664173Z   GOTOOLCHAIN: local
+official-source-replay	Enforce source replay result	2026-07-30T11:32:47.6664490Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Enforce source replay result	2026-07-30T11:32:47.6664951Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib/pkgconfig
+official-source-replay	Enforce source replay result	2026-07-30T11:32:47.6665385Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Enforce source replay result	2026-07-30T11:32:47.6665774Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Enforce source replay result	2026-07-30T11:32:47.6666160Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+official-source-replay	Enforce source replay result	2026-07-30T11:32:47.6666560Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib
+official-source-replay	Enforce source replay result	2026-07-30T11:32:47.6666891Z ##[endgroup]
+official-source-replay	Enforce source replay result	2026-07-30T11:32:47.6739130Z ##[error]Process completed with exit code 1.
+official-source-replay	Post Check out exact source commit	﻿2026-07-30T11:32:47.6833426Z Post job cleanup.
+official-source-replay	Post Check out exact source commit	2026-07-30T11:32:47.7714451Z [command]/usr/bin/git version
+official-source-replay	Post Check out exact source commit	2026-07-30T11:32:47.7757385Z git version 2.54.0
+official-source-replay	Post Check out exact source commit	2026-07-30T11:32:47.7798303Z Temporarily overriding HOME='/home/runner/work/_temp/adabeec1-1be0-4c1a-bdba-09ce87f42541' before making global git config changes
+official-source-replay	Post Check out exact source commit	2026-07-30T11:32:47.7799507Z Adding repository directory to the temporary git global config as a safe directory
+official-source-replay	Post Check out exact source commit	2026-07-30T11:32:47.7804526Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/flipguard/flipguard
+official-source-replay	Post Check out exact source commit	2026-07-30T11:32:47.7844215Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+official-source-replay	Post Check out exact source commit	2026-07-30T11:32:47.7881605Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+official-source-replay	Post Check out exact source commit	2026-07-30T11:32:47.8156883Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+official-source-replay	Post Check out exact source commit	2026-07-30T11:32:47.8193354Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+official-source-replay	Post Check out exact source commit	2026-07-30T11:32:47.8479886Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+official-source-replay	Post Check out exact source commit	2026-07-30T11:32:47.8518587Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+official-source-replay	Complete job	﻿2026-07-30T11:32:47.8991330Z Cleaning up orphan processes
+official-source-replay	Complete job	2026-07-30T11:32:47.9276929Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
