@@ -54,6 +54,7 @@ SOURCE_REPLAY_INPUTS = (
     "run_515d5dd/run_manifest.json",
 )
 PORTABLE_GO_EXCLUSIONS = (
+    "TestRunRequiresInputs",
     "TestBuildCNNLiteWorkloadContractAndSynthesize",
     "TestCNNLiteAuditContractUsesOfficialTestRows",
     "TestCNNLiteInitialCandidateOneRowSmoke",
@@ -265,6 +266,15 @@ def source_replay_scope() -> dict[str, Any]:
         "missing": missing,
         "portable_tests_skip_missing_external_inputs": True,
         "portable_go_test_exclusions": list(PORTABLE_GO_EXCLUSIONS),
+        "portable_go_exclusion_reasons": {
+            "TestRunRequiresInputs": (
+                "diagnostic assertion depends on nondeterministic Go map "
+                "iteration order; frozen source closure is not modified"
+            ),
+            "external_source_tests": (
+                "four tests require ignored MNIST or BSDS500 source inputs"
+            ),
+        },
         "committed_checkpoint_replay_independent_of_raw_results": True,
     }
 
