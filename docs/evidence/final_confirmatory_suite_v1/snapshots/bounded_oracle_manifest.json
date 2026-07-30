@@ -1,0 +1,79 @@
+{
+  "block_reason": "final clean-source direct and paired evidence are not yet bound",
+  "counts": {
+    "confirmatory_catalog_candidates": 560,
+    "development_catalog_candidates": 140,
+    "raw_catalog_executions": 1100,
+    "security_admitted_catalog_candidates": 700,
+    "security_excluded_catalog_candidates": 400
+  },
+  "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+  "direct_policy_id": "flipguard_direct_synthesis_policy_v2",
+  "evidence_id": "security_v2_bounded_oracle_v1",
+  "files": {
+    "oracle/candidate_certificates.csv": {
+      "bytes": 1070831,
+      "sha256": "sha256:a634965ff97fcd13c6242f266f1432870a362b7e2cfcbb4218884f84fc69a065"
+    },
+    "oracle/candidate_certificates_security_v2.csv": {
+      "bytes": 1070831,
+      "sha256": "sha256:a634965ff97fcd13c6242f266f1432870a362b7e2cfcbb4218884f84fc69a065"
+    },
+    "oracle/oracle_selection.csv": {
+      "bytes": 96012,
+      "sha256": "sha256:dc08523ec449d123d0b7aab2df8449bb450dc97236d70ad5f122bd0f99a333c6"
+    },
+    "oracle/oracle_selection_security_v2.csv": {
+      "bytes": 96012,
+      "sha256": "sha256:dc08523ec449d123d0b7aab2df8449bb450dc97236d70ad5f122bd0f99a333c6"
+    },
+    "oracle/selection_changes_security_v2.csv": {
+      "bytes": 11189,
+      "sha256": "sha256:8e503a99d3717a8ea27b3b9402c56d34a18b4ff1c3aa436d564be940c5c27848"
+    },
+    "oracle/summary.json": {
+      "bytes": 2178,
+      "sha256": "sha256:5bc04e60f5bf9945c76038bc5e1ca2aa3370ac72806fa9dbfb264ea3e737bbdd"
+    },
+    "oracle/validation_coverage.csv": {
+      "bytes": 25169,
+      "sha256": "sha256:adfec8988bb68e2e5af190b1f70b429b1f82d95df7d5fdb04de8f2b4a5d42210"
+    },
+    "planner/comparison.csv": {
+      "bytes": 62487,
+      "sha256": "sha256:602befd32d07d4b1409b9c5091ba5174f65abe08d76ce7f576a4e6757ba45e1e"
+    },
+    "planner/derived_metrics.json": {
+      "bytes": 1782,
+      "sha256": "sha256:7cd8d2bf7683fd1850458e36e49fa8be5615045d0aa1e54a6635e849e190a09c"
+    },
+    "planner/planner_candidates.csv": {
+      "bytes": 587239,
+      "sha256": "sha256:e1e3343d493e9397bd10f47da646f4efdcca4bf2cbc60ef3368d30cd95ad541c"
+    },
+    "planner/planner_summary.csv": {
+      "bytes": 119316,
+      "sha256": "sha256:4c67e8134a589a132ee8a1871f4966e63ae829fe1ef592c83a143f41fde690e1"
+    },
+    "planner/summary.json": {
+      "bytes": 2428,
+      "sha256": "sha256:d4a7e07e9235c6daf479fa6e6e00ab19f13ab5f9d23d2d56e48f3ea2c8f83eef"
+    }
+  },
+  "paper_claim_allowed": false,
+  "schema_version": 1,
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+  "source_commit": "62ce434bdae94dc640e7d822448381514b71cd0a",
+  "source_trees": {
+    "planner": {
+      "path": "results/thesis_grade_protocol/planner_oracle_comparison_security_v2",
+      "sha256": "sha256:f1508036e88d94aad37add73c58513c64243e10df422fafd43c06b9a8861e1cf"
+    },
+    "security": {
+      "path": "results/thesis_grade_protocol/security_v2_static_attestation",
+      "sha256": "sha256:d5d9297858fee201123c5871418e8a5def740031876e8302cb26ff33086b1a32"
+    }
+  },
+  "status": "PARTIALLY_SUPPORTED"
+}
