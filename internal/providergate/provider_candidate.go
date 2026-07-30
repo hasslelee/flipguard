@@ -324,11 +324,25 @@ func RunProviderCandidateGate(
 	if err := ValidateBoundProviderCandidate(contract, bound); err != nil {
 		return ProviderCandidateGateResult{}, err
 	}
-	trial, err := ckksplanner.ExecuteTabularCandidate(
-		contract,
-		bound.Candidate,
-		1,
-	)
+	var trial ckksplanner.TabularTrialResult
+	var err error
+	if bound.Request.SchemaVersion ==
+		ProviderCandidateConcreteRequestSchemaVersion {
+		trial, err = ckksplanner.ExecuteTabularCandidateWithOptions(
+			contract,
+			bound.Candidate,
+			1,
+			ckksplanner.TabularCandidateExecutionOptions{
+				CaptureSampleLedger: true,
+			},
+		)
+	} else {
+		trial, err = ckksplanner.ExecuteTabularCandidate(
+			contract,
+			bound.Candidate,
+			1,
+		)
+	}
 	if err != nil {
 		return ProviderCandidateGateResult{}, err
 	}
@@ -460,6 +474,19 @@ func ValidateProviderCandidateGateResult(
 			"unsupported provider candidate gate status %q",
 			result.Trial.Status,
 		)
+	}
+	if result.BoundCandidate.Request.SchemaVersion ==
+		ProviderCandidateConcreteRequestSchemaVersion &&
+		result.Trial.Status != certify.StatusFailed {
+		if err := ckksplanner.ValidateTabularSampleLedger(
+			result.Trial,
+			result.ValidationContract,
+		); err != nil {
+			return fmt.Errorf(
+				"validate provider sample ledger: %w",
+				err,
+			)
+		}
 	}
 	return nil
 }

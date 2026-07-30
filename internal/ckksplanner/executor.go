@@ -46,6 +46,15 @@ type TabularTrialResult struct {
 	MeanTotalMS float64 `json:"mean_total_ms"`
 	MedianMS    float64 `json:"median_total_ms"`
 	P95MS       float64 `json:"p95_total_ms"`
+
+	EncryptedSampleEvaluations int                        `json:"encrypted_sample_evaluations,omitempty"`
+	SampleLedger               []TabularSampleObservation `json:"sample_ledger,omitempty"`
+}
+
+// TabularCandidateExecutionOptions controls evidence capture without changing
+// the encrypted evaluation or certification policy.
+type TabularCandidateExecutionOptions struct {
+	CaptureSampleLedger bool
 }
 
 // AdaptiveAutotuneResult is the end-to-end first-party planner result.
@@ -71,6 +80,22 @@ func ExecuteTabularCandidate(
 	contract WorkloadContract,
 	candidate SynthesizedCandidate,
 	trialIndex int,
+) (TabularTrialResult, error) {
+	return ExecuteTabularCandidateWithOptions(
+		contract,
+		candidate,
+		trialIndex,
+		TabularCandidateExecutionOptions{},
+	)
+}
+
+// ExecuteTabularCandidateWithOptions executes the same candidate path with
+// optional observation-ledger capture for provider evidence.
+func ExecuteTabularCandidateWithOptions(
+	contract WorkloadContract,
+	candidate SynthesizedCandidate,
+	trialIndex int,
+	options TabularCandidateExecutionOptions,
 ) (TabularTrialResult, error) {
 	if err := contract.Validate(); err != nil {
 		return TabularTrialResult{}, fmt.Errorf(
@@ -244,6 +269,18 @@ func ExecuteTabularCandidate(
 			observedDigest,
 			contract.Decision.ValidationDigest,
 		)
+	}
+	if options.CaptureSampleLedger {
+		result.SampleLedger = buildTabularSampleLedger(
+			sampleOrder,
+			plainScores,
+			approxBySample,
+			contract.Decision.Threshold,
+			contract.Decision.MarginFloor,
+			contract.Decision.SafetyFactor,
+		)
+		result.EncryptedSampleEvaluations =
+			len(result.SampleLedger)
 	}
 
 	meanTotalMS, medianTotalMS, p95TotalMS, err :=
