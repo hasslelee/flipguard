@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import subprocess
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -121,6 +122,38 @@ def sha256_path(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return "sha256:" + digest.hexdigest()
+
+
+def sha256_bytes(value: bytes) -> str:
+    return "sha256:" + hashlib.sha256(value).hexdigest()
+
+
+def git_blob(commit: str, path: Path) -> bytes:
+    relative = path.relative_to(REPO_ROOT).as_posix()
+    completed = subprocess.run(
+        ["git", "show", f"{commit}:{relative}"],
+        cwd=REPO_ROOT,
+        check=True,
+        capture_output=True,
+    )
+    return completed.stdout
+
+
+def verify_bound_source(
+    path: Path,
+    expected_digest: str,
+    source_commit: str,
+    label: str,
+) -> str:
+    if sha256_path(path) == expected_digest:
+        return "CURRENT_TREE"
+    historical_digest = sha256_bytes(git_blob(source_commit, path))
+    require_equal(
+        historical_digest,
+        expected_digest,
+        f"{label} historical Git binding",
+    )
+    return "FREEZER_COMMIT"
 
 
 def tree_digest(root: Path) -> str:
@@ -424,6 +457,9 @@ def write_checksums(output: Path) -> None:
 def freeze(
     output: Path,
     freezer_commit: str,
+    *,
+    claim_matrix_digest: str | None = None,
+    novelty_audit_digest: str | None = None,
 ) -> None:
     if output.exists():
         raise FileExistsError(
@@ -504,11 +540,11 @@ def freeze(
         },
         "claim_matrix": {
             "path": claim_matrix.relative_to(REPO_ROOT).as_posix(),
-            "sha256": sha256_path(claim_matrix),
+            "sha256": claim_matrix_digest or sha256_path(claim_matrix),
         },
         "novelty_audit": {
             "path": novelty_audit.relative_to(REPO_ROOT).as_posix(),
-            "sha256": sha256_path(novelty_audit),
+            "sha256": novelty_audit_digest or sha256_path(novelty_audit),
         },
         "packs": pack_records,
         "remaining_manual_gates": [
@@ -599,15 +635,17 @@ def verify(output: Path) -> None:
         "linked evidence records",
     )
     claim_matrix = REPO_ROOT / manifest["claim_matrix"]["path"]
-    require_equal(
-        sha256_path(claim_matrix),
+    verify_bound_source(
+        claim_matrix,
         manifest["claim_matrix"]["sha256"],
+        manifest["freezer_commit"],
         "claim matrix binding",
     )
     novelty_audit = REPO_ROOT / manifest["novelty_audit"]["path"]
-    require_equal(
-        sha256_path(novelty_audit),
+    verify_bound_source(
+        novelty_audit,
         manifest["novelty_audit"]["sha256"],
+        manifest["freezer_commit"],
         "novelty audit binding",
     )
     with tempfile.TemporaryDirectory(
@@ -615,7 +653,12 @@ def verify(output: Path) -> None:
         dir="/tmp",
     ) as temporary:
         rebuilt = Path(temporary) / "rebuilt"
-        freeze(rebuilt, manifest["freezer_commit"])
+        freeze(
+            rebuilt,
+            manifest["freezer_commit"],
+            claim_matrix_digest=manifest["claim_matrix"]["sha256"],
+            novelty_audit_digest=manifest["novelty_audit"]["sha256"],
+        )
         compare_trees(output, rebuilt)
 
 

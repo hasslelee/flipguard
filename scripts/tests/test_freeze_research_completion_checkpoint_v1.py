@@ -44,6 +44,11 @@ class ResearchCompletionCheckpointTest(unittest.TestCase):
             <= MODULE.ALLOWED_STATES
         )
 
+    def test_verifies_frozen_checkpoint_through_historical_binding(
+        self,
+    ) -> None:
+        MODULE.verify(MODULE.OUTPUT_DEFAULT)
+
 
 if __name__ == "__main__":
     unittest.main()
