@@ -1,0 +1,148 @@
+name: EVA External Compiler Replay
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_commit:
+        description: Exact FlipGuard source commit to evaluate
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 240
+    steps:
+      - name: Check out exact FlipGuard source
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          ref: ${{ inputs.source_commit }}
+          persist-credentials: false
+
+      - name: Verify source identity and contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ inputs.source_commit }}"
+          python3 scripts/verify_eva_external_adapter_contract.py
+
+      - name: Install build dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            cmake \
+            ninja-build \
+            libboost-all-dev \
+            libprotobuf-dev \
+            protobuf-compiler \
+            python3-dev
+
+      - name: Build pinned Microsoft SEAL
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/microsoft/SEAL.git /tmp/SEAL
+          git -C /tmp/SEAL checkout \
+            0b058d99b7f18a00e5ebb2b80caee593804b0500
+          test "$(git -C /tmp/SEAL rev-parse HEAD)" = \
+            0b058d99b7f18a00e5ebb2b80caee593804b0500
+          cmake -S /tmp/SEAL -B /tmp/SEAL/build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=/tmp/seal-install \
+            -DSEAL_THROW_ON_TRANSPARENT_CIPHERTEXT=OFF \
+            -DSEAL_USE_GAUSSIAN_NOISE=OFF \
+            -DSEAL_USE_MSGSL=OFF \
+            -DSEAL_USE_ZLIB=OFF \
+            -DSEAL_USE_ZSTD=OFF \
+            -DSEAL_BUILD_TESTS=OFF \
+            -DSEAL_BUILD_EXAMPLES=OFF
+          cmake --build /tmp/SEAL/build --parallel 2
+          cmake --install /tmp/SEAL/build
+
+      - name: Build pinned Microsoft EVA
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/microsoft/EVA.git /tmp/EVA
+          git -C /tmp/EVA checkout \
+            4cd3254c9c51340ae30c451495ce5378135758c0
+          test "$(git -C /tmp/EVA rev-parse HEAD)" = \
+            4cd3254c9c51340ae30c451495ce5378135758c0
+          git -C /tmp/EVA submodule update --init third_party/pybind11
+          cmake -S /tmp/EVA -B /tmp/EVA/build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_PREFIX_PATH=/tmp/seal-install \
+            -DUSE_GALOIS=OFF
+          cmake --build /tmp/EVA/build --parallel 2
+
+      - name: Build exact SEAL prime exporter
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmake -S tools/eva-seal-prime-exporter \
+            -B /tmp/eva-prime-exporter -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_PREFIX_PATH=/tmp/seal-install
+          cmake --build /tmp/eva-prime-exporter --parallel 2
+
+      - name: Replay EVA compiler and materialize exact candidate
+        shell: bash
+        env:
+          PYTHONPATH: /tmp/EVA/build/python
+        run: |
+          set -euo pipefail
+          out="eva-external-compiler-replay"
+          mkdir -p "$out"
+          python3 scripts/export_eva_external_candidate.py \
+            --contract experiments/eva_external_adapter_v1/contract.json \
+            --eva-root /tmp/EVA \
+            --seal-root /tmp/SEAL \
+            --prime-exporter \
+              /tmp/eva-prime-exporter/eva-seal-prime-exporter \
+            --output "$out/compiler_output.json" \
+            --dot-output "$out/compiled_program.dot" \
+            --flipguard-commit "${{ inputs.source_commit }}" \
+            --action-run-id "${{ github.run_id }}"
+          cmake --version > "$out/cmake_version.txt"
+          c++ --version > "$out/cxx_version.txt"
+          protoc --version > "$out/protoc_version.txt"
+          python3 --version > "$out/python_version.txt"
+          grep -E \
+            '^(SEAL_USE_GAUSSIAN_NOISE|SEAL_THROW_ON_TRANSPARENT_CIPHERTEXT):' \
+            /tmp/SEAL/build/CMakeCache.txt \
+            > "$out/seal_build_flags.txt"
+          git -C /tmp/EVA status --short > "$out/eva_git_status.txt"
+          git -C /tmp/SEAL status --short > "$out/seal_git_status.txt"
+          test ! -s "$out/eva_git_status.txt"
+          test ! -s "$out/seal_git_status.txt"
+          (
+            cd "$out"
+            sha256sum \
+              compiler_output.json \
+              compiled_program.dot \
+              cmake_version.txt \
+              cxx_version.txt \
+              protoc_version.txt \
+              python_version.txt \
+              seal_build_flags.txt \
+              eva_git_status.txt \
+              seal_git_status.txt \
+              > SHA256SUMS
+          )
+
+      - name: Upload compiler replay artifact
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: eva-external-compiler-replay
+          path: eva-external-compiler-replay
+          if-no-files-found: error
+          retention-days: 30
