@@ -1,0 +1,90 @@
+name: Exact Security Estimator
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_commit:
+        description: Exact FlipGuard source commit to evaluate
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  estimate:
+    name: ${{ matrix.model_id }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    container:
+      image: sagemath/sagemath@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+      options: --user root
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - model_id: guidelines-pinned-8f1ff7e
+            model_role: GUIDELINE_PINNED_REPLAY
+            estimator_commit: 8f1ff7e20a4d3391e3badff1d76825314db225bc
+          - model_id: current-3e48ef4
+            model_role: CURRENT_ESTIMATOR_SENSITIVITY
+            estimator_commit: 3e48ef421ec256afddb3e7d2249a77eab6e9ba12
+    steps:
+      - name: Check out exact source commit
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          ref: ${{ inputs.source_commit }}
+          persist-credentials: false
+
+      - name: Verify source identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ inputs.source_commit }}"
+
+      - name: Fetch pinned estimator source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none \
+            https://github.com/malb/lattice-estimator.git \
+            /tmp/lattice-estimator
+          git -C /tmp/lattice-estimator checkout \
+            "${{ matrix.estimator_commit }}"
+          test "$(git -C /tmp/lattice-estimator rev-parse HEAD)" = \
+            "${{ matrix.estimator_commit }}"
+
+      - name: Run exact Q and QP estimates
+        shell: bash
+        env:
+          FLIPGUARD_CONTAINER_IMAGE: sagemath/sagemath:10.6@sha256:60dfb09e8d1399e127a0d7b62b45eef1044574bae397df51bb6ba38df5498879
+        run: |
+          set -euo pipefail
+          out="exact-security-estimator/${{ matrix.model_id }}"
+          mkdir -p "$out"
+          export FLIPGUARD_SAGE_VERSION="$(sage --version)"
+          export PYTHONPATH="/tmp/lattice-estimator"
+          sage -python scripts/run_exact_security_estimator.py \
+            --input docs/evidence/security_v2_static_attestation_formal_v2/lattice_estimator_inputs_v2.json \
+            --output "$out/results.json" \
+            --estimator-root /tmp/lattice-estimator \
+            --estimator-commit "${{ matrix.estimator_commit }}" \
+            --model-id "${{ matrix.model_id }}" \
+            --model-role "${{ matrix.model_role }}" \
+            --source-commit "${{ inputs.source_commit }}"
+          python3 scripts/verify_exact_security_estimator.py \
+            --result "$out/results.json"
+          sha256sum "$out/results.json" > "$out/SHA256SUMS"
+          git -C /tmp/lattice-estimator status --short > \
+            "$out/estimator_git_status.txt"
+          test ! -s "$out/estimator_git_status.txt"
+
+      - name: Upload estimator artifact
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: exact-security-estimator-${{ matrix.model_id }}
+          path: exact-security-estimator/${{ matrix.model_id }}
+          if-no-files-found: error
+          retention-days: 30
+
