@@ -1,0 +1,4 @@
+arm_index,candidate_id,input_scale_bits,compilation_status,compilation_failure,log_n,q_prime_bits,p_prime_bits,log_q,log_p,log_qp,security_admission,validation_status,validation_key_runs,validation_observations,decision_flips,error_violations,max_absolute_error,max_normalized_budget_usage
+1,eva_native_scale20_N14_QP240_403b0d9e5ee9,20,OK,,14,60|60|60,60,180,60,240,PASS,REJECTED,3,42,21,42,3.922299876704275,121.32274686191482
+2,eva_native_scale30_N14_QP240_ef28317b2a3d,30,OK,,14,60|60|60,60,180,60,240,PASS,SAFE,3,42,0,0,0.0027799956613847043,0.09092431774023368
+3,eva_native_scale40_N14_QP320_eeed1dcd1ccb,40,OK,,14,60|20|60|60|60,60,260,60,320,PASS,SAFE,3,42,0,0,1.044706465780365e-08,1.1073997885185843e-07
