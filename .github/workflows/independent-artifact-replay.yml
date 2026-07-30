@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - feature/flipguard-auto-tuner
-    paths:
-      - .github/workflows/independent-artifact-replay.yml
-      - scripts/run_independent_machine_replay.py
-      - scripts/verify_independent_machine_replay.py
-      - scripts/tests/test_verify_independent_machine_replay.py
   workflow_dispatch:
     inputs:
       source_commit:
@@ -42,6 +37,14 @@ jobs:
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
         with:
           python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+
+      - name: Install pinned Python test dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --requirement requirements-ci.txt
 
       - name: Run independent replay
         id: replay

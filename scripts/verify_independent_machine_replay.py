@@ -30,6 +30,28 @@ EXPECTED_CHECKS = (
     "checkpoint_v2",
     "final_clean_tree",
 )
+SOURCE_REPLAY_INPUTS = (
+    "results/source_datasets/mnist/mnist_784.arff.gz",
+    "results/source_datasets/bsds500/BSR_bsds500.tgz",
+    "results/thesis_grade_protocol/paper_artifacts_v2/current/"
+    "appendix/evidence_manifest.json",
+    "results/thesis_grade_protocol/direct_tabular_autotune_v1/"
+    "full_structural_poly3_inputmodel_floor18_keys3/summary/summary.json",
+    "results/thesis_grade_protocol/non_tabular_harris_holdout_v1/"
+    "run_a4ccd0b/run_manifest.json",
+    "results/thesis_grade_protocol/direct_synthesis_ablation_v1/"
+    "run_062e1a9/run_manifest.json",
+    "results/thesis_grade_protocol/independent_training_seed_extension_v1/"
+    "run_f3cfd7f/run_manifest.json",
+    "results/thesis_grade_protocol/non_tabular_mnist_cnn_lite_holdout_v1/"
+    "run_515d5dd/run_manifest.json",
+)
+PORTABLE_GO_EXCLUSIONS = (
+    "TestBuildCNNLiteWorkloadContractAndSynthesize",
+    "TestCNNLiteAuditContractUsesOfficialTestRows",
+    "TestCNNLiteInitialCandidateOneRowSmoke",
+    "TestBuildHarrisWorkloadContractAndSynthesize",
+)
 
 
 def sha256_path(path: Path) -> str:
@@ -136,6 +158,48 @@ def verify(root: Path, expected_source_commit: str | None = None) -> None:
             "sample_evaluations": 0,
         },
         "encrypted execution accounting",
+    )
+    source_scope = record["source_replay_scope"]
+    require_equal(
+        tuple(item["path"] for item in source_scope["inputs"]),
+        SOURCE_REPLAY_INPUTS,
+        "source replay inventory",
+    )
+    missing = [
+        item["path"]
+        for item in source_scope["inputs"]
+        if not item["available"]
+    ]
+    require_equal(
+        source_scope["missing"],
+        missing,
+        "source replay missing inputs",
+    )
+    require_equal(
+        source_scope["status"],
+        (
+            "COMPLETE"
+            if not missing
+            else "NOT_EVALUATED_ON_CLEAN_CLONE"
+        ),
+        "source replay status",
+    )
+    require_equal(
+        source_scope["portable_tests_skip_missing_external_inputs"],
+        True,
+        "portable skip policy",
+    )
+    require_equal(
+        source_scope["portable_go_test_exclusions"],
+        list(PORTABLE_GO_EXCLUSIONS),
+        "portable Go exclusions",
+    )
+    require_equal(
+        source_scope[
+            "committed_checkpoint_replay_independent_of_raw_results"
+        ],
+        True,
+        "checkpoint replay boundary",
     )
     require_equal(
         record["paper_claim_allowed"],

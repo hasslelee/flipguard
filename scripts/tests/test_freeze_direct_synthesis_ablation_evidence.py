@@ -21,11 +21,17 @@ SPEC.loader.exec_module(MODULE)
 
 
 class FreezeDirectSynthesisAblationEvidenceTest(unittest.TestCase):
-    def test_completed_run_passes_deep_validation(self) -> None:
+    def raw_run_root(self) -> Path:
         run_root = (
             Path(__file__).resolve().parents[2]
             / MODULE.DEFAULT_RUN_ROOT
         )
+        if not (run_root / "run_manifest.json").is_file():
+            self.skipTest("requires ignored ablation raw results")
+        return run_root
+
+    def test_completed_run_passes_deep_validation(self) -> None:
+        run_root = self.raw_run_root()
         manifest, summary, derived = MODULE.validate_run(run_root)
         self.assertEqual(
             MODULE.EXECUTION_COMMIT,
@@ -39,10 +45,7 @@ class FreezeDirectSynthesisAblationEvidenceTest(unittest.TestCase):
         )
 
     def test_latency_only_unevaluated_audit_is_null(self) -> None:
-        run_root = (
-            Path(__file__).resolve().parents[2]
-            / MODULE.DEFAULT_RUN_ROOT
-        )
+        run_root = self.raw_run_root()
         summary = MODULE.json.loads(
             (run_root / "summary.json").read_text(encoding="ascii")
         )

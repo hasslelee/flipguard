@@ -26,6 +26,8 @@ class FreezeIndependentTrainingSeedEvidenceTest(unittest.TestCase):
             Path(__file__).resolve().parents[2]
             / MODULE.DEFAULT_RUN_ROOT
         )
+        if not (run_root / "run_manifest.json").is_file():
+            self.skipTest("requires ignored independent-seed raw results")
         run_manifest, state, derived = MODULE.validate_run(run_root)
         self.assertEqual(
             MODULE.EXECUTION_COMMIT,

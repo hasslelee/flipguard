@@ -26,6 +26,8 @@ class FreezeBSDS500HarrisEvidenceTest(unittest.TestCase):
             Path(__file__).resolve().parents[2]
             / MODULE.DEFAULT_RUN_ROOT
         )
+        if not (run_root / "run_manifest.json").is_file():
+            self.skipTest("requires ignored Harris raw results")
         run_manifest, selection, audit, derived = MODULE.validate_run(
             run_root
         )

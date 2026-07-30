@@ -15,6 +15,10 @@ SPEC.loader.exec_module(MODULE)
 
 class StructuralExtensionStatusTest(unittest.TestCase):
     def test_preserved_checkpoint_is_partial_scientific_result(self):
+        if not (
+            ROOT / MODULE.SELECTION_ROOT / "summary/summary.json"
+        ).is_file():
+            self.skipTest("requires ignored structural raw results")
         document = MODULE.expected_document()
         self.assertEqual(document["stage_status"], "PARTIAL_SCIENTIFIC_RESULT")
         self.assertEqual(document["counts"]["locked_audit_pass"], 24)

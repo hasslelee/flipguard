@@ -269,6 +269,14 @@ class CitationRegistryTest(unittest.TestCase):
         self.assertEqual(bibliography.count("{"), bibliography.count("}"))
 
 
+@unittest.skipUnless(
+    (
+        REPO_ROOT
+        / "results/thesis_grade_protocol/paper_artifacts_v2/current"
+        / "appendix/evidence_manifest.json"
+    ).is_file(),
+    "requires ignored paper-artifact build output",
+)
 class ManuscriptPublicationGateTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
