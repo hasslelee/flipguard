@@ -1,0 +1,56 @@
+[
+  {
+    "artifact": null,
+    "artifact_sha256": null,
+    "command": [
+      "/home/ckks2/flipguard/results/thesis_grade_protocol/hit_external_adapter_v1/run_653f1ba/bin/flipguard-certify-candidate",
+      "--model",
+      "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+      "--validation",
+      "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/configuration_validation.csv",
+      "--split-id",
+      "split_seed_0",
+      "--candidate",
+      "/home/ckks2/flipguard/results/thesis_grade_protocol/hit_external_adapter_v1/run_653f1ba/candidate_request.json",
+      "--margin-floor",
+      "0.001",
+      "--safety-factor",
+      "0.5",
+      "--key-repeats",
+      "3",
+      "--out",
+      "/home/ckks2/flipguard/results/thesis_grade_protocol/hit_external_adapter_v1/run_653f1ba/selection.json"
+    ],
+    "reason": "single predeclared candidate started",
+    "stage": "selection",
+    "status": "RUNNING",
+    "timestamp": "2026-07-30T13:26:18.074193+00:00"
+  },
+  {
+    "artifact": "selection.json",
+    "artifact_sha256": "sha256:7e6c85feed9081d1bd329e147f3ba72a7bc8b065f0d8eed29fa2cf82d599c129",
+    "command": [
+      "/home/ckks2/flipguard/results/thesis_grade_protocol/hit_external_adapter_v1/run_653f1ba/bin/flipguard-certify-candidate",
+      "--model",
+      "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+      "--validation",
+      "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/configuration_validation.csv",
+      "--split-id",
+      "split_seed_0",
+      "--candidate",
+      "/home/ckks2/flipguard/results/thesis_grade_protocol/hit_external_adapter_v1/run_653f1ba/candidate_request.json",
+      "--margin-floor",
+      "0.001",
+      "--safety-factor",
+      "0.5",
+      "--key-repeats",
+      "3",
+      "--out",
+      "/home/ckks2/flipguard/results/thesis_grade_protocol/hit_external_adapter_v1/run_653f1ba/selection.json"
+    ],
+    "reason": "outcome=NO_SAFE status=REJECTED",
+    "stage": "selection",
+    "status": "PARTIAL_SCIENTIFIC_RESULT",
+    "timestamp": "2026-07-30T13:26:25.452590+00:00"
+  }
+]
