@@ -1351,29 +1351,40 @@ def summarize(
                     int(row["audit_flips"])
                     for row in values
                     if row["audit_flips"] != ""
-                ),
+                ) if any(
+                    row["audit_flips"] != "" for row in values
+                ) else None,
                 "audit_violations": sum(
                     int(row["audit_violations"])
                     for row in values
                     if row["audit_violations"] != ""
-                ),
+                ) if any(
+                    row["audit_violations"] != "" for row in values
+                ) else None,
                 "audit_key_runs": sum(
                     int(row["audit_key_runs"])
                     for row in values
                     if row["audit_key_runs"] != ""
-                ),
+                ) if any(
+                    row["audit_key_runs"] != "" for row in values
+                ) else None,
                 "audit_encrypted_sample_evaluations": sum(
                     int(row["audit_encrypted_sample_evaluations"])
                     for row in values
                     if row[
                         "audit_encrypted_sample_evaluations"
                     ] != ""
-                ),
+                ) if any(
+                    row["audit_encrypted_sample_evaluations"] != ""
+                    for row in values
+                ) else None,
                 "audit_retuning": sum(
                     int(row["audit_retuning"])
                     for row in values
                     if row["audit_retuning"] != ""
-                ),
+                ) if any(
+                    row["audit_retuning"] != "" for row in values
+                ) else None,
                 "audit_not_applicable": sum(
                     str(row["audit_status"]).startswith(
                         "NOT_APPLICABLE"
