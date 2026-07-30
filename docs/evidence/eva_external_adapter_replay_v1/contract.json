@@ -1,0 +1,209 @@
+{
+  "schema_version": "flipguard_eva_external_adapter_contract_v1",
+  "status": "PREDECLARED_BEFORE_COMPILER_REPLAY_OR_ENCRYPTED_EXECUTION",
+  "paper_claim_allowed": false,
+  "classification": "SOURCE_REPLAYED_PUBLIC_COMPILER_PARAMETER_OUTPUT",
+  "upstream": {
+    "eva_repository": "https://github.com/microsoft/EVA",
+    "eva_tag": "v1.0.1",
+    "eva_commit": "4cd3254c9c51340ae30c451495ce5378135758c0",
+    "seal_repository": "https://github.com/microsoft/SEAL",
+    "seal_tag": "v3.6.4",
+    "seal_commit": "0b058d99b7f18a00e5ebb2b80caee593804b0500"
+  },
+  "sources": [
+    {
+      "source_id": "eva_parameter_selector",
+      "repository": "eva",
+      "path": "eva/ckks/encryption_parameter_selector.h",
+      "sha256": "sha256:4dfc0c61b78346cfa78bca7ce4bc35ea039a99cbf42b179423acfbc42823a615",
+      "role": "prime_bit_and_key_prime_selection"
+    },
+    {
+      "source_id": "eva_ckks_compiler",
+      "repository": "eva",
+      "path": "eva/ckks/ckks_compiler.h",
+      "sha256": "sha256:fe26b7677978e8f8f4e190dbf0f066b6d54433877f3fdee880c502fc526f7ba0",
+      "role": "graph_transformation_and_degree_selection"
+    },
+    {
+      "source_id": "eva_ckks_config",
+      "repository": "eva",
+      "path": "eva/ckks/ckks_config.h",
+      "sha256": "sha256:aae75d5738e85682b3cde14cfb438df1ff1ad1e90eeeebb113e05de1c61399ca",
+      "role": "compiler_default_configuration"
+    },
+    {
+      "source_id": "eva_seal_materialization",
+      "repository": "eva",
+      "path": "eva/seal/seal.cpp",
+      "sha256": "sha256:15a5a80b6320a691db0b44a55f74c4922d95099c280cda102d08c349829a3651",
+      "role": "seal_coeff_modulus_materialization"
+    },
+    {
+      "source_id": "eva_python_binding",
+      "repository": "eva",
+      "path": "python/eva/wrapper.cpp",
+      "sha256": "sha256:3ed82bbaca999b69a3eb88a249e47cd53f2cfdc643868096c68baf52ba2ecc69",
+      "role": "compiler_output_export"
+    },
+    {
+      "source_id": "eva_build_binding",
+      "repository": "eva",
+      "path": "CMakeLists.txt",
+      "sha256": "sha256:4b26da6a5534dff399aa6e924857bf8f37a1549fca8535c8fd7a58f2a9e97385",
+      "role": "seal_version_constraint"
+    },
+    {
+      "source_id": "seal_context_chain",
+      "repository": "seal",
+      "path": "native/src/seal/context.cpp",
+      "sha256": "sha256:8d0f66ab47825857d4a0aaa50111ce46efe6591411212d73c8570ded65cf1582",
+      "role": "key_and_ciphertext_modulus_chain_split"
+    },
+    {
+      "source_id": "seal_coeff_modulus_create",
+      "repository": "seal",
+      "path": "native/src/seal/modulus.cpp",
+      "sha256": "sha256:bfbc867b5f0cf04ddc49e46d9ae000b7399bcd60c6b7af86e855c2bd28b2f87b",
+      "role": "ordered_prime_materialization"
+    },
+    {
+      "source_id": "seal_ntt_prime_search",
+      "repository": "seal",
+      "path": "native/src/seal/util/numth.cpp",
+      "sha256": "sha256:b79e34c11fb8153f9e61a8f9fa4c33f8a042693ca4376921bcf6368572ec8b77",
+      "role": "deterministic_ntt_prime_search"
+    },
+    {
+      "source_id": "seal_runtime_sampling",
+      "repository": "seal",
+      "path": "native/src/seal/util/rlwe.cpp",
+      "sha256": "sha256:fdd6cd39a8f428ae053d3e65d7f3dea8e10f7527d336687e2b3166487bf305ca",
+      "role": "upstream_runtime_distribution_semantics"
+    },
+    {
+      "source_id": "seal_security_caps",
+      "repository": "seal",
+      "path": "native/src/seal/util/hestdparms.h",
+      "sha256": "sha256:985f9b3c32b3f5fdaa0659eb8861249171195a0de6c8f502c71ca888313f0b26",
+      "role": "upstream_degree_selection_caps"
+    },
+    {
+      "source_id": "seal_noise_sampler_switch",
+      "repository": "seal",
+      "path": "native/src/seal/util/defines.h",
+      "sha256": "sha256:2506aafb654d7946386fbb6472adf39a4156a5d5676ba30d8503c9b3d9dedd7d",
+      "role": "upstream_noise_sampler_dispatch"
+    },
+    {
+      "source_id": "seal_build_defaults",
+      "repository": "seal",
+      "path": "CMakeLists.txt",
+      "sha256": "sha256:9c5d700d6310dbc67d2969f76cda72159300718eff4d5676c47452e5c706c3ed",
+      "role": "centered_binomial_default_build_semantics"
+    }
+  ],
+  "compiler_input": {
+    "program_id": "iris_linear_poly3_scalar_v1",
+    "vector_size": 1,
+    "input_names": [
+      "x_0",
+      "x_1",
+      "x_2",
+      "x_3"
+    ],
+    "score_formula": "z=bias+sum_i(weight_i*x_i); score=0.5+0.197*z-0.004*z^3",
+    "input_scale_bits": 20,
+    "input_scale_basis": "frozen_direct_policy_v2_min_scale_bits",
+    "output_range_bits": 1,
+    "output_range_basis": "max(1,ceil(log2(max(1,max_plaintext_output_abs))))",
+    "compiler_config": {
+      "balance_reductions": true,
+      "rescaler": "lazy_waterline",
+      "lazy_relinearize": true,
+      "security_level": 128,
+      "quantum_safe": false,
+      "warn_vec_size": true
+    }
+  },
+  "translation_contract": {
+    "candidate_lineage": "EVA_COMPILER_MODULUS_PROPOSAL_REPLAYED_ON_LATTIGO",
+    "q_rule": "SEAL first_context_data coeff_modulus in exact order",
+    "p_rule": "SEAL key_context_data final coeff_modulus only",
+    "scale_rule": "compiler_input.input_scale_bits",
+    "path": "rescale",
+    "ring_type": "standard",
+    "prime_padding_allowed": false,
+    "prime_reordering_allowed": false,
+    "scale_adjustment_allowed": false,
+    "compiler_config_adjustment_allowed": false,
+    "synthesis_calls": 0,
+    "repair_calls": 0,
+    "retuning": 0,
+    "required_q_primes": 7,
+    "required_slots": 1
+  },
+  "runtime_boundary": {
+    "native_eva_seal_execution": "NOT_EVALUATED",
+    "seal_default_secret": "uniform_ternary_-1_0_1",
+    "seal_default_error": "centered_binomial_stddev_3.2",
+    "lattigo_replay_secret": "ring.Ternary{P:2/3}",
+    "lattigo_replay_error": "ring.DiscreteGaussian{Sigma:3.2,Bound:19.2}",
+    "distribution_identity_required": false,
+    "reason": "EVA output is treated only as an untrusted modulus proposal; FlipGuard rebinds the exact Q/P literal to its frozen Lattigo runtime and Security V2 policy before any encrypted execution"
+  },
+  "workload": {
+    "split_seed": 0,
+    "seed_role": "development",
+    "dataset_id": "iris_binary",
+    "model_id": "linear_poly3",
+    "split_id": "split_seed_0",
+    "model_path": "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+    "model_sha256": "sha256:9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1",
+    "validation_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/configuration_validation.csv",
+    "validation_sha256": "sha256:29cf99a47cd25520a15aa36d8e7fdf58328fc3a91ad54067266d443b4c04e5ea",
+    "validation_rows": 14,
+    "audit_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/locked_audit_test.csv",
+    "audit_sha256": "sha256:72a182968acd60e8c0bd5acc830627d698a9f1d2e1760dd492dbb07129a26327",
+    "audit_rows": 16,
+    "split_manifest_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/split_manifest.json",
+    "split_manifest_sha256": "sha256:c76e7b0478fffbbac4d24ff41a86fa7694cf3f5719e462270eb780b2531760d1",
+    "max_plaintext_output_abs": 0.69387790673
+  },
+  "policy": {
+    "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+    "security_v2_caps": {
+      "12": 106,
+      "13": 214,
+      "14": 430,
+      "15": 868
+    },
+    "direct_policy_id": "flipguard_direct_synthesis_policy_v2",
+    "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "primary_alpha": 0.5,
+    "primary_margin_floor": 0.001,
+    "validation_key_repeats": 3,
+    "audit_key_repeats": 3,
+    "candidate_trials": 1,
+    "paper_claim_allowed": false
+  },
+  "outcome_policy": {
+    "compiler_replay_failure": "RECOVERABLE_IMPLEMENTATION_FAILURE unless source identity is lost",
+    "source_or_identity_mismatch": "INTEGRITY_BLOCK",
+    "security_v2_failure": "BLOCK_ENCRYPTED_EXECUTION_AND_PRESERVE_STATIC_RESULT",
+    "graph_compatibility_failure": "BLOCK_ENCRYPTED_EXECUTION_AND_PRESERVE_STATIC_RESULT",
+    "validation_safe": "run byte-identical locked audit",
+    "validation_rejected_or_failed": "record NO_SAFE and do not run audit",
+    "audit_negative": "preserve scientific negative and do not retune"
+  },
+  "claim_boundary": {
+    "actual_eva_compiler_parameter_output": "eligible after pinned compiler replay",
+    "source_replayed_external_compiler_candidate": "eligible after Security V2 and graph compatibility",
+    "native_eva_seal_execution": "NOT_EVALUATED",
+    "cross_backend_performance_equivalence": "NOT_EVALUATED",
+    "general_external_autotuner_integration": "NOT_EVALUATED",
+    "paper_claim_allowed": false
+  }
+}
