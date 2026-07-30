@@ -10,6 +10,7 @@ import importlib.util
 import json
 import math
 import shutil
+import subprocess
 import tempfile
 from pathlib import Path
 from typing import Any
@@ -76,6 +77,33 @@ def sha256_path(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return "sha256:" + digest.hexdigest()
+
+
+def sha256_bytes(value: bytes) -> str:
+    return "sha256:" + hashlib.sha256(value).hexdigest()
+
+
+def git_blob(commit: str, relative: str) -> bytes:
+    completed = subprocess.run(
+        ["git", "show", f"{commit}:{relative}"],
+        cwd=REPO_ROOT,
+        check=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    return completed.stdout
+
+
+def verify_historical_source_map(
+    source_commit: str,
+    source_files: dict[str, str],
+) -> None:
+    for relative, expected in source_files.items():
+        if sha256_bytes(git_blob(source_commit, relative)) != expected:
+            raise ValueError(
+                "CNN-lite historical execution source changed: "
+                f"{relative}"
+            )
 
 
 def canonical_json(value: Any) -> bytes:
@@ -298,12 +326,10 @@ def validate_run(
     if run_manifest["execution_critical_source_digest"] != \
             canonical_digest(run_manifest["execution_source_files"]):
         raise ValueError("CNN-lite source closure digest changed")
-    for relative, expected in \
-            run_manifest["execution_source_files"].items():
-        if sha256_path(REPO_ROOT / relative) != expected:
-            raise ValueError(
-                f"CNN-lite execution source changed: {relative}"
-            )
+    verify_historical_source_map(
+        run_manifest["execution_commit"],
+        run_manifest["execution_source_files"],
+    )
     if run_manifest["direct_policy"]["digest"] != \
             DIRECT_POLICY_DIGEST or \
             run_manifest["security_policy"]["digest"] != \
