@@ -1,6 +1,6 @@
 # FlipGuard V2 Related-Work Positioning
 
-Status: primary-source audit completed on 2026-07-29. This document records
+Status: primary-source audit updated on 2026-07-30. This document records
 the conservative novelty boundary used by the manuscript.
 
 ## Scope
@@ -40,6 +40,12 @@ direct synthesizer are candidate providers evaluated by the same gate.
 - [DaCapo (USENIX Security 2024)](https://www.usenix.org/conference/usenixsecurity24/presentation/cheon)
   automatically places bootstrapping operations using liveness and latency
   analysis.
+- [HEIR (2025 preprint)](https://arxiv.org/abs/2508.11095) defines a layered
+  MLIR infrastructure spanning scheme-agnostic secret computation, CKKS
+  lowering, layout selection, noise analysis, parameter selection, library
+  backends, and hardware targets. Its CKKS parameter selection is not yet
+  described as completely automated, but its program and backend scope is
+  substantially broader than FlipGuard's current adapters.
 
 These systems establish that graph lowering, scale placement, output-error
 optimization, and automatic cryptographic configuration are prior art.
@@ -95,7 +101,7 @@ The distinction must remain explicit:
 
 | System family | Primary optimization target | Relation to FlipGuard |
 |---|---|---|
-| CHET, EVA, HECO | Program lowering and encrypted execution | Candidate provider or backend |
+| CHET, EVA, HECO, HEIR | Program lowering and encrypted execution | Candidate provider or backend |
 | HECATE | Scale placement and runtime | Candidate provider |
 | ELASM | Output error versus latency | Strong error-aware baseline; not decision-margin admission |
 | DaCapo | Bootstrapping placement | Orthogonal provider for deeper programs |
@@ -121,3 +127,19 @@ Forbidden:
 - “FlipGuard provides a formal application-domain correctness guarantee.”
 - “FlipGuard supports arbitrary neural networks.”
 - “Decision preservation makes the underlying CKKS parameters secure.”
+
+## Primary-Source Audit Notes
+
+- HECATE and ELASM establish that scale placement and numerical
+  error/latency management are existing compiler objectives.
+- DaCapo establishes automated bootstrapping placement for deeper programs.
+- FHE-Agent establishes static pruning, encrypted calibration, and
+  failure-guided repair over much broader neural-network graphs.
+- HEIR establishes a modern multi-level compiler IR and broad backend
+  integration point.
+- Application-aware approximate HE requires the circuit and allowed input
+  domain to remain tied to parameter use; FlipGuard's finite observed gate is
+  not a substitute for that formal security/correctness model.
+- The remaining defensible boundary is decision-space admission, explicit
+  abstention, literal replay, and no-retuning audit. Non-tabular adapters add
+  scope evidence but do not establish universal graph support.
