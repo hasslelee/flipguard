@@ -210,9 +210,11 @@ def verify_checksum_index(root: Path) -> str:
     return "VERIFIED"
 
 
-def load_manifests() -> dict[str, dict[str, Any]]:
+def load_manifests(
+    packs: dict[str, Path] = PACKS,
+) -> dict[str, dict[str, Any]]:
     manifests: dict[str, dict[str, Any]] = {}
-    for name, relative in PACKS.items():
+    for name, relative in packs.items():
         root = REPO_ROOT / relative
         manifest_path = root / "manifest.json"
         if not manifest_path.is_file():
@@ -422,9 +424,10 @@ def validate_semantics(
 
 def build_pack_records(
     manifests: dict[str, dict[str, Any]],
+    packs: dict[str, Path] = PACKS,
 ) -> dict[str, dict[str, Any]]:
     records: dict[str, dict[str, Any]] = {}
-    for name, relative in PACKS.items():
+    for name, relative in packs.items():
         root = REPO_ROOT / relative
         manifest_path = root / "manifest.json"
         records[name] = {
@@ -435,6 +438,26 @@ def build_pack_records(
             "checksum_index": verify_checksum_index(root),
         }
     return records
+
+
+def pack_paths_from_manifest(
+    records: dict[str, dict[str, Any]],
+) -> dict[str, Path]:
+    packs: dict[str, Path] = {}
+    for name, record in records.items():
+        if not isinstance(name, str) or not name:
+            raise ValueError("checkpoint contains an invalid pack name")
+        relative = Path(record["path"])
+        if relative.is_absolute() or ".." in relative.parts:
+            raise ValueError(
+                f"checkpoint contains unsafe pack path: {relative}"
+            )
+        if relative.parts[:2] != ("docs", "evidence"):
+            raise ValueError(
+                f"checkpoint pack is outside docs/evidence: {relative}"
+            )
+        packs[name] = relative
+    return packs
 
 
 def write_checksums(output: Path) -> None:
@@ -618,7 +641,7 @@ def compare_trees(expected: Path, actual: Path) -> None:
         )
 
 
-def verify(output: Path) -> None:
+def verify(output: Path) -> str:
     verify_checksums(output)
     manifest = load_json(output / "manifest.json")
     require_equal(
@@ -626,14 +649,30 @@ def verify(output: Path) -> None:
         False,
         "checkpoint paper gate",
     )
-    manifests = load_manifests()
+    frozen_pack_paths = pack_paths_from_manifest(manifest["packs"])
+    manifests = load_manifests(frozen_pack_paths)
     validate_semantics(manifests)
-    current_records = build_pack_records(manifests)
+    current_records = build_pack_records(manifests, frozen_pack_paths)
     require_equal(
         current_records,
         manifest["packs"],
         "linked evidence records",
     )
+    claim_states = output / manifest["claim_state_registry"]["path"]
+    require_equal(
+        sha256_path(claim_states),
+        manifest["claim_state_registry"]["sha256"],
+        "claim state registry binding",
+    )
+    frozen_claim_states = load_json(claim_states)
+    require_equal(
+        frozen_claim_states["paper_claim_allowed"],
+        False,
+        "claim registry paper gate",
+    )
+    for claim, state in frozen_claim_states["states"].items():
+        if state not in ALLOWED_STATES:
+            raise ValueError(f"{claim}: invalid frozen claim state {state}")
     claim_matrix = REPO_ROOT / manifest["claim_matrix"]["path"]
     verify_bound_source(
         claim_matrix,
@@ -648,18 +687,35 @@ def verify(output: Path) -> None:
         manifest["freezer_commit"],
         "novelty audit binding",
     )
-    with tempfile.TemporaryDirectory(
-        prefix="flipguard-research-checkpoint-",
-        dir="/tmp",
-    ) as temporary:
-        rebuilt = Path(temporary) / "rebuilt"
-        freeze(
-            rebuilt,
-            manifest["freezer_commit"],
-            claim_matrix_digest=manifest["claim_matrix"]["sha256"],
-            novelty_audit_digest=manifest["novelty_audit"]["sha256"],
-        )
-        compare_trees(output, rebuilt)
+    current_claim_state_document = {
+        "schema_version": "flipguard_claim_state_registry_v1",
+        "paper_claim_allowed": False,
+        "block_reason": (
+            "Paper admission, external archival, release tagging, and "
+            "independent-machine replay remain separate manual gates."
+        ),
+        "states": CLAIM_STATES,
+    }
+    can_rebuild = (
+        frozen_pack_paths == PACKS and
+        sha256_bytes(canonical_json(current_claim_state_document)) ==
+        manifest["claim_state_registry"]["sha256"]
+    )
+    if can_rebuild:
+        with tempfile.TemporaryDirectory(
+            prefix="flipguard-research-checkpoint-",
+            dir="/tmp",
+        ) as temporary:
+            rebuilt = Path(temporary) / "rebuilt"
+            freeze(
+                rebuilt,
+                manifest["freezer_commit"],
+                claim_matrix_digest=manifest["claim_matrix"]["sha256"],
+                novelty_audit_digest=manifest["novelty_audit"]["sha256"],
+            )
+            compare_trees(output, rebuilt)
+        return "DETERMINISTIC_REBUILD"
+    return "HISTORICAL_MANIFEST_BOUND"
 
 
 def main() -> None:
@@ -674,10 +730,11 @@ def main() -> None:
         else REPO_ROOT / args.output
     )
     if args.verify:
-        verify(output)
+        verification_mode = verify(output)
         print(
             "research_completion_checkpoint_v1=VERIFIED "
-            f"packs={len(PACKS)} paper_claim_allowed=false"
+            f"packs={len(load_json(output / 'manifest.json')['packs'])} "
+            f"mode={verification_mode} paper_claim_allowed=false"
         )
         return
     if not args.freezer_commit:

@@ -47,7 +47,20 @@ class ResearchCompletionCheckpointTest(unittest.TestCase):
     def test_verifies_frozen_checkpoint_through_historical_binding(
         self,
     ) -> None:
-        MODULE.verify(MODULE.OUTPUT_DEFAULT)
+        self.assertEqual(
+            MODULE.verify(MODULE.OUTPUT_DEFAULT),
+            "DETERMINISTIC_REBUILD",
+        )
+
+    def test_verifies_later_checkpoint_from_frozen_manifest(self) -> None:
+        checkpoint = (
+            REPO_ROOT /
+            "docs/evidence/research_completion_checkpoint_v4"
+        )
+        self.assertEqual(
+            MODULE.verify(checkpoint),
+            "HISTORICAL_MANIFEST_BOUND",
+        )
 
 
 if __name__ == "__main__":
