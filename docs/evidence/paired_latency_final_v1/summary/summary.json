@@ -1,0 +1,259 @@
+{
+  "aggregate_pairs": [
+    {
+      "dataset_model_clusters": 10,
+      "denominator_arm_id": "direct",
+      "eval_ratio_workload_bootstrap_ci95_high": 3.682786670920924,
+      "eval_ratio_workload_bootstrap_ci95_low": 1.884494726286075,
+      "geometric_mean_eval_only_ratio": 2.631775823942276,
+      "geometric_mean_total_ratio": 3.141754631447834,
+      "inference_unit": "dataset_model_cluster",
+      "max_workload_total_ratio": 5.287453599109094,
+      "mean_of_workload_mean_eval_only_differences_ms": 88.01506843166666,
+      "mean_of_workload_mean_total_differences_ms": 332.4950514588889,
+      "median_workload_total_ratio": 3.438782740992643,
+      "min_workload_total_ratio": 1.8927077509599404,
+      "numerator_arm_id": "catalog",
+      "pairs": 1800,
+      "total_ratio_workload_bootstrap_ci95_high": 4.215680262589913,
+      "total_ratio_workload_bootstrap_ci95_low": 2.3470310752031898,
+      "workloads": 50
+    },
+    {
+      "dataset_model_clusters": 10,
+      "denominator_arm_id": "catalog",
+      "eval_ratio_workload_bootstrap_ci95_high": 2.772351801583507,
+      "eval_ratio_workload_bootstrap_ci95_low": 1.288935776280279,
+      "geometric_mean_eval_only_ratio": 1.8909882052003066,
+      "geometric_mean_total_ratio": 1.7018618936534378,
+      "inference_unit": "dataset_model_cluster",
+      "max_workload_total_ratio": 2.910216078011756,
+      "mean_of_workload_mean_eval_only_differences_ms": 164.1801480238889,
+      "mean_of_workload_mean_total_differences_ms": 299.9986573105556,
+      "median_workload_total_ratio": 1.9388908875309712,
+      "min_workload_total_ratio": 0.9858238997984058,
+      "numerator_arm_id": "reference",
+      "pairs": 1800,
+      "total_ratio_workload_bootstrap_ci95_high": 2.340134858241154,
+      "total_ratio_workload_bootstrap_ci95_low": 1.2367833711125291,
+      "workloads": 50
+    },
+    {
+      "dataset_model_clusters": 10,
+      "denominator_arm_id": "direct",
+      "eval_ratio_workload_bootstrap_ci95_high": 5.268347824053091,
+      "eval_ratio_workload_bootstrap_ci95_low": 4.703918084192822,
+      "geometric_mean_eval_only_ratio": 4.976657041806161,
+      "geometric_mean_total_ratio": 5.346832486470269,
+      "inference_unit": "dataset_model_cluster",
+      "max_workload_total_ratio": 5.679182269098405,
+      "mean_of_workload_mean_eval_only_differences_ms": 252.19521645555557,
+      "mean_of_workload_mean_total_differences_ms": 632.4937087694445,
+      "median_workload_total_ratio": 5.376223224066241,
+      "min_workload_total_ratio": 4.945847648424755,
+      "numerator_arm_id": "reference",
+      "pairs": 1800,
+      "total_ratio_workload_bootstrap_ci95_high": 5.520717922896251,
+      "total_ratio_workload_bootstrap_ci95_low": 5.169019135372482,
+      "workloads": 50
+    }
+  ],
+  "claim_boundary": "The paired run must be frozen, independently verified, and reported within the bounded workload/configuration scope before a paper latency claim is allowed.",
+  "counts": {
+    "arm_summary_rows": 150,
+    "decision_flips_by_arm": {
+      "catalog": 0,
+      "direct": 0,
+      "reference": 0
+    },
+    "pair_summary_rows": 150,
+    "raw_records": 5400,
+    "workloads_failed": 0,
+    "workloads_successful": 50
+  },
+  "evidence_status": "PAIRED_MEASUREMENT_PENDING_FREEZE",
+  "host": {
+    "cpu_governors": [],
+    "cpu_model": "AMD Ryzen 5 3600 6-Core Processor",
+    "dmi_product_name": "VMware Virtual Platform",
+    "dmi_system_vendor": "VMware, Inc.",
+    "gomaxprocs": "runtime_default",
+    "logical_cpu": 2,
+    "machine": "x86_64",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "process_cpu_affinity": [
+      0,
+      1
+    ],
+    "processor": "x86_64",
+    "python": "3.12.3",
+    "uname": "Linux ckks2-VMware-Virtual-Platform 6.17.0-35-generic #35~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue May 26 19:30:42 UTC 2 x86_64 x86_64"
+  },
+  "inputs": {
+    "comparison": {
+      "path": "results/thesis_grade_protocol/direct_vs_catalog_oracle_v2/final_source_baseline/comparison.csv",
+      "sha256": "sha256:9cb27bba461120f71116acd63116c52c202a5bcc90f733a4ab5db9d3277bfd77"
+    },
+    "direct_results": {
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_final_baseline_inputmodel_floor18_keys3/summary/workload_results.csv",
+      "sha256": "sha256:ce98eff70edce598565c734cfe9f09b6d33d5e4d7b0266b513b1b62d6510e10f"
+    }
+  },
+  "mode": "FINAL",
+  "outputs": {
+    "aggregate_pairs.csv": {
+      "path": "results/thesis_grade_protocol/paired_tabular_latency_v1/full/summary/aggregate_pairs.csv",
+      "sha256": "sha256:c60f00e62b55dba7810f283680b05ba4f95f16e0c4c24f609d79316eac6ce2b9"
+    },
+    "arm_summaries.csv": {
+      "path": "results/thesis_grade_protocol/paired_tabular_latency_v1/full/summary/arm_summaries.csv",
+      "sha256": "sha256:ecf528e6564be3a2adcdc997a5b418f565d0e1696868a92b2ed2ed654d52da41"
+    },
+    "pair_summaries.csv": {
+      "path": "results/thesis_grade_protocol/paired_tabular_latency_v1/full/summary/pair_summaries.csv",
+      "sha256": "sha256:8b90ada3fd69cf5d574fef7dcdf98c67e52cbc97707e994772791fe424b4b6e6"
+    },
+    "records.csv": {
+      "path": "results/thesis_grade_protocol/paired_tabular_latency_v1/full/summary/records.csv",
+      "sha256": "sha256:cf9c900e4e6660e0669000b108250a99ff092a23b3e88e3e2478a794b7c09cb9"
+    },
+    "run_status.csv": {
+      "path": "results/thesis_grade_protocol/paired_tabular_latency_v1/full/summary/run_status.csv",
+      "sha256": "sha256:eaf197fcb2b4209c83e5e2a235739df49d70588b0cc495fc3b1593a7df89623a"
+    }
+  },
+  "paper_latency_claim_allowed": false,
+  "protocol": {
+    "aggregate_inference_unit": "dataset_model_cluster",
+    "alpha": 0.5,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260728,
+    "dataset_model_clusters": 10,
+    "inferential_warning": "partition rows are not independent samples; uncertainty resamples dataset-model clusters",
+    "key_policy": "one_parameter_compatible_keyset_per_arm_reused_within_workload",
+    "max_rows": 6,
+    "measurement_runs": 6,
+    "order_schedule": "balanced_cyclic_and_reverse_row_rotated_v1",
+    "outlier_policy": "none_all_raw_observations_preserved",
+    "partition_instances": 50,
+    "partition_semantics": "five deterministic repeated partitions of a fixed held-out artifact",
+    "seed_roles": {
+      "0": "development_ablation",
+      "1-4": "post_freeze_repeated_partition_evaluation"
+    },
+    "warmup_runs": 1,
+    "workloads_requested": 50
+  },
+  "reference_status_counts": {
+    "failed": 0,
+    "rejected": 0,
+    "safe": 50,
+    "security_pass": 50
+  },
+  "safe_reference_aggregate_pairs": [
+    {
+      "dataset_model_clusters": 10,
+      "denominator_arm_id": "catalog",
+      "eval_ratio_workload_bootstrap_ci95_high": 2.772351801583507,
+      "eval_ratio_workload_bootstrap_ci95_low": 1.288935776280279,
+      "geometric_mean_eval_only_ratio": 1.8909882052003066,
+      "geometric_mean_total_ratio": 1.7018618936534378,
+      "inference_unit": "dataset_model_cluster",
+      "max_workload_total_ratio": 2.910216078011756,
+      "mean_of_workload_mean_eval_only_differences_ms": 164.1801480238889,
+      "mean_of_workload_mean_total_differences_ms": 299.9986573105556,
+      "median_workload_total_ratio": 1.9388908875309712,
+      "min_workload_total_ratio": 0.9858238997984058,
+      "numerator_arm_id": "reference",
+      "pairs": 1800,
+      "total_ratio_workload_bootstrap_ci95_high": 2.340134858241154,
+      "total_ratio_workload_bootstrap_ci95_low": 1.2367833711125291,
+      "workloads": 50
+    },
+    {
+      "dataset_model_clusters": 10,
+      "denominator_arm_id": "direct",
+      "eval_ratio_workload_bootstrap_ci95_high": 5.268347824053091,
+      "eval_ratio_workload_bootstrap_ci95_low": 4.703918084192822,
+      "geometric_mean_eval_only_ratio": 4.976657041806161,
+      "geometric_mean_total_ratio": 5.346832486470269,
+      "inference_unit": "dataset_model_cluster",
+      "max_workload_total_ratio": 5.679182269098405,
+      "mean_of_workload_mean_eval_only_differences_ms": 252.19521645555557,
+      "mean_of_workload_mean_total_differences_ms": 632.4937087694445,
+      "median_workload_total_ratio": 5.376223224066241,
+      "min_workload_total_ratio": 4.945847648424755,
+      "numerator_arm_id": "reference",
+      "pairs": 1800,
+      "total_ratio_workload_bootstrap_ci95_high": 5.520717922896251,
+      "total_ratio_workload_bootstrap_ci95_low": 5.169019135372482,
+      "workloads": 50
+    }
+  ],
+  "schema_version": 2,
+  "source": {
+    "commit": "4a8ffa742d02707cc455eb0c1988815db3fd69a5",
+    "digest": "sha256:e3335c21b88918184545aa8898ce09607b56cad9ff75ce9837c48bed207f1403",
+    "files": {
+      "cmd/flipguard-paired-latency/main.go": {
+        "bytes": 8419,
+        "sha256": "sha256:1c99eb4fb57673a54d1de07cf36b5bddee0651aa355b7f91516a23bb35694fd2"
+      },
+      "go.mod": {
+        "bytes": 570,
+        "sha256": "sha256:002398be2c55fc464db27c92805c96abc7aae8e6e8106dd083d9b0b76cf8a179"
+      },
+      "go.sum": {
+        "bytes": 2614,
+        "sha256": "sha256:ba0b56d4f4d13fd01648402ad271b0c27a6722830ca2f652fcd94e4cfdcb508d"
+      },
+      "internal/ckksbackend/paired_tabular_latency.go": {
+        "bytes": 20690,
+        "sha256": "sha256:4e6711a6ee7e95ab464049595bdd273a14ede54db239f853a11eb0066e8be126"
+      },
+      "internal/ckksbackend/tabular_inference.go": {
+        "bytes": 21173,
+        "sha256": "sha256:dad48640d76098a03865d377438d45138467d49b019373b3ccd51b5110cfc15b"
+      },
+      "scripts/run_paired_tabular_latency.py": {
+        "bytes": 34907,
+        "sha256": "sha256:c232589c0853786746bed47309f955b944a0d591299c25eac67399086c9fe6df"
+      }
+    },
+    "measurement_files_dirty": false,
+    "revision_label": "4a8ffa742d02707cc455eb0c1988815db3fd69a5"
+  },
+  "timing_diagnostics": {
+    "duplicate_catalog_reference": {
+      "geometric_mean_total_ratio": 1.0029554687250497,
+      "workloads": 25
+    },
+    "normalized_mean_total_by_measurement_run": {
+      "1": 1.0019135353417024,
+      "2": 0.9934856710228605,
+      "3": 1.003977603429632,
+      "4": 0.996741115414213,
+      "5": 1.0069994359866656,
+      "6": 0.9968826388049267
+    },
+    "normalized_mean_total_by_order_position": {
+      "1": 0.9974410148307976,
+      "2": 1.002277090277785,
+      "3": 1.0002818948914172
+    },
+    "within_workload_total_cv_by_arm": {
+      "catalog": {
+        "max": 0.3812221252813458,
+        "median": 0.13622550416806326
+      },
+      "direct": {
+        "max": 0.32746445074159974,
+        "median": 0.15671518146522062
+      },
+      "reference": {
+        "max": 0.2033910670415775,
+        "median": 0.10816213109322133
+      }
+    }
+  }
+}
