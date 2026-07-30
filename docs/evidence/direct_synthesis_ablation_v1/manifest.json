@@ -1,0 +1,38 @@
+{
+  "ablation_contract_digest": "sha256:8521da562e477d2a2f5dc60e3524affe85a22067225764a5910fe78e3ac0d6bf",
+  "claim_details": {
+    "adaptive_repair": "four first-trial rejections became SAFE under the frozen bounded numerical repair",
+    "decision_contract_candidate_synthesis_effect": "not observed in the ten natural seed-0 development workloads; graph-only and full literal parameters, trials, repairs, and outcomes were identical",
+    "latency_only_no_certification_comparator": "selected a validation-REJECTED candidate in all ten development workloads"
+  },
+  "claim_states": {
+    "adaptive_repair": "SUPPORTED",
+    "decision_contract_candidate_synthesis_effect": "BLOCKED",
+    "development_locked_audit": "SUPPORTED",
+    "latency_only_no_certification_comparator": "SUPPORTED"
+  },
+  "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+  "execution_binaries": {
+    "audit": "sha256:7c5a930506a0ad19d59796234df99d903e3b7d8f92574a5d9957099e2c327109",
+    "autotune": "sha256:4a25b91e12ff386ec5aacea23b95086695c9d5a565ae747f7249aba087c38f1f",
+    "materialize": "sha256:fdaa5312fd11e4115d0138fe15a9d013e51fcd2182ad058feee7f869c8161cad",
+    "synthesize": "sha256:2f0844d811d59f28ede9e81e569f6db023bb9a1060a90ba0701d54ac68ddc548"
+  },
+  "execution_commit": "062e1a9e0305b57ae75d681eb35a4655c5f00c43",
+  "execution_critical_source_digest": "sha256:5e7e0be1e69918b14445c97d3c05b4afe6aef874c6c928ed1d15c15e7ef38fb2",
+  "graph_only_workloads_sha256": "sha256:68babce23558f58011e97f3e507ed9ca3f56ef053703fcbda0de472afd4a2bd0",
+  "paper_claim_allowed": false,
+  "recovery_summary_sha256": "sha256:4f158327ad8e7fd9f64e44040fa4ac36bbee356a772eff7c3de32780c283c843",
+  "reference_bindings_sha256": "sha256:534d36fbcbc4ebdb4dc406e54f6171eabb1a027081eabdc93a1a4120dd9f61c1",
+  "resume_commits": [
+    "062e1a9e0305b57ae75d681eb35a4655c5f00c43",
+    "67a7ce612ad1a2ac89cc532cb34a291bdb69f1d9",
+    "2b01d1be3921960550914afb250b769c34fb949d",
+    "302fa727c82714df361046b3cbb1d4bf669b7630"
+  ],
+  "run_manifest_sha256": "sha256:5a406959aff65cd5d81e4ceb9ca47e9a9154ad7047518f3c35539301fd6d2c41",
+  "runner_state_sha256": "sha256:ebfc8199c32295a376881597ca60926a4710e54164b43046f3c768a2d21d838a",
+  "schema_version": "flipguard_direct_synthesis_ablation_evidence_v1",
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "summary_sha256": "sha256:9d334a3f575402167dedb3cfc811c8ca46ea37dd27666d8860fd337a4a30dbf0"
+}
