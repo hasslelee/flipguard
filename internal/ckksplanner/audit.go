@@ -205,7 +205,7 @@ func RunLockedTabularCandidateAudit(
 		)
 	}
 	securityPolicy := DefaultSecurityEnvelope()
-	security, err := AssessSecurity(
+	security, err := AssessLiteralSecurity(
 		selection.Candidate.Parameters,
 		selection.Contract.Deployment.SecurityBits,
 		securityPolicy,

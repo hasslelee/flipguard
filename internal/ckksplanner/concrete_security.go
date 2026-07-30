@@ -5,6 +5,19 @@ import (
 	"math/big"
 )
 
+// AssessLiteralSecurity dispatches to the matching modulus representation
+// without changing either admission rule.
+func AssessLiteralSecurity(
+	spec CKKSParameterLiteralSpec,
+	targetBits int,
+	policy SecurityEnvelope,
+) (SecurityAssessment, error) {
+	if len(spec.Q) > 0 || len(spec.P) > 0 {
+		return AssessConcreteSecurity(spec, targetBits, policy)
+	}
+	return AssessSecurity(spec, targetBits, policy)
+}
+
 // AssessConcreteSecurity applies the frozen policy caps to actual ordered
 // modulus primes. It is separate from AssessSecurity so historical
 // logarithmic-literal evidence retains its source binding and byte semantics.

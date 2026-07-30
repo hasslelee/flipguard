@@ -188,21 +188,11 @@ func BindProviderCandidate(
 	if err != nil {
 		return BoundProviderCandidate{}, err
 	}
-	var security ckksplanner.SecurityAssessment
-	if request.SchemaVersion ==
-		ProviderCandidateConcreteRequestSchemaVersion {
-		security, err = ckksplanner.AssessConcreteSecurity(
-			request.Parameters,
-			contract.Deployment.SecurityBits,
-			securityPolicy,
-		)
-	} else {
-		security, err = ckksplanner.AssessSecurity(
-			request.Parameters,
-			contract.Deployment.SecurityBits,
-			securityPolicy,
-		)
-	}
+	security, err := ckksplanner.AssessLiteralSecurity(
+		request.Parameters,
+		contract.Deployment.SecurityBits,
+		securityPolicy,
+	)
 	if err != nil {
 		return BoundProviderCandidate{}, fmt.Errorf(
 			"assess provider candidate security: %w",

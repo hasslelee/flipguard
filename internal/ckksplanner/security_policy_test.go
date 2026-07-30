@@ -100,6 +100,33 @@ func TestAssessSecurityRejectsMixedModulusRepresentations(t *testing.T) {
 	}
 }
 
+func TestAssessLiteralSecurityPreservesLogarithmicAssessment(t *testing.T) {
+	spec := CKKSParameterLiteralSpec{
+		LogN: 13,
+		LogQ: []int{60, 45, 45},
+		LogP: []int{60},
+	}
+	direct, err := AssessSecurity(
+		spec,
+		128,
+		DefaultSecurityEnvelope(),
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	dispatched, err := AssessLiteralSecurity(
+		spec,
+		128,
+		DefaultSecurityEnvelope(),
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if direct != dispatched {
+		t.Fatalf("logarithmic assessment changed: %+v != %+v", direct, dispatched)
+	}
+}
+
 func TestDirectSynthesisPolicyV2DigestIsStable(t *testing.T) {
 	policy := DefaultDirectSynthesisPolicyContract()
 	if policy.MaxEncryptedTrials != 4 ||
