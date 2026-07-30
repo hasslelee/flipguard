@@ -24,7 +24,15 @@ class EVAExternalAdapterContractTest(unittest.TestCase):
         self.assertEqual(summary["source_count"], 13)
         self.assertEqual(summary["required_q_primes"], 7)
         self.assertEqual(summary["candidate_trials"], 1)
+        self.assertTrue(summary["runtime_artifacts_verified"])
         self.assertFalse(summary["paper_claim_allowed"])
+
+    def test_compiler_only_mode_preserves_static_contract(self) -> None:
+        summary = MODULE.validate_contract(
+            require_runtime_artifacts=False,
+        )
+        self.assertEqual(summary["source_count"], 13)
+        self.assertFalse(summary["runtime_artifacts_verified"])
 
     def test_prime_padding_mutation_fails(self) -> None:
         original = MODULE.load_json(

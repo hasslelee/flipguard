@@ -318,7 +318,10 @@ def main() -> None:
         if args.contract.is_absolute()
         else REPO_ROOT / args.contract
     )
-    VERIFIER.validate_contract(contract_path)
+    VERIFIER.validate_contract(
+        contract_path,
+        require_runtime_artifacts=False,
+    )
     contract = load_json(contract_path)
     source_manifest = verify_sources(
         contract,

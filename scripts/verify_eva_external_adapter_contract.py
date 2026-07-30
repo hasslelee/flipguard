@@ -85,6 +85,14 @@ EXPECTED_SOURCES = {
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--contract", type=Path, default=DEFAULT_CONTRACT)
+    parser.add_argument(
+        "--compiler-only",
+        action="store_true",
+        help=(
+            "verify the source-replay/compiler closure without requiring "
+            "git-ignored validation and audit artifacts"
+        ),
+    )
     return parser.parse_args()
 
 
@@ -109,6 +117,8 @@ def sha256_path(path: Path) -> str:
 
 def validate_contract(
     path: Path = DEFAULT_CONTRACT,
+    *,
+    require_runtime_artifacts: bool = True,
 ) -> dict[str, Any]:
     path = path if path.is_absolute() else REPO_ROOT / path
     contract = load_json(path)
@@ -238,7 +248,12 @@ def validate_contract(
         ),
         "development workload changed",
     )
-    for name in ("model", "validation", "audit", "split_manifest"):
+    artifact_names = ["model"]
+    if require_runtime_artifacts:
+        artifact_names.extend(
+            ("validation", "audit", "split_manifest")
+        )
+    for name in artifact_names:
         artifact = REPO_ROOT / workload[f"{name}_path"]
         require(artifact.is_file(), f"{name} artifact is missing")
         require(
@@ -312,13 +327,18 @@ def validate_contract(
         "output_range_bits": compiler["output_range_bits"],
         "required_q_primes": translation["required_q_primes"],
         "candidate_trials": policy["candidate_trials"],
+        "runtime_artifacts_verified": require_runtime_artifacts,
         "paper_claim_allowed": False,
         "contract_sha256": sha256_path(path),
     }
 
 
 def main() -> None:
-    summary = validate_contract(parse_args().contract)
+    args = parse_args()
+    summary = validate_contract(
+        args.contract,
+        require_runtime_artifacts=not args.compiler_only,
+    )
     print(
         "eva_external_adapter_contract=VERIFIED "
         f"sources={summary['source_count']} "
@@ -326,6 +346,7 @@ def main() -> None:
         f"scale={summary['input_scale_bits']} "
         f"range={summary['output_range_bits']} "
         f"required_q={summary['required_q_primes']} "
+        f"runtime_artifacts={str(summary['runtime_artifacts_verified']).lower()} "
         f"digest={summary['contract_sha256']}"
     )
 
