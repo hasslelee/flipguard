@@ -475,8 +475,7 @@ def verify_resume_gate(
     state_path = run_root / "state.json"
     manifest = json.loads(manifest_path.read_text(encoding="ascii"))
     state = json.loads(state_path.read_text(encoding="ascii"))
-    if manifest["source_commit"] != head or \
-            manifest["origin_commit"] != origin or \
+    if manifest["source_commit"] != manifest["origin_commit"] or \
             manifest["status"] != "PREFLIGHT_PASS" or \
             manifest["direct_policy_digest"] != DIRECT_POLICY_DIGEST or \
             manifest["security_policy_digest"] != \
@@ -511,6 +510,24 @@ def verify_resume_gate(
             int(plan_record["training_seed"]),
             plan_record["dataset_id"],
         )
+    resume_record = {
+        "timestamp": now(),
+        "current_commit": head,
+        "current_origin_commit": origin,
+        "original_suite_commit": manifest["source_commit"],
+        "execution_critical_source_digest":
+            manifest["execution_critical_source_digest"],
+        "orchestrator_sha256": sha256_path(
+            REPO_ROOT
+            / "scripts/run_independent_training_seed_extension.py"
+        ),
+        "classification": (
+            "SAME_EXECUTION_CLOSURE_ORCHESTRATOR_RESUME"
+        ),
+    }
+    if resume_record not in state.setdefault("resume_records", []):
+        state["resume_records"].append(resume_record)
+        write_atomic(state_path, state)
     return manifest, state
 
 
@@ -587,6 +604,29 @@ def validate_audit_result(
     return outcome
 
 
+def selection_encrypted_evaluations(
+    result: dict[str, Any],
+) -> int:
+    samples = int(
+        result["plan"]["contract"]["decision"]["validation_samples"]
+    )
+    return sum(
+        samples * int(trial["key_repeats_completed"])
+        for trial in result["trials"]
+    )
+
+
+def audit_encrypted_evaluations(audit: dict[str, Any]) -> int:
+    return (
+        int(
+            audit["audit_contract"]["decision"][
+                "validation_samples"
+            ]
+        )
+        * int(audit["audit_trial"]["key_repeats_completed"])
+    )
+
+
 def execute_extension(
     run_root: Path,
     input_root: Path,
@@ -617,44 +657,67 @@ def execute_extension(
         if workload["selection"]["status"] == "PENDING":
             selection_path.parent.mkdir(parents=True, exist_ok=True)
             prepared_validation.parent.mkdir(parents=True, exist_ok=True)
-            command = [
-                autotune,
-                "--model",
-                str(paths["model"].relative_to(REPO_ROOT)),
-                "--data",
-                str(paths["validation"].relative_to(REPO_ROOT)),
-                "--data-space",
-                "raw",
-                "--prepared-validation-out",
-                str(prepared_validation.relative_to(REPO_ROOT)),
-                "--split-id",
-                f"split_seed_{seed}",
-                "--margin-floor",
-                "0.001",
-                "--safety-factor",
-                "0.5",
-                "--key-repeats",
-                "3",
-                "--max-encrypted-trials",
-                "4",
-                "--out",
-                str(selection_path.relative_to(REPO_ROOT)),
-            ]
-            success, attempts, detail = execute_with_retries(
-                command,
-                run_root / "selection/logs" / f"{tag}.log",
-            )
-            if not success:
-                workload["selection"] = {
-                    "status": "RECOVERABLE_IMPLEMENTATION_FAILURE",
-                    "attempts": attempts,
-                    "detail": detail,
-                }
-                workload["locked_audit"] = {
-                    "status": "SKIPPED_SELECTION_EXECUTION_FAILURE"
-                }
-                write_atomic(run_root / "state.json", state)
-                continue
+            if selection_path.is_file():
+                if not prepared_validation.is_file():
+                    raise ValueError(
+                        "INTEGRITY_BLOCK: selection result exists "
+                        "without its prepared validation artifact"
+                    )
+                attempts = 1
+                state["recoveries"].append(
+                    {
+                        "timestamp": now(),
+                        "tag": tag,
+                        "classification":
+                            "RECOVERABLE_IMPLEMENTATION_FAILURE",
+                        "reason_code":
+                            "POST_RESULT_ACCOUNTING_FIELD_MISMATCH",
+                        "encrypted_rerun": False,
+                        "preserved_result_sha256":
+                            sha256_path(selection_path),
+                    }
+                )
+            else:
+                command = [
+                    autotune,
+                    "--model",
+                    str(paths["model"].relative_to(REPO_ROOT)),
+                    "--data",
+                    str(paths["validation"].relative_to(REPO_ROOT)),
+                    "--data-space",
+                    "raw",
+                    "--prepared-validation-out",
+                    str(prepared_validation.relative_to(REPO_ROOT)),
+                    "--split-id",
+                    f"split_seed_{seed}",
+                    "--margin-floor",
+                    "0.001",
+                    "--safety-factor",
+                    "0.5",
+                    "--key-repeats",
+                    "3",
+                    "--max-encrypted-trials",
+                    "4",
+                    "--out",
+                    str(selection_path.relative_to(REPO_ROOT)),
+                ]
+                success, attempts, detail = execute_with_retries(
+                    command,
+                    run_root / "selection/logs" / f"{tag}.log",
+                )
+                if not success:
+                    workload["selection"] = {
+                        "status":
+                            "RECOVERABLE_IMPLEMENTATION_FAILURE",
+                        "attempts": attempts,
+                        "detail": detail,
+                    }
+                    workload["locked_audit"] = {
+                        "status":
+                            "SKIPPED_SELECTION_EXECUTION_FAILURE"
+                    }
+                    write_atomic(run_root / "state.json", state)
+                    continue
             result = json.loads(
                 selection_path.read_text(encoding="ascii")
             )
@@ -676,7 +739,7 @@ def execute_extension(
                 "trials": result["trials_used"],
                 "key_runs": result["encrypted_key_runs"],
                 "encrypted_sample_evaluations":
-                    result["encrypted_sample_evaluations"],
+                    selection_encrypted_evaluations(result),
             }
             if outcome == "NO_SAFE":
                 workload["locked_audit"] = {
@@ -694,35 +757,44 @@ def execute_extension(
         prepared_audit = run_root / "audit/prepared" / f"{tag}.csv"
         audit_path.parent.mkdir(parents=True, exist_ok=True)
         prepared_audit.parent.mkdir(parents=True, exist_ok=True)
-        command = [
-            audit_binary,
-            "--selection",
-            str(selection_path.relative_to(REPO_ROOT)),
-            "--audit",
-            str(paths["audit"].relative_to(REPO_ROOT)),
-            "--prepared-audit-out",
-            str(prepared_audit.relative_to(REPO_ROOT)),
-            "--audit-data-space",
-            "raw",
-            "--manifest",
-            str(paths["manifest"].relative_to(REPO_ROOT)),
-            "--key-repeats",
-            "3",
-            "--out",
-            str(audit_path.relative_to(REPO_ROOT)),
-        ]
-        success, attempts, detail = execute_with_retries(
-            command,
-            run_root / "audit/logs" / f"{tag}.log",
-        )
-        if not success:
-            workload["locked_audit"] = {
-                "status": "RECOVERABLE_IMPLEMENTATION_FAILURE",
-                "attempts": attempts,
-                "detail": detail,
-            }
-            write_atomic(run_root / "state.json", state)
-            continue
+        if audit_path.is_file():
+            if not prepared_audit.is_file():
+                raise ValueError(
+                    "INTEGRITY_BLOCK: audit result exists without "
+                    "its prepared audit artifact"
+                )
+            attempts = 1
+        else:
+            command = [
+                audit_binary,
+                "--selection",
+                str(selection_path.relative_to(REPO_ROOT)),
+                "--audit",
+                str(paths["audit"].relative_to(REPO_ROOT)),
+                "--prepared-audit-out",
+                str(prepared_audit.relative_to(REPO_ROOT)),
+                "--audit-data-space",
+                "raw",
+                "--manifest",
+                str(paths["manifest"].relative_to(REPO_ROOT)),
+                "--key-repeats",
+                "3",
+                "--out",
+                str(audit_path.relative_to(REPO_ROOT)),
+            ]
+            success, attempts, detail = execute_with_retries(
+                command,
+                run_root / "audit/logs" / f"{tag}.log",
+            )
+            if not success:
+                workload["locked_audit"] = {
+                    "status":
+                        "RECOVERABLE_IMPLEMENTATION_FAILURE",
+                    "attempts": attempts,
+                    "detail": detail,
+                }
+                write_atomic(run_root / "state.json", state)
+                continue
         audit = json.loads(audit_path.read_text(encoding="ascii"))
         outcome = validate_audit_result(audit, selection)
         workload["locked_audit"] = {
@@ -739,7 +811,7 @@ def execute_extension(
             "retuning": 0,
             "key_runs": audit["audit_trial"]["key_repeats_completed"],
             "encrypted_sample_evaluations":
-                audit["audit_trial"]["encrypted_sample_evaluations"],
+                audit_encrypted_evaluations(audit),
             "flips": audit["audit_trial"]["decision_flips"],
             "violations": audit["audit_trial"]["error_violations"],
         }

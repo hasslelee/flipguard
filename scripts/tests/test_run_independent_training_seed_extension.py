@@ -55,6 +55,33 @@ class RunIndependentTrainingSeedExtensionTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             MODULE.validate_selection_result(result)
 
+    def test_encrypted_evaluation_accounting_uses_contract(self) -> None:
+        result = {
+            "plan": {
+                "contract": {
+                    "decision": {"validation_samples": 7},
+                },
+            },
+            "trials": [
+                {"key_repeats_completed": 3},
+                {"key_repeats_completed": 2},
+            ],
+        }
+        self.assertEqual(
+            35,
+            MODULE.selection_encrypted_evaluations(result),
+        )
+        audit = {
+            "audit_contract": {
+                "decision": {"validation_samples": 11},
+            },
+            "audit_trial": {"key_repeats_completed": 3},
+        }
+        self.assertEqual(
+            33,
+            MODULE.audit_encrypted_evaluations(audit),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
