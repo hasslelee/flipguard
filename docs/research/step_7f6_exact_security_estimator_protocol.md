@@ -84,4 +84,11 @@ created, and no security result was produced. The recovery installs only Git
 and CA certificates before checkout; it does not change the estimator model,
 input, attack set, or Security Policy V2.
 
+Recovery run `30534290032` is also retained as
+`PRE_ESTIMATOR_IMPLEMENTATION_RECOVERY`: Git installation and checkout
+succeeded, but Git refused the runner-owned mounted workspace under the root
+container user (`dubious ownership`). No estimator object was created. The
+next recovery scopes `safe.directory` to the single source-identity command
+and exact `$GITHUB_WORKSPACE` path; it does not create a wildcard exception.
+
 `paper_claim_allowed=false`.
