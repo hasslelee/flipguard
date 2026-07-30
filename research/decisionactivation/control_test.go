@@ -68,7 +68,7 @@ func TestDecisionContractActivationControl(t *testing.T) {
 }
 
 func TestDecisionContractActivationRefusesOverwrite(t *testing.T) {
-	root := filepath.Join(t.TempDir(), "control")
+	root := filepath.Join(t.TempDir(), "nested", "control")
 	if _, err := WriteAndAnalyze(root, "first-source-commit"); err != nil {
 		t.Fatalf("first control write: %v", err)
 	}

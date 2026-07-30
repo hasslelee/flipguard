@@ -227,6 +227,12 @@ func WriteAndAnalyze(
 	if sourceCommit == "" {
 		return Analysis{}, fmt.Errorf("source commit is empty")
 	}
+	if err := os.MkdirAll(filepath.Dir(outputRoot), 0o755); err != nil {
+		return Analysis{}, fmt.Errorf(
+			"create control output parent: %w",
+			err,
+		)
+	}
 	if err := os.Mkdir(outputRoot, 0o755); err != nil {
 		return Analysis{}, fmt.Errorf(
 			"create control output root: %w",
