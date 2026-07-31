@@ -43,6 +43,13 @@ The clean-clone release verifier checks a detached checkout of the exact
 source commit, runs the static verifiers, rebuilds the archive, compares its
 digest, and validates the internal `SHA256SUMS`.
 
+Historical freezer modes that insist on ignored `results/` source paths are
+not represented as clean-clone source replays. The release verifies their
+frozen snapshot checksums and manifest file bindings instead. This distinction
+prevents an omitted local working ledger from being confused with corrupted
+frozen evidence. The exact EVA materialization replay is also an auxiliary
+check and is recorded separately from the core clean-clone gate.
+
 ## Exclusions
 
 The following are intentionally excluded from the release archive:

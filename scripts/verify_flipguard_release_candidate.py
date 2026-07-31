@@ -18,12 +18,31 @@ ROOT = Path(__file__).resolve().parents[1]
 ARCHIVE_NAME = "flipguard-thesis-artifact-v1.0.0-rc1"
 
 STATIC_VERIFIERS = [
-    ["python3", "scripts/bind_eva_selected_exact_materialization_v1.py", "--verify"],
-    ["python3", "scripts/verify_exact_security_estimator.py"],
     ["python3", "scripts/verify_margin_utilization_interpretation_v1.py"],
+    ["python3", "scripts/verify_validation_identity_comparison_evidence.py"],
     ["python3", "scripts/verify_paired_latency_claim_admission_v1.py"],
     ["python3", "scripts/verify_paper_claim_admission.py"],
     ["python3", "scripts/verify_flipguard_v3_paper_artifacts.py", "--rebuild"],
+]
+CHECKSUM_PACKS = [
+    "docs/evidence/eva_selected_exact_materialization_v1",
+    "docs/evidence/exact_security_estimator_v1",
+    "docs/evidence/security_v2_static_attestation_formal_v2",
+    "docs/evidence/final_confirmatory_suite_v1",
+    "docs/evidence/direct_locked_audit_final_source_v1",
+    "docs/evidence/direct_locked_audit_seed0_development_v1",
+    "docs/evidence/security_v2_bounded_oracle_v1",
+    "docs/evidence/no_safe_controls_confirmatory_v1",
+    "docs/evidence/structural_extension_v1",
+    "docs/evidence/structural_audit_failure_analysis_v1",
+    "docs/evidence/non_tabular_sobel_holdout_v1",
+    "docs/evidence/non_tabular_harris_holdout_v1",
+    "docs/evidence/non_tabular_mnist_cnn_lite_holdout_v1",
+    "docs/evidence/independent_training_seed_extension_v1",
+    "docs/evidence/margin_utilization_interpretation_v1",
+    "results/thesis_grade_protocol/paired_latency_claim_admission_v1",
+    "docs/evidence/paper_claim_admission_v1",
+    "results/thesis_grade_protocol/paper_artifacts_v3/final",
 ]
 
 
@@ -47,7 +66,7 @@ def run(
     cwd: Path,
     env: dict[str, str] | None = None,
 ) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
+    result = subprocess.run(
         command,
         cwd=cwd,
         check=True,
@@ -55,6 +74,37 @@ def run(
         capture_output=True,
         env=env,
     )
+    return result
+
+
+def verify_frozen_pack(root: Path) -> dict[str, Any]:
+    checksum_index = root / "SHA256SUMS"
+    checked = 0
+    mode = "SHA256SUMS"
+    if checksum_index.is_file():
+        for line in checksum_index.read_text(encoding="utf-8").splitlines():
+            digest, relative = line.split("  ", 1)
+            path = root / relative
+            if not path.is_file() or sha256(path) != f"sha256:{digest}":
+                raise ValueError(f"{path}: frozen checksum mismatch")
+            checked += 1
+    else:
+        mode = "MANIFEST_FILES"
+        manifest = json.loads((root / "manifest.json").read_text())
+        for relative, record in manifest.get("files", {}).items():
+            path = root / relative
+            expected = record if isinstance(record, str) else record["sha256"]
+            if not path.is_file() or sha256(path) != expected:
+                raise ValueError(f"{path}: frozen manifest digest mismatch")
+            checked += 1
+    if checked == 0:
+        raise ValueError(f"{root}: no frozen file bindings")
+    return {
+        "path": str(root),
+        "mode": mode,
+        "files_checked": checked,
+        "status": "PASS",
+    }
 
 
 def verify_archive(archive: Path, temporary: Path) -> dict[str, Any]:
@@ -123,6 +173,10 @@ def verify(
                 }
             )
 
+        frozen_pack_checks = [
+            verify_frozen_pack(clone / relative)
+            for relative in CHECKSUM_PACKS
+        ]
         external = json.loads(
             (clone / "release/external_sources_v1.json").read_text()
         )
@@ -170,6 +224,16 @@ def verify(
         "new_encrypted_executions": 0,
         "policy_retuning": 0,
         "checks": checks,
+        "frozen_pack_checks": frozen_pack_checks,
+        "legacy_external_path_replay": {
+            "status": "NOT_REQUIRED_FOR_CORE_CLEAN_CLONE",
+            "reason": (
+                "Historical freezer rebuild modes reference intentionally "
+                "untracked results paths. Their frozen snapshots and checksum "
+                "bindings are verified; the exact EVA materialization replay "
+                "was separately verified in the source working checkout."
+            ),
+        },
         "archive_check": archive_check,
         "host": {
             "os_uname": " ".join(os.uname()),

@@ -11,6 +11,13 @@ SPEC = importlib.util.spec_from_file_location("release_builder", MODULE_PATH)
 assert SPEC is not None and SPEC.loader is not None
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
+VERIFY_PATH = ROOT / "scripts/verify_flipguard_release_candidate.py"
+VERIFY_SPEC = importlib.util.spec_from_file_location(
+    "release_verifier", VERIFY_PATH
+)
+assert VERIFY_SPEC is not None and VERIFY_SPEC.loader is not None
+VERIFY = importlib.util.module_from_spec(VERIFY_SPEC)
+VERIFY_SPEC.loader.exec_module(VERIFY)
 
 
 class ReleaseCandidateTest(unittest.TestCase):
@@ -33,6 +40,31 @@ class ReleaseCandidateTest(unittest.TestCase):
             two = MODULE.build(ROOT, "HEAD", second)
             self.assertEqual(one["archive_sha256"], two["archive_sha256"])
             self.assertFalse(one["raw_external_sources_bundled"])
+
+    def test_manifest_only_frozen_pack(self) -> None:
+        with tempfile.TemporaryDirectory(
+            prefix="flipguard-pack-test-"
+        ) as temporary:
+            root = Path(temporary)
+            payload = root / "payload.txt"
+            payload.write_text("frozen\n", encoding="ascii")
+            digest = VERIFY.sha256(payload)
+            (root / "manifest.json").write_text(
+                json.dumps(
+                    {
+                        "files": {
+                            "payload.txt": {
+                                "bytes": payload.stat().st_size,
+                                "sha256": digest,
+                            }
+                        }
+                    }
+                ),
+                encoding="ascii",
+            )
+            record = VERIFY.verify_frozen_pack(root)
+            self.assertEqual(record["status"], "PASS")
+            self.assertEqual(record["mode"], "MANIFEST_FILES")
 
 
 if __name__ == "__main__":
