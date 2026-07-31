@@ -10,7 +10,18 @@ from pathlib import Path
 from typing import Any
 
 
-ROOT = Path(__file__).resolve().parents[1]
+def find_repo_root(script: Path) -> Path:
+    for candidate in (script.parent, *script.parents):
+        if (
+            (candidate / "go.mod").is_file()
+            and (candidate / "docs/evidence").is_dir()
+            and (candidate / "scripts").is_dir()
+        ):
+            return candidate
+    raise ValueError(f"cannot locate FlipGuard repository from {script}")
+
+
+ROOT = find_repo_root(Path(__file__).resolve())
 DEFAULT_ROOT = Path("docs/evidence/research_completion_checkpoint_v10")
 ALLOWED_STATES = {
     "SUPPORTED",
