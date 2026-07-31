@@ -1,0 +1,111 @@
+{
+  "admitted_claim_count": 11,
+  "artifact_class": "CANONICAL_CLAIM_ADMISSION_OVERLAY",
+  "blocked_or_not_admitted_claim_count": 9,
+  "dependency_records": {
+    "bounded_oracle": {
+      "manifest_sha256": "sha256:1d2910a80711928145fb9c7af6d31f4672921e52318c4df92021c31761bffe4d",
+      "path": "docs/evidence/security_v2_bounded_oracle_v1/manifest.json"
+    },
+    "cnn_lite": {
+      "manifest_sha256": "sha256:de43a2e784d05f6901f87e9f5e7d4e499528dc65a14ed959e4d2665f088482d1",
+      "path": "docs/evidence/non_tabular_mnist_cnn_lite_holdout_v1/manifest.json"
+    },
+    "decision_activation": {
+      "manifest_sha256": "sha256:1d676279ff4338870f3fb790a44e5785780892440d5ed0e50ac3e57bdbf150d0",
+      "path": "docs/evidence/decision_contract_activation_control_v1/manifest.json"
+    },
+    "direct_ablation": {
+      "manifest_sha256": "sha256:0f40f6041bf2a8999e125fad3d517c68bc47a80ba7bcb12900493ab629dc2e46",
+      "path": "docs/evidence/direct_synthesis_ablation_v1/manifest.json"
+    },
+    "direct_confirmatory": {
+      "manifest_sha256": "sha256:f8222a19f32eb78ce6631ae848a7d217bc13851e8bea05f82d581454ff32ef0b",
+      "path": "docs/evidence/direct_locked_audit_final_source_v1/manifest.json"
+    },
+    "direct_development": {
+      "manifest_sha256": "sha256:40e054b9b1317c5af1a2e177ea3068878ef9d89b9d3afae5aeffaabc2ab3b8b6",
+      "path": "docs/evidence/direct_locked_audit_seed0_development_v1/manifest.json"
+    },
+    "exact_estimator": {
+      "manifest_sha256": "sha256:a445fce77883bf6ce9d5946733790e8f630e9cf277c3d76316e89f643687ccc4",
+      "path": "docs/evidence/exact_security_estimator_v1/manifest.json"
+    },
+    "final_suite": {
+      "manifest_sha256": "sha256:2d10bf8001ede604c195393bcb565e7f873d2b28d9248abdf6b2d7ac90ab85f9",
+      "path": "docs/evidence/final_confirmatory_suite_v1/manifest.json"
+    },
+    "harris": {
+      "manifest_sha256": "sha256:3c0d441dffea891aa90d5ab35635ba8ce26f7fe4fbbf7bc56ff502db3f6fc4ca",
+      "path": "docs/evidence/non_tabular_harris_holdout_v1/manifest.json"
+    },
+    "margin_interpretation": {
+      "manifest_sha256": "sha256:12626638b1abb5d57155345ee84e7e145dc13bfc947767f4484b1e18475cdce0",
+      "path": "docs/evidence/margin_utilization_interpretation_v1/manifest.json"
+    },
+    "no_safe": {
+      "manifest_sha256": "sha256:878a92d00c928c7fed6dd4caa9ac0597f59e810f32fded3224670b6ee4c2220c",
+      "path": "docs/evidence/no_safe_controls_confirmatory_v1/manifest.json"
+    },
+    "paired_latency_admission": {
+      "manifest_sha256": "sha256:7b66b1063dd612e29b5f4299d5567ffa72ad91199200608cef3f0b271a67fe50",
+      "path": "results/thesis_grade_protocol/paired_latency_claim_admission_v1/manifest.json"
+    },
+    "policy_sensitivity": {
+      "manifest_sha256": "sha256:37e2b50d5c20c23b10c14befe14392c46f0e47c937c4b3f9e1d4ebf2f1550f78",
+      "path": "docs/evidence/policy_sensitivity_v1/manifest.json"
+    },
+    "security_attestation": {
+      "manifest_sha256": "sha256:949e452198106468cd509fb64679ab878a878bdd0e16a220a04f4fa773d2a877",
+      "path": "docs/evidence/security_v2_static_attestation_formal_v2/manifest.json"
+    },
+    "sobel": {
+      "manifest_sha256": "sha256:920b55cb261555214fd0ff9c3d71fbe754e1a00bbf81c1d6140229995918a67c",
+      "path": "docs/evidence/non_tabular_sobel_holdout_v1/manifest.json"
+    },
+    "structural": {
+      "manifest_sha256": "sha256:df371a81ef0a348fc7ac04af14d39873453d15f4ea8d4574f8fbc313e3488e1b",
+      "path": "docs/evidence/structural_extension_v1/manifest.json"
+    },
+    "structural_failure": {
+      "manifest_sha256": "sha256:995db9c4e8ae0977e4664df10ae646a425da27cf46d101a181e86674721f30b9",
+      "path": "docs/evidence/structural_audit_failure_analysis_v1/manifest.json"
+    },
+    "training_seed": {
+      "manifest_sha256": "sha256:adf0c9d9a265bcc8e5f695ba68df06675ffd7f67034a0aa59fc5e901ad04ac40",
+      "path": "docs/evidence/independent_training_seed_extension_v1/manifest.json"
+    }
+  },
+  "evidence_id": "paper_claim_admission_v1",
+  "files": {
+    "allowed_sentences.md": {
+      "bytes": 4451,
+      "sha256": "sha256:a83e8c466600d92f991d72d28f46d1400353e047b1a3907a6ea1909d3ffd0cf9"
+    },
+    "claim_evidence_dependencies.csv": {
+      "bytes": 6128,
+      "sha256": "sha256:170d15f7988ce4a0c9d573527cb8f5c0e804e64df8889d85ecf42881c598a212"
+    },
+    "claims.json": {
+      "bytes": 22131,
+      "sha256": "sha256:54df636644d52cb350aa772e7bce4948241ce19898fdf96818037a296879a687"
+    },
+    "prohibited_sentences.md": {
+      "bytes": 757,
+      "sha256": "sha256:683170efa6665d699c91b53fd726b88b6c65a4c0d2658623e9a39419a2f40ad8"
+    },
+    "reviewer_rationale.md": {
+      "bytes": 2940,
+      "sha256": "sha256:8bdfbaa958ba5d71531cfd414ba97b98008c8f268e978eb36f01cec481b50dbf"
+    },
+    "verify_paper_claim_admission.py": {
+      "bytes": 5296,
+      "sha256": "sha256:92e81725d7d0191e047c04c186f50828e3cdb88ec83a983a4baaa6975ccbd16a"
+    }
+  },
+  "frozen_evidence_manifests_modified": false,
+  "paper_claim_allowed": true,
+  "paper_claim_allowed_semantics": "the paper may use only claims.json entries with paper_admitted=true",
+  "schema_version": 1,
+  "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297"
+}
