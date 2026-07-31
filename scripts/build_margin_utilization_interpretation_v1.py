@@ -62,6 +62,19 @@ def git_head() -> str:
     ).stdout.strip()
 
 
+def canonical_commit(revision: str) -> str:
+    commit = subprocess.run(
+        ["git", "rev-parse", "--verify", f"{revision}^{{commit}}"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
+    if len(commit) != 40:
+        raise ValueError(f"{revision}: not a canonical commit")
+    return commit
+
+
 def source_record(relative: Path) -> dict[str, Any]:
     path = ROOT / relative
     return {
@@ -390,7 +403,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     output = (ROOT / args.output).resolve()
-    build(output, args.source_commit or git_head())
+    build(output, canonical_commit(args.source_commit or git_head()))
     subprocess.run(
         ["python3", str(output / VERIFIER.name), "--evidence-root", str(output)],
         cwd=ROOT,

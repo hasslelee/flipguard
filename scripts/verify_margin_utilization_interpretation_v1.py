@@ -8,6 +8,7 @@ import csv
 import hashlib
 import json
 import math
+import re
 from pathlib import Path
 
 
@@ -34,6 +35,7 @@ def main() -> int:
         or manifest["primary_rows"] != 100
         or manifest["development_rows"] != 20
         or manifest["confirmatory_rows"] != 80
+        or re.fullmatch(r"[0-9a-f]{40}", manifest["source_commit"]) is None
     ):
         raise ValueError("margin interpretation manifest state changed")
     for name, record in manifest["files"].items():
