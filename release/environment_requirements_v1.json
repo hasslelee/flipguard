@@ -1,0 +1,16 @@
+{
+  "archive_build_tools": {
+    "git": "2.43 or newer",
+    "gnu_tar": "1.35 or newer",
+    "python": "3.12 or newer",
+    "zstd": "1.5 or newer"
+  },
+  "ckks_runtime": {
+    "go": "1.25.9",
+    "lattigo_module": "github.com/tuneinsight/lattigo/v6",
+    "lattigo_version": "v6.2.0"
+  },
+  "network_required_for_frozen_verification": false,
+  "raw_dataset_download_required_for_frozen_verification": false,
+  "schema_version": "flipguard_release_environment_requirements_v1"
+}
