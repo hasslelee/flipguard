@@ -24,6 +24,10 @@ python3 scripts/fetch_release_external_sources.py --dataset BSDS500
 python3 scripts/fetch_release_external_sources.py --dataset MNIST_OPENML_554
 ```
 
+The MNIST fetch requests and preserves OpenML's gzip response byte-for-byte;
+it verifies both the compressed container and the decompressed ARFF content.
+It does not locally recompress the transport payload.
+
 Downloading is not necessary to verify the frozen evidence because the
 release contains the bound derived artifacts and their manifests.
 

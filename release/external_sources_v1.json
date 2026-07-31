@@ -30,10 +30,11 @@
       "license_policy": "Not redistributed. Obtain the data from OpenML or the original MNIST source and comply with the applicable source terms.",
       "local_raw_path": "results/source_datasets/mnist/mnist_784.arff.gz",
       "original_source_url": "https://yann.lecun.com/exdb/mnist/",
+      "required_content_encoding": "gzip",
       "source_page": "https://www.openml.org/d/554",
-      "source_transport_sha256": "418c0a60d2b4abc95db2e2bbf676f3af93ddaf18f79ba3f640624ab57007fb4b",
       "source_url": "https://api.openml.org/data/v1/download/52667/mnist_784.arff",
-      "transport_transform": "gzip_compresslevel9_mtime0"
+      "transport_provenance": "OpenML server gzip response requested with Accept-Encoding: gzip; no local recompression",
+      "uncompressed_sha256": "418c0a60d2b4abc95db2e2bbf676f3af93ddaf18f79ba3f640624ab57007fb4b"
     }
   ]
 }

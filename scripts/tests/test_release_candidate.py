@@ -1,3 +1,6 @@
+import gzip
+import hashlib
+import io
 import importlib.util
 import json
 import tempfile
@@ -18,6 +21,19 @@ VERIFY_SPEC = importlib.util.spec_from_file_location(
 assert VERIFY_SPEC is not None and VERIFY_SPEC.loader is not None
 VERIFY = importlib.util.module_from_spec(VERIFY_SPEC)
 VERIFY_SPEC.loader.exec_module(VERIFY)
+FETCH_PATH = ROOT / "scripts/fetch_release_external_sources.py"
+FETCH_SPEC = importlib.util.spec_from_file_location(
+    "release_fetcher", FETCH_PATH
+)
+assert FETCH_SPEC is not None and FETCH_SPEC.loader is not None
+FETCH = importlib.util.module_from_spec(FETCH_SPEC)
+FETCH_SPEC.loader.exec_module(FETCH)
+
+
+class FakeResponse(io.BytesIO):
+    def __init__(self, payload: bytes, encoding: str) -> None:
+        super().__init__(payload)
+        self.headers = {"Content-Encoding": encoding}
 
 
 class ReleaseCandidateTest(unittest.TestCase):
@@ -31,6 +47,30 @@ class ReleaseCandidateTest(unittest.TestCase):
             self.assertEqual(len(source["expected_sha256"]), 64)
             for relative in source["derived_artifact_manifests"]:
                 self.assertTrue((ROOT / relative).is_file())
+
+    def test_gzip_transport_is_preserved_and_semantically_verified(self) -> None:
+        content = b"@RELATION test\n@DATA\n1\n"
+        payload = gzip.compress(content, mtime=0)
+        observed_headers: dict[str, str] = {}
+
+        def opener(request: object) -> FakeResponse:
+            observed_headers.update(dict(request.header_items()))
+            return FakeResponse(payload, "gzip")
+
+        record = {
+            "source_url": "https://example.invalid/data.arff",
+            "required_content_encoding": "gzip",
+            "expected_sha256": hashlib.sha256(payload).hexdigest(),
+            "uncompressed_sha256": hashlib.sha256(content).hexdigest(),
+        }
+        with tempfile.TemporaryDirectory(
+            prefix="flipguard-fetch-test-"
+        ) as temporary:
+            destination = Path(temporary) / "data.arff.gz"
+            FETCH.download_source(record, destination, opener=opener)
+            FETCH.verify_download(record, destination)
+            self.assertEqual(destination.read_bytes(), payload)
+        self.assertEqual(observed_headers["Accept-encoding"], "gzip")
 
     def test_archive_is_deterministic(self) -> None:
         with tempfile.TemporaryDirectory(prefix="flipguard-release-test-") as temp:

@@ -7,9 +7,11 @@ import argparse
 import gzip
 import hashlib
 import json
+import shutil
 import tempfile
 import urllib.request
 from pathlib import Path
+from typing import Any, Callable
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,6 +29,41 @@ def sha256(path: Path) -> str:
 def entries() -> dict[str, dict[str, object]]:
     value = json.loads(REGISTRY.read_text(encoding="utf-8"))
     return {entry["dataset_id"]: entry for entry in value["sources"]}
+
+
+def download_source(
+    record: dict[str, object],
+    destination: Path,
+    opener: Callable[..., Any] = urllib.request.urlopen,
+) -> None:
+    headers: dict[str, str] = {}
+    required_encoding = record.get("required_content_encoding")
+    if required_encoding is not None:
+        headers["Accept-Encoding"] = str(required_encoding)
+    request = urllib.request.Request(str(record["source_url"]), headers=headers)
+    with opener(request) as response, destination.open("wb") as handle:
+        if required_encoding is not None:
+            observed = response.headers.get("Content-Encoding")
+            if observed != required_encoding:
+                raise ValueError(
+                    "downloaded source content-encoding mismatch: "
+                    f"expected {required_encoding}, observed {observed}"
+                )
+        shutil.copyfileobj(response, handle, length=1024 * 1024)
+
+
+def verify_download(record: dict[str, object], source: Path) -> None:
+    expected = str(record["expected_sha256"])
+    if sha256(source) != expected:
+        raise ValueError("downloaded source checksum mismatch")
+    uncompressed_expected = record.get("uncompressed_sha256")
+    if uncompressed_expected is not None:
+        digest = hashlib.sha256()
+        with gzip.open(source, "rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+        if digest.hexdigest() != uncompressed_expected:
+            raise ValueError("downloaded uncompressed content checksum mismatch")
 
 
 def main() -> int:
@@ -50,35 +87,8 @@ def main() -> int:
         ) as temporary:
             temporary_path = Path(temporary.name)
         try:
-            transport = temporary_path.with_suffix(".transport")
-            urllib.request.urlretrieve(str(record["source_url"]), transport)
-            transport_expected = record.get("source_transport_sha256")
-            if (
-                transport_expected is not None
-                and sha256(transport) != transport_expected
-            ):
-                raise ValueError("downloaded transport checksum mismatch")
-            if record.get("transport_transform") == "gzip_compresslevel9_mtime0":
-                with (
-                    transport.open("rb") as source,
-                    temporary_path.open("wb") as raw_destination,
-                    gzip.GzipFile(
-                        filename="",
-                        mode="wb",
-                        fileobj=raw_destination,
-                        compresslevel=9,
-                        mtime=0,
-                    ) as destination_handle,
-                ):
-                    for chunk in iter(
-                        lambda: source.read(1024 * 1024), b""
-                    ):
-                        destination_handle.write(chunk)
-            else:
-                transport.replace(temporary_path)
-            transport.unlink(missing_ok=True)
-            if sha256(temporary_path) != expected:
-                raise ValueError("downloaded source checksum mismatch")
+            download_source(record, temporary_path)
+            verify_download(record, temporary_path)
             temporary_path.replace(destination)
         finally:
             temporary_path.unlink(missing_ok=True)
