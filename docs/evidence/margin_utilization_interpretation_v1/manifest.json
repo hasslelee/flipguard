@@ -1,0 +1,65 @@
+{
+  "artifact_class": "DERIVED_INTERPRETATION_OVERLAY",
+  "confirmatory_rows": 80,
+  "development_rows": 20,
+  "direct_policy_modified": false,
+  "encrypted_execution_performed": false,
+  "evidence_id": "margin_utilization_interpretation_v1",
+  "files": {
+    "alpha_sensitivity_summary.csv": {
+      "bytes": 643,
+      "sha256": "sha256:fa9db6bee142b90b05fd5deb14df39a93b638b235af8176ab63f0bd4906220d2"
+    },
+    "policy_interpretation.json": {
+      "bytes": 574,
+      "sha256": "sha256:6a6911ac7b286ae5d2c0226ac6664edf60d9d7d48076c1a4b3666ec17a012fa9"
+    },
+    "structural_rejection_interpretation.json": {
+      "bytes": 2001,
+      "sha256": "sha256:7e19dcc0cbc07c44203ebac35f3ad8320608e6a0be09ea92c99628ae95da561a"
+    },
+    "verify_margin_utilization_interpretation_v1.py": {
+      "bytes": 3835,
+      "sha256": "sha256:c767aaac040dc397e280ef91d859df107ba660c178b98a61cbe1747897a7ace3"
+    },
+    "workload_utilization_summary.csv": {
+      "bytes": 37479,
+      "sha256": "sha256:f7d764f1f3c802917bf6d97cd697536889883b058d3470f2c2fe32247ebaaa41"
+    }
+  },
+  "frozen_evidence_modified": false,
+  "input_records": [
+    {
+      "bytes": 17586,
+      "path": "docs/evidence/direct_locked_audit_seed0_development_v1/outputs/locked_audit_results.csv",
+      "sha256": "sha256:81c2b8b672bc19b9653be54023382c0c7173fae3acd65c117736714ea9e5d238"
+    },
+    {
+      "bytes": 67809,
+      "path": "docs/evidence/direct_locked_audit_final_source_v1/outputs/locked_audit_results.csv",
+      "sha256": "sha256:588b2386b374b1eb4f8bec3c0fecc6f83e839dc3a637f31ba0496a4ab31607b7"
+    },
+    {
+      "bytes": 5045,
+      "path": "docs/evidence/structural_audit_failure_analysis_v1/analysis/margin_error_analysis.json",
+      "sha256": "sha256:5006567d9789a25b22d0db9133c47ac6046c712ed53370cf3e79f5bc4d163b6f"
+    },
+    {
+      "bytes": 5554,
+      "path": "docs/evidence/policy_sensitivity_v1/results/summary.json",
+      "sha256": "sha256:c4d533cdfe95f520078da043a18bc38d032eb7a097e69b291cb2bc00490dadff"
+    },
+    {
+      "bytes": 966857,
+      "path": "docs/evidence/policy_sensitivity_v1/results/synthesis_plans.csv",
+      "sha256": "sha256:e266e6cc02efbcdc4c6f97aa2074945695fb07473de5d34ba933c495099ae114"
+    }
+  ],
+  "primary_rho": 0.5,
+  "primary_rows": 100,
+  "recording_limit": "max error and max utilization are population extrema and are not asserted to belong to the same sample",
+  "schema_version": 1,
+  "security_policy_modified": false,
+  "source_commit": "d12bcf10ac0a2745d9bab762c443d538bfe461d6",
+  "structural_claim_state": "PARTIALLY_SUPPORTED"
+}

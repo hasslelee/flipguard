@@ -1,0 +1,16 @@
+{
+  "absolute_error": "e_c(x)=abs(f_c(x)-f_plain(x))",
+  "ckks_score": "f_c(x)",
+  "decision_margin": "m(x)=abs(f_plain(x)-tau)",
+  "decision_preservation_sufficient_condition": "e_c(x)<m(x)",
+  "legacy_api_field": "SafetyFactor",
+  "legacy_api_preserved": true,
+  "operational_reserve_policy": "e_c(x)<rho*m(x)",
+  "paper_facing_term": "margin_utilization_cap",
+  "plaintext_score": "f_plain(x)",
+  "primary_rho": 0.5,
+  "reserved_margin_fraction": 0.5,
+  "rho_origin": "predeclared_operational_policy_not_theorem_or_optimum",
+  "schema_version": 1,
+  "threshold": "tau"
+}
