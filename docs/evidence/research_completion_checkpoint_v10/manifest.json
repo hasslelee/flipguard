@@ -1,0 +1,130 @@
+{
+  "classification": "CORE_RESEARCH_COMPLETION",
+  "clean_clone_verification": "PASS",
+  "completion_state": {
+    "path": "completion_state.json",
+    "sha256": "sha256:4476a68606f60ede053cf65d5544cbbf6d8fa34bc2880e17cd269a37209a2c8f"
+  },
+  "core_gates": {
+    "bounded_oracle": "PASS",
+    "clean_clone_artifact_verification": "PASS",
+    "cnn_lite": "PASS",
+    "direct_confirmatory": "PASS",
+    "direct_development": "PASS",
+    "direct_policy_v2": "PASS",
+    "harris": "PASS",
+    "margin_interpretation": "PASS",
+    "no_safe": "PASS",
+    "paired_latency_admission": "PASS",
+    "paper_artifacts_v3": "PASS",
+    "paper_claim_admission": "PASS",
+    "release_candidate_archive": "PASS",
+    "security_v2": "PASS",
+    "sobel": "PASS",
+    "structural": "PASS",
+    "structural_failure": "PASS",
+    "training_seed": "PASS"
+  },
+  "evidence_id": "research_completion_checkpoint_v10",
+  "new_encrypted_executions": 0,
+  "packs": {
+    "bounded_oracle": {
+      "manifest_sha256": "sha256:1d2910a80711928145fb9c7af6d31f4672921e52318c4df92021c31761bffe4d",
+      "path": "docs/evidence/security_v2_bounded_oracle_v1",
+      "tree_sha256": "sha256:56fcbc9a4a45c9515fe666d26f4c34d00670e959ebf9bd3141a4be2e9b006145"
+    },
+    "cnn_lite": {
+      "manifest_sha256": "sha256:de43a2e784d05f6901f87e9f5e7d4e499528dc65a14ed959e4d2665f088482d1",
+      "path": "docs/evidence/non_tabular_mnist_cnn_lite_holdout_v1",
+      "tree_sha256": "sha256:9337d9016e59343a1d3e38fdf35d8268f13087a008c22016c29cc56f7e05a280"
+    },
+    "direct_confirmatory": {
+      "manifest_sha256": "sha256:f8222a19f32eb78ce6631ae848a7d217bc13851e8bea05f82d581454ff32ef0b",
+      "path": "docs/evidence/direct_locked_audit_final_source_v1",
+      "tree_sha256": "sha256:ef9ceb0e0256be52c934e94ea420f0db4b837f2c4cb3239bcda48ad92fee2e7a"
+    },
+    "direct_development": {
+      "manifest_sha256": "sha256:40e054b9b1317c5af1a2e177ea3068878ef9d89b9d3afae5aeffaabc2ab3b8b6",
+      "path": "docs/evidence/direct_locked_audit_seed0_development_v1",
+      "tree_sha256": "sha256:21d9143443d4fa9f455359313a0397ac654d67a3f89c9fd77cbd6b2685cfb233"
+    },
+    "harris": {
+      "manifest_sha256": "sha256:3c0d441dffea891aa90d5ab35635ba8ce26f7fe4fbbf7bc56ff502db3f6fc4ca",
+      "path": "docs/evidence/non_tabular_harris_holdout_v1",
+      "tree_sha256": "sha256:1c53631d25f167a5008fc1190115c76106db037fa04ce03e7208d25359c800fd"
+    },
+    "margin_interpretation": {
+      "manifest_sha256": "sha256:12626638b1abb5d57155345ee84e7e145dc13bfc947767f4484b1e18475cdce0",
+      "path": "docs/evidence/margin_utilization_interpretation_v1",
+      "tree_sha256": "sha256:246c468073a1608f71b77084bc5395d86e506dd5c917d428dfa3570515119f76"
+    },
+    "no_safe": {
+      "manifest_sha256": "sha256:878a92d00c928c7fed6dd4caa9ac0597f59e810f32fded3224670b6ee4c2220c",
+      "path": "docs/evidence/no_safe_controls_confirmatory_v1",
+      "tree_sha256": "sha256:ed67d8cd9fb46283a83d5dde3e80a887c7d41d48226295790ad446deac6d6be1"
+    },
+    "paired_latency_admission": {
+      "manifest_sha256": "sha256:7b66b1063dd612e29b5f4299d5567ffa72ad91199200608cef3f0b271a67fe50",
+      "path": "results/thesis_grade_protocol/paired_latency_claim_admission_v1",
+      "tree_sha256": "sha256:07c0db450f3ab49c82356590cc4cebc79f5b870d661ea824cd08b5500a766187"
+    },
+    "paper_artifacts_v3": {
+      "manifest_sha256": "sha256:32d378b371b75d31b8e39ef2acce4c3c7353581ccfbd5e6c7d22b30ffaf4743b",
+      "path": "results/thesis_grade_protocol/paper_artifacts_v3/final",
+      "tree_sha256": "sha256:3decaf53978a04ddf94ac70f3e3aacb144c38045f21995f8c4cf145193e6d926"
+    },
+    "paper_claim_admission": {
+      "manifest_sha256": "sha256:d982f0f81915b760c537244fc71aa992bf521eaf65d57a67c2d96dbae0607b8d",
+      "path": "docs/evidence/paper_claim_admission_v1",
+      "tree_sha256": "sha256:10faa73851e4c0e252e281541bc747c6ba1d3c6b18163ed7bb617ca038a8ca51"
+    },
+    "security_v2": {
+      "manifest_sha256": "sha256:949e452198106468cd509fb64679ab878a878bdd0e16a220a04f4fa773d2a877",
+      "path": "docs/evidence/security_v2_static_attestation_formal_v2",
+      "tree_sha256": "sha256:97fc5696ed310f857df0b8ebd897ba673e632a6b8fb111c259e7250622104b83"
+    },
+    "sobel": {
+      "manifest_sha256": "sha256:920b55cb261555214fd0ff9c3d71fbe754e1a00bbf81c1d6140229995918a67c",
+      "path": "docs/evidence/non_tabular_sobel_holdout_v1",
+      "tree_sha256": "sha256:4b47eec9bad6ffeccd06ff9ddb2ea58989522e91dc50cf3b5ea6d681c6f1432c"
+    },
+    "structural": {
+      "manifest_sha256": "sha256:df371a81ef0a348fc7ac04af14d39873453d15f4ea8d4574f8fbc313e3488e1b",
+      "path": "docs/evidence/structural_extension_v1",
+      "tree_sha256": "sha256:61458e6de58833bb315f81618a1e08b7c42d45a4b03438fd73415102f76d3625"
+    },
+    "structural_failure": {
+      "manifest_sha256": "sha256:995db9c4e8ae0977e4664df10ae646a425da27cf46d101a181e86674721f30b9",
+      "path": "docs/evidence/structural_audit_failure_analysis_v1",
+      "tree_sha256": "sha256:9664bbd87a9e818f5e5a1681753d32c65f994186b7950a09399c7faf89030cdc"
+    },
+    "training_seed": {
+      "manifest_sha256": "sha256:adf0c9d9a265bcc8e5f695ba68df06675ffd7f67034a0aa59fc5e901ad04ac40",
+      "path": "docs/evidence/independent_training_seed_extension_v1",
+      "tree_sha256": "sha256:55452de0032f6b49eab0a387e2f9570407e9d7aea0ba75680e3267f935bce05c"
+    }
+  },
+  "policies": {
+    "direct_policy_artifact": {
+      "path": "docs/evidence/security_v2_static_attestation_formal_v2/direct_synthesis_policy_v2.json",
+      "sha256": "sha256:694a721212b3f4d1a4d01d8e8ef64293af57f842e1a3fc7c77ca23b28271eec4"
+    },
+    "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "direct_policy_id": "flipguard_direct_synthesis_policy_v2",
+    "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+    "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2"
+  },
+  "policy_retuning": 0,
+  "predecessor": {
+    "manifest_sha256": "sha256:2a1ca882074dab72db81fbcf86cfa8efb2bc04cc6ce3707929449875d3922dba",
+    "path": "docs/evidence/research_completion_checkpoint_v9",
+    "tree_sha256": "sha256:aad2be11211d476f3b5b8fa0de4c14d10773ba74f699084a23462c0e14a83009"
+  },
+  "release_archive_sha256": "sha256:f13d51d3cd2f278a55515a8bc4c04ad10a2fc6bea5ebf18f0224630be4d16392",
+  "release_binding": {
+    "path": "release_binding.json",
+    "sha256": "sha256:5a846a1270c78545c7067c3996d9ae948ec54389f82c793b3be4601cb5154814"
+  },
+  "schema_version": "flipguard_research_completion_checkpoint_v10",
+  "source_commit": "0e07fd53a2783a5e0d51c7fb62218f67420a7d93"
+}
