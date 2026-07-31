@@ -73,7 +73,7 @@ Required metrics:
 - generated candidate count
 - executable candidate count
 - SAFE candidate recall
-- global fastest-safe recall
+- bounded-catalog fastest-safe recall
 - pruning ratio
 - latency regret
 - planner overhead
@@ -98,7 +98,7 @@ The final audit/test set must not influence:
 - model selection
 - planner coefficients
 - candidate-generation rules
-- safety factor
+- margin-utilization cap (legacy API name: safety factor)
 - margin floor
 - threshold choice
 - comparison selection
@@ -115,7 +115,7 @@ Classification:
 
 - legacy functional/regression probes
 
-Current limitations:
+Historical preliminary limitations:
 
 - few probe inputs
 - some polynomial experiments repeat one effective input
@@ -143,7 +143,8 @@ Current limitations:
 - no independent configuration-validation and final audit split
 - no final multi-seed study
 - no explicit independent-key protocol
-- alpha and margin floor are not yet justified by sensitivity evidence
+- the preliminary study predates the frozen utilization-cap and margin-floor
+  sensitivity evidence
 
 ### Linear workloads
 
@@ -170,9 +171,9 @@ For plaintext score f(x), CKKS score f_hat(x;c), threshold tau, and margin
 
 gamma(x) = |f(x) - tau|,
 
-the current configured budget is
+the current configured operational reserve budget is
 
-epsilon(x) = alpha * gamma(x).
+epsilon(x) = rho * gamma(x).
 
 A V_cert violation occurs when
 
@@ -182,12 +183,15 @@ Equality is unsafe.
 
 The following are policy parameters, not universal constants:
 
-- alpha
+- rho (margin-utilization cap)
 - margin_floor
 
-The current alpha=0.5 and margin_floor=0.001 must be described as preliminary
-defaults until sensitivity analysis and a predeclared selection policy are
-complete.
+The primary `rho=0.5` and `margin_floor=0.001` are predeclared policies.
+`rho=0.5` is not derived from CKKS theory and is not claimed to be optimal.
+The strict sufficient decision condition remains `error < margin`; the
+operational reserve gate uses `error < rho*margin`. Sensitivity evidence may
+describe tested-range invariance but must not retrospectively select either
+policy constant.
 
 Required sensitivity outputs:
 

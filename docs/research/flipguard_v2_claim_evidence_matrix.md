@@ -19,7 +19,7 @@ Core contribution:
 | Decision-contract candidate-synthesis effect | BLOCKED | false | Graph-only fixed tolerance and full FlipGuard have identical path+CKKS parameters, trials, repairs, and outcomes in 10/10 natural development workloads; candidate IDs differ only because they bind policy/contract identity | A strong natural-data claim that decision margins change the synthesized configuration is unsupported |
 | Finite-domain decision-contract activation | SUPPORTED | false | A predeclared high-sensitivity control holds graph, interval calibration, and sensitivity fixed: narrow-margin full synthesis starts at S21 and selects S33, while graph-fixed starts at S20 and selects S32; wide-margin arms both start at S20 and select S28; all four no-retuning audits pass | This is an explanatory synthetic control and cannot promote the blocked natural-data effect |
 | Decision-integrity certification | PARTIALLY_SUPPORTED | false | Final finite-set candidate certificates, negative controls, locked audits, and sample-level Sobel, Harris, and MNIST CNN-lite ledgers are verified | This remains observed finite-scope evidence, not a domain-wide analytical bound |
-| Provider-neutral candidate admission | PARTIALLY_SUPPORTED | false | Manual, bounded-catalog, direct, and synthetic external-format arms share one verified gate; exact Orion public configurations fail closed before execution; one source-replayed AWS HIT literal imports losslessly and passes Security V2 but is decision-REJECTED. A no-rerun matched-workload audit binds the same raw source, model, graph, threshold, alpha, and margin floor: direct is SAFE and passes locked audit, while HIT has six validation violations and is not audited. A pinned EVA v1.0.1 compiler replay exports exact Q/P literals and schedules. Its scale-20 candidate is REJECTED in both native fresh-key studies. In a predeclared post-rejection seed-0 sensitivity, the fixed scale-20/30/40 arms are REJECTED/SAFE/SAFE; first-SAFE scale 30 passes 48/48 untouched native SEAL audit observations with zero flips, violations, or retuning | This supports scoped certification and locked replay of one native external-compiler candidate, not EVA autotuning quality or general external-autotuner integration. The scale arms can show an outcome association, not isolate scale from compiler-generated schedule/modulus changes. Native SEAL distribution security and matched Lattigo-SEAL numerical equivalence remain NOT_EVALUATED |
+| Provider-neutral candidate admission | PARTIALLY_SUPPORTED | false | Manual, bounded-catalog, direct, and synthetic external-format arms share one verified gate; exact Orion public configurations fail closed before execution; one source-replayed AWS HIT literal imports losslessly and passes Security V2 but is decision-REJECTED. A no-rerun matched-workload audit binds the same raw source, model, graph, threshold, margin-utilization cap, and margin floor: direct is SAFE and passes locked audit, while HIT has six validation violations and is not audited. A pinned EVA v1.0.1 compiler replay exports exact Q/P literals and schedules. Its scale-20 candidate is REJECTED in both native fresh-key studies. In a predeclared post-rejection seed-0 sensitivity, the fixed scale-20/30/40 arms are REJECTED/SAFE/SAFE; first-SAFE scale 30 passes 48/48 untouched native SEAL audit observations with zero flips, violations, or retuning | This is auxiliary appendix evidence for scoped certification and locked replay of one native external-compiler candidate, not EVA autotuning quality or general external-autotuner integration. Native SEAL distribution security and matched Lattigo-SEAL numerical equivalence remain NOT_EVALUATED and are not core paper blockers |
 | Trial reduction | SUPPORTED | false | Final direct accounting uses 70/700 all instances and 56/560 confirmatory instances, both 90% fewer candidate trials than the Security V2 bounded catalog | Paper admission remains pending |
 | Security-compliant bounded catalog comparison | SUPPORTED | false | V2 formal comparison uses only 700 admitted candidates; 400 excluded executions remain historical; paired arms are frozen | The result is bounded-catalog, never global-optimum evidence |
 | Latency speedup | PARTIALLY_SUPPORTED | false | Final paired pack has 50/50 rows; clustered direct/catalog total-latency ratio is 3.14x with all frozen arms | Within-workload timing variability and manual paper admission remain |
@@ -51,11 +51,15 @@ Core contribution:
 
 ## Policy Freeze
 
-- Primary alpha: `0.5`.
-- Alpha sensitivity: `{0.1, 0.25, 0.5, 0.75, 0.9}`.
+- Primary margin-utilization cap `rho` (legacy field `alpha`/`SafetyFactor`):
+  `0.5`.
+- Reserved margin fraction `1-rho`: `0.5`.
+- Utilization sensitivity: `{0.1, 0.25, 0.5, 0.75, 0.9}`.
 - Primary margin floor: `0.001`.
 - Margin floor `0.0005`: `SECONDARY_POLICY_SENSITIVITY` only.
-- No audit result may select alpha or margin floor.
+- `rho=0.5` is a predeclared operational reserve policy, not a theorem-derived
+  constant or an optimum.
+- No audit result may select `rho` or margin floor.
 - Direct maximum encrypted trials: `4`.
 
 ## Forbidden Claims

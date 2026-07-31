@@ -142,6 +142,10 @@ The distinction must remain explicit:
 - FlipGuard additionally maps numeric error to a threshold-decision margin,
   separates `V_cert` from `V_amb`, exposes `REJECTED`/`FAILED`/`NO_SAFE`, and
   performs a disjoint locked audit after selection.
+- The mathematical sufficient condition is `error < decision margin`.
+  FlipGuard's `rho=0.5` rule is a predeclared operational margin-utilization
+  cap that reserves half the margin; it is neither a cryptographic theorem
+  constant nor an optimized value.
 
 ## Conservative Comparison
 

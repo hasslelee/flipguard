@@ -114,16 +114,24 @@ V_{\mathrm{amb}}=\{x:m(x)\le\delta\}.
 \]
 
 FlipGuard의 관측 검증 certificate는 \(V_{\mathrm{cert}}\)의 모든 표본과
-모든 fresh-key run에서 다음을 요구한다.
+모든 fresh-key run에서 먼저 다음의 충분조건을 구분한다.
 
 \[
-d_c(x)=d_{\mathrm{plain}}(x),
-\qquad
-e_c(x)\le \alpha m(x),
+e_c(x)<m(x)\Longrightarrow d_c(x)=d_{\mathrm{plain}}(x).
 \]
 
-여기서 \(\alpha\in(0,1]\)는 safety factor다. 현재 주장은
-\(V_{\mathrm{cert}}\)와 관측된 validation/audit artifact에 한정된다.
+실제 admission은 더 엄격한 운용 reserve policy
+
+\[
+e_c(x)<\rho m(x)
+\]
+
+를 사용한다. 여기서 \(\rho\)는 margin utilization cap이고 \(1-\rho\)는
+reserved margin fraction이다. Primary \(\rho=0.5\)는 사전 선언한
+50%-utilization policy이며 CKKS 이론에서 도출된 상수나 최적값이 아니다.
+내부 `SafetyFactor`/`alpha` 이름은 frozen evidence 호환성을 위한 alias다.
+현재 주장은 \(V_{\mathrm{cert}}\)와 관측된 validation/audit artifact에
+한정된다.
 
 ### 2.2 최적화 목표
 
@@ -245,7 +253,8 @@ configuration-validation CSV를 생성한다. 동결된 prepared CSV를 직접
 - dataset/model/split identity와 model/source/prepared artifact의 SHA-256;
 - source feature space, materialization schema, preprocessing method;
 - 정확한 평문 계산 그래프 및 multiplicative depth;
-- threshold, margin floor, safety factor, \(V_{\mathrm{cert}}\),
+- threshold, margin floor, margin-utilization cap
+  (legacy `SafetyFactor` alias), \(V_{\mathrm{cert}}\),
   \(V_{\mathrm{amb}}\);
 - validation 입력 범위와 empirical interval sensitivity;
 - target security, required slots, packing strategy, allowed path;
@@ -450,21 +459,23 @@ Seed-0 pilot의 catalog/direct total-latency geometric-mean ratio는
 Table 3과 Figure 4는 encrypted performance가 아니라 정적 coverage와
 synthesis signature sensitivity를 보고한다.
 
-5개 alpha, 9개 margin floor, 50개 workload, validation/audit 두 partition에
+5개 utilization cap, 9개 margin floor, 50개 workload,
+validation/audit 두 partition에
 대해 4,500개 정적 synthesis plan을 생성했다. 기존 1,100개 raw candidate
 execution ledger의
-certificate 상태와 50개 bounded-oracle 선택은 alpha 0.1–0.9에서 모두
-동일했다. 이는 현재 grid의 empirical invariance이며 alpha 0.5의 이론적
-최적성을 의미하지 않는다.
+certificate 상태와 50개 bounded-oracle 선택, direct initial literal은
+\(\rho=0.1\)–0.9에서 모두 동일했다. 이는 minimum synthesis floor가
+지배한 현재 grid의 empirical policy invariance이며 \(\rho=0.5\)의
+이론적 최적성을 의미하지 않는다.
 
 Margin floor 0.001의 validation coverage는 8,043/8,230(97.73%)이고,
-0.0005에서는 8,142/8,230(98.93%)이다. 두 floor는 alpha 0.5에서 동일한
+0.0005에서는 8,142/8,230(98.93%)이다. 두 floor는 \(\rho=0.5\)에서 동일한
 50개 정적 candidate signatures를 생성한다. 0.0005는
 `SECONDARY_POLICY_SENSITIVITY`로만 유지하고 primary 0.001을 동결한다.
 해당 audit은 policy 선택에 사용하지 않으며
 `primary_policy_adoption_allowed=false`로 보고한다.
 
-### 6.6 Structural extension pilot
+### 6.6 Structural extension
 
 기존 primary graph보다 깊은 `mlp_square_poly3`에 대해 5개 dataset,
 5개 seed, validation/audit 두 partition의 50개 정적 plan을 생성했다.
@@ -472,11 +483,12 @@ Margin floor 0.001의 validation coverage는 8,043/8,230(97.73%)이고,
 `N14/Q10/scale22`를 제안했다. 정적 validation coverage는
 3,992/4,115(97.01%), audit coverage는 4,033/4,150(97.18%)이다.
 
-구현 경로 점검을 위한 iris 단일 workload·단일 키 pilot에서는 한 번의
-encrypted trial로 선택됐고 locked audit도 retuning 없이 통과했다.
-sample별 `error/(alpha*margin)` 최대치는 selection 0.78285, audit
-0.79005였다. 이는 dirty-source exploratory pilot이므로 전체 25-workload
-confirmatory run 전에는 구조 일반화의 최종 근거로 사용하지 않는다.
+동결 정책으로 25/25 selection이 완료됐고, no-retuning locked audit은
+24 PASS와 1 reserve-policy REJECT를 기록했다. REJECT instance의 최대
+`error/margin`은 validation 0.470653, audit 0.561369였으며 decision flip은
+0이었다. 따라서 이 결과는 `POLICY_REJECTED_WITHOUT_FLIP`이고
+cryptographic correctness failure나 observed decision failure가 아니다.
+Structural claim은 이 음성 결과를 포함해 `PARTIALLY_SUPPORTED`로 제한한다.
 
 ## 7. 위협과 한계
 
@@ -487,7 +499,7 @@ confirmatory run 전에는 구조 일반화의 최종 근거로 사용하지 않
    estimator가 아니다.
 4. Catalog oracle은 22개 고정 후보에만 한정된다.
 5. Planner의 MLP optimum recall은 36%로 낮다.
-6. Safety factor 0.5와 margin floor 0.001의 보편적 최적성은 입증되지
+6. Margin-utilization cap 0.5와 margin floor 0.001의 보편적 최적성은 입증되지
    않았다.
 7. Key generation과 encryption randomness의 재현 가능한 seed provenance가
    아직 부족하다.
@@ -601,7 +613,7 @@ oracle로 유지된다.
 - [ ] Step 7B.4 50-workload paired latency PASS 및 evidence freeze
 - [ ] Step 7B.5 seeds 1–4 confirmatory budgeted abstention PASS
 - [ ] disjoint finite-domain all-unsafe rerun
-- [x] 정적 margin floor 및 safety-factor sensitivity
+- [x] 정적 margin floor 및 margin-utilization-cap sensitivity
 - [x] floor 0.0005는 secondary policy sensitivity로만 고정
 - [ ] deeper graph / structural generalization
 - [x] clean-commit final confirmatory one-command runner 및 evidence gates

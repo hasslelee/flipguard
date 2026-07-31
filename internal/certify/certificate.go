@@ -39,6 +39,9 @@ type CandidateEvidence struct {
 
 	MaxObservedError float64
 	// MaxObservedBudgetUsage is max(error / (alpha * margin)) on V_cert.
+	// SafetyFactor is retained as the backward-compatible execution/schema
+	// name for alpha. Paper-facing reports interpret alpha as a margin
+	// utilization cap, not as a theorem-derived safety constant.
 	MaxObservedBudgetUsage float64
 
 	// AnalyticalBoundProvided explicitly states whether MaxErrorBound contains
@@ -78,8 +81,10 @@ type CandidateCertificate struct {
 
 	MeanTotalMS float64
 
-	Threshold    float64
-	MarginFloor  float64
+	Threshold   float64
+	MarginFloor float64
+	// SafetyFactor is the backward-compatible name for the operational margin
+	// utilization cap. Use InterpretSafetyFactor for paper-facing reports.
 	SafetyFactor float64
 
 	VCert int
@@ -105,8 +110,10 @@ type CertificationSummary struct {
 	FailedCount    int
 	AmbiguousCount int
 
-	Threshold        float64
-	MarginFloor      float64
+	Threshold   float64
+	MarginFloor float64
+	// SafetyFactor is retained for evidence reproducibility. It is an
+	// operational margin utilization cap, not a CKKS security parameter.
 	SafetyFactor     float64
 	AnalyticalBudget float64
 
