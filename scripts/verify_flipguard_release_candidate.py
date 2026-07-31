@@ -107,10 +107,27 @@ def verify_frozen_pack(root: Path) -> dict[str, Any]:
     }
 
 
-def verify_archive(archive: Path, temporary: Path) -> dict[str, Any]:
+def archive_release_id(archive: Path, temporary: Path) -> str:
     listing = run(["tar", "--zstd", "-tf", str(archive)], cwd=temporary)
     members = listing.stdout.splitlines()
-    prefix = f"{ARCHIVE_NAME}/"
+    roots = {
+        member.split("/", 1)[0]
+        for member in members
+        if member and not member.startswith("/")
+    }
+    if len(roots) != 1:
+        raise ValueError("archive does not have exactly one release root")
+    release_id = roots.pop()
+    if not release_id or release_id in {".", ".."}:
+        raise ValueError("archive release ID is invalid")
+    return release_id
+
+
+def verify_archive(archive: Path, temporary: Path) -> dict[str, Any]:
+    release_id = archive_release_id(archive, temporary)
+    listing = run(["tar", "--zstd", "-tf", str(archive)], cwd=temporary)
+    members = listing.stdout.splitlines()
+    prefix = f"{release_id}/"
     if not members or any(not member.startswith(prefix) for member in members):
         raise ValueError("archive contains an invalid path")
     if any("/../" in member or member.startswith("/") for member in members):
@@ -118,7 +135,7 @@ def verify_archive(archive: Path, temporary: Path) -> dict[str, Any]:
     extract_root = temporary / "extract"
     extract_root.mkdir()
     run(["tar", "--zstd", "-xf", str(archive)], cwd=extract_root)
-    root = extract_root / ARCHIVE_NAME
+    root = extract_root / release_id
     sums = (root / "SHA256SUMS").read_text(encoding="ascii").splitlines()
     for line in sums:
         digest, relative = line.split("  ", 1)
@@ -128,10 +145,13 @@ def verify_archive(archive: Path, temporary: Path) -> dict[str, Any]:
     manifest = json.loads(
         (root / "release/archive_manifest.json").read_text()
     )
+    if manifest["release_id"] != release_id:
+        raise ValueError("archive root and release manifest disagree")
     if manifest["new_encrypted_executions"] != 0:
         raise ValueError("release claims new encrypted executions")
     return {
         "members": len(members),
+        "release_id": release_id,
         "checksum_entries": len(sums),
         "internal_manifest_sha256": sha256(
             root / "release/archive_manifest.json"
@@ -152,6 +172,7 @@ def verify(
     checks: list[dict[str, Any]] = []
     with tempfile.TemporaryDirectory(prefix="flipguard-clean-clone-") as temp:
         temporary = Path(temp)
+        release_id = archive_release_id(archive, temporary)
         clone = temporary / "clone"
         run(
             ["git", "clone", "--no-local", "--quiet", str(repo_root), str(clone)],
@@ -196,6 +217,8 @@ def verify(
                 source_commit,
                 "--output",
                 str(rebuilt),
+                "--release-id",
+                release_id,
             ],
             cwd=clone,
         )

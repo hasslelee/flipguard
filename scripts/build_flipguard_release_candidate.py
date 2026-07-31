@@ -97,7 +97,14 @@ def build(
     repo_root: Path,
     source_commit: str,
     output: Path,
+    release_id: str = ARCHIVE_NAME,
 ) -> dict[str, Any]:
+    if (
+        not release_id
+        or "/" in release_id
+        or release_id in {".", ".."}
+    ):
+        raise ValueError(f"invalid release ID: {release_id!r}")
     commit = canonical_commit(repo_root, source_commit)
     output = output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -114,7 +121,7 @@ def build(
         source_tar = temporary / "source.tar"
         staging_parent = temporary / "staging"
         staging_parent.mkdir()
-        prefix = f"{ARCHIVE_NAME}/"
+        prefix = f"{release_id}/"
         with source_tar.open("wb") as handle:
             subprocess.run(
                 ["git", "archive", f"--prefix={prefix}", commit],
@@ -124,7 +131,7 @@ def build(
             )
         with tarfile.open(source_tar) as archive:
             archive.extractall(staging_parent, filter="data")
-        staging = staging_parent / ARCHIVE_NAME
+        staging = staging_parent / release_id
         release_root = staging / "release"
         shutil.copy2(
             staging / REPRODUCTION_GUIDE,
@@ -150,7 +157,7 @@ def build(
         )
         manifest = {
             "schema_version": "flipguard_thesis_release_candidate_v1",
-            "release_id": f"{ARCHIVE_NAME}",
+            "release_id": release_id,
             "source_commit": commit,
             "tracked_source_files": len(tracked),
             "paper_artifacts_v3": {
@@ -184,7 +191,7 @@ def build(
         )
         write_checksums(staging)
 
-        tar_path = temporary / f"{ARCHIVE_NAME}.tar"
+        tar_path = temporary / f"{release_id}.tar"
         run(
             [
                 "tar",
@@ -195,7 +202,7 @@ def build(
                 "--numeric-owner",
                 "-cf",
                 str(tar_path),
-                ARCHIVE_NAME,
+                release_id,
             ],
             cwd=staging_parent,
         )
@@ -241,9 +248,15 @@ def main() -> int:
     parser.add_argument("--repo-root", type=Path, default=ROOT)
     parser.add_argument("--source-commit", default="HEAD")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--release-id", default=ARCHIVE_NAME)
     parser.add_argument("--record", type=Path)
     args = parser.parse_args()
-    record = build(args.repo_root.resolve(), args.source_commit, args.output)
+    record = build(
+        args.repo_root.resolve(),
+        args.source_commit,
+        args.output,
+        args.release_id,
+    )
     if args.record:
         args.record.parent.mkdir(parents=True, exist_ok=True)
         args.record.write_bytes(canonical_json(record))

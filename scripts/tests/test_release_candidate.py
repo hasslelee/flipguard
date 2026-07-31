@@ -81,6 +81,22 @@ class ReleaseCandidateTest(unittest.TestCase):
             self.assertEqual(one["archive_sha256"], two["archive_sha256"])
             self.assertFalse(one["raw_external_sources_bundled"])
 
+    def test_custom_release_id_is_bound_inside_archive(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="flipguard-release-id-") as temp:
+            archive = Path(temp) / "artifact-rc-test.tar.zst"
+            record = MODULE.build(
+                ROOT,
+                "HEAD",
+                archive,
+                "flipguard-thesis-artifact-v1.0.0-rc-test",
+            )
+            verified = VERIFY.verify_archive(archive, Path(temp))
+            self.assertEqual(
+                verified["release_id"],
+                "flipguard-thesis-artifact-v1.0.0-rc-test",
+            )
+            self.assertEqual(record["archive_sha256"], VERIFY.sha256(archive))
+
     def test_manifest_only_frozen_pack(self) -> None:
         with tempfile.TemporaryDirectory(
             prefix="flipguard-pack-test-"
