@@ -1,0 +1,114 @@
+{
+  "claim_boundary": {
+    "cross_runtime_numerical_equivalence": "NOT_EVALUATED",
+    "exact_selected_qp_materialization": "SUPPORTED",
+    "general_external_autotuner_integration": "NOT_EVALUATED",
+    "native_execution_literal_serialization_identity": "NOT_EVALUATED",
+    "runtime_specific_native_security": "NOT_EVALUATED"
+  },
+  "classification": "STATIC_PROVENANCE_BINDING_NO_ENCRYPTION",
+  "encrypted_executions_added": 0,
+  "exact_literal": {
+    "parameters": {
+      "log_default_scale": 30,
+      "log_n": 14,
+      "p": [
+        1152921504606748673
+      ],
+      "q": [
+        1152921504605962241,
+        1152921504606584833,
+        1152921504606683137
+      ]
+    },
+    "path": "rescale",
+    "provider_id": "microsoft_eva_v1.0.1_seal3.6.4_selected_scale30_posthoc_materialization_v1",
+    "provider_kind": "external_autotuner",
+    "schema_version": 2
+  },
+  "exact_literal_sha256": "sha256:317d5d048da893f33296da185a616cb6f876a7594c61f56939c3bc90f564efde",
+  "materializer_bridge": {
+    "compiler_execution_commit": "04938d9d330c4994baaf45048704dbd17e4ab7d0",
+    "compiler_output_sha256": "sha256:605cc94bb1df230f9d58b1cbbeb66a26d11b6ae44ed4ad46dfca0925cd711dea",
+    "deterministic_materializer_inputs_identical": true,
+    "exact_qp_bound_by_posthoc_static_replay": true,
+    "exact_qp_captured_in_original_selected_run": false,
+    "github_actions_run_id": "30553813485",
+    "same_ordered_prime_bits": true,
+    "same_poly_modulus_degree": true,
+    "upstream": {
+      "eva_commit": "4cd3254c9c51340ae30c451495ce5378135758c0",
+      "eva_repository": "https://github.com/microsoft/EVA",
+      "eva_tag": "v1.0.1",
+      "seal_commit": "0b058d99b7f18a00e5ebb2b80caee593804b0500",
+      "seal_repository": "https://github.com/microsoft/SEAL",
+      "seal_tag": "v3.6.4"
+    }
+  },
+  "paper_claim_allowed": false,
+  "policy_modifications": 0,
+  "schema_version": "flipguard_eva_selected_exact_materialization_binding_v1",
+  "security_reference": {
+    "cap": 430,
+    "ciphertext_q_admission": "PASS",
+    "evaluation_key_qp_admission": "PASS",
+    "final_reference_admission": "PASS",
+    "headroom_bits": 190,
+    "log_n": 14,
+    "log_p": 60,
+    "log_q": 180,
+    "log_qp": 240,
+    "reference_only_for_native_seal_runtime": true,
+    "runtime_specific_native_security": "NOT_EVALUATED",
+    "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055"
+  },
+  "selected_candidate": {
+    "candidate_id": "eva_native_scale30_N14_QP240_ef28317b2a3d",
+    "compiled_program_semantic_sha256": "sha256:ef28317b2a3db3141e6d2ce3036709aacbcb8738f3047c2b2ff4126968997088",
+    "compiled_program_sha256": "sha256:0a3ee52b1fa73107143c6739eddc05803b26ea9cf3fef0d1f447ab6f6d3346a3",
+    "input_scale_bits": 30,
+    "native_evidence_manifest_sha256": "sha256:f129a0c3e7568726e88f2b6887ac7dc01f2cf1887ae696ff6de1c681110f22be",
+    "poly_modulus_degree": 16384,
+    "prime_bits": [
+      60,
+      60,
+      60,
+      60
+    ]
+  },
+  "sources": {
+    "compiler_output": {
+      "path": "docs/evidence/eva_external_adapter_replay_v1/run/compiler_output.json",
+      "sha256": "sha256:605cc94bb1df230f9d58b1cbbeb66a26d11b6ae44ed4ad46dfca0925cd711dea"
+    },
+    "compiler_raw_sha256sums": {
+      "path": "docs/evidence/eva_external_adapter_replay_v1/run/SHA256SUMS",
+      "sha256": "sha256:ec3091fb050a87da05bcb24d7398fb1bbab83bac38bd9ada8b0bffbc4e89ad10"
+    },
+    "compiler_verifier": {
+      "path": "scripts/verify_eva_external_adapter_output.py",
+      "sha256": "sha256:965f7e237f1cc09f7e0963abe6d53a07f1cfc28840d426ef216a4c893b5d0e59"
+    },
+    "native_contract": {
+      "path": "experiments/eva_native_scale_sensitivity_v1/contract.json",
+      "sha256": "sha256:7b35a83e4cfcb2c87b40d45ee8e66e9a4a7b89e58ad78b89d40d6e59df9c2a97"
+    },
+    "native_manifest": {
+      "path": "docs/evidence/eva_native_scale_sensitivity_v1/manifest.json",
+      "sha256": "sha256:f129a0c3e7568726e88f2b6887ac7dc01f2cf1887ae696ff6de1c681110f22be"
+    },
+    "native_scale30_dot": {
+      "path": "docs/evidence/eva_native_scale_sensitivity_v1/raw/compiled_scale_30.dot",
+      "sha256": "sha256:0a3ee52b1fa73107143c6739eddc05803b26ea9cf3fef0d1f447ab6f6d3346a3"
+    },
+    "native_summary": {
+      "path": "docs/evidence/eva_native_scale_sensitivity_v1/summary.json",
+      "sha256": "sha256:20087223ce66ba24151688962be37b373cb96c61095295162c6cdd5b7c16a5b8"
+    },
+    "prime_exporter": {
+      "path": "tools/eva-seal-prime-exporter/main.cpp",
+      "sha256": "sha256:27e7c93e42d1d1800c8d20c1c5b55eb84ca11e3792a60304fc2075c40e804b14"
+    }
+  },
+  "status": "EXACT_MATERIALIZATION_BOUND_POSTHOC"
+}
