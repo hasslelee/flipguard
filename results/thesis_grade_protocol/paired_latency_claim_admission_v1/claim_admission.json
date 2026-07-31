@@ -1,0 +1,37 @@
+{
+  "allowed_wording": "Across the declared post-freeze workload partitions, FlipGuard's directly synthesized configurations reduced paired total inference latency relative to the Security-V2-compliant bounded-catalog fastest-safe configurations; the exact clustered geometric-mean ratio and confidence interval are reported.",
+  "claim_id": "paired_latency_confirmatory",
+  "claim_state": "PARTIALLY_SUPPORTED",
+  "conditions": {
+    "balanced_execution_order_verified": true,
+    "catalog_candidate_identity_match": true,
+    "catalog_security_v2_source_match": true,
+    "cluster_bootstrap_lower_ci_total_gt_1": true,
+    "confirmatory_workloads_complete_40_of_40": true,
+    "direct_and_catalog_arms_safe": true,
+    "direct_candidate_identity_match": true,
+    "direct_source_digest_match": true,
+    "no_concurrent_ckks_execution": true,
+    "outlier_removal_absent": true,
+    "security_v2_excluded_candidates_absent": true
+  },
+  "frozen_paired_manifest_sha256": "sha256:6d888422511c45669a50bc63d63b73d97f9d56f23829206569fbde50a7db8fdf",
+  "limitations": [
+    "declared workloads and one measured host only",
+    "10 dataset-model clusters with repeated partitions",
+    "not a production or hardware-generality result"
+  ],
+  "paper_admitted": true,
+  "prohibited_wording": [
+    "production speedup",
+    "universal speedup",
+    "global-optimal baseline",
+    "raw pair-level p-value",
+    "50 independent workloads"
+  ],
+  "raw_pair_independence_claim": false,
+  "repeated_partition_semantics": "four post-freeze partitions within each confirmatory cluster",
+  "schema_version": 1,
+  "source_commit": "f9ddc8291b1a9577c93fd15720c23c74b6ae8524",
+  "statistical_unit": "10 dataset-model clusters"
+}

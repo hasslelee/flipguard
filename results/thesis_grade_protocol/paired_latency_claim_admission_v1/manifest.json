@@ -1,0 +1,54 @@
+{
+  "artifact_class": "DERIVED_CLAIM_ADMISSION_OVERLAY",
+  "claim_state": "PARTIALLY_SUPPORTED",
+  "evidence_id": "paired_latency_claim_admission_v1",
+  "files": {
+    "claim_admission.json": {
+      "bytes": 1710,
+      "sha256": "sha256:d3a17218d0c193928fe6e12cf9acab90aa05300b81435019b286ea9136b268f0"
+    },
+    "combined_descriptive_summary.json": {
+      "bytes": 2604,
+      "sha256": "sha256:e87f15ad204c959c2c53ba81805ea14a273cb01230884838518f8ea94c63561e"
+    },
+    "dataset_model_cluster_summary.csv": {
+      "bytes": 2796,
+      "sha256": "sha256:2c6aa5919e7f74b91eb7993fdb8f5c6995788956e6f1696a1f5d9c88e72f7650"
+    },
+    "position_effect_analysis.csv": {
+      "bytes": 707,
+      "sha256": "sha256:072e91f6052f016113d543058659c07dfb046cecb4e0a3decc89fc58eac423ba"
+    },
+    "seed0_development_summary.json": {
+      "bytes": 2567,
+      "sha256": "sha256:51eb40b27942391cb11fcd8336d02cad1d77d4d670c3185cfdb514364aa2124e"
+    },
+    "seeds1_4_confirmatory_summary.json": {
+      "bytes": 2619,
+      "sha256": "sha256:b286cb1136af71caa4df46673c1ffe6f822ab708205d3ec18ad7559b5eecbe32"
+    },
+    "verify_paired_latency_claim_admission_v1.py": {
+      "bytes": 3839,
+      "sha256": "sha256:13f67d7d5c5536c963a7e70b300c94440d21b1953791f9cdaf4ec195618d286a"
+    },
+    "workload_partition_summary.csv": {
+      "bytes": 23096,
+      "sha256": "sha256:ffcfa2bda91102f7d06cb77cfc503fd971944b6653c27d43538d416c8d6db97f"
+    }
+  },
+  "frozen_paired_pack_modified": false,
+  "input_bindings": {
+    "docs/evidence/final_confirmatory_suite_v1/snapshots/run_manifest.json": "sha256:44d71c41208268b87f794616d7dbc23b238d249c6fbba1766d8b03504f1c0f49",
+    "docs/evidence/paired_latency_final_v1/manifest.json": "sha256:6d888422511c45669a50bc63d63b73d97f9d56f23829206569fbde50a7db8fdf",
+    "docs/evidence/paired_latency_final_v1/summary/arm_summaries.csv": "sha256:ecf528e6564be3a2adcdc997a5b418f565d0e1696868a92b2ed2ed654d52da41",
+    "docs/evidence/paired_latency_final_v1/summary/pair_summaries.csv": "sha256:8b90ada3fd69cf5d574fef7dcdf98c67e52cbc97707e994772791fe424b4b6e6",
+    "docs/evidence/paired_latency_final_v1/summary/records.csv": "sha256:cf9c900e4e6660e0669000b108250a99ff092a23b3e88e3e2478a794b7c09cb9",
+    "docs/evidence/paired_latency_final_v1/summary/run_status.csv": "sha256:eaf197fcb2b4209c83e5e2a235739df49d70588b0cc495fc3b1593a7df89623a",
+    "docs/evidence/security_v2_bounded_oracle_v1/oracle/oracle_selection_security_v2.csv": "sha256:dc08523ec449d123d0b7aab2df8449bb450dc97236d70ad5f122bd0f99a333c6"
+  },
+  "new_encrypted_execution_performed": false,
+  "paper_admitted": true,
+  "raw_records_reused": 5400,
+  "schema_version": 1,
+  "source_commit": "f9ddc8291b1a9577c93fd15720c23c74b6ae8524"
+}
