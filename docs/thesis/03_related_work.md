@@ -12,7 +12,7 @@ HECO는 범용 FHE compiler를 지향하며 scheme-aware optimization과 lowerin
 
 ## 3.2 정확도·응용 인식형 자동화
 
-AutoPrivacy는 hybrid private neural-network inference에서 layer별 HE parameter를 deep reinforcement learning으로 선택하여 latency와 model accuracy를 함께 고려한다 [@lou2020autoprivacy]. AutoFHE는 표준 CNN의 activation을 mixed-degree polynomial로 바꾸고 bootstrapping placement를 공동 최적화하여 accuracy-latency trade-off를 탐색한다 [@ao2023autofhe]. 이들 연구에서 응용 정확도는 configuration 또는 network transformation 선택의 중요한 기준이다. 다만 model-level accuracy가 유지되었다는 사실과 모든 평가 sample의 threshold decision이 동일하다는 사실은 같은 명제가 아니다. FlipGuard는 학습 정확도를 개선하거나 network architecture를 탐색하지 않고, 이미 주어진 score graph와 threshold에 대해 per-sample decision-integrity admission을 수행한다.
+AutoPrivacy는 hybrid private neural-network inference에서 layer별 HE parameter를 deep reinforcement learning으로 선택하여 latency와 model accuracy를 함께 고려한다 [@lou2020autoprivacy]. AutoFHE는 표준 CNN의 activation을 mixed-degree polynomial로 바꾸고 bootstrapping placement를 공동 최적화하여 accuracy-latency trade-off를 탐색한다 [@ao2024autofhe]. 이들 연구에서 응용 정확도는 configuration 또는 network transformation 선택의 중요한 기준이다. 다만 model-level accuracy가 유지되었다는 사실과 모든 평가 sample의 threshold decision이 동일하다는 사실은 같은 명제가 아니다. FlipGuard는 학습 정확도를 개선하거나 network architecture를 탐색하지 않고, 이미 주어진 score graph와 threshold에 대해 per-sample decision-integrity admission을 수행한다.
 
 Application-Aware Approximate Homomorphic Encryption은 회로뿐 아니라 허용 input domain을 포함하는 application specification을 correctness와 security 정의에 반영한다 [@alexandru2024applicationaware]. 이는 최대 depth만으로 실제 응용 요구를 표현하기 어렵고 입력 범위가 approximation 및 security에 영향을 줄 수 있다는 점을 이론적으로 정리한다. FlipGuard가 workload contract에 graph와 input scope를 결합한 것은 이러한 문제의식과 양립한다. 그러나 본 연구의 empirical certificate가 해당 연구의 formal application-aware correctness 정의를 구현하거나 증명한 것은 아니다. FlipGuard는 선언된 finite artifact의 실제 encrypted observation을 승인 근거로 사용하며, 분석적 residual bound의 완전한 인스턴스화는 범위 밖이다.
 
@@ -51,4 +51,3 @@ Security-V2는 guideline을 그대로 runtime 분포와 동일시하지 않는�
 본 연구는 선행연구에서 graph-aware parameter selection, error-latency 분리 보고, compiler/runtime 역할 분리, bootstrapping 또는 scale plan의 비용 모델, application scope 명시라는 평가 관행을 채택했다. 동시에 각 논문이 직접 보고하지 않은 관행을 추정해 FlipGuard의 근거로 사용하지 않는다. 예컨대 ELASM이 output error를 다룬다는 사실에서 threshold decision locked audit을 수행했다고 추론하지 않으며, Application-Aware AHE의 formal 정의에서 FlipGuard의 empirical certificate가 자동으로 증명된다고 결론내리지 않는다.
 
 또한 본 논문은 CKKS autotuning, application-aware parameter generation, direct synthesis 또는 repair selection의 선행 최초성을 주장하지 않는다. Bounded-catalog fastest-safe는 유한 비교 집합의 기준이며 가능한 configuration 전체에 대한 최적성을 뜻하지 않는다. Sobel, Harris, CNN-lite 결과는 각 finite scalar-replicated adapter 범위에 한정한다. 이러한 제한을 관련 연구 장에서 먼저 명시함으로써 결과 장의 정량 성능이 연구 범위보다 넓은 기여로 오해되는 것을 막는다.
-

@@ -8,7 +8,7 @@ CKKS 실행 구성을 정하는 일은 단순히 큰 파라미터를 선택하�
 
 본 연구가 다루는 간극은 이들 연구의 가치와 별개로 남는 최종 의사결정 문제다. 분류 또는 위험 판정처럼 출력 score를 임계값과 비교하는 시스템에서는 작은 근사 오차도 score의 수치적 차이보다 더 직접적인 결과를 낳을 수 있다. 평문 score와 CKKS score의 차이가 작더라도, 그 차이가 임계값 반대편으로 score를 이동시키면 최종 decision이 바뀐다. 반대로 절대오차가 상대적으로 커 보여도 평문 score가 임계값에서 충분히 멀다면 decision은 보존될 수 있다. 그러므로 precision, mean squared error, latency만을 독립적으로 최적화하는 것과 최종 threshold decision을 보존하는 것은 같은 목적이 아니다.
 
-기존 연구가 decision 또는 application accuracy를 전혀 고려하지 않는다고 단정할 수는 없다. AutoPrivacy와 AutoFHE는 정확도와 성능의 절충을 다루며, Application-Aware Approximate Homomorphic Encryption은 회로와 입력 domain에 결합된 correctness 및 security 정의의 필요성을 이론적으로 정리한다 [@lou2020autoprivacy; @ao2023autofhe; @alexandru2024applicationaware]. 본 연구의 중심은 이 흐름을 부정하는 데 있지 않다. 핵심은 서로 다른 configuration provider의 출력에 공통으로 적용할 수 있는 threshold decision-integrity contract, 후보 단위의 승인·거부, SAFE 후보 부재 시 명시적 기권, 그리고 선택 literal을 재조정 없이 분리된 audit에서 재생하는 절차를 하나의 검증 계층으로 구성하는 데 있다.
+기존 연구가 decision 또는 application accuracy를 전혀 고려하지 않는다고 단정할 수는 없다. AutoPrivacy와 AutoFHE는 정확도와 성능의 절충을 다루며, Application-Aware Approximate Homomorphic Encryption은 회로와 입력 domain에 결합된 correctness 및 security 정의의 필요성을 이론적으로 정리한다 [@lou2020autoprivacy; @ao2024autofhe; @alexandru2024applicationaware]. 본 연구의 중심은 이 흐름을 부정하는 데 있지 않다. 핵심은 서로 다른 configuration provider의 출력에 공통으로 적용할 수 있는 threshold decision-integrity contract, 후보 단위의 승인·거부, SAFE 후보 부재 시 명시적 기권, 그리고 선택 literal을 재조정 없이 분리된 audit에서 재생하는 절차를 하나의 검증 계층으로 구성하는 데 있다.
 
 ## 1.2 문제 인식
 
