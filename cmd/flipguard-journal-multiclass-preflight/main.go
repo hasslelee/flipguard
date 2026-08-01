@@ -37,8 +37,10 @@ type preflightReport struct {
 	Contract            ckksplanner.WorkloadContract               `json:"contract"`
 	PlaintextScope      ckksplanner.MulticlassPlaintextScope       `json:"plaintext_scope"`
 	DecisionAwarePlan   ckksplanner.SynthesisPlan                  `json:"decision_aware_plan"`
-	GraphOnlyPlan       ckksplanner.SynthesisPlan                  `json:"graph_only_fixed_tolerance_plan"`
-	InitialLiteralEqual bool                                       `json:"initial_literal_equal"`
+	GraphOnlyPlan       *ckksplanner.SynthesisPlan                 `json:"graph_only_fixed_tolerance_plan,omitempty"`
+	GraphOnlyStatus     string                                     `json:"graph_only_fixed_tolerance_status"`
+	GraphOnlyFailure    string                                     `json:"graph_only_fixed_tolerance_failure_reason,omitempty"`
+	InitialLiteralEqual *bool                                      `json:"initial_literal_equal,omitempty"`
 	Catalog             []ckksplanner.MulticlassCatalogStaticEntry `json:"security_v2_bounded_catalog"`
 	CatalogDenominator  int                                        `json:"catalog_denominator"`
 	CatalogExecutable   int                                        `json:"catalog_encrypted_execution_count"`
@@ -92,10 +94,7 @@ func main() {
 	graphPolicy := ckksplanner.DefaultPrimarySynthesisPolicy()
 	graphPolicy.SynthesisBudgetMode = ckksplanner.SynthesisBudgetGraphFixedTolerance
 	graphPolicy.FixedOutputErrorBudget = 0.001
-	graphPlan, err := ckksplanner.Synthesize(contract, graphPolicy)
-	if err != nil {
-		fatalf("graph-only synthesis preflight: %v", err)
-	}
+	graphPlan, graphErr := ckksplanner.Synthesize(contract, graphPolicy)
 	catalog, err := ckksplanner.BuildJournalMulticlassCatalog(contract)
 	if err != nil {
 		fatalf("build Security-V2 bounded catalog: %v", err)
@@ -110,9 +109,21 @@ func main() {
 	if err != nil {
 		fatalf("encode decision literal: %v", err)
 	}
-	graphLiteral, err := canonicalJSON(graphPlan.InitialCandidates[0].Parameters)
-	if err != nil {
-		fatalf("encode graph-only literal: %v", err)
+	graphStatus := "PLAN_OK_SECURITY_ADMITTED"
+	graphFailure := ""
+	var graphPlanOutput *ckksplanner.SynthesisPlan
+	var initialLiteralEqual *bool
+	if graphErr != nil {
+		graphStatus = "PLAN_UNSUPPORTED_SECURITY_ENVELOPE"
+		graphFailure = graphErr.Error()
+	} else {
+		graphLiteral, err := canonicalJSON(graphPlan.InitialCandidates[0].Parameters)
+		if err != nil {
+			fatalf("encode graph-only literal: %v", err)
+		}
+		equal := bytes.Equal(decisionLiteral, graphLiteral)
+		initialLiteralEqual = &equal
+		graphPlanOutput = &graphPlan
 	}
 	primitives := contract.Graph.AddOps + contract.Graph.MulOps + contract.Graph.RotOps
 	estimate := runtimeEstimate{
@@ -134,8 +145,10 @@ func main() {
 		Contract:            contract,
 		PlaintextScope:      scope,
 		DecisionAwarePlan:   decisionPlan,
-		GraphOnlyPlan:       graphPlan,
-		InitialLiteralEqual: bytes.Equal(decisionLiteral, graphLiteral),
+		GraphOnlyPlan:       graphPlanOutput,
+		GraphOnlyStatus:     graphStatus,
+		GraphOnlyFailure:    graphFailure,
+		InitialLiteralEqual: initialLiteralEqual,
 		Catalog:             catalog,
 		CatalogDenominator:  len(catalog),
 		CatalogExecutable:   catalogExecutable,
@@ -157,7 +170,7 @@ func main() {
 		fatalf("write preflight: %v", err)
 	}
 	fmt.Printf(
-		"status=%s model=%s role=%s logN=%d logQP=%d headroom=%d vcert=%d vamb=%d literal_equal=%t\n",
+		"status=%s model=%s role=%s logN=%d logQP=%d headroom=%d vcert=%d vamb=%d literal_equal=%s graph_only_status=%s\n",
 		report.StaticStatus,
 		contract.ModelID,
 		*role,
@@ -166,8 +179,19 @@ func main() {
 		decisionPlan.InitialCandidates[0].Security.EvaluationKeyHeadroomBits,
 		scope.VCert,
 		scope.VAmb,
-		report.InitialLiteralEqual,
+		formatOptionalBool(report.InitialLiteralEqual),
+		report.GraphOnlyStatus,
 	)
+}
+
+func formatOptionalBool(value *bool) string {
+	if value == nil {
+		return "not_applicable"
+	}
+	if *value {
+		return "true"
+	}
+	return "false"
 }
 
 func adapterResourceBudget(

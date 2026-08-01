@@ -191,6 +191,24 @@ def main() -> None:
             "one_shot_direct",
             "latency_only_no_certification",
         ],
+        "static_comparator_feasibility": {
+            name: {
+                "direct_synthesis": preflight["static_status"],
+                "graph_only_fixed_logit_tolerance_0.001": preflight[
+                    "graph_only_fixed_tolerance_status"
+                ],
+                "graph_only_failure_reason": preflight.get(
+                    "graph_only_fixed_tolerance_failure_reason"
+                ),
+                "security_v2_bounded_catalog_denominator": preflight[
+                    "catalog_denominator"
+                ],
+                "security_v2_bounded_catalog_encrypted_executions": preflight[
+                    "catalog_encrypted_execution_count"
+                ],
+            }
+            for name, preflight in preflights.items()
+        },
         "post_result_expansion": False,
     }
     policy = {

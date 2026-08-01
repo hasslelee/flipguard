@@ -53,6 +53,13 @@ def main() -> None:
     candidates = load(pack / "candidate_space.json")
     require(candidates["security_v2_bounded_catalog"]["denominator_per_model"] == 7, "catalog denominator")
     require(len(candidates["security_v2_bounded_catalog"]["profiles"]) == 7, "catalog profiles")
+    feasibility = candidates["static_comparator_feasibility"]
+    require(feasibility["mlp_100"]["direct_synthesis"] == "PLAN_OK_SECURITY_ADMITTED", "MLP direct feasibility")
+    require(feasibility["mlp_100"]["graph_only_fixed_logit_tolerance_0.001"] == "PLAN_OK_SECURITY_ADMITTED", "MLP graph-only feasibility")
+    require(feasibility["lenet5_small"]["direct_synthesis"] == "PLAN_OK_SECURITY_ADMITTED", "LeNet direct feasibility")
+    require(feasibility["lenet5_small"]["graph_only_fixed_logit_tolerance_0.001"] == "PLAN_UNSUPPORTED_SECURITY_ENVELOPE", "LeNet graph-only negative result")
+    require(feasibility["lenet5_small"]["security_v2_bounded_catalog_denominator"] == 7, "LeNet catalog denominator")
+    require(feasibility["lenet5_small"]["security_v2_bounded_catalog_encrypted_executions"] == 0, "LeNet catalog static exclusion")
     contract = load(pack / "multiclass_contract.json")
     require(contract["uniform_bound_corollary"].startswith("2B < g"), "uniform corollary")
     require(contract["margin_utilization_cap"] == 0.5, "rho")
