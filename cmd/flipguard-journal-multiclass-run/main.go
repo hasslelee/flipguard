@@ -14,6 +14,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/hasslelee/flipguard/internal/certify"
@@ -57,8 +58,28 @@ type auditEnvelope struct {
 	Result        ckksplanner.MulticlassLockedAuditResult `json:"result"`
 }
 
+type catalogEntryResult struct {
+	Static ckksplanner.MulticlassCatalogStaticEntry `json:"static"`
+	Trial  *ckksplanner.MulticlassTrialResult       `json:"trial,omitempty"`
+}
+
+type catalogEnvelope struct {
+	SchemaVersion          string               `json:"schema_version"`
+	SourceCommit           string               `json:"source_commit"`
+	CompletedAt            string               `json:"completed_at"`
+	FormalDenominator      int                  `json:"formal_denominator"`
+	EncryptedCandidates    int                  `json:"encrypted_candidates"`
+	Safe                   int                  `json:"safe"`
+	Rejected               int                  `json:"rejected"`
+	Failed                 int                  `json:"failed"`
+	PlanUnsupported        int                  `json:"plan_unsupported"`
+	FastestSafeProfile     string               `json:"fastest_safe_profile,omitempty"`
+	FastestSafeMeanTotalMS float64              `json:"fastest_safe_mean_total_ms,omitempty"`
+	Entries                []catalogEntryResult `json:"entries"`
+}
+
 func main() {
-	stage := flag.String("stage", "", "selection or audit")
+	stage := flag.String("stage", "", "selection, catalog, or audit")
 	modelPath := flag.String("model", "", "frozen model artifact")
 	validationPath := flag.String("validation", "", "configuration-validation CSV")
 	auditPath := flag.String("audit", "", "locked-audit CSV")
@@ -69,8 +90,8 @@ func main() {
 	sourceCommit := flag.String("source-commit", "", "exact current source commit")
 	resume := flag.Bool("resume", false, "resume verified atomic key-run ledgers")
 	flag.Parse()
-	if *stage != "selection" && *stage != "audit" {
-		fatalf("--stage must be selection or audit")
+	if *stage != "selection" && *stage != "catalog" && *stage != "audit" {
+		fatalf("--stage must be selection, catalog, or audit")
 	}
 	if *modelPath == "" || *validationPath == "" || *protocolPath == "" ||
 		*preflightPath == "" || *outputRoot == "" || len(*sourceCommit) != 40 {
@@ -85,6 +106,9 @@ func main() {
 	}
 	if err := os.MkdirAll(*outputRoot, 0o755); err != nil {
 		fatalf("create output root: %v", err)
+	}
+	if err := verifyDiskBudget(*preflightPath, *outputRoot); err != nil {
+		fatalf("disk feasibility gate: %v", err)
 	}
 	manifestPath := filepath.Join(*outputRoot, *stage+"_run_manifest.json")
 	if _, err := os.Stat(manifestPath); errors.Is(err, os.ErrNotExist) {
@@ -118,9 +142,110 @@ func main() {
 	}
 	if *stage == "selection" {
 		runSelection(*modelPath, *validationPath, *sourcePath, *outputRoot, *sourceCommit)
+	} else if *stage == "catalog" {
+		runCatalog(*modelPath, *validationPath, *sourcePath, *outputRoot, *sourceCommit)
 	} else {
 		runAudit(*auditPath, *outputRoot, *sourceCommit)
 	}
+}
+
+func runCatalog(modelPath, validationPath, sourcePath, outputRoot, sourceCommit string) {
+	finalPath := filepath.Join(outputRoot, "catalog_result.json")
+	if _, err := os.Stat(finalPath); err == nil {
+		fmt.Printf("catalog already complete: %s\n", finalPath)
+		return
+	}
+	options := ckksplanner.DefaultJournalMNISTMulticlassContractOptions()
+	options.ModelPath = modelPath
+	options.ValidationPath = validationPath
+	options.SourcePath = sourcePath
+	options.ExpectedRole = "configuration_validation"
+	options.SplitID = "mnist_sha_rank_validation_500_v1"
+	contract, _, err := ckksplanner.BuildJournalMNISTMulticlassContract(options)
+	if err != nil {
+		fatalf("build catalog contract: %v", err)
+	}
+	staticEntries, err := ckksplanner.BuildJournalMulticlassCatalog(contract)
+	if err != nil {
+		fatalf("build catalog inventory: %v", err)
+	}
+	result := catalogEnvelope{
+		SchemaVersion:     runSchema,
+		SourceCommit:      sourceCommit,
+		FormalDenominator: len(staticEntries),
+		Entries:           make([]catalogEntryResult, 0, len(staticEntries)),
+	}
+	for _, static := range staticEntries {
+		entry := catalogEntryResult{Static: static}
+		profileRoot := filepath.Join(outputRoot, "catalog", static.ProfileName)
+		if err := os.MkdirAll(profileRoot, 0o755); err != nil {
+			fatalf("create catalog profile root: %v", err)
+		}
+		if !static.EncryptedExecutionRequired {
+			result.PlanUnsupported++
+			if err := writeExclusiveOrVerifyJSON(filepath.Join(profileRoot, "static_result.json"), entry); err != nil {
+				fatalf("write catalog static result %s: %v", static.ProfileName, err)
+			}
+			result.Entries = append(result.Entries, entry)
+			continue
+		}
+		profile, err := ckksbackend.FindCKKSProfile(static.ProfileName)
+		if err != nil {
+			fatalf("load catalog profile %s: %v", static.ProfileName, err)
+		}
+		trialPath := filepath.Join(profileRoot, "trial_result.json")
+		var trial ckksplanner.MulticlassTrialResult
+		if _, err := os.Stat(trialPath); err == nil {
+			if err := readJSON(trialPath, &trial); err != nil || trial.Candidate.ID != static.Candidate.ID {
+				fatalf("resume catalog profile %s mismatch: %v", static.ProfileName, err)
+			}
+		} else {
+			existing, err := loadKeyRuns(profileRoot, static.Candidate.ID, contract.Deployment.ValidationKeyRepeats)
+			if err != nil {
+				fatalf("load catalog %s key runs: %v", static.ProfileName, err)
+			}
+			trial, err = ckksplanner.ExecuteJournalMNISTMulticlassCatalogCandidate(
+				contract,
+				static.Candidate,
+				profile,
+				1,
+				ckksplanner.MulticlassCandidateExecutionOptions{
+					ExistingKeyRuns: existing,
+					OnKeyRun: func(evidence ckksplanner.MulticlassKeyRunEvidence) error {
+						return writeExclusiveJSON(filepath.Join(profileRoot, fmt.Sprintf("key_run_%02d.json", evidence.KeyRun)), evidence)
+					},
+				},
+			)
+			if err != nil {
+				fatalf("execute catalog profile %s: %v", static.ProfileName, err)
+			}
+			if err := writeExclusiveJSON(trialPath, trial); err != nil {
+				fatalf("write catalog profile %s: %v", static.ProfileName, err)
+			}
+		}
+		result.EncryptedCandidates++
+		entry.Trial = &trial
+		switch trial.Status {
+		case certify.StatusSafe:
+			result.Safe++
+			if result.FastestSafeProfile == "" || trial.MeanTotalMS < result.FastestSafeMeanTotalMS {
+				result.FastestSafeProfile = static.ProfileName
+				result.FastestSafeMeanTotalMS = trial.MeanTotalMS
+			}
+		case certify.StatusRejected:
+			result.Rejected++
+		default:
+			result.Failed++
+		}
+		result.Entries = append(result.Entries, entry)
+	}
+	result.CompletedAt = time.Now().UTC().Format(time.RFC3339)
+	if err := writeExclusiveJSON(finalPath, result); err != nil {
+		fatalf("write catalog result: %v", err)
+	}
+	fmt.Printf("catalog denominator=%d encrypted=%d safe=%d rejected=%d failed=%d unsupported=%d fastest_safe=%s\n",
+		result.FormalDenominator, result.EncryptedCandidates, result.Safe, result.Rejected,
+		result.Failed, result.PlanUnsupported, result.FastestSafeProfile)
 }
 
 func runSelection(modelPath, validationPath, sourcePath, outputRoot, sourceCommit string) {
@@ -334,6 +459,23 @@ func writeExclusiveJSON(path string, value any) error {
 	return os.Rename(temporary, path)
 }
 
+func writeExclusiveOrVerifyJSON(path string, value any) error {
+	data, err := json.MarshalIndent(value, "", "  ")
+	if err != nil {
+		return err
+	}
+	data = append(data, '\n')
+	if existing, err := os.ReadFile(path); err == nil {
+		if !bytes.Equal(existing, data) {
+			return fmt.Errorf("existing %s is not byte-identical", path)
+		}
+		return nil
+	} else if !errors.Is(err, os.ErrNotExist) {
+		return err
+	}
+	return writeExclusiveJSON(path, value)
+}
+
 func readJSON(path string, value any) error {
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -365,6 +507,34 @@ func gitHead() (string, error) {
 func gitClean() (bool, error) {
 	output, err := exec.Command("git", "status", "--porcelain").Output()
 	return len(bytes.TrimSpace(output)) == 0, err
+}
+
+func verifyDiskBudget(preflightPath, outputRoot string) error {
+	var preflight struct {
+		DiskBudget map[string]json.RawMessage `json:"disk_budget"`
+	}
+	data, err := os.ReadFile(preflightPath)
+	if err != nil {
+		return err
+	}
+	if err := json.Unmarshal(data, &preflight); err != nil {
+		return err
+	}
+	minimum := int64(0)
+	if raw, ok := preflight.DiskBudget["minimum_free_disk_bytes"]; ok {
+		if err := json.Unmarshal(raw, &minimum); err != nil {
+			return err
+		}
+	}
+	var stats syscall.Statfs_t
+	if err := syscall.Statfs(outputRoot, &stats); err != nil {
+		return err
+	}
+	available := int64(stats.Bavail) * int64(stats.Bsize)
+	if available < minimum {
+		return fmt.Errorf("available bytes %d below declared minimum %d", available, minimum)
+	}
+	return nil
 }
 
 func fatalf(format string, values ...any) {

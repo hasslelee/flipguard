@@ -94,6 +94,40 @@ func ExecuteJournalMNISTMulticlassCandidateWithOptions(
 	trialIndex int,
 	options MulticlassCandidateExecutionOptions,
 ) (MulticlassTrialResult, error) {
+	return executeJournalMNISTMulticlassCandidateWithProfile(
+		contract,
+		candidate,
+		trialIndex,
+		options,
+		nil,
+	)
+}
+
+// ExecuteJournalMNISTMulticlassCatalogCandidate uses the exact built-in
+// profile literal instead of regenerating primes from a synthesized spec.
+func ExecuteJournalMNISTMulticlassCatalogCandidate(
+	contract WorkloadContract,
+	candidate SynthesizedCandidate,
+	profile ckksbackend.CKKSProfile,
+	trialIndex int,
+	options MulticlassCandidateExecutionOptions,
+) (MulticlassTrialResult, error) {
+	return executeJournalMNISTMulticlassCandidateWithProfile(
+		contract,
+		candidate,
+		trialIndex,
+		options,
+		&profile,
+	)
+}
+
+func executeJournalMNISTMulticlassCandidateWithProfile(
+	contract WorkloadContract,
+	candidate SynthesizedCandidate,
+	trialIndex int,
+	options MulticlassCandidateExecutionOptions,
+	profileOverride *ckksbackend.CKKSProfile,
+) (MulticlassTrialResult, error) {
 	if err := contract.Validate(); err != nil {
 		return MulticlassTrialResult{}, fmt.Errorf("validate multiclass contract: %w", err)
 	}
@@ -120,12 +154,21 @@ func ExecuteJournalMNISTMulticlassCandidateWithOptions(
 		KeyRepeatsRequested: contract.Deployment.ValidationKeyRepeats,
 		KeyRunSummaries:     make([]ckksbackend.JournalMNISTMulticlassSummary, 0, contract.Deployment.ValidationKeyRepeats),
 	}
-	profile, err := candidate.Profile()
-	if err != nil {
-		result.Status = certify.StatusFailed
-		result.Reason = "synthesized parameter literal failed backend validation"
-		result.Failure = err.Error()
-		return result, nil
+	var profile ckksbackend.CKKSProfile
+	var err error
+	if profileOverride == nil {
+		profile, err = candidate.Profile()
+		if err != nil {
+			result.Status = certify.StatusFailed
+			result.Reason = "synthesized parameter literal failed backend validation"
+			result.Failure = err.Error()
+			return result, nil
+		}
+	} else {
+		profile = *profileOverride
+		if profile.Name == "" {
+			return MulticlassTrialResult{}, fmt.Errorf("catalog profile identity is empty")
+		}
 	}
 	contractDigest, err := digestContract(contract)
 	if err != nil {

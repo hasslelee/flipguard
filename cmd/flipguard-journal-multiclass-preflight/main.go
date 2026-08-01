@@ -34,22 +34,25 @@ type preflightReport struct {
 	SourceCommit  string `json:"source_commit"`
 	Role          string `json:"role"`
 
-	Contract            ckksplanner.WorkloadContract         `json:"contract"`
-	PlaintextScope      ckksplanner.MulticlassPlaintextScope `json:"plaintext_scope"`
-	DecisionAwarePlan   ckksplanner.SynthesisPlan            `json:"decision_aware_plan"`
-	GraphOnlyPlan       ckksplanner.SynthesisPlan            `json:"graph_only_fixed_tolerance_plan"`
-	InitialLiteralEqual bool                                 `json:"initial_literal_equal"`
-	RuntimeEstimate     runtimeEstimate                      `json:"runtime_estimate"`
-	DiskBudget          map[string]any                       `json:"disk_budget"`
-	StaticStatus        string                               `json:"static_status"`
-	PolicyRetuning      int                                  `json:"policy_retuning"`
+	Contract            ckksplanner.WorkloadContract               `json:"contract"`
+	PlaintextScope      ckksplanner.MulticlassPlaintextScope       `json:"plaintext_scope"`
+	DecisionAwarePlan   ckksplanner.SynthesisPlan                  `json:"decision_aware_plan"`
+	GraphOnlyPlan       ckksplanner.SynthesisPlan                  `json:"graph_only_fixed_tolerance_plan"`
+	InitialLiteralEqual bool                                       `json:"initial_literal_equal"`
+	Catalog             []ckksplanner.MulticlassCatalogStaticEntry `json:"security_v2_bounded_catalog"`
+	CatalogDenominator  int                                        `json:"catalog_denominator"`
+	CatalogExecutable   int                                        `json:"catalog_encrypted_execution_count"`
+	RuntimeEstimate     runtimeEstimate                            `json:"runtime_estimate"`
+	DiskBudget          map[string]any                             `json:"disk_budget"`
+	StaticStatus        string                                     `json:"static_status"`
+	PolicyRetuning      int                                        `json:"policy_retuning"`
 }
 
 func main() {
 	modelPath := flag.String("model", "", "frozen journal MNIST model artifact")
-	validationPath := flag.String("data", "", "configuration-validation or locked-audit CSV")
+	validationPath := flag.String("data", "", "frozen configuration-validation CSV")
 	sourcePath := flag.String("source", "results/source_datasets/mnist/mnist_784.arff.gz", "byte-pinned MNIST source")
-	role := flag.String("role", "configuration_validation", "configuration_validation or locked_audit")
+	role := flag.String("role", "configuration_validation", "configuration_validation only; audit cannot synthesize")
 	splitID := flag.String("split-id", "", "frozen partition identity")
 	output := flag.String("output", "", "exclusive JSON output path")
 	sourceCommit := flag.String("source-commit", "", "full execution-critical source commit")
@@ -65,8 +68,8 @@ func main() {
 	if *sourceCommit != currentCommit {
 		fatalf("--source-commit %s does not match current HEAD %s", *sourceCommit, currentCommit)
 	}
-	if *role != "configuration_validation" && *role != "locked_audit" {
-		fatalf("--role must be configuration_validation or locked_audit")
+	if *role != "configuration_validation" {
+		fatalf("preflight synthesis accepts configuration_validation only; locked audit replays a selected literal")
 	}
 	if strings.TrimSpace(*splitID) == "" {
 		*splitID = *role
@@ -92,6 +95,16 @@ func main() {
 	graphPlan, err := ckksplanner.Synthesize(contract, graphPolicy)
 	if err != nil {
 		fatalf("graph-only synthesis preflight: %v", err)
+	}
+	catalog, err := ckksplanner.BuildJournalMulticlassCatalog(contract)
+	if err != nil {
+		fatalf("build Security-V2 bounded catalog: %v", err)
+	}
+	catalogExecutable := 0
+	for _, entry := range catalog {
+		if entry.EncryptedExecutionRequired {
+			catalogExecutable++
+		}
 	}
 	decisionLiteral, err := canonicalJSON(decisionPlan.InitialCandidates[0].Parameters)
 	if err != nil {
@@ -123,6 +136,9 @@ func main() {
 		DecisionAwarePlan:   decisionPlan,
 		GraphOnlyPlan:       graphPlan,
 		InitialLiteralEqual: bytes.Equal(decisionLiteral, graphLiteral),
+		Catalog:             catalog,
+		CatalogDenominator:  len(catalog),
+		CatalogExecutable:   catalogExecutable,
 		RuntimeEstimate:     estimate,
 		DiskBudget: map[string]any{
 			"available_bytes_checked_by_orchestrator": true,
@@ -133,6 +149,9 @@ func main() {
 		},
 		StaticStatus:   "PLAN_OK_SECURITY_ADMITTED",
 		PolicyRetuning: 0,
+	}
+	for key, value := range adapterResourceBudget(contract, decisionPlan.InitialCandidates[0]) {
+		report.DiskBudget[key] = value
 	}
 	if err := writeExclusiveJSON(*output, report); err != nil {
 		fatalf("write preflight: %v", err)
@@ -149,6 +168,37 @@ func main() {
 		scope.VAmb,
 		report.InitialLiteralEqual,
 	)
+}
+
+func adapterResourceBudget(
+	contract ckksplanner.WorkloadContract,
+	candidate ckksplanner.SynthesizedCandidate,
+) map[string]any {
+	result := map[string]any{
+		"adapter_strategy":      "in_memory_feature_ciphertext_samples",
+		"estimated_spool_bytes": int64(0),
+	}
+	if contract.ModelType != "lenet5_small_square_multiclass" {
+		return result
+	}
+	qCount := candidate.Parameters.QPrimeCount()
+	n := int64(1 << candidate.Parameters.LogN)
+	bytesPerPrimeCiphertext := int64(2*8) * n
+	p1PrimeCount := qCount - 3
+	p2PrimeCount := qCount - 8
+	spoolBytes := int64(1176*p1PrimeCount) * bytesPerPrimeCiphertext
+	groupPeak := int64(400*p1PrimeCount+196*p1PrimeCount+300*p2PrimeCount) * bytesPerPrimeCiphertext
+	stripePeak := int64(168*qCount) * bytesPerPrimeCiphertext
+	peak := groupPeak
+	if stripePeak > peak {
+		peak = stripePeak
+	}
+	result["adapter_strategy"] = "six_row_c1_stripes_disk_spool_four_channel_c2_groups_v1"
+	result["estimated_spool_bytes"] = spoolBytes
+	result["estimated_peak_ciphertext_payload_bytes"] = peak
+	result["minimum_free_disk_bytes"] = spoolBytes + 5*1024*1024*1024
+	result["memory_estimate_caveat"] = "payload estimate excludes Go object, evaluator, key, allocator, and OS cache overhead"
+	return result
 }
 
 func canonicalJSON(value any) ([]byte, error) {
