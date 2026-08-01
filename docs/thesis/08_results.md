@@ -84,6 +84,8 @@ Seed 0는 descriptive only다. Total ratio는 `3.1461387110645793`이며 rounded
 <!-- P:RESULT-STRUCT CLAIM:structural_extension -->
 `mlp_square_poly3`는 25/25 선택됐고 no-retuning audit에서 24건 PASS와 decision flip 없는 reserve-policy REJECT 1건을 기록했다. 실패 instance는 seed 4, banknote, `mlp_square_poly3`였고 candidate는 `synth_analysis_minimum_rescale_N14_Q10_S22_01ae407b2f60`이었다. Validation의 margin utilization은 0.470653으로 cap 0.5 아래였지만 audit은 0.5613685로 cap을 넘었다.
 
+Audit utilization의 full-precision overlay 값은 `0.5613686443055665`다. 본문과 number registry는 normalized budget usage를 소수 여섯 자리로 먼저 표시한 뒤 `rho=0.5`를 적용하는 동결 표기 규칙에 따라 `0.5613685`를 사용한다. Byte-identical V3 표 13은 full-precision 값을 직접 소수 일곱 자리로 반올림해 `0.5613686`으로 표시한다. 두 표기는 같은 관측을 가리키며 reserve-policy REJECT 판정에는 차이가 없다.
+
 이 row의 classification은 `OBSERVED_DECISION_PRESERVED`, `RESERVE_POLICY_REJECTED`, `POLICY_REJECTED_WITHOUT_FLIP`이다. Plaintext와 CKKS decision은 같았고 cryptographic execution도 성공했다. REJECT 이유는 사전동결 reserve가 audit에서 소진되었기 때문이다. Audit 결과를 보고 scale이나 Q를 늘리지 않았고 policy modification count는 0이다.
 
 그림 9는 validation과 audit margin utilization 및 cap 관계를 보여준다. 이 negative result는 selection SAFE가 unseen audit의 reserve-policy PASS를 보장하지 않음을 실증하며, locked audit을 별도 단계로 둔 설계의 필요성을 보여준다.
@@ -116,7 +118,7 @@ Sobel, Harris, CNN-lite adapter는 각 선언된 finite input과 scalar-replicat
 
 ## 8.11 Security re-attestation
 
-표 12는 Security-V2 및 exact-Q/P 재감사 결과다. Direct-selected candidate row 50개는 모두 static re-attestation PASS였고 minimum headroom은 13 bit였다. Catalog profile 11개 중 7개가 admitted, 4개가 excluded되었다. Exact estimator model object는 두 model에서 17 PASS, 1 excluded였고 excluded object는 128-bit 목표 아래로 남았다.
+표 12는 Security-V2 및 exact-Q/P 재감사 결과다. Direct-selected candidate row 50개는 모두 static re-attestation PASS였고 minimum headroom은 13 bit였다. Catalog profile 11개 중 7개가 admitted, 4개가 excluded되었다. 두 exact estimator model은 각각 object 17개를 PASS, 1개를 excluded로 분류했고, excluded object는 128-bit 목표 아래로 남았다.
 
 {{V3_TABLE_12}}
 
@@ -139,9 +141,8 @@ Negative result를 포함한 전체 claim scope는 그림 10에 제시한다. Co
 
 **RQ1:** 선언된 Security-V2 bounded catalog와 비교할 때 direct synthesis는 전체 70/700, confirmatory 56/560 candidate trial을 사용해 두 population 모두 90% 감소했다. 이 답은 candidate trial 단위와 유한 catalog 범위에 한정된다.
 
-**RQ2:** Confirmatory 40/40과 development 10/10 primary literal이 no-retuning locked audit을 통과했다. Bounded repair는 development ablation의 four one-shot failure를 SAFE로 전환했고, control은 16/40 및 50/50 NO_SAFE를 반환했다. 이는 finite artifact의 empirical admission과 기권 behavior를 지지한다.
+**RQ2:** Confirmatory 40/40과 development 10/10 primary literal이 no-retuning locked audit을 통과했다. Bounded repair는 development ablation의 one-shot failure 4건을 SAFE로 전환했고, control은 16/40 및 50/50 NO_SAFE를 반환했다. 이는 finite artifact의 empirical admission과 기권 behavior를 지지한다.
 
 **RQ3:** Confirmatory catalog/direct total-latency ratio의 cluster geometric mean은 3.140660, 95% CI는 [2.342334, 4.215313]이었다. 한 host와 선언 workload 범위에서 direct arm의 paired latency가 낮았으며 production 성능 결론은 내리지 않는다.
 
 **RQ4:** Deeper polynomial graph는 25/25 selection 후 audit 24 PASS와 1 reserve-policy REJECT를 보였다. Sobel/Harris/CNN-lite와 independent training/data seed는 각 finite scope에서 admission을 통과했다. 따라서 structural/scoped extension은 부분적으로 지지되지만 arbitrary packed graph나 분포 전체 일반화는 남아 있다.
-

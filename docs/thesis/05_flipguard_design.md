@@ -55,7 +55,7 @@ Candidate가 SAFE가 되면 더 큰 또는 더 빠른 candidate를 탐색하지 
 
 Selection 결과에는 candidate literal의 canonical JSON, SHA-256, graph/model/input/policy digest, binary digest, selection ledger를 결합한다. Locked audit runner는 이 selection artifact를 input으로 받고 synthesizer와 repair module을 호출할 수 없다. Audit source와 model digest를 확인한 뒤 exact Q/P와 scale을 byte-identical하게 materialize하고 새 key로 실행한다.
 
-Audit 결과가 REJECTED여도 같은 audit에 다른 candidate를 넣지 않는다. Primary에서는 50개 모두 audit PASS였고 structural `mlp_square_poly3`에서는 한 건의 reserve-policy REJECT가 관측되었다. 이 한 건은 policy 변경을 유발하지 않았으며 structural claim을 PARTIALLY_SUPPORTED로 낮췄다. 이 설계는 negative result를 시스템 오류와 동일시하지 않고, certificate scope를 좁히는 정당한 결과로 다룬다.
+Audit 결과가 REJECTED여도 같은 audit에 다른 candidate를 넣지 않는다. Primary에서는 confirmatory seeds 1--4의 40건이 40/40 PASS였고, development seed 0의 10건도 descriptive 결과에서 10/10 PASS였다. Structural `mlp_square_poly3`에서는 한 건의 reserve-policy REJECT가 관측되었다. 이 한 건은 policy 변경을 유발하지 않았으며 structural claim을 PARTIALLY_SUPPORTED로 낮췄다. 이 설계는 negative result를 시스템 오류와 동일시하지 않고, certificate scope를 좁히는 정당한 결과로 다룬다.
 
 ## 5.9 Evaluation-only bounded catalog
 
@@ -68,4 +68,3 @@ Catalog의 목적은 direct synthesis가 유한 비교 집합 대비 candidate t
 각 stage는 raw ledger, summary, failures, manifest, SHA256SUMS, deterministic verifier를 별도 pack으로 freeze한다. Manifest는 execution commit과 evidence-builder commit을 구분하고 binary digest, policy IDs, input/model/split digest를 기록한다. Frozen pack은 덮어쓰지 않으며 후속 해석은 overlay evidence로 추가한다. 예를 들어 margin theorem과 `rho=0.5`의 의미는 기존 encrypted pack을 수정하지 않고 `margin_utilization_interpretation_v1`이 참조한다.
 
 Pipeline은 claim-level fail-closed와 pipeline-level continuation을 따른다. 과학적 negative result는 해당 claim의 상태를 낮추지만 독립적인 downstream evidence 생성을 중단하지 않는다. 잘못된 source, policy, security admission, 복구 불가능한 provenance 문제는 integrity block으로 처리한다. 이 구분이 장시간 실행의 완결성과 연구 무결성을 동시에 지탱한다.
-

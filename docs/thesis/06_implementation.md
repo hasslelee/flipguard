@@ -2,13 +2,13 @@
 
 ## 6.1 구현 개요
 
-FlipGuard는 Go로 작성한 CKKS execution 및 direct synthesis component, Python으로 작성한 artifact preparation·analysis·evidence builder·verifier, Bash suite orchestrator로 구성된다. Encrypted execution은 Lattigo v6.2.0을 사용한다. Final confirmatory run manifest가 기록한 환경은 Go 1.25.9, Ubuntu 24.04.4 LTS, Linux x86-64 VMware virtual platform, 약 16 GB memory다. Python은 dataset materialization, manifest construction, 통계 및 deterministic artifact build를 담당한다.
+FlipGuard는 Go로 작성한 CKKS 실행·직접 합성 구성요소, Python으로 작성한 artifact 준비·분석·evidence builder·verifier, Bash suite orchestrator로 구성된다. 암호화 실행은 Lattigo v6.2.0을 사용한다. 최종 confirmatory run manifest가 기록한 환경은 Go 1.25.9, Ubuntu 24.04.4 LTS, Linux x86-64 VMware 가상 환경, 약 16 GB 메모리다. Python은 dataset materialization, manifest construction, 통계 및 deterministic artifact build를 담당한다.
 
 구현을 파일 목록보다 책임 경계로 나누면 네 계층이다. 첫째, **contract layer**는 model/input/graph/policy identity를 정규화한다. 둘째, **synthesis and execution layer**는 graph fact를 literal로 변환하고 Lattigo object를 생성해 candidate를 실행한다. 셋째, **assurance layer**는 security, decision certificate, repair, locked replay를 수행한다. 넷째, **evidence layer**는 ledger와 manifest를 freeze하고 verifier와 paper artifact를 생성한다.
 
 ## 6.2 Graph contract와 adapter
 
-각 adapter는 model artifact에서 computation formula를 읽고 operation trace를 canonical graph signature로 내보낸다. Primary graph는 `linear_poly3`와 `mlp_square_linear_score` 두 종류며, five datasets는 `banknote`, `digits_binary`, `iris_binary`, `mnist_pool16`, `wdbc`다. `mlp_square_poly3`는 추가 polynomial stage를 포함한 structural holdout이다. Non-tabular adapter는 BSDS500에서 추출한 Sobel patch, Harris window, MNIST 0-vs-1 CNN-lite graph를 scalar-replicated 방식으로 실행한다 [@martin2001bsds; @lecun1998gradient].
+각 adapter는 model artifact에서 computation formula를 읽고 operation trace를 canonical graph signature로 내보낸다. Primary graph는 `linear_poly3`와 `mlp_square_linear_score` 두 종류며, 5개 dataset은 `banknote`, `digits_binary`, `iris_binary`, `mnist_pool16`, `wdbc`다. `mlp_square_poly3`는 추가 polynomial stage를 포함한 structural holdout이다. Non-tabular adapter는 BSDS500에서 추출한 Sobel patch, Harris window, MNIST 0-vs-1 CNN-lite graph를 scalar-replicated 방식으로 실행한다 [@martin2001bsds; @lecun1998gradient].
 
 Adapter contract는 graph depth뿐 아니라 formula version과 extraction policy digest를 포함한다. 새로운 operation support는 adapter version을 추가하는 방식으로 구현되며 Direct Policy V2의 scale/repair 상수를 바꾸지 않는다. 이 구조 때문에 structural 및 non-tabular holdout 결과를 본 뒤 primary policy를 retune하지 않고도 지원 범위를 확장할 수 있었다.
 
@@ -65,4 +65,3 @@ RC2 binding overlay는 V10 core-completion checkpoint, V3 publication input, pap
 Primary 및 extension implementation은 scalar-replicated packing을 중심으로 한다. 이는 graph semantics와 decision error를 명확히 추적하는 데 유리하지만 SIMD slot 활용을 극대화한 production inference와는 다르다. CNN-lite는 학습된 MNIST binary graph를 지원하지만 packed convolution, general LeNet, multiclass encrypted argmax를 구현하지 않는다. Sobel과 Harris도 전체 이미지 처리 throughput 또는 vision task accuracy가 아니라 선언된 patch/window score의 threshold decision을 평가한다.
 
 이 범위는 latency 해석에도 영향을 준다. Paired direct/catalog 비교는 동일 scalar-replicated workload와 host 안에서 유효하지만, batch packing을 사용하는 서비스로 외삽할 수 없다. 구현의 목적은 decision-integrity layer와 evidence protocol을 검증하는 것이며, 모든 FHE compiler optimization을 포함하는 완성형 runtime을 만드는 것이 아니다.
-

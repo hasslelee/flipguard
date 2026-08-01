@@ -42,6 +42,8 @@
   "structural_retuning": 0,
   "structural_validation_margin_utilization": 0.470653,
   "structural_audit_margin_utilization": 0.5613685,
+  "structural_audit_margin_utilization_full_precision": 0.5613686443055665,
+  "structural_audit_margin_utilization_v3_display": 0.5613686,
   "sobel_validation_samples": 400,
   "sobel_audit_samples": 400,
   "sobel_validation_images": 50,
@@ -73,6 +75,9 @@
   "v3_manifest_sha256": "32d378b371b75d31b8e39ef2acce4c3c7353581ccfbd5e6c7d22b30ffaf4743b",
   "claim_admission_manifest_sha256": "d982f0f81915b760c537244fc71aa992bf521eaf65d57a67c2d96dbae0607b8d",
   "margin_interpretation_manifest_sha256": "12626638b1abb5d57155345ee84e7e145dc13bfc947767f4484b1e18475cdce0",
+  "presentation_policy": {
+    "structural_margin_utilization": "The thesis registry derives the display value from six-decimal normalized budget usage times rho=0.5; the byte-identical V3 table directly rounds the full-precision overlay to seven decimals. Both bind the same observation."
+  },
   "evidence_sources": {
     "formal_primary": "results/thesis_grade_protocol/paper_artifacts_v3/final/tables/03_primary_direct_selection_locked_audit.md",
     "trial_reduction": "results/thesis_grade_protocol/paper_artifacts_v3/final/tables/04_formal_trial_reduction.md",

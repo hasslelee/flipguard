@@ -233,6 +233,12 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         "structural_audit_margin_utilization": structural_utilization_display(
             margin["locked_audit"]["margin_utilization_ratio"]
         ),
+        "structural_audit_margin_utilization_full_precision": (
+            margin["locked_audit"]["margin_utilization_ratio"]
+        ),
+        "structural_audit_margin_utilization_v3_display": round(
+            margin["locked_audit"]["margin_utilization_ratio"], 7
+        ),
         "sobel_validation_samples": sobel_validation,
         "sobel_audit_samples": sobel_audit,
         "sobel_validation_images": sobel["source"]["validation_images"],
