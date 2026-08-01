@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"time"
@@ -56,6 +57,13 @@ func main() {
 	if *modelPath == "" || *validationPath == "" || *output == "" ||
 		len(*sourceCommit) != 40 {
 		fatalf("--model, --data, --output, and a full --source-commit are required")
+	}
+	currentCommit, err := currentGitCommit()
+	if err != nil {
+		fatalf("resolve current Git commit: %v", err)
+	}
+	if *sourceCommit != currentCommit {
+		fatalf("--source-commit %s does not match current HEAD %s", *sourceCommit, currentCommit)
 	}
 	if *role != "configuration_validation" && *role != "locked_audit" {
 		fatalf("--role must be configuration_validation or locked_audit")
@@ -177,4 +185,17 @@ func writeExclusiveJSON(path string, value any) error {
 func fatalf(format string, values ...any) {
 	fmt.Fprintf(os.Stderr, format+"\n", values...)
 	os.Exit(1)
+}
+
+func currentGitCommit() (string, error) {
+	command := exec.Command("git", "rev-parse", "HEAD")
+	output, err := command.Output()
+	if err != nil {
+		return "", err
+	}
+	commit := strings.TrimSpace(string(output))
+	if len(commit) != 40 {
+		return "", fmt.Errorf("unexpected Git commit %q", commit)
+	}
+	return commit, nil
 }
