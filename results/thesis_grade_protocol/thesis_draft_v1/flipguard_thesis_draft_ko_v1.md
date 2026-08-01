@@ -14,9 +14,9 @@
 
 **Margin interpretation manifest SHA-256:** `12626638b1abb5d57155345ee84e7e145dc13bfc947767f4484b1e18475cdce0`
 
-**Draft build timestamp:** `2026-08-01T23:22:30+09:00`
+**Draft build timestamp:** `2026-08-01T23:58:56+09:00`
 
-**Thesis branch/commit:** `thesis/flipguard-draft-v1` / `1d8aef7755e4abb4a251fda3f7e29471746ac4e2`
+**Thesis branch/commit:** `thesis/flipguard-draft-v1` / `bc30e41eda19c2f90449169e02bbef6bc9f2eb1b`
 
 **University formatting status:** CONTENT_COMPLETE_TEMPLATE_PENDING
 
@@ -825,12 +825,16 @@ Negative result를 포함한 전체 claim scope는 그림 10에 제시한다. Co
 
 ## 8.13 연구 질문에 대한 답
 
+<!-- P:RESULT-RQ1 CLAIM:scoped_direct_synthesis,formal_trial_reduction -->
 **RQ1:** 선언된 Security-V2 bounded catalog와 비교할 때 direct synthesis는 전체 70/700, confirmatory 56/560 candidate trial을 사용해 두 population 모두 90% 감소했다. 이 답은 candidate trial 단위와 유한 catalog 범위에 한정된다.
 
+<!-- P:RESULT-RQ2 CLAIM:adaptive_repair,finite_scope_decision_integrity,primary_no_retuning_locked_audit,no_safe_behavior -->
 **RQ2:** Confirmatory 40/40과 development 10/10 primary literal이 no-retuning locked audit을 통과했다. Bounded repair는 development ablation의 one-shot failure 4건을 SAFE로 전환했고, control은 16/40 및 50/50 NO_SAFE를 반환했다. 이는 finite artifact의 empirical admission과 기권 behavior를 지지한다.
 
+<!-- P:RESULT-RQ3 CLAIM:paired_latency -->
 **RQ3:** Confirmatory catalog/direct total-latency ratio의 cluster geometric mean은 3.140660, 95% CI는 [2.342334, 4.215313]이었다. 한 host와 선언 workload 범위에서 direct arm의 paired latency가 낮았으며 production 성능 결론은 내리지 않는다.
 
+<!-- P:RESULT-RQ4 CLAIM:structural_extension,scoped_non_tabular_extension,training_model_seed_extension -->
 **RQ4:** Deeper polynomial graph는 25/25 selection 후 audit 24 PASS와 1 reserve-policy REJECT를 보였다. Sobel/Harris/CNN-lite와 independent training/data seed는 각 finite scope에서 admission을 통과했다. 따라서 structural/scoped extension은 부분적으로 지지되지만 arbitrary packed graph나 분포 전체 일반화는 남아 있다.
 
 ---

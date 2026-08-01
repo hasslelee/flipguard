@@ -47,6 +47,16 @@ abstract_ko_en,ABSTRACT-EN-BOUNDARY,security_attestation,true,scoped_paraphrase,
 08_results,RESULT-NONTAB,scoped_non_tabular_extension,true,exact,sobel;harris;cnn_lite,Table 10; Figure 8,no packed CNN; no full-image operator accuracy claim,PASS
 08_results,RESULT-SEED,training_model_seed_extension,true,scoped_paraphrase,training_seed,Table 11,three datasets; three seeds,PASS
 08_results,RESULT-SEC,security_attestation,true,scoped_paraphrase,security_attestation;exact_estimator,Table 12,conservative table admission; explicit Gaussian truncation caveat,PASS
+08_results,RESULT-RQ1,scoped_direct_synthesis,true,scoped_paraphrase,direct_confirmatory;direct_development;final_suite,Figure 1,finite adapter set; scalar-replicated packing scope,PASS
+08_results,RESULT-RQ1,formal_trial_reduction,true,scoped_paraphrase,final_suite;bounded_oracle,Table 4; Figure 4,"1,100 executions are historical pre-security accounting only",PASS
+08_results,RESULT-RQ2,adaptive_repair,true,scoped_paraphrase,direct_ablation;direct_confirmatory,Table 6,four causal ablation cases; bounded repair budget,PASS
+08_results,RESULT-RQ2,finite_scope_decision_integrity,true,scoped_paraphrase,direct_confirmatory;direct_development;margin_interpretation;no_safe,Table 1; Figure 3,empirical finite-set certificate; rho=0.5 is operational,PASS
+08_results,RESULT-RQ2,primary_no_retuning_locked_audit,true,scoped_paraphrase,direct_confirmatory;direct_development,Table 3; Figure 6,fixed held-out artifacts; not independent model seeds,PASS
+08_results,RESULT-RQ2,no_safe_behavior,true,scoped_paraphrase,no_safe,Table 7; Figure 7,finite candidate budgets and domains,PASS
+08_results,RESULT-RQ3,paired_latency,true,scoped_paraphrase,paired_latency_admission;bounded_oracle,Table 5; Figure 5,one measured host; declared workloads,PASS
+08_results,RESULT-RQ4,structural_extension,true,scoped_paraphrase,structural;structural_failure;margin_interpretation,Table 9; Figure 9,one disclosed audit policy rejection; single deeper polynomial graph family,PASS
+08_results,RESULT-RQ4,scoped_non_tabular_extension,true,scoped_paraphrase,sobel;harris;cnn_lite,Table 10; Figure 8,no packed CNN; no full-image operator accuracy claim,PASS
+08_results,RESULT-RQ4,training_model_seed_extension,true,scoped_paraphrase,training_seed,Table 11,three datasets; three seeds,PASS
 11_conclusion,CONCLUSION-DIRECT,scoped_direct_synthesis,true,scoped_paraphrase,direct_confirmatory;direct_development;final_suite,Figure 1,finite adapter set; scalar-replicated packing scope,PASS
 11_conclusion,CONCLUSION-DIRECT,formal_trial_reduction,true,scoped_paraphrase,final_suite;bounded_oracle,Table 4; Figure 4,"1,100 executions are historical pre-security accounting only",PASS
 11_conclusion,CONCLUSION-AUDIT,primary_no_retuning_locked_audit,true,scoped_paraphrase,direct_confirmatory;direct_development,Table 3; Figure 6,fixed held-out artifacts; not independent model seeds,PASS
