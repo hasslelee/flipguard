@@ -30,6 +30,12 @@ class ThesisDraftBuilderTest(unittest.TestCase):
         self.assertEqual(len(rows), 23)
         self.assertTrue(all(row["first_reference_line"].isdigit() for row in rows))
 
+    def test_source_closure_is_bound_to_head(self) -> None:
+        commit = MODULE.canonical_commit("HEAD")
+        digest = MODULE.source_closure_digest(commit)
+        self.assertRegex(digest, r"^[0-9a-f]{64}$")
+        self.assertGreater(len(MODULE.source_closure_paths()), 20)
+
     def test_build_is_deterministic(self) -> None:
         commit = MODULE.canonical_commit("HEAD")
         with tempfile.TemporaryDirectory(prefix="flipguard-thesis-test-") as directory:
@@ -54,6 +60,10 @@ class ThesisDraftBuilderTest(unittest.TestCase):
             self.assertEqual(report["reviewer_attacks"], 18)
             manifest = json.loads((first / "manifest.json").read_text(encoding="utf-8"))
             self.assertIn("qa_report", manifest["outputs"])
+            self.assertEqual(
+                manifest["source_closure"]["sha256"],
+                f"sha256:{MODULE.source_closure_digest(commit)}",
+            )
 
 
 if __name__ == "__main__":

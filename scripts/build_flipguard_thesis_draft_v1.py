@@ -75,6 +75,50 @@ def git_value(*args: str) -> str:
     ).stdout.strip()
 
 
+def source_closure_paths() -> list[Path]:
+    paths = [
+        *(SOURCE / name for name in CHAPTERS),
+        SOURCE / "00_thesis_contract.md",
+        SOURCE / "abstract_ko_en.md",
+        SOURCE / "appendix.md",
+        *(SOURCE / name for name in AUXILIARY_MARKDOWN),
+        SOURCE / "number_registry.json",
+        SOURCE / "references.bib",
+        SOURCE / "citation_audit.csv",
+        SOURCE / "figure_table_map.csv",
+        SOURCE / "claim_traceability.csv",
+        CLAIMS,
+        RC2_BINDING,
+    ]
+    paths.extend(
+        path.relative_to(ROOT)
+        for path in sorted((ROOT / V3).rglob("*"))
+        if path.is_file()
+    )
+    return sorted(set(paths), key=lambda path: path.as_posix())
+
+
+def source_closure_digest(source_commit: str, verify_worktree: bool = True) -> str:
+    """Bind every authoritative manuscript input to its exact Git blob."""
+    digest = hashlib.sha256()
+    for path in source_closure_paths():
+        relative = path.as_posix()
+        committed = subprocess.run(
+            ["git", "show", f"{source_commit}:{relative}"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+        ).stdout
+        current = (ROOT / path).read_bytes()
+        if verify_worktree and current != committed:
+            raise ValueError(f"thesis source input differs from {source_commit}: {relative}")
+        digest.update(relative.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(hashlib.sha256(committed).digest())
+        digest.update(b"\n")
+    return digest.hexdigest()
+
+
 def next_paragraph(text: str, position: int) -> str:
     tail = text[position:]
     blocks = re.split(r"\n\s*\n", tail)
@@ -225,6 +269,7 @@ def write_checksums(output: Path) -> None:
 
 def build(output: Path, source_commit: str, refresh_sources: bool) -> dict[str, Any]:
     source_commit = canonical_commit(source_commit)
+    closure_digest = source_closure_digest(source_commit)
     timestamp = git_value("show", "-s", "--format=%cI", source_commit)
     lint = lint_source(ROOT, SOURCE)
     if lint["status"] != "PASS":
@@ -311,6 +356,10 @@ def build(output: Path, source_commit: str, refresh_sources: bool) -> dict[str, 
         "draft_id": "flipguard_thesis_draft_ko_v1",
         "status": "AUTHORITATIVE_DRAFT_V1",
         "source_commit": source_commit,
+        "source_closure": {
+            "file_count": len(source_closure_paths()),
+            "sha256": f"sha256:{closure_digest}",
+        },
         "thesis_branch": git_value("branch", "--show-current"),
         "build_timestamp": timestamp,
         "rc2_source_commit": read_json(SOURCE / "number_registry.json")["rc2_source_commit"],
