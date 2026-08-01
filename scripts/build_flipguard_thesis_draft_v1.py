@@ -182,8 +182,6 @@ def metadata(source_commit: str, timestamp: str) -> str:
 **Draft build timestamp:** `{timestamp}`  
 **Thesis branch/commit:** `{branch}` / `{source_commit}`  
 **University formatting status:** CONTENT_COMPLETE_TEMPLATE_PENDING
-
----
 """
 
 
