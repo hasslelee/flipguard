@@ -1,0 +1,66 @@
+{
+  "core_predecessor": {
+    "commit": "6c5f8b234f9f9da91a189fa0f2dc180bb996abf5",
+    "immutable": true,
+    "tag": "flipguard-thesis-v1.0.0-rc2"
+  },
+  "files": {
+    "candidate_space.json": {
+      "sha256": "sha256:e9c99d1574da7fa79efd022ccbe4586bb22e575cd52b833022e7276af640e392"
+    },
+    "falsification_rules.json": {
+      "sha256": "sha256:1b7ff2931bde2c0d1819051954ce9b32b5d8af578028f78d584917aa9b8e7acc"
+    },
+    "input_split_manifest.json": {
+      "sha256": "sha256:2f41f89db657950cddda25b42ed7f06570433cc20b3e06f9aafe731f712b78f8"
+    },
+    "model_architectures.json": {
+      "sha256": "sha256:d5d17fefc6a9a70f80525f314963dc49a34b8a03452c6e36d22d144c191eb591"
+    },
+    "multiclass_contract.json": {
+      "sha256": "sha256:384711ff02db144278952a92618ee579d46b8a4c8b396c699e979da9f0b5feab"
+    },
+    "policy_binding.json": {
+      "sha256": "sha256:09eeb900af319f04cc56db8ada5dbf7ffd7f0f49a5599059fba8b8b77fddaafa"
+    },
+    "training_protocol.json": {
+      "sha256": "sha256:78b8914f31535ec51bb91d703a6a4d544b62596207b6d045fbdace09c8a45322"
+    }
+  },
+  "inputs": {
+    "models": {
+      "lenet5_small": {
+        "path": "datasets/journal_multiclass_extension_v1/mnist/mnist_lenet5_small_square_v1.json",
+        "sha256": "sha256:25db361b428ea6640f80478f3608fe6b81b45e984702c4a0d616c735f7d4bba6"
+      },
+      "mlp_100": {
+        "path": "datasets/journal_multiclass_extension_v1/mnist/mnist_mlp_square_784_100_10_v1.json",
+        "sha256": "sha256:c4228a2afa1d3c8f8d43d6bc991c1ad3f5b1eec272dc0da39d070f051713f3ac"
+      }
+    },
+    "preflights": {
+      "lenet5_small": {
+        "path": "results/journal_multiclass_extension_v1/preflight/lenet_configuration_validation.json",
+        "sha256": "sha256:91c4d74d61fe8c01eeb1da6054d5307b822e3480e61abd75ef5a53969e62ec39"
+      },
+      "mlp_100": {
+        "path": "results/journal_multiclass_extension_v1/preflight/mlp_configuration_validation.json",
+        "sha256": "sha256:7186381014a8c1d090513dd6753b78ea9abc56983c8cdd0a2b9167af8afd7633"
+      }
+    },
+    "source": {
+      "path": "results/source_datasets/mnist/mnist_784.arff.gz",
+      "sha256": "sha256:fe4410d8dbb50f6db6482b187557c5cb8bccfbcec74eeb6abc47c858f4ffab78"
+    },
+    "split": {
+      "path": "datasets/journal_multiclass_extension_v1/mnist/input_split_manifest.json",
+      "sha256": "sha256:9e61ebee1855b529134442a4d55ee55a6488daa8d2a34146335db2b7de3cc615"
+    }
+  },
+  "new_encrypted_execution_before_freeze": 0,
+  "policy_retuning": 0,
+  "ready_for_encrypted_execution": true,
+  "research_scope": "JOURNAL_EXTENSION_V1 overlay",
+  "schema_version": "flipguard_journal_multiclass_extension_protocol_v1",
+  "source_commit": "b8aea8159f37d54630c7fb8592dab800bfcb3bf2"
+}

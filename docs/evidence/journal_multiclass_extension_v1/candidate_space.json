@@ -1,0 +1,50 @@
+{
+  "comparators": [
+    "direct_synthesis",
+    "security_v2_bounded_catalog",
+    "graph_only_fixed_logit_tolerance_0.001",
+    "one_shot_direct",
+    "latency_only_no_certification"
+  ],
+  "direct": {
+    "first_safe_stopping": true,
+    "level_repair_q_primes": 1,
+    "maximum_additional_levels": 2,
+    "maximum_encrypted_trials": 4,
+    "numerical_repair_scale_bits": 4
+  },
+  "post_result_expansion": false,
+  "schema_version": "flipguard_journal_multiclass_extension_protocol_v1",
+  "security_v2_bounded_catalog": {
+    "denominator_per_model": 7,
+    "global_oracle": false,
+    "paths": [
+      "rescale"
+    ],
+    "profiles": [
+      "deep_chain_8_scale45",
+      "deep_chain_9_scale45",
+      "short_chain_3",
+      "short_chain_5",
+      "short_chain_6_scale38",
+      "short_chain_6_scale40",
+      "short_chain_6_scale42"
+    ]
+  },
+  "static_comparator_feasibility": {
+    "lenet5_small": {
+      "direct_synthesis": "PLAN_OK_SECURITY_ADMITTED",
+      "graph_only_failure_reason": "no admitted ring dimension for declared logQP=894 required_slots=500 within LogN=[12,15]",
+      "graph_only_fixed_logit_tolerance_0.001": "PLAN_UNSUPPORTED_SECURITY_ENVELOPE",
+      "security_v2_bounded_catalog_denominator": 7,
+      "security_v2_bounded_catalog_encrypted_executions": 0
+    },
+    "mlp_100": {
+      "direct_synthesis": "PLAN_OK_SECURITY_ADMITTED",
+      "graph_only_failure_reason": null,
+      "graph_only_fixed_logit_tolerance_0.001": "PLAN_OK_SECURITY_ADMITTED",
+      "security_v2_bounded_catalog_denominator": 7,
+      "security_v2_bounded_catalog_encrypted_executions": 6
+    }
+  }
+}
