@@ -58,6 +58,52 @@ class ThesisLintTest(unittest.TestCase):
         )
         self.assertEqual(findings, [])
 
+    def test_registry_derived_semantic_variants_fail_closed(self) -> None:
+        registry = (
+            ROOT / "docs/evidence/paper_claim_admission_v1/prohibited_sentences.md"
+        ).read_text(encoding="utf-8")
+        probes = (
+            "FlipGuard supports 50 independent workloads.",
+            "FlipGuard finds the global optimum.",
+            "FlipGuard is universally safe.",
+            "All structural audits passed.",
+            "FlipGuard provides arbitrary CNN support.",
+            "FlipGuard provides a complete analytical certificate.",
+        )
+        for probe in probes:
+            with self.subTest(probe=probe):
+                findings = MODULE.registry_semantic_overclaim_occurrences(
+                    probe, self.claims, registry
+                )
+                self.assertTrue(findings)
+
+    def test_registry_derived_semantic_variants_allow_explicit_limits(self) -> None:
+        registry = (
+            ROOT / "docs/evidence/paper_claim_admission_v1/prohibited_sentences.md"
+        ).read_text(encoding="utf-8")
+        text = (
+            "FlipGuard does not claim a global optimum. "
+            "Not all structural audits passed."
+        )
+        findings = MODULE.registry_semantic_overclaim_occurrences(
+            text, self.claims, registry
+        )
+        self.assertEqual(findings, [])
+
+    def test_theoretically_optimal_point_five_fails_closed(self) -> None:
+        errors: list[str] = []
+        MODULE.validate_equation_contract(
+            "e_c(x)<m(x); e_c(x)<rho*m(x); 0.5 is theoretically optimal.",
+            (
+                "e_c(x)<m(x); e_c(x)<rho*m(x); margin utilization cap; "
+                "reserved margin fraction; operational acceptance budget; "
+                "이론에서 도출된 보편 상수도 아니고 경험적 최적값도 아니다."
+            ),
+            "e_c(x)<m(x); e_c(x)<rho*m(x)",
+            errors,
+        )
+        self.assertTrue(any("reserve policy" in error for error in errors))
+
     def test_reviewer_question_may_name_an_overclaim_but_answer_may_not_assert_it(self) -> None:
         question = "Is this production speedup?"
         self.assertEqual(

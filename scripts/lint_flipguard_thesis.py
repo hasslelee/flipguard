@@ -44,7 +44,7 @@ EXPECTED_DIGESTS = {
 }
 NEGATION_TOKENS = (
     "not ", "does not", "do not", "cannot", "no ", "금지", "아니", "않",
-    "못", "제한", "주장하지", "평가하지", "뜻하지", "not_evaluated",
+    "못", "없", "제한", "주장하지", "평가하지", "뜻하지", "not_evaluated",
     "blocked", "partially_supported",
 )
 NUMBER_MARKER_RE = re.compile(r"\{\{N:([a-z0-9_]+)(?:\|([^}]+))?\}\}")
@@ -183,7 +183,7 @@ def validate_equation_contract(
         if phrase.casefold() not in background_lower:
             errors.append(f"background omits reserve-policy interpretation: {phrase}")
     for pattern in (
-        r"(?:rho|0\.5).{0,40}(?:theorem constant|정리 상수|이론적 최적)",
+        r"(?:rho|0\.5).{0,40}(?:theorem constant|theoretically optimal|정리 상수|이론적 최적)",
         r"(?:theoretically optimal|이론적으로 최적).{0,40}(?:rho|0\.5)",
     ):
         joined = "\n".join(documents.values())
@@ -283,6 +283,112 @@ def registry_prohibited_sentence_occurrences(text: str, registry_text: str) -> l
             if not any(token in context.casefold() for token in NEGATION_TOKENS):
                 findings.append(context)
             start = position + len(needle)
+    return findings
+
+
+def normalize_overclaim_tokens(text: str) -> set[str]:
+    """Normalize wording variants without duplicating registry prohibitions."""
+    aliases = {
+        "universally": "broad",
+        "universal": "broad",
+        "general": "broad",
+        "arbitrary": "broad",
+        "distributionwide": "broad",
+        "supports": "support",
+        "supported": "support",
+        "supporting": "support",
+        "optimality": "optimal",
+        "optimum": "optimal",
+        "safe": "safe",
+        "safety": "safe",
+        "audits": "audit",
+        "passed": "pass",
+        "passes": "pass",
+        "rejected": "reject",
+        "rejection": "reject",
+        "workload": "statistical_unit",
+        "workloads": "statistical_unit",
+        "sample": "statistical_unit",
+        "samples": "statistical_unit",
+        "row": "statistical_unit",
+        "rows": "statistical_unit",
+        "dataset": "statistical_unit",
+        "datasets": "statistical_unit",
+    }
+    compact = re.sub(r"distribution[- ]wide", "distributionwide", text.casefold())
+    tokens = re.findall(r"[a-z0-9]+(?:/[0-9]+)?", compact)
+    return {aliases.get(token, token) for token in tokens}
+
+
+def registry_semantic_overclaim_occurrences(
+    text: str,
+    claims: list[dict[str, Any]],
+    registry_text: str,
+) -> list[dict[str, str]]:
+    """Detect equivalent absolutist wording derived from the claim registry."""
+    phrases = [
+        phrase
+        for claim in claims
+        for phrase in claim.get("prohibited_overclaim", [])
+    ]
+    phrases.extend(
+        line[2:].strip().rstrip(".")
+        for line in registry_text.splitlines()
+        if line.startswith("- ")
+    )
+    risk_tokens = {
+        "first", "broad", "global", "production", "independent",
+        "analytical", "exact", "always",
+    }
+    stop_tokens = {
+        "a", "all", "an", "and", "are", "as", "at", "be", "by",
+        "candidate", "candidates", "ckks", "configuration", "configurations",
+        "establishes", "for", "flipguard", "in", "is", "it", "no", "of",
+        "or", "result", "results", "the", "this", "to", "with",
+    }
+    concepts: list[tuple[str, set[str], set[str], str | None]] = []
+    for phrase in phrases:
+        normalized = normalize_overclaim_tokens(phrase)
+        risks = normalized & risk_tokens
+        ratio = re.search(r"\b(\d+)\s*/\s*\1\b", phrase)
+        if ratio:
+            risks.add("all")
+        number = next(iter(re.findall(r"\b\d+\b", phrase)), None)
+        subjects = normalized - risks - stop_tokens
+        if risks and subjects:
+            concepts.append((phrase, risks, subjects, number))
+
+    findings: list[dict[str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    for unit in re.split(r"(?<=[.!?])\s+|\n+", text):
+        stripped = unit.strip()
+        if not stripped or stripped.startswith("<!--"):
+            continue
+        lowered = stripped.casefold()
+        if any(token in lowered for token in NEGATION_TOKENS):
+            continue
+        line_tokens = normalize_overclaim_tokens(stripped)
+        if any(token in line_tokens for token in ("all", "every")):
+            line_tokens.add("all")
+        if "always" in line_tokens:
+            line_tokens.add("all")
+        for phrase, risks, subjects, number in concepts:
+            effective_risks = {"all" if token == "always" else token for token in risks}
+            if not effective_risks <= line_tokens:
+                continue
+            if "all" in effective_risks and "reject" in line_tokens:
+                continue
+            if number is not None and "independent" in effective_risks:
+                if number not in line_tokens or "statistical_unit" not in line_tokens:
+                    continue
+            overlap = subjects & line_tokens
+            required_overlap = 1 if subjects & {"safe", "certificate", "optimal"} else min(2, len(subjects))
+            if len(overlap) < required_overlap:
+                continue
+            key = (phrase, stripped)
+            if key not in seen:
+                findings.append({"phrase": phrase, "context": stripped})
+                seen.add(key)
     return findings
 
 
@@ -864,6 +970,13 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
         core_claim_text, prohibited_sentences
     ):
         errors.append(f"canonical prohibited paper sentence: {context}")
+    for finding in registry_semantic_overclaim_occurrences(
+        core_claim_text, claims, prohibited_sentences
+    ):
+        errors.append(
+            "registry-derived semantic overclaim: "
+            f"{finding['phrase']} :: {finding['context']}"
+        )
     defense_claim_text = re.sub(
         r"^## Q\d+\..*$", "", auxiliary["advisor_defense_qa.md"], flags=re.M
     )
