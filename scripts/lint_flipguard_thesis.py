@@ -872,6 +872,7 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
                     errors.append(f"{filename}: unknown claim marker {claim_id}")
                 elif not claim["paper_admitted"]:
                     errors.append(f"{filename}: blocked claim used as positive marker {claim_id}")
+    abstract_marker_count = len(list(marker_pattern.finditer(abstract)))
     admitted = {item["claim_id"] for item in claims if item["paper_admitted"]}
     missing_claims = admitted - used_claims
     if missing_claims:
@@ -1180,7 +1181,9 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
         "metrics": {
             "chapter_characters": sum(len(value) for value in chapters.values()),
             "chapter_words": sum(len(value.split()) for value in chapters.values()),
-            "claim_markers": marker_count,
+            "claim_markers": marker_count + abstract_marker_count,
+            "chapter_claim_markers": marker_count,
+            "abstract_claim_markers": abstract_marker_count,
             "admitted_claims_referenced": len(used_claims),
             "blocked_claim_violations": sum("prohibited claim" in error or "blocked claim" in error for error in errors),
             "citations_used": len(cited_keys),

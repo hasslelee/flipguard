@@ -72,6 +72,11 @@ class ThesisLintTest(unittest.TestCase):
     def test_authoritative_source_passes(self) -> None:
         result = MODULE.lint_source(ROOT, Path("docs/thesis"))
         self.assertEqual(result["status"], "PASS", result["errors"])
+        self.assertEqual(result["metrics"]["abstract_claim_markers"], 7)
+        self.assertEqual(
+            result["metrics"]["claim_markers"],
+            result["metrics"]["chapter_claim_markers"] + 7,
+        )
 
     def test_number_registry_is_fully_reconstructed_from_evidence(self) -> None:
         registry = json.loads(
