@@ -74,6 +74,9 @@ V3 표·그림, defense Q&A, RC2 release binding이다. `PASS`는 대학원 양�
   V3 asset으로 full draft와 artifact pack을 재구성한다.
 - 동일 source commit의 temporary output tree가 frozen draft output과 byte-for-byte
   같은지 검사하며 SHA256SUMS를 다시 검증한다.
+- Git에서 제외된 RC2 전체 soak ledger는 원본이 있는 작업공간에서 SHA-256과
+  cycle 수를 직접 대조하고, clean clone에서는 같은 digest와 RC2 source/archive에
+  결합된 `release_qa_summary.json`을 사용한다.
 - University template과 PDF toolchain은 research-content gate와 분리되며 현재 상태는
   `CONTENT_COMPLETE_TEMPLATE_PENDING`이다.
 
