@@ -6,18 +6,18 @@
 
 ## 8.2 Primary direct selection과 trial 감소
 
-표 3은 primary direct selection 및 locked audit의 seed 역할별 결과다. Development seed 0의 10 instance는 14 candidate trial과 42 selection key run을 사용했다. Confirmatory seeds 1--4의 40 instance는 56 candidate trial과 168 selection key run을 사용했다. 모든 instance에서 selection candidate가 확립되었고 selection execution failure는 없었다. Audit key run은 development 30회, confirmatory 120회였다.
+표 3은 primary direct selection 및 locked audit의 seed 역할별 결과다. Development seed 0의 {{N:development_instances}} instance는 {{N:direct_trials_development}} candidate trial과 42 selection key run을 사용했다. Confirmatory seeds 1--4의 {{N:confirmatory_instances}} instance는 {{N:direct_trials_confirmatory}} candidate trial과 168 selection key run을 사용했다. 모든 instance에서 selection candidate가 확립되었고 selection execution failure는 없었다. Audit key run은 development 30회, confirmatory 120회였다.
 
 {{V3_TABLE_03}}
 
 <!-- P:RESULT-TRIAL CLAIM:formal_trial_reduction -->
-FlipGuard는 Security-V2 bounded catalog의 700개 후보 대비 전체 70회, confirmatory 560개 후보 대비 56회의 encrypted candidate trial을 사용해 두 경우 모두 90% 감소를 기록했다. 표 4와 그림 4는 이 formal candidate-trial 회계를 나타낸다. Historical 1,100 execution은 pre-security-filter cost로 존재하지만 4개 excluded profile의 400 candidate를 포함하므로 정식 감소율 분모가 아니다.
+FlipGuard는 Security-V2 bounded catalog의 {{N:formal_catalog_all}}개 후보 대비 전체 {{N:direct_trials_all}}회, confirmatory {{N:formal_catalog_confirmatory}}개 후보 대비 {{N:direct_trials_confirmatory}}회의 encrypted candidate trial을 사용해 두 경우 모두 {{N:formal_trial_reduction_all|.0%}} 감소를 기록했다. 표 4와 그림 4는 이 formal candidate-trial 회계를 나타낸다. Historical {{N:raw_historical_catalog_executions|,}} execution은 pre-security-filter cost로 존재하지만 {{N:security_catalog_profiles_excluded}}개 excluded profile의 {{N:security_excluded_catalog_candidates}} candidate를 포함하므로 정식 감소율 분모가 아니다.
 
 {{V3_TABLE_04}}
 
 {{V3_FIGURE_04}}
 
-전체 기준으로 direct trial 비율은 `70/700=0.1`, confirmatory 기준은 `56/560=0.1`이다. 이 결과는 선언된 7-profile, 2-path bounded catalog 대비 encrypted candidate 실행 수를 줄였다는 뜻이다. 가능한 configuration 공간 전체의 search complexity를 90% 줄였다는 뜻은 아니다. Direct path가 catalog 밖 exact literal을 생성한다는 점 때문에 두 분자는 같은 후보 목록의 부분집합도 아니다.
+전체 기준의 direct/catalog trial 비율은 `{{N:direct_trials_all}}/{{N:formal_catalog_all}}`, confirmatory 기준은 `{{N:direct_trials_confirmatory}}/{{N:formal_catalog_confirmatory}}`이다. 이 결과는 선언된 {{N:security_catalog_profiles_admitted}}-profile, 2-path bounded catalog 대비 encrypted candidate 실행 수를 줄였다는 뜻이다. 가능한 configuration 공간 전체의 search complexity를 {{N:formal_trial_reduction_all|.0%}} 줄였다는 뜻은 아니다. Direct path가 catalog 밖 exact literal을 생성한다는 점 때문에 두 분자는 같은 후보 목록의 부분집합도 아니다.
 
 ## 8.3 Direct synthesis ablation
 
@@ -30,25 +30,25 @@ FlipGuard의 동결된 bounded repair는 선언된 개발 ablation에서 one-sho
 
 ## 8.4 Primary locked audit
 
-Confirmatory seeds 1--4의 선택 literal 40개는 모두 disjoint locked audit을 통과했다. Flip 0, reserve-policy violation 0, execution FAILED 0, retuning 0이었다. Development seed 0도 10/10 PASS, flip 0, violation 0, retuning 0이었다. 두 population은 표 3에서 분리되어 있으며 그림 6은 전체 descriptive audit outcome을 시각화한다.
+Confirmatory seeds 1--4의 선택 literal {{N:confirmatory_instances}}개는 모두 disjoint locked audit을 통과했다. Flip 0, reserve-policy violation 0, execution FAILED 0, retuning {{N:primary_locked_audit_retuning}}이었다. Development seed 0도 {{N:development_locked_audit_pass}}/{{N:development_instances}} PASS, flip 0, violation 0, retuning 0이었다. 두 population은 표 3에서 분리되어 있으며 그림 6은 전체 descriptive audit outcome을 시각화한다.
 
 {{V3_FIGURE_06}}
 
 <!-- P:RESULT-AUDIT CLAIM:primary_no_retuning_locked_audit -->
-동결 literal의 no-retuning locked audit은 confirmatory seeds 1--4에서 40/40, development seed 0에서 10/10 통과했다. 이 결과의 단위는 10 dataset-model workload와 그 내부의 repeated partition이며 서로 독립인 50개 workload가 아니다. 또한 fixed held-out artifact에 대한 결과이므로 미래 입력 분포에 대한 무조건적 audit 통과를 의미하지 않는다.
+동결 literal의 no-retuning locked audit은 confirmatory seeds 1--4에서 {{N:confirmatory_locked_audit_pass}}/{{N:confirmatory_instances}}, development seed 0에서 {{N:development_locked_audit_pass}}/{{N:development_instances}} 통과했다. 이 결과의 단위는 {{N:primary_dataset_model_clusters}} dataset-model workload와 그 내부의 repeated partition이며 서로 독립인 {{N:combined_descriptive_instances}}개 workload가 아니다. 또한 fixed held-out artifact에 대한 결과이므로 미래 입력 분포에 대한 무조건적 audit 통과를 의미하지 않는다.
 
 Source replay는 50/50에서 검증되었고 preprocessing method는 `identity_model_input_v1`이었다. Comparator v1의 validation identity mismatch는 prepared representation의 provenance/full-precision 차이를 source 차이로 해석해 fail-closed한 사건이었다. V2 audit은 source raw, prepared raw, semantic, ordered row, model digest를 분리했고 50/50을 semantic CLASS A로 판정했다. 이 해결은 encrypted rerun이나 candidate 변경 없이 이루어졌다.
 
 ## 8.5 NO_SAFE control
 
-표 7과 그림 7은 두 NO_SAFE control을 제시한다. Confirmatory one-candidate budget control 40 instance 중 24개는 SELECTED, 16개는 NO_SAFE였다. Declared finite two-candidate domain에서는 50/50이 NO_SAFE였고 SELECTED는 0이었다. 실패 row를 삭제하거나 candidate budget을 사후 확장하지 않았다.
+표 7과 그림 7은 두 NO_SAFE control을 제시한다. Confirmatory one-candidate budget control {{N:no_safe_budget_total}} instance 중 {{N:no_safe_budget_selected}}개는 SELECTED, {{N:no_safe_budget}}개는 NO_SAFE였다. Declared finite two-candidate domain에서는 {{N:no_safe_finite_domain}}/{{N:no_safe_finite_domain_total}}이 NO_SAFE였고 SELECTED는 0이었다. 실패 row를 삭제하거나 candidate budget을 사후 확장하지 않았다.
 
 {{V3_TABLE_07}}
 
 {{V3_FIGURE_07}}
 
 <!-- P:RESULT-NOSAFE CLAIM:no_safe_behavior -->
-사전동결 budget control은 40건 중 16건에서 NO_SAFE를, 선언된 finite-domain control은 50/50에서 NO_SAFE를 반환했다. 이 결과는 FlipGuard가 안전성을 확립할 수 없는 조건에서 기권 상태를 표현한다는 근거다. 그러나 해당 candidate domain 밖에 SAFE literal이 존재하지 않는다는 결론은 아니다.
+사전동결 budget control은 {{N:no_safe_budget_total}}건 중 {{N:no_safe_budget}}건에서 NO_SAFE를, 선언된 finite-domain control은 {{N:no_safe_finite_domain}}/{{N:no_safe_finite_domain_total}}에서 NO_SAFE를 반환했다. 이 결과는 FlipGuard가 안전성을 확립할 수 없는 조건에서 기권 상태를 표현한다는 근거다. 그러나 해당 candidate domain 밖에 SAFE literal이 존재하지 않는다는 결론은 아니다.
 
 ## 8.6 Paired latency
 
@@ -59,13 +59,13 @@ Source replay는 50/50에서 검증되었고 preprocessing method는 `identity_m
 {{V3_FIGURE_05}}
 
 <!-- P:RESULT-LATENCY CLAIM:paired_latency -->
-Security-V2 bounded-catalog total latency divided by direct total latency의 dataset-model-cluster geometric mean은 confirmatory population에서 `3.14065956642714`였다. 10 dataset-model cluster를 resampling unit으로 한 bootstrap 95% confidence interval은 `[2.3423342246526992, 4.21531336367743]`이었다. Evaluation-only ratio의 geometric mean은 `2.624674483419857`이었다. Lower confidence bound가 1보다 크므로 선언된 post-freeze workload와 host에서 direct arm의 paired total latency 감소 claim이 admission 조건을 통과했다.
+Security-V2 bounded-catalog total latency divided by direct total latency의 dataset-model-cluster geometric mean은 confirmatory population에서 `{{N:paired_total_ratio_confirmatory}}`였다. {{N:primary_dataset_model_clusters}} dataset-model cluster를 resampling unit으로 한 bootstrap 95% confidence interval은 `[{{N:paired_total_ci_low}}, {{N:paired_total_ci_high}}]`이었다. Evaluation-only ratio의 geometric mean은 `{{N:paired_eval_ratio_confirmatory}}`이었다. Lower confidence bound가 1보다 크므로 선언된 post-freeze workload와 host에서 direct arm의 paired total latency 감소 claim이 admission 조건을 통과했다.
 
 Confirmatory arm별 total latency는 catalog mean 478.948 ms, median 416.171 ms, p95 1000.148 ms였고 direct는 mean 145.892 ms, median 134.727 ms, p95 247.771 ms였다. Evaluation-only latency는 catalog mean 149.180 ms와 direct mean 61.317 ms였다. Workload-partition catalog/direct total ratio의 min/median/max는 1.8506/3.3972/5.4107, cluster ratio는 1.8854/3.4278/5.3583이었다. 모든 cluster에서 ratio가 1보다 컸지만, 이는 현재 workload와 host에 대한 관측이다.
 
 Within-workload total-latency CV의 median은 catalog 0.1362, direct 0.1567이었고 max는 각각 0.3812, 0.3275였다. Arm-position normalized effect는 position 1, 2, 3에서 각각 0.9988, 1.0029, 0.9983으로 1에 가까웠다. 이러한 보조 결과는 order imbalance가 headline ratio를 지배한다는 징후가 없음을 보여주지만, 다른 host에서 같은 ratio를 보증하지 않는다.
 
-Seed 0는 descriptive only다. Total ratio는 `3.1461387110645793`이며 rounded display는 3.146139다. 이 값은 confirmatory geometric mean에 포함하지 않았다. Seed 0의 total latency는 catalog mean 474.753 ms, direct mean 144.503 ms였으며 failure는 0이었다.
+Seed 0는 descriptive only다. Total ratio의 rounded display는 {{N:paired_total_ratio_development|.6f}}다. 이 값은 confirmatory geometric mean에 포함하지 않았다. Seed 0의 total latency는 catalog mean 474.753 ms, direct mean 144.503 ms였으며 failure는 0이었다.
 
 ## 8.7 Margin-utilization sensitivity
 
@@ -77,14 +77,14 @@ Seed 0는 descriptive only다. Total ratio는 `3.1461387110645793`이며 rounded
 
 ## 8.8 Structural polynomial extension
 
-`mlp_square_poly3` structural holdout 25 instance는 43 candidate trial, 18 repair, 129 selection key run을 사용해 25/25가 SELECTED였다. Selection FAILED와 NO_SAFE는 0이었다. Locked audit은 75 key run을 사용했고 24 PASS, 1 REJECT, 0 FAILED, 0 retuning이었다. Flip은 0, reserve-policy violation은 1이었다. 표 9는 negative result를 포함한 outcome을 제시한다.
+`mlp_square_poly3` structural holdout {{N:structural_instances}} instance는 43 candidate trial, 18 repair, 129 selection key run을 사용해 {{N:structural_selected}}/{{N:structural_instances}}가 SELECTED였다. Selection FAILED와 NO_SAFE는 0이었다. Locked audit은 75 key run을 사용했고 {{N:structural_audit_pass}} PASS, {{N:structural_reserve_reject}} REJECT, {{N:structural_failed}} FAILED, {{N:structural_retuning}} retuning이었다. Flip은 {{N:structural_flip}}, reserve-policy violation은 {{N:structural_violation}}이었다. 표 9는 negative result를 포함한 outcome을 제시한다.
 
 {{V3_TABLE_09}}
 
 <!-- P:RESULT-STRUCT CLAIM:structural_extension -->
-`mlp_square_poly3`는 25/25 선택됐고 no-retuning audit에서 24건 PASS와 decision flip 없는 reserve-policy REJECT 1건을 기록했다. 실패 instance는 seed 4, banknote, `mlp_square_poly3`였고 candidate는 `synth_analysis_minimum_rescale_N14_Q10_S22_01ae407b2f60`이었다. Validation의 margin utilization은 0.470653으로 cap 0.5 아래였지만 audit은 0.5613685로 cap을 넘었다.
+`mlp_square_poly3`는 {{N:structural_selected}}/{{N:structural_instances}} 선택됐고 no-retuning audit에서 {{N:structural_audit_pass}}건 PASS와 decision flip 없는 reserve-policy REJECT {{N:structural_reserve_reject}}건을 기록했다. 실패 instance는 seed 4, banknote, `mlp_square_poly3`였고 candidate는 `synth_analysis_minimum_rescale_N14_Q10_S22_01ae407b2f60`이었다. Validation의 margin utilization은 {{N:structural_validation_margin_utilization}}으로 cap {{N:margin_utilization_cap}} 아래였지만 audit은 {{N:structural_audit_margin_utilization}}로 cap을 넘었다.
 
-Audit utilization의 full-precision overlay 값은 `0.5613686443055665`다. 본문과 number registry는 normalized budget usage를 소수 여섯 자리로 먼저 표시한 뒤 `rho=0.5`를 적용하는 동결 표기 규칙에 따라 `0.5613685`를 사용한다. Byte-identical V3 표 13은 full-precision 값을 직접 소수 일곱 자리로 반올림해 `0.5613686`으로 표시한다. 두 표기는 같은 관측을 가리키며 reserve-policy REJECT 판정에는 차이가 없다.
+Audit utilization의 full-precision overlay 값은 `{{N:structural_audit_margin_utilization_full_precision}}`다. 본문과 number registry는 normalized budget usage를 소수 여섯 자리로 먼저 표시한 뒤 `rho={{N:margin_utilization_cap}}`를 적용하는 동결 표기 규칙에 따라 `{{N:structural_audit_margin_utilization}}`를 사용한다. Byte-identical V3 표 13은 full-precision 값을 직접 소수 일곱 자리로 반올림해 `{{N:structural_audit_margin_utilization_v3_display}}`으로 표시한다. 두 표기는 같은 관측을 가리키며 reserve-policy REJECT 판정에는 차이가 없다.
 
 이 row의 classification은 `OBSERVED_DECISION_PRESERVED`, `RESERVE_POLICY_REJECTED`, `POLICY_REJECTED_WITHOUT_FLIP`이다. Plaintext와 CKKS decision은 같았고 cryptographic execution도 성공했다. REJECT 이유는 사전동결 reserve가 audit에서 소진되었기 때문이다. Audit 결과를 보고 scale이나 Q를 늘리지 않았고 policy modification count는 0이다.
 
@@ -114,11 +114,11 @@ Sobel, Harris, CNN-lite adapter는 각 선언된 finite input과 scalar-replicat
 {{V3_TABLE_11}}
 
 <!-- P:RESULT-SEED CLAIM:training_model_seed_extension -->
-세 dataset과 세 independent training/data seed로 생성한 9개 model instance가 9/9 selection과 no-retuning audit PASS를 기록했다. Candidate ID는 prepared-contract path를 결합하므로 9건 모두 representation상 달랐지만 exact CKKS literal parameter와 Security-V2 facts는 일치했다. 이 extension은 fixed-model repeated partition의 한계를 일부 보완하지만 9개 model만으로 보편적인 training-seed robustness를 확립하지 않는다.
+{{N:independent_training_datasets}}개 dataset과 dataset별 {{N:independent_training_seeds_per_dataset}}개 independent training/data seed로 생성한 {{N:independent_training_seed_total}}개 model instance가 {{N:independent_training_seed_pass}}/{{N:independent_training_seed_total}} selection과 no-retuning audit PASS를 기록했다. Candidate ID는 prepared-contract path를 결합하므로 {{N:independent_training_seed_total}}건 모두 representation상 달랐지만 exact CKKS literal parameter와 Security-V2 facts는 일치했다. 이 extension은 fixed-model repeated partition의 한계를 일부 보완하지만 {{N:independent_training_seed_total}}개 model만으로 보편적인 training-seed robustness를 확립하지 않는다.
 
 ## 8.11 Security re-attestation
 
-표 12는 Security-V2 및 exact-Q/P 재감사 결과다. Direct-selected candidate row 50개는 모두 static re-attestation PASS였고 minimum headroom은 13 bit였다. Catalog profile 11개 중 7개가 admitted, 4개가 excluded되었다. 두 exact estimator model은 각각 object 17개를 PASS, 1개를 excluded로 분류했고, excluded object는 128-bit 목표 아래로 남았다.
+표 12는 Security-V2 및 exact-Q/P 재감사 결과다. Direct-selected candidate row {{N:security_direct_pass}}개는 모두 static re-attestation PASS였고 minimum headroom은 {{N:security_direct_minimum_headroom_bits}} bit였다. Catalog profile 11개 중 {{N:security_catalog_profiles_admitted}}개가 admitted, {{N:security_catalog_profiles_excluded}}개가 excluded되었다. {{N:security_estimator_models}}개 exact estimator model은 각각 object {{N:security_estimator_objects_pass}}개를 PASS, {{N:security_estimator_objects_excluded}}개를 excluded로 분류했고, excluded object는 128-bit 목표 아래로 남았다.
 
 {{V3_TABLE_12}}
 
@@ -139,10 +139,10 @@ Negative result를 포함한 전체 claim scope는 그림 10에 제시한다. Co
 
 ## 8.13 연구 질문에 대한 답
 
-**RQ1:** 선언된 Security-V2 bounded catalog와 비교할 때 direct synthesis는 전체 70/700, confirmatory 56/560 candidate trial을 사용해 두 population 모두 90% 감소했다. 이 답은 candidate trial 단위와 유한 catalog 범위에 한정된다.
+**RQ1:** 선언된 Security-V2 bounded catalog와 비교할 때 direct synthesis는 전체 {{N:direct_trials_all}}/{{N:formal_catalog_all}}, confirmatory {{N:direct_trials_confirmatory}}/{{N:formal_catalog_confirmatory}} candidate trial을 사용해 두 population 모두 {{N:formal_trial_reduction_all|.0%}} 감소했다. 이 답은 candidate trial 단위와 유한 catalog 범위에 한정된다.
 
-**RQ2:** Confirmatory 40/40과 development 10/10 primary literal이 no-retuning locked audit을 통과했다. Bounded repair는 development ablation의 one-shot failure 4건을 SAFE로 전환했고, control은 16/40 및 50/50 NO_SAFE를 반환했다. 이는 finite artifact의 empirical admission과 기권 behavior를 지지한다.
+**RQ2:** Confirmatory {{N:confirmatory_locked_audit_pass}}/{{N:confirmatory_instances}}과 development {{N:development_locked_audit_pass}}/{{N:development_instances}} primary literal이 no-retuning locked audit을 통과했다. Bounded repair는 development ablation의 one-shot failure 4건을 SAFE로 전환했고, control은 {{N:no_safe_budget}}/{{N:no_safe_budget_total}} 및 {{N:no_safe_finite_domain}}/{{N:no_safe_finite_domain_total}} NO_SAFE를 반환했다. 이는 finite artifact의 empirical admission과 기권 behavior를 지지한다.
 
-**RQ3:** Confirmatory catalog/direct total-latency ratio의 cluster geometric mean은 3.140660, 95% CI는 [2.342334, 4.215313]이었다. 한 host와 선언 workload 범위에서 direct arm의 paired latency가 낮았으며 production 성능 결론은 내리지 않는다.
+**RQ3:** Confirmatory catalog/direct total-latency ratio의 cluster geometric mean은 {{N:paired_total_ratio_confirmatory|.6f}}, 95% CI는 [{{N:paired_total_ci_low|.6f}}, {{N:paired_total_ci_high|.6f}}]이었다. 한 host와 선언 workload 범위에서 direct arm의 paired latency가 낮았으며 production 성능 결론은 내리지 않는다.
 
-**RQ4:** Deeper polynomial graph는 25/25 selection 후 audit 24 PASS와 1 reserve-policy REJECT를 보였다. Sobel/Harris/CNN-lite와 independent training/data seed는 각 finite scope에서 admission을 통과했다. 따라서 structural/scoped extension은 부분적으로 지지되지만 arbitrary packed graph나 분포 전체 일반화는 남아 있다.
+**RQ4:** Deeper polynomial graph는 {{N:structural_selected}}/{{N:structural_instances}} selection 후 audit {{N:structural_audit_pass}} PASS와 {{N:structural_reserve_reject}} reserve-policy REJECT를 보였다. Sobel/Harris/CNN-lite와 independent training/data seed는 각 finite scope에서 admission을 통과했다. 따라서 structural/scoped extension은 부분적으로 지지되지만 arbitrary packed graph나 분포 전체 일반화는 남아 있다.

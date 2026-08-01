@@ -16,7 +16,7 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from lint_flipguard_thesis import CHAPTERS, lint_source
+from lint_flipguard_thesis import CHAPTERS, lint_source, render_number_markers
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -144,6 +144,7 @@ def figure_map_fields() -> list[str]:
 
 
 def render_markers(text: str, artifact: bool) -> str:
+    text = render_number_markers(text, read_json(SOURCE / "number_registry.json"))
     map_rows = updated_figure_map()
     by_identity = {(row["type"], int(row["number"])): row for row in map_rows}
     for number in range(1, 14):

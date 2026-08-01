@@ -39,6 +39,7 @@ NEGATION_TOKENS = (
     "not ", "does not", "do not", "cannot", "no ", "금지", "아니", "않",
     "못", "제한", "주장하지", "평가하지", "뜻하지",
 )
+NUMBER_MARKER_RE = re.compile(r"\{\{N:([a-z0-9_]+)(?:\|([^}]+))?\}\}")
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -47,6 +48,26 @@ def load_json(path: Path) -> dict[str, Any]:
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def render_number_markers(text: str, registry: dict[str, Any]) -> str:
+    """Render evidence-derived number markers and reject unknown keys or formats."""
+    def replacement(match: re.Match[str]) -> str:
+        key, format_spec = match.group(1), match.group(2)
+        if key not in registry:
+            raise ValueError(f"unknown thesis number key: {key}")
+        value = registry[key]
+        if not isinstance(value, (int, float)) or isinstance(value, bool):
+            raise ValueError(f"thesis number key is not numeric: {key}")
+        try:
+            return format(value, format_spec or "")
+        except ValueError as exc:
+            raise ValueError(f"invalid number format for {key}: {format_spec}") from exc
+
+    rendered = NUMBER_MARKER_RE.sub(replacement, text)
+    if "{{N:" in rendered:
+        raise ValueError("malformed thesis number marker")
+    return rendered
 
 
 def bib_keys(text: str) -> set[str]:
@@ -119,6 +140,10 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
     estimator = load_json(root / "docs/evidence/exact_security_estimator_v1/summary.json")
     interpretation = load_json(
         root / "docs/evidence/margin_utilization_interpretation_v1/policy_interpretation.json"
+    )
+    direct_policy = load_json(
+        root / "docs/evidence/security_v2_static_attestation_formal_v2/"
+        "direct_synthesis_policy_v2.json"
     )
 
     with (root / "docs/evidence/independent_training_seed_extension_v1/workload_summary.csv").open(
@@ -193,10 +218,12 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         "direct_trials_all": trials["direct_trials_all"],
         "direct_trials_confirmatory": trials["direct_trials_confirmatory"],
         "direct_trials_development": trials["direct_trials_development"],
+        "max_encrypted_trials": direct_policy["policy"]["max_encrypted_trials"],
         "formal_trial_reduction_all": trials["formal_trial_reduction_all"],
         "formal_trial_reduction_confirmatory": trials["formal_trial_reduction_confirmatory"],
         "confirmatory_instances": confirmatory["expected_runs"],
         "development_instances": development["expected_runs"],
+        "combined_descriptive_instances": confirmatory["expected_runs"] + development["expected_runs"],
         "confirmatory_locked_audit_pass": confirmatory["locked_audit_passes"],
         "development_locked_audit_pass": development["locked_audit_passes"],
         "primary_locked_audit_retuning": confirmatory["retuned_runs"] + development["retuned_runs"],
@@ -295,14 +322,24 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
     if errors:
         return {"status": "FAIL", "errors": errors, "warnings": warnings}
 
-    chapters = {name: (source / name).read_text(encoding="utf-8") for name in CHAPTERS}
-    core_text = "\n".join(chapters.values())
-    abstract = (source / "abstract_ko_en.md").read_text(encoding="utf-8")
+    raw_chapters = {name: (source / name).read_text(encoding="utf-8") for name in CHAPTERS}
+    raw_abstract = (source / "abstract_ko_en.md").read_text(encoding="utf-8")
     claims_doc = load_json(root / "docs/evidence/paper_claim_admission_v1/claims.json")
     claims = claims_doc["claims"]
     claim_by_id = {item["claim_id"]: item for item in claims}
     registry = load_json(source / "number_registry.json")
     validate_registry(root, registry, errors)
+    try:
+        chapters = {
+            name: render_number_markers(text, registry)
+            for name, text in raw_chapters.items()
+        }
+        abstract = render_number_markers(raw_abstract, registry)
+    except ValueError as exc:
+        errors.append(str(exc))
+        chapters = raw_chapters
+        abstract = raw_abstract
+    core_text = "\n".join(chapters.values())
 
     for finding in prohibited_occurrences(core_text + "\n" + abstract, claims):
         errors.append(
@@ -412,7 +449,7 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
     with (source / "claim_traceability.csv").open(newline="", encoding="utf-8") as handle:
         trace_rows = list(csv.DictReader(handle))
     expected_trace: set[tuple[str, str, str]] = set()
-    for filename, text in {"abstract_ko_en.md": abstract, **chapters}.items():
+    for filename, text in {"abstract_ko_en.md": raw_abstract, **raw_chapters}.items():
         for match in marker_pattern.finditer(text):
             for claim_id in match.group(2).split(","):
                 expected_trace.add((Path(filename).stem, match.group(1), claim_id))

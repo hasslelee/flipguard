@@ -90,6 +90,15 @@ class ThesisLintTest(unittest.TestCase):
         self.assertEqual(result["status"], "FAIL")
         self.assertTrue(any("stale first-reference line" in error for error in result["errors"]))
 
+    def test_number_marker_rendering_and_unknown_key(self) -> None:
+        registry = {"count": 7, "ratio": 0.9}
+        rendered = MODULE.render_number_markers(
+            "{{N:count}} candidates, {{N:ratio|.0%}} reduction", registry
+        )
+        self.assertEqual(rendered, "7 candidates, 90% reduction")
+        with self.assertRaisesRegex(ValueError, "unknown thesis number key"):
+            MODULE.render_number_markers("{{N:not_registered}}", registry)
+
 
 if __name__ == "__main__":
     unittest.main()
