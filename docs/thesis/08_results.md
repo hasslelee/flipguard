@@ -125,7 +125,7 @@ Sobel, Harris, CNN-lite adapter는 각 선언된 finite input과 scalar-replicat
 <!-- P:RESULT-SEC CLAIM:security_attestation -->
 선택 후보의 exact Q/P를 Security Policy V2와 {{N:security_estimator_models}}개 estimator model에서 재감사했으며, 실제 Lattigo Xe truncation과 estimator 분포의 exact equivalence는 주장하지 않는다. Q와 QP를 별도로 검사했고 formal catalog와 paired arm은 admitted candidate만 사용했다. 이 결과는 선언된 object와 policy의 admission 근거이지 임의 runtime distribution의 보편적 {{N:security_target_bits}}-bit 보증이 아니다.
 
-Security filter는 comparison 결과에도 영향을 주었다. Pre-security oracle과 V2 fastest-safe selection은 alpha 전체 {{N:security_selection_cells_all}} workload-alpha cell 중 {{N:security_selection_changes_all}}개에서 달랐고, primary alpha 0.5에서는 {{N:security_selection_cells_primary}}개 중 {{N:security_selection_changes_primary}}개에서 달랐다. 따라서 catalog execution이 성공했다는 이유만으로 security-compliant comparator에 포함할 수 없으며, {{N:raw_historical_catalog_executions|,}} historical ledger를 그대로 oracle로 사용하는 것은 부적절하다.
+Security filter는 comparison 결과에도 영향을 주었다. Pre-security oracle과 V2 fastest-safe selection은 alpha 전체 {{N:security_selection_cells_all}} workload-alpha cell 중 {{N:security_selection_changes_all}}개에서 달랐고, primary alpha {{N:primary_alpha}}에서는 {{N:security_selection_cells_primary}}개 중 {{N:security_selection_changes_primary}}개에서 달랐다. 따라서 catalog execution이 성공했다는 이유만으로 security-compliant comparator에 포함할 수 없으며, {{N:raw_historical_catalog_executions|,}} historical ledger를 그대로 oracle로 사용하는 것은 부적절하다.
 
 ## 8.12 Failure 및 negative-result taxonomy
 

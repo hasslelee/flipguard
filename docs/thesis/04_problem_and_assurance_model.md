@@ -38,7 +38,7 @@ Candidate execution 결과는 다음 네 상태로 구분한다.
 
 ## 4.5 Certifiable 및 ambiguous 집합
 
-`V_cert={x | m(x)>delta}`이고 `V_amb={x | m(x)<=delta}`로 둔다. `delta=0.001`은 primary protocol에서 사전동결된 margin floor다. Candidate `c`에 대해 다음 empirical admission predicate를 정의한다.
+`V_cert={x | m(x)>delta}`이고 `V_amb={x | m(x)<=delta}`로 둔다. `delta={{N:primary_margin_floor}}`은 primary protocol에서 사전동결된 margin floor다. Candidate `c`에 대해 다음 empirical admission predicate를 정의한다.
 
 \[
 Cert(c,V_{cert}) = RunOK(c)\land SecurityV2(c)

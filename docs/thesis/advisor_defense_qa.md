@@ -74,7 +74,7 @@ Decision preservation 충분조건보다 더 엄격한 `rho={{N:primary_alpha}}`
 
 ## Q19. {{N:security_target_bits}}-bit security를 정확히 보장하는가?
 
-Security-V2는 published Category-128 cap을 보수적 admission reference로 사용하고 exact Q/P를 검사한다. 두 estimator model도 sensitivity를 제공한다. 다만 runtime distribution과 estimator 가정이 정확히 같지 않으므로 임의 runtime에 대한 절대적 보증은 하지 않는다. **Claim ID:** `security_attestation`. **Evidence:** V3 표 12 및 Security-V2 policy. **금지 과장:** universal runtime 128-bit security. **짧은 구두 답변:** “선언 object가 보수적 Category-128 policy와 estimator sensitivity를 통과했다는 범위입니다.”
+Security-V2는 published Category-{{N:security_target_bits}} cap을 보수적 admission reference로 사용하고 exact Q/P를 검사한다. {{N:security_estimator_models}}개 estimator model도 sensitivity를 제공한다. 다만 runtime distribution과 estimator 가정이 정확히 같지 않으므로 임의 runtime에 대한 절대적 보증은 하지 않는다. **Claim ID:** `security_attestation`. **Evidence:** V3 표 12 및 Security-V2 policy. **금지 과장:** universal runtime {{N:security_target_bits}}-bit security. **짧은 구두 답변:** “선언 object가 보수적 Category-{{N:security_target_bits}} policy와 estimator sensitivity를 통과했다는 범위입니다.”
 
 ## Q20. Lattigo Xe와 estimator distribution 차이는 무엇인가?
 

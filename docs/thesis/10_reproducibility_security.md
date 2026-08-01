@@ -32,7 +32,7 @@ OpenML source는 server가 gzip transport를 반환하는 경우에도 decompres
 
 Security Policy V2 ID는 `security_guidelines_cic2025_table5_2_ternary_128_v2`다. Policy artifact는 paper title, DOI, publication date, exact table, target category, cost-model metadata, Lattigo module/version, concrete `Xs/Xe`, modulus semantics와 generated-at commit을 포함한다. Static re-attestation CSV/JSON은 candidate source, ID, profile/path, LogN, LogQ, LogP, LogQP, old/v2 headroom, admission, identity change, rerun requirement와 reason을 기록한다.
 
-Exact estimator artifact는 concrete Q/P prime을 estimator-compatible JSON으로 내보낸다. Ciphertext와 evaluation key를 별도 object로 평가하고 두 estimator model의 결과를 남긴다. Verifier는 excluded object가 formal result에 들어오지 않았는지 확인한다. 이 artifact가 runtime distribution과 estimator distribution의 차이를 없애는 것은 아니므로 caveat가 manifest와 논문에 유지된다.
+Exact estimator artifact는 concrete Q/P prime을 estimator-compatible JSON으로 내보낸다. Ciphertext와 evaluation key를 별도 object로 평가하고 {{N:security_estimator_models}}개 estimator model의 결과를 남긴다. Verifier는 excluded object가 formal result에 들어오지 않았는지 확인한다. 이 artifact가 runtime distribution과 estimator distribution의 차이를 없애는 것은 아니므로 caveat가 manifest와 논문에 유지된다.
 
 ## 10.7 논문 draft 재현
 

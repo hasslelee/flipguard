@@ -81,7 +81,7 @@ The following claims are prohibited as contributions or conclusions:
 - an instantiated analytical CKKS certificate;
 - distribution-wide safety;
 - production or universal speedup; and
-- universal 128-bit runtime security.
+- universal {{N:security_target_bits}}-bit runtime security.
 
 ## Evidence and Statistical Contract
 

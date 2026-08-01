@@ -34,23 +34,23 @@ e_c(x)=\left|f_c(x)-f_{plain}(x)\right|.
 e_c(x)<m(x) \quad\Longrightarrow\quad d_c(x)=d_{plain}(x).
 \]
 
-이는 삼각부등식에 따른 단순하지만 중요한 결과다. CKKS score가 평문 score에서 threshold까지의 거리보다 적게 이동하면 threshold를 건널 수 없다. 이 명제는 `rho=0.5`에서만 성립하는 정리가 아니며, 특정 CKKS parameter가 해당 조건을 항상 만족한다고 증명하는 분석적 certificate도 아니다. 개별 관측에서 `e_c(x)<m(x)`이면 그 관측의 decision이 보존된다는 수학적 관계다.
+이는 삼각부등식에 따른 단순하지만 중요한 결과다. CKKS score가 평문 score에서 threshold까지의 거리보다 적게 이동하면 threshold를 건널 수 없다. 이 명제는 `rho={{N:primary_alpha}}`에서만 성립하는 정리가 아니며, 특정 CKKS parameter가 해당 조건을 항상 만족한다고 증명하는 분석적 certificate도 아니다. 개별 관측에서 `e_c(x)<m(x)`이면 그 관측의 decision이 보존된다는 수학적 관계다.
 
 FlipGuard는 이 충분조건과 별도로 다음 운용 reserve policy를 사용한다.
 
 \[
-e_c(x)<\rho m(x), \qquad \rho=0.5.
+e_c(x)<\rho m(x), \qquad \rho={{N:primary_alpha}}.
 \]
 
-여기서 `rho`는 **margin utilization cap**, `1-rho`는 **reserved margin fraction**, `rho*m(x)`는 **operational acceptance budget**이다. Primary `rho=0.5`는 오차가 margin의 절반 미만일 때만 승인하는 사전동결 50% margin-utilization 정책이다. 이 값은 CKKS 이론에서 도출된 보편 상수도 아니고 경험적 최적값도 아니다. 정책은 관측된 decision이 유지되었더라도 reserve를 초과한 후보를 거부할 수 있다. 따라서 `POLICY_REJECTED_WITHOUT_FLIP`은 암호학적 복호화 실패나 실제 decision flip과 구별해야 한다.
+여기서 `rho`는 **margin utilization cap**, `1-rho`는 **reserved margin fraction**, `rho*m(x)`는 **operational acceptance budget**이다. Primary `rho={{N:primary_alpha}}`는 오차가 margin의 절반 미만일 때만 승인하는 사전동결 {{N:margin_utilization_cap|.0%}} margin-utilization 정책이다. 이 값은 CKKS 이론에서 도출된 보편 상수도 아니고 경험적 최적값도 아니다. 정책은 관측된 decision이 유지되었더라도 reserve를 초과한 후보를 거부할 수 있다. 따라서 `POLICY_REJECTED_WITHOUT_FLIP`은 암호학적 복호화 실패나 실제 decision flip과 구별해야 한다.
 
-그림 3은 수학적 충분조건과 운용 reserve policy의 포함 관계를 시각화한다. 먼저 `e<m`이 decision 보존 경계를 정의하고, 그 내부의 더 엄격한 `e<0.5m`이 본 연구의 승인 영역을 정의한다.
+그림 3은 수학적 충분조건과 운용 reserve policy의 포함 관계를 시각화한다. 먼저 `e<m`이 decision 보존 경계를 정의하고, 그 내부의 더 엄격한 `e<{{N:primary_alpha}}m`이 본 연구의 승인 영역을 정의한다.
 
 {{V3_FIGURE_03}}
 
 ## 2.4 Ambiguous region과 certificate 집합
 
-Margin floor `delta`를 사용해 `m(x)<=delta`인 입력을 ambiguous region `V_amb`로 분류한다. 임계값에 지나치게 가까운 sample은 아주 작은 수치 차이에도 decision이 달라질 수 있으므로, 동일한 reserve budget을 안정적으로 적용하기 어렵다. `m(x)>delta`인 집합을 certifiable region `V_cert`라 하며, FlipGuard는 이 영역에서 flip과 오차 budget 위반을 검사한다. Primary margin floor는 사전동결된 `delta=0.001`이다.
+Margin floor `delta`를 사용해 `m(x)<=delta`인 입력을 ambiguous region `V_amb`로 분류한다. 임계값에 지나치게 가까운 sample은 아주 작은 수치 차이에도 decision이 달라질 수 있으므로, 동일한 reserve budget을 안정적으로 적용하기 어렵다. `m(x)>delta`인 집합을 certifiable region `V_cert`라 하며, FlipGuard는 이 영역에서 flip과 오차 budget 위반을 검사한다. Primary margin floor는 사전동결된 `delta={{N:primary_margin_floor}}`이다.
 
 Candidate `c`의 empirical certificate는 실행 성공, `V_cert`에서 flip 부재, `e_c(x)<rho*m(x)` 위반 부재를 함께 요구한다. `V_amb`의 sample은 coverage 분모와 함께 별도로 보고하며 숨기지 않는다. Coverage는 `|V_cert|/(|V_cert|+|V_amb|)`로 해석할 수 있다. Candidate가 실행되었더라도 flip이나 policy violation이 있으면 `REJECTED`, 실행 자체가 끝나지 않았거나 materialization/runtime error가 있으면 `FAILED`다. 모든 허용 candidate가 SAFE가 아니면 선택기는 `NO_SAFE`를 반환한다.
 
@@ -64,7 +64,7 @@ Locked audit의 목적은 분포 전체의 안전성을 증명하는 것이 아�
 
 CKKS parameter의 기능적 실행 가능성과 암호학적 security admission은 별도 조건이다. Security Policy V2는 *Security Guidelines for Implementing Homomorphic Encryption*의 출판 Table 5.2에 제시된 uniform-ternary Category-128 modulus cap을 보수적 admission reference로 사용한다 [@bossuat2025security]. LogN 12, 13, 14, 15에 대해 정책이 사용하는 cap은 각각 106, 214, 430, 868 bit다. Ciphertext 객체는 Q를, relinearization·key-switching과 관련된 evaluation-key 객체는 QP를 검사하며, 필요한 모든 객체가 통과해야 candidate를 허용한다.
 
-실제 runtime은 Lattigo v6.2.0이며 secret distribution `Xs`는 `ring.Ternary`의 `P=2/3`, error distribution `Xe`는 `ring.DiscreteGaussian`의 `Sigma=3.2`, `Bound=19.2`다. 출판 표가 전제하는 Gaussian parameter와 Lattigo의 명시적 truncation은 정확히 동일한 분포가 아니다. 그러므로 본 연구는 표 cap을 보수적 admission 기준으로 사용하고 exact Q/P를 두 estimator model에서 재검사하지만, runtime distribution의 완전한 동등성은 주장하지 않는다.
+실제 runtime은 Lattigo v6.2.0이며 secret distribution `Xs`는 `ring.Ternary`의 `P=2/3`, error distribution `Xe`는 `ring.DiscreteGaussian`의 `Sigma={{N:security_runtime_error_sigma}}`, `Bound={{N:security_runtime_error_bound}}`다. 출판 표가 전제하는 Gaussian parameter와 Lattigo의 명시적 truncation은 정확히 동일한 분포가 아니다. 그러므로 본 연구는 표 cap을 보수적 admission 기준으로 사용하고 exact Q/P를 {{N:security_estimator_models}}개 estimator model에서 재검사하지만, runtime distribution의 완전한 동등성은 주장하지 않는다.
 
 ## 2.7 Bounded catalog
 

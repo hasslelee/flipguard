@@ -152,6 +152,19 @@ class ThesisLintTest(unittest.TestCase):
         self.assertEqual(result["status"], "FAIL")
         self.assertTrue(any("missing evidence path" in error for error in result["errors"]))
 
+    def test_stale_release_digest_in_thesis_chapter_fails_closed(self) -> None:
+        def mutate(source: Path) -> None:
+            path = source / "10_reproducibility_security.md"
+            text = path.read_text(encoding="utf-8")
+            path.write_text(
+                text.replace(MODULE.EXPECTED_DIGESTS["rc2_archive_sha256"], "0" * 64, 1),
+                encoding="utf-8",
+            )
+
+        result = self.lint_mutated_source(mutate)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertTrue(any("release binding token" in error for error in result["errors"]))
+
     def test_release_qa_ledger_is_counted_and_fails_closed(self) -> None:
         lines = [
             "qa_soak_start=2026-07-31T19:45:18+09:00",

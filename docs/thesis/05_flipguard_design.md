@@ -22,7 +22,7 @@ Direct synthesizer는 model name에 따른 lookup table로 literal을 선택하�
 
 ## 5.4 Direct literal synthesis
 
-Direct Policy V2는 `flipguard_direct_synthesis_policy_v2`라는 immutable contract다. Policy는 graph contract schema, 지원 formula, scale trace version, primary `rho=0.5`, margin floor `0.001`, minimum scale/prime floor, scale guard, first-prime guard, numerical repair `+4` bits, level repair `+1` Q prime, maximum additional level, static NTT-prime retry, maximum encrypted trials `4`, error classifier, Security-V2 policy ID, scalar-replicated packing, required-slot rule, first-SAFE stopping과 NO_SAFE rule을 포함한다.
+Direct Policy V2는 `flipguard_direct_synthesis_policy_v2`라는 immutable contract다. Policy는 graph contract schema, 지원 formula, scale trace version, primary `rho={{N:primary_alpha}}`, margin floor `{{N:primary_margin_floor}}`, minimum scale/prime floor, scale guard, first-prime guard, numerical repair `+{{N:numerical_repair_scale_bits}}` bits, level repair `+{{N:level_repair_q_primes}}` Q prime, maximum additional level {{N:max_additional_levels}}, static NTT-prime retry, maximum encrypted trials `{{N:max_encrypted_trials}}`, error classifier, Security-V2 policy ID, scalar-replicated packing, required-slot rule, first-SAFE stopping과 NO_SAFE rule을 포함한다.
 
 Initial scale은 graph의 multiplication과 rescale trace가 요구하는 최소 정밀도, output scale floor, first-prime guard를 충족하도록 계산한다. Q chain은 예상 rescale마다 소비될 prime과 input/output guard prime을 배치한다. P는 relinearization과 key-switching object가 필요로 하는 special prime을 포함한다. Required slot으로 최소 LogN을 정한 뒤 Q와 QP가 Security-V2 cap 안에 있는지 검사한다. 정적 literal이 admission을 통과하지 못하면 formal candidate로 실행하지 않는다.
 
@@ -31,7 +31,7 @@ FlipGuard는 선언된 graph adapter와 동결 정책 범위에서 computation g
 
 ## 5.5 Bounded encrypted validation
 
-Static analysis만으로 runtime의 실제 근사오차와 implementation behavior를 완전히 알 수 없으므로, 합성 literal을 configuration-validation artifact에서 실행한다. 각 candidate trial은 새 키 세 번을 사용한다. 실행 ledger는 key마다 plaintext score, CKKS score, absolute error, decision margin, budget, utilization ratio, decision, flip을 기록한다. Aggregate 판정은 한 key에서라도 violation이 있으면 REJECTED가 되도록 보수적으로 결합한다.
+Static analysis만으로 runtime의 실제 근사오차와 implementation behavior를 완전히 알 수 없으므로, 합성 literal을 configuration-validation artifact에서 실행한다. 각 candidate trial은 새 키 {{N:fresh_key_repeats}}개를 사용한다. 실행 ledger는 key마다 plaintext score, CKKS score, absolute error, decision margin, budget, utilization ratio, decision, flip을 기록한다. Aggregate 판정은 한 key에서라도 violation이 있으면 REJECTED가 되도록 보수적으로 결합한다.
 
 Validation gate는 두 층으로 구성된다. Execution gate는 materialization, key generation, evaluation, decryption이 성공했는지 확인한다. Decision gate는 `V_cert`의 flip과 reserve-policy violation이 0인지 확인한다. 이 둘을 분리하면 level 부족으로 실행되지 않은 candidate를 수치 REJECT와 구별하고, repair classifier가 적절한 bounded action을 선택할 수 있다.
 
@@ -65,6 +65,6 @@ Catalog의 목적은 direct synthesis가 유한 비교 집합 대비 candidate t
 
 ## 5.10 Evidence provenance
 
-각 stage는 raw ledger, summary, failures, manifest, SHA256SUMS, deterministic verifier를 별도 pack으로 freeze한다. Manifest는 execution commit과 evidence-builder commit을 구분하고 binary digest, policy IDs, input/model/split digest를 기록한다. Frozen pack은 덮어쓰지 않으며 후속 해석은 overlay evidence로 추가한다. 예를 들어 margin theorem과 `rho=0.5`의 의미는 기존 encrypted pack을 수정하지 않고 `margin_utilization_interpretation_v1`이 참조한다.
+각 stage는 raw ledger, summary, failures, manifest, SHA256SUMS, deterministic verifier를 별도 pack으로 freeze한다. Manifest는 execution commit과 evidence-builder commit을 구분하고 binary digest, policy IDs, input/model/split digest를 기록한다. Frozen pack은 덮어쓰지 않으며 후속 해석은 overlay evidence로 추가한다. 예를 들어 margin theorem과 `rho={{N:primary_alpha}}`의 의미는 기존 encrypted pack을 수정하지 않고 `margin_utilization_interpretation_v1`이 참조한다.
 
 Pipeline은 claim-level fail-closed와 pipeline-level continuation을 따른다. 과학적 negative result는 해당 claim의 상태를 낮추지만 독립적인 downstream evidence 생성을 중단하지 않는다. 잘못된 source, policy, security admission, 복구 불가능한 provenance 문제는 integrity block으로 처리한다. 이 구분이 장시간 실행의 완결성과 연구 무결성을 동시에 지탱한다.

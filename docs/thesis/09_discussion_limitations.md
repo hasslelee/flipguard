@@ -6,11 +6,11 @@ FlipGuard의 가장 강한 결과는 catalog를 모두 실행한 뒤 선택하�
 
 그러나 이 결과를 “margin이 항상 더 좋은 literal을 만든다”로 해석하면 안 된다. Natural primary range에서 `rho` grid 변화는 candidate state, bounded-oracle selection, direct initial literal을 바꾸지 않았다. Graph-derived minimum synthesis floor가 초기 구성을 지배했다. Decision contract는 admission predicate와 failure reporting에서 작동했지만, primary natural data의 literal generation을 직접 차별화했다는 claim은 근거가 부족하다. 이는 framework의 한계를 드러내는 동시에 synthesis와 admission을 구분해야 하는 이유다.
 
-## 9.2 `rho=0.5`의 의미
+## 9.2 `rho={{N:primary_alpha}}`의 의미
 
-Decision preservation의 수학적 충분조건은 `e_c(x)<m(x)`다. Primary `e_c(x)<0.5m(x)`는 더 엄격한 운용 reserve policy다. `rho=0.5`는 margin의 절반을 approximation error에 허용하고 나머지 절반을 관측되지 않은 variation에 남기는 해석 가능한 사전 정책이지만, CKKS noise theorem에서 유도된 값은 아니다. Sensitivity 결과도 이 값의 최적성을 보여주지 않는다.
+Decision preservation의 수학적 충분조건은 `e_c(x)<m(x)`다. Primary `e_c(x)<{{N:primary_alpha}}m(x)`는 더 엄격한 운용 reserve policy다. `rho={{N:primary_alpha}}`는 margin의 절반을 approximation error에 허용하고 나머지 절반을 관측되지 않은 variation에 남기는 해석 가능한 사전 정책이지만, CKKS noise theorem에서 유도된 값은 아니다. Sensitivity 결과도 이 값의 최적성을 보여주지 않는다.
 
-정책 상수의 정당성은 두 층으로 평가해야 한다. 첫째, 연구 protocol 관점에서는 confirmatory 이전에 동결되어 audit 결과로 바뀌지 않았다는 점이 중요하다. 둘째, scientific optimality 관점에서는 여러 domain과 risk preference에서 calibration이 더 필요하다. 실제 배포에서는 application owner가 false acceptance/false rejection 비용, threshold calibration, acceptable abstention을 고려해 `rho`와 `delta`를 사전 선언해야 한다. 본 논문의 0.5는 reproducible primary setting이지 보편 권고값이 아니다.
+정책 상수의 정당성은 두 층으로 평가해야 한다. 첫째, 연구 protocol 관점에서는 confirmatory 이전에 동결되어 audit 결과로 바뀌지 않았다는 점이 중요하다. 둘째, scientific optimality 관점에서는 여러 domain과 risk preference에서 calibration이 더 필요하다. 실제 배포에서는 application owner가 false acceptance/false rejection 비용, threshold calibration, acceptable abstention을 고려해 `rho`와 `delta`를 사전 선언해야 한다. 본 논문의 {{N:primary_alpha}}는 reproducible primary setting이지 보편 권고값이 아니다.
 
 ## 9.3 Structural audit negative result
 
@@ -26,7 +26,7 @@ FlipGuard의 SAFE는 선언된 finite validation과 관측 key repetition의 emp
 
 ## 9.5 Catalog 비교의 한계
 
-Security-V2 bounded catalog는 {{N:security_catalog_profiles_admitted}} profile과 2 path의 유한 비교 집합이다. Fastest-safe라는 명칭은 이 14 candidate identity 안에서만 성립한다. Direct candidate는 catalog 밖에 있을 수 있고, 더 넓은 configuration space에 더 빠르거나 더 안정적인 candidate가 존재할 수 있다. 그러므로 latency ratio는 global search baseline 대비 결과가 아니다.
+Security-V2 bounded catalog는 {{N:security_catalog_profiles_admitted}} profile과 {{N:catalog_execution_paths}} path의 유한 비교 집합이다. Fastest-safe라는 명칭은 이 {{N:security_admitted_catalog_identities}} candidate identity 안에서만 성립한다. Direct candidate는 catalog 밖에 있을 수 있고, 더 넓은 configuration space에 더 빠르거나 더 안정적인 candidate가 존재할 수 있다. 그러므로 latency ratio는 global search baseline 대비 결과가 아니다.
 
 그럼에도 bounded catalog는 유용한 평가 기준이다. 사전 선언되고 exhaustive하게 실행되었으며 동일 decision gate와 Security-V2 filter를 적용할 수 있기 때문이다. Historical {{N:raw_historical_catalog_executions|,}} execution을 보존하면서 formal denominator를 {{N:formal_catalog_all}}으로 수정한 과정은 security admission이 tuning-space 정의의 일부여야 함을 보여준다. 후속 연구는 여러 compiler/autotuner가 생성한 candidate set을 같은 gate에 투입해 provider별 recall과 regret을 비교할 수 있다.
 
@@ -52,7 +52,7 @@ Independent training/data-seed extension은 {{N:independent_training_datasets}} 
 
 Security-V2는 published Table 5.2 cap, exact Q/P object, two-estimator sensitivity를 결합한다. Q와 QP를 분리한 점은 ciphertext와 evaluation key의 modulus semantics를 명확히 한다. Direct {{N:security_direct_pass}} row가 모두 통과하고 catalog {{N:security_catalog_profiles_excluded}} profile이 제외된 결과는 security filter가 실제 comparison population을 바꾸었음을 보여준다.
 
-그러나 guideline의 uniform-ternary 및 Gaussian 가정과 Lattigo의 concrete `Xs/Xe`, 특히 finite-bound truncation은 정확히 동일하지 않다. Estimator model도 공격 비용 모델과 구현 세부에 의존한다. 따라서 “임의 runtime에서 정확히 128-bit”라는 문장을 사용할 수 없다. 본 논문은 명시된 policy와 object가 보수적 admission reference 및 sensitivity를 통과했다고만 주장한다.
+그러나 guideline의 uniform-ternary 및 Gaussian 가정과 Lattigo의 concrete `Xs/Xe`, 특히 finite-bound truncation은 정확히 동일하지 않다. Estimator model도 공격 비용 모델과 구현 세부에 의존한다. 따라서 “임의 runtime에서 정확히 {{N:security_target_bits}}-bit”라는 문장을 사용할 수 없다. 본 논문은 명시된 policy와 object가 보수적 admission reference 및 sensitivity를 통과했다고만 주장한다.
 
 ## 9.10 External provider와 EVA가 appendix인 이유
 
@@ -70,7 +70,7 @@ Provider-format interoperability, Orion fail-closed import, AWS HIT rejection, E
 
 **내적 타당도**에는 개발 seed 0에서 policy와 ablation을 관찰한 영향, VM host의 runtime variation, finite key repetition이 포함된다. 이를 줄이기 위해 seed 역할을 분리하고 paired order 및 no-outlier protocol을 사용했으며 frozen policy digest를 검증했다.
 
-**구성 타당도**에는 reserve-policy violation이 실제 application harm과 동일하지 않다는 문제가 있다. 본 연구는 flip과 policy rejection을 분리하고 margin utilization을 공개했다. `rho=0.5`를 theorem constant로 부르지 않는다.
+**구성 타당도**에는 reserve-policy violation이 실제 application harm과 동일하지 않다는 문제가 있다. 본 연구는 flip과 policy rejection을 분리하고 margin utilization을 공개했다. `rho={{N:primary_alpha}}`를 theorem constant로 부르지 않는다.
 
 **외적 타당도**는 dataset, graph, packing, host 범위가 제한된다는 점이다. Structural/non-tabular/training-seed extension을 추가했지만 범용 compiler 또는 production deployment를 대표하지 않는다.
 

@@ -865,6 +865,47 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
     binding = load_json(root / "docs/evidence/research_release_binding_rc2_v1/release_binding_rc2.json")
     if binding["source_commit"] != EXPECTED_DIGESTS["rc2_source_commit"]:
         errors.append("RC2 binding source mismatch")
+    binding_text_requirements = {
+        "00_thesis_contract.md": (
+            binding["tag"],
+            binding["source_commit"],
+            binding["archive"]["sha256"].removeprefix("sha256:"),
+            binding["paper_artifacts_v3"]["manifest_sha256"].removeprefix("sha256:"),
+            binding["claim_admission"]["manifest_sha256"].removeprefix("sha256:"),
+            EXPECTED_DIGESTS["margin_interpretation_manifest_sha256"],
+        ),
+        "06_implementation.md": (
+            binding["tag"],
+            binding["source_commit"],
+            binding["archive"]["sha256"].removeprefix("sha256:"),
+        ),
+        "10_reproducibility_security.md": (
+            binding["tag"],
+            binding["source_commit"],
+            binding["archive"]["sha256"].removeprefix("sha256:"),
+            binding["v10"]["manifest_sha256"].removeprefix("sha256:"),
+            binding["paper_artifacts_v3"]["manifest_sha256"].removeprefix("sha256:"),
+            binding["claim_admission"]["manifest_sha256"].removeprefix("sha256:"),
+        ),
+        "appendix.md": (
+            binding["tag"],
+            binding["source_commit"],
+            binding["archive"]["sha256"].removeprefix("sha256:"),
+            binding["paper_artifacts_v3"]["manifest_sha256"].removeprefix("sha256:"),
+            binding["claim_admission"]["manifest_sha256"].removeprefix("sha256:"),
+            EXPECTED_DIGESTS["margin_interpretation_manifest_sha256"],
+        ),
+    }
+    binding_texts = {
+        "00_thesis_contract.md": auxiliary["00_thesis_contract.md"],
+        "06_implementation.md": chapters["06_implementation.md"],
+        "10_reproducibility_security.md": chapters["10_reproducibility_security.md"],
+        "appendix.md": appendix,
+    }
+    for filename, tokens in binding_text_requirements.items():
+        for token in tokens:
+            if token not in binding_texts[filename]:
+                errors.append(f"{filename}: missing or stale release binding token {token}")
     if claims_doc.get("paper_claim_allowed") is not True:
         errors.append("paper claim registry does not allow admitted-claim writing")
 
