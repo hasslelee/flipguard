@@ -315,6 +315,7 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
         "00_thesis_contract.md", "appendix.md", "abstract_ko_en.md",
         "advisor_defense_qa.md", "number_registry.json", "references.bib",
         "citation_audit.csv", "figure_table_map.csv", "claim_traceability.csv",
+        "reviewer_attack_checklist.md", "university_template_requirements.md",
     ]
     for relative in required:
         if not (source / relative).is_file():
@@ -491,6 +492,16 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
                 f"advisor Q{question_number} has {sentence_count} answer sentences; expected 3--8"
             )
 
+    reviewer = (source / "reviewer_attack_checklist.md").read_text(encoding="utf-8")
+    reviewer_rows = re.findall(r"^\|\s*(\d+)\s*\|.*\|\s*([A-Z_]+)\s*\|$", reviewer, flags=re.M)
+    reviewer_numbers = [int(number) for number, _ in reviewer_rows]
+    allowed_reviewer_states = {"CLOSED_FOR_DRAFT", "DISCLOSED_RESIDUAL_RISK", "BLOCKED_CLAIM"}
+    if reviewer_numbers != list(range(1, 19)):
+        errors.append(f"reviewer attack checklist numbering mismatch: {reviewer_numbers}")
+    invalid_reviewer_states = sorted({state for _, state in reviewer_rows} - allowed_reviewer_states)
+    if invalid_reviewer_states:
+        errors.append(f"invalid reviewer attack states: {invalid_reviewer_states}")
+
     forbidden_placeholders = re.findall(r"\b(?:TODO|TBD|FIXME)\b|추후\s*삽입", core_text, flags=re.I)
     if forbidden_placeholders:
         errors.append(f"placeholder tokens remain: {sorted(set(forbidden_placeholders))}")
@@ -535,6 +546,7 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
             "citation_audit_rows": len(audit_rows),
             "claim_traceability_rows": len(trace_rows),
             "advisor_questions": len(question_numbers),
+            "reviewer_attacks": len(reviewer_rows),
             "figures": len(figure_markers),
             "tables": len(table_markers),
         },
