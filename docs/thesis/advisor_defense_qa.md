@@ -98,15 +98,15 @@ Runtime과 exact operation semantics를 맞춘 Lattigo--SEAL comparison이 없�
 
 ## Q25. 연구의 가장 강한 기여와 가장 약한 부분은 무엇인가?
 
-가장 강한 부분은 direct synthesis, bounded encrypted admission, NO_SAFE, immutable audit replay, Security-V2와 provenance를 end-to-end로 결합하고 negative result까지 freeze한 것이다. 가장 약한 부분은 graph/packing 범위와 empirical certificate의 유한성이다. Natural primary data에서 margin이 initial literal을 바꾸지 않았다는 점도 novelty를 좁힌다. **Claim ID:** 여러 core admitted claim 및 blocked margin claim. **Evidence:** Paper Artifacts V3 전체. **금지 과장:** 모든 component가 동일 강도로 지지된다는 표현. **짧은 구두 답변:** “강점은 재현 가능한 admission protocol, 약점은 finite adapter와 empirical 범위입니다.”
+가장 강한 부분은 direct synthesis, bounded encrypted admission, NO_SAFE, immutable audit replay, Security-V2와 provenance를 end-to-end로 결합하고 negative result까지 freeze한 것이다. 가장 약한 부분은 graph/packing 범위와 empirical certificate의 유한성이다. Natural primary data에서 margin이 initial literal을 바꾸지 않았다는 점도 novelty를 좁힌다. **Claim ID:** `scoped_direct_synthesis`, `finite_scope_decision_integrity`, `natural_data_margin_literal_effect`. **Evidence:** Paper Artifacts V3 전체. **금지 과장:** 모든 component가 동일 강도로 지지된다는 표현. **짧은 구두 답변:** “강점은 재현 가능한 admission protocol, 약점은 finite adapter와 empirical 범위입니다.”
 
 ## Q26. 논문을 떨어뜨릴 수 있는 가장 큰 이유는 무엇인가?
 
-Direct synthesis가 adapter-specific heuristic으로 보이고, primary natural range에서 decision margin이 literal을 바꾸지 않은 점이 가장 큰 novelty risk다. 또한 one-host latency와 fixed-model repeated partitions는 외적 타당도를 제한한다. 논문은 이를 숨기지 않고 admission layer, negative result, provenance의 결합으로 기여를 정확히 한정해야 한다. **Claim ID:** `scoped_direct_synthesis`; blocked margin claim. **Evidence:** V3 표 8 및 discussion. **금지 과장:** heuristic 한계를 감춘 범용성. **짧은 구두 답변:** “Margin-driven literal 차별화가 약하고 adapter 범위가 좁다는 점이 가장 큰 심사 위험입니다.”
+Direct synthesis가 adapter-specific heuristic으로 보이고, primary natural range에서 decision margin이 literal을 바꾸지 않은 점이 가장 큰 novelty risk다. 또한 one-host latency와 fixed-model repeated partitions는 외적 타당도를 제한한다. 논문은 이를 숨기지 않고 admission layer, negative result, provenance의 결합으로 기여를 정확히 한정해야 한다. **Claim ID:** `scoped_direct_synthesis`, `natural_data_margin_literal_effect`. **Evidence:** V3 표 8 및 discussion. **금지 과장:** heuristic 한계를 감춘 범용성. **짧은 구두 답변:** “Margin-driven literal 차별화가 약하고 adapter 범위가 좁다는 점이 가장 큰 심사 위험입니다.”
 
 ## Q27. 재현 가능한가?
 
-RC2 tag/source/archive digest, frozen evidence manifest, SHA256SUMS와 verifier, V3 deterministic builder가 제공된다. {{N:release_soak_cycles}} soak cycle과 {{N:release_clean_clone_rebuilds}} clean-clone rebuild가 완료되었다. External dataset은 license를 지키며 fetch URL, expected digest, extraction rule을 제공한다. **Claim ID:** artifact reproducibility는 core evidence system의 일부. **Evidence:** `docs/evidence/research_release_binding_rc2_v1/` 및 V10. **금지 과장:** 모든 미래 dependency 환경에서 bit-identical 실행 보장. **짧은 구두 답변:** “RC2와 verifier로 publication artifact를 clean clone에서 재구축할 수 있습니다.”
+RC2 tag/source/archive digest, frozen evidence manifest, SHA256SUMS와 verifier, V3 deterministic builder가 제공된다. {{N:release_soak_cycles}} soak cycle과 {{N:release_clean_clone_rebuilds}} clean-clone rebuild가 완료되었다. External dataset은 license를 지키며 fetch URL, expected digest, extraction rule을 제공한다. **Claim ID:** `scoped_direct_synthesis`, `finite_scope_decision_integrity`, `security_attestation`의 reproducibility support. **Evidence:** `docs/evidence/research_release_binding_rc2_v1/` 및 V10. **금지 과장:** 모든 미래 dependency 환경에서 bit-identical 실행 보장. **짧은 구두 답변:** “RC2와 verifier로 publication artifact를 clean clone에서 재구축할 수 있습니다.”
 
 ## Q28. 실제 배포 시 사용자가 제공해야 하는 policy는?
 

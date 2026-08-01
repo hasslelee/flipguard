@@ -152,6 +152,19 @@ class ThesisLintTest(unittest.TestCase):
         self.assertEqual(result["status"], "FAIL")
         self.assertTrue(any("missing evidence path" in error for error in result["errors"]))
 
+    def test_unknown_defense_claim_id_fails_closed(self) -> None:
+        def mutate(source: Path) -> None:
+            path = source / "advisor_defense_qa.md"
+            text = path.read_text(encoding="utf-8")
+            path.write_text(
+                text.replace("`finite_scope_decision_integrity`", "`not_a_claim`", 1),
+                encoding="utf-8",
+            )
+
+        result = self.lint_mutated_source(mutate)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertTrue(any("unknown claim ID" in error for error in result["errors"]))
+
     def test_stale_release_digest_in_thesis_chapter_fails_closed(self) -> None:
         def mutate(source: Path) -> None:
             path = source / "10_reproducibility_security.md"

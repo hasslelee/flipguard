@@ -812,6 +812,16 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
         for field in ("**Claim ID:**", "**Evidence:**", "**금지 과장:**", "**짧은 구두 답변:**"):
             if field not in answer:
                 errors.append(f"advisor Q{question_number} lacks {field}")
+        if "**Claim ID:**" in answer and "**Evidence:**" in answer:
+            claim_text = answer.split("**Claim ID:**", 1)[1].split("**Evidence:**", 1)[0]
+            defense_claim_ids = re.findall(r"`([a-z0-9_]+)`", claim_text)
+            if not defense_claim_ids:
+                errors.append(f"advisor Q{question_number} lacks a canonical claim ID")
+            for claim_id in defense_claim_ids:
+                if claim_id not in claim_by_id:
+                    errors.append(
+                        f"advisor Q{question_number} cites unknown claim ID: {claim_id}"
+                    )
         if "**Evidence:**" in answer and "**금지 과장:**" in answer:
             evidence_text = answer.split("**Evidence:**", 1)[1].split("**금지 과장:**", 1)[0]
             for evidence_path in re.findall(r"`([^`]+/[^`]+)`", evidence_text):
