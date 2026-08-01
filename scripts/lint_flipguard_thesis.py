@@ -281,7 +281,7 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
     required = CHAPTERS + [
         "00_thesis_contract.md", "appendix.md", "abstract_ko_en.md",
         "advisor_defense_qa.md", "number_registry.json", "references.bib",
-        "citation_audit.csv", "figure_table_map.csv",
+        "citation_audit.csv", "figure_table_map.csv", "claim_traceability.csv",
     ]
     for relative in required:
         if not (source / relative).is_file():
@@ -298,8 +298,7 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
     registry = load_json(source / "number_registry.json")
     validate_registry(root, registry, errors)
 
-    headline_text = "\n".join((abstract, chapters["01_introduction.md"], chapters["08_results.md"], chapters["11_conclusion.md"]))
-    for finding in prohibited_occurrences(headline_text, claims):
+    for finding in prohibited_occurrences(core_text + "\n" + abstract, claims):
         errors.append(
             f"unscoped prohibited claim {finding['claim_id']}: "
             f"{finding['phrase']} :: {finding['context']}"
@@ -351,6 +350,21 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
     audit_keys = {row["citation_key"] for row in audit_rows}
     if cited_keys - audit_keys:
         errors.append(f"cited keys missing from citation audit: {sorted(cited_keys-audit_keys)}")
+    if audit_keys - cited_keys:
+        errors.append(f"citation audit rows not cited by the thesis: {sorted(audit_keys-cited_keys)}")
+    if audit_keys - known_keys:
+        errors.append(f"citation audit keys missing from BibTeX: {sorted(audit_keys-known_keys)}")
+    if known_keys - audit_keys:
+        errors.append(f"BibTeX keys missing from citation audit: {sorted(known_keys-audit_keys)}")
+    if len(audit_keys) != len(audit_rows):
+        errors.append("duplicate citation keys in citation audit")
+    for row in audit_rows:
+        if row["primary_source_verified"].casefold() != "true":
+            errors.append(f"citation lacks primary-source verification: {row['citation_key']}")
+        if not row["DOI/ePrint/official URL"].strip():
+            errors.append(f"citation lacks official locator: {row['citation_key']}")
+        if not row["exact_supported_point"].strip() or not row["unsupported_extension"].strip():
+            errors.append(f"citation boundary is incomplete: {row['citation_key']}")
     unresolved = [row["citation_key"] for row in audit_rows if not row["status"].startswith("VERIFIED")]
     if unresolved:
         errors.append(f"unresolved citations: {unresolved}")
@@ -370,6 +384,69 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
             errors.append(f"asset digest mismatch: {row['source_path']}")
         if row["cited_in_text"].casefold() != "true":
             errors.append(f"orphan asset: {identity}")
+        chapter_path = source / f"{row['chapter']}.md"
+        if not chapter_path.is_file():
+            errors.append(f"figure/table chapter does not exist: {row['chapter']}")
+            continue
+        chapter_lines = chapter_path.read_text(encoding="utf-8").splitlines()
+        korean_type = "그림" if row["type"] == "figure" else "표"
+        label = f"{korean_type} {int(row['number'])}"
+        references = [index for index, line in enumerate(chapter_lines, 1) if label in line]
+        marker = f"{{{{V3_{row['type'].upper()}_{int(row['number']):02d}}}}}"
+        placements = [index for index, line in enumerate(chapter_lines, 1) if marker in line]
+        if not references:
+            errors.append(f"missing in-text reference: {identity}")
+        elif row["first_reference_line"] != str(references[0]):
+            errors.append(f"stale first-reference line: {identity}")
+        if len(placements) != 1:
+            errors.append(f"asset placement count is {len(placements)}, expected 1: {identity}")
+        elif references and placements[0] <= references[0]:
+            errors.append(f"asset is not placed after its first reference: {identity}")
+
+    with (source / "claim_traceability.csv").open(newline="", encoding="utf-8") as handle:
+        trace_rows = list(csv.DictReader(handle))
+    expected_trace: set[tuple[str, str, str]] = set()
+    for filename, text in {"abstract_ko_en.md": abstract, **chapters}.items():
+        for match in marker_pattern.finditer(text):
+            for claim_id in match.group(2).split(","):
+                expected_trace.add((Path(filename).stem, match.group(1), claim_id))
+    actual_trace = {
+        (row["section"], row["paragraph_id"], row["claim_id"])
+        for row in trace_rows
+    }
+    if len(actual_trace) != len(trace_rows):
+        errors.append("duplicate claim traceability row")
+    if actual_trace != expected_trace:
+        errors.append(
+            "claim traceability differs from source markers: "
+            f"missing={sorted(expected_trace-actual_trace)}, extra={sorted(actual_trace-expected_trace)}"
+        )
+    for row in trace_rows:
+        claim = claim_by_id.get(row["claim_id"])
+        if claim is None or row["paper_admitted"].casefold() != "true":
+            errors.append(f"non-admitted claim in traceability: {row['claim_id']}")
+        if row["wording_type"] not in {"exact", "scoped_paraphrase"}:
+            errors.append(f"invalid claim wording type: {row['paragraph_id']}")
+        if row["lint_status"] != "PASS":
+            errors.append(f"claim traceability row is not PASS: {row['paragraph_id']}")
+
+    defense = (source / "advisor_defense_qa.md").read_text(encoding="utf-8")
+    defense_parts = re.split(r"^## Q(\d+)\. ", defense, flags=re.M)
+    question_numbers = [int(defense_parts[index]) for index in range(1, len(defense_parts), 2)]
+    if question_numbers != list(range(1, 31)):
+        errors.append(f"advisor Q&A numbering mismatch: {question_numbers}")
+    for index in range(1, len(defense_parts), 2):
+        question_number = defense_parts[index]
+        answer = defense_parts[index + 1]
+        for field in ("**Claim ID:**", "**Evidence:**", "**금지 과장:**", "**짧은 구두 답변:**"):
+            if field not in answer:
+                errors.append(f"advisor Q{question_number} lacks {field}")
+        prose = answer.split("**Claim ID:**", 1)[0]
+        sentence_count = len(re.findall(r"(?:다|이다|한다|된다|않다|없다|있다)\.", prose))
+        if not 3 <= sentence_count <= 8:
+            errors.append(
+                f"advisor Q{question_number} has {sentence_count} answer sentences; expected 3--8"
+            )
 
     forbidden_placeholders = re.findall(r"\b(?:TODO|TBD|FIXME)\b|추후\s*삽입", core_text, flags=re.I)
     if forbidden_placeholders:
@@ -413,6 +490,8 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
             "blocked_claim_violations": sum("prohibited claim" in error or "blocked claim" in error for error in errors),
             "citations_used": len(cited_keys),
             "citation_audit_rows": len(audit_rows),
+            "claim_traceability_rows": len(trace_rows),
+            "advisor_questions": len(question_numbers),
             "figures": len(figure_markers),
             "tables": len(table_markers),
         },

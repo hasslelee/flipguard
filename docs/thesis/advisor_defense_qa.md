@@ -82,15 +82,15 @@ Security-V2는 published Category-128 cap을 보수적 admission reference로 �
 
 ## Q21. Sobel/Harris/CNN-lite 결과의 한계는?
 
-Sobel은 400/400 patch, Harris는 200/200 window, CNN-lite는 250/250 image의 finite scope다. 모두 scalar-replicated execution이며 full-image throughput 또는 general CNN accuracy를 평가하지 않았다. **Claim ID:** `scoped_non_tabular_extension`. **Evidence:** 각 `docs/evidence/non_tabular_*_holdout_v1/summary.json`. **금지 과장:** image-processing 또는 CNN 전반의 일반화. **짧은 구두 답변:** “세 adapter의 선언된 finite scalar-replicated 입력에서만 통과했습니다.”
+Sobel은 400/400 patch, Harris는 200/200 window, CNN-lite는 250/250 image의 finite scope다. 모두 scalar-replicated execution이며 full-image throughput 또는 general CNN accuracy를 평가하지 않았다. 따라서 이 결과는 operation-family adapter가 동작할 수 있다는 제한된 확장 근거이지 범용 영상 추론 근거가 아니다. **Claim ID:** `scoped_non_tabular_extension`. **Evidence:** 각 `docs/evidence/non_tabular_*_holdout_v1/summary.json`. **금지 과장:** image-processing 또는 CNN 전반의 일반화. **짧은 구두 답변:** “세 adapter의 선언된 finite scalar-replicated 입력에서만 통과했습니다.”
 
 ## Q22. Packed CNN을 지원하는가?
 
-현재 evidence는 scalar-replicated CNN-lite에 한정된다. Packed convolution, rotation schedule, slot layout optimization, multiclass encrypted argmax는 구현·평가하지 않았다. **Claim ID:** `arbitrary_graph_support`는 NOT_EVALUATED. **Evidence:** CNN-lite manifest. **금지 과장:** arbitrary CNN support. **짧은 구두 답변:** “아니요. 현재는 scalar-replicated binary CNN-lite scope입니다.”
+현재 evidence는 scalar-replicated CNN-lite에 한정된다. Packed convolution, rotation schedule, slot layout optimization, multiclass encrypted argmax는 구현·평가하지 않았다. 그러므로 packed CNN 지원은 후속 구현과 별도 평가가 필요한 미래 작업이다. **Claim ID:** `arbitrary_graph_support`는 NOT_EVALUATED. **Evidence:** CNN-lite manifest. **금지 과장:** arbitrary CNN support. **짧은 구두 답변:** “아니요. 현재는 scalar-replicated binary CNN-lite scope입니다.”
 
 ## Q23. External autotuner와 실제 비교했는가?
 
-Core paired comparator는 Security-V2 bounded catalog다. Provider-format import와 EVA auxiliary evidence는 있으나 general external autotuner와 matched end-to-end comparison은 하지 않았다. **Claim ID:** `general_external_autotuner_integration`은 NOT_EVALUATED. **Evidence:** V3 appendix provider boundary. **금지 과장:** general provider integration. **짧은 구두 답변:** “Core 비교는 bounded catalog이며 external provider는 appendix의 제한된 admission 사례입니다.”
+Core paired comparator는 Security-V2 bounded catalog다. Provider-format import와 EVA auxiliary evidence는 있으나 general external autotuner와 matched end-to-end comparison은 하지 않았다. 따라서 외부 autotuner 전체에 대한 우월성이나 호환성은 주장하지 않는다. **Claim ID:** `general_external_autotuner_integration`은 NOT_EVALUATED. **Evidence:** V3 appendix provider boundary. **금지 과장:** general provider integration. **짧은 구두 답변:** “Core 비교는 bounded catalog이며 external provider는 appendix의 제한된 admission 사례입니다.”
 
 ## Q24. 왜 EVA/provider 결과는 appendix인가?
 
@@ -119,4 +119,3 @@ RC2 tag/source/archive digest, frozen evidence manifest, SHA256SUMS와 verifier,
 ## Q30. 향후 어떤 연구가 analytical guarantee를 완성하는가?
 
 Exact Q/P, scale, graph operation, input bound에 대해 CKKS residual error envelope `B_c(x)`를 계산해야 한다. 그 bound가 domain의 decision margin보다 작음을 정형적으로 검증하고 implementation parameter와 proof object를 연결해야 한다. Empirical audit은 이 분석적 bound의 validation 수단으로 남을 수 있다. **Claim ID:** `instantiated_analytical_ckks_certificate`는 BLOCKED. **Evidence:** claim registry reviewer rationale. **금지 과장:** 현재 artifact가 proof를 이미 포함. **짧은 구두 답변:** “Graph-wide residual bound를 exact literal과 domain margin에 인스턴스화하는 작업이 필요합니다.”
-

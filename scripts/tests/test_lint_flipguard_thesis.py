@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import shutil
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -60,6 +62,33 @@ class ThesisLintTest(unittest.TestCase):
         errors: list[str] = []
         MODULE.validate_registry(ROOT, registry, errors)
         self.assertTrue(any("formal_catalog_all" in error for error in errors))
+
+    def lint_mutated_source(self, mutate) -> dict:
+        with tempfile.TemporaryDirectory(prefix="thesis-lint-fixture-", dir=ROOT) as directory:
+            source = Path(directory) / "thesis"
+            shutil.copytree(ROOT / "docs/thesis", source)
+            mutate(source)
+            return MODULE.lint_source(ROOT, source.relative_to(ROOT))
+
+    def test_unverified_citation_fails_closed(self) -> None:
+        def mutate(source: Path) -> None:
+            path = source / "citation_audit.csv"
+            text = path.read_text(encoding="utf-8")
+            path.write_text(text.replace(",true,02_background", ",false,02_background", 1), encoding="utf-8")
+
+        result = self.lint_mutated_source(mutate)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertTrue(any("primary-source verification" in error for error in result["errors"]))
+
+    def test_stale_figure_reference_line_fails_closed(self) -> None:
+        def mutate(source: Path) -> None:
+            path = source / "figure_table_map.csv"
+            text = path.read_text(encoding="utf-8")
+            path.write_text(text.replace(",05_flipguard_design,7,", ",05_flipguard_design,999,"), encoding="utf-8")
+
+        result = self.lint_mutated_source(mutate)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertTrue(any("stale first-reference line" in error for error in result["errors"]))
 
 
 if __name__ == "__main__":
