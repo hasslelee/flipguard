@@ -84,70 +84,194 @@ def prohibited_occurrences(text: str, claims: list[dict[str, Any]]) -> list[dict
     return findings
 
 
-def validate_registry(root: Path, registry: dict[str, Any], errors: list[str]) -> None:
-    expected = {
-        "formal_catalog_all": 700,
-        "formal_catalog_confirmatory": 560,
-        "direct_trials_all": 70,
-        "direct_trials_confirmatory": 56,
-        "formal_trial_reduction_all": 0.9,
-        "formal_trial_reduction_confirmatory": 0.9,
-        "confirmatory_locked_audit_pass": 40,
-        "development_locked_audit_pass": 10,
-        "no_safe_budget": 16,
-        "no_safe_budget_total": 40,
-        "no_safe_finite_domain": 50,
-        "paired_total_ratio_confirmatory": 3.14065956642714,
-        "paired_total_ci_low": 2.3423342246526992,
-        "paired_total_ci_high": 4.21531336367743,
-        "paired_eval_ratio_confirmatory": 2.624674483419857,
-        "structural_selected": 25,
-        "structural_audit_pass": 24,
-        "structural_reserve_reject": 1,
-        "structural_flip": 0,
-        "independent_training_seed_pass": 9,
-        "sobel_validation_samples": 400,
-        "sobel_audit_samples": 400,
-        "harris_validation_samples": 200,
-        "harris_audit_samples": 200,
-        "cnn_lite_validation_samples": 250,
-        "cnn_lite_audit_samples": 250,
-    }
-    for key, value in expected.items():
-        if registry.get(key) != value:
-            errors.append(f"number registry mismatch: {key}={registry.get(key)!r}, expected {value!r}")
-    for key, value in EXPECTED_DIGESTS.items():
-        if registry.get(key) != value:
-            errors.append(f"binding mismatch: {key}")
-
-    latency = load_json(
+def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
+    """Reconstruct every headline number from immutable evidence inputs."""
+    suite = load_json(root / "docs/evidence/final_confirmatory_suite_v1/manifest.json")
+    confirmatory = load_json(
+        root / "docs/evidence/direct_locked_audit_final_source_v1/outputs/summary.json"
+    )
+    development = load_json(
+        root / "docs/evidence/direct_locked_audit_seed0_development_v1/outputs/summary.json"
+    )
+    no_safe = load_json(root / "docs/evidence/no_safe_controls_confirmatory_v1/manifest.json")
+    paired_confirmatory = load_json(
         root / "results/thesis_grade_protocol/paired_latency_claim_admission_v1/"
         "seeds1_4_confirmatory_summary.json"
     )
-    ratio = latency["catalog_over_direct"]
-    evidence_values = {
-        "paired_total_ratio_confirmatory": ratio["geometric_mean_total_latency_ratio"],
-        "paired_total_ci_low": ratio["cluster_bootstrap_95_ci_total"]["low"],
-        "paired_total_ci_high": ratio["cluster_bootstrap_95_ci_total"]["high"],
-        "paired_eval_ratio_confirmatory": ratio["geometric_mean_eval_only_ratio"],
-    }
-    for key, value in evidence_values.items():
-        if registry.get(key) != value:
-            errors.append(f"registry/evidence mismatch: {key}")
-
-    for name, prefix in (("sobel", "non_tabular_sobel"), ("harris", "non_tabular_harris")):
-        summary = load_json(root / f"docs/evidence/{prefix}_holdout_v1/summary.json")
-        validation = summary["selection"]["encrypted_sample_evaluations"] // summary["selection"]["fresh_key_runs"]
-        audit = summary["locked_audit"]["encrypted_sample_evaluations"] // summary["locked_audit"]["fresh_key_runs"]
-        if registry[f"{name}_validation_samples"] != validation:
-            errors.append(f"registry/evidence mismatch: {name}_validation_samples")
-        if registry[f"{name}_audit_samples"] != audit:
-            errors.append(f"registry/evidence mismatch: {name}_audit_samples")
+    paired_development = load_json(
+        root / "results/thesis_grade_protocol/paired_latency_claim_admission_v1/"
+        "seed0_development_summary.json"
+    )
+    structural = load_json(root / "docs/evidence/structural_extension_v1/manifest.json")
+    margin = load_json(
+        root / "docs/evidence/margin_utilization_interpretation_v1/"
+        "structural_rejection_interpretation.json"
+    )
+    policy = load_json(root / "docs/evidence/policy_sensitivity_v1/results/summary.json")
+    sobel = load_json(root / "docs/evidence/non_tabular_sobel_holdout_v1/summary.json")
+    harris = load_json(root / "docs/evidence/non_tabular_harris_holdout_v1/summary.json")
     cnn = load_json(root / "docs/evidence/non_tabular_mnist_cnn_lite_holdout_v1/summary.json")
-    if registry["cnn_lite_validation_samples"] != cnn["selection"]["samples"]:
-        errors.append("registry/evidence mismatch: cnn_lite_validation_samples")
-    if registry["cnn_lite_audit_samples"] != cnn["locked_audit"]["samples"]:
-        errors.append("registry/evidence mismatch: cnn_lite_audit_samples")
+    training = load_json(root / "docs/evidence/independent_training_seed_extension_v1/summary.json")
+    security = load_json(
+        root / "docs/evidence/security_v2_static_attestation_formal_v2/"
+        "security_reattestation_v2.json"
+    )
+    estimator = load_json(root / "docs/evidence/exact_security_estimator_v1/summary.json")
+    interpretation = load_json(
+        root / "docs/evidence/margin_utilization_interpretation_v1/policy_interpretation.json"
+    )
+
+    with (root / "docs/evidence/independent_training_seed_extension_v1/workload_summary.csv").open(
+        newline="", encoding="utf-8"
+    ) as handle:
+        training_rows = list(csv.DictReader(handle))
+    with (root / "docs/evidence/margin_utilization_interpretation_v1/alpha_sensitivity_summary.csv").open(
+        newline="", encoding="utf-8"
+    ) as handle:
+        alpha_rows = list(csv.DictReader(handle))
+
+    estimator_models = estimator["models"]
+    estimator_pass_counts = {
+        model["cross_classification_counts"]["PASS__PASS_ESTIMATOR_MODEL"]
+        for model in estimator_models
+    }
+    estimator_excluded_counts = {
+        model["cross_classification_counts"]["FAIL__FAIL_ESTIMATOR_MODEL"]
+        for model in estimator_models
+    }
+    if len(estimator_pass_counts) != 1 or len(estimator_excluded_counts) != 1:
+        raise ValueError("security estimator models disagree on object accounting")
+
+    alpha_candidate_changes = {int(row["natural_candidate_state_changes"]) for row in alpha_rows}
+    alpha_oracle_changes = {int(row["bounded_oracle_selection_changes"]) for row in alpha_rows}
+    alpha_literal_changes = {int(row["direct_initial_literal_changes"]) for row in alpha_rows}
+    if any(len(values) != 1 for values in (
+        alpha_candidate_changes, alpha_oracle_changes, alpha_literal_changes
+    )):
+        raise ValueError("alpha-sensitivity rows disagree on invariant counts")
+
+    protocol = policy["protocol"]
+    catalog = suite["catalog_accounting"]
+    trials = suite["formal_trial_accounting"]
+    no_safe_counts = no_safe["counts"]
+    structural_counts = structural["counts"]
+    paired_ratio = paired_confirmatory["catalog_over_direct"]
+    security_profiles = security["catalog_profiles"]
+    direct_security = security["direct_selected"]
+
+    sobel_validation = (
+        sobel["selection"]["encrypted_sample_evaluations"]
+        // sobel["selection"]["fresh_key_runs"]
+    )
+    sobel_audit = (
+        sobel["locked_audit"]["encrypted_sample_evaluations"]
+        // sobel["locked_audit"]["fresh_key_runs"]
+    )
+    harris_validation = (
+        harris["selection"]["encrypted_sample_evaluations"]
+        // harris["selection"]["fresh_key_runs"]
+    )
+    harris_audit = (
+        harris["locked_audit"]["encrypted_sample_evaluations"]
+        // harris["locked_audit"]["fresh_key_runs"]
+    )
+
+    # The thesis contract fixes structural utilization from the six-decimal
+    # normalized-budget presentation (usage = utilization / rho). Keep that
+    # declared display convention distinct from V3's direct seven-decimal
+    # rounding of the full-precision overlay value.
+    def structural_utilization_display(value: float) -> float:
+        return round(value / interpretation["primary_rho"], 6) * interpretation["primary_rho"]
+
+    training_datasets = {row["dataset_id"] for row in training_rows}
+    training_seeds = {row["training_seed"] for row in training_rows}
+    return {
+        "formal_catalog_all": catalog["security_admitted_catalog_candidates"],
+        "formal_catalog_confirmatory": catalog["confirmatory_catalog_candidates"],
+        "raw_historical_catalog_executions": catalog["raw_catalog_executions"],
+        "security_excluded_catalog_candidates": catalog["security_excluded_catalog_candidates"],
+        "direct_trials_all": trials["direct_trials_all"],
+        "direct_trials_confirmatory": trials["direct_trials_confirmatory"],
+        "direct_trials_development": trials["direct_trials_development"],
+        "formal_trial_reduction_all": trials["formal_trial_reduction_all"],
+        "formal_trial_reduction_confirmatory": trials["formal_trial_reduction_confirmatory"],
+        "confirmatory_instances": confirmatory["expected_runs"],
+        "development_instances": development["expected_runs"],
+        "confirmatory_locked_audit_pass": confirmatory["locked_audit_passes"],
+        "development_locked_audit_pass": development["locked_audit_passes"],
+        "primary_locked_audit_retuning": confirmatory["retuned_runs"] + development["retuned_runs"],
+        "no_safe_budget": no_safe_counts["budget_no_safe"],
+        "no_safe_budget_total": no_safe_counts["budget_workloads"],
+        "no_safe_budget_selected": no_safe_counts["budget_selected"],
+        "no_safe_finite_domain": no_safe_counts["finite_audit_no_safe"],
+        "no_safe_finite_domain_total": no_safe_counts["finite_audit_workloads"],
+        "paired_total_ratio_confirmatory": paired_ratio["geometric_mean_total_latency_ratio"],
+        "paired_total_ci_low": paired_ratio["cluster_bootstrap_95_ci_total"]["low"],
+        "paired_total_ci_high": paired_ratio["cluster_bootstrap_95_ci_total"]["high"],
+        "paired_eval_ratio_confirmatory": paired_ratio["geometric_mean_eval_only_ratio"],
+        "paired_total_ratio_development": round(
+            paired_development["catalog_over_direct"]["geometric_mean_total_latency_ratio"], 6
+        ),
+        "paired_confirmatory_complete": paired_confirmatory["workload_partition_instances"],
+        "paired_confirmatory_failures": paired_confirmatory["failure_count"],
+        "paired_confirmatory_reference_safe": paired_confirmatory["reference_status"]["safe"],
+        "primary_dataset_model_clusters": len(protocol["datasets"]) * len(protocol["models"]),
+        "primary_datasets": len(protocol["datasets"]),
+        "primary_model_graphs": len(protocol["models"]),
+        "deterministic_partitions": len(protocol["split_seeds"]),
+        "structural_instances": structural_counts["structural_instances"],
+        "structural_selected": structural_counts["selection_selected"],
+        "structural_audit_pass": structural_counts["locked_audit_pass"],
+        "structural_reserve_reject": structural_counts["locked_audit_rejected"],
+        "structural_failed": structural_counts["locked_audit_failed"],
+        "structural_flip": structural_counts["flip_count"],
+        "structural_violation": structural_counts["violation_count"],
+        "structural_retuning": structural_counts["retuning"],
+        "structural_validation_margin_utilization": structural_utilization_display(
+            margin["validation"]["margin_utilization_ratio"]
+        ),
+        "structural_audit_margin_utilization": structural_utilization_display(
+            margin["locked_audit"]["margin_utilization_ratio"]
+        ),
+        "sobel_validation_samples": sobel_validation,
+        "sobel_audit_samples": sobel_audit,
+        "sobel_validation_images": sobel["source"]["validation_images"],
+        "sobel_audit_images": sobel["source"]["audit_images"],
+        "harris_validation_samples": harris_validation,
+        "harris_audit_samples": harris_audit,
+        "harris_validation_images": harris["source"]["validation_images"],
+        "harris_audit_images": harris["source"]["audit_images"],
+        "cnn_lite_validation_samples": cnn["selection"]["samples"],
+        "cnn_lite_audit_samples": cnn["locked_audit"]["samples"],
+        "independent_training_datasets": len(training_datasets),
+        "independent_training_seeds_per_dataset": len(training_seeds),
+        "independent_training_seed_pass": training["locked_audit"]["pass"],
+        "independent_training_seed_total": training["instances"],
+        "security_direct_pass": direct_security["pass"],
+        "security_direct_minimum_headroom_bits": direct_security["minimum_headroom_bits"],
+        "security_catalog_profiles_admitted": len(security_profiles["admitted"]),
+        "security_catalog_profiles_excluded": len(security_profiles["excluded"]),
+        "security_estimator_objects_pass": next(iter(estimator_pass_counts)),
+        "security_estimator_objects_excluded": next(iter(estimator_excluded_counts)),
+        "security_estimator_models": len(estimator_models),
+        "margin_utilization_cap": interpretation["primary_rho"],
+        "reserved_margin_fraction": interpretation["reserved_margin_fraction"],
+        "policy_sensitivity_candidate_state_changes": next(iter(alpha_candidate_changes)),
+        "policy_sensitivity_oracle_changes": next(iter(alpha_oracle_changes)),
+        "policy_sensitivity_initial_literal_changes": next(iter(alpha_literal_changes)),
+    }
+
+
+def validate_registry(root: Path, registry: dict[str, Any], errors: list[str]) -> None:
+    for key, value in extract_authoritative_numbers(root).items():
+        if registry.get(key) != value:
+            errors.append(
+                f"number registry/evidence mismatch: {key}={registry.get(key)!r}, "
+                f"evidence={value!r}"
+            )
+    for key, value in EXPECTED_DIGESTS.items():
+        if registry.get(key) != value:
+            errors.append(f"binding mismatch: {key}")
 
 
 def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[str, Any]:

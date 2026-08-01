@@ -42,6 +42,25 @@ class ThesisLintTest(unittest.TestCase):
         result = MODULE.lint_source(ROOT, Path("docs/thesis"))
         self.assertEqual(result["status"], "PASS", result["errors"])
 
+    def test_number_registry_is_fully_reconstructed_from_evidence(self) -> None:
+        registry = json.loads(
+            (ROOT / "docs/thesis/number_registry.json").read_text(encoding="utf-8")
+        )
+        reconstructed = MODULE.extract_authoritative_numbers(ROOT)
+        self.assertGreaterEqual(len(reconstructed), 50)
+        for key, value in reconstructed.items():
+            self.assertIn(key, registry)
+            self.assertEqual(registry[key], value, key)
+
+    def test_number_registry_mutation_fails_closed(self) -> None:
+        registry = json.loads(
+            (ROOT / "docs/thesis/number_registry.json").read_text(encoding="utf-8")
+        )
+        registry["formal_catalog_all"] = 1100
+        errors: list[str] = []
+        MODULE.validate_registry(ROOT, registry, errors)
+        self.assertTrue(any("formal_catalog_all" in error for error in errors))
+
 
 if __name__ == "__main__":
     unittest.main()
