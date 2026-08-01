@@ -28,7 +28,7 @@ Execution ledger는 candidate trial과 key run을 분리한다. Sample row에는
 
 Security gate는 policy JSON에서 LogN별 cap과 runtime distribution metadata를 읽는다. Ciphertext-Q admission은 `LogQ`를 cap과 비교하고, evaluation-key-QP admission은 `LogQP`를 비교한다. Candidate가 실제로 evaluation key를 필요로 하면 두 검사 모두 PASS여야 final admission이 PASS다. Headroom은 cap에서 object modulus bit 크기를 뺀 값으로 기록한다.
 
-Static re-attestation은 direct-selected 50개 row, distinct direct literal, catalog 11 profile, profile/path identity, reference, latency arm을 machine-readable CSV/JSON으로 재생했다. Catalog의 4개 profile은 Security-V2에서 제외되었고 7개만 formal comparison에 남았다. Exact estimator artifact는 exact Q/P prime과 두 cost model에서 object를 평가하지만, Lattigo `Xe`의 finite bound가 estimator distribution과 완전히 같지 않음을 manifest에 기록한다.
+Static re-attestation은 direct-selected {{N:security_direct_pass}}개 row, distinct direct literal, catalog {{N:security_catalog_profiles_total}} profile, profile/path identity, reference, latency arm을 machine-readable CSV/JSON으로 재생했다. Catalog의 {{N:security_catalog_profiles_excluded}}개 profile은 Security-V2에서 제외되었고 {{N:security_catalog_profiles_admitted}}개만 formal comparison에 남았다. Exact estimator artifact는 exact Q/P prime과 {{N:security_estimator_models}}개 cost model에서 object를 평가하지만, Lattigo `Xe`의 finite bound가 estimator distribution과 완전히 같지 않음을 manifest에 기록한다.
 
 ## 6.6 Failure classifier와 repair executor
 
@@ -40,19 +40,19 @@ Repair executor는 policy JSON에 있는 transition만 수행한다. Numerical r
 
 Locked audit runner의 input은 selection result와 audit artifact뿐이다. Candidate generator interface를 link하지 않도록 실행 path를 분리하고, selection literal digest와 audit materialization literal digest를 비교한다. Model/source/candidate digest가 다르면 결과를 만들지 않는다. Audit에서는 fresh key 세 개를 생성하지만 literal parameter는 변경하지 않는다.
 
-Retuning count는 manifest의 정책 선언과 실행 log 양쪽에서 확인한다. Audit 결과를 보고 후속 candidate가 생성된 흔적, repair event, policy digest 변경이 있으면 verifier가 실패한다. Primary audit 50건과 structural audit 25건 모두 retuning count는 0이었다.
+Retuning count는 manifest의 정책 선언과 실행 log 양쪽에서 확인한다. Audit 결과를 보고 후속 candidate가 생성된 흔적, repair event, policy digest 변경이 있으면 verifier가 실패한다. Primary audit {{N:combined_descriptive_instances}}건과 structural audit {{N:structural_instances}}건 모두 retuning count는 {{N:primary_locked_audit_retuning}}이었다.
 
 ## 6.8 Paired latency runner
 
 Paired latency runner는 direct-selected, Security-V2 bounded-catalog fastest-safe, fixed reference의 세 arm을 frozen identity로 받는다. Workload마다 warm-up 1회 후 measurement pass 6회를 수행하고, arm 순서는 balanced cyclic 및 reverse 규칙으로 배치한다. Outlier를 제거하지 않으며 setup/keygen, evaluation-only, total latency를 분리한다. Process restart, arm position, workload order와 host metadata를 ledger에 저장한다.
 
-총 50 workload-partition instance에서 세 arm, 여섯 pass, setup/evaluation/total 측정이 결합되어 5,400 latency record가 생성되었다. 분석기는 raw pair를 독립 표본으로 취급하지 않고 10 dataset-model cluster를 primary inference unit으로 사용한다. Seed 0는 descriptive output으로, seeds 1--4는 confirmatory output으로 분리한다.
+총 {{N:combined_descriptive_instances}} workload-partition instance에서 세 arm, 여섯 pass, setup/evaluation/total 측정이 결합되어 {{N:paired_raw_records|,}} latency record가 생성되었다. 분석기는 raw pair를 독립 표본으로 취급하지 않고 {{N:primary_dataset_model_clusters}} dataset-model cluster를 primary inference unit으로 사용한다. Seed 0는 descriptive output으로, seeds 1--4는 confirmatory output으로 분리한다.
 
 ## 6.9 Evidence freezer와 verifier
 
 Evidence freezer는 source artifact를 snapshot하고 manifest에 relative path와 digest를 기록한다. Pack root의 SHA256SUMS는 manifest 자체를 제외하거나 포함하는 규칙을 schema에서 명시하며, verifier는 예상 파일 집합과 checksum을 비교한다. Frozen pack 뒤에 새로운 해석이 필요하면 기존 파일을 수정하지 않고 overlay pack을 만든다. Security re-attestation, validation identity v2, margin utilization, paired latency admission, paper claim admission이 이 방식으로 구축되었다.
 
-Verifier는 단순 파일 존재 검사보다 의미 조건을 확인한다. 예를 들어 trial-reduction verifier는 formal denominator가 700/560인지, 1,100이 headline denominator로 사용되지 않는지 검사한다. Structural verifier는 24 PASS와 1 REJECT가 모두 있어야 통과하며 negative row 삭제를 실패로 처리한다. Claim registry는 admitted 문장과 prohibited overclaim을 분리하고 paper builder는 admitted claim만 소비한다.
+Verifier는 단순 파일 존재 검사보다 의미 조건을 확인한다. 예를 들어 trial-reduction verifier는 formal denominator가 {{N:formal_catalog_all}}/{{N:formal_catalog_confirmatory}}인지, {{N:raw_historical_catalog_executions|,}}이 headline denominator로 사용되지 않는지 검사한다. Structural verifier는 {{N:structural_audit_pass}} PASS와 {{N:structural_reserve_reject}} REJECT가 모두 있어야 통과하며 negative row 삭제를 실패로 처리한다. Claim registry는 admitted 문장과 prohibited overclaim을 분리하고 paper builder는 admitted claim만 소비한다.
 
 ## 6.10 RC2 reproducibility artifact
 

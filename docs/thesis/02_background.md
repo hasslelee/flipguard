@@ -68,7 +68,6 @@ CKKS parameter의 기능적 실행 가능성과 암호학적 security admission�
 
 ## 2.7 Bounded catalog
 
-Bounded catalog는 사전 선언한 11개 CKKS profile과 native/rescale-aware 두 path로 구성된 유한 후보 집합이다. 역사적으로는 50개 workload-partition instance에 대해 `11*2*50=1,100`회가 실행되었다. Security-V2 재감사에서는 profile 7개가 admitted, 4개가 excluded되었다. 따라서 정식 비교 집합은 전체 `7*2*50=700`개이며, confirmatory seeds 1--4에서는 `7*2*40=560`개다.
+Bounded catalog는 사전 선언한 {{N:security_catalog_profiles_total}}개 CKKS profile과 native/rescale-aware {{N:catalog_execution_paths}}개 path로 구성된 유한 후보 집합이다. 역사적으로는 {{N:combined_descriptive_instances}}개 workload-partition instance에 대해 {{N:raw_historical_catalog_executions|,}}회가 실행되었다. Security-V2 재감사에서는 profile {{N:security_catalog_profiles_admitted}}개가 admitted, {{N:security_catalog_profiles_excluded}}개가 excluded되었다. 따라서 정식 비교 집합은 전체 {{N:formal_catalog_all}}개이며, confirmatory seeds 1--4에서는 {{N:formal_catalog_confirmatory}}개다.
 
-이 catalog의 fastest-safe candidate는 **Security-V2-compliant bounded-catalog fastest-safe** 또는 간단히 bounded-catalog oracle로 부른다. 이는 선언된 14개 candidate identity 안에서 가장 빠른 SAFE 후보일 뿐, 가능한 CKKS configuration 전체의 최적해가 아니다. 1,100회는 pre-security-filter historical execution ledger와 security sensitivity 분석의 원자료로만 남긴다.
-
+이 catalog의 fastest-safe candidate는 **Security-V2-compliant bounded-catalog fastest-safe** 또는 간단히 bounded-catalog oracle로 부른다. 이는 선언된 {{N:security_catalog_profiles_admitted}} profile x {{N:catalog_execution_paths}} path의 candidate identity 안에서 가장 빠른 SAFE 후보일 뿐, 가능한 CKKS configuration 전체의 최적해가 아니다. {{N:raw_historical_catalog_executions|,}}회는 pre-security-filter historical execution ledger와 security sensitivity 분석의 원자료로만 남긴다.

@@ -14,9 +14,9 @@ EVA는 CKKS compiler와 parameter automation의 중요한 선행 체계다 [@dat
 
 ## A.3 Validation identity incident
 
-Comparator schema v1은 direct source artifact와 catalog source artifact의 representation layer를 혼동하여 validation identity mismatch로 fail-closed했다. 50/50 source artifact는 byte-identical했으나 prepared artifact는 provenance/full-precision representation 때문에 raw byte가 달랐다. Identity audit v2는 source raw digest, prepared raw digest, semantic digest, ordered-row digest, model digest를 분리했다.
+Comparator schema v1은 direct source artifact와 catalog source artifact의 representation layer를 혼동하여 validation identity mismatch로 fail-closed했다. {{N:validation_identity_class_a}}/{{N:combined_descriptive_instances}} source artifact는 byte-identical했으나 prepared artifact는 provenance/full-precision representation 때문에 raw byte가 달랐다. Identity audit v2는 source raw digest, prepared raw digest, semantic digest, ordered-row digest, model digest를 분리했다.
 
-V2 결과는 CLASS A 50, CLASS B/C/D/E 0이었다. Execution semantics와 source replay가 50/50에서 확인되어 encrypted rerun은 필요하지 않았다. Original v1 fail-closed record는 삭제하지 않고 final evidence에 포함했다. 이 사례는 checksum 하나가 의미 identity의 모든 층을 대신할 수 없으며, raw representation과 computation semantics를 동시에 기록해야 함을 보여준다.
+V2 결과는 CLASS A {{N:validation_identity_class_a}}였으며 CLASS B/C/D/E는 관측되지 않았다. Execution semantics와 source replay가 {{N:validation_identity_class_a}}/{{N:combined_descriptive_instances}}에서 확인되어 encrypted rerun은 필요하지 않았다. Original v1 fail-closed record는 삭제하지 않고 final evidence에 포함했다. 이 사례는 checksum 하나가 의미 identity의 모든 층을 대신할 수 없으며, raw representation과 computation semantics를 동시에 기록해야 함을 보여준다.
 
 ## A.4 Failure taxonomy detail
 
@@ -26,7 +26,7 @@ V2 결과는 CLASS A 50, CLASS B/C/D/E 0이었다. Execution semantics와 source
 
 ## A.5 Claim registry summary
 
-Paper-admitted claim은 scoped direct synthesis, adaptive repair, formal trial reduction, primary no-retuning locked audit, scoped NO_SAFE, paired latency, structural extension, scoped non-tabular extension, independent training/data-seed extension, security attestation, finite-scope decision-integrity admission의 11개다.
+Paper-admitted claim은 scoped direct synthesis, adaptive repair, formal trial reduction, primary no-retuning locked audit, scoped NO_SAFE, paired latency, structural extension, scoped non-tabular extension, independent training/data-seed extension, security attestation, finite-scope decision-integrity admission의 {{N:paper_admitted_claims}}개다.
 
 본문 claim으로 admit되지 않은 항목은 natural-data margin에 의한 literal 변화, instantiated analytical CKKS certificate, distribution-wide safety, arbitrary graph support, configuration space 전체의 최적성, cross-runtime numerical equivalence, general external-autotuner integration, production latency, universal runtime security다. 이 항목은 실패를 의미하는 단일 집합이 아니라 BLOCKED 또는 NOT_EVALUATED 상태의 future-work boundary다.
 
@@ -42,4 +42,3 @@ Paper-admitted claim은 scoped direct synthesis, adaptive repair, formal trial r
 ## A.7 University template status
 
 현재 원고는 `AUTHORITATIVE_DRAFT_V1` 내용 원본이며 university formatting status는 `CONTENT_COMPLETE_TEMPLATE_PENDING`이다. 학교/대학원 공식 Word 또는 LaTeX template, 표지 규정, 초록 순서, bibliography style, margin, chapter numbering, page limit, figure/table placement rule이 제공되면 별도의 presentation pass에서 적용한다. 이 과정에서 evidence number와 claim wording을 변경해서는 안 된다.
-

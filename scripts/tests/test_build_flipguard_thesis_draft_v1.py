@@ -37,6 +37,13 @@ class ThesisDraftBuilderTest(unittest.TestCase):
             MODULE.build(first, commit, refresh_sources=False)
             MODULE.build(second, commit, refresh_sources=False)
             self.assertEqual(MODULE.tree_digest_map(first), MODULE.tree_digest_map(second))
+            unresolved = {
+                path.name: marker
+                for path in first.glob("*.md")
+                for marker in ("{{N:", "{{V3_")
+                if marker in path.read_text(encoding="utf-8")
+            }
+            self.assertEqual(unresolved, {})
 
 
 if __name__ == "__main__":

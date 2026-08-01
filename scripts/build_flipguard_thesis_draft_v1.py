@@ -207,6 +207,7 @@ def assembled_source(source_commit: str, timestamp: str, artifact: bool) -> str:
 
 def split_abstracts() -> tuple[str, str]:
     text = (ROOT / SOURCE / "abstract_ko_en.md").read_text(encoding="utf-8")
+    text = render_number_markers(text, read_json(SOURCE / "number_registry.json"))
     ko, en = text.split("# English Abstract", 1)
     return ko.strip() + "\n", "# English Abstract" + en.rstrip() + "\n"
 

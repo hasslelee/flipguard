@@ -49,17 +49,17 @@ FlipGuard의 동결된 bounded repair는 선언된 개발 ablation에서 one-sho
 Candidate가 SAFE가 되면 더 큰 또는 더 빠른 candidate를 탐색하지 않고 즉시 literal을 잠근다. 이 first-SAFE rule은 direct path를 fastest configuration search와 구분한다. 합성 순서는 policy가 정한 보수 수준과 repair progression을 반영하므로, 선택 결과는 “검증된 후보 중 최소 latency”가 아니라 “동결 순서에서 처음으로 SAFE가 된 후보”다. Latency 우월성은 selection 목적이 아니라 후속 paired evaluation에서 측정한다.
 
 <!-- P:DESIGN-NOSAFE CLAIM:no_safe_behavior -->
-사전동결 budget control은 40건 중 16건에서 NO_SAFE를, 선언된 finite-domain control은 50/50에서 NO_SAFE를 반환했다. NO_SAFE는 해당 budget 또는 finite candidate domain에서 SAFE를 확립하지 못했다는 뜻이며 가능한 CKKS literal 전체의 부재를 뜻하지 않는다.
+사전동결 budget control은 {{N:no_safe_budget_total}}건 중 {{N:no_safe_budget}}건에서 NO_SAFE를, 선언된 finite-domain control은 {{N:no_safe_finite_domain}}/{{N:no_safe_finite_domain_total}}에서 NO_SAFE를 반환했다. NO_SAFE는 해당 budget 또는 finite candidate domain에서 SAFE를 확립하지 못했다는 뜻이며 가능한 CKKS literal 전체의 부재를 뜻하지 않는다.
 
 ## 5.8 Literal lock과 no-retuning audit
 
 Selection 결과에는 candidate literal의 canonical JSON, SHA-256, graph/model/input/policy digest, binary digest, selection ledger를 결합한다. Locked audit runner는 이 selection artifact를 input으로 받고 synthesizer와 repair module을 호출할 수 없다. Audit source와 model digest를 확인한 뒤 exact Q/P와 scale을 byte-identical하게 materialize하고 새 key로 실행한다.
 
-Audit 결과가 REJECTED여도 같은 audit에 다른 candidate를 넣지 않는다. Primary에서는 confirmatory seeds 1--4의 40건이 40/40 PASS였고, development seed 0의 10건도 descriptive 결과에서 10/10 PASS였다. Structural `mlp_square_poly3`에서는 한 건의 reserve-policy REJECT가 관측되었다. 이 한 건은 policy 변경을 유발하지 않았으며 structural claim을 PARTIALLY_SUPPORTED로 낮췄다. 이 설계는 negative result를 시스템 오류와 동일시하지 않고, certificate scope를 좁히는 정당한 결과로 다룬다.
+Audit 결과가 REJECTED여도 같은 audit에 다른 candidate를 넣지 않는다. Primary에서는 confirmatory seeds 1--4의 {{N:confirmatory_instances}}건이 {{N:confirmatory_locked_audit_pass}}/{{N:confirmatory_instances}} PASS였고, development seed 0의 {{N:development_instances}}건도 descriptive 결과에서 {{N:development_locked_audit_pass}}/{{N:development_instances}} PASS였다. Structural `mlp_square_poly3`에서는 {{N:structural_reserve_reject}}건의 reserve-policy REJECT가 관측되었다. 이 결과는 policy 변경을 유발하지 않았으며 structural claim을 PARTIALLY_SUPPORTED로 낮췄다. 이 설계는 negative result를 시스템 오류와 동일시하지 않고, certificate scope를 좁히는 정당한 결과로 다룬다.
 
 ## 5.9 Evaluation-only bounded catalog
 
-Bounded catalog side path는 11 profile과 두 path의 역사적 ledger를 Security-V2로 다시 필터링한다. Excluded profile의 encrypted record를 삭제하지 않지만 formal fastest-safe selection에는 포함하지 않는다. 동일 workload-partition에서 admitted candidate 중 SAFE이며 latency가 가장 작은 것을 bounded-catalog arm으로 선택한다. Direct arm과 catalog arm은 source/model/split identity v2 검사를 통과해야 paired comparison에 들어간다.
+Bounded catalog side path는 {{N:security_catalog_profiles_total}} profile과 {{N:catalog_execution_paths}} path의 역사적 ledger를 Security-V2로 다시 필터링한다. Excluded profile의 encrypted record를 삭제하지 않지만 formal fastest-safe selection에는 포함하지 않는다. 동일 workload-partition에서 admitted candidate 중 SAFE이며 latency가 가장 작은 것을 bounded-catalog arm으로 선택한다. Direct arm과 catalog arm은 source/model/split identity v2 검사를 통과해야 paired comparison에 들어간다.
 
 Catalog의 목적은 direct synthesis가 유한 비교 집합 대비 candidate trial을 얼마나 줄였는지, 선택 literal의 latency가 bounded fastest-safe와 어떻게 다른지를 평가하는 것이다. Catalog가 direct algorithm의 repair policy를 학습시키거나 audit 결과를 통해 바뀌지는 않는다.
 

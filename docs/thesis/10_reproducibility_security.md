@@ -20,7 +20,7 @@ Primary direct, development seed0, locked audit, validation identity v2, Securit
 
 Paper Artifacts V3는 13개 table, 10개 figure, equation list, caption input, allowed/prohibited claim block을 제공하며 status는 `FINAL_ADMISSIBLE`이다. Builder는 structural outcome을 {{N:structural_instances}}/{{N:structural_instances}} PASS로 바꾸지 않고 {{N:structural_audit_pass}} PASS와 {{N:structural_reserve_reject}} reserve-policy REJECT를 필수 입력으로 요구한다. Formal catalog denominator는 전체 {{N:formal_catalog_all}}, confirmatory {{N:formal_catalog_confirmatory}}이며 provider/EVA는 appendix-only다.
 
-Paper claim admission registry에는 11 admitted claim과 9 blocked/not-evaluated claim이 있다. `paper_claim_allowed=true`는 모든 claim이 지지되었다는 뜻이 아니라, 논문이 `paper_admitted=true`인 문장만 사용할 수 있다는 뜻이다. Thesis lint는 abstract, contribution, results, conclusion을 claim ID와 연결하고 prohibited overclaim을 검사한다.
+Paper claim admission registry에는 {{N:paper_admitted_claims}} admitted claim과 {{N:paper_blocked_claims}} blocked/not-evaluated claim이 있다. `paper_claim_allowed=true`는 모든 claim이 지지되었다는 뜻이 아니라, 논문이 `paper_admitted=true`인 문장만 사용할 수 있다는 뜻이다. Thesis lint는 abstract, contribution, results, conclusion을 claim ID와 연결하고 prohibited overclaim을 검사한다.
 
 ## 10.5 Clean-clone 및 soak verification
 

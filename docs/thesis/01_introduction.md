@@ -12,7 +12,7 @@ CKKS 실행 구성을 정하는 일은 단순히 큰 파라미터를 선택하�
 
 ## 1.2 문제 인식
 
-초기 실험 방식은 미리 정한 11개 CKKS profile과 두 실행 path의 조합을 모든 workload-partition instance에 실행하는 bounded catalog에 가까웠다. 이 방식은 비교 가능한 유한 후보 집합을 만들고, 실행 가능한 후보와 decision-integrity를 만족하는 후보를 관찰하는 데 유용하다. 또한 가장 빠른 SAFE 후보를 유한 범위에서 식별할 수 있으므로 평가용 기준선으로서 의미가 있다. 그러나 사용자가 새 모델과 데이터셋을 입력할 때마다 같은 catalog를 반복 실행한다면, 계산 그래프에서 이미 알 수 있는 깊이와 scale 요구를 후보 생성에 충분히 활용하지 못한다. 후보 수가 커질수록 실행 비용이 선형으로 증가하고, catalog 밖의 유효한 literal은 처음부터 고려되지 않는다.
+초기 실험 방식은 미리 정한 {{N:security_catalog_profiles_total}}개 CKKS profile과 {{N:catalog_execution_paths}}개 실행 path의 조합을 모든 workload-partition instance에 실행하는 bounded catalog에 가까웠다. 이 방식은 비교 가능한 유한 후보 집합을 만들고, 실행 가능한 후보와 decision-integrity를 만족하는 후보를 관찰하는 데 유용하다. 또한 가장 빠른 SAFE 후보를 유한 범위에서 식별할 수 있으므로 평가용 기준선으로서 의미가 있다. 그러나 사용자가 새 모델과 데이터셋을 입력할 때마다 같은 catalog를 반복 실행한다면, 계산 그래프에서 이미 알 수 있는 깊이와 scale 요구를 후보 생성에 충분히 활용하지 못한다. 후보 수가 커질수록 실행 비용이 선형으로 증가하고, catalog 밖의 유효한 literal은 처음부터 고려되지 않는다.
 
 이 문제의 해결 방향은 catalog를 더 크게 만드는 것만이 아니다. FlipGuard는 지원되는 계산 그래프에서 연산 깊이, rescale 수, 곱셈 구조, 요구 slot과 같은 사실을 추출하고, threshold decision contract와 동결된 수치·보안 정책을 결합하여 첫 CKKS literal을 직접 합성한다. 그 후보를 실제 암호화 validation에 통과시키고, 실패 원인이 수치 정밀도 또는 level 부족으로 분류될 때만 제한된 repair를 적용한다. 첫 SAFE에서 멈추며, 사전 선언한 trial budget 안에서 SAFE를 확립하지 못하면 NO_SAFE를 반환한다. 이 방식에서 encrypted execution은 configuration search 전체를 대신하는 전수 탐색이 아니라, 정적으로 합성한 후보를 경험적으로 승인하거나 반증하는 단계다.
 
@@ -50,7 +50,7 @@ FlipGuard의 동결된 bounded repair는 선언된 개발 ablation에서 one-sho
 셋째, **NO_SAFE와 no-retuning locked audit protocol**을 제시한다. 제한된 후보 budget 안에서 SAFE를 확립하지 못하면 임의의 차선 후보를 선택하지 않고 기권한다. 후보가 선택되면 candidate literal과 관련 digest를 잠그고, configuration-validation과 분리된 audit input에서 synthesis와 repair를 호출하지 않은 채 그대로 재생한다. Audit의 negative result는 후보 재조정의 근거가 아니라 해당 claim을 낮추는 과학적 결과로 보존한다.
 
 <!-- P:INTRO-CONTRIB4 CLAIM:formal_trial_reduction,paired_latency,structural_extension,scoped_non_tabular_extension,training_model_seed_extension,security_attestation -->
-넷째, **Security-V2 bounded comparison, paired latency, negative result, structural/scoped generalization을 포함한 재현 가능한 evidence system**을 구축한다. Security-V2에 허용된 7개 profile과 두 path만 정식 bounded catalog에 포함하고, Q와 QP를 객체별로 재감사한다. 모든 주요 결과는 source commit, policy digest, input/model/split digest, raw ledger, summary, SHA256SUMS, verifier와 연결한다. 이 체계는 성공 사례뿐 아니라 NO_SAFE, audit policy rejection, provenance mismatch의 fail-closed 기록을 유지한다.
+넷째, **Security-V2 bounded comparison, paired latency, negative result, structural/scoped generalization을 포함한 재현 가능한 evidence system**을 구축한다. Security-V2에 허용된 {{N:security_catalog_profiles_admitted}}개 profile과 {{N:catalog_execution_paths}}개 path만 정식 bounded catalog에 포함하고, Q와 QP를 객체별로 재감사한다. 모든 주요 결과는 source commit, policy digest, input/model/split digest, raw ledger, summary, SHA256SUMS, verifier와 연결한다. 이 체계는 성공 사례뿐 아니라 NO_SAFE, audit policy rejection, provenance mismatch의 fail-closed 기록을 유지한다.
 
 ## 1.5 논문 범위와 구성
 

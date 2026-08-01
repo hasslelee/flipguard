@@ -22,7 +22,7 @@ Graph contract는 operation sequence만 나열하지 않는다. Model formula, m
 
 Candidate literal `c`는 최소한 `(LogN, Q primes, P primes, default scale, execution path)`를 포함한다. Profile 이름이나 candidate ID가 같다는 사실만으로 literal identity가 성립하지 않는다. FlipGuard는 exact prime list와 scale을 canonical serialization한 literal digest를 사용한다. 또한 model digest, input digest, graph digest, policy digest를 별도로 기록해 동일 parameter가 다른 workload에 적용된 경우를 구분한다.
 
-Source data와 prepared data도 구분한다. Source artifact는 원래 row와 full-precision value를 보존하고, prepared artifact는 실행에 필요한 provenance column 또는 materialized representation을 포함할 수 있다. 두 파일의 raw byte가 다르더라도 ordered semantic row가 같을 수 있다. Validation identity audit v1은 이 representation layer를 혼동해 fail-closed했고, v2는 source raw, prepared raw, semantic, ordered-row, model digest를 분리했다. 50/50 primary instance는 source artifact가 byte-identical했고, prepared raw byte는 provenance 표현 때문에 달랐으나 execution semantics는 동일한 CLASS A로 판정되었다. 이 사건은 삭제하지 않고 artifact assurance 사례로 유지한다.
+Source data와 prepared data도 구분한다. Source artifact는 원래 row와 full-precision value를 보존하고, prepared artifact는 실행에 필요한 provenance column 또는 materialized representation을 포함할 수 있다. 두 파일의 raw byte가 다르더라도 ordered semantic row가 같을 수 있다. Validation identity audit v1은 이 representation layer를 혼동해 fail-closed했고, v2는 source raw, prepared raw, semantic, ordered-row, model digest를 분리했다. {{N:validation_identity_class_a}}/{{N:combined_descriptive_instances}} primary instance는 source artifact가 byte-identical했고, prepared raw byte는 provenance 표현 때문에 달랐으나 execution semantics는 동일한 CLASS A로 판정되었다. 이 사건은 삭제하지 않고 artifact assurance 사례로 유지한다.
 
 ## 4.4 상태 정의
 
@@ -72,4 +72,3 @@ FlipGuard는 선언된 finite validation에서 관측 error와 decision margin�
 첫째, validation과 audit 결과는 미래 입력 분포 전체의 decision preservation을 증명하지 않는다. 둘째, graph adapter 밖의 임의 연산과 packed CNN을 지원한다고 결론내리지 않는다. 셋째, bounded catalog 비교는 유한 후보 집합에 대한 것이며 구성 공간 전체의 최적성을 제시하지 않는다. 넷째, two-estimator security sensitivity가 Lattigo runtime distribution과 정확히 동일한 security estimate를 준다고 주장하지 않는다. 다섯째, primitive CKKS residual bound를 graph 전체에 인스턴스화한 분석적 certificate는 제공하지 않는다. 여섯째, 한 host에서 측정한 latency는 production deployment의 성능 보증이 아니다.
 
 이 negative boundary는 별도의 부록이 아니라 assurance model의 일부다. 어떤 결과가 PASS였는지와 함께 무엇이 평가되지 않았는지를 명시해야 reviewer가 certificate의 실제 강도를 판단할 수 있다. 그림 10과 표 13은 결과 장 이후 이 경계를 다시 종합한다.
-

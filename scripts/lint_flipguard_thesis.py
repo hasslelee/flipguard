@@ -162,6 +162,12 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         root / "docs/evidence/security_v2_static_attestation_formal_v2/"
         "direct_synthesis_policy_v2.json"
     )
+    ablation = load_json(root / "docs/evidence/direct_synthesis_ablation_v1/summary.json")
+    paired_manifest = load_json(root / "docs/evidence/paired_latency_final_v1/manifest.json")
+    validation_identity = load_json(
+        root / "docs/evidence/validation_identity_comparison_v2/manifest.json"
+    )
+    claim_admission = load_json(root / "docs/evidence/paper_claim_admission_v1/claims.json")
     release_soak_path = (
         root / "results/thesis_grade_protocol/release_candidate_v2/qa_soak.log"
     )
@@ -178,6 +184,14 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         newline="", encoding="utf-8"
     ) as handle:
         alpha_rows = list(csv.DictReader(handle))
+    with (root / "docs/evidence/security_v2_bounded_oracle_v1/oracle/selection_changes_security_v2.csv").open(
+        newline="", encoding="utf-8"
+    ) as handle:
+        security_selection_rows = list(csv.DictReader(handle))
+    with (root / "docs/evidence/security_v2_bounded_oracle_v1/oracle/oracle_selection_security_v2.csv").open(
+        newline="", encoding="utf-8"
+    ) as handle:
+        security_oracle_rows = list(csv.DictReader(handle))
 
     estimator_models = estimator["models"]
     estimator_pass_counts = {
@@ -234,9 +248,13 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
 
     training_datasets = {row["dataset_id"] for row in training_rows}
     training_seeds = {row["training_seed"] for row in training_rows}
+    ablation_arms = ablation["arms"]
+    admitted_claims = [claim for claim in claim_admission["claims"] if claim["paper_admitted"]]
+    blocked_claims = [claim for claim in claim_admission["claims"] if not claim["paper_admitted"]]
     return {
         "formal_catalog_all": catalog["security_admitted_catalog_candidates"],
         "formal_catalog_confirmatory": catalog["confirmatory_catalog_candidates"],
+        "formal_catalog_development": catalog["development_catalog_candidates"],
         "raw_historical_catalog_executions": catalog["raw_catalog_executions"],
         "security_excluded_catalog_candidates": catalog["security_excluded_catalog_candidates"],
         "direct_trials_all": trials["direct_trials_all"],
@@ -250,12 +268,30 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         "combined_descriptive_instances": confirmatory["expected_runs"] + development["expected_runs"],
         "confirmatory_locked_audit_pass": confirmatory["locked_audit_passes"],
         "development_locked_audit_pass": development["locked_audit_passes"],
+        "confirmatory_selection_key_runs": confirmatory["total_selection_key_runs"],
+        "development_selection_key_runs": development["total_selection_key_runs"],
+        "confirmatory_audit_key_runs": confirmatory["total_fresh_key_runs"],
+        "development_audit_key_runs": development["total_fresh_key_runs"],
+        "primary_audit_flips": (
+            confirmatory["expected_runs"] - confirmatory["zero_flip_passes"]
+            + development["expected_runs"] - development["zero_flip_passes"]
+        ),
+        "primary_audit_violations": (
+            confirmatory["expected_runs"] - confirmatory["zero_violation_passes"]
+            + development["expected_runs"] - development["zero_violation_passes"]
+        ),
+        "primary_audit_failed": (
+            confirmatory["failed_executions"] + development["failed_executions"]
+        ),
         "primary_locked_audit_retuning": confirmatory["retuned_runs"] + development["retuned_runs"],
         "no_safe_budget": no_safe_counts["budget_no_safe"],
         "no_safe_budget_total": no_safe_counts["budget_workloads"],
         "no_safe_budget_selected": no_safe_counts["budget_selected"],
         "no_safe_finite_domain": no_safe_counts["finite_audit_no_safe"],
         "no_safe_finite_domain_total": no_safe_counts["finite_audit_workloads"],
+        "no_safe_finite_selected": (
+            no_safe_counts["finite_audit_workloads"] - no_safe_counts["finite_audit_no_safe"]
+        ),
         "paired_total_ratio_confirmatory": paired_ratio["geometric_mean_total_latency_ratio"],
         "paired_total_ci_low": paired_ratio["cluster_bootstrap_95_ci_total"]["low"],
         "paired_total_ci_high": paired_ratio["cluster_bootstrap_95_ci_total"]["high"],
@@ -263,6 +299,9 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         "paired_total_ratio_development": round(
             paired_development["catalog_over_direct"]["geometric_mean_total_latency_ratio"], 6
         ),
+        "paired_development_catalog_total_mean_ms": paired_development["arm_latency"]["catalog"]["total_ms"]["mean"],
+        "paired_development_direct_total_mean_ms": paired_development["arm_latency"]["direct"]["total_ms"]["mean"],
+        "paired_development_failures": paired_development["failure_count"],
         "paired_confirmatory_complete": paired_confirmatory["workload_partition_instances"],
         "paired_confirmatory_failures": paired_confirmatory["failure_count"],
         "paired_confirmatory_reference_safe": paired_confirmatory["reference_status"]["safe"],
@@ -278,6 +317,12 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         "structural_flip": structural_counts["flip_count"],
         "structural_violation": structural_counts["violation_count"],
         "structural_retuning": structural_counts["retuning"],
+        "structural_selection_trials": structural_counts["selection_trials"],
+        "structural_selection_repairs": structural_counts["selection_repairs"],
+        "structural_selection_key_runs": structural_counts["selection_key_runs"],
+        "structural_audit_key_runs": structural_counts["locked_audit_key_runs"],
+        "structural_selection_failed": structural_counts["selection_failed"],
+        "structural_selection_no_safe": structural_counts["selection_no_safe"],
         "structural_validation_margin_utilization": structural_utilization_display(
             margin["validation"]["margin_utilization_ratio"]
         ),
@@ -300,6 +345,15 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         "harris_audit_images": harris["source"]["audit_images"],
         "cnn_lite_validation_samples": cnn["selection"]["samples"],
         "cnn_lite_audit_samples": cnn["locked_audit"]["samples"],
+        "cnn_lite_selection_evaluations": cnn["selection"]["encrypted_sample_evaluations"],
+        "cnn_lite_audit_evaluations": cnn["locked_audit"]["encrypted_sample_evaluations"],
+        "cnn_lite_selection_flips": cnn["selection"]["flips"],
+        "cnn_lite_audit_flips": cnn["locked_audit"]["flips"],
+        "cnn_lite_selection_violations": cnn["selection"]["violations"],
+        "cnn_lite_audit_violations": cnn["locked_audit"]["violations"],
+        "cnn_lite_retuning": cnn["locked_audit"]["retuning"],
+        "cnn_lite_validation_accuracy": cnn["plaintext_task"]["validation_accuracy"],
+        "cnn_lite_audit_accuracy": cnn["plaintext_task"]["audit_accuracy"],
         "independent_training_datasets": len(training_datasets),
         "independent_training_seeds_per_dataset": len(training_seeds),
         "independent_training_seed_pass": training["locked_audit"]["pass"],
@@ -308,6 +362,10 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         "security_direct_minimum_headroom_bits": direct_security["minimum_headroom_bits"],
         "security_catalog_profiles_admitted": len(security_profiles["admitted"]),
         "security_catalog_profiles_excluded": len(security_profiles["excluded"]),
+        "security_catalog_profiles_total": (
+            len(security_profiles["admitted"]) + len(security_profiles["excluded"])
+        ),
+        "catalog_execution_paths": 2,
         "security_estimator_objects_pass": next(iter(estimator_pass_counts)),
         "security_estimator_objects_excluded": next(iter(estimator_excluded_counts)),
         "security_estimator_models": len(estimator_models),
@@ -316,6 +374,74 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         "policy_sensitivity_candidate_state_changes": next(iter(alpha_candidate_changes)),
         "policy_sensitivity_oracle_changes": next(iter(alpha_oracle_changes)),
         "policy_sensitivity_initial_literal_changes": next(iter(alpha_literal_changes)),
+        "validation_identity_class_a": validation_identity["identity_class_counts"][
+            "SOURCE_AND_SEMANTICS_MATCH_PREPARED_BYTES_DIFFER"
+        ],
+        "ablation_full_trials": ablation_arms["full_flipguard"]["trials"],
+        "ablation_full_repairs": ablation_arms["full_flipguard"]["repairs"],
+        "ablation_full_selected": ablation_arms["full_flipguard"]["selected"],
+        "ablation_full_audit_pass": ablation_arms["full_flipguard"]["audit_pass"],
+        "ablation_one_shot_trials": ablation_arms["one_shot_direct"]["trials"],
+        "ablation_one_shot_selected": ablation_arms["one_shot_direct"]["selected"],
+        "ablation_one_shot_no_safe": ablation_arms["one_shot_direct"]["no_safe"],
+        "ablation_one_shot_flips": ablation_arms["one_shot_direct"]["validation_flips"],
+        "ablation_latency_only_trials": ablation_arms["latency_only_no_certification"]["trials"],
+        "ablation_latency_only_selected": ablation_arms["latency_only_no_certification"]["selected"],
+        "ablation_latency_only_flips": ablation_arms["latency_only_no_certification"]["validation_flips"],
+        "ablation_latency_only_audit_pass": ablation_arms["latency_only_no_certification"]["audit_pass"],
+        "paired_raw_records": paired_manifest["counts"]["raw_records"],
+        "paired_catalog_total_mean_ms": paired_confirmatory["arm_latency"]["catalog"]["total_ms"]["mean"],
+        "paired_catalog_total_median_ms": paired_confirmatory["arm_latency"]["catalog"]["total_ms"]["median"],
+        "paired_catalog_total_p95_ms": paired_confirmatory["arm_latency"]["catalog"]["total_ms"]["p95"],
+        "paired_direct_total_mean_ms": paired_confirmatory["arm_latency"]["direct"]["total_ms"]["mean"],
+        "paired_direct_total_median_ms": paired_confirmatory["arm_latency"]["direct"]["total_ms"]["median"],
+        "paired_direct_total_p95_ms": paired_confirmatory["arm_latency"]["direct"]["total_ms"]["p95"],
+        "paired_catalog_eval_mean_ms": paired_confirmatory["arm_latency"]["catalog"]["eval_only_ms"]["mean"],
+        "paired_direct_eval_mean_ms": paired_confirmatory["arm_latency"]["direct"]["eval_only_ms"]["mean"],
+        "paired_workload_ratio_min": paired_ratio["workload_partition_ratio"]["min"],
+        "paired_workload_ratio_median": paired_ratio["workload_partition_ratio"]["median"],
+        "paired_workload_ratio_max": paired_ratio["workload_partition_ratio"]["max"],
+        "paired_cluster_ratio_min": paired_ratio["cluster_ratio"]["min"],
+        "paired_cluster_ratio_median": paired_ratio["cluster_ratio"]["median"],
+        "paired_cluster_ratio_max": paired_ratio["cluster_ratio"]["max"],
+        "paired_catalog_cv_median": paired_confirmatory["arm_latency"]["catalog"]["within_workload_total_cv"]["median"],
+        "paired_catalog_cv_max": paired_confirmatory["arm_latency"]["catalog"]["within_workload_total_cv"]["max"],
+        "paired_direct_cv_median": paired_confirmatory["arm_latency"]["direct"]["within_workload_total_cv"]["median"],
+        "paired_direct_cv_max": paired_confirmatory["arm_latency"]["direct"]["within_workload_total_cv"]["max"],
+        "paired_position_effect_1": paired_confirmatory["position_effect"]["1"],
+        "paired_position_effect_2": paired_confirmatory["position_effect"]["2"],
+        "paired_position_effect_3": paired_confirmatory["position_effect"]["3"],
+        "sobel_initial_violations": sobel["selection"]["initial_violations"],
+        "sobel_repairs": sobel["selection"]["repairs"],
+        "sobel_audit_flips": sobel["locked_audit"]["flips"],
+        "sobel_audit_violations": sobel["locked_audit"]["violations"],
+        "sobel_audit_retuning": sobel["locked_audit"]["retuning"],
+        "harris_windows_per_image": harris["source"]["patches_per_image"],
+        "harris_repairs": harris["selection"]["repairs"],
+        "harris_audit_flips": harris["locked_audit"]["flips"],
+        "harris_audit_violations": harris["locked_audit"]["violations"],
+        "harris_audit_retuning": harris["locked_audit"]["retuning"],
+        "training_selection_trials": training["selection"]["trials"],
+        "training_selection_key_runs": training["selection"]["key_runs"],
+        "training_audit_key_runs": training["locked_audit"]["key_runs"],
+        "training_selection_evaluations": training["selection"]["encrypted_sample_evaluations"],
+        "training_audit_evaluations": training["locked_audit"]["encrypted_sample_evaluations"],
+        "training_repairs": training["selection"]["repairs"],
+        "training_flips": training["selection"]["flips"] + training["locked_audit"]["flips"],
+        "training_violations": training["selection"]["violations"] + training["locked_audit"]["violations"],
+        "training_retuning": training["locked_audit"]["retuning"],
+        "paper_admitted_claims": len(admitted_claims),
+        "paper_blocked_claims": len(blocked_claims),
+        "security_selection_changes_all": len(security_selection_rows),
+        "security_selection_cells_all": len(security_oracle_rows),
+        "security_selection_changes_primary": sum(
+            float(row["alpha"]) == interpretation["primary_rho"]
+            for row in security_selection_rows
+        ),
+        "security_selection_cells_primary": sum(
+            float(row["alpha"]) == interpretation["primary_rho"]
+            for row in security_oracle_rows
+        ),
         "release_soak_cycles": release_soak_cycles,
         "release_clean_clone_rebuilds": release_clean_clone_rebuilds,
     }
@@ -351,6 +477,7 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
 
     raw_chapters = {name: (source / name).read_text(encoding="utf-8") for name in CHAPTERS}
     raw_abstract = (source / "abstract_ko_en.md").read_text(encoding="utf-8")
+    raw_appendix = (source / "appendix.md").read_text(encoding="utf-8")
     claims_doc = load_json(root / "docs/evidence/paper_claim_admission_v1/claims.json")
     claims = claims_doc["claims"]
     claim_by_id = {item["claim_id"]: item for item in claims}
@@ -402,13 +529,15 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
             for name, text in raw_chapters.items()
         }
         abstract = render_number_markers(raw_abstract, registry)
+        appendix = render_number_markers(raw_appendix, registry)
     except ValueError as exc:
         errors.append(str(exc))
         chapters = raw_chapters
         abstract = raw_abstract
+        appendix = raw_appendix
     core_text = "\n".join(chapters.values())
 
-    for finding in prohibited_occurrences(core_text + "\n" + abstract, claims):
+    for finding in prohibited_occurrences(core_text + "\n" + abstract + "\n" + appendix, claims):
         errors.append(
             f"unscoped prohibited claim {finding['claim_id']}: "
             f"{finding['phrase']} :: {finding['context']}"
