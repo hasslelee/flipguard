@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import importlib.util
+import json
+import unittest
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[2]
+SCRIPT = ROOT / "scripts/lint_flipguard_thesis.py"
+SPEC = importlib.util.spec_from_file_location("lint_flipguard_thesis", SCRIPT)
+assert SPEC is not None and SPEC.loader is not None
+MODULE = importlib.util.module_from_spec(SPEC)
+SPEC.loader.exec_module(MODULE)
+
+
+class ThesisLintTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        claims = json.loads(
+            (ROOT / "docs/evidence/paper_claim_admission_v1/claims.json").read_text(encoding="utf-8")
+        )["claims"]
+        cls.claims = claims
+
+    def fixture(self, name: str) -> str:
+        return (ROOT / "scripts/tests/fixtures" / name).read_text(encoding="utf-8")
+
+    def test_positive_fixture_allows_scoped_negation(self) -> None:
+        findings = MODULE.prohibited_occurrences(
+            self.fixture("thesis_lint_positive.md"), self.claims
+        )
+        self.assertEqual(findings, [])
+
+    def test_negative_fixture_rejects_overclaim(self) -> None:
+        findings = MODULE.prohibited_occurrences(
+            self.fixture("thesis_lint_negative.md"), self.claims
+        )
+        self.assertTrue(any(item["claim_id"] == "scoped_direct_synthesis" for item in findings))
+
+    def test_authoritative_source_passes(self) -> None:
+        result = MODULE.lint_source(ROOT, Path("docs/thesis"))
+        self.assertEqual(result["status"], "PASS", result["errors"])
+
+
+if __name__ == "__main__":
+    unittest.main()
