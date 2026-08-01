@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 import tempfile
 import unittest
@@ -45,7 +46,14 @@ class ThesisDraftBuilderTest(unittest.TestCase):
             }
             self.assertEqual(unresolved, {})
             self.assertTrue((first / "advisor_defense_qa.md").is_file())
+            self.assertTrue((first / "qa_report_v1.md").is_file())
             self.assertTrue((first / "reviewer_attack_checklist.md").is_file())
+            report = json.loads((first / "build_report.json").read_text(encoding="utf-8"))
+            self.assertEqual(report["qa_passes"], 8)
+            self.assertEqual(report["advisor_questions"], 30)
+            self.assertEqual(report["reviewer_attacks"], 18)
+            manifest = json.loads((first / "manifest.json").read_text(encoding="utf-8"))
+            self.assertIn("qa_report", manifest["outputs"])
 
 
 if __name__ == "__main__":
