@@ -86,3 +86,25 @@ V3 표·그림, defense Q&A, RC2 release binding이다. `PASS`는 대학원 양�
 audit은 핵심 비교에 필요한 primary source를 검증하지만 체계적 문헌고찰을 표방하지
 않는다. 현재 QA는 frozen finite evidence와 admitted wording의 내부 정합성을 보장할
 뿐, 새로운 실험 결과나 분포 전체의 안전성 보장을 생성하지 않는다.
+
+## Verification record
+
+이 초안의 source QA에서 전체 Python unittest 275개가 1,847.283초에 PASS했다.
+`go test ./...`, `go vet ./...`, 추적 Python 파일 255개의 `py_compile`, 추적
+shell 파일 47개의 `bash -n`, `git diff --check`도 PASS했다. Paper claim admission,
+Paper Artifacts V3, V10, RC2 binding, margin interpretation, paired-latency admission
+verifier를 별도로 재실행했다. Citation audit의 14개 DOI·ePrint·공식 URL은
+primary publisher 또는 공식 repository로 해석되는지 재확인했다.
+
+RC2 tag 이후 diff audit에서 core `cmd/`, `internal/`, `research/` 변경과 기존
+frozen evidence 수정은 각각 0건이었다. 새 evidence 경로는 요청된
+`research_release_binding_rc2_v1` overlay뿐이다. Thesis branch를 새 clone으로
+가져온 뒤 source-closure 검사, linter, temporary build, deterministic rebuild,
+SHA256SUMS 검증도 PASS했다.
+
+QA 중 복구 가능한 오류는 두 건이었다. 첫째, V3 verifier의 인자를
+`--artifact-dir`로 잘못 호출했으나 실제 `--artifact-root` 인터페이스로 다시
+실행해 PASS했다. 둘째, 첫 clean clone은 Git에서 제외된 RC2 `qa_soak.log`에
+직접 의존해 실패했다. 원본 로그를 변경하지 않고 digest-bound
+`release_qa_summary.json`을 추가했으며, 원본이 있을 때는 상호 검증하고 없을
+때는 Git에 결합된 요약을 사용하는 방식으로 수정한 뒤 clean clone이 PASS했다.
