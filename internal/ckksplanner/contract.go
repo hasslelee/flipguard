@@ -32,6 +32,12 @@ const (
 	// ciphertext multiplications and Lattigo's non-integer scalar encoding. It
 	// derives both consumed levels and the terminal modulus capacity.
 	LattigoRescaleScaleTraceV1 = "lattigo_v6_rescale_scale_trace_v1"
+
+	// MNISTMulticlassMaterializationSchemaV1 binds the byte-pinned official
+	// MNIST source to the deterministic 500-row journal validation/audit CSVs.
+	MNISTMulticlassMaterializationSchemaV1 = "mnist_multiclass_materialization_v1"
+	MNISTMulticlassSourceFeatureSpaceV1    = "official_mnist_28x28_uint8_v1"
+	MNISTMulticlassExtractionPolicyV1      = "mnist_multiclass_sha256_stratified_rank_v1"
 )
 
 // ArtifactBinding binds a planner input to exact bytes.
@@ -277,6 +283,16 @@ func (materialization InputMaterializationContract) validate() error {
 			return fmt.Errorf(
 				"unsupported source feature space %q",
 				materialization.SourceFeatureSpace,
+			)
+		}
+	case MNISTMulticlassMaterializationSchemaV1:
+		if materialization.SourceFeatureSpace !=
+			MNISTMulticlassSourceFeatureSpaceV1 ||
+			materialization.PreprocessingMethod !=
+				MNISTMulticlassExtractionPolicyV1 {
+			return fmt.Errorf(
+				"schema %s requires the frozen official-MNIST stratified-rank materialization",
+				materialization.SchemaVersion,
 			)
 		}
 	default:
