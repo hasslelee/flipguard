@@ -172,15 +172,24 @@ def metadata(source_commit: str, timestamp: str) -> str:
     branch = git_value("branch", "--show-current")
     return f"""# 결정 무결성 계약 기반 CKKS 실행 구성 직접 합성 및 검증 기법
 
-**English title:** FlipGuard: Decision-Integrity-Aware Direct Synthesis and Validation of CKKS Configurations  
-**Status:** AUTHORITATIVE_DRAFT_V1  
-**RC2 source commit:** `{registry['rc2_source_commit']}`  
-**RC2 archive SHA-256:** `{registry['rc2_archive_sha256']}`  
-**Paper Artifacts V3 manifest SHA-256:** `{registry['v3_manifest_sha256']}`  
-**Claim admission manifest SHA-256:** `{registry['claim_admission_manifest_sha256']}`  
-**Margin interpretation manifest SHA-256:** `{registry['margin_interpretation_manifest_sha256']}`  
-**Draft build timestamp:** `{timestamp}`  
-**Thesis branch/commit:** `{branch}` / `{source_commit}`  
+**English title:** FlipGuard: Decision-Integrity-Aware Direct Synthesis and Validation of CKKS Configurations
+
+**Status:** AUTHORITATIVE_DRAFT_V1
+
+**RC2 source commit:** `{registry['rc2_source_commit']}`
+
+**RC2 archive SHA-256:** `{registry['rc2_archive_sha256']}`
+
+**Paper Artifacts V3 manifest SHA-256:** `{registry['v3_manifest_sha256']}`
+
+**Claim admission manifest SHA-256:** `{registry['claim_admission_manifest_sha256']}`
+
+**Margin interpretation manifest SHA-256:** `{registry['margin_interpretation_manifest_sha256']}`
+
+**Draft build timestamp:** `{timestamp}`
+
+**Thesis branch/commit:** `{branch}` / `{source_commit}`
+
 **University formatting status:** CONTENT_COMPLETE_TEMPLATE_PENDING
 """
 
