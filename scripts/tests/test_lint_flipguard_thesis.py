@@ -40,6 +40,24 @@ class ThesisLintTest(unittest.TestCase):
         )
         self.assertTrue(any(item["claim_id"] == "scoped_direct_synthesis" for item in findings))
 
+    def test_canonical_firstness_sentence_fails_closed(self) -> None:
+        registry = (
+            ROOT / "docs/evidence/paper_claim_admission_v1/prohibited_sentences.md"
+        ).read_text(encoding="utf-8")
+        findings = MODULE.registry_prohibited_sentence_occurrences(
+            "FlipGuard is the first CKKS autotuner.", registry
+        )
+        self.assertEqual(findings, ["FlipGuard is the first CKKS autotuner."])
+
+    def test_canonical_prohibited_sentence_is_allowed_when_explicitly_denied(self) -> None:
+        registry = (
+            ROOT / "docs/evidence/paper_claim_admission_v1/prohibited_sentences.md"
+        ).read_text(encoding="utf-8")
+        findings = MODULE.registry_prohibited_sentence_occurrences(
+            "We do not claim that FlipGuard is the first CKKS autotuner.", registry
+        )
+        self.assertEqual(findings, [])
+
     def test_reviewer_question_may_name_an_overclaim_but_answer_may_not_assert_it(self) -> None:
         question = "Is this production speedup?"
         self.assertEqual(

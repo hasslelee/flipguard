@@ -263,6 +263,29 @@ def prohibited_occurrences(
     return findings
 
 
+def registry_prohibited_sentence_occurrences(text: str, registry_text: str) -> list[str]:
+    """Scan exact canonical overclaims published by the admission registry."""
+    findings: list[str] = []
+    lowered = text.casefold()
+    sentences = [
+        line[2:].strip().rstrip(".")
+        for line in registry_text.splitlines()
+        if line.startswith("- ")
+    ]
+    for sentence in sentences:
+        needle = sentence.casefold()
+        start = 0
+        while True:
+            position = lowered.find(needle, start)
+            if position < 0:
+                break
+            context = sentence_for(text, position)
+            if not any(token in context.casefold() for token in NEGATION_TOKENS):
+                findings.append(context)
+            start = position + len(needle)
+    return findings
+
+
 def extract_release_qa_counts(lines: list[str]) -> tuple[int, int]:
     """Validate the RC2 soak ledger and return cycle and clean-clone counts."""
     cycles = [line for line in lines if line.startswith("cycle=")]
@@ -809,6 +832,13 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
             f"unscoped prohibited claim {finding['claim_id']}: "
             f"{finding['phrase']} :: {finding['context']}"
         )
+    prohibited_sentences = (
+        root / "docs/evidence/paper_claim_admission_v1/prohibited_sentences.md"
+    ).read_text(encoding="utf-8")
+    for context in registry_prohibited_sentence_occurrences(
+        core_claim_text, prohibited_sentences
+    ):
+        errors.append(f"canonical prohibited paper sentence: {context}")
     defense_claim_text = re.sub(
         r"^## Q\d+\..*$", "", auxiliary["advisor_defense_qa.md"], flags=re.M
     )
