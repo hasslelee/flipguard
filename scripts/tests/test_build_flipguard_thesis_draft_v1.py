@@ -36,6 +36,11 @@ class ThesisDraftBuilderTest(unittest.TestCase):
         self.assertRegex(digest, r"^[0-9a-f]{64}$")
         self.assertGreater(len(MODULE.source_closure_paths()), 20)
 
+    def test_source_closure_excludes_untracked_bytecode(self) -> None:
+        paths = MODULE.source_closure_paths()
+        self.assertFalse(any("__pycache__" in path.parts for path in paths))
+        self.assertFalse(any(path.suffix in {".pyc", ".pyo"} for path in paths))
+
     def test_build_is_deterministic(self) -> None:
         commit = MODULE.canonical_commit("HEAD")
         with tempfile.TemporaryDirectory(prefix="flipguard-thesis-test-") as directory:

@@ -91,11 +91,13 @@ def source_closure_paths() -> list[Path]:
         CLAIMS,
         RC2_BINDING,
     ]
-    paths.extend(
-        path.relative_to(ROOT)
-        for path in sorted((ROOT / V3).rglob("*"))
-        if path.is_file()
-    )
+    tracked_v3 = subprocess.run(
+        ["git", "ls-files", "-z", "--", V3.as_posix()],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+    ).stdout
+    paths.extend(Path(raw.decode("utf-8")) for raw in tracked_v3.split(b"\0") if raw)
     return sorted(set(paths), key=lambda path: path.as_posix())
 
 
