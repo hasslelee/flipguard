@@ -368,3 +368,9 @@ func sha256FileWithPrefix(path string) (string, error) {
 	}
 	return "sha256:" + hex.EncodeToString(hasher.Sum(nil)), nil
 }
+
+// WorkloadContractDigest exposes the canonical contract identity to resumable
+// journal tooling without exposing the internal canonicalization helper.
+func WorkloadContractDigest(contract WorkloadContract) (string, error) {
+	return digestContract(contract)
+}
