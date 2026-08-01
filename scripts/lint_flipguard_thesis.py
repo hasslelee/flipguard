@@ -105,6 +105,23 @@ def prohibited_occurrences(text: str, claims: list[dict[str, Any]]) -> list[dict
     return findings
 
 
+def extract_release_qa_counts(lines: list[str]) -> tuple[int, int]:
+    """Validate the RC2 soak ledger and return cycle and clean-clone counts."""
+    cycles = [line for line in lines if line.startswith("cycle=")]
+    clean_clones = [line for line in cycles if "deep=clean_clone_pass" in line]
+    soak_end = next(
+        (line for line in reversed(lines) if line.startswith("qa_soak_end=")), ""
+    )
+    if (
+        not cycles
+        or f"cycles={len(cycles)}" not in soak_end
+        or "status=PASS" not in soak_end
+        or any("status=PASS" not in line for line in cycles)
+    ):
+        raise ValueError("RC2 soak ledger is incomplete or contains a failed cycle")
+    return len(cycles), len(clean_clones)
+
+
 def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
     """Reconstruct every headline number from immutable evidence inputs."""
     suite = load_json(root / "docs/evidence/final_confirmatory_suite_v1/manifest.json")
@@ -144,6 +161,13 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
     direct_policy = load_json(
         root / "docs/evidence/security_v2_static_attestation_formal_v2/"
         "direct_synthesis_policy_v2.json"
+    )
+    release_soak_path = (
+        root / "results/thesis_grade_protocol/release_candidate_v2/qa_soak.log"
+    )
+    release_soak_lines = release_soak_path.read_text(encoding="utf-8").splitlines()
+    release_soak_cycles, release_clean_clone_rebuilds = extract_release_qa_counts(
+        release_soak_lines
     )
 
     with (root / "docs/evidence/independent_training_seed_extension_v1/workload_summary.csv").open(
@@ -292,6 +316,8 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         "policy_sensitivity_candidate_state_changes": next(iter(alpha_candidate_changes)),
         "policy_sensitivity_oracle_changes": next(iter(alpha_oracle_changes)),
         "policy_sensitivity_initial_literal_changes": next(iter(alpha_literal_changes)),
+        "release_soak_cycles": release_soak_cycles,
+        "release_clean_clone_rebuilds": release_clean_clone_rebuilds,
     }
 
 
@@ -352,6 +378,16 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
         errors.append(
             "headline numbers are not registry-generated: "
             f"{sorted(required_number_keys-number_marker_keys)}"
+        )
+    release_number_keys = {
+        match.group(1)
+        for match in NUMBER_MARKER_RE.finditer(raw_chapters["10_reproducibility_security.md"])
+    }
+    required_release_keys = {"release_soak_cycles", "release_clean_clone_rebuilds"}
+    if required_release_keys - release_number_keys:
+        errors.append(
+            "release QA numbers are not registry-generated: "
+            f"{sorted(required_release_keys-release_number_keys)}"
         )
     for literal in (
         "3.14065956642714", "3.140660", "2.3423342246526992",

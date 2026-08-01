@@ -99,6 +99,21 @@ class ThesisLintTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "unknown thesis number key"):
             MODULE.render_number_markers("{{N:not_registered}}", registry)
 
+    def test_release_qa_ledger_is_counted_and_fails_closed(self) -> None:
+        lines = [
+            "qa_soak_start=2026-07-31T19:45:18+09:00",
+            "cycle=1 status=PASS deep=not_due",
+            "cycle=2 status=PASS deep=clean_clone_pass",
+            "qa_soak_end=2026-08-01T17:37:26+09:00 status=PASS cycles=2",
+        ]
+        self.assertEqual(MODULE.extract_release_qa_counts(lines), (2, 1))
+        with self.assertRaisesRegex(ValueError, "incomplete or contains a failed cycle"):
+            MODULE.extract_release_qa_counts(lines[:-1])
+        failed = [*lines]
+        failed[1] = "cycle=1 status=FAIL deep=not_due"
+        with self.assertRaisesRegex(ValueError, "incomplete or contains a failed cycle"):
+            MODULE.extract_release_qa_counts(failed)
+
 
 if __name__ == "__main__":
     unittest.main()

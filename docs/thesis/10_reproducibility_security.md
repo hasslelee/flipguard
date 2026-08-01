@@ -18,13 +18,13 @@ Primary direct, development seed0, locked audit, validation identity v2, Securit
 
 ## 10.4 Paper Artifacts V3와 claim registry
 
-Paper Artifacts V3는 13개 table, 10개 figure, equation list, caption input, allowed/prohibited claim block을 제공하며 status는 `FINAL_ADMISSIBLE`이다. Builder는 structural outcome을 25/25 PASS로 바꾸지 않고 24 PASS와 1 reserve-policy REJECT를 필수 입력으로 요구한다. Formal catalog denominator는 700/560이며 provider/EVA는 appendix-only다.
+Paper Artifacts V3는 13개 table, 10개 figure, equation list, caption input, allowed/prohibited claim block을 제공하며 status는 `FINAL_ADMISSIBLE`이다. Builder는 structural outcome을 {{N:structural_instances}}/{{N:structural_instances}} PASS로 바꾸지 않고 {{N:structural_audit_pass}} PASS와 {{N:structural_reserve_reject}} reserve-policy REJECT를 필수 입력으로 요구한다. Formal catalog denominator는 전체 {{N:formal_catalog_all}}, confirmatory {{N:formal_catalog_confirmatory}}이며 provider/EVA는 appendix-only다.
 
 Paper claim admission registry에는 11 admitted claim과 9 blocked/not-evaluated claim이 있다. `paper_claim_allowed=true`는 모든 claim이 지지되었다는 뜻이 아니라, 논문이 `paper_admitted=true`인 문장만 사용할 수 있다는 뜻이다. Thesis lint는 abstract, contribution, results, conclusion을 claim ID와 연결하고 prohibited overclaim을 검사한다.
 
 ## 10.5 Clean-clone 및 soak verification
 
-Release workflow는 새 임시 clone에서 exact HEAD checkout, dependency 확인, external source manifest checksum, frozen verifier, V3 rebuild, rebuilt tree digest, untracked required source 부재를 검사했다. Core closure 후 258 soak cycle과 21 clean-clone rebuild가 기록되었다. 반복 verification은 encrypted experiment를 다시 수행하는 것이 아니라 frozen artifact의 deterministic reconstruction과 checksum을 확인한 것이다.
+Release workflow는 새 임시 clone에서 exact HEAD checkout, dependency 확인, external source manifest checksum, frozen verifier, V3 rebuild, rebuilt tree digest, untracked required source 부재를 검사했다. Core closure 후 {{N:release_soak_cycles}} soak cycle과 {{N:release_clean_clone_rebuilds}} clean-clone rebuild가 기록되었다. 두 수치는 RC2 `qa_soak.log`의 `cycle=` 행과 `deep=clean_clone_pass` 행을 thesis linter가 직접 계산한다. 반복 verification은 encrypted experiment를 다시 수행하는 것이 아니라 frozen artifact의 deterministic reconstruction과 checksum을 확인한 것이다.
 
 OpenML source는 server가 gzip transport를 반환하는 경우에도 decompressed canonical byte가 expected source digest와 일치하는지 검증한다. RC2 repair는 이 transport 차이를 provenance 손실 없이 처리한다. Dataset raw file을 repository에 무단 포함하는 대신 fetch script, source URL, expected SHA-256, extraction rule, derived artifact manifest를 배포한다.
 
@@ -51,4 +51,3 @@ Encrypted execution 전체를 재현하려면 높은 계산비용이 필요하�
 Local archive와 pushed tag는 artifact identity를 제공하지만 GitHub Release, Zenodo 또는 외부 public archive 업로드는 repository owner의 credential과 공개 결정을 요구한다. Dataset license와 model artifact의 배포 조건도 공개 전에 재검토해야 한다. 본 연구는 release candidate를 공개 준비 상태로 만들었으나 자동으로 외부 저장소에 게시하지 않았다.
 
 운영 적용 시 사용자는 threshold 의미, `rho`, margin floor, validation/audit data governance, acceptable abstention을 제공해야 한다. FlipGuard가 기본 policy를 갖더라도 application risk owner의 책임을 대체하지 않는다. Audit REJECT 또는 NO_SAFE가 발생하면 시스템은 결과를 성공으로 완화하지 않고 배포를 보류하거나 별도의 사전 등록 절차를 시작해야 한다.
-

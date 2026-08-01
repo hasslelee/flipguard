@@ -2,7 +2,7 @@
 
 ## 9.1 결과의 핵심 해석
 
-FlipGuard의 가장 강한 결과는 catalog를 모두 실행한 뒤 선택하는 흐름에서 벗어나 graph에서 exact literal을 직접 합성하고, encrypted validation을 후보 승인에 집중시켰다는 점이다. Formal candidate trial이 700 대비 70, confirmatory 560 대비 56으로 감소했고 primary locked audit이 retuning 없이 통과했다. 동시에 latency-only candidate가 많은 flip을 만들고 one-shot direct가 NO_SAFE를 낳은 ablation은 candidate 실행 성공이나 속도가 decision-integrity를 대신할 수 없음을 보여준다.
+FlipGuard의 가장 강한 결과는 catalog를 모두 실행한 뒤 선택하는 흐름에서 벗어나 graph에서 exact literal을 직접 합성하고, encrypted validation을 후보 승인에 집중시켰다는 점이다. Formal candidate trial이 전체 {{N:formal_catalog_all}} 대비 {{N:direct_trials_all}}, confirmatory {{N:formal_catalog_confirmatory}} 대비 {{N:direct_trials_confirmatory}}으로 감소했고 primary locked audit이 retuning 없이 통과했다. 동시에 latency-only candidate가 많은 flip을 만들고 one-shot direct가 NO_SAFE를 낳은 ablation은 candidate 실행 성공이나 속도가 decision-integrity를 대신할 수 없음을 보여준다.
 
 그러나 이 결과를 “margin이 항상 더 좋은 literal을 만든다”로 해석하면 안 된다. Natural primary range에서 `rho` grid 변화는 candidate state, bounded-oracle selection, direct initial literal을 바꾸지 않았다. Graph-derived minimum synthesis floor가 초기 구성을 지배했다. Decision contract는 admission predicate와 failure reporting에서 작동했지만, primary natural data의 literal generation을 직접 차별화했다는 claim은 근거가 부족하다. 이는 framework의 한계를 드러내는 동시에 synthesis와 admission을 구분해야 하는 이유다.
 
@@ -14,7 +14,7 @@ Decision preservation의 수학적 충분조건은 `e_c(x)<m(x)`다. Primary `e_
 
 ## 9.3 Structural audit negative result
 
-Structural seed4/banknote instance는 validation utilization 0.470653으로 SAFE였지만 audit utilization 0.5613685로 reserve cap을 초과했다. Decision flip은 없었다. 이 결과를 “audit 실패지만 실제 문제는 없었다”고 축소하면 사전 정책의 의미가 무너진다. 반대로 암호학적 correctness failure나 observed decision failure라고 부르면 실제 관측을 왜곡한다. 정확한 해석은 decision은 보존되었으나 reserve policy가 unseen audit에서 거부되었다는 것이다.
+Structural seed4/banknote instance는 validation utilization {{N:structural_validation_margin_utilization|.6f}}으로 SAFE였지만 audit utilization {{N:structural_audit_margin_utilization|.7f}}로 reserve cap을 초과했다. Decision flip은 없었다. 이 결과를 “audit 실패지만 실제 문제는 없었다”고 축소하면 사전 정책의 의미가 무너진다. 반대로 암호학적 correctness failure나 observed decision failure라고 부르면 실제 관측을 왜곡한다. 정확한 해석은 decision은 보존되었으나 reserve policy가 unseen audit에서 거부되었다는 것이다.
 
 이 negative result는 두 가지를 보여준다. 첫째, finite validation admission이 disjoint audit PASS를 논리적으로 보장하지 않는다. 둘째, audit은 결과를 본 뒤 candidate를 강화하는 tuning set이 아니라 claim을 반증할 수 있는 장치여야 한다. 본 연구는 해당 row를 제거하거나 재선택하지 않았고 structural claim을 PARTIALLY_SUPPORTED로 유지했다. 운영 시스템에서는 이 audit 결과가 배포 전 발견되었다면 candidate를 사용하지 않고 human review 또는 새로운 사전 등록 protocol로 돌아가야 한다.
 
@@ -26,9 +26,9 @@ FlipGuard의 SAFE는 선언된 finite validation과 관측 key repetition의 emp
 
 ## 9.5 Catalog 비교의 한계
 
-Security-V2 bounded catalog는 7 profile과 2 path의 유한 비교 집합이다. Fastest-safe라는 명칭은 이 14 candidate identity 안에서만 성립한다. Direct candidate는 catalog 밖에 있을 수 있고, 더 넓은 configuration space에 더 빠르거나 더 안정적인 candidate가 존재할 수 있다. 그러므로 latency ratio는 global search baseline 대비 결과가 아니다.
+Security-V2 bounded catalog는 {{N:security_catalog_profiles_admitted}} profile과 2 path의 유한 비교 집합이다. Fastest-safe라는 명칭은 이 14 candidate identity 안에서만 성립한다. Direct candidate는 catalog 밖에 있을 수 있고, 더 넓은 configuration space에 더 빠르거나 더 안정적인 candidate가 존재할 수 있다. 그러므로 latency ratio는 global search baseline 대비 결과가 아니다.
 
-그럼에도 bounded catalog는 유용한 평가 기준이다. 사전 선언되고 exhaustive하게 실행되었으며 동일 decision gate와 Security-V2 filter를 적용할 수 있기 때문이다. Historical 1,100 execution을 보존하면서 formal denominator를 700으로 수정한 과정은 security admission이 tuning-space 정의의 일부여야 함을 보여준다. 후속 연구는 여러 compiler/autotuner가 생성한 candidate set을 같은 gate에 투입해 provider별 recall과 regret을 비교할 수 있다.
+그럼에도 bounded catalog는 유용한 평가 기준이다. 사전 선언되고 exhaustive하게 실행되었으며 동일 decision gate와 Security-V2 filter를 적용할 수 있기 때문이다. Historical {{N:raw_historical_catalog_executions|,}} execution을 보존하면서 formal denominator를 {{N:formal_catalog_all}}으로 수정한 과정은 security admission이 tuning-space 정의의 일부여야 함을 보여준다. 후속 연구는 여러 compiler/autotuner가 생성한 candidate set을 같은 gate에 투입해 provider별 recall과 regret을 비교할 수 있다.
 
 ## 9.6 Latency 일반화의 한계
 
@@ -46,11 +46,11 @@ Graph adapter에는 formula와 scale trace가 명시적으로 구현되어 있�
 
 Primary 다섯 partition은 fixed held-out artifact를 deterministic하게 반복 분할한 것이다. 동일 training run과 model artifact를 공유하므로 다섯 독립 dataset split이나 다섯 independent model이 아니다. Seed 0는 policy development에 사용되어 confirmatory aggregate에서 제외했다. Seeds 1--4도 cluster 내부 반복으로 처리했다.
 
-Independent training/data-seed extension은 3 dataset x 3 seed의 9 model을 새로 생성해 이 한계를 일부 보완했다. 9/9 selection/audit PASS는 model artifact 변화에 대한 scoped evidence지만 dataset 수와 seed 수가 작다. 더 강한 일반화를 위해서는 architecture, preprocessing, class balance가 다른 독립 cohort와 계층적 통계가 필요하다.
+Independent training/data-seed extension은 {{N:independent_training_datasets}} dataset x {{N:independent_training_seeds_per_dataset}} seed의 {{N:independent_training_seed_total}} model을 새로 생성해 이 한계를 일부 보완했다. {{N:independent_training_seed_pass}}/{{N:independent_training_seed_total}} selection/audit PASS는 model artifact 변화에 대한 scoped evidence지만 dataset 수와 seed 수가 작다. 더 강한 일반화를 위해서는 architecture, preprocessing, class balance가 다른 독립 cohort와 계층적 통계가 필요하다.
 
 ## 9.9 Security 해석의 한계
 
-Security-V2는 published Table 5.2 cap, exact Q/P object, two-estimator sensitivity를 결합한다. Q와 QP를 분리한 점은 ciphertext와 evaluation key의 modulus semantics를 명확히 한다. Direct 50 row가 모두 통과하고 catalog 4 profile이 제외된 결과는 security filter가 실제 comparison population을 바꾸었음을 보여준다.
+Security-V2는 published Table 5.2 cap, exact Q/P object, two-estimator sensitivity를 결합한다. Q와 QP를 분리한 점은 ciphertext와 evaluation key의 modulus semantics를 명확히 한다. Direct {{N:security_direct_pass}} row가 모두 통과하고 catalog {{N:security_catalog_profiles_excluded}} profile이 제외된 결과는 security filter가 실제 comparison population을 바꾸었음을 보여준다.
 
 그러나 guideline의 uniform-ternary 및 Gaussian 가정과 Lattigo의 concrete `Xs/Xe`, 특히 finite-bound truncation은 정확히 동일하지 않다. Estimator model도 공격 비용 모델과 구현 세부에 의존한다. 따라서 “임의 runtime에서 정확히 128-bit”라는 문장을 사용할 수 없다. 본 논문은 명시된 policy와 object가 보수적 admission reference 및 sensitivity를 통과했다고만 주장한다.
 
@@ -74,5 +74,4 @@ Provider-format interoperability, Orion fail-closed import, AWS HIT rejection, E
 
 **외적 타당도**는 dataset, graph, packing, host 범위가 제한된다는 점이다. Structural/non-tabular/training-seed extension을 추가했지만 범용 compiler 또는 production deployment를 대표하지 않는다.
 
-**결론 타당도**에는 50 partition row를 독립 표본으로 처리할 위험이 있다. Latency는 10 cluster를 inference unit으로 사용하고 seed 0를 분리했다. Decision audit 결과는 inferential population claim보다 finite outcome count로 보고한다.
-
+**결론 타당도**에는 {{N:combined_descriptive_instances}} partition row를 독립 표본으로 처리할 위험이 있다. Latency는 {{N:primary_dataset_model_clusters}} cluster를 inference unit으로 사용하고 seed 0를 분리했다. Decision audit 결과는 inferential population claim보다 finite outcome count로 보고한다.

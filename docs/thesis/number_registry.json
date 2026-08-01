@@ -72,6 +72,8 @@
   "policy_sensitivity_candidate_state_changes": 0,
   "policy_sensitivity_oracle_changes": 0,
   "policy_sensitivity_initial_literal_changes": 0,
+  "release_soak_cycles": 258,
+  "release_clean_clone_rebuilds": 21,
   "rc2_source_commit": "6c5f8b234f9f9da91a189fa0f2dc180bb996abf5",
   "rc2_archive_sha256": "05ef70306a11ab577243b0c708489864f19ccd104e6036e28fc6bd1dab45c0be",
   "v3_manifest_sha256": "32d378b371b75d31b8e39ef2acce4c3c7353581ccfbd5e6c7d22b30ffaf4743b",
@@ -90,6 +92,7 @@
     "harris": "docs/evidence/non_tabular_harris_holdout_v1/summary.json",
     "cnn_lite": "docs/evidence/non_tabular_mnist_cnn_lite_holdout_v1/summary.json",
     "training_seed": "docs/evidence/independent_training_seed_extension_v1/summary.json",
-    "security": "results/thesis_grade_protocol/paper_artifacts_v3/final/tables/12_security_exact_qp_attestation.md"
+    "security": "results/thesis_grade_protocol/paper_artifacts_v3/final/tables/12_security_exact_qp_attestation.md",
+    "release_qa": "results/thesis_grade_protocol/release_candidate_v2/qa_soak.log"
   }
 }
