@@ -9,6 +9,16 @@ abstract_ko_en,ABSTRACT-KO-EXT,paired_latency,true,scoped_paraphrase,paired_late
 abstract_ko_en,ABSTRACT-KO-EXT,structural_extension,true,scoped_paraphrase,structural;structural_failure;margin_interpretation,Table 9; Figure 9,one disclosed audit policy rejection; single deeper polynomial graph family,PASS
 abstract_ko_en,ABSTRACT-KO-EXT,scoped_non_tabular_extension,true,scoped_paraphrase,sobel;harris;cnn_lite,Table 10; Figure 8,no packed CNN; no full-image operator accuracy claim,PASS
 abstract_ko_en,ABSTRACT-KO-EXT,training_model_seed_extension,true,scoped_paraphrase,training_seed,Table 11,three datasets; three seeds,PASS
+abstract_ko_en,ABSTRACT-EN-METHOD,scoped_direct_synthesis,true,scoped_paraphrase,direct_confirmatory;direct_development;final_suite,Figure 1,finite adapter set; scalar-replicated packing scope,PASS
+abstract_ko_en,ABSTRACT-EN-METHOD,adaptive_repair,true,scoped_paraphrase,direct_ablation;direct_confirmatory,Table 6,four causal ablation cases; bounded repair budget,PASS
+abstract_ko_en,ABSTRACT-EN-METHOD,finite_scope_decision_integrity,true,scoped_paraphrase,direct_confirmatory;direct_development;margin_interpretation;no_safe,Table 1; Figure 3,empirical finite-set certificate; rho=0.5 is operational,PASS
+abstract_ko_en,ABSTRACT-EN-PRIMARY,formal_trial_reduction,true,scoped_paraphrase,final_suite;bounded_oracle,Table 4; Figure 4,"1,100 executions are historical pre-security accounting only",PASS
+abstract_ko_en,ABSTRACT-EN-PRIMARY,primary_no_retuning_locked_audit,true,scoped_paraphrase,direct_confirmatory;direct_development,Table 3; Figure 6,fixed held-out artifacts; not independent model seeds,PASS
+abstract_ko_en,ABSTRACT-EN-PRIMARY,no_safe_behavior,true,scoped_paraphrase,no_safe,Table 7; Figure 7,finite candidate budgets and domains,PASS
+abstract_ko_en,ABSTRACT-EN-EXT,paired_latency,true,scoped_paraphrase,paired_latency_admission;bounded_oracle,Table 5; Figure 5,one measured host; declared workloads,PASS
+abstract_ko_en,ABSTRACT-EN-EXT,structural_extension,true,scoped_paraphrase,structural;structural_failure;margin_interpretation,Table 9; Figure 9,one disclosed audit policy rejection; single deeper polynomial graph family,PASS
+abstract_ko_en,ABSTRACT-EN-EXT,scoped_non_tabular_extension,true,scoped_paraphrase,sobel;harris;cnn_lite,Table 10; Figure 8,no packed CNN; no full-image operator accuracy claim,PASS
+abstract_ko_en,ABSTRACT-EN-EXT,training_model_seed_extension,true,scoped_paraphrase,training_seed,Table 11,three datasets; three seeds,PASS
 abstract_ko_en,ABSTRACT-EN-BOUNDARY,security_attestation,true,scoped_paraphrase,security_attestation;exact_estimator,Table 12,conservative table admission; explicit Gaussian truncation caveat,PASS
 01_introduction,INTRO-CORE,scoped_direct_synthesis,true,exact,direct_confirmatory;direct_development;final_suite,Figure 1,finite adapter set; scalar-replicated packing scope,PASS
 01_introduction,INTRO-CORE,finite_scope_decision_integrity,true,scoped_paraphrase,direct_confirmatory;direct_development;margin_interpretation;no_safe,Table 1; Figure 3,empirical finite-set certificate; rho=0.5 is operational,PASS
