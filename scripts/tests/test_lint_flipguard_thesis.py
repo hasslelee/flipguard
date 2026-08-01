@@ -91,6 +91,23 @@ class ThesisLintTest(unittest.TestCase):
         self.assertEqual(result["status"], "FAIL")
         self.assertTrue(any("primary-source verification" in error for error in result["errors"]))
 
+    def test_citation_title_mismatch_fails_closed(self) -> None:
+        def mutate(source: Path) -> None:
+            path = source / "citation_audit.csv"
+            text = path.read_text(encoding="utf-8")
+            path.write_text(
+                text.replace(
+                    "Homomorphic Encryption for Arithmetic of Approximate Numbers",
+                    "A Different Paper Title",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+
+        result = self.lint_mutated_source(mutate)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertTrue(any("title differs from BibTeX" in error for error in result["errors"]))
+
     def test_related_work_comparison_row_requires_citation(self) -> None:
         def mutate(source: Path) -> None:
             path = source / "03_related_work.md"

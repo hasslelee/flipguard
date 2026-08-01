@@ -81,6 +81,77 @@ def bib_keys(text: str) -> set[str]:
     return set(re.findall(r"@[A-Za-z]+\s*\{\s*([^,\s]+)", text))
 
 
+def parse_bibtex_entries(text: str) -> dict[str, dict[str, str]]:
+    """Parse the braced fields used by the repository's deterministic BibTeX file."""
+    entries: dict[str, dict[str, str]] = {}
+    starts = list(re.finditer(r"@[A-Za-z]+\s*\{\s*([^,\s]+)\s*,", text))
+    for start in starts:
+        key = start.group(1)
+        cursor = start.end()
+        entry_depth = 1
+        end = cursor
+        while end < len(text) and entry_depth:
+            if text[end] == "{":
+                entry_depth += 1
+            elif text[end] == "}":
+                entry_depth -= 1
+            end += 1
+        if entry_depth:
+            raise ValueError(f"unterminated BibTeX entry: {key}")
+        body = text[cursor:end - 1]
+        fields: dict[str, str] = {}
+        position = 0
+        while position < len(body):
+            match = re.search(r"([A-Za-z][A-Za-z0-9_-]*)\s*=\s*", body[position:])
+            if match is None:
+                break
+            name = match.group(1).casefold()
+            value_start = position + match.end()
+            if value_start >= len(body):
+                raise ValueError(f"missing BibTeX value: {key}.{name}")
+            delimiter = body[value_start]
+            if delimiter == "{":
+                depth = 1
+                value_end = value_start + 1
+                while value_end < len(body) and depth:
+                    if body[value_end] == "{":
+                        depth += 1
+                    elif body[value_end] == "}":
+                        depth -= 1
+                    value_end += 1
+                if depth:
+                    raise ValueError(f"unterminated BibTeX field: {key}.{name}")
+                value = body[value_start + 1:value_end - 1]
+            elif delimiter == '"':
+                value_end = value_start + 1
+                while value_end < len(body):
+                    if body[value_end] == '"' and body[value_end - 1] != "\\":
+                        value_end += 1
+                        break
+                    value_end += 1
+                value = body[value_start + 1:value_end - 1]
+            else:
+                value_end = body.find(",", value_start)
+                if value_end < 0:
+                    value_end = len(body)
+                value = body[value_start:value_end].strip()
+            fields[name] = value.strip()
+            position = value_end
+        entries[key] = fields
+    return entries
+
+
+def normalize_bibliographic_text(value: str) -> str:
+    value = re.sub(r"[{}]", "", value)
+    value = re.sub(r"\\['\"`^~=.]\{?([A-Za-z])\}?", r"\1", value)
+    return re.sub(r"[^a-z0-9]+", "", value.casefold())
+
+
+def normalize_locator(value: str) -> str:
+    value = value.strip().casefold().rstrip("/")
+    return re.sub(r"^https?://(?:dx\.)?doi\.org/", "", value)
+
+
 def sentence_for(text: str, position: int) -> str:
     left = max(text.rfind(".", 0, position), text.rfind("다.", 0, position))
     right_candidates = [value for value in (
@@ -697,6 +768,11 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
 
     references = (source / "references.bib").read_text(encoding="utf-8")
     known_keys = bib_keys(references)
+    try:
+        bibliography = parse_bibtex_entries(references)
+    except ValueError as exc:
+        errors.append(str(exc))
+        bibliography = {}
     cited_keys = set(re.findall(r"@([A-Za-z0-9_:-]+)", core_text + "\n" + abstract))
     missing_bib = cited_keys - known_keys
     if missing_bib:
@@ -721,6 +797,28 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
             errors.append(f"citation lacks official locator: {row['citation_key']}")
         if not row["exact_supported_point"].strip() or not row["unsupported_extension"].strip():
             errors.append(f"citation boundary is incomplete: {row['citation_key']}")
+        entry = bibliography.get(row["citation_key"])
+        if entry is None:
+            continue
+        if normalize_bibliographic_text(row["title"]) != normalize_bibliographic_text(
+            entry.get("title", "")
+        ):
+            errors.append(f"citation title differs from BibTeX: {row['citation_key']}")
+        if row["year"].strip() != entry.get("year", "").strip():
+            errors.append(f"citation year differs from BibTeX: {row['citation_key']}")
+        first_audit_author = re.split(r";|\bet al\.", row["authors"], maxsplit=1)[0]
+        if normalize_bibliographic_text(first_audit_author) not in normalize_bibliographic_text(
+            entry.get("author", "")
+        ):
+            errors.append(f"citation first author differs from BibTeX: {row['citation_key']}")
+        audit_locator = normalize_locator(row["DOI/ePrint/official URL"])
+        bib_locators = {
+            normalize_locator(entry[field])
+            for field in ("doi", "url")
+            if entry.get(field)
+        }
+        if audit_locator not in bib_locators:
+            errors.append(f"citation locator differs from BibTeX: {row['citation_key']}")
     unresolved = [row["citation_key"] for row in audit_rows if not row["status"].startswith("VERIFIED")]
     if unresolved:
         errors.append(f"unresolved citations: {unresolved}")
