@@ -936,8 +936,21 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
         claim = claim_by_id.get(row["claim_id"])
         if claim is None or row["paper_admitted"].casefold() != "true":
             errors.append(f"non-admitted claim in traceability: {row['claim_id']}")
+            continue
         if row["wording_type"] not in {"exact", "scoped_paraphrase"}:
             errors.append(f"invalid claim wording type: {row['paragraph_id']}")
+        expected_dependencies = ";".join(claim["evidence_dependencies"])
+        if row["evidence_dependency"] != expected_dependencies:
+            errors.append(
+                f"claim traceability evidence dependency mismatch: "
+                f"{row['paragraph_id']}:{row['claim_id']}"
+            )
+        expected_limitations = "; ".join(claim["limitations"])
+        if row["limitation_sentence"] != expected_limitations:
+            errors.append(
+                f"claim traceability limitation mismatch: "
+                f"{row['paragraph_id']}:{row['claim_id']}"
+            )
         if row["lint_status"] != "PASS":
             errors.append(f"claim traceability row is not PASS: {row['paragraph_id']}")
 

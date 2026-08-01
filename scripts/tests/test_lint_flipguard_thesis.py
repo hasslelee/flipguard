@@ -182,6 +182,19 @@ class ThesisLintTest(unittest.TestCase):
         self.assertEqual(result["status"], "FAIL")
         self.assertTrue(any("unknown claim ID" in error for error in result["errors"]))
 
+    def test_claim_traceability_dependency_mismatch_fails_closed(self) -> None:
+        def mutate(source: Path) -> None:
+            path = source / "claim_traceability.csv"
+            text = path.read_text(encoding="utf-8")
+            path.write_text(
+                text.replace("direct_confirmatory;", "not_the_frozen_pack;", 1),
+                encoding="utf-8",
+            )
+
+        result = self.lint_mutated_source(mutate)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertTrue(any("evidence dependency mismatch" in error for error in result["errors"]))
+
     def test_stale_release_digest_in_thesis_chapter_fails_closed(self) -> None:
         def mutate(source: Path) -> None:
             path = source / "10_reproducibility_security.md"
