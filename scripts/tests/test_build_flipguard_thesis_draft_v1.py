@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import re
 import sys
 import tempfile
 import unittest
@@ -40,6 +41,20 @@ class ThesisDraftBuilderTest(unittest.TestCase):
         paths = MODULE.source_closure_paths()
         self.assertFalse(any("__pycache__" in path.parts for path in paths))
         self.assertFalse(any(path.suffix in {".pyc", ".pyo"} for path in paths))
+
+    def test_authoritative_full_source_matches_recorded_assembly(self) -> None:
+        text = (ROOT / MODULE.FULL_SOURCE).read_text(encoding="utf-8")
+        match = re.search(
+            r"\*\*Thesis branch/commit:\*\* `[^`]+` / `([0-9a-f]{40})`",
+            text,
+        )
+        self.assertIsNotNone(match)
+        commit = MODULE.canonical_commit(match.group(1))
+        timestamp = MODULE.git_value("show", "-s", "--format=%cI", commit)
+        self.assertEqual(
+            text,
+            MODULE.assembled_source(commit, timestamp, artifact=False),
+        )
 
     def test_build_is_deterministic(self) -> None:
         commit = MODULE.canonical_commit("HEAD")
