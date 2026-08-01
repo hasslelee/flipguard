@@ -89,7 +89,7 @@ audit은 핵심 비교에 필요한 primary source를 검증하지만 체계적 
 
 ## Verification record
 
-이 초안의 source QA에서 전체 Python unittest 275개가 1,847.283초에 PASS했다.
+이 초안의 source QA에서 전체 Python unittest 275개가 1,829.789초에 PASS했다.
 `go test ./...`, `go vet ./...`, 추적 Python 파일 255개의 `py_compile`, 추적
 shell 파일 47개의 `bash -n`, `git diff --check`도 PASS했다. Paper claim admission,
 Paper Artifacts V3, V10, RC2 binding, margin interpretation, paired-latency admission
