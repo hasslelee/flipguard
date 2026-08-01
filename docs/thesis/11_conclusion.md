@@ -1,12 +1,12 @@
 # 제11장 결론
 
-본 연구는 CKKS configuration 선택을 단순한 실행 가능성이나 latency 최적화만으로 보지 않고, 최종 threshold decision을 보존하기 위한 finite-scope admission 문제로 정식화했다. FlipGuard는 지원 computation graph와 decision-integrity contract에서 exact CKKS literal을 직접 합성하고, 제한된 encrypted trial과 bounded failure-aware repair를 수행하며, SAFE 후보가 없을 때 NO_SAFE로 기권한다. 선택된 literal은 disjoint locked audit에서 retuning 없이 재생된다.
+본 연구는 CKKS 구성 선택을 단순한 실행 가능성이나 지연시간 최적화만으로 보지 않고, 최종 임계값 결정을 보존하기 위한 유한 범위 승인 문제로 정식화했다. FlipGuard는 지원 계산 그래프와 결정 무결성 계약에서 구체적인 CKKS 리터럴을 직접 합성하고, 제한된 암호화 후보 시험과 bounded failure-aware repair를 수행하며 SAFE 후보가 없을 때 NO_SAFE로 기권한다. 선택된 리터럴은 분리된 잠금 감사에서 재조정 없이 재생된다.
 
 <!-- P:CONCLUSION-DIRECT CLAIM:scoped_direct_synthesis,formal_trial_reduction -->
-선언된 adapter와 동결 policy에서 direct synthesis는 전체 {{N:direct_trials_all}}/{{N:formal_catalog_all}}, confirmatory {{N:direct_trials_confirmatory}}/{{N:formal_catalog_confirmatory}} candidate trial을 사용해 Security-V2 bounded catalog 대비 {{N:formal_trial_reduction_all|.0%}}의 formal trial 감소를 기록했다. 이 수치는 candidate trial 단위와 유한 admitted catalog 범위에 한정된다. Historical {{N:raw_historical_catalog_executions|,}} execution이나 가능한 CKKS parameter 공간 전체를 분모로 사용하지 않는다.
+선언된 adapter와 동결 정책에서 직접 합성은 전체 {{N:direct_trials_all}}/{{N:formal_catalog_all}}, 확인 평가 {{N:direct_trials_confirmatory}}/{{N:formal_catalog_confirmatory}} 후보 시험을 사용해 Security-V2 bounded catalog 대비 {{N:formal_trial_reduction_all|.0%}}의 정식 시험 감소를 기록했다. 이 수치는 후보 시험 단위와 유한한 admitted catalog 범위에 한정된다. Historical {{N:raw_historical_catalog_executions|,}}회 실행이나 가능한 CKKS 파라미터 공간 전체를 분모로 사용하지 않는다.
 
 <!-- P:CONCLUSION-AUDIT CLAIM:primary_no_retuning_locked_audit,no_safe_behavior -->
-Primary no-retuning locked audit은 confirmatory seeds 1--4에서 {{N:confirmatory_locked_audit_pass}}/{{N:confirmatory_instances}}, development seed 0에서 {{N:development_locked_audit_pass}}/{{N:development_instances}} 통과했고 retuning은 {{N:primary_locked_audit_retuning}}이었다. 사전동결 budget control은 {{N:no_safe_budget}}/{{N:no_safe_budget_total}}, finite-domain control은 {{N:no_safe_finite_domain}}/{{N:no_safe_finite_domain_total}}에서 NO_SAFE를 반환했다. 이 결과는 선언된 finite artifact와 candidate budget에서 admission과 abstention behavior를 지지하며 분포 전체의 안전성 또는 전 구성의 infeasibility를 의미하지 않는다.
+주요 무재조정 잠금 감사는 확인 평가 seeds 1--4에서 {{N:confirmatory_locked_audit_pass}}/{{N:confirmatory_instances}}, 개발 seed 0에서 {{N:development_locked_audit_pass}}/{{N:development_instances}} 통과했고 재조정은 {{N:primary_locked_audit_retuning}}회였다. 사전동결 후보 예산 대조군은 {{N:no_safe_budget}}/{{N:no_safe_budget_total}}, 유한 후보 영역 대조군은 {{N:no_safe_finite_domain}}/{{N:no_safe_finite_domain_total}}에서 NO_SAFE를 반환했다. 이 결과는 선언된 유한 artifact와 후보 예산에서 승인 및 기권 동작을 지지하며 분포 전체의 안전성 또는 모든 구성의 불가능성을 의미하지 않는다.
 
 <!-- P:CONCLUSION-LATENCY CLAIM:paired_latency -->
 한 host의 confirmatory paired protocol에서 Security-V2 bounded-catalog total latency를 direct total latency로 나눈 dataset-model-cluster geometric mean은 {{N:paired_total_ratio_confirmatory|.6f}}이었고 cluster-bootstrap 95% confidence interval은 [{{N:paired_total_ci_low|.6f}}, {{N:paired_total_ci_high|.6f}}]이었다. 이 결과는 frozen direct/catalog arm과 선언 workload에 대한 paired comparison이다. Production system이나 다른 hardware에서 같은 비율을 보증하지 않는다.
