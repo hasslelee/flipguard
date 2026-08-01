@@ -28,6 +28,12 @@ CHAPTERS = [f"{number:02d}_{name}.md" for number, name in (
     (10, "reproducibility_security"),
     (11, "conclusion"),
 )]
+AUXILIARY_MARKDOWN = [
+    "00_thesis_contract.md",
+    "advisor_defense_qa.md",
+    "reviewer_attack_checklist.md",
+    "university_template_requirements.md",
+]
 EXPECTED_DIGESTS = {
     "rc2_source_commit": "6c5f8b234f9f9da91a189fa0f2dc180bb996abf5",
     "rc2_archive_sha256": "05ef70306a11ab577243b0c708489864f19ccd104e6036e28fc6bd1dab45c0be",
@@ -37,7 +43,8 @@ EXPECTED_DIGESTS = {
 }
 NEGATION_TOKENS = (
     "not ", "does not", "do not", "cannot", "no ", "금지", "아니", "않",
-    "못", "제한", "주장하지", "평가하지", "뜻하지",
+    "못", "제한", "주장하지", "평가하지", "뜻하지", "not_evaluated",
+    "blocked", "partially_supported",
 )
 NUMBER_MARKER_RE = re.compile(r"\{\{N:([a-z0-9_]+)(?:\|([^}]+))?\}\}")
 
@@ -83,7 +90,18 @@ def sentence_for(text: str, position: int) -> str:
     return text[left + 1:right].strip()
 
 
-def prohibited_occurrences(text: str, claims: list[dict[str, Any]]) -> list[dict[str, str]]:
+def line_for(text: str, position: int) -> str:
+    """Return a Markdown logical line for table rows and structured QA entries."""
+    left = text.rfind("\n", 0, position)
+    right = text.find("\n", position)
+    return text[left + 1:right if right >= 0 else len(text)].strip()
+
+
+def prohibited_occurrences(
+    text: str,
+    claims: list[dict[str, Any]],
+    context_mode: str = "sentence",
+) -> list[dict[str, str]]:
     findings: list[dict[str, str]] = []
     lowered = text.casefold()
     for claim in claims:
@@ -94,8 +112,15 @@ def prohibited_occurrences(text: str, claims: list[dict[str, Any]]) -> list[dict
                 position = lowered.find(needle, start)
                 if position < 0:
                     break
-                sentence = sentence_for(text, position)
-                if not any(token in sentence.casefold() for token in NEGATION_TOKENS):
+                sentence = (
+                    line_for(text, position)
+                    if context_mode == "line"
+                    else sentence_for(text, position)
+                )
+                scoped_question = context_mode == "line" and "?" in sentence
+                if not scoped_question and not any(
+                    token in sentence.casefold() for token in NEGATION_TOKENS
+                ):
                     findings.append({
                         "claim_id": claim["claim_id"],
                         "phrase": phrase,
@@ -162,6 +187,9 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         root / "docs/evidence/security_v2_static_attestation_formal_v2/"
         "direct_synthesis_policy_v2.json"
     )
+    security_policy = load_json(
+        root / "docs/evidence/security_v2_static_attestation_formal_v2/security_policy_v2.json"
+    )["policy"]
     ablation = load_json(root / "docs/evidence/direct_synthesis_ablation_v1/summary.json")
     paired_manifest = load_json(root / "docs/evidence/paired_latency_final_v1/manifest.json")
     validation_identity = load_json(
@@ -261,6 +289,11 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         "direct_trials_confirmatory": trials["direct_trials_confirmatory"],
         "direct_trials_development": trials["direct_trials_development"],
         "max_encrypted_trials": direct_policy["policy"]["max_encrypted_trials"],
+        "primary_alpha": direct_policy["policy"]["primary_alpha"],
+        "primary_margin_floor": direct_policy["policy"]["primary_margin_floor"],
+        "numerical_repair_scale_bits": direct_policy["policy"]["numerical_repair_scale_bits"],
+        "level_repair_q_primes": direct_policy["policy"]["level_repair_q_primes"],
+        "max_additional_levels": direct_policy["policy"]["max_additional_levels"],
         "formal_trial_reduction_all": trials["formal_trial_reduction_all"],
         "formal_trial_reduction_confirmatory": trials["formal_trial_reduction_confirmatory"],
         "confirmatory_instances": confirmatory["expected_runs"],
@@ -305,6 +338,9 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         "paired_confirmatory_complete": paired_confirmatory["workload_partition_instances"],
         "paired_confirmatory_failures": paired_confirmatory["failure_count"],
         "paired_confirmatory_reference_safe": paired_confirmatory["reference_status"]["safe"],
+        "paired_cluster_bootstrap_replicates": paired_ratio[
+            "cluster_bootstrap_95_ci_total"
+        ]["replicates"],
         "primary_dataset_model_clusters": len(protocol["datasets"]) * len(protocol["models"]),
         "primary_datasets": len(protocol["datasets"]),
         "primary_model_graphs": len(protocol["models"]),
@@ -366,9 +402,14 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
             len(security_profiles["admitted"]) + len(security_profiles["excluded"])
         ),
         "catalog_execution_paths": 2,
+        "security_admitted_catalog_identities": len(security_profiles["admitted"]) * 2,
         "security_estimator_objects_pass": next(iter(estimator_pass_counts)),
         "security_estimator_objects_excluded": next(iter(estimator_excluded_counts)),
         "security_estimator_models": len(estimator_models),
+        "security_target_bits": security_policy["security_bits"],
+        "security_runtime_error_sigma": security_policy["error_sigma"],
+        "security_runtime_error_bound": security_policy["runtime_xe"]["bound"],
+        "security_table_error_sigma": security_policy["table_error_sigma"],
         "margin_utilization_cap": interpretation["primary_rho"],
         "reserved_margin_fraction": interpretation["reserved_margin_fraction"],
         "policy_sensitivity_candidate_state_changes": next(iter(alpha_candidate_changes)),
@@ -478,6 +519,10 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
     raw_chapters = {name: (source / name).read_text(encoding="utf-8") for name in CHAPTERS}
     raw_abstract = (source / "abstract_ko_en.md").read_text(encoding="utf-8")
     raw_appendix = (source / "appendix.md").read_text(encoding="utf-8")
+    raw_auxiliary = {
+        name: (source / name).read_text(encoding="utf-8")
+        for name in AUXILIARY_MARKDOWN
+    }
     claims_doc = load_json(root / "docs/evidence/paper_claim_admission_v1/claims.json")
     claims = claims_doc["claims"]
     claim_by_id = {item["claim_id"]: item for item in claims}
@@ -530,18 +575,43 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
         }
         abstract = render_number_markers(raw_abstract, registry)
         appendix = render_number_markers(raw_appendix, registry)
+        auxiliary = {
+            name: render_number_markers(text, registry)
+            for name, text in raw_auxiliary.items()
+        }
     except ValueError as exc:
         errors.append(str(exc))
         chapters = raw_chapters
         abstract = raw_abstract
         appendix = raw_appendix
+        auxiliary = raw_auxiliary
     core_text = "\n".join(chapters.values())
 
-    for finding in prohibited_occurrences(core_text + "\n" + abstract + "\n" + appendix, claims):
+    core_claim_text = "\n".join((core_text, abstract, appendix))
+    for finding in prohibited_occurrences(core_claim_text, claims):
         errors.append(
             f"unscoped prohibited claim {finding['claim_id']}: "
             f"{finding['phrase']} :: {finding['context']}"
         )
+    defense_claim_text = re.sub(
+        r"^## Q\d+\..*$", "", auxiliary["advisor_defense_qa.md"], flags=re.M
+    )
+    reviewer_claim_cells: list[str] = []
+    for line in auxiliary["reviewer_attack_checklist.md"].splitlines():
+        if not re.match(r"^\|\s*\d+\s*\|", line):
+            continue
+        cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+        if len(cells) == 6:
+            reviewer_claim_cells.extend((cells[2], cells[4]))
+    for filename, claim_text in (
+        ("advisor_defense_qa.md", defense_claim_text),
+        ("reviewer_attack_checklist.md", "\n".join(reviewer_claim_cells)),
+    ):
+        for finding in prohibited_occurrences(claim_text, claims):
+            errors.append(
+                f"{filename}: unscoped prohibited claim {finding['claim_id']}: "
+                f"{finding['phrase']} :: {finding['context']}"
+            )
 
     marker_pattern = re.compile(r"<!--\s*P:([A-Z0-9-]+)\s+CLAIM:([a-z0-9_,]+)\s*-->")
     used_claims: set[str] = set()
@@ -669,7 +739,7 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
         if row["lint_status"] != "PASS":
             errors.append(f"claim traceability row is not PASS: {row['paragraph_id']}")
 
-    defense = (source / "advisor_defense_qa.md").read_text(encoding="utf-8")
+    defense = auxiliary["advisor_defense_qa.md"]
     defense_parts = re.split(r"^## Q(\d+)\. ", defense, flags=re.M)
     question_numbers = [int(defense_parts[index]) for index in range(1, len(defense_parts), 2)]
     if question_numbers != list(range(1, 31)):
@@ -680,6 +750,13 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
         for field in ("**Claim ID:**", "**Evidence:**", "**금지 과장:**", "**짧은 구두 답변:**"):
             if field not in answer:
                 errors.append(f"advisor Q{question_number} lacks {field}")
+        if "**Evidence:**" in answer and "**금지 과장:**" in answer:
+            evidence_text = answer.split("**Evidence:**", 1)[1].split("**금지 과장:**", 1)[0]
+            for evidence_path in re.findall(r"`([^`]+/[^`]+)`", evidence_text):
+                if "*" not in evidence_path and not (root / evidence_path.rstrip("/")).exists():
+                    errors.append(
+                        f"advisor Q{question_number} cites missing evidence path: {evidence_path}"
+                    )
         prose = answer.split("**Claim ID:**", 1)[0]
         sentence_count = len(re.findall(r"(?:다|이다|한다|된다|않다|없다|있다)\.", prose))
         if not 3 <= sentence_count <= 8:
@@ -687,7 +764,7 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
                 f"advisor Q{question_number} has {sentence_count} answer sentences; expected 3--8"
             )
 
-    reviewer = (source / "reviewer_attack_checklist.md").read_text(encoding="utf-8")
+    reviewer = auxiliary["reviewer_attack_checklist.md"]
     reviewer_rows = re.findall(r"^\|\s*(\d+)\s*\|.*\|\s*([A-Z_]+)\s*\|$", reviewer, flags=re.M)
     reviewer_numbers = [int(number) for number, _ in reviewer_rows]
     allowed_reviewer_states = {"CLOSED_FOR_DRAFT", "DISCLOSED_RESIDUAL_RISK", "BLOCKED_CLAIM"}
@@ -697,7 +774,11 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
     if invalid_reviewer_states:
         errors.append(f"invalid reviewer attack states: {invalid_reviewer_states}")
 
-    forbidden_placeholders = re.findall(r"\b(?:TODO|TBD|FIXME)\b|추후\s*삽입", core_text, flags=re.I)
+    forbidden_placeholders = re.findall(
+        r"\b(?:TODO|TBD|FIXME)\b|추후\s*삽입",
+        "\n".join((core_claim_text, *auxiliary.values())),
+        flags=re.I,
+    )
     if forbidden_placeholders:
         errors.append(f"placeholder tokens remain: {sorted(set(forbidden_placeholders))}")
     if sum(len(value) for value in chapters.values()) < 45_000:

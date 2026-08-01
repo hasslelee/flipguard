@@ -16,7 +16,12 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from lint_flipguard_thesis import CHAPTERS, lint_source, render_number_markers
+from lint_flipguard_thesis import (
+    AUXILIARY_MARKDOWN,
+    CHAPTERS,
+    lint_source,
+    render_number_markers,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -261,6 +266,12 @@ def build(output: Path, source_commit: str, refresh_sources: bool) -> dict[str, 
     shutil.copy2(ROOT / SOURCE / "citation_audit.csv", output / "citation_audit.csv")
     shutil.copy2(ROOT / SOURCE / "number_registry.json", output / "number_registry.json")
     shutil.copy2(ROOT / SOURCE / "references.bib", output / "references.bib")
+    registry = read_json(SOURCE / "number_registry.json")
+    for relative in AUXILIARY_MARKDOWN:
+        rendered = render_number_markers(
+            (ROOT / SOURCE / relative).read_text(encoding="utf-8"), registry
+        )
+        (output / relative).write_text(rendered, encoding="utf-8")
     (output / "lint_report.json").write_text(
         json.dumps(lint, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
@@ -313,6 +324,8 @@ def build(output: Path, source_commit: str, refresh_sources: bool) -> dict[str, 
             "claim_traceability": f"sha256:{sha256(output / 'claim_traceability.csv')}",
             "figure_table_map": f"sha256:{sha256(output / 'figure_table_map.csv')}",
             "citation_audit": f"sha256:{sha256(output / 'citation_audit.csv')}",
+            "advisor_defense_qa": f"sha256:{sha256(output / 'advisor_defense_qa.md')}",
+            "reviewer_attack_checklist": f"sha256:{sha256(output / 'reviewer_attack_checklist.md')}",
         },
         "new_encrypted_executions": 0,
         "core_implementation_changes": 0,

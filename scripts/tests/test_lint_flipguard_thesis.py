@@ -40,6 +40,17 @@ class ThesisLintTest(unittest.TestCase):
         )
         self.assertTrue(any(item["claim_id"] == "scoped_direct_synthesis" for item in findings))
 
+    def test_reviewer_question_may_name_an_overclaim_but_answer_may_not_assert_it(self) -> None:
+        question = "Is this production speedup?"
+        self.assertEqual(
+            MODULE.prohibited_occurrences(question, self.claims, context_mode="line"), []
+        )
+        assertion = "This is production speedup."
+        findings = MODULE.prohibited_occurrences(
+            assertion, self.claims, context_mode="line"
+        )
+        self.assertTrue(any(item["claim_id"] == "paired_latency" for item in findings))
+
     def test_authoritative_source_passes(self) -> None:
         result = MODULE.lint_source(ROOT, Path("docs/thesis"))
         self.assertEqual(result["status"], "PASS", result["errors"])
@@ -98,6 +109,35 @@ class ThesisLintTest(unittest.TestCase):
         self.assertEqual(rendered, "7 candidates, 90% reduction")
         with self.assertRaisesRegex(ValueError, "unknown thesis number key"):
             MODULE.render_number_markers("{{N:not_registered}}", registry)
+
+    def test_unknown_number_marker_in_defense_fails_closed(self) -> None:
+        def mutate(source: Path) -> None:
+            path = source / "advisor_defense_qa.md"
+            path.write_text(
+                path.read_text(encoding="utf-8") + "\n{{N:not_registered}}\n",
+                encoding="utf-8",
+            )
+
+        result = self.lint_mutated_source(mutate)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertTrue(any("not_registered" in error for error in result["errors"]))
+
+    def test_missing_defense_evidence_path_fails_closed(self) -> None:
+        def mutate(source: Path) -> None:
+            path = source / "advisor_defense_qa.md"
+            text = path.read_text(encoding="utf-8")
+            path.write_text(
+                text.replace(
+                    "`docs/evidence/margin_utilization_interpretation_v1/`",
+                    "`docs/evidence/not-a-real-pack/`",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+
+        result = self.lint_mutated_source(mutate)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertTrue(any("missing evidence path" in error for error in result["errors"]))
 
     def test_release_qa_ledger_is_counted_and_fails_closed(self) -> None:
         lines = [

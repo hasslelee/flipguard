@@ -40,7 +40,7 @@ Repair executor는 policy JSON에 있는 transition만 수행한다. Numerical r
 
 Locked audit runner의 input은 selection result와 audit artifact뿐이다. Candidate generator interface를 link하지 않도록 실행 path를 분리하고, selection literal digest와 audit materialization literal digest를 비교한다. Model/source/candidate digest가 다르면 결과를 만들지 않는다. Audit에서는 fresh key 세 개를 생성하지만 literal parameter는 변경하지 않는다.
 
-Retuning count는 manifest의 정책 선언과 실행 log 양쪽에서 확인한다. Audit 결과를 보고 후속 candidate가 생성된 흔적, repair event, policy digest 변경이 있으면 verifier가 실패한다. Primary audit {{N:combined_descriptive_instances}}건과 structural audit {{N:structural_instances}}건 모두 retuning count는 {{N:primary_locked_audit_retuning}}이었다.
+Retuning count는 manifest의 정책 선언과 실행 log 양쪽에서 확인한다. Audit 결과를 보고 후속 candidate가 생성된 흔적, repair event, policy digest 변경이 있으면 verifier가 실패한다. Primary audit {{N:combined_descriptive_instances}}건의 retuning count는 {{N:primary_locked_audit_retuning}}이었고, structural audit {{N:structural_instances}}건의 retuning count도 {{N:structural_retuning}}이었다.
 
 ## 6.8 Paired latency runner
 

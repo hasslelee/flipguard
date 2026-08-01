@@ -44,6 +44,8 @@ class ThesisDraftBuilderTest(unittest.TestCase):
                 if marker in path.read_text(encoding="utf-8")
             }
             self.assertEqual(unresolved, {})
+            self.assertTrue((first / "advisor_defense_qa.md").is_file())
+            self.assertTrue((first / "reviewer_attack_checklist.md").is_file())
 
 
 if __name__ == "__main__":

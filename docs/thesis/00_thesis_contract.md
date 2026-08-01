@@ -88,14 +88,14 @@ The following claims are prohibited as contributions or conclusions:
 - Seed 0 is development/descriptive only.
 - Seeds 1-4 are post-freeze confirmatory repeated partitions.
 - Five deterministic partitions are not five independent dataset splits.
-- The paired-latency inference unit is 10 dataset-model clusters; raw timing
+- The paired-latency inference unit is {{N:primary_dataset_model_clusters}} dataset-model clusters; raw timing
   pairs are not independent statistical samples.
-- Formal catalog denominators are 700 overall and 560 confirmatory. The 1,100
+- Formal catalog denominators are {{N:formal_catalog_all}} overall and {{N:formal_catalog_confirmatory}} confirmatory. The {{N:raw_historical_catalog_executions|,}}
   executions are historical pre-security-filter accounting only.
 - The mathematical decision-preservation condition is `e_c(x) < m(x)`.
-- The stricter `e_c(x) < rho*m(x)` with `rho=0.5` is a predeclared operational
+- The stricter `e_c(x) < rho*m(x)` with `rho={{N:primary_alpha}}` is a predeclared operational
   reserve policy, not a theorem constant or an optimized value.
-- The structural result must retain 24 audit PASS outcomes and one
+- The structural result must retain {{N:structural_audit_pass}} audit PASS outcomes and {{N:structural_reserve_reject}}
   reserve-policy REJECT without a decision flip.
 
 ## Manuscript Authority
@@ -104,4 +104,3 @@ The following claims are prohibited as contributions or conclusions:
 `NON_AUTHORITATIVE_SCAFFOLD`. The assembled V1 manuscript under
 `docs/thesis/` is authoritative only after the thesis linter, deterministic
 builder, RC2 overlay verifier, V3 verifier, and claim-admission verifier pass.
-
