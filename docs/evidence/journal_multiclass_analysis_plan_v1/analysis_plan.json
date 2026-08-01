@@ -1,0 +1,85 @@
+{
+  "audit_artifact_used_to_choose_rules": false,
+  "classwise_policy": "report all ten plaintext classes; do not suppress an empty or negative class row",
+  "gap_bin_policy": {
+    "audit_policy": "replay frozen model-specific boundaries without rebucketing",
+    "bin_count": 5,
+    "boundary_method": "midpoint between adjacent order statistics at ranks 100, 200, 300, and 400",
+    "derivation_population": "500 unique configuration-validation samples per model",
+    "id": "validation_plaintext_gap_empirical_quintiles_v1",
+    "key_repeat_accounting": "fresh-key run 1 only; repeated keys are not independent samples"
+  },
+  "inputs": {
+    "lenet5_small": {
+      "selection_result": {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/selection_result.json",
+        "sha256": "sha256:d064b503bb78e703750089b483d1e51eabcab259aec7561bc9ead0efc4d87e8d"
+      },
+      "validation_key_run_01": {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/trial_01_synth_analysis_minimum_rescale_N15_Q18_S44_3d9a3ac648cc/key_run_01.json",
+        "sha256": "sha256:3c36833c09c15f0d7e61d84e4cf9a28e7ad4bb76fa92c978458ee019fe84c3e3"
+      }
+    },
+    "mlp_100": {
+      "selection_result": {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/selection_result.json",
+        "sha256": "sha256:fa8a750da606c356dcd2c97eb84a43f5cbf95b5ba8d75cfa62e532b64d1dbfd8"
+      },
+      "validation_key_run_01": {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/trial_01_synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140/key_run_01.json",
+        "sha256": "sha256:ebac9a5bf9084123f386518f5d2a1c55e3a137bac9068380a1df808ae08eeb0e"
+      }
+    }
+  },
+  "models": {
+    "lenet5_small": {
+      "boundary_values": [
+        9.736522670502804,
+        14.811110310182276,
+        20.255763289250837,
+        28.41983386902862
+      ],
+      "candidate_id": "synth_analysis_minimum_rescale_N15_Q18_S44_3d9a3ac648cc",
+      "interval_rule": "(-inf,b1],(b1,b2],...,(b4,+inf)",
+      "model_id": "mnist_lenet5_small_square_v1",
+      "target_samples_per_bin": 100,
+      "top_two_gap_max": 62.00013104822669,
+      "top_two_gap_min": 0.019203927749238403,
+      "validation_sample_count": 500
+    },
+    "mlp_100": {
+      "boundary_values": [
+        7.22709783721224,
+        10.595043286581445,
+        15.221005824454878,
+        22.031130688169426
+      ],
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140",
+      "interval_rule": "(-inf,b1],(b1,b2],...,(b4,+inf)",
+      "model_id": "mnist_mlp_square_784_100_10_v1",
+      "target_samples_per_bin": 100,
+      "top_two_gap_max": 58.96538534286581,
+      "top_two_gap_min": 0.042498195165657116,
+      "validation_sample_count": 500
+    }
+  },
+  "natural_activation_outcomes": [
+    "A_LITERAL_EFFECT_SUPPORTED",
+    "B_ADMISSION_EFFECT_ONLY",
+    "C_NO_OBSERVED_ACTIVATION"
+  ],
+  "protocol_manifest_digest": "sha256:caf39e2b38f8c1a46bb1fece30d68d758b613e2459e51e6af9898e535620b269",
+  "reported_metrics": [
+    "sample_count",
+    "fresh_key_observations",
+    "plaintext_accuracy",
+    "ckks_accuracy",
+    "argmax_flips",
+    "reserve_policy_rejections",
+    "maximum_pairwise_error",
+    "maximum_cap_required"
+  ],
+  "schema_version": "flipguard_journal_multiclass_analysis_plan_v1",
+  "selection_execution_commit": "84b2493b3adacde10a5f49d5b90f7f6910812bf3",
+  "status": "FROZEN_BEFORE_LOCKED_AUDIT_ANALYSIS"
+}
