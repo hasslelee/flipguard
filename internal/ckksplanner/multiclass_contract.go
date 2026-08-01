@@ -100,7 +100,7 @@ func BuildJournalMNISTMulticlassContract(
 	if err != nil {
 		return WorkloadContract{}, MulticlassPlaintextScope{}, err
 	}
-	graph, levels, requiredQ, err := journalMNISTGraphFacts(model.ModelType)
+	graph, levels, terminalExponent, requiredQ, err := journalMNISTGraphFacts(model.ModelType)
 	if err != nil {
 		return WorkloadContract{}, MulticlassPlaintextScope{}, err
 	}
@@ -165,7 +165,7 @@ func BuildJournalMNISTMulticlassContract(
 			AllowedPaths:          append([]tuner.ExecutionPath(nil), options.AllowedPaths...),
 			ScaleTraceMethod:      LattigoRescaleScaleTraceV1,
 			RescaleLevelsConsumed: levels,
-			TerminalScaleExponent: 1,
+			TerminalScaleExponent: terminalExponent,
 			RequiredQPrimes:       requiredQ,
 		},
 	}
@@ -275,7 +275,7 @@ func deriveMulticlassPlaintextScope(
 	return scope, nil
 }
 
-func journalMNISTGraphFacts(modelType string) (tuner.GraphSummary, int, int, error) {
+func journalMNISTGraphFacts(modelType string) (tuner.GraphSummary, int, int, int, error) {
 	switch modelType {
 	case journalmnist.MLPModelType:
 		return tuner.GraphSummary{
@@ -287,9 +287,9 @@ func journalMNISTGraphFacts(modelType string) (tuner.GraphSummary, int, int, err
 			Notes: []string{
 				"exact affine/square operation inventory for 784-100-10 MLP",
 				"feature ciphertexts use sample slots; no rotation",
-				"one square consumes three Q levels under the Lattigo v6 scalar/rescale trace",
+				"one square consumes three Q levels and the terminal affine has scale exponent two under the Lattigo v6 scalar/rescale trace",
 			},
-		}, 3, 4, nil
+		}, 3, 2, 5, nil
 	case journalmnist.LeNetModelType:
 		return tuner.GraphSummary{
 			MultiplicativeDepth: 4,
@@ -300,11 +300,11 @@ func journalMNISTGraphFacts(modelType string) (tuner.GraphSummary, int, int, err
 			Notes: []string{
 				"exact convolution/average-pool/affine/square inventory for the frozen LeNet-5-small adapter",
 				"feature ciphertexts use sample slots; no rotation",
-				"four sequential squares consume twelve Q levels under the Lattigo v6 scalar/rescale trace",
+				"pool scalars raise the next affine scale; four squares consume sixteen Q levels and the terminal affine has scale exponent two",
 			},
-		}, 12, 13, nil
+		}, 16, 2, 18, nil
 	default:
-		return tuner.GraphSummary{}, 0, 0, fmt.Errorf("unsupported journal model type %q", modelType)
+		return tuner.GraphSummary{}, 0, 0, 0, fmt.Errorf("unsupported journal model type %q", modelType)
 	}
 }
 

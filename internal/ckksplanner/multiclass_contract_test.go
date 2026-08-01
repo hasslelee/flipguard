@@ -8,19 +8,19 @@ import (
 )
 
 func TestJournalMNISTGraphFacts(t *testing.T) {
-	mlp, levels, q, err := journalMNISTGraphFacts(journalmnist.MLPModelType)
+	mlp, levels, terminal, q, err := journalMNISTGraphFacts(journalmnist.MLPModelType)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if mlp.MultiplicativeDepth != 1 || mlp.MulOps != 79500 || levels != 3 || q != 4 {
-		t.Fatalf("unexpected MLP facts: %+v levels=%d q=%d", mlp, levels, q)
+	if mlp.MultiplicativeDepth != 1 || mlp.MulOps != 79500 || levels != 3 || terminal != 2 || q != 5 {
+		t.Fatalf("unexpected MLP facts: %+v levels=%d terminal=%d q=%d", mlp, levels, terminal, q)
 	}
-	lenet, levels, q, err := journalMNISTGraphFacts(journalmnist.LeNetModelType)
+	lenet, levels, terminal, q, err := journalMNISTGraphFacts(journalmnist.LeNetModelType)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if lenet.MultiplicativeDepth != 4 || lenet.MulOps != 421984 || levels != 12 || q != 13 {
-		t.Fatalf("unexpected LeNet facts: %+v levels=%d q=%d", lenet, levels, q)
+	if lenet.MultiplicativeDepth != 4 || lenet.MulOps != 421984 || levels != 16 || terminal != 2 || q != 18 {
+		t.Fatalf("unexpected LeNet facts: %+v levels=%d terminal=%d q=%d", lenet, levels, terminal, q)
 	}
 }
 
