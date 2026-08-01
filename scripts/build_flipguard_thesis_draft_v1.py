@@ -274,6 +274,11 @@ def build(output: Path, source_commit: str, refresh_sources: bool) -> dict[str, 
         "admitted_claims": 11,
         "blocked_claim_violations": lint["metrics"]["blocked_claim_violations"],
         "citation_audit_rows": lint["metrics"]["citation_audit_rows"],
+        "content_preview_pdf": {
+            "generated": False,
+            "status": "NOT_GENERATED_TOOLCHAIN_UNAVAILABLE",
+            "reason": "pandoc and xelatex were not available; no packages were installed",
+        },
     }
     (output / "build_report.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8"
