@@ -23,6 +23,11 @@ const (
 	// feature is encrypted in its own ciphertext and replicated over slots.
 	ScalarReplicatedPackingV1 = "scalar_replicated_per_ciphertext_v1"
 
+	// FeatureCiphertextSampleSlotsV1 keeps one logical feature per ciphertext
+	// and uses slots for independent samples. It is a journal-extension adapter,
+	// not a modification of the frozen Direct Policy V2 packing scope.
+	FeatureCiphertextSampleSlotsV1 = "feature_ciphertext_sample_slots_v1"
+
 	// LattigoRescaleScaleTraceV1 symbolically tracks the scale growth caused by
 	// ciphertext multiplications and Lattigo's non-integer scalar encoding. It
 	// derives both consumed levels and the terminal modulus capacity.
@@ -53,6 +58,27 @@ type DecisionStabilityContract struct {
 
 	ProtectedMargin   float64 `json:"protected_margin"`
 	OutputErrorBudget float64 `json:"output_error_budget"`
+
+	ValidationDigest string `json:"validation_digest"`
+
+	ValidationSamples  int `json:"validation_samples"`
+	CertifiableSamples int `json:"certifiable_samples"`
+	AmbiguousSamples   int `json:"ambiguous_samples"`
+}
+
+// MulticlassDecisionStabilityContract is the backward-compatible multiclass
+// extension. Under a uniform per-logit error budget B, 2B < g(x) is sufficient
+// for argmax preservation, where g is the plaintext top-two gap.
+type MulticlassDecisionStabilityContract struct {
+	SchemaVersion string `json:"schema_version"`
+	ClassCount    int    `json:"class_count"`
+	TieBreak      string `json:"tie_break"`
+	BoundMode     string `json:"bound_mode"`
+
+	MarginFloor          float64 `json:"margin_floor"`
+	MarginUtilizationCap float64 `json:"margin_utilization_cap"`
+	ProtectedTopTwoGap   float64 `json:"protected_top_two_gap"`
+	PerLogitErrorBudget  float64 `json:"per_logit_error_budget"`
 
 	ValidationDigest string `json:"validation_digest"`
 
@@ -108,10 +134,11 @@ type WorkloadContract struct {
 	SourceData           *ArtifactBinding              `json:"source_data,omitempty"`
 	InputMaterialization *InputMaterializationContract `json:"input_materialization,omitempty"`
 
-	Graph       tuner.GraphSummary        `json:"graph"`
-	Decision    DecisionStabilityContract `json:"decision"`
-	Calibration NumericalCalibration      `json:"calibration"`
-	Deployment  DeploymentContract        `json:"deployment"`
+	Graph              tuner.GraphSummary                   `json:"graph"`
+	Decision           DecisionStabilityContract            `json:"decision,omitempty"`
+	MulticlassDecision *MulticlassDecisionStabilityContract `json:"multiclass_decision,omitempty"`
+	Calibration        NumericalCalibration                 `json:"calibration"`
+	Deployment         DeploymentContract                   `json:"deployment"`
 }
 
 // Validate rejects incomplete contracts before parameter synthesis.
@@ -171,8 +198,14 @@ func (contract WorkloadContract) Validate() error {
 	if err := validateGraphSummary(contract.Graph); err != nil {
 		return err
 	}
-	if err := contract.Decision.validate(); err != nil {
-		return err
+	if contract.MulticlassDecision == nil {
+		if err := contract.Decision.validate(); err != nil {
+			return err
+		}
+	} else {
+		if err := contract.MulticlassDecision.validate(); err != nil {
+			return err
+		}
 	}
 	if err := contract.Calibration.validate(); err != nil {
 		return err
@@ -327,6 +360,60 @@ func (decision DecisionStabilityContract) validate() error {
 	return nil
 }
 
+func (decision MulticlassDecisionStabilityContract) validate() error {
+	if decision.SchemaVersion != "decision_integrity_contract_v2" {
+		return fmt.Errorf(
+			"unsupported multiclass decision schema %q",
+			decision.SchemaVersion,
+		)
+	}
+	if decision.ClassCount < 2 {
+		return fmt.Errorf("multiclass contract requires at least two classes")
+	}
+	if decision.TieBreak != "lowest_class_index" {
+		return fmt.Errorf("unsupported multiclass tie-break rule %q", decision.TieBreak)
+	}
+	if decision.BoundMode != "uniform_per_logit_v1" {
+		return fmt.Errorf("unsupported multiclass bound mode %q", decision.BoundMode)
+	}
+	if !finite(decision.MarginFloor) || decision.MarginFloor < 0 {
+		return fmt.Errorf("multiclass margin floor must be finite and non-negative")
+	}
+	if !finite(decision.MarginUtilizationCap) ||
+		decision.MarginUtilizationCap <= 0 ||
+		decision.MarginUtilizationCap > 1 {
+		return fmt.Errorf("multiclass margin utilization cap must be in (0, 1]")
+	}
+	if !finite(decision.ProtectedTopTwoGap) ||
+		decision.ProtectedTopTwoGap <= decision.MarginFloor {
+		return fmt.Errorf("multiclass protected top-two gap must exceed margin floor")
+	}
+	if !finite(decision.PerLogitErrorBudget) ||
+		decision.PerLogitErrorBudget <= 0 {
+		return fmt.Errorf("multiclass per-logit error budget must be positive")
+	}
+	maxBudget := decision.MarginUtilizationCap *
+		decision.ProtectedTopTwoGap / 2
+	if decision.PerLogitErrorBudget > maxBudget &&
+		!closeFloat(decision.PerLogitErrorBudget, maxBudget) {
+		return fmt.Errorf(
+			"multiclass per-logit budget %.12g exceeds uniform bound %.12g",
+			decision.PerLogitErrorBudget,
+			maxBudget,
+		)
+	}
+	if err := validateSHA256(decision.ValidationDigest); err != nil {
+		return fmt.Errorf("multiclass validation digest: %w", err)
+	}
+	if decision.ValidationSamples <= 0 || decision.CertifiableSamples <= 0 ||
+		decision.AmbiguousSamples < 0 ||
+		decision.CertifiableSamples+decision.AmbiguousSamples !=
+			decision.ValidationSamples {
+		return fmt.Errorf("invalid multiclass validation partition counts")
+	}
+	return nil
+}
+
 func (calibration NumericalCalibration) validate() error {
 	if !finite(calibration.MaxInputAbs) || calibration.MaxInputAbs < 0 {
 		return fmt.Errorf("calibration max input magnitude is invalid")
@@ -369,7 +456,8 @@ func (deployment DeploymentContract) validate() error {
 			"deployment validation key repeats must be positive",
 		)
 	}
-	if deployment.PackingStrategy != ScalarReplicatedPackingV1 {
+	if deployment.PackingStrategy != ScalarReplicatedPackingV1 &&
+		deployment.PackingStrategy != FeatureCiphertextSampleSlotsV1 {
 		return fmt.Errorf(
 			"unsupported deployment packing strategy %q",
 			deployment.PackingStrategy,

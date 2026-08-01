@@ -157,6 +157,34 @@ func TestLattigoScaleTraceDistinguishesMLPOutputForms(t *testing.T) {
 	}
 }
 
+func TestMulticlassDecisionContractIsBackwardCompatibleExtension(t *testing.T) {
+	contract := validContractFixture()
+	contract.Decision = DecisionStabilityContract{}
+	contract.MulticlassDecision = &MulticlassDecisionStabilityContract{
+		SchemaVersion:        "decision_integrity_contract_v2",
+		ClassCount:           10,
+		TieBreak:             "lowest_class_index",
+		BoundMode:            "uniform_per_logit_v1",
+		MarginFloor:          0.001,
+		MarginUtilizationCap: 0.5,
+		ProtectedTopTwoGap:   0.2,
+		PerLogitErrorBudget:  0.05,
+		ValidationDigest:     "sha256:" + strings.Repeat("a", 64),
+		ValidationSamples:    500,
+		CertifiableSamples:   499,
+		AmbiguousSamples:     1,
+	}
+	contract.Deployment.RequiredSlots = 500
+	contract.Deployment.PackingStrategy = FeatureCiphertextSampleSlotsV1
+	if err := contract.Validate(); err != nil {
+		t.Fatal(err)
+	}
+	contract.MulticlassDecision.PerLogitErrorBudget = 0.051
+	if err := contract.Validate(); err == nil {
+		t.Fatal("expected uniform per-logit budget rejection")
+	}
+}
+
 func TestWorkloadContractRejectsNonReproducibleDigest(t *testing.T) {
 	contract := validContractFixture()
 	contract.ModelArtifact.SHA256 = "not-a-digest"

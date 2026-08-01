@@ -660,6 +660,10 @@ func synthesizeRescaleCandidate(
 	extraLevels int,
 ) (SynthesizedCandidate, error) {
 	outputErrorBudget := contract.Decision.OutputErrorBudget
+	if contract.MulticlassDecision != nil {
+		outputErrorBudget =
+			contract.MulticlassDecision.PerLogitErrorBudget
+	}
 	if policy.SynthesisBudgetMode == SynthesisBudgetGraphFixedTolerance {
 		outputErrorBudget = policy.FixedOutputErrorBudget
 	}
