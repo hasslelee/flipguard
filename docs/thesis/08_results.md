@@ -139,10 +139,14 @@ Negative result를 포함한 전체 claim scope는 그림 10에 제시한다. Co
 
 ## 8.13 연구 질문에 대한 답
 
+<!-- P:RESULT-RQ1 CLAIM:scoped_direct_synthesis,formal_trial_reduction -->
 **RQ1:** 선언된 Security-V2 bounded catalog와 비교할 때 direct synthesis는 전체 {{N:direct_trials_all}}/{{N:formal_catalog_all}}, confirmatory {{N:direct_trials_confirmatory}}/{{N:formal_catalog_confirmatory}} candidate trial을 사용해 두 population 모두 {{N:formal_trial_reduction_all|.0%}} 감소했다. 이 답은 candidate trial 단위와 유한 catalog 범위에 한정된다.
 
+<!-- P:RESULT-RQ2 CLAIM:adaptive_repair,finite_scope_decision_integrity,primary_no_retuning_locked_audit,no_safe_behavior -->
 **RQ2:** Confirmatory {{N:confirmatory_locked_audit_pass}}/{{N:confirmatory_instances}}과 development {{N:development_locked_audit_pass}}/{{N:development_instances}} primary literal이 no-retuning locked audit을 통과했다. Bounded repair는 development ablation의 one-shot failure {{N:ablation_one_shot_no_safe}}건을 SAFE로 전환했고, control은 {{N:no_safe_budget}}/{{N:no_safe_budget_total}} 및 {{N:no_safe_finite_domain}}/{{N:no_safe_finite_domain_total}} NO_SAFE를 반환했다. 이는 finite artifact의 empirical admission과 기권 behavior를 지지한다.
 
+<!-- P:RESULT-RQ3 CLAIM:paired_latency -->
 **RQ3:** Confirmatory catalog/direct total-latency ratio의 cluster geometric mean은 {{N:paired_total_ratio_confirmatory|.6f}}, 95% CI는 [{{N:paired_total_ci_low|.6f}}, {{N:paired_total_ci_high|.6f}}]이었다. 한 host와 선언 workload 범위에서 direct arm의 paired latency가 낮았으며 production 성능 결론은 내리지 않는다.
 
+<!-- P:RESULT-RQ4 CLAIM:structural_extension,scoped_non_tabular_extension,training_model_seed_extension -->
 **RQ4:** Deeper polynomial graph는 {{N:structural_selected}}/{{N:structural_instances}} selection 후 audit {{N:structural_audit_pass}} PASS와 {{N:structural_reserve_reject}} reserve-policy REJECT를 보였다. Sobel/Harris/CNN-lite와 independent training/data seed는 각 finite scope에서 admission을 통과했다. 따라서 structural/scoped extension은 부분적으로 지지되지만 arbitrary packed graph나 분포 전체 일반화는 남아 있다.
