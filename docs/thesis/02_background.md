@@ -10,7 +10,7 @@ CKKS 구현은 cyclotomic ring dimension `N`, ciphertext modulus chain `Q`, spec
 
 ## 2.2 실행 단위와 비용 회계
 
-본 연구는 서로 다른 비용 단위를 혼합하지 않는다. **Candidate trial**은 하나의 CKKS literal을 configuration-validation artifact에 대해 시험한 횟수다. 하나의 trial은 여러 fresh-key run을 포함할 수 있다. **Fresh-key run**은 새 secret/evaluation key material을 생성하고 동일 후보를 실행하는 한 번의 반복이다. **Encrypted sample evaluation**은 하나의 sample이 하나의 fresh-key run에서 암호화 평가된 횟수다. **Wall-clock latency**는 setup/key generation, evaluation-only, total 구간을 구분해 측정한다.
+본 연구는 서로 다른 비용 단위를 혼합하지 않는다. **후보 시험(candidate trial)**은 하나의 CKKS literal을 configuration-validation artifact에 대해 시험한 횟수다. 하나의 trial은 여러 fresh-key run을 포함할 수 있다. **신규 키 반복(fresh-key run)**은 새 secret/evaluation key material을 생성하고 동일 후보를 실행하는 한 번의 반복이다. **암호화 샘플 평가(encrypted sample evaluation)**는 하나의 sample이 하나의 fresh-key run에서 암호화 평가된 횟수다. **벽시계 지연시간(wall-clock latency)**은 setup/key generation, evaluation-only, total 구간을 구분해 측정한다.
 
 이 구분은 연구 주장의 해석에 중요하다. 예를 들어 후보 1개를 세 fresh-key로 평가하면 candidate trial은 1이지만 key run은 3이다. 200개 sample을 세 key로 평가하면 encrypted sample evaluation은 600이다. Catalog 후보 수, direct trial 수, key run 수를 서로 바꾸어 사용하면 tuning-work 감소를 과장하거나 실제 실행비용을 축소할 수 있다. FlipGuard의 trial-reduction 주장은 candidate trial 단위로만 정의하며, key run과 sample evaluation은 별도 회계로 보고한다.
 
