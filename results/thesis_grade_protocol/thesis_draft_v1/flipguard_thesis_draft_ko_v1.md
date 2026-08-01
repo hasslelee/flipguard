@@ -14,9 +14,9 @@
 
 **Margin interpretation manifest SHA-256:** `12626638b1abb5d57155345ee84e7e145dc13bfc947767f4484b1e18475cdce0`
 
-**Draft build timestamp:** `2026-08-01T22:14:17+09:00`
+**Draft build timestamp:** `2026-08-01T22:15:59+09:00`
 
-**Thesis branch/commit:** `thesis/flipguard-draft-v1` / `bef21c72b58867ccbbd9a44719e4c1010496574e`
+**Thesis branch/commit:** `thesis/flipguard-draft-v1` / `9543ca83a6ada2d7b5383af7b28beee84fe4871d`
 
 **University formatting status:** CONTENT_COMPLETE_TEMPLATE_PENDING
 
