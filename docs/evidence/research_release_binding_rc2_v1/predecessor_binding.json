@@ -1,0 +1,20 @@
+{
+  "immutable_predecessor": true,
+  "rc1": {
+    "archive_sha256": "sha256:f13d51d3cd2f278a55515a8bc4c04ad10a2fc6bea5ebf18f0224630be4d16392",
+    "archive_source_commit": "0e07fd53a2783a5e0d51c7fb62218f67420a7d93",
+    "tag": "flipguard-thesis-v1.0.0-rc1",
+    "tag_commit": "5ed7d6562445311229909373fc77ce018cd4ff11"
+  },
+  "rc1_role": "immutable V10-era predecessor release",
+  "rc2_allowed_changed_paths": [
+    "docs/research/reproducibility_release_v1.md",
+    "release/external_sources_v1.json",
+    "scripts/build_flipguard_release_candidate.py",
+    "scripts/fetch_release_external_sources.py",
+    "scripts/tests/test_release_candidate.py",
+    "scripts/verify_flipguard_release_candidate.py"
+  ],
+  "rc2_role": "final thesis reproduction and distribution baseline",
+  "schema_version": "flipguard_research_release_predecessor_binding_v1"
+}
