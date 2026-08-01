@@ -34,11 +34,11 @@ Static re-attestation은 direct-selected {{N:security_direct_pass}}개 row, dist
 
 Execution failure는 reason code로 분류된다. Numerical reject는 실행은 성공했지만 reserve-policy violation이 있는 경우다. Level failure는 graph가 필요한 level을 소진한 경우다. NTT-prime materialization failure는 요청 bit 크기에 적합한 concrete prime 생성 문제다. Provenance mismatch, unsupported graph, Security-V2 inadmission은 repair할 수 없는 integrity class다.
 
-Repair executor는 policy JSON에 있는 transition만 수행한다. Numerical repair는 scale-related bit를 4만큼 증가시키고, level repair는 Q prime 하나를 추가한다. 각 transition은 parent candidate digest와 cause를 ledger에 남긴다. Maximum trial 네 번 또는 maximum additional level에 도달하면 종료한다. Mutable default를 CLI에 따로 두지 않고 모든 component가 동일 policy digest를 요구한다.
+Repair executor는 policy JSON에 있는 transition만 수행한다. Numerical repair는 scale-related bit를 {{N:numerical_repair_scale_bits}}만큼 증가시키고, level repair는 Q prime {{N:level_repair_q_primes}}개를 추가한다. 각 transition은 parent candidate digest와 cause를 ledger에 남긴다. Maximum trial {{N:max_encrypted_trials}}번 또는 maximum additional level에 도달하면 종료한다. Mutable default를 CLI에 따로 두지 않고 모든 component가 동일 policy digest를 요구한다.
 
 ## 6.7 Locked audit runner
 
-Locked audit runner의 input은 selection result와 audit artifact뿐이다. Candidate generator interface를 link하지 않도록 실행 path를 분리하고, selection literal digest와 audit materialization literal digest를 비교한다. Model/source/candidate digest가 다르면 결과를 만들지 않는다. Audit에서는 fresh key 세 개를 생성하지만 literal parameter는 변경하지 않는다.
+Locked audit runner의 input은 selection result와 audit artifact뿐이다. Candidate generator interface를 link하지 않도록 실행 path를 분리하고, selection literal digest와 audit materialization literal digest를 비교한다. Model/source/candidate digest가 다르면 결과를 만들지 않는다. Audit에서는 fresh key {{N:fresh_key_repeats}}개를 생성하지만 literal parameter는 변경하지 않는다.
 
 Retuning count는 manifest의 정책 선언과 실행 log 양쪽에서 확인한다. Audit 결과를 보고 후속 candidate가 생성된 흔적, repair event, policy digest 변경이 있으면 verifier가 실패한다. Primary audit {{N:combined_descriptive_instances}}건의 retuning count는 {{N:primary_locked_audit_retuning}}이었고, structural audit {{N:structural_instances}}건의 retuning count도 {{N:structural_retuning}}이었다.
 

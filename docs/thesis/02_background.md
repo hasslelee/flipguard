@@ -62,7 +62,7 @@ Locked audit의 목적은 분포 전체의 안전성을 증명하는 것이 아�
 
 ## 2.6 Security-V2 admission
 
-CKKS parameter의 기능적 실행 가능성과 암호학적 security admission은 별도 조건이다. Security Policy V2는 *Security Guidelines for Implementing Homomorphic Encryption*의 출판 Table 5.2에 제시된 uniform-ternary Category-128 modulus cap을 보수적 admission reference로 사용한다 [@bossuat2025security]. LogN 12, 13, 14, 15에 대해 정책이 사용하는 cap은 각각 106, 214, 430, 868 bit다. Ciphertext 객체는 Q를, relinearization·key-switching과 관련된 evaluation-key 객체는 QP를 검사하며, 필요한 모든 객체가 통과해야 candidate를 허용한다.
+CKKS parameter의 기능적 실행 가능성과 암호학적 security admission은 별도 조건이다. Security Policy V2는 *Security Guidelines for Implementing Homomorphic Encryption*의 출판 Table 5.2에 제시된 uniform-ternary Category-{{N:security_target_bits}} modulus cap을 보수적 admission reference로 사용한다 [@bossuat2025security]. LogN {{N:security_logn_12}}, {{N:security_logn_13}}, {{N:security_logn_14}}, {{N:security_logn_15}}에 대해 정책이 사용하는 cap은 각각 {{N:security_cap_logn_12_bits}}, {{N:security_cap_logn_13_bits}}, {{N:security_cap_logn_14_bits}}, {{N:security_cap_logn_15_bits}} bit다. Ciphertext 객체는 Q를, relinearization·key-switching과 관련된 evaluation-key 객체는 QP를 검사하며, 필요한 모든 객체가 통과해야 candidate를 허용한다.
 
 실제 runtime은 Lattigo v6.2.0이며 secret distribution `Xs`는 `ring.Ternary`의 `P=2/3`, error distribution `Xe`는 `ring.DiscreteGaussian`의 `Sigma={{N:security_runtime_error_sigma}}`, `Bound={{N:security_runtime_error_bound}}`다. 출판 표가 전제하는 Gaussian parameter와 Lattigo의 명시적 truncation은 정확히 동일한 분포가 아니다. 그러므로 본 연구는 표 cap을 보수적 admission 기준으로 사용하고 exact Q/P를 {{N:security_estimator_models}}개 estimator model에서 재검사하지만, runtime distribution의 완전한 동등성은 주장하지 않는다.
 

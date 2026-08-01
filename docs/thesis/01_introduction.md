@@ -41,7 +41,7 @@ FlipGuard는 선언된 graph adapter와 동결 정책 범위에서 computation g
 첫째, 계산 그래프, model/input digest, threshold, decision margin 정책, 보안 정책을 결합한 **decision-integrity workload contract와 finite-scope admission**을 제안한다. 평문 score와 CKKS score의 오차를 decision margin과 비교하고, flip과 정책 위반을 분리해 기록한다. 이 certificate는 empirical finite-set certificate이며 분석적 CKKS error bound를 대신하지 않는다.
 
 <!-- P:INTRO-CONTRIB2 CLAIM:scoped_direct_synthesis,adaptive_repair -->
-둘째, **direct literal synthesis와 bounded failure-aware repair**를 구현한다. graph fact로부터 LogN, Q/P chain, initial scale을 계산하고, 실행 실패를 분류해 수치 repair와 level repair를 사전동결된 한도 안에서 적용한다. 후보는 최대 네 번의 encrypted trial만 허용되며 첫 SAFE에서 멈춘다.
+둘째, **direct literal synthesis와 bounded failure-aware repair**를 구현한다. graph fact로부터 LogN, Q/P chain, initial scale을 계산하고, 실행 실패를 분류해 수치 repair와 level repair를 사전동결된 한도 안에서 적용한다. 후보는 최대 {{N:max_encrypted_trials}}번의 encrypted trial만 허용되며 첫 SAFE에서 멈춘다.
 
 <!-- P:INTRO-REPAIR CLAIM:adaptive_repair -->
 FlipGuard의 동결된 bounded repair는 선언된 개발 ablation에서 one-shot 실패 네 건을 SAFE 선택으로 전환했으며, 이는 보편적 repair 성공을 뜻하지 않는다. 이 결과는 repair의 경험적 가치를 보여주지만, 모든 그래프와 입력에서 repair가 성공한다고 해석하지 않는다.

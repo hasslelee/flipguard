@@ -49,7 +49,7 @@ Graph adapter에는 formula와 scale trace가 명시적으로 구현되어 있�
 
 ## 9.8 Partition과 training-seed 일반화
 
-Primary 다섯 partition은 fixed held-out artifact를 deterministic하게 반복 분할한 것이다. 동일 training run과 model artifact를 공유하므로 다섯 독립 dataset split이나 다섯 independent model이 아니다. Seed 0는 policy development에 사용되어 confirmatory aggregate에서 제외했다. Seeds 1--4도 cluster 내부 반복으로 처리했다.
+Primary {{N:deterministic_partitions}}개 partition은 fixed held-out artifact를 deterministic하게 반복 분할한 것이다. 동일 training run과 model artifact를 공유하므로 {{N:deterministic_partitions}}개 독립 dataset split이나 {{N:deterministic_partitions}}개 independent model이 아니다. Seed 0는 policy development에 사용되어 confirmatory aggregate에서 제외했다. Seeds 1--4도 cluster 내부 반복으로 처리했다.
 
 Independent training/data-seed extension은 {{N:independent_training_datasets}} dataset x {{N:independent_training_seeds_per_dataset}} seed의 {{N:independent_training_seed_total}} model을 새로 생성해 이 한계를 일부 보완했다. {{N:independent_training_seed_pass}}/{{N:independent_training_seed_total}} selection/audit PASS는 model artifact 변화에 대한 scoped evidence지만 dataset 수와 seed 수가 작다. 더 강한 일반화를 위해서는 architecture, preprocessing, class balance가 다른 독립 cohort와 계층적 통계가 필요하다.
 

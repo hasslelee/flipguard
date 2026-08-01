@@ -441,6 +441,18 @@ def extract_authoritative_numbers(
     )):
         raise ValueError("alpha-sensitivity rows disagree on invariant counts")
 
+    alpha_grid = policy["alpha_certificate_diagnostics"]["alpha_grid"]
+    if alpha_grid != [0.1, 0.25, interpretation["primary_rho"], 0.75, 0.9]:
+        raise ValueError(f"unexpected alpha sensitivity grid: {alpha_grid}")
+    if 0.0005 not in policy["protocol"]["margin_floors"]:
+        raise ValueError("secondary margin-floor sensitivity is missing")
+    security_limits = {
+        int(row["log_n"]): int(row["max_log_qp_bits"])
+        for row in security_policy["limits"]
+    }
+    if security_limits != {12: 106, 13: 214, 14: 430, 15: 868}:
+        raise ValueError(f"unexpected Security-V2 limits: {security_limits}")
+
     protocol = policy["protocol"]
     catalog = suite["catalog_accounting"]
     trials = suite["formal_trial_accounting"]
@@ -502,6 +514,11 @@ def extract_authoritative_numbers(
         "max_encrypted_trials": direct_policy["policy"]["max_encrypted_trials"],
         "primary_alpha": direct_policy["policy"]["primary_alpha"],
         "primary_margin_floor": direct_policy["policy"]["primary_margin_floor"],
+        "secondary_margin_floor": 0.0005,
+        "alpha_sensitivity_010": alpha_grid[0],
+        "alpha_sensitivity_025": alpha_grid[1],
+        "alpha_sensitivity_075": alpha_grid[3],
+        "alpha_sensitivity_090": alpha_grid[4],
         "numerical_repair_scale_bits": direct_policy["policy"]["numerical_repair_scale_bits"],
         "level_repair_q_primes": direct_policy["policy"]["level_repair_q_primes"],
         "max_additional_levels": direct_policy["policy"]["max_additional_levels"],
@@ -635,6 +652,14 @@ def extract_authoritative_numbers(
         "security_estimator_objects_excluded": next(iter(estimator_excluded_counts)),
         "security_estimator_models": len(estimator_models),
         "security_target_bits": security_policy["security_bits"],
+        "security_logn_12": 12,
+        "security_logn_13": 13,
+        "security_logn_14": 14,
+        "security_logn_15": 15,
+        "security_cap_logn_12_bits": security_limits[12],
+        "security_cap_logn_13_bits": security_limits[13],
+        "security_cap_logn_14_bits": security_limits[14],
+        "security_cap_logn_15_bits": security_limits[15],
         "security_runtime_error_sigma": security_policy["error_sigma"],
         "security_runtime_error_bound": security_policy["runtime_xe"]["bound"],
         "security_table_error_sigma": security_policy["table_error_sigma"],

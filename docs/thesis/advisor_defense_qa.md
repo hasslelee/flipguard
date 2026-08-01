@@ -14,7 +14,7 @@ Primary policy에는 해석 가능하고 audit 전에 고정할 수 있는 reser
 
 ## Q4. Margin floor {{N:primary_margin_floor}}은 왜 사용했는가?
 
-Threshold에 지나치게 가까운 sample은 작은 approximation 변화에도 decision이 불안정하므로 certifiable과 ambiguous 영역을 분리할 필요가 있다. `delta={{N:primary_margin_floor}}`은 primary protocol에서 audit 전에 동결된 값이다. 본 연구는 `delta=0.0005` audit 결과를 primary 선택에 사용하지 않고 secondary sensitivity로만 남겼다. **Claim ID:** `finite_scope_decision_integrity`. **Evidence:** `docs/evidence/security_v2_static_attestation_formal_v2/direct_synthesis_policy_v2.json` 및 `docs/evidence/policy_sensitivity_v1/`. **금지 과장:** {{N:primary_margin_floor}}이 모든 score scale에 적합하다는 표현. **짧은 구두 답변:** “임계값 근처를 ambiguous로 분리하기 위한 사전동결 floor이며 보편 상수는 아닙니다.”
+Threshold에 지나치게 가까운 sample은 작은 approximation 변화에도 decision이 불안정하므로 certifiable과 ambiguous 영역을 분리할 필요가 있다. `delta={{N:primary_margin_floor}}`은 primary protocol에서 audit 전에 동결된 값이다. 본 연구는 `delta={{N:secondary_margin_floor}}` audit 결과를 primary 선택에 사용하지 않고 secondary sensitivity로만 남겼다. **Claim ID:** `finite_scope_decision_integrity`. **Evidence:** `docs/evidence/security_v2_static_attestation_formal_v2/direct_synthesis_policy_v2.json` 및 `docs/evidence/policy_sensitivity_v1/`. **금지 과장:** {{N:primary_margin_floor}}이 모든 score scale에 적합하다는 표현. **짧은 구두 답변:** “임계값 근처를 ambiguous로 분리하기 위한 사전동결 floor이며 보편 상수는 아닙니다.”
 
 ## Q5. 700과 1,100의 차이는 무엇인가?
 
@@ -46,7 +46,7 @@ Seed 0는 policy development와 ablation에 사용되었으므로 post-freeze po
 
 ## Q12. 다섯 partition은 독립 split인가?
 
-아니다. Fixed held-out artifact를 다섯 deterministic 방식으로 반복 partition한 것이다. 동일 model artifact를 공유하므로 independent model 또는 independent dataset split으로 해석하지 않는다. Latency 통계에서는 partition을 dataset-model cluster 내부 반복으로 취급했다. **Claim ID:** `primary_no_retuning_locked_audit`. **Evidence:** `docs/evidence/direct_locked_audit_final_source_v1/manifest.json` 및 `docs/evidence/direct_locked_audit_seed0_development_v1/manifest.json`. **금지 과장:** five independent dataset splits. **짧은 구두 답변:** “같은 held-out artifact의 deterministic repeated partitions이며 독립 split이 아닙니다.”
+아니다. Fixed held-out artifact를 {{N:deterministic_partitions}}개 deterministic 방식으로 반복 partition한 것이다. 동일 model artifact를 공유하므로 independent model 또는 independent dataset split으로 해석하지 않는다. Latency 통계에서는 partition을 dataset-model cluster 내부 반복으로 취급했다. **Claim ID:** `primary_no_retuning_locked_audit`. **Evidence:** `docs/evidence/direct_locked_audit_final_source_v1/manifest.json` 및 `docs/evidence/direct_locked_audit_seed0_development_v1/manifest.json`. **금지 과장:** five independent dataset splits. **짧은 구두 답변:** “같은 held-out artifact의 deterministic repeated partitions이며 독립 split이 아닙니다.”
 
 ## Q13. {{N:paired_total_ratio_confirmatory|.2f}} ratio의 통계 단위는 무엇인가?
 

@@ -37,9 +37,9 @@ Validation gate는 두 층으로 구성된다. Execution gate는 materialization
 
 ## 5.6 Failure-aware bounded repair
 
-Initial candidate가 SAFE이면 즉시 선택한다. 실패하면 error classifier가 원인을 numerical precision, level exhaustion, static NTT-prime incompatibility, non-repairable provenance/security failure로 구분한다. Numerical repair는 scale 관련 prime budget을 `+4` bits 조정한다. Level repair는 Q prime 하나를 추가하되 maximum additional level을 넘지 않는다. Static NTT-prime retry는 같은 bit target에서 실제 사용 가능한 prime을 결정론적으로 다시 materialize한다.
+Initial candidate가 SAFE이면 즉시 선택한다. 실패하면 error classifier가 원인을 numerical precision, level exhaustion, static NTT-prime incompatibility, non-repairable provenance/security failure로 구분한다. Numerical repair는 scale 관련 prime budget을 `+{{N:numerical_repair_scale_bits}}` bits 조정한다. Level repair는 Q prime {{N:level_repair_q_primes}}개를 추가하되 maximum additional level을 넘지 않는다. Static NTT-prime retry는 같은 bit target에서 실제 사용 가능한 prime을 결정론적으로 다시 materialize한다.
 
-Repair는 audit 결과를 보아 수행하지 않으며, validation에서도 최대 encrypted trial 네 번과 사전 선언된 변화만 허용한다. Security admission을 매 trial 다시 확인하고 first SAFE에서 멈춘다. Repair budget 종료까지 SAFE가 없으면 NO_SAFE다. Provenance mismatch나 inadmissible security는 repair 대상이 아니라 integrity block이다.
+Repair는 audit 결과를 보아 수행하지 않으며, validation에서도 최대 encrypted trial {{N:max_encrypted_trials}}번과 사전 선언된 변화만 허용한다. Security admission을 매 trial 다시 확인하고 first SAFE에서 멈춘다. Repair budget 종료까지 SAFE가 없으면 NO_SAFE다. Provenance mismatch나 inadmissible security는 repair 대상이 아니라 integrity block이다.
 
 <!-- P:DESIGN-REPAIR CLAIM:adaptive_repair -->
 FlipGuard의 동결된 bounded repair는 선언된 개발 ablation에서 one-shot 실패 네 건을 SAFE 선택으로 전환했으며, 이는 보편적 repair 성공을 뜻하지 않는다. Repair의 의미는 실패를 무조건 성공으로 바꾸는 것이 아니라, 원인이 허용 class에 속할 때만 제한된 다음 literal을 생성하고 종료를 보장하는 데 있다.

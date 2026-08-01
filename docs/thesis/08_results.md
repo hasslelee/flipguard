@@ -69,7 +69,7 @@ Seed 0는 descriptive only다. Total ratio의 rounded display는 {{N:paired_tota
 
 ## 8.7 Margin-utilization sensitivity
 
-표 8은 theorem과 operational policy를 분리하고 `rho` sensitivity를 보고한다. Tested grid는 0.1, 0.25, {{N:primary_alpha}}, 0.75, 0.9다. Natural primary workload에서 candidate-state change, bounded-oracle selection change, direct initial literal change는 각각 {{N:policy_sensitivity_candidate_state_changes}}, {{N:policy_sensitivity_oracle_changes}}, {{N:policy_sensitivity_initial_literal_changes}}이었다. 그림 3에서 보인 `e<m`은 decision preservation 충분조건이고 `e<{{N:primary_alpha}}m`은 primary reserve policy다.
+표 8은 theorem과 operational policy를 분리하고 `rho` sensitivity를 보고한다. Tested grid는 {{N:alpha_sensitivity_010}}, {{N:alpha_sensitivity_025}}, {{N:primary_alpha}}, {{N:alpha_sensitivity_075}}, {{N:alpha_sensitivity_090}}다. Natural primary workload에서 candidate-state change, bounded-oracle selection change, direct initial literal change는 각각 {{N:policy_sensitivity_candidate_state_changes}}, {{N:policy_sensitivity_oracle_changes}}, {{N:policy_sensitivity_initial_literal_changes}}이었다. 그림 3에서 보인 `e<m`은 decision preservation 충분조건이고 `e<{{N:primary_alpha}}m`은 primary reserve policy다.
 
 {{V3_TABLE_08}}
 
