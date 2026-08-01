@@ -31,6 +31,7 @@ CHAPTERS = [f"{number:02d}_{name}.md" for number, name in (
 AUXILIARY_MARKDOWN = [
     "00_thesis_contract.md",
     "advisor_defense_qa.md",
+    "qa_report_v1.md",
     "reviewer_attack_checklist.md",
     "university_template_requirements.md",
 ]
@@ -150,6 +151,46 @@ def normalize_bibliographic_text(value: str) -> str:
 def normalize_locator(value: str) -> str:
     value = value.strip().casefold().rstrip("/")
     return re.sub(r"^https?://(?:dx\.)?doi\.org/", "", value)
+
+
+def validate_equation_contract(
+    abstract: str,
+    background: str,
+    contract: str,
+    errors: list[str],
+) -> None:
+    """Keep the decision theorem distinct from the stricter reserve policy."""
+    documents = {
+        "abstract": abstract,
+        "background": background,
+        "narrative contract": contract,
+    }
+    for label, text in documents.items():
+        compact = re.sub(r"\s+", "", text)
+        if "e_c(x)<m(x)" not in compact:
+            errors.append(f"{label} omits the decision-preservation condition e_c(x)<m(x)")
+        if not any(token in compact for token in ("e_c(x)<0.5m(x)", "e_c(x)<rho*m(x)", "e_c(x)<\\rhom(x)")):
+            errors.append(f"{label} omits the stricter operational reserve policy")
+    background_lower = background.casefold()
+    required_meanings = (
+        "margin utilization cap",
+        "reserved margin fraction",
+        "operational acceptance budget",
+        "이론에서 도출된 보편 상수도 아니고",
+        "경험적 최적값도 아니다",
+    )
+    for phrase in required_meanings:
+        if phrase.casefold() not in background_lower:
+            errors.append(f"background omits reserve-policy interpretation: {phrase}")
+    for pattern in (
+        r"(?:rho|0\.5).{0,40}(?:theorem constant|정리 상수|이론적 최적)",
+        r"(?:theoretically optimal|이론적으로 최적).{0,40}(?:rho|0\.5)",
+    ):
+        joined = "\n".join(documents.values())
+        for match in re.finditer(pattern, joined, flags=re.I | re.S):
+            context = joined[max(0, match.start() - 80):match.end() + 80].casefold()
+            if not any(token in context for token in NEGATION_TOKENS):
+                errors.append(f"reserve policy is misrepresented as a theorem or optimum: {context}")
 
 
 def sentence_for(text: str, position: int) -> str:
@@ -626,7 +667,8 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
         "00_thesis_contract.md", "appendix.md", "abstract_ko_en.md",
         "advisor_defense_qa.md", "number_registry.json", "references.bib",
         "citation_audit.csv", "figure_table_map.csv", "claim_traceability.csv",
-        "reviewer_attack_checklist.md", "university_template_requirements.md",
+        "qa_report_v1.md", "reviewer_attack_checklist.md",
+        "university_template_requirements.md",
     ]
     for relative in required:
         if not (source / relative).is_file():
@@ -953,8 +995,12 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
         errors.append(f"placeholder tokens remain: {sorted(set(forbidden_placeholders))}")
     if sum(len(value) for value in chapters.values()) < 45_000:
         errors.append("chapter content is below 45,000 characters")
-    if "e_c(x)<m(x)" not in abstract or "e_c(x)<0.5m(x)" not in abstract:
-        errors.append("abstract does not separate theorem and operational policy")
+    validate_equation_contract(
+        abstract,
+        chapters["02_background.md"],
+        auxiliary["00_thesis_contract.md"],
+        errors,
+    )
     if "24 PASS" not in abstract or "REJECT" not in abstract:
         errors.append("abstract omits the structural negative result")
     if "seed 0" not in core_text.casefold() or "seeds 1--4" not in core_text:
@@ -1016,6 +1062,14 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
                 errors.append(f"{filename}: missing or stale release binding token {token}")
     if claims_doc.get("paper_claim_allowed") is not True:
         errors.append("paper claim registry does not allow admitted-claim writing")
+
+    qa_report = auxiliary["qa_report_v1.md"]
+    qa_passes = re.findall(r"^## QA pass (\d+): .+$", qa_report, flags=re.M)
+    if qa_passes != [str(value) for value in range(1, 9)]:
+        errors.append(f"QA report pass numbering mismatch: {qa_passes}")
+    qa_statuses = re.findall(r"^- Status: `([A-Z_]+)`$", qa_report, flags=re.M)
+    if len(qa_statuses) != 8 or set(qa_statuses) != {"PASS"}:
+        errors.append(f"QA report does not record eight PASS states: {qa_statuses}")
 
     status = "PASS" if not errors else "FAIL"
     return {
