@@ -108,3 +108,11 @@ QA 중 복구 가능한 오류는 두 건이었다. 첫째, V3 verifier의 인�
 직접 의존해 실패했다. 원본 로그를 변경하지 않고 digest-bound
 `release_qa_summary.json`을 추가했으며, 원본이 있을 때는 상호 검증하고 없을
 때는 Git에 결합된 요약을 사용하는 방식으로 수정한 뒤 clean clone이 PASS했다.
+
+최종 draft freeze에서는 두 건의 추가 배포 오류를 발견하고 수정했다. 전체
+`py_compile`이 만든 ignored `__pycache__`를 source closure가 Git blob으로 오인한
+문제는 V3 입력을 Git 추적 파일로만 열거하도록 builder를 제한하고 회귀 검사를
+추가해 해결했다. 이어 첫 final clean clone에서 output pack의 필수 복사본 여섯
+개가 `results/*` ignore 규칙 때문에 누락된 사실을 확인해 해당 파일만 명시적으로
+추적했다. 새 clone에서 deterministic rebuild, 40개 SHA256SUMS, RC2/V3/V10/claim
+verifier를 다시 실행해 모두 PASS했다.
