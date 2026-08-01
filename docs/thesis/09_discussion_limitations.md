@@ -16,6 +16,11 @@ Decision preservation의 수학적 충분조건은 `e_c(x)<m(x)`다. Primary `e_
 
 Structural seed4/banknote instance는 validation utilization {{N:structural_validation_margin_utilization|.6f}}으로 SAFE였지만 audit utilization {{N:structural_audit_margin_utilization|.7f}}로 reserve cap을 초과했다. Decision flip은 없었다. 이 결과를 “audit 실패지만 실제 문제는 없었다”고 축소하면 사전 정책의 의미가 무너진다. 반대로 암호학적 correctness failure나 observed decision failure라고 부르면 실제 관측을 왜곡한다. 정확한 해석은 decision은 보존되었으나 reserve policy가 unseen audit에서 거부되었다는 것이다.
 
+따라서 이 관측의 정식 분류는 `OBSERVED_DECISION_PRESERVED`,
+`RESERVE_POLICY_REJECTED`, `POLICY_REJECTED_WITHOUT_FLIP`이다. 세 상태를 함께
+기록해야 암호 연산 성공, 관측 결정 보존, 운용 여유 정책 거부를 서로 바꾸어
+해석하지 않는다.
+
 이 negative result는 두 가지를 보여준다. 첫째, finite validation admission이 disjoint audit PASS를 논리적으로 보장하지 않는다. 둘째, audit은 결과를 본 뒤 candidate를 강화하는 tuning set이 아니라 claim을 반증할 수 있는 장치여야 한다. 본 연구는 해당 row를 제거하거나 재선택하지 않았고 structural claim을 PARTIALLY_SUPPORTED로 유지했다. 운영 시스템에서는 이 audit 결과가 배포 전 발견되었다면 candidate를 사용하지 않고 human review 또는 새로운 사전 등록 protocol로 돌아가야 한다.
 
 ## 9.4 Finite candidate와 empirical certificate의 한계

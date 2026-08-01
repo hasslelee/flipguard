@@ -193,6 +193,27 @@ def validate_equation_contract(
                 errors.append(f"reserve policy is misrepresented as a theorem or optimum: {context}")
 
 
+def validate_limitation_coverage(text: str, errors: list[str]) -> None:
+    """Require every predeclared validity boundary in the discussion chapter."""
+    required_topics = {
+        "rho is an operational policy": ("## 9.2", "보편 권고값이 아니다"),
+        "natural-data literal invariance": ("minimum synthesis floor", "initial literal"),
+        "structural audit rejection": ("## 9.3", "POLICY_REJECTED_WITHOUT_FLIP"),
+        "finite empirical certificate": ("## 9.4", "distribution-wide guarantee"),
+        "bounded catalog scope": ("## 9.5", "global search baseline"),
+        "single-host latency": ("## 9.6", "host는 하나"),
+        "scalar-replicated packing": ("## 9.7", "scalar-replicated"),
+        "graph-adapter hardcoding": ("hardcoding 요소", "Dataset별 lookup table은 사용하지 않지만"),
+        "empirical versus analytical certification": ("empirical admission", "analytical proof"),
+        "provider and EVA appendix boundary": ("## 9.10", "appendix"),
+        "runtime-estimator distribution mismatch": ("## 9.9", "정확히 동일하지 않다"),
+        "partition versus training-seed scope": ("## 9.8", "동일 training run"),
+    }
+    for label, tokens in required_topics.items():
+        if any(token not in text for token in tokens):
+            errors.append(f"required limitation is missing: {label}")
+
+
 def sentence_for(text: str, position: int) -> str:
     left = max(text.rfind(".", 0, position), text.rfind("다.", 0, position))
     right_candidates = [value for value in (
@@ -1016,6 +1037,7 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
     )
     if "24 PASS" not in abstract or "REJECT" not in abstract:
         errors.append("abstract omits the structural negative result")
+    validate_limitation_coverage(chapters["09_discussion_limitations.md"], errors)
     if "seed 0" not in core_text.casefold() or "seeds 1--4" not in core_text:
         errors.append("seed roles are not explicit")
     for match in re.finditer(r"1,?800.{0,80}(?:independent|독립)", core_text, flags=re.I | re.S):
