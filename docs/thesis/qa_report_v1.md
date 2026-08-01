@@ -116,3 +116,12 @@ QA 중 복구 가능한 오류는 두 건이었다. 첫째, V3 verifier의 인�
 개가 `results/*` ignore 규칙 때문에 누락된 사실을 확인해 해당 파일만 명시적으로
 추적했다. 새 clone에서 deterministic rebuild, 40개 SHA256SUMS, RC2/V3/V10/claim
 verifier를 다시 실행해 모두 PASS했다.
+
+마지막 external-reviewer attack에서는 기존 linter가 claim registry의 정확한 금지
+구문은 거부하지만 `global optimality`와 `global optimum`처럼 의미가 같은 표현
+변형 일부를 놓치는 것을 발견했다. 금지 문구를 코드에 복사하지 않고 registry와
+canonical prohibited sentence에서 위험 개념을 파생하도록 linter를 보강했다.
+요청된 대표 과장 표현 여덟 개를 모두 거부하고, 명시적 부정 및 structural
+`24 PASS + 1 REJECT` 문맥은 허용하는 positive/negative 회귀 검사를 추가했다.
+보강 후 authoritative source lint, 전체 279개 Python test, 마지막 remote
+clean-clone deterministic rebuild가 모두 PASS했다.
