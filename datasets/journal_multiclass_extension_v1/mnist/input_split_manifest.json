@@ -1,0 +1,95 @@
+{
+  "schema_version": "flipguard_journal_mnist_dataset_v1",
+  "policy_id": "mnist_multiclass_sha256_stratified_rank_v1",
+  "source_commit": "965ee36f102d8359958918837912a725d96edd51",
+  "source": {
+    "path": "results/source_datasets/mnist/mnist_784.arff.gz",
+    "sha256": "sha256:fe4410d8dbb50f6db6482b187557c5cb8bccfbcec74eeb6abc47c858f4ffab78"
+  },
+  "official_rows": {
+    "test": 10000,
+    "train": 60000
+  },
+  "selection": {
+    "configuration_rank_interval": [
+      0,
+      50
+    ],
+    "configuration_validation_per_class": 50,
+    "locked_audit_per_class": 50,
+    "locked_audit_rank_interval": [
+      50,
+      100
+    ],
+    "model_validation_per_class": 500
+  },
+  "partitions": {
+    "configuration_validation": {
+      "path": "datasets/journal_multiclass_extension_v1/mnist/configuration_validation.csv",
+      "sha256": "sha256:cf7e9f749546104a15552b8bb679b093776b5bf3f91119d8e4f40c5dcedb11c4"
+    },
+    "locked_audit": {
+      "path": "datasets/journal_multiclass_extension_v1/mnist/locked_audit.csv",
+      "sha256": "sha256:ce2e0d2fbf0a2d69cd4a4a4c9603d3624a9b82602236fea7fe47d12f4f7b2d35"
+    },
+    "model_training": {
+      "path": "datasets/journal_multiclass_extension_v1/mnist/model_training.csv",
+      "sha256": "sha256:b59a8d7db4975457c3f1cae0c7dbb8de8619e7f1c087c2cd82550ec07dbd24ce"
+    },
+    "model_validation": {
+      "path": "datasets/journal_multiclass_extension_v1/mnist/model_validation.csv",
+      "sha256": "sha256:bbe96d961ddff33a3219e09420709a2a61e5785b2c9bcf6b086dba798887a83c"
+    }
+  },
+  "validation_audit_overlap_count": 0,
+  "class_counts": {
+    "configuration_validation": [
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50
+    ],
+    "locked_audit": [
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50
+    ],
+    "model_training": [
+      5423,
+      6242,
+      5458,
+      5631,
+      5342,
+      4921,
+      5418,
+      5765,
+      5351,
+      5449
+    ],
+    "model_validation": [
+      500,
+      500,
+      500,
+      500,
+      500,
+      500,
+      500,
+      500,
+      500,
+      500
+    ]
+  }
+}
