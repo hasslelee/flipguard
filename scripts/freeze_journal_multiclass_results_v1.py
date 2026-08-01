@@ -383,6 +383,7 @@ def collect(root: Path, execution_source_commit: str) -> dict[str, object]:
     )
     total_catalog_keys = sum(int(row["fresh_key_runs"]) for row in latency_rows if row["arm"] == "security_v2_bounded_catalog")
     catalog_denominator = sum(summary["security_v2_bounded_catalog"]["formal_denominator"] for summary in summaries.values())
+    catalog_executable = sum(summary["security_v2_bounded_catalog"]["encrypted_candidates"] for summary in summaries.values())
     summary = {
         "schema_version": SCHEMA,
         "execution_source_commit": execution_source_commit,
@@ -398,9 +399,11 @@ def collect(root: Path, execution_source_commit: str) -> dict[str, object]:
             "direct_selection_and_audit_key_runs": total_direct_key_runs,
             "direct_selection_and_audit_encrypted_sample_evaluations": total_direct_evals,
             "security_v2_bounded_catalog_denominator": catalog_denominator,
-            "security_v2_bounded_catalog_encrypted_candidates": sum(summary["security_v2_bounded_catalog"]["encrypted_candidates"] for summary in summaries.values()),
+            "security_v2_bounded_catalog_encrypted_candidates": catalog_executable,
             "security_v2_bounded_catalog_key_runs": total_catalog_keys,
-            "formal_direct_trial_reduction": 1.0 - total_direct_trials / catalog_denominator,
+            "candidate_space_screening_reduction": 1.0 - total_direct_trials / catalog_denominator,
+            "encrypted_executable_trial_reduction": 1.0 - total_direct_trials / catalog_executable,
+            "bounded_catalog_fastest_safe_model_coverage": "1/2",
             "argmax_flips": sum(
                 summary[role]["argmax_flips"]
                 for summary in summaries.values()
