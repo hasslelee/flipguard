@@ -30,7 +30,7 @@ FlipGuard의 동결된 bounded repair는 선언된 개발 ablation에서 one-sho
 
 ## 8.4 Primary locked audit
 
-Confirmatory seeds 1--4의 선택 literal {{N:confirmatory_instances}}개는 모두 disjoint locked audit을 통과했다. Flip {{N:primary_audit_flips}}, reserve-policy violation {{N:primary_audit_violations}}, execution FAILED {{N:primary_audit_failed}}, retuning {{N:primary_locked_audit_retuning}}이었다. Development seed 0도 {{N:development_locked_audit_pass}}/{{N:development_instances}} PASS였으며 동일한 aggregate zero-count에 포함된다. 두 population은 표 3에서 분리되어 있으며 그림 6은 전체 descriptive audit outcome을 시각화한다.
+Confirmatory seeds 1--4의 선택 literal {{N:confirmatory_instances}}개는 모두 disjoint locked audit을 통과했다. Confirmatory flip은 {{N:confirmatory_audit_flips}}, reserve-policy violation은 {{N:confirmatory_audit_violations}}, execution FAILED는 {{N:primary_audit_failed}}, retuning은 {{N:primary_locked_audit_retuning}}이었다. Development seed 0도 {{N:development_locked_audit_pass}}/{{N:development_instances}} PASS였고 flip {{N:development_audit_flips}}, violation {{N:development_audit_violations}}이었다. 두 population은 표 3에서 분리되어 있으며 그림 6은 전체 descriptive audit outcome을 시각화한다.
 
 {{V3_FIGURE_06}}
 
@@ -52,14 +52,14 @@ Source replay는 {{N:validation_identity_class_a}}/{{N:combined_descriptive_inst
 
 ## 8.6 Paired latency
 
-표 5와 그림 5는 동일 host에서 수행한 paired latency 결과를 보여준다. Confirmatory seeds 1--4의 {{N:paired_confirmatory_complete}}/{{N:confirmatory_instances}} workload-partition instance가 완결되었고 measurement failure는 {{N:paired_confirmatory_failures}}이었다. Direct와 catalog arm은 모두 decision SAFE였고 reference도 {{N:paired_confirmatory_reference_safe}}/{{N:confirmatory_instances}} SAFE였다. No outlier removal, warm-up 1회, measurement pass 6회, balanced cyclic/reverse order가 검증되었다.
+표 5와 그림 5는 동일 host에서 수행한 paired latency 결과를 보여준다. Confirmatory seeds 1--4의 {{N:paired_confirmatory_complete}}/{{N:confirmatory_instances}} workload-partition instance가 완결되었고 measurement failure는 {{N:paired_confirmatory_failures}}이었다. Direct와 catalog arm은 모두 decision SAFE였고 reference도 {{N:paired_confirmatory_reference_safe}}/{{N:confirmatory_instances}} SAFE였다. No outlier removal, warm-up {{N:paired_warmup_runs}}회, measurement run {{N:paired_measurement_runs}}회, balanced cyclic/reverse order가 검증되었다.
 
 {{V3_TABLE_05}}
 
 {{V3_FIGURE_05}}
 
 <!-- P:RESULT-LATENCY CLAIM:paired_latency -->
-Security-V2 bounded-catalog total latency divided by direct total latency의 dataset-model-cluster geometric mean은 confirmatory population에서 `{{N:paired_total_ratio_confirmatory}}`였다. {{N:primary_dataset_model_clusters}} dataset-model cluster를 resampling unit으로 한 bootstrap 95% confidence interval은 `[{{N:paired_total_ci_low}}, {{N:paired_total_ci_high}}]`이었다. Evaluation-only ratio의 geometric mean은 `{{N:paired_eval_ratio_confirmatory}}`이었다. Lower confidence bound가 1보다 크므로 선언된 post-freeze workload와 host에서 direct arm의 paired total latency 감소 claim이 admission 조건을 통과했다.
+Security-V2 bounded-catalog total latency divided by direct total latency의 dataset-model-cluster geometric mean은 confirmatory population에서 `{{N:paired_total_ratio_confirmatory}}`였다. {{N:primary_dataset_model_clusters}} dataset-model cluster를 resampling unit으로 한 {{N:paired_cluster_bootstrap_replicates|,}}회 bootstrap의 95% confidence interval은 `[{{N:paired_total_ci_low}}, {{N:paired_total_ci_high}}]`이었다. Evaluation-only ratio의 geometric mean은 `{{N:paired_eval_ratio_confirmatory}}`이었다. Lower confidence bound가 1보다 크므로 선언된 post-freeze workload와 host에서 direct arm의 paired total latency 감소 claim이 admission 조건을 통과했다.
 
 Confirmatory arm별 total latency는 catalog mean {{N:paired_catalog_total_mean_ms|.3f}} ms, median {{N:paired_catalog_total_median_ms|.3f}} ms, p95 {{N:paired_catalog_total_p95_ms|.3f}} ms였고 direct는 mean {{N:paired_direct_total_mean_ms|.3f}} ms, median {{N:paired_direct_total_median_ms|.3f}} ms, p95 {{N:paired_direct_total_p95_ms|.3f}} ms였다. Evaluation-only latency는 catalog mean {{N:paired_catalog_eval_mean_ms|.3f}} ms와 direct mean {{N:paired_direct_eval_mean_ms|.3f}} ms였다. Workload-partition catalog/direct total ratio의 min/median/max는 {{N:paired_workload_ratio_min|.4f}}/{{N:paired_workload_ratio_median|.4f}}/{{N:paired_workload_ratio_max|.4f}}, cluster ratio는 {{N:paired_cluster_ratio_min|.4f}}/{{N:paired_cluster_ratio_median|.4f}}/{{N:paired_cluster_ratio_max|.4f}}이었다. 모든 cluster에서 ratio가 1보다 컸지만, 이는 현재 workload와 host에 대한 관측이다.
 
@@ -69,11 +69,11 @@ Seed 0는 descriptive only다. Total ratio의 rounded display는 {{N:paired_tota
 
 ## 8.7 Margin-utilization sensitivity
 
-표 8은 theorem과 operational policy를 분리하고 `rho` sensitivity를 보고한다. Tested grid는 0.1, 0.25, 0.5, 0.75, 0.9다. Natural primary workload에서 candidate-state change, bounded-oracle selection change, direct initial literal change는 모두 0이었다. 그림 3에서 보인 `e<m`은 decision preservation 충분조건이고 `e<0.5m`은 primary reserve policy다.
+표 8은 theorem과 operational policy를 분리하고 `rho` sensitivity를 보고한다. Tested grid는 0.1, 0.25, {{N:primary_alpha}}, 0.75, 0.9다. Natural primary workload에서 candidate-state change, bounded-oracle selection change, direct initial literal change는 각각 {{N:policy_sensitivity_candidate_state_changes}}, {{N:policy_sensitivity_oracle_changes}}, {{N:policy_sensitivity_initial_literal_changes}}이었다. 그림 3에서 보인 `e<m`은 decision preservation 충분조건이고 `e<{{N:primary_alpha}}m`은 primary reserve policy다.
 
 {{V3_TABLE_08}}
 
-이 불변성은 `rho=0.5`가 최적이라는 증거가 아니다. 오히려 tested natural range에서 minimum synthesis floor가 candidate generation을 지배했고 decision contract의 margin 변화가 initial literal까지 활성화되지 않았음을 보여준다. Decision contract는 validation admission에는 사용되었으나, natural primary data에서 literal을 직접 차별화했다는 claim은 열리지 않는다.
+이 불변성은 `rho={{N:primary_alpha}}`가 최적이라는 증거가 아니다. 오히려 tested natural range에서 minimum synthesis floor가 candidate generation을 지배했고 decision contract의 margin 변화가 initial literal까지 활성화되지 않았음을 보여준다. Decision contract는 validation admission에는 사용되었으나, natural primary data에서 literal을 직접 차별화했다는 claim은 열리지 않는다.
 
 ## 8.8 Structural polynomial extension
 
@@ -96,9 +96,9 @@ Audit utilization의 full-precision overlay 값은 `{{N:structural_audit_margin_
 
 표 10과 그림 8은 Sobel, Harris, CNN-lite adapter 결과를 structural matrix 안에서 제시한다. Sobel은 BSDS500 validation {{N:sobel_validation_samples}} sample과 audit {{N:sobel_audit_samples}} sample을 사용했다. Initial candidate는 violation {{N:sobel_initial_violations}}건으로 REJECTED였고 {{N:sobel_repairs}}회의 repair 후 SELECTED되었다. Locked audit은 flip {{N:sobel_audit_flips}}, violation {{N:sobel_audit_violations}}, retuning {{N:sobel_audit_retuning}}으로 PASS했다. Validation과 audit image는 각각 {{N:sobel_validation_images}}개이고 overlap은 0이었다.
 
-Harris는 validation {{N:harris_validation_samples}} sample과 audit {{N:harris_audit_samples}} sample을 사용했다. Initial candidate가 repair {{N:harris_repairs}}회로 SELECTED되었고 locked audit은 flip {{N:harris_audit_flips}}, violation {{N:harris_audit_violations}}, retuning {{N:harris_audit_retuning}}이었다. 역할별 image는 {{N:harris_validation_images}}개, image당 window는 {{N:harris_windows_per_image}}개였다. Sobel과 Harris의 결과는 single-patch gradient-energy 및 single-window response threshold에 관한 것이다.
+Harris는 validation {{N:harris_validation_samples}} sample과 audit {{N:harris_audit_samples}} sample을 사용했다. Initial candidate는 repair {{N:harris_repairs}}회, 즉 repair 없이 SELECTED되었고 locked audit은 flip {{N:harris_audit_flips}}, violation {{N:harris_audit_violations}}, retuning {{N:harris_audit_retuning}}이었다. 역할별 image는 {{N:harris_validation_images}}개, image당 window는 {{N:harris_windows_per_image}}개였다. Sobel과 Harris의 결과는 single-patch gradient-energy 및 single-window response threshold에 관한 것이다.
 
-CNN-lite는 MNIST digit 0-vs-1 scalar-replicated graph의 validation {{N:cnn_lite_validation_samples}} image와 audit {{N:cnn_lite_audit_samples}} image를 사용했다. Selection과 audit은 각각 {{N:cnn_lite_selection_evaluations}}와 {{N:cnn_lite_audit_evaluations}} encrypted sample-key evaluation을 기록했고 flip은 각각 {{N:cnn_lite_selection_flips}}와 {{N:cnn_lite_audit_flips}}, violation은 각각 {{N:cnn_lite_selection_violations}}와 {{N:cnn_lite_audit_violations}}이었다. Candidate는 Security-V2 PASS였고 audit에서 byte-identical literal을 재생했다. Plaintext accuracy는 validation {{N:cnn_lite_validation_accuracy}}, audit {{N:cnn_lite_audit_accuracy}}였지만 이 task accuracy를 decision-integrity certificate와 혼합하지 않는다.
+CNN-lite는 MNIST digit 0-vs-1 scalar-replicated graph의 validation {{N:cnn_lite_validation_samples}} image와 audit {{N:cnn_lite_audit_samples}} image를 사용했다. Selection과 audit은 각각 {{N:cnn_lite_selection_evaluations}}와 {{N:cnn_lite_audit_evaluations}} encrypted sample-key evaluation을 기록했고 flip은 각각 {{N:cnn_lite_selection_flips}}와 {{N:cnn_lite_audit_flips}}, violation은 각각 {{N:cnn_lite_selection_violations}}와 {{N:cnn_lite_audit_violations}}이었다. Candidate는 Security-V2 PASS였고 audit에서 byte-identical literal을 재생했다. Plaintext accuracy는 validation {{N:cnn_lite_validation_accuracy|.1%}}, audit {{N:cnn_lite_audit_accuracy|.1%}}였지만 이 task accuracy를 decision-integrity certificate와 혼합하지 않는다.
 
 {{V3_TABLE_10}}
 
@@ -109,7 +109,7 @@ Sobel, Harris, CNN-lite adapter는 각 선언된 finite input과 scalar-replicat
 
 ## 8.10 Independent training/data-seed extension
 
-표 11은 {{N:independent_training_datasets}} dataset과 dataset별 {{N:independent_training_seeds_per_dataset}} independent training/data seed로 생성한 {{N:independent_training_seed_total}} model instance의 결과다. Selection은 {{N:training_selection_trials}} trial, {{N:training_selection_key_runs}} key run에서 {{N:independent_training_seed_pass}}/{{N:independent_training_seed_total}} SELECTED, repair {{N:training_repairs}}, flip {{N:training_flips}}, violation {{N:training_violations}}이었다. Audit은 {{N:training_audit_key_runs}} key run에서 {{N:independent_training_seed_pass}}/{{N:independent_training_seed_total}} PASS, flip {{N:training_flips}}, violation {{N:training_violations}}, retuning {{N:training_retuning}}이었다. Selection과 audit encrypted sample evaluation은 각각 {{N:training_selection_evaluations|,}}와 {{N:training_audit_evaluations|,}}였다.
+표 11은 {{N:independent_training_datasets}} dataset과 dataset별 {{N:independent_training_seeds_per_dataset}} independent training/data seed로 생성한 {{N:independent_training_seed_total}} model instance의 결과다. Selection은 {{N:training_selection_trials}} trial, {{N:training_selection_key_runs}} key run에서 {{N:independent_training_seed_pass}}/{{N:independent_training_seed_total}} SELECTED, repair {{N:training_repairs}}, flip {{N:training_selection_flips}}, violation {{N:training_selection_violations}}이었다. Audit은 {{N:training_audit_key_runs}} key run에서 {{N:independent_training_seed_pass}}/{{N:independent_training_seed_total}} PASS, flip {{N:training_audit_flips}}, violation {{N:training_audit_violations}}, retuning {{N:training_retuning}}이었다. Selection과 audit encrypted sample evaluation은 각각 {{N:training_selection_evaluations|,}}와 {{N:training_audit_evaluations|,}}였다.
 
 {{V3_TABLE_11}}
 
@@ -118,12 +118,12 @@ Sobel, Harris, CNN-lite adapter는 각 선언된 finite input과 scalar-replicat
 
 ## 8.11 Security re-attestation
 
-표 12는 Security-V2 및 exact-Q/P 재감사 결과다. Direct-selected candidate row {{N:security_direct_pass}}개는 모두 static re-attestation PASS였고 minimum headroom은 {{N:security_direct_minimum_headroom_bits}} bit였다. Catalog profile {{N:security_catalog_profiles_total}}개 중 {{N:security_catalog_profiles_admitted}}개가 admitted, {{N:security_catalog_profiles_excluded}}개가 excluded되었다. {{N:security_estimator_models}}개 exact estimator model은 각각 object {{N:security_estimator_objects_pass}}개를 PASS, {{N:security_estimator_objects_excluded}}개를 excluded로 분류했고, excluded object는 128-bit 목표 아래로 남았다.
+표 12는 Security-V2 및 exact-Q/P 재감사 결과다. Direct-selected candidate row {{N:security_direct_pass}}개는 모두 static re-attestation PASS였고 minimum headroom은 {{N:security_direct_minimum_headroom_bits}} bit였다. Catalog profile {{N:security_catalog_profiles_total}}개 중 {{N:security_catalog_profiles_admitted}}개가 admitted, {{N:security_catalog_profiles_excluded}}개가 excluded되었다. {{N:security_estimator_models}}개 exact estimator model은 각각 object {{N:security_estimator_objects_pass}}개를 PASS, {{N:security_estimator_objects_excluded}}개를 excluded로 분류했고, excluded object는 {{N:security_target_bits}}-bit 목표를 충족하지 못했다.
 
 {{V3_TABLE_12}}
 
 <!-- P:RESULT-SEC CLAIM:security_attestation -->
-선택 후보의 exact Q/P를 Security Policy V2와 두 estimator model에서 재감사했으며, 실제 Lattigo Xe truncation과 estimator 분포의 exact equivalence는 주장하지 않는다. Q와 QP를 별도로 검사했고 formal catalog와 paired arm은 admitted candidate만 사용했다. 이 결과는 선언된 object와 policy의 admission 근거이지 임의 runtime distribution의 보편적 128-bit 보증이 아니다.
+선택 후보의 exact Q/P를 Security Policy V2와 {{N:security_estimator_models}}개 estimator model에서 재감사했으며, 실제 Lattigo Xe truncation과 estimator 분포의 exact equivalence는 주장하지 않는다. Q와 QP를 별도로 검사했고 formal catalog와 paired arm은 admitted candidate만 사용했다. 이 결과는 선언된 object와 policy의 admission 근거이지 임의 runtime distribution의 보편적 {{N:security_target_bits}}-bit 보증이 아니다.
 
 Security filter는 comparison 결과에도 영향을 주었다. Pre-security oracle과 V2 fastest-safe selection은 alpha 전체 {{N:security_selection_cells_all}} workload-alpha cell 중 {{N:security_selection_changes_all}}개에서 달랐고, primary alpha 0.5에서는 {{N:security_selection_cells_primary}}개 중 {{N:security_selection_changes_primary}}개에서 달랐다. 따라서 catalog execution이 성공했다는 이유만으로 security-compliant comparator에 포함할 수 없으며, {{N:raw_historical_catalog_executions|,}} historical ledger를 그대로 oracle로 사용하는 것은 부적절하다.
 

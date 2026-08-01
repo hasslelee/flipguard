@@ -192,6 +192,9 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
     )["policy"]
     ablation = load_json(root / "docs/evidence/direct_synthesis_ablation_v1/summary.json")
     paired_manifest = load_json(root / "docs/evidence/paired_latency_final_v1/manifest.json")
+    paired_frozen_summary = load_json(
+        root / "docs/evidence/paired_latency_final_v1/summary/summary.json"
+    )
     validation_identity = load_json(
         root / "docs/evidence/validation_identity_comparison_v2/manifest.json"
     )
@@ -220,6 +223,18 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         newline="", encoding="utf-8"
     ) as handle:
         security_oracle_rows = list(csv.DictReader(handle))
+    with (root / "docs/evidence/direct_locked_audit_final_source_v1/outputs/locked_audit_results.csv").open(
+        newline="", encoding="utf-8"
+    ) as handle:
+        confirmatory_audit_rows = list(csv.DictReader(handle))
+    with (root / "docs/evidence/direct_locked_audit_seed0_development_v1/outputs/locked_audit_results.csv").open(
+        newline="", encoding="utf-8"
+    ) as handle:
+        development_audit_rows = list(csv.DictReader(handle))
+    with (root / "docs/evidence/paired_latency_final_v1/summary/records.csv").open(
+        newline="", encoding="utf-8"
+    ) as handle:
+        paired_record_rows = list(csv.DictReader(handle))
 
     estimator_models = estimator["models"]
     estimator_pass_counts = {
@@ -249,6 +264,17 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
     paired_ratio = paired_confirmatory["catalog_over_direct"]
     security_profiles = security["catalog_profiles"]
     direct_security = security["direct_selected"]
+    paired_protocol = paired_frozen_summary["protocol"]
+    selection_key_repeats = {
+        confirmatory["total_selection_key_runs"] // confirmatory["total_configuration_trials"],
+        development["total_selection_key_runs"] // development["total_configuration_trials"],
+    }
+    audit_key_repeats = {
+        confirmatory["total_fresh_key_runs"] // confirmatory["expected_runs"],
+        development["total_fresh_key_runs"] // development["expected_runs"],
+    }
+    if len(selection_key_repeats | audit_key_repeats) != 1:
+        raise ValueError("selection and audit fresh-key repetition policies disagree")
 
     sobel_validation = (
         sobel["selection"]["encrypted_sample_evaluations"]
@@ -305,6 +331,19 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         "development_selection_key_runs": development["total_selection_key_runs"],
         "confirmatory_audit_key_runs": confirmatory["total_fresh_key_runs"],
         "development_audit_key_runs": development["total_fresh_key_runs"],
+        "fresh_key_repeats": next(iter(selection_key_repeats)),
+        "confirmatory_audit_flips": sum(
+            int(row["decision_flips"]) for row in confirmatory_audit_rows
+        ),
+        "confirmatory_audit_violations": sum(
+            int(row["error_violations"]) for row in confirmatory_audit_rows
+        ),
+        "development_audit_flips": sum(
+            int(row["decision_flips"]) for row in development_audit_rows
+        ),
+        "development_audit_violations": sum(
+            int(row["error_violations"]) for row in development_audit_rows
+        ),
         "primary_audit_flips": (
             confirmatory["expected_runs"] - confirmatory["zero_flip_passes"]
             + development["expected_runs"] - development["zero_flip_passes"]
@@ -341,6 +380,10 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         "paired_cluster_bootstrap_replicates": paired_ratio[
             "cluster_bootstrap_95_ci_total"
         ]["replicates"],
+        "paired_arms": len({row["arm_id"] for row in paired_record_rows}),
+        "paired_warmup_runs": paired_protocol["warmup_runs"],
+        "paired_measurement_runs": paired_protocol["measurement_runs"],
+        "paired_rows_per_workload": paired_protocol["max_rows"],
         "primary_dataset_model_clusters": len(protocol["datasets"]) * len(protocol["models"]),
         "primary_datasets": len(protocol["datasets"]),
         "primary_model_graphs": len(protocol["models"]),
@@ -468,6 +511,10 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         "training_selection_evaluations": training["selection"]["encrypted_sample_evaluations"],
         "training_audit_evaluations": training["locked_audit"]["encrypted_sample_evaluations"],
         "training_repairs": training["selection"]["repairs"],
+        "training_selection_flips": training["selection"]["flips"],
+        "training_selection_violations": training["selection"]["violations"],
+        "training_audit_flips": training["locked_audit"]["flips"],
+        "training_audit_violations": training["locked_audit"]["violations"],
         "training_flips": training["selection"]["flips"] + training["locked_audit"]["flips"],
         "training_violations": training["selection"]["violations"] + training["locked_audit"]["violations"],
         "training_retuning": training["locked_audit"]["retuning"],
@@ -678,6 +725,21 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
     if unresolved:
         errors.append(f"unresolved citations: {unresolved}")
 
+    related_work_lines = chapters["03_related_work.md"].splitlines()
+    comparison_rows = [
+        line for line in related_work_lines
+        if line.startswith("|")
+        and not line.startswith("| ---")
+        and "연구군" not in line
+    ]
+    if len(comparison_rows) != 7:
+        errors.append(
+            f"related-work comparison row count is {len(comparison_rows)}, expected 7"
+        )
+    for index, row in enumerate(comparison_rows, 1):
+        if not re.search(r"@[A-Za-z0-9_:-]+", row):
+            errors.append(f"related-work comparison row {index} lacks a primary citation")
+
     with (source / "figure_table_map.csv").open(newline="", encoding="utf-8") as handle:
         map_rows = list(csv.DictReader(handle))
     if len(map_rows) != 23:
@@ -820,6 +882,7 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
             "blocked_claim_violations": sum("prohibited claim" in error or "blocked claim" in error for error in errors),
             "citations_used": len(cited_keys),
             "citation_audit_rows": len(audit_rows),
+            "related_work_comparison_rows": len(comparison_rows),
             "claim_traceability_rows": len(trace_rows),
             "advisor_questions": len(question_numbers),
             "reviewer_attacks": len(reviewer_rows),

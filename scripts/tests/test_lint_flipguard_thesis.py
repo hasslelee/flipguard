@@ -91,6 +91,19 @@ class ThesisLintTest(unittest.TestCase):
         self.assertEqual(result["status"], "FAIL")
         self.assertTrue(any("primary-source verification" in error for error in result["errors"]))
 
+    def test_related_work_comparison_row_requires_citation(self) -> None:
+        def mutate(source: Path) -> None:
+            path = source / "03_related_work.md"
+            text = path.read_text(encoding="utf-8")
+            path.write_text(
+                text.replace("HECO [@viand2023heco]", "HECO", 1),
+                encoding="utf-8",
+            )
+
+        result = self.lint_mutated_source(mutate)
+        self.assertEqual(result["status"], "FAIL")
+        self.assertTrue(any("comparison row" in error for error in result["errors"]))
+
     def test_stale_figure_reference_line_fails_closed(self) -> None:
         def mutate(source: Path) -> None:
             path = source / "figure_table_map.csv"

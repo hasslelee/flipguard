@@ -20,7 +20,7 @@ Catalog candidate도 같은 literal schema로 정규화한다. Profile과 path m
 
 ## 6.4 Lattigo execution과 key repetition
 
-Candidate runner는 parameter literal로 context, encoder, encryptor, decryptor, evaluator와 evaluation key를 생성한다. Input scalar를 지정 slot에 복제해 encode/encrypt하고 graph operation을 실행한 뒤 decrypt/decode한다. 각 trial은 독립된 fresh key material로 세 번 반복한다. 이 반복은 같은 model artifact의 독립 학습을 의미하지 않으며 encryption randomness와 key material 변화에 대한 관측이다.
+Candidate runner는 parameter literal로 context, encoder, encryptor, decryptor, evaluator와 evaluation key를 생성한다. Input scalar를 지정 slot에 복제해 encode/encrypt하고 graph operation을 실행한 뒤 decrypt/decode한다. 각 trial은 독립된 fresh key material로 {{N:fresh_key_repeats}}번 반복한다. 이 반복은 같은 model artifact의 독립 학습을 의미하지 않으며 encryption randomness와 key material 변화에 대한 관측이다.
 
 Execution ledger는 candidate trial과 key run을 분리한다. Sample row에는 source row ID, key repeat, plaintext score, CKKS score, absolute error, threshold, margin, budget, utilization, decisions, flip과 violation을 저장한다. Candidate summary는 max error와 max utilization만으로 raw row를 대체하지 않는다. Failure analysis가 필요한 경우 원 ledger에서 특정 sample과 key repeat를 재구성할 수 있다.
 
@@ -44,9 +44,9 @@ Retuning count는 manifest의 정책 선언과 실행 log 양쪽에서 확인한
 
 ## 6.8 Paired latency runner
 
-Paired latency runner는 direct-selected, Security-V2 bounded-catalog fastest-safe, fixed reference의 세 arm을 frozen identity로 받는다. Workload마다 warm-up 1회 후 measurement pass 6회를 수행하고, arm 순서는 balanced cyclic 및 reverse 규칙으로 배치한다. Outlier를 제거하지 않으며 setup/keygen, evaluation-only, total latency를 분리한다. Process restart, arm position, workload order와 host metadata를 ledger에 저장한다.
+Paired latency runner는 direct-selected, Security-V2 bounded-catalog fastest-safe, fixed reference의 {{N:paired_arms}}개 arm을 frozen identity로 받는다. Workload마다 warm-up {{N:paired_warmup_runs}}회 후 measurement run {{N:paired_measurement_runs}}회를 수행하고, arm 순서는 balanced cyclic 및 reverse 규칙으로 배치한다. Outlier를 제거하지 않으며 setup/keygen, evaluation-only, total latency를 분리한다. Process restart, arm position, workload order와 host metadata를 ledger에 저장한다.
 
-총 {{N:combined_descriptive_instances}} workload-partition instance에서 세 arm, 여섯 pass, setup/evaluation/total 측정이 결합되어 {{N:paired_raw_records|,}} latency record가 생성되었다. 분석기는 raw pair를 독립 표본으로 취급하지 않고 {{N:primary_dataset_model_clusters}} dataset-model cluster를 primary inference unit으로 사용한다. Seed 0는 descriptive output으로, seeds 1--4는 confirmatory output으로 분리한다.
+총 {{N:combined_descriptive_instances}} workload-partition instance에서 {{N:paired_arms}}개 arm, {{N:paired_measurement_runs}}회 measurement run, workload당 {{N:paired_rows_per_workload}}개 측정 row가 결합되어 `{{N:combined_descriptive_instances}} x {{N:paired_arms}} x {{N:paired_measurement_runs}} x {{N:paired_rows_per_workload}} = {{N:paired_raw_records|,}}` latency record가 생성되었다. Setup/evaluation/total은 각 record의 분리된 측정 열이며 별도 record로 세지 않는다. 분석기는 raw record를 독립 표본으로 취급하지 않고 {{N:primary_dataset_model_clusters}} dataset-model cluster를 primary inference unit으로 사용한다. Seed 0는 descriptive output으로, seeds 1--4는 confirmatory output으로 분리한다.
 
 ## 6.9 Evidence freezer와 verifier
 

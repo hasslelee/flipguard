@@ -2,7 +2,7 @@
 
 ## 7.1 평가 원칙
 
-평가는 policy 개발과 post-freeze confirmatory evidence를 분리하고, candidate trial·key run·sample evaluation·wall-clock을 다른 단위로 보고하며, negative result를 삭제하지 않는 원칙을 따른다. Direct Policy V2, Security Policy V2, primary `rho=0.5`, margin floor `0.001`, repair rule, maximum trial `4`, split assignment는 confirmatory execution 전에 동결되었다. Audit 결과를 이용한 candidate 변경은 허용하지 않았다.
+평가는 policy 개발과 post-freeze confirmatory evidence를 분리하고, candidate trial·key run·sample evaluation·wall-clock을 다른 단위로 보고하며, negative result를 삭제하지 않는 원칙을 따른다. Direct Policy V2, Security Policy V2, primary `rho={{N:primary_alpha}}`, margin floor `{{N:primary_margin_floor}}`, repair rule, maximum trial `{{N:max_encrypted_trials}}`, split assignment는 confirmatory execution 전에 동결되었다. Audit 결과를 이용한 candidate 변경은 허용하지 않았다.
 
 표 2는 primary, structural, non-tabular, independent training-seed evidence의 선언 범위와 inference unit을 요약한다.
 
@@ -14,7 +14,7 @@ Primary evaluation은 `banknote`, `digits_binary`, `iris_binary`, `mnist_pool16`
 
 이 {{N:combined_descriptive_instances}}개 row를 독립적인 dataset, 독립적인 model, 독립적인 statistical sample로 해석하지 않는다. {{N:deterministic_partitions}}개 partition은 동일한 학습 model 및 held-out artifact를 반복 partition한 것이다. Seed 0는 direct policy와 ablation 개발에 사용되었으므로 development/descriptive population으로 분리한다. Seeds 1--4의 {{N:confirmatory_instances}}개 instance만 post-freeze confirmatory aggregate에 포함한다.
 
-각 candidate trial은 fresh key 세 개로 configuration-validation을 실행한다. Selection candidate가 정해지면 audit artifact에서 다시 세 fresh key로 exact literal을 재생한다. Selection과 audit의 input domain은 split manifest로 분리하며 candidate identity, model digest, source semantic digest를 비교한다.
+각 candidate trial은 fresh key {{N:fresh_key_repeats}}개로 configuration-validation을 실행한다. Selection candidate가 정해지면 audit artifact에서 다시 {{N:fresh_key_repeats}}개 fresh key로 exact literal을 재생한다. Selection과 audit의 input domain은 split manifest로 분리하며 candidate identity, model digest, source semantic digest를 비교한다.
 
 ## 7.3 Bounded catalog와 회계
 
@@ -49,11 +49,11 @@ Control이 예상대로 NO_SAFE를 만들지 못하더라도 사후에 budget이
 
 ## 7.7 Paired latency protocol
 
-Paired latency는 모든 arm identity가 동결된 후 한 host에서 순차 수행했다. Arm은 direct-selected, Security-V2 bounded-catalog fastest-safe, fixed reference다. Warm-up은 1회, measurement pass는 6회이며 balanced cyclic/reverse order를 사용했다. Outlier removal은 수행하지 않았다. 다른 CKKS process를 병렬로 실행하지 않았고 process restart와 arm position을 ledger에 기록했다.
+Paired latency는 모든 arm identity가 동결된 후 한 host에서 순차 수행했다. {{N:paired_arms}}개 arm은 direct-selected, Security-V2 bounded-catalog fastest-safe, fixed reference다. Warm-up은 {{N:paired_warmup_runs}}회, measurement run은 {{N:paired_measurement_runs}}회이며 balanced cyclic/reverse order를 사용했다. Outlier removal은 수행하지 않았다. 다른 CKKS process를 병렬로 실행하지 않았고 process restart와 arm position을 ledger에 기록했다.
 
 Primary inference unit은 {{N:primary_dataset_model_clusters}} dataset-model cluster다. Seeds 1--4의 partition은 cluster 내부 repeated observation으로 취급한다. Catalog/direct ratio는 workload-partition별 paired latency ratio를 구성한 뒤 cluster 수준 geometric mean과 cluster bootstrap 95% confidence interval로 요약한다. Raw pair를 서로 독립인 표본으로 두는 p-value는 계산하지 않는다. Seed 0 ratio는 development/descriptive로만 보고 confirmatory aggregate에 합치지 않는다.
 
-Formal latency claim은 confirmatory 40/40 instance complete, direct/catalog arm SAFE, identity/source digest match, Security-V2 excluded candidate 부재, no concurrent CKKS process, no outlier removal, order protocol 검증, cluster-bootstrap lower bound `>1`을 요구한다. Reference가 REJECTED인 row는 diagnostic으로 남기되 reference safe-to-safe ratio에서 제외한다.
+Formal latency claim은 confirmatory {{N:paired_confirmatory_complete}}/{{N:confirmatory_instances}} instance complete, direct/catalog arm SAFE, identity/source digest match, Security-V2 excluded candidate 부재, no concurrent CKKS process, no outlier removal, order protocol 검증, cluster-bootstrap lower bound `>1`을 요구한다. Reference가 REJECTED인 row는 diagnostic으로 남기되 reference safe-to-safe ratio에서 제외한다.
 
 ## 7.8 Structural polynomial holdout
 

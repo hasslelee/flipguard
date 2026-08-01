@@ -36,13 +36,13 @@ Security-V2는 guideline을 그대로 runtime 분포와 동일시하지 않는�
 
 | 연구군 | 주된 optimization target | candidate 생성 또는 탐색 | correctness/error 처리 | FlipGuard가 채택한 관행 | 실제 차이와 claim 경계 |
 | --- | --- | --- | --- | --- | --- |
-| CHET/EVA | parameter·layout·compiler optimization | graph analysis 및 compiler pass | 실행 가능성과 scheme 제약 | graph fact와 literal provenance | 최종 threshold admission을 공통 gate로 분리 |
-| HECATE/ELASM | scale 또는 error-latency | scale scheduling | output error estimation | error를 configuration 판단에 사용 | sample decision margin·NO_SAFE·locked audit이 중심 |
-| HECO | 범용 FHE lowering과 optimization | IR transformation | compiler correctness·scheme 제약 | 명시적 graph contract | 범용 compiler를 주장하지 않음 |
-| DaCapo | bootstrapping count와 latency | placement candidate planning | scale capacity | stage별 fail-closed 실행 | bootstrap planner가 본 기여가 아님 |
-| AutoPrivacy/AutoFHE | model accuracy와 latency | RL 또는 multi-objective search | model-level accuracy | application outcome을 parameter 판단에 연결 | per-sample threshold integrity와는 다른 단위 |
-| Application-Aware AHE | application-bound correctness/security | formal application specification | 회로와 domain 기반 정의 | input scope를 contract에 포함 | empirical finite-set certificate만 제공 |
-| FHE-Agent | practical CKKS configuration automation | agent·tool 기반 pruning/calibration/repair | tool validation과 repair | bounded repair와 명시적 실패 | agent contribution과 general integration을 주장하지 않음 |
+| CHET/EVA [@dathathri2019chet; @dathathri2020eva] | parameter·layout·compiler optimization | graph analysis 및 compiler pass | 실행 가능성과 scheme 제약 | graph fact와 literal provenance | 최종 threshold admission을 공통 gate로 분리 |
+| HECATE/ELASM [@lee2022hecate; @lee2023elasm] | scale 또는 error-latency | scale scheduling | output error estimation | error를 configuration 판단에 사용 | sample decision margin·NO_SAFE·locked audit이 중심 |
+| HECO [@viand2023heco] | 범용 FHE lowering과 optimization | IR transformation | compiler correctness·scheme 제약 | 명시적 graph contract | 범용 compiler를 주장하지 않음 |
+| DaCapo [@cheon2024dacapo] | bootstrapping count와 latency | placement candidate planning | scale capacity | stage별 fail-closed 실행 | bootstrap planner가 본 기여가 아님 |
+| AutoPrivacy/AutoFHE [@lou2020autoprivacy; @ao2024autofhe] | model accuracy와 latency | RL 또는 multi-objective search | model-level accuracy | application outcome을 parameter 판단에 연결 | per-sample threshold integrity와는 다른 단위 |
+| Application-Aware AHE [@alexandru2024applicationaware] | application-bound correctness/security | formal application specification | 회로와 domain 기반 정의 | input scope를 contract에 포함 | empirical finite-set certificate만 제공 |
+| FHE-Agent [@xu2025fheagent] | practical CKKS configuration automation | agent·tool 기반 pruning/calibration/repair | tool validation과 repair | bounded repair와 명시적 실패 | agent contribution과 general integration을 주장하지 않음 |
 
 이 비교는 최초성 주장을 만들기 위한 목록이 아니다. 오히려 FlipGuard가 기존 compiler와 autotuner의 목표를 대체하지 않고, 그 위 또는 옆에서 사용할 수 있는 admission protocol이라는 범위를 확정한다. 본 연구의 novelty boundary는 direct synthesis만에 있지 않다. Graph/decision contract, bounded encrypted validation, failure-aware repair, abstention, literal lock, disjoint audit, Security-V2 filtered comparison과 evidence provenance를 하나의 연구 protocol로 결합한 데 있다.
 
