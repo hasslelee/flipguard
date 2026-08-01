@@ -22,11 +22,14 @@ decision-integrity protocol.
 
 Primary sources:
 
-- HECATE, CGO 2022, DOI `10.1109/CGO53902.2022.9741265`.
-- ELASM, USENIX Security 2023, pages 4697-4714.
+- [HECATE author copy](https://www3.cs.stonybrook.edu/~dongyoon/papers/CGO-22-HECATE.pdf),
+  CGO 2022, DOI `10.1109/CGO53902.2022.9741265`.
+- [ELASM official proceedings](https://www.usenix.org/conference/usenixsecurity23/presentation/lee-yongwoo),
+  USENIX Security 2023, pages 4697-4714.
 - LeCun et al., *Gradient-Based Learning Applied to Document Recognition*,
   Proceedings of the IEEE 86(11), 1998.
-- FHE-Agent, arXiv `2511.18653`, preprint status as of this protocol freeze.
+- [FHE-Agent preprint record](https://arxiv.org/abs/2511.18653), preprint
+  status as of this protocol freeze.
 
 ## Implementation requirement
 
@@ -145,4 +148,3 @@ or split overlap, test-driven model choice, audit-driven retuning, policy
 digest drift, inadmissible formal candidate, non-finite logit, missing
 negative row, or candidate-identity mismatch is an integrity block. A valid
 negative scientific result lowers the extension claim and does not modify RC2.
-

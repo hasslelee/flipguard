@@ -26,13 +26,30 @@ report a comparable count; it is not estimated.
 | FHE-Agent | 2025 arXiv preprint | MNIST and CIFAR-10 recipes | MLP, LeNet, LoLa, AlexNet | validation subset; exact count NR | accuracy, MAE, precision bits, feasibility | per-input FHE time excluding keygen | ten one-shot prompts plus gated multi-fidelity repair | estimated >=128-bit; Orion/Lattigo 5.0.2 | deterministic policy, exact digests, locked audit | comparable standard graphs and practical agent baseline | static pruning before encrypted trials, explicit failed configurations, fixed trial budget |
 | Application-Aware Approximate HE | IACR Communications in Cryptology, published article | formal application domains | circuit plus input-domain specification | not empirical | application-bound correctness/security definitions | not a performance benchmark | application-specific parameter generation/validation | IND-CPAD-oriented formal model | executable finite evidence and provenance | instantiated analytical application-domain certificate | bind circuit, input scope, estimator, and runtime validation without claiming formal equivalence |
 | Precise Max-Pooling on FHE | JKIISC 33(3), 2023 | synthetic max inputs | composite max approximation for 4+ values | NR | theoretical and measured approximation precision | sub-operation latency | focused polynomial construction | RNS-CKKS | end-to-end decision workflow and artifact pack | primitive-level theorem depth | present exact theorem, approximation boundary, and implementation timing concisely |
+| Privacy-Preserving Federated Learning in Non-IID Environments | JKIISC 36(1), 2026 | non-IID federated-learning partitions | CKKS-protected local model aggregation | paper-specific/NR for a comparable encrypted inference count | federated model utility and privacy-preserving aggregation | application-level experiment | one declared federated framework, not a configuration search | CKKS application setting | parameter-selection provenance and sample-level decision admission | distributed/application deployment study | keep application scope, correctness unit, and performance unit explicit |
 | CKKS MultiMax implementation | CISC-S 2025, official program; NSR director award (excellent paper) | Softmax/MultiMax comparison inputs | CKKS MultiMax and recent HE Softmax methods | proceedings paper count NR | approximation/comparison quality | CKKS implementation performance | focused function alternatives | CKKS | broader protocol and reproducibility evidence | focused primitive clarity and concise comparison | include one precise proposition, a standard benchmark, and a compact reviewer-facing comparison |
 
-Primary-source anchors include the ACM DOI for EVA, IEEE DOI for HECATE,
-USENIX proceedings pages for ELASM/HECO/DaCapo/AutoFHE, IACR ePrint
-`2024/203`, KCI DOI `10.13089/JKIISC.2023.33.3.375`, and the official 2025
-KIISC summer program. The MultiMax item is conference metadata, not a claim
-about a journal publication or a best-paper grand prize.
+Primary-source registry:
+
+| Work | Primary source | Point checked directly |
+|---|---|---|
+| EVA | [Microsoft Research publication page](https://www.microsoft.com/en-us/research/publication/eva-an-encrypted-vector-arithmetic-language-and-compiler-for-efficient-homomorphic-computation/) and its ACM DOI link | PLDI 2020 status, compiler scope, image-processing examples, CHET comparison |
+| HECATE | [author-hosted CGO paper](https://www3.cs.stonybrook.edu/~dongyoon/papers/CGO-22-HECATE.pdf), DOI `10.1109/CGO53902.2022.9741265` | `784x100x10` square MLP, LeNet family, 36 waterlines, explored-plan counts |
+| ELASM | [USENIX Security 2023 proceedings](https://www.usenix.org/conference/usenixsecurity23/presentation/lee-yongwoo) | ten benchmarks, error-latency objective, scale-plan search and publication metadata |
+| HECO | [USENIX Security 2023 proceedings](https://www.usenix.org/conference/usenixsecurity23/presentation/viand) | imperative-program compiler scope and end-to-end transformation claim |
+| DaCapo | [USENIX Security 2024 proceedings](https://www.usenix.org/conference/usenixsecurity24/presentation/cheon) | bootstrapping-placement objective, deep-model scope and reported comparison |
+| AutoFHE | [USENIX Security 2024 proceedings](https://www.usenix.org/conference/usenixsecurity24/presentation/ao) | mixed-degree activations, bootstrap co-design, CIFAR CNN scope |
+| FHE-Agent | [arXiv preprint record](https://arxiv.org/abs/2511.18653) | preprint status, MLP/LeNet/LoLa/AlexNet scope, multi-fidelity repair framing |
+| Application-Aware Approximate HE | [IACR ePrint 2024/203](https://eprint.iacr.org/2024/203) | application-domain formalization, ASL, CIC 2026 publication metadata |
+| Security Guidelines | [IACR Communications in Cryptology article](https://cic.iacr.org/p/1/4/26) | published security-reference status; FlipGuard's exact table binding remains in Security Policy V2 |
+| Precise Max-Pooling | [KCI record](https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART002968399), DOI `10.13089/JKIISC.2023.33.3.375` | JKIISC venue, focused primitive scope and publication metadata |
+| Non-IID federated learning with HE | [KCI record](https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=ART003304308), DOI `10.13089/JKIISC.2026.36.1.191` | JKIISC venue, CKKS-protected federated application scope and publication metadata |
+| CKKS MultiMax | [official KIISC CISC-S 2025 program book](https://kiisc.or.kr/bbs/downloadBoardImage?uploadedFileId=12693) | title and `우수`/국가보안기술연구소 소장상 metadata only |
+
+The MultiMax row is conference-program metadata. It is not treated as a
+journal publication, a full experimental report, or a best-paper grand prize.
+Counts not recoverable from the primary paper remain `NR` rather than being
+filled from a search snippet.
 
 ## Implementation requirement
 
@@ -53,4 +70,3 @@ class-balanced, if argmax is reduced to ten unrelated binary thresholds, if a
 locked-audit result changes the model/configuration, or if the final text calls
 the original 50 rows independent workloads. Missing primary-source counts are
 reported as `NR`, never filled from snippets or secondary summaries.
-
