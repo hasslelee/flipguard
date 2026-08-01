@@ -52,7 +52,7 @@ Source replay는 50/50에서 검증되었고 preprocessing method는 `identity_m
 
 ## 8.6 Paired latency
 
-표 5와 그림 5는 동일 host에서 수행한 paired latency 결과를 보여준다. Confirmatory seeds 1--4의 40/40 workload-partition instance가 완결되었고 measurement failure는 0이었다. Direct와 catalog arm은 모두 decision SAFE였고 reference도 40/40 SAFE였다. No outlier removal, warm-up 1회, measurement pass 6회, balanced cyclic/reverse order가 검증되었다.
+표 5와 그림 5는 동일 host에서 수행한 paired latency 결과를 보여준다. Confirmatory seeds 1--4의 {{N:paired_confirmatory_complete}}/{{N:confirmatory_instances}} workload-partition instance가 완결되었고 measurement failure는 {{N:paired_confirmatory_failures}}이었다. Direct와 catalog arm은 모두 decision SAFE였고 reference도 {{N:paired_confirmatory_reference_safe}}/{{N:confirmatory_instances}} SAFE였다. No outlier removal, warm-up 1회, measurement pass 6회, balanced cyclic/reverse order가 검증되었다.
 
 {{V3_TABLE_05}}
 

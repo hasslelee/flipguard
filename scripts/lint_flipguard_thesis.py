@@ -330,6 +330,36 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
     claim_by_id = {item["claim_id"]: item for item in claims}
     registry = load_json(source / "number_registry.json")
     validate_registry(root, registry, errors)
+    raw_headline = "\n".join((
+        raw_abstract,
+        raw_chapters["08_results.md"],
+        raw_chapters["11_conclusion.md"],
+    ))
+    number_markers = list(NUMBER_MARKER_RE.finditer(raw_headline))
+    number_marker_keys = {match.group(1) for match in number_markers}
+    required_number_keys = {
+        "formal_catalog_all", "formal_catalog_confirmatory",
+        "direct_trials_all", "direct_trials_confirmatory",
+        "formal_trial_reduction_all", "confirmatory_locked_audit_pass",
+        "development_locked_audit_pass", "no_safe_budget",
+        "no_safe_finite_domain", "paired_total_ratio_confirmatory",
+        "paired_total_ci_low", "paired_total_ci_high",
+        "paired_eval_ratio_confirmatory", "structural_selected",
+        "structural_audit_pass", "structural_reserve_reject",
+        "independent_training_seed_pass", "security_direct_pass",
+    }
+    if required_number_keys - number_marker_keys:
+        errors.append(
+            "headline numbers are not registry-generated: "
+            f"{sorted(required_number_keys-number_marker_keys)}"
+        )
+    for literal in (
+        "3.14065956642714", "3.140660", "2.3423342246526992",
+        "4.21531336367743", "2.624674483419857", "70/700",
+        "56/560", "40/40", "10/10", "16/40", "25/25", "24 PASS",
+    ):
+        if literal in raw_headline:
+            errors.append(f"raw headline number bypasses registry marker: {literal}")
     try:
         chapters = {
             name: render_number_markers(text, registry)
@@ -547,6 +577,8 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
             "claim_traceability_rows": len(trace_rows),
             "advisor_questions": len(question_numbers),
             "reviewer_attacks": len(reviewer_rows),
+            "headline_number_markers": len(number_markers),
+            "headline_number_keys": len(number_marker_keys),
             "figures": len(figure_markers),
             "tables": len(table_markers),
         },
