@@ -87,6 +87,7 @@ def source_closure_paths() -> list[Path]:
         SOURCE / "citation_audit.csv",
         SOURCE / "figure_table_map.csv",
         SOURCE / "claim_traceability.csv",
+        SOURCE / "release_qa_summary.json",
         CLAIMS,
         RC2_BINDING,
     ]
@@ -310,6 +311,7 @@ def build(output: Path, source_commit: str, refresh_sources: bool) -> dict[str, 
     write_csv(output / "figure_table_map.csv", map_rows, figure_map_fields())
     shutil.copy2(ROOT / SOURCE / "citation_audit.csv", output / "citation_audit.csv")
     shutil.copy2(ROOT / SOURCE / "number_registry.json", output / "number_registry.json")
+    shutil.copy2(ROOT / SOURCE / "release_qa_summary.json", output / "release_qa_summary.json")
     shutil.copy2(ROOT / SOURCE / "references.bib", output / "references.bib")
     registry = read_json(SOURCE / "number_registry.json")
     for relative in AUXILIARY_MARKDOWN:
@@ -378,6 +380,7 @@ def build(output: Path, source_commit: str, refresh_sources: bool) -> dict[str, 
             "citation_audit": f"sha256:{sha256(output / 'citation_audit.csv')}",
             "advisor_defense_qa": f"sha256:{sha256(output / 'advisor_defense_qa.md')}",
             "qa_report": f"sha256:{sha256(output / 'qa_report_v1.md')}",
+            "release_qa_summary": f"sha256:{sha256(output / 'release_qa_summary.json')}",
             "reviewer_attack_checklist": f"sha256:{sha256(output / 'reviewer_attack_checklist.md')}",
         },
         "new_encrypted_executions": 0,

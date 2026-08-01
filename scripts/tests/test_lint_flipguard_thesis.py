@@ -259,6 +259,30 @@ class ThesisLintTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "incomplete or contains a failed cycle"):
             MODULE.extract_release_qa_counts(failed)
 
+    def test_release_qa_summary_matches_local_ledger(self) -> None:
+        self.assertEqual(MODULE.release_qa_counts(ROOT), (258, 21))
+
+    def test_release_qa_summary_supports_clean_clone_without_ignored_ledger(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="release-qa-summary-") as directory:
+            root = Path(directory)
+            target = root / "docs/thesis"
+            target.mkdir(parents=True)
+            shutil.copy2(ROOT / "docs/thesis/release_qa_summary.json", target)
+            self.assertEqual(MODULE.release_qa_counts(root), (258, 21))
+
+    def test_release_qa_summary_mutation_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="release-qa-summary-") as directory:
+            root = Path(directory)
+            target = root / "docs/thesis"
+            target.mkdir(parents=True)
+            summary = json.loads(
+                (ROOT / "docs/thesis/release_qa_summary.json").read_text(encoding="utf-8")
+            )
+            summary["soak_cycles"] = 257
+            (target / "release_qa_summary.json").write_text(json.dumps(summary), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "release QA summary mismatch"):
+                MODULE.release_qa_counts(root)
+
 
 if __name__ == "__main__":
     unittest.main()

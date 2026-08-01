@@ -280,7 +280,40 @@ def extract_release_qa_counts(lines: list[str]) -> tuple[int, int]:
     return len(cycles), len(clean_clones)
 
 
-def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
+def release_qa_counts(root: Path, thesis_source: Path = DEFAULT_SOURCE) -> tuple[int, int]:
+    """Verify the full local ledger when present, with a Git-bound clean-clone fallback."""
+    summary_path = root / thesis_source / "release_qa_summary.json"
+    summary = load_json(summary_path)
+    required = {
+        "schema_version": "flipguard_thesis_release_qa_summary_v1",
+        "rc2_source_commit": EXPECTED_DIGESTS["rc2_source_commit"],
+        "rc2_archive_sha256": EXPECTED_DIGESTS["rc2_archive_sha256"],
+        "source_log_sha256": "fecd5f8709b415b0ade36a8537b3fdaef1230c9e4a9521fbf5553b99438c4b49",
+        "source_log_lines": 260,
+        "soak_cycles": 258,
+        "clean_clone_rebuilds": 21,
+        "status": "PASS",
+    }
+    for key, value in required.items():
+        if summary.get(key) != value:
+            raise ValueError(f"release QA summary mismatch: {key}")
+    release_soak_path = root / "results/thesis_grade_protocol/release_candidate_v2/qa_soak.log"
+    if release_soak_path.is_file():
+        if sha256(release_soak_path) != summary["source_log_sha256"]:
+            raise ValueError("release QA source-log digest mismatch")
+        lines = release_soak_path.read_text(encoding="utf-8").splitlines()
+        if len(lines) != summary["source_log_lines"]:
+            raise ValueError("release QA source-log line-count mismatch")
+        counts = extract_release_qa_counts(lines)
+        if counts != (summary["soak_cycles"], summary["clean_clone_rebuilds"]):
+            raise ValueError("release QA source-log count mismatch")
+    return summary["soak_cycles"], summary["clean_clone_rebuilds"]
+
+
+def extract_authoritative_numbers(
+    root: Path,
+    thesis_source: Path = DEFAULT_SOURCE,
+) -> dict[str, int | float]:
     """Reconstruct every headline number from immutable evidence inputs."""
     suite = load_json(root / "docs/evidence/final_confirmatory_suite_v1/manifest.json")
     confirmatory = load_json(
@@ -332,12 +365,8 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
         root / "docs/evidence/validation_identity_comparison_v2/manifest.json"
     )
     claim_admission = load_json(root / "docs/evidence/paper_claim_admission_v1/claims.json")
-    release_soak_path = (
-        root / "results/thesis_grade_protocol/release_candidate_v2/qa_soak.log"
-    )
-    release_soak_lines = release_soak_path.read_text(encoding="utf-8").splitlines()
-    release_soak_cycles, release_clean_clone_rebuilds = extract_release_qa_counts(
-        release_soak_lines
+    release_soak_cycles, release_clean_clone_rebuilds = release_qa_counts(
+        root, thesis_source
     )
 
     with (root / "docs/evidence/independent_training_seed_extension_v1/workload_summary.csv").open(
@@ -668,8 +697,13 @@ def extract_authoritative_numbers(root: Path) -> dict[str, int | float]:
     }
 
 
-def validate_registry(root: Path, registry: dict[str, Any], errors: list[str]) -> None:
-    for key, value in extract_authoritative_numbers(root).items():
+def validate_registry(
+    root: Path,
+    registry: dict[str, Any],
+    errors: list[str],
+    thesis_source: Path = DEFAULT_SOURCE,
+) -> None:
+    for key, value in extract_authoritative_numbers(root, thesis_source).items():
         if registry.get(key) != value:
             errors.append(
                 f"number registry/evidence mismatch: {key}={registry.get(key)!r}, "
@@ -688,6 +722,7 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
         "00_thesis_contract.md", "appendix.md", "abstract_ko_en.md",
         "advisor_defense_qa.md", "number_registry.json", "references.bib",
         "citation_audit.csv", "figure_table_map.csv", "claim_traceability.csv",
+        "release_qa_summary.json",
         "qa_report_v1.md", "reviewer_attack_checklist.md",
         "university_template_requirements.md",
     ]
@@ -708,7 +743,7 @@ def lint_source(root: Path = ROOT, source_dir: Path = DEFAULT_SOURCE) -> dict[st
     claims = claims_doc["claims"]
     claim_by_id = {item["claim_id"]: item for item in claims}
     registry = load_json(source / "number_registry.json")
-    validate_registry(root, registry, errors)
+    validate_registry(root, registry, errors, source_dir)
     raw_headline = "\n".join((
         raw_abstract,
         raw_chapters["08_results.md"],

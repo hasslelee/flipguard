@@ -53,6 +53,7 @@ class ThesisDraftBuilderTest(unittest.TestCase):
             self.assertEqual(unresolved, {})
             self.assertTrue((first / "advisor_defense_qa.md").is_file())
             self.assertTrue((first / "qa_report_v1.md").is_file())
+            self.assertTrue((first / "release_qa_summary.json").is_file())
             self.assertTrue((first / "reviewer_attack_checklist.md").is_file())
             report = json.loads((first / "build_report.json").read_text(encoding="utf-8"))
             self.assertEqual(report["qa_passes"], 8)
