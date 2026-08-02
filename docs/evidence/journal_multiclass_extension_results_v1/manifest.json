@@ -1,0 +1,277 @@
+{
+  "analysis_plan": {
+    "path": "docs/evidence/journal_multiclass_analysis_plan_v1/analysis_plan.json",
+    "sha256": "sha256:1bf84cbc4a016975658eb30132b5880ec894086796724cc1a0ee52c1a36d5744"
+  },
+  "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+  "execution_source_commit": "84b2493b3adacde10a5f49d5b90f7f6910812bf3",
+  "frozen_core_modified": false,
+  "generated_files": {
+    "class_summary.csv": {
+      "path": "class_summary.csv",
+      "sha256": "sha256:c65203074ba3fedd83425911aa5d3c5eb6f819528a2a0d774cf60e450159a568"
+    },
+    "gap_bin_summary.csv": {
+      "path": "gap_bin_summary.csv",
+      "sha256": "sha256:283f6a986a77e34b3678a7a2be7433182b781b8d8a3bab8dc6789da5ea02730a"
+    },
+    "latency_summary.csv": {
+      "path": "latency_summary.csv",
+      "sha256": "sha256:98b2b1c98e9f9a4cf83292c9553c9ece40d4b87849f4a49e9d126a4690daa47d"
+    },
+    "negative_results.json": {
+      "path": "negative_results.json",
+      "sha256": "sha256:28a6908ce25c35159ca5197ef72fc7be9d3334a0e03fbf51d0a5da0ed8afadf4"
+    },
+    "observations.csv": {
+      "path": "observations.csv",
+      "sha256": "sha256:daff5f4ff73f4761781d510c0373cf2248aa1cead48063356d318c6b7679bf31"
+    },
+    "summary.json": {
+      "path": "summary.json",
+      "sha256": "sha256:ed46298b45f62474b518baf8099c41630618896b26c520a1c2aec6fb54b68911"
+    }
+  },
+  "policy_retuning": 0,
+  "protocol_manifest_digest": "sha256:caf39e2b38f8c1a46bb1fece30d68d758b613e2459e51e6af9898e535620b269",
+  "raw_inputs": {
+    "lenet5_small": [
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/audit_run_manifest.json",
+        "sha256": "sha256:3c983b0a90a8b5b9a85aafc8031c4eb06d161de913ee88613ada7ce4f9fcc528"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/catalog/deep_chain_8_scale45/static_result.json",
+        "sha256": "sha256:c0c129d7c3929e49d1441c0b3239c59a13a6e2e4b6a3941c5f918551073b8884"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/catalog/deep_chain_9_scale45/static_result.json",
+        "sha256": "sha256:33a9113b40ac46e6b7a564ce1521835323b17fc112c850689f6781b19998f2a8"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/catalog/short_chain_3/static_result.json",
+        "sha256": "sha256:6e37daa49d6a75851ccbdbb0e289d6a85ddc394bbeb210251e5babf497a76770"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/catalog/short_chain_5/static_result.json",
+        "sha256": "sha256:7ba35a18b6aca85943c9cc63ace2846142ec7b16695d588d87fe7549aebe94ca"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/catalog/short_chain_6_scale38/static_result.json",
+        "sha256": "sha256:1489eb569747a03f7c29da1cd792cadc7216c96aba3b29e70feae95fbc15c0e6"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/catalog/short_chain_6_scale40/static_result.json",
+        "sha256": "sha256:d6f630dc1a5696b321e3519c048ca075a4b1818e0345a22628b55407fc988636"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/catalog/short_chain_6_scale42/static_result.json",
+        "sha256": "sha256:529b05d923ba9b88dddd43532a3fb5d3ecbac00ac9286fcbc5a09e161ae1d595"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/catalog_result.json",
+        "sha256": "sha256:a66fa90c2bc7220abc9e5adb025671c128bb5aac6357eab73a3901a23b1249e1"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/catalog_run_manifest.json",
+        "sha256": "sha256:2ee0a128678fbeaff24f7ebc951eb728ce17785fadd37a06dd21688e36262ce0"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/locked_audit/key_run_01.json",
+        "sha256": "sha256:9d44874234ea91abba95bf197c16a28938e1bfc79941d647a2a074349d533892"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/locked_audit/key_run_02.json",
+        "sha256": "sha256:bc67612abe21dbd93450b79c501c6ec85c4086ac2e729094e9f9a9578af59637"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/locked_audit/key_run_03.json",
+        "sha256": "sha256:60e8cfd6ce25951b95bf464eff9ad72e6e3519ca367a9fcc9802323c8cd16203"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/locked_audit_result.json",
+        "sha256": "sha256:65145406557b0dd53d3a0d7ded71bf4aa0a1a005d91c91318dc7be1c54b52a5c"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/selection_result.json",
+        "sha256": "sha256:d064b503bb78e703750089b483d1e51eabcab259aec7561bc9ead0efc4d87e8d"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/selection_run_manifest.json",
+        "sha256": "sha256:7fa298b4ecb78a0b774b600e996543afe3d8447d23550c8982dcc93d9e9eeb4d"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/trial_01_synth_analysis_minimum_rescale_N15_Q18_S44_3d9a3ac648cc/key_run_01.json",
+        "sha256": "sha256:3c36833c09c15f0d7e61d84e4cf9a28e7ad4bb76fa92c978458ee019fe84c3e3"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/trial_01_synth_analysis_minimum_rescale_N15_Q18_S44_3d9a3ac648cc/key_run_02.json",
+        "sha256": "sha256:6fa8d5ccbfcd73176d8c6887ed3456785bb6098e79e004aabb493bfb85c7848a"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/trial_01_synth_analysis_minimum_rescale_N15_Q18_S44_3d9a3ac648cc/key_run_03.json",
+        "sha256": "sha256:f1a0655f5136fbce17e0cad61dceda650d880368550c0f858cf5b55c213376bb"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/trial_01_synth_analysis_minimum_rescale_N15_Q18_S44_3d9a3ac648cc/trial_result.json",
+        "sha256": "sha256:a6eab104b80c9aef8d32752cce0adc0f47635f7ec380dbee94259c82c48d0d31"
+      }
+    ],
+    "mlp_100": [
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/audit_run_manifest.json",
+        "sha256": "sha256:ecb39e61b77a0cc935173f995e920c87bd548ae4d4bf47ab647770eeea8d4e95"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/deep_chain_8_scale45/key_run_01.json",
+        "sha256": "sha256:a0206abb3bffcfa201e0e232952434932ab9155a21ab6ba42515d61b8fea7ee3"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/deep_chain_8_scale45/key_run_02.json",
+        "sha256": "sha256:3e9aafe6d419e1da8eb55fff400208a922235a0fef3549248887ac8f626667a7"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/deep_chain_8_scale45/key_run_03.json",
+        "sha256": "sha256:8d9b378788dc63888b24fb6e535dd16c598ed46315258ae0daa5e11878e1a876"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/deep_chain_8_scale45/trial_result.json",
+        "sha256": "sha256:a77237c73b0752e36844229bb1972203b9c86557e043aa30af1097e46ceef70d"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/deep_chain_9_scale45/key_run_01.json",
+        "sha256": "sha256:be944e691ad4ad35f46b0393216072ac8fe51e343640656ff8cb1a0f0b71fe57"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/deep_chain_9_scale45/key_run_02.json",
+        "sha256": "sha256:94d6710a3f633547c96a47b4af747030723c888303391aa63fb1b854d1bd7e17"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/deep_chain_9_scale45/key_run_03.json",
+        "sha256": "sha256:95cb49c937f8683a9e935f02f894ae7465e713434c47f7c63b39025847daf18d"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/deep_chain_9_scale45/trial_result.json",
+        "sha256": "sha256:a5675d5dd628b0f75d4bd42ae2c62c81062418a8548c4a91dd17edee2ca1b64b"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_3/static_result.json",
+        "sha256": "sha256:1279d9d50039fd3a39be8b65b4dffe2a418c3e74351234555dad27e6ec7d03c4"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_5/key_run_01.json",
+        "sha256": "sha256:2872db7a2710196297a4a7030e55fa56ebd288f589765693f5a79ac3e9e08228"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_5/key_run_02.json",
+        "sha256": "sha256:5764da045b91a2268a8e4b55179235a1161dcd56cb3ca44d7601edf8096b521f"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_5/key_run_03.json",
+        "sha256": "sha256:ea768f7c22448197090226eb31b25e7db96aca4cea406d868fe5e0b72e7e16a0"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_5/trial_result.json",
+        "sha256": "sha256:981f4a08e7799c0508b81037278d7dd6f5bf378f1b27e0d3e35c87bac8261b04"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_6_scale38/key_run_01.json",
+        "sha256": "sha256:3b1de6649d16aa0ba7110bfed269623a9637c7f68f370d608ed9c60bd62ae15c"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_6_scale38/key_run_02.json",
+        "sha256": "sha256:9bcac92af74961631d76d17f525836e5662214267c65b53603c6b0a94cafeca3"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_6_scale38/key_run_03.json",
+        "sha256": "sha256:2e8e7776eb9da4506ccd56f1bbeb84ba88675a84e1a15b308d7ff59ea736e888"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_6_scale38/trial_result.json",
+        "sha256": "sha256:b309fdf648d541c4f64881f533d4b473abd31d79472c1857ce00fcceab8919fb"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_6_scale40/key_run_01.json",
+        "sha256": "sha256:ff05e3755e098a9a6af5ab1a5f211f098dc302950d17ad149bbbf929dc587eb3"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_6_scale40/key_run_02.json",
+        "sha256": "sha256:b352c4b7f553539e798aa4de52854d79ec72a3c84018c873731a862904960efa"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_6_scale40/key_run_03.json",
+        "sha256": "sha256:cbb726a9151e46e9254ebbaa4c89e2e9d42e644b7693683d3248d7d2a831948e"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_6_scale40/trial_result.json",
+        "sha256": "sha256:a55b887507624aa8e201dc4362b30cb15c518df4f5946ea9c44841ee1dea78a2"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_6_scale42/key_run_01.json",
+        "sha256": "sha256:66012e1377cf440e7048e8fc20473678be141727643448ef3a44fc599789f723"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_6_scale42/key_run_02.json",
+        "sha256": "sha256:45fa83fa7fbc4799ceaf347d2f60c4c67804e52f49a5c59e64f17c0af6ca1efb"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_6_scale42/key_run_03.json",
+        "sha256": "sha256:9831b260aecb0cd17fea63d284925c2cc7282d2519f2671d02de006e7e3998e6"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_6_scale42/trial_result.json",
+        "sha256": "sha256:399d2b54a8a7f2e9cbb8af0838674011a1bf453fed39c6bc4fb9dfd26eeb022c"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog_result.json",
+        "sha256": "sha256:9c1bd83af155ed55124b9aa0931fb62f46386c585efcb6e0ca5014bc513d4e03"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog_run_manifest.json",
+        "sha256": "sha256:453c00e23f00120a4a41d8023bfa4bae0c13abd98d13bb99dc197705111db259"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/locked_audit/key_run_01.json",
+        "sha256": "sha256:fd94a2ccadac49158939567f49acfe6a15ae999f0e75864e31003a2871567027"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/locked_audit/key_run_02.json",
+        "sha256": "sha256:eff7f02944f1f1b02fbb8d7603be9e443cafb7ee7d5a3cb8fb2cb22a3111b799"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/locked_audit/key_run_03.json",
+        "sha256": "sha256:b89a19961fcdca86580276984b4974b6fcf678ad120abf7cf0154aa9ced70016"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/locked_audit_result.json",
+        "sha256": "sha256:fe5b1508c567187de483ead74521e7e79b9de781dfb6700cead02583f1a4bbed"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/selection_result.json",
+        "sha256": "sha256:fa8a750da606c356dcd2c97eb84a43f5cbf95b5ba8d75cfa62e532b64d1dbfd8"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/selection_run_manifest.json",
+        "sha256": "sha256:f04ee29dcadfbaf0ae06d24cdcf55636459025587b447dfe1c37a4237f5cd86d"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/trial_01_synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140/key_run_01.json",
+        "sha256": "sha256:ebac9a5bf9084123f386518f5d2a1c55e3a137bac9068380a1df808ae08eeb0e"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/trial_01_synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140/key_run_02.json",
+        "sha256": "sha256:86dd635ff017549ceb9d1fa71232de260d93ab5bfb5039da410a975b7ca82260"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/trial_01_synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140/key_run_03.json",
+        "sha256": "sha256:5f6d60317f69ec5a93653522dc8f919adcf6924bb6336738f20124b8febbaef3"
+      },
+      {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/trial_01_synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140/trial_result.json",
+        "sha256": "sha256:e4482db5dc8691876c8fcc5970034c9f8c9cdf7d7b438a300cbc91648dd0e6e8"
+      }
+    ]
+  },
+  "schema_version": "flipguard_journal_multiclass_extension_results_v1",
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055"
+}

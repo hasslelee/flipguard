@@ -1,0 +1,199 @@
+{
+  "audit_retuning": 0,
+  "claim_scope": "two frozen MNIST standard-model adapters and 1,000 finite encrypted rows; not arbitrary packed CNN support",
+  "combined": {
+    "argmax_flips": 0,
+    "bounded_catalog_fastest_safe_model_coverage": "1/2",
+    "candidate_space_screening_reduction": 0.8571428571428572,
+    "configuration_validation_samples_per_model": 500,
+    "direct_repairs": 0,
+    "direct_selection_and_audit_encrypted_sample_evaluations": 6000,
+    "direct_selection_and_audit_key_runs": 12,
+    "direct_trials": 2,
+    "encrypted_executable_trial_reduction": 0.6666666666666667,
+    "locked_audit_samples_per_model": 500,
+    "models": 2,
+    "reserve_policy_rejections": 0,
+    "security_v2_bounded_catalog_denominator": 14,
+    "security_v2_bounded_catalog_encrypted_candidates": 6,
+    "security_v2_bounded_catalog_key_runs": 18
+  },
+  "execution_source_commit": "84b2493b3adacde10a5f49d5b90f7f6910812bf3",
+  "latency_claim_status": "DESCRIPTIVE_UNPAIRED_FOR_JOURNAL_EXTENSION; core RC2 paired claim is unchanged",
+  "models": {
+    "lenet5_small": {
+      "direct_selection": {
+        "argmax_flips": 0,
+        "candidate_id": "synth_analysis_minimum_rescale_N15_Q18_S44_3d9a3ac648cc",
+        "candidate_parameters": {
+          "log_default_scale": 44,
+          "log_n": 15,
+          "log_p": [
+            54
+          ],
+          "log_q": [
+            54,
+            44,
+            44,
+            44,
+            44,
+            44,
+            44,
+            44,
+            44,
+            44,
+            44,
+            44,
+            44,
+            44,
+            44,
+            44,
+            44,
+            44
+          ]
+        },
+        "encrypted_sample_evaluations": 1500,
+        "fresh_key_runs": 3,
+        "outcome": "SELECTED",
+        "repairs": 0,
+        "reserve_policy_rejections": 0,
+        "security": {
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap",
+          "admission_status": "PASS",
+          "ciphertext_headroom_bits": 66,
+          "ciphertext_q_admission": "PASS",
+          "declared_log_qp": 856,
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "evaluation_key_headroom_bits": 12,
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "headroom_bits": 12,
+          "log_p": 54,
+          "log_q": 802,
+          "log_qp": 856,
+          "max_allowed_log_qp": 868,
+          "target_bits": 128
+        },
+        "status": "SAFE",
+        "trials": 1
+      },
+      "locked_audit": {
+        "argmax_flips": 0,
+        "candidate_identity_match": true,
+        "encrypted_sample_evaluations": 1500,
+        "fresh_key_runs": 3,
+        "reserve_policy_rejections": 0,
+        "retuning_count": 0,
+        "status": "SAFE"
+      },
+      "model_id": "mnist_lenet5_small_square_v1",
+      "plaintext_accuracy": {
+        "configuration_validation": 0.988,
+        "locked_audit": 0.986
+      },
+      "security_v2_bounded_catalog": {
+        "encrypted_candidates": 0,
+        "failed": 0,
+        "fastest_safe_mean_total_ms": 0,
+        "fastest_safe_profile": "",
+        "formal_denominator": 7,
+        "plan_unsupported": 7,
+        "rejected": 0,
+        "safe": 0
+      }
+    },
+    "mlp_100": {
+      "direct_selection": {
+        "argmax_flips": 0,
+        "candidate_id": "synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140",
+        "candidate_parameters": {
+          "log_default_scale": 29,
+          "log_n": 13,
+          "log_p": [
+            39
+          ],
+          "log_q": [
+            39,
+            29,
+            29,
+            29,
+            29
+          ]
+        },
+        "encrypted_sample_evaluations": 1500,
+        "fresh_key_runs": 3,
+        "outcome": "SELECTED",
+        "repairs": 0,
+        "reserve_policy_rejections": 0,
+        "security": {
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap",
+          "admission_status": "PASS",
+          "ciphertext_headroom_bits": 59,
+          "ciphertext_q_admission": "PASS",
+          "declared_log_qp": 194,
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "evaluation_key_headroom_bits": 20,
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "headroom_bits": 20,
+          "log_p": 39,
+          "log_q": 155,
+          "log_qp": 194,
+          "max_allowed_log_qp": 214,
+          "target_bits": 128
+        },
+        "status": "SAFE",
+        "trials": 1
+      },
+      "locked_audit": {
+        "argmax_flips": 0,
+        "candidate_identity_match": true,
+        "encrypted_sample_evaluations": 1500,
+        "fresh_key_runs": 3,
+        "reserve_policy_rejections": 0,
+        "retuning_count": 0,
+        "status": "SAFE"
+      },
+      "model_id": "mnist_mlp_square_784_100_10_v1",
+      "plaintext_accuracy": {
+        "configuration_validation": 0.97,
+        "locked_audit": 0.976
+      },
+      "security_v2_bounded_catalog": {
+        "encrypted_candidates": 6,
+        "failed": 0,
+        "fastest_safe_mean_total_ms": 40038.20248966666,
+        "fastest_safe_profile": "short_chain_5",
+        "formal_denominator": 7,
+        "plan_unsupported": 1,
+        "rejected": 0,
+        "safe": 6
+      }
+    }
+  },
+  "negative_results": [
+    {
+      "component": "security_v2_bounded_catalog",
+      "model_name": "mlp_100",
+      "policy_modified": false,
+      "reason": "1 of 7 admitted profiles lack the required Q levels",
+      "result_class": "BOUNDED_CATALOG_PLAN_UNSUPPORTED"
+    },
+    {
+      "component": "graph_only_fixed_logit_tolerance_0.001",
+      "model_name": "lenet5_small",
+      "policy_modified": false,
+      "reason": "no admitted ring dimension for declared logQP=894 required_slots=500 within LogN=[12,15]",
+      "result_class": "PLAN_UNSUPPORTED_SECURITY_ENVELOPE"
+    },
+    {
+      "component": "security_v2_bounded_catalog",
+      "model_name": "lenet5_small",
+      "policy_modified": false,
+      "reason": "7 of 7 admitted profiles lack the required Q levels",
+      "result_class": "BOUNDED_CATALOG_PLAN_UNSUPPORTED"
+    }
+  ],
+  "policy_retuning": 0,
+  "schema_version": "flipguard_journal_multiclass_extension_results_v1"
+}

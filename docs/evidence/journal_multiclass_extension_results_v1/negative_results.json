@@ -1,0 +1,26 @@
+{
+  "results": [
+    {
+      "component": "security_v2_bounded_catalog",
+      "model_name": "mlp_100",
+      "policy_modified": false,
+      "reason": "1 of 7 admitted profiles lack the required Q levels",
+      "result_class": "BOUNDED_CATALOG_PLAN_UNSUPPORTED"
+    },
+    {
+      "component": "graph_only_fixed_logit_tolerance_0.001",
+      "model_name": "lenet5_small",
+      "policy_modified": false,
+      "reason": "no admitted ring dimension for declared logQP=894 required_slots=500 within LogN=[12,15]",
+      "result_class": "PLAN_UNSUPPORTED_SECURITY_ENVELOPE"
+    },
+    {
+      "component": "security_v2_bounded_catalog",
+      "model_name": "lenet5_small",
+      "policy_modified": false,
+      "reason": "7 of 7 admitted profiles lack the required Q levels",
+      "result_class": "BOUNDED_CATALOG_PLAN_UNSUPPORTED"
+    }
+  ],
+  "schema_version": "flipguard_journal_multiclass_extension_results_v1"
+}
