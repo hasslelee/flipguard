@@ -232,11 +232,14 @@ func loadFastestSafeCatalog(path string) (string, candidate, error) {
 func materialize(source sourceCandidate, policy ckksplanner.SecurityEnvelope) (materializedCandidate, error) {
 	literal := ckks.ParametersLiteral{
 		LogN:            source.Value.Parameters.LogN,
-		Q:               append([]uint64(nil), source.Value.Parameters.Q...),
-		P:               append([]uint64(nil), source.Value.Parameters.P...),
-		LogQ:            append([]int(nil), source.Value.Parameters.LogQ...),
-		LogP:            append([]int(nil), source.Value.Parameters.LogP...),
 		LogDefaultScale: source.Value.Parameters.LogDefaultScale,
+	}
+	if len(source.Value.Parameters.Q) > 0 || len(source.Value.Parameters.P) > 0 {
+		literal.Q = append([]uint64(nil), source.Value.Parameters.Q...)
+		literal.P = append([]uint64(nil), source.Value.Parameters.P...)
+	} else {
+		literal.LogQ = append([]int(nil), source.Value.Parameters.LogQ...)
+		literal.LogP = append([]int(nil), source.Value.Parameters.LogP...)
 	}
 	params, err := ckks.NewParametersFromLiteral(literal)
 	if err != nil {
