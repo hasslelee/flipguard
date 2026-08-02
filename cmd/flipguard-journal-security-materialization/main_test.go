@@ -41,3 +41,36 @@ func TestMaterializeExactModuli(t *testing.T) {
 		t.Fatalf("expected Security-V2 PASS, got %s", record.SecurityPolicy.FinalAdmission)
 	}
 }
+
+func TestMaterializePreservesConcretePrimes(t *testing.T) {
+	policy := ckksplanner.DefaultSecurityEnvelope()
+	source := sourceCandidate{
+		ModelID: "test",
+		Arm:     "catalog",
+		Value: candidate{
+			ID:   "concrete-candidate",
+			Path: "rescale",
+			Parameters: ckksplanner.CKKSParameterLiteralSpec{
+				LogN:            13,
+				Q:               []uint64{549755731969, 536903681},
+				P:               []uint64{549756026881},
+				LogDefaultScale: 29,
+			},
+		},
+	}
+	security, err := ckksplanner.AssessConcreteSecurity(source.Value.Parameters, 128, policy)
+	if err != nil {
+		t.Fatal(err)
+	}
+	source.Value.Security = security
+	record, err := materialize(source, policy)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if record.ExactQPrimes[0] != source.Value.Parameters.Q[0] || record.ExactPPrimes[0] != source.Value.Parameters.P[0] {
+		t.Fatalf("concrete primes changed: Q=%v P=%v", record.ExactQPrimes, record.ExactPPrimes)
+	}
+	if record.SecurityPolicy.Measurement != "ceil_log2_concrete_modulus_product" {
+		t.Fatalf("unexpected measurement: %s", record.SecurityPolicy.Measurement)
+	}
+}
