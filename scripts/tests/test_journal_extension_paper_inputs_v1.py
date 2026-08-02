@@ -36,6 +36,26 @@ class JournalExtensionPaperInputsTest(unittest.TestCase):
     def test_svg_escapes_text(self):
         self.assertIn("a &lt; b", MODULE.svg_text(1, 2, "a < b"))
 
+    def test_operation_count_upper_accepts_integer_and_frozen_range(self):
+        self.assertEqual(MODULE.operation_count_upper(421984), 421984.0)
+        self.assertEqual(MODULE.operation_count_upper("24-72"), 72.0)
+
+    def test_operation_count_upper_rejects_malformed_values(self):
+        for value in [True, -1, "72-24", "about 72"]:
+            with self.subTest(value=value):
+                with self.assertRaises(RuntimeError):
+                    MODULE.operation_count_upper(value)
+
+    def test_display_output_path_supports_external_qa_root(self):
+        self.assertEqual(
+            MODULE.display_output_path(Path("/tmp/paper-qa"), ROOT),
+            "/tmp/paper-qa",
+        )
+        self.assertEqual(
+            MODULE.display_output_path(ROOT / "results/paper", ROOT),
+            "results/paper",
+        )
+
     def test_overclaim_scan_rejects_affirmative_claims(self):
         findings = VERIFY_MODULE.prohibited_overclaims(
             {"table.md": "FlipGuard reaches the global optimum and production speedup."}

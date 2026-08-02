@@ -61,6 +61,28 @@ def extract_first_table(text: str, required_header: str) -> str:
     return "\n".join(lines[start:end]) + "\n"
 
 
+def operation_count_upper(value: object) -> float:
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        numeric = float(value)
+        require(math.isfinite(numeric) and numeric >= 0, "invalid numeric operation count")
+        return numeric
+    if isinstance(value, str):
+        parts = value.split("-")
+        require(len(parts) in {1, 2} and all(part.isdigit() for part in parts), "invalid operation-count range")
+        lower = int(parts[0])
+        upper = int(parts[-1])
+        require(lower <= upper, "descending operation-count range")
+        return float(upper)
+    raise RuntimeError("unsupported operation-count type")
+
+
+def display_output_path(output: Path, root: Path) -> str:
+    try:
+        return str(output.relative_to(root))
+    except ValueError:
+        return str(output)
+
+
 def svg_start(title: str, description: str, width: int = 1200, height: int = 700, data: str = "") -> list[str]:
     return [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc" {data}>',
@@ -184,11 +206,11 @@ def build_figures(summary: dict, activation: dict, scale_rows: list[dict], gap_r
     figures["figures/figure_03_benchmark_comparison.svg"] = close_svg(lines)
 
     lines = svg_start("Controlled graph-scale points", "Operation counts and selected CKKS literal scale across three disclosed graph points.")
-    maximum = max(float(row["mul_ops"].split("-")[-1]) for row in scale_rows)
+    maximum = max(operation_count_upper(row["mul_ops"]) for row in scale_rows)
     colors = ["#2563eb", "#16a34a", "#d97706"]
     for index, (row, color) in enumerate(zip(scale_rows, colors)):
         y = 150 + index * 160
-        value = float(row["mul_ops"].split("-")[-1])
+        value = operation_count_upper(row["mul_ops"])
         width = 820 * math.log10(value + 1) / math.log10(maximum + 1)
         lines.append(svg_text(65, y, row["model"], 19, 700))
         lines.append(f'<rect x="285" y="{y-27}" width="{width:.1f}" height="42" fill="{color}"/>')
@@ -482,7 +504,7 @@ def main() -> None:
     (output / "SHA256SUMS").write_text(
         "".join(f"{digest(output / name)[7:]}  {name}\n" for name in names), encoding="ascii"
     )
-    print(f"wrote {output.relative_to(root)}")
+    print(f"wrote {display_output_path(output, root)}")
     print("manifest_sha256=" + digest(output / "manifest.json"))
 
 
