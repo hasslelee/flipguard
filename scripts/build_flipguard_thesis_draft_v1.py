@@ -32,6 +32,7 @@ CLAIMS = Path("docs/evidence/paper_claim_admission_v1/claims.json")
 RC2_BINDING = Path("docs/evidence/research_release_binding_rc2_v1/manifest.json")
 FULL_SOURCE = Path("docs/thesis/flipguard_thesis_draft_ko_v1.md")
 TRACE_SOURCE = Path("docs/thesis/claim_traceability.csv")
+AUTHORITATIVE_THESIS_BRANCH = "thesis/flipguard-draft-v1"
 MARKER_RE = re.compile(r"<!--\s*P:([A-Z0-9-]+)\s+CLAIM:([a-z0-9_,]+)\s*-->")
 CLAIM_ASSET = {
     "scoped_direct_synthesis": "Figure 1",
@@ -222,7 +223,6 @@ def render_markers(text: str, artifact: bool) -> str:
 
 def metadata(source_commit: str, timestamp: str) -> str:
     registry = read_json(SOURCE / "number_registry.json")
-    branch = git_value("branch", "--show-current")
     return f"""# 결정 무결성 계약 기반 CKKS 실행 구성 직접 합성 및 검증 기법
 
 **English title:** FlipGuard: Decision-Integrity-Aware Direct Synthesis and Validation of CKKS Configurations
@@ -241,7 +241,7 @@ def metadata(source_commit: str, timestamp: str) -> str:
 
 **Draft build timestamp:** `{timestamp}`
 
-**Thesis branch/commit:** `{branch}` / `{source_commit}`
+**Thesis branch/commit:** `{AUTHORITATIVE_THESIS_BRANCH}` / `{source_commit}`
 
 **University formatting status:** CONTENT_COMPLETE_TEMPLATE_PENDING
 """
@@ -364,7 +364,7 @@ def build(output: Path, source_commit: str, refresh_sources: bool) -> dict[str, 
             "file_count": len(source_closure_paths()),
             "sha256": f"sha256:{closure_digest}",
         },
-        "thesis_branch": git_value("branch", "--show-current"),
+        "thesis_branch": AUTHORITATIVE_THESIS_BRANCH,
         "build_timestamp": timestamp,
         "rc2_source_commit": read_json(SOURCE / "number_registry.json")["rc2_source_commit"],
         "inputs": {

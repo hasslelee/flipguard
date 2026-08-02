@@ -20,6 +20,12 @@ SPEC.loader.exec_module(MODULE)
 
 
 class ThesisDraftBuilderTest(unittest.TestCase):
+    def test_authoritative_branch_is_stable_on_descendant_research_branches(self) -> None:
+        self.assertEqual(
+            MODULE.AUTHORITATIVE_THESIS_BRANCH,
+            "thesis/flipguard-draft-v1",
+        )
+
     def test_claim_traceability_covers_all_admitted_claims(self) -> None:
         rows = MODULE.claim_traceability_rows(MODULE.canonical_commit("HEAD"))
         claim_ids = {row["claim_id"] for row in rows}
