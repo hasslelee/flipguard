@@ -61,6 +61,7 @@ PDFs are not vendored into the repository.
 | ELASM | `8c1ad29a2b8e7f43ed265a55576dc73c0569bf7d354dfd202746579f338b605f` | Sections 7.1-7.2 | 4,096/16,384 non-DL inputs; one random MNIST input for DL; 12,000 scale-plan samples; `N=2^15` setting |
 | DaCapo | `20c7e84518987441d6b08ad1943f8cf3953423b70db7d64b5382859e764d0803` | Table 3 and Table 5 | 1,000 CIFAR-10 images for accuracy validation; 52-662 candidates across the reported networks |
 | AutoFHE | `f340cc685e8559a86bcd7f2769f7550271dcac957fcd777aca9665293d95e8f7` | Section 6 parameters and Tables 4-5 | 10 generations; populations 10/20/30/40; offspring `6x`; 10,000 encrypted validation images; 96-image latency unit |
+| FHE-Agent | `347360507b510bfd66fa16abbd1d409f132593af282da1c5022721e830d82511` | Sections 4-5 and Table 1 | Orion/Lattigo v5.0.2 prototype; MLP/LeNet/LoLa/AlexNet; ten one-shot prompts; multi-fidelity static/light/full evaluation; preprint status |
 
 ## Implementation requirement
 

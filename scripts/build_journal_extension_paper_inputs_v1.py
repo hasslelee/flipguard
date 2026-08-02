@@ -169,9 +169,9 @@ def build_figures(summary: dict, activation: dict, scale_rows: list[dict], gap_r
     for x, header in zip(xs, headers):
         lines.append(svg_text(x, 105, header, 15, 700, "middle" if x > 70 else "start"))
     matrix = [
-        ("EVA", [1, 0, 0, 0, 1]), ("HECATE", [1, 0, 0, 0, 1]), ("ELASM", [1, 0, 0, 0, 1]),
-        ("DaCapo", [1, 1, 0, 0, 1]), ("AutoFHE", [1, 1, 0, 0, 1]),
-        ("FHE-Agent", [1, 1, 1, 0, 1]), ("FlipGuard extension", [1, 1, 1, 1, 1]),
+        ("EVA", [1, 0, 0, 0, 0]), ("HECATE", [1, 0, 0, 0, 1]), ("ELASM", [1, 0, 0, 0, 1]),
+        ("DaCapo", [1, 0, 0, 0, 1]), ("AutoFHE", [1, 0, 0, 0, 1]),
+        ("FHE-Agent", [1, 0, 0, 0, 1]), ("FlipGuard extension", [1, 1, 1, 1, 1]),
     ]
     for row_index, (work, values) in enumerate(matrix):
         y = 145 + row_index * 68
