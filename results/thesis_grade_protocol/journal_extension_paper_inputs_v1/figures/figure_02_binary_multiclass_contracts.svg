@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc" >
+<title id="title">Binary threshold and multiclass argmax contracts</title>
+<desc id="desc">The theorem condition is separated from the predeclared 50-percent utilization policy.</desc>
+<rect width="1200" height="700" fill="#ffffff"/>
+<text x="55" y="58" font-family="sans-serif" font-size="30" font-weight="700" fill="#111827">Binary threshold and multiclass argmax contracts</text>
+<rect x="60.0" y="105.0" width="510.0" height="480.0" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+<text x="315.0" y="139.0" font-family="sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#111827">Binary threshold</text>
+<text x="315.0" y="169.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">m(x) = |f_plain(x) - tau|</text>
+<text x="315.0" y="194.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">e(x) = |f_ckks(x) - f_plain(x)|</text>
+<text x="315.0" y="219.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">e(x) &lt; m(x) =&gt; decision preserved</text>
+<text x="315.0" y="244.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">operational: e(x) &lt; rho m(x)</text>
+<text x="315.0" y="269.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">primary rho = 0.5 (policy, not theorem)</text>
+<rect x="630.0" y="105.0" width="510.0" height="480.0" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+<text x="885.0" y="139.0" font-family="sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#111827">Multiclass argmax</text>
+<text x="885.0" y="169.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">c* = argmax_k z_k</text>
+<text x="885.0" y="194.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">for every j != c*:</text>
+<text x="885.0" y="219.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">z_c* - z_j &gt; B_c* + B_j</text>
+<text x="885.0" y="244.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">=&gt; argmax_k zhat_k = c*</text>
+<text x="885.0" y="269.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">uniform bound: 2B &lt; top-two gap</text>
+<text x="885.0" y="294.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">ties and non-finite values are rejected</text>
+<text x="600.0" y="635.0" font-family="sans-serif" font-size="18" font-weight="600" text-anchor="middle" fill="#991b1b">Strict inequalities are required; equality does not rule out an approximate tie.</text>
+</svg>
