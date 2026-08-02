@@ -30,27 +30,28 @@ probabilities.
 
 Scale: 0-10 per category.
 
-| Category | Current RC2 | Expected after mandatory extension | Evidence for current score | Reviewer objection | Required response |
+| Category | Current RC2 | Actual after mandatory extension | Evidence for extension score | Remaining reviewer objection | Required response |
 |---|---:|---:|---|---|---|
-| Problem/novelty | 8.0 | 8.3 | candidate-source-independent decision gate, NO_SAFE, locked audit | direct synthesis and repair have close prior art | lead with decision-integrity layer and avoid firstness |
-| Formal clarity | 7.4 | 8.8 | binary `e<m` theorem and reserve-policy split | threshold-only definition looks narrow | add proved multiclass argmax proposition and strict boundary |
-| Implementation | 8.8 | 9.1 | Go/Lattigo direct execution, immutable policies, verifiers | primary adapters are scalar/tabular | add generic ten-logit and convolution adapters without policy retuning |
-| Experimental rigor | 9.2 | 9.3 | frozen roles, security filtering, locked audit, paired protocol | deterministic partitions can be overread | preserve units and add class/gap-bin audit |
-| Breadth | 6.8 | 8.5 | polynomial, Sobel/Harris, CNN-lite, training-seed overlays | main evidence still centered on two simple scalar graphs | complete MLP-100 and LeNet-5-small encrypted evidence |
-| Reproducibility | 9.5 | 9.5 | RC2, V3/V10, source replay, SHA/verifiers | extension could become an unbound add-on | freeze new protocol, source/model/split digest, resume ledger |
-| Communication | 8.0 | 8.8 | authoritative thesis and claim registry | experiment scale is hard to explain quickly | use the non-expert hierarchy and compact standard-benchmark tables |
+| Problem/novelty | 8.0 | 8.3 | provider-independent gate plus one observed natural-gap literal effect | direct synthesis and repair have close prior art | lead with the combined decision-integrity workflow and avoid firstness |
+| Formal clarity | 7.4 | 8.8 | proved strict multiclass argmax proposition, tie/NaN/Inf semantics, reserve split | empirical error is not an instantiated analytical CKKS bound | separate theorem, operational policy, and finite observation |
+| Implementation | 8.8 | 9.1 | MLP-100 and convolution/average-pool LeNet execute in Lattigo without policy retuning | feature-ciphertext sample slots are not packed production inference | disclose adapter and packing scope exactly |
+| Experimental rigor | 9.2 | 9.3 | frozen 500/500 split, three fresh keys, 0 overlap, 0 retuning, class/gap bins | one dataset and one training seed in the new benchmark | retain finite-scope wording and preserve RC2 seed extension separately |
+| Breadth | 6.8 | 8.4 | both mandatory standard models selected and audit SAFE; graph scale reaches depth 4 | LeNet catalog coverage is 0/7 and no packed/deeper modern CNN | report static unsupported result and limit the extension claim |
+| Reproducibility | 9.5 | 9.5 | exact model/source/split/binary digests, resumable key ledgers, deterministic freeze | large raw ledgers increase artifact cost | retain verifier and manifest-only navigation |
+| Communication | 8.0 | 8.8 | experiment hierarchy, exact unit table, negative-result taxonomy | many accounting units remain easy to conflate | lead with proposition, two model rows, and 14-versus-6 distinction |
 
-Aggregate diagnostic: current `57.7/70`; expected after a complete, honest
-mandatory extension `62.3/70`. The expected score drops rather than being
-silently retained if either standard model is only simulated, security
-inadmissible, or not audited.
+Aggregate diagnostic: RC2 `57.7/70`; actual journal extension `62.2/70`.
+The one-tenth gap from the predeclared `62.3/70` target reflects the valid but
+important negative result that no Security-V2 bounded-catalog profile has
+enough levels for the frozen LeNet graph. These are reviewer-quality scores,
+not acceptance or award probabilities.
 
 Readiness interpretation:
 
-- JKIISC journal readiness: current core is viable; multiclass extension would
-  materially strengthen breadth and formal clarity.
-- CISC excellent-paper range: plausible only with a concise proposition,
-  standard benchmark, and a clear demonstration; no award prediction is made.
+- JKIISC journal readiness: the extension materially strengthens formal
+  clarity and standard-model breadth; concise presentation remains necessary.
+- CISC excellent-paper range: the artifact is competitively scoped when led by
+  the proposition and standard benchmarks; no award prediction is made.
 - CISC top-award range: not asserted; presentation, reviewer mix, novelty
   perception, and competing submissions are unknown.
 - International workshop: artifact rigor is strong; model breadth and direct
@@ -58,9 +59,8 @@ Readiness interpretation:
 
 ## Falsification test
 
-The competitiveness estimate must be lowered if the extension changes frozen
-policy constants, tunes on locked audit, labels a custom reduced CNN as full
-LeNet without disclosure, lacks a standard baseline denominator, or cannot
-rebuild exact model/input evidence. A negative multiclass result may lower
-breadth support but is more credible than a post-hoc successful graph.
-
+The score is falsified if any frozen policy constant changed, audit informed
+selection, the disclosed adapter is relabeled as full/packed LeNet, the
+14-candidate formal denominator is presented as 14 encrypted executions, or
+the exact model/input evidence cannot be rebuilt. The LeNet 0/7 executable
+catalog result must remain visible; deleting it would invalidate the score.

@@ -68,7 +68,19 @@ Journal extension은 이 통제된 연구를 지우지 않는다. 대신 표준 
 10-class MLP와 square/average-pool LeNet을 추가하고, binary threshold 조건을
 top-two argmax gap 조건으로 확장한다. 따라서 “dataset 이름을 많이 늘렸다”가
 아니라 “결정 계약과 graph scale을 표준 multiclass architecture에서 반증
-가능하게 시험했다”가 목표다.
+가능하게 시험했다”가 목표다. 두 모델은 각각 한 번의 direct trial, repair 0으로
+validation SAFE가 됐고, 같은 literal을 세 fresh key의 disjoint audit에 재생해
+둘 다 SAFE, argmax flip 0, reserve-policy reject 0, retuning 0을 기록했다.
+두 모델의 direct selection과 audit 합계는 12 key runs와 6,000 encrypted sample
+evaluations이다. 다만 formal catalog 14개 중 실제 실행 가능한 후보는 MLP의
+6개뿐이고 LeNet은 7/7이 level 부족으로 static unsupported였다.
+
+Natural top-two-gap activation도 사전 정의한 A 조건을 만족했다. MLP의 frozen
+gap contract는 `N13/Q5/S29`, graph-only fixed tolerance `0.001`은
+`N13/Q5/S32`를 합성했고, 두 literal 모두 Security-V2 admission과 encrypted
+validation을 통과했다. 이 결과는 한 MNIST MLP validation scope에서 decision
+contract가 literal을 바꾼 증거이지, 모든 자연 데이터의 보편적 activation
+증거는 아니다.
 
 ### Three-minute oral explanation
 
@@ -88,9 +100,10 @@ top-two argmax gap 조건으로 확장한다. 따라서 “dataset 이름을 많
    억지 선택하지 않는지 확인합니다.
 6. 5,400개 latency record는 10개 cluster를 통계 단위로 분석했습니다. 더 깊은
    polynomial, 영상 연산, CNN-lite, 독립 training seed도 별도 scope로 시험했습니다.
-7. 남은 약점은 표준 multiclass graph입니다. Journal extension은 MNIST
-   MLP-100과 LeNet-5-small에서 argmax gap 정리, encrypted validation, locked
-   audit을 그대로 적용합니다. 결과가 REJECT나 NO_SAFE여도 숨기지 않습니다.
+7. Journal extension은 MNIST MLP-100과 LeNet-5-small에 argmax gap 정리,
+   encrypted validation, locked audit을 그대로 적용했습니다. 두 모델은 audit
+   SAFE였지만 LeNet bounded catalog 7개는 모두 static unsupported였습니다.
+   따라서 arbitrary packed CNN이나 paired extension speedup은 주장하지 않습니다.
 
 ### Detailed experiment-scale table
 
@@ -100,17 +113,22 @@ top-two argmax gap 조건으로 확장한다. 따라서 “dataset 이름을 많
 | Primary graph families | 2 | linear/poly and square-MLP families |
 | Dataset-model workloads | 10 | primary cluster unit |
 | Deterministic partitions | 5 per workload | repeated partitions of fixed artifacts |
-| Workload-partition instances | 50 | not 50 independent workloads |
+| Workload-partition instances | 50 | repeated-partition instances; independence is not claimed |
 | Formal Security-V2 catalog | 700 | 7 admitted profiles x 2 paths x 50 |
 | Direct candidate trials | 70 | formal all-instance tuning work |
 | Confirmatory trial comparison | 56 / 560 | seeds 1-4 only; 90% reduction |
 | Locked audit | 40 + 10 | confirmatory plus development; retuning 0 |
-| Paired latency records | 5,400 | three arms x 50 x six passes x repetitions/order design |
+| Paired latency records | 5,400 | 3 arms x 50 instances x 6 measurement runs x 6 selected rows |
 | NO_SAFE controls | 90 | budget controls 40 plus finite-domain 50 |
 | Structural polynomial instances | 25 | 25 selected; audit 24 pass and 1 reserve reject |
 | Sobel/Harris/CNN-lite observations | 1,700 | scoped non-tabular encrypted observations |
 | Independent training models | 9 | 3 datasets x 3 independent training/data seeds |
 | Security profiles | 7 / 4 | admitted / excluded from 11 profiles |
+| Journal standard models | 2 | MLP-100 and disclosed FHE-compatible LeNet-5-small |
+| Journal direct trials / repairs | 2 / 0 | one first-SAFE direct trial per model |
+| Journal direct selection/audit | 12 keys / 6,000 evaluations | two models x two roles x three fresh keys x 500 images |
+| Journal bounded catalog | 14 formal / 6 executable | MLP 6/7 executable; LeNet 0/7 executable |
+| Journal graph-only comparator | 1 trial / 3 keys / 1,500 evaluations | MLP only; LeNet was Security-V2 plan-unsupported |
 
 ## Falsification test
 
@@ -118,4 +136,3 @@ The explainer fails if it calls the 50 primary rows independent, uses 1,100 as
 the Security-V2 denominator, merges seed 0 into confirmatory claims, presents
 NO_SAFE as global infeasibility, treats 5,400 latency records as independent
 samples, or hides the structural reserve-policy rejection.
-
