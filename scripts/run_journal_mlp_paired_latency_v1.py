@@ -14,7 +14,7 @@ from pathlib import Path
 from verify_journal_mlp_paired_latency_protocol_v1 import verify
 
 
-PROTOCOL = Path("docs/evidence/journal_mlp_paired_latency_protocol_v1_2")
+PROTOCOL = Path("docs/evidence/journal_mlp_paired_latency_protocol_v1_3")
 DEFAULT_OUTPUT = Path("results/journal_mlp_paired_latency_v1/execution")
 
 
@@ -94,6 +94,20 @@ def main() -> int:
         ["git", "diff", "--cached", "--quiet"], cwd=repo
     ).returncode != 0:
         raise RuntimeError("execution requires a clean tracked working tree")
+    preflight = subprocess.run(
+        [
+            str(binary), "--protocol", str(protocol_pack / "execution_protocol.json"),
+            "--keyset", "1", "--attempt", "1", "--preflight-only",
+        ],
+        cwd=repo,
+        capture_output=True,
+        text=True,
+    )
+    if preflight.returncode != 0:
+        raise RuntimeError(
+            "binary preflight failed before attempt creation: "
+            + preflight.stdout + preflight.stderr
+        )
 
     output.mkdir(parents=True, exist_ok=True)
     expected_per_keyset = len(protocol["selected_rows"]) * len(protocol["arms"]) * protocol["measurement_runs"]

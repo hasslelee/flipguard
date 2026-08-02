@@ -192,6 +192,12 @@ def build(
             "status": "PRESERVED_RECOVERABLE_IMPLEMENTATION_FAILURE",
             "reason": "copied verifier did not default to its own pack; encrypted measurement records=0",
         }
+    elif protocol_id.endswith("_v1_3"):
+        manifest["predecessor"] = {
+            "path": "docs/evidence/journal_mlp_paired_latency_protocol_v1_2",
+            "status": "PRESERVED_RECOVERABLE_IMPLEMENTATION_FAILURE",
+            "reason": "strict parser omitted selected-row rank evidence; encrypted measurement records=0",
+        }
     (output / "manifest.json").write_text(canonical(manifest), encoding="utf-8")
     sums = []
     for path in sorted(output.rglob("*")):

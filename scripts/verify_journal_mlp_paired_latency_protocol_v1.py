@@ -90,6 +90,7 @@ def verify(pack: Path, repo: Path) -> dict:
             "journal_mlp100_paired_latency_amendment_v1",
             "journal_mlp100_paired_latency_amendment_v1_1",
             "journal_mlp100_paired_latency_amendment_v1_2",
+            "journal_mlp100_paired_latency_amendment_v1_3",
         },
         "protocol ID",
     )
@@ -136,7 +137,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     default_pack = Path(__file__).resolve().parent
     if default_pack.name == "scripts":
-        default_pack = Path("docs/evidence/journal_mlp_paired_latency_protocol_v1_2")
+        default_pack = Path("docs/evidence/journal_mlp_paired_latency_protocol_v1_3")
     parser.add_argument("--pack", type=Path, default=default_pack)
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     args = parser.parse_args()

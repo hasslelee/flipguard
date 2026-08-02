@@ -43,6 +43,7 @@ type subsetRow struct {
 	SampleID    string `json:"sample_id"`
 	SourceIndex int    `json:"source_index"`
 	Label       int    `json:"label"`
+	SHA256Rank  string `json:"sha256_rank"`
 }
 
 type executionProtocol struct {
@@ -108,11 +109,12 @@ func run(args []string) error {
 	outputRoot := flags.String("output", "", "new append-only keyset attempt directory")
 	keyset := flags.Int("keyset", 0, "one-based fresh-keyset process block")
 	attempt := flags.Int("attempt", 1, "one-based preserved process attempt")
+	preflightOnly := flags.Bool("preflight-only", false, "validate protocol, bindings, binary, and arm literals without CKKS execution")
 	if err := flags.Parse(args); err != nil {
 		return err
 	}
-	if *protocolPath == "" || *outputRoot == "" || *keyset <= 0 || *attempt <= 0 {
-		return fmt.Errorf("--protocol, --output, positive --keyset, and positive --attempt are required")
+	if *protocolPath == "" || (!*preflightOnly && *outputRoot == "") || *keyset <= 0 || *attempt <= 0 {
+		return fmt.Errorf("--protocol, positive --keyset/--attempt, and --output outside preflight are required")
 	}
 	if flags.NArg() != 0 {
 		return fmt.Errorf("unexpected positional arguments: %v", flags.Args())
@@ -147,6 +149,14 @@ func run(args []string) error {
 			return fmt.Errorf("input binding mismatch for %s: got %s expected %s error=%v", item.Path, actual, item.SHA256, err)
 		}
 	}
+	arms, err := runtimeArms(protocol.Arms)
+	if err != nil {
+		return err
+	}
+	if *preflightOnly {
+		fmt.Printf("journal_mlp_paired_latency_preflight=PASS protocol=%s arms=%d rows=%d\n", protocol.ProtocolID, len(arms), len(protocol.SelectedRows))
+		return nil
+	}
 	if _, err := os.Stat(*outputRoot); !errors.Is(err, os.ErrNotExist) {
 		return fmt.Errorf("refusing to overwrite output root %s", *outputRoot)
 	}
@@ -172,10 +182,6 @@ func run(args []string) error {
 		return err
 	}
 
-	arms, err := runtimeArms(protocol.Arms)
-	if err != nil {
-		return err
-	}
 	rowIDs := make([]int, len(protocol.SelectedRows))
 	for index, row := range protocol.SelectedRows {
 		rowIDs[index] = row.RowID

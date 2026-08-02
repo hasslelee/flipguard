@@ -9,7 +9,7 @@ func validTestProtocol() executionProtocol {
 			rows = append(rows, subsetRow{
 				Rank: index + 1, RowID: label*10 + index,
 				SampleID: "sample", SourceIndex: 60000 + label*10 + index,
-				Label: label,
+				Label: label, SHA256Rank: "rank",
 			})
 		}
 	}
