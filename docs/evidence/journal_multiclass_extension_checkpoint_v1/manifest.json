@@ -1,0 +1,77 @@
+{
+  "checkpoint_sha256": "sha256:08ea1f0c220b9bddd47e5dad41b851b78626dc6d8a5b5746e58da63e4fecc62c",
+  "generated_files": {
+    "README.md": {
+      "sha256": "sha256:581abc6b5f946f12925f4949027cc6967c583c028f2195f83d4e0576ffab59b7"
+    },
+    "checkpoint.json": {
+      "sha256": "sha256:08ea1f0c220b9bddd47e5dad41b851b78626dc6d8a5b5746e58da63e4fecc62c"
+    },
+    "verify_journal_multiclass_extension_checkpoint_v1.py": {
+      "sha256": "sha256:9f43a18518e04e8f586049528256d734227c17f0f0a70d8eaa57516d38abe40b"
+    }
+  },
+  "input_bindings": [
+    {
+      "path": "docs/evidence/journal_multiclass_extension_v1/protocol_manifest.json",
+      "sha256": "sha256:caf39e2b38f8c1a46bb1fece30d68d758b613e2459e51e6af9898e535620b269"
+    },
+    {
+      "path": "docs/evidence/journal_multiclass_extension_v1/model_architectures.json",
+      "sha256": "sha256:d5d17fefc6a9a70f80525f314963dc49a34b8a03452c6e36d22d144c191eb591"
+    },
+    {
+      "path": "docs/evidence/journal_multiclass_extension_v1/input_split_manifest.json",
+      "sha256": "sha256:2f41f89db657950cddda25b42ed7f06570433cc20b3e06f9aafe731f712b78f8"
+    },
+    {
+      "path": "docs/evidence/journal_multiclass_extension_v1/multiclass_contract.json",
+      "sha256": "sha256:384711ff02db144278952a92618ee579d46b8a4c8b396c699e979da9f0b5feab"
+    },
+    {
+      "path": "docs/evidence/journal_multiclass_extension_results_v1/manifest.json",
+      "sha256": "sha256:0ef359c9df347752d01b11ff07119dda206d111a48f6a63b0268adfac5ef35c5"
+    },
+    {
+      "path": "docs/evidence/journal_multiclass_extension_results_v1/summary.json",
+      "sha256": "sha256:ed46298b45f62474b518baf8099c41630618896b26c520a1c2aec6fb54b68911"
+    },
+    {
+      "path": "docs/evidence/journal_multiclass_activation_v1/manifest.json",
+      "sha256": "sha256:ff19d9c8a92e4c0063b314c2f0d975664370ce57802d49a01a0487a90ea3f94e"
+    },
+    {
+      "path": "docs/evidence/journal_multiclass_activation_v1/activation_summary.json",
+      "sha256": "sha256:beee34a1d3630fc7f3f50c5831aef6fbe13748ddcc0dc735f1a57d57b6176a59"
+    },
+    {
+      "path": "docs/evidence/exact_security_estimator_v1/manifest.json",
+      "sha256": "sha256:a445fce77883bf6ce9d5946733790e8f630e9cf277c3d76316e89f643687ccc4"
+    },
+    {
+      "path": "docs/evidence/exact_security_estimator_v1/summary.json",
+      "sha256": "sha256:6029a13b7782b8f4f111f07f64e93cedc2221fbfa3ce97dc5dcb48cac228c9e8"
+    },
+    {
+      "path": "results/thesis_grade_protocol/journal_extension_paper_inputs_v1/publication_inputs/claim_registry.json",
+      "sha256": "sha256:349cc9757d15107de37474ad53694da651cde24fe522480d2df252322b56a1d3"
+    },
+    {
+      "path": "datasets/journal_multiclass_extension_v1/mnist/input_split_manifest.json",
+      "sha256": "sha256:9e61ebee1855b529134442a4d55ee55a6488daa8d2a34146335db2b7de3cc615"
+    },
+    {
+      "path": "datasets/journal_multiclass_extension_v1/mnist/mnist_mlp_square_784_100_10_v1.json",
+      "sha256": "sha256:c4228a2afa1d3c8f8d43d6bc991c1ad3f5b1eec272dc0da39d070f051713f3ac"
+    },
+    {
+      "path": "datasets/journal_multiclass_extension_v1/mnist/mnist_lenet5_small_square_v1.json",
+      "sha256": "sha256:25db361b428ea6640f80478f3608fe6b81b45e984702c4a0d616c735f7d4bba6"
+    }
+  ],
+  "new_encrypted_execution": 0,
+  "policy_retuning": 0,
+  "pre_security_reconciliation": true,
+  "schema_version": "flipguard_journal_multiclass_extension_checkpoint_v1",
+  "source_commit": "affc38b54f5abed8b491442fbed4b74949c2a05b"
+}
