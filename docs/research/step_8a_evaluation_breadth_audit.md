@@ -9,6 +9,14 @@ LeNet, ResNet, or deeper programs. Merely adding dataset names would not answer
 this objection; the extension needs a standard multiclass architecture and a
 mathematically explicit argmax contract.
 
+Final audit verdict for the existing primary is
+`VALID_CONTROLLED_PRIMARY__INSUFFICIENT_ALONE_FOR_MULTICLASS_BREADTH`. It is
+valid evidence for the frozen binary threshold contract, direct synthesis,
+abstention, and no-retuning protocol. It is not, by itself, evidence for a
+ten-class argmax contract, convolutional graph scale, or arbitrary model
+generalization. The journal extension fills that specific gap without
+relabeling or discarding the primary study.
+
 ## Literature precedent
 
 The table records only practices supported by a paper, official proceedings,
