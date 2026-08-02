@@ -51,6 +51,17 @@ journal publication, a full experimental report, or a best-paper grand prize.
 Counts not recoverable from the primary paper remain `NR` rather than being
 filled from a search snippet.
 
+Count-critical PDF replay metadata (retrieved 2026-08-02) is recorded below.
+The hashes bind the exact primary-source bytes used to check the table; the
+PDFs are not vendored into the repository.
+
+| Work | Primary PDF SHA-256 | Exact location checked | Replayed fact |
+|---|---|---|---|
+| HECATE | `0ae9ad193c58cddd0da4fca37a5033a379256fea0962c9de7a34fb1d4f46b6cb` | Section VII-A and benchmark description | MLP `784x100`/`100x10`; 4,096 image pixels; 16,384 regression inputs; one random MNIST input for DL; 36 waterlines |
+| ELASM | `8c1ad29a2b8e7f43ed265a55576dc73c0569bf7d354dfd202746579f338b605f` | Sections 7.1-7.2 | 4,096/16,384 non-DL inputs; one random MNIST input for DL; 12,000 scale-plan samples; `N=2^15` setting |
+| DaCapo | `20c7e84518987441d6b08ad1943f8cf3953423b70db7d64b5382859e764d0803` | Table 3 and Table 5 | 1,000 CIFAR-10 images for accuracy validation; 52-662 candidates across the reported networks |
+| AutoFHE | `f340cc685e8559a86bcd7f2769f7550271dcac957fcd777aca9665293d95e8f7` | Section 6 parameters and Tables 4-5 | 10 generations; populations 10/20/30/40; offspring `6x`; 10,000 encrypted validation images; 96-image latency unit |
+
 ## Implementation requirement
 
 The existing primary matrix is retained as the controlled binary study. The
