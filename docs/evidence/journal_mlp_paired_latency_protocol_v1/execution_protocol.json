@@ -1,0 +1,1015 @@
+{
+  "arm_order": "balanced_cyclic_and_reverse_image_rotated_v1",
+  "arms": [
+    {
+      "candidate": {
+        "analysis_scale_bits": 29,
+        "backend_scale_lift_bits": 0,
+        "backend_validation_attempts": 1,
+        "generation_kind": "analysis_minimum",
+        "id": "synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140",
+        "level_guard": 0,
+        "message_magnitude_bits": 7,
+        "parameters": {
+          "log_default_scale": 29,
+          "log_n": 13,
+          "log_p": [
+            39
+          ],
+          "log_q": [
+            39,
+            29,
+            29,
+            29,
+            29
+          ]
+        },
+        "path": "rescale",
+        "precision_target_bits": 26,
+        "reason": "budget=0.0106245 aggregate_sensitivity=431111 unit_budget=2.46446e-08 precision_bits=26 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=194 analysis_scale_bits=29 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1",
+        "required_rescale_levels": 3,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 1,
+        "security": {
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap",
+          "admission_status": "PASS",
+          "ciphertext_headroom_bits": 59,
+          "ciphertext_q_admission": "PASS",
+          "declared_log_qp": 194,
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "evaluation_key_headroom_bits": 20,
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "headroom_bits": 20,
+          "log_p": 39,
+          "log_q": 155,
+          "log_qp": 194,
+          "max_allowed_log_qp": 214,
+          "target_bits": 128
+        }
+      },
+      "id": "gap_aware",
+      "profile_source": "synthesized_literal",
+      "role": "natural_top_two_gap_direct",
+      "source": {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/selection_result.json",
+        "sha256": "sha256:fa8a750da606c356dcd2c97eb84a43f5cbf95b5ba8d75cfa62e532b64d1dbfd8"
+      }
+    },
+    {
+      "candidate": {
+        "analysis_scale_bits": 32,
+        "backend_scale_lift_bits": 0,
+        "backend_validation_attempts": 1,
+        "generation_kind": "analysis_minimum",
+        "id": "synth_analysis_minimum_rescale_N13_Q5_S32_cd07c4b74140",
+        "level_guard": 0,
+        "message_magnitude_bits": 7,
+        "parameters": {
+          "log_default_scale": 32,
+          "log_n": 13,
+          "log_p": [
+            42
+          ],
+          "log_q": [
+            42,
+            32,
+            32,
+            32,
+            32
+          ]
+        },
+        "path": "rescale",
+        "precision_target_bits": 29,
+        "reason": "budget=0.001 aggregate_sensitivity=431111 unit_budget=2.31959e-09 precision_bits=29 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=212 analysis_scale_bits=32 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1",
+        "required_rescale_levels": 3,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 1,
+        "security": {
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap",
+          "admission_status": "PASS",
+          "ciphertext_headroom_bits": 44,
+          "ciphertext_q_admission": "PASS",
+          "declared_log_qp": 212,
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "evaluation_key_headroom_bits": 2,
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "headroom_bits": 2,
+          "log_p": 42,
+          "log_q": 170,
+          "log_qp": 212,
+          "max_allowed_log_qp": 214,
+          "target_bits": 128
+        }
+      },
+      "id": "graph_only",
+      "profile_source": "synthesized_literal",
+      "role": "graph_only_fixed_logit_tolerance",
+      "source": {
+        "path": "results/journal_multiclass_extension_v1/comparators/mlp_graph_only_fixed_logit_tolerance_v1/result.json",
+        "sha256": "sha256:64c680438fcb71dfef3bb20bd3bbf544dd571b8330ed00b3b27598116dd3a53e"
+      }
+    },
+    {
+      "candidate": {
+        "analysis_scale_bits": 0,
+        "backend_scale_lift_bits": 0,
+        "backend_validation_attempts": 0,
+        "generation_kind": "security_v2_bounded_catalog",
+        "id": "catalog_short_chain_5__rescale",
+        "level_guard": 0,
+        "message_magnitude_bits": 0,
+        "parameters": {
+          "log_default_scale": 40,
+          "log_n": 14,
+          "log_p": [
+            56,
+            55
+          ],
+          "log_q": [
+            56,
+            46,
+            46,
+            46,
+            45
+          ],
+          "p": [
+            36028797020209153,
+            36028797017456641
+          ],
+          "q": [
+            36028797019488257,
+            35184372744193,
+            35184373006337,
+            35184373989377,
+            35184368877569
+          ]
+        },
+        "path": "rescale",
+        "precision_target_bits": 0,
+        "reason": "exact built-in profile; Security-V2 admitted; evaluation-only bounded catalog",
+        "required_rescale_levels": 3,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 0,
+        "security": {
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap",
+          "admission_status": "PASS",
+          "ciphertext_headroom_bits": 191,
+          "ciphertext_q_admission": "PASS",
+          "declared_log_qp": 350,
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "evaluation_key_headroom_bits": 80,
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "headroom_bits": 80,
+          "log_p": 111,
+          "log_q": 239,
+          "log_qp": 350,
+          "max_allowed_log_qp": 430,
+          "target_bits": 128
+        }
+      },
+      "id": "catalog",
+      "profile_name": "short_chain_5",
+      "profile_source": "builtin_catalog_concrete_literal",
+      "role": "security_v2_bounded_catalog_fastest_safe",
+      "source": {
+        "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog_result.json",
+        "sha256": "sha256:9c1bd83af155ed55124b9aa0931fb62f46386c585efcb6e0ca5014bc513d4e03"
+      }
+    }
+  ],
+  "concurrent_ckks_processes": 0,
+  "execution_critical_source_digest": "sha256:945b898929ff26ef4f258857cd71111bf7f377665b8b6b0d5d62a6955983fb01",
+  "execution_source_commit": "ceccf07602c1a91972d0992b34445b608089eb1e",
+  "expected_measurement_records": 5400,
+  "fresh_keysets": 3,
+  "frozen_binary_sha256": "sha256:f6ed8cfb7e42001981a9062bc5ae1a7c9adb6a8c918cfcec6a61874d0d8642c4",
+  "image_order": "identical frozen selected_rows order within every keyset/pass block",
+  "locked_audit": {
+    "path": "datasets/journal_multiclass_extension_v1/mnist/locked_audit.csv",
+    "sha256": "sha256:ce2e0d2fbf0a2d69cd4a4a4c9603d3624a9b82602236fea7fe47d12f4f7b2d35"
+  },
+  "margin_floor": 0.001,
+  "margin_utilization_cap": 0.5,
+  "measurement_runs": 6,
+  "measurement_unit": "single-image encrypted inference",
+  "model": {
+    "path": "datasets/journal_multiclass_extension_v1/mnist/mnist_mlp_square_784_100_10_v1.json",
+    "sha256": "sha256:c4228a2afa1d3c8f8d43d6bc991c1ad3f5b1eec272dc0da39d070f051713f3ac"
+  },
+  "outlier_removal": false,
+  "process_restart_policy": "one new process per fresh keyset; preserve failed attempts",
+  "protocol_id": "journal_mlp100_paired_latency_amendment_v1",
+  "schema_version": "flipguard_journal_mlp_paired_latency_protocol_v1",
+  "security_reconciliation": {
+    "path": "docs/evidence/journal_multiclass_security_reconciliation_v1/manifest.json",
+    "sha256": "sha256:26a0a896100740780f7e1581d968ed12ed9c994d5ff644958267cb6a5a3ff2f4"
+  },
+  "selected_rows": [
+    {
+      "label": 0,
+      "rank": 1,
+      "row_id": 115,
+      "sample_id": "mnist_62106",
+      "sha256_rank": "0be159db24321899e78a8954e9c93d35777b543345f3f28b0cbcf3a563969723",
+      "source_index": 62106
+    },
+    {
+      "label": 0,
+      "rank": 2,
+      "row_id": 320,
+      "sample_id": "mnist_66351",
+      "sha256_rank": "1638708bdfc13d1bb6537b6d8618588bfadd31012690b00a8ae937c824603bf9",
+      "source_index": 66351
+    },
+    {
+      "label": 0,
+      "rank": 3,
+      "row_id": 325,
+      "sample_id": "mnist_66437",
+      "sha256_rank": "1b8ad86e90cfd020160a72f2cf8f1c0b6ab324e022fa655c1573ad8642e898ad",
+      "source_index": 66437
+    },
+    {
+      "label": 0,
+      "rank": 4,
+      "row_id": 307,
+      "sample_id": "mnist_66072",
+      "sha256_rank": "216e0064f7bfe7013f98094188b00df3d0bc7da780553e55d6794012a33698ad",
+      "source_index": 66072
+    },
+    {
+      "label": 0,
+      "rank": 5,
+      "row_id": 183,
+      "sample_id": "mnist_63315",
+      "sha256_rank": "22914759eb4e6052cdbbb78f45f9c93db98e60a068a96ca5c1cf274fe2347fc1",
+      "source_index": 63315
+    },
+    {
+      "label": 0,
+      "rank": 6,
+      "row_id": 287,
+      "sample_id": "mnist_65653",
+      "sha256_rank": "27db6e34e77c381b9bf26a90f89624a7f21bbf2fb8c4e572dc2a6105043a4340",
+      "source_index": 65653
+    },
+    {
+      "label": 0,
+      "rank": 7,
+      "row_id": 279,
+      "sample_id": "mnist_65567",
+      "sha256_rank": "2ab694a52b12df428906620f5aa5be6033f0667e7c0617c43a95ef13ed0f397b",
+      "source_index": 65567
+    },
+    {
+      "label": 0,
+      "rank": 8,
+      "row_id": 489,
+      "sample_id": "mnist_69850",
+      "sha256_rank": "2b248b8568895a60fa0a0ac92eeb8b8af0478b4e113cc651f256a65ebfe45018",
+      "source_index": 69850
+    },
+    {
+      "label": 0,
+      "rank": 9,
+      "row_id": 125,
+      "sample_id": "mnist_62236",
+      "sha256_rank": "2c39206f91dd36b2d800599152041bb0514790c1ec22d8ae6c99ac731701dff1",
+      "source_index": 62236
+    },
+    {
+      "label": 0,
+      "rank": 10,
+      "row_id": 303,
+      "sample_id": "mnist_65952",
+      "sha256_rank": "32c43cb5aa11f4f8e864f2dbc092d1a05171fe3a89bd4c4da2cc270425219ff4",
+      "source_index": 65952
+    },
+    {
+      "label": 1,
+      "rank": 1,
+      "row_id": 461,
+      "sample_id": "mnist_69180",
+      "sha256_rank": "006aad475eaddbc00b588c0d462a0f85431cd8bac6cafab8caa3b225a5f947f6",
+      "source_index": 69180
+    },
+    {
+      "label": 1,
+      "rank": 2,
+      "row_id": 239,
+      "sample_id": "mnist_64588",
+      "sha256_rank": "061bb9e8fb12609cca728111ecc3e8518b49b46de3a41ce77c2345a4a4b75c44",
+      "source_index": 64588
+    },
+    {
+      "label": 1,
+      "rank": 3,
+      "row_id": 423,
+      "sample_id": "mnist_68469",
+      "sha256_rank": "077a21d8e7bfb02e42a08af378f5db4fa89e272aa05f35515e6a8b6b66d003e8",
+      "source_index": 68469
+    },
+    {
+      "label": 1,
+      "rank": 4,
+      "row_id": 294,
+      "sample_id": "mnist_65839",
+      "sha256_rank": "167ced5e60f8fe35ed6fd324eadcc64c428252d6704dc3209103c5c388c7ca49",
+      "source_index": 65839
+    },
+    {
+      "label": 1,
+      "rank": 5,
+      "row_id": 240,
+      "sample_id": "mnist_64606",
+      "sha256_rank": "16cb4852a694abd9601e6b50eb340ecdd46b983ac0d607802130ac4390aba3ef",
+      "source_index": 64606
+    },
+    {
+      "label": 1,
+      "rank": 6,
+      "row_id": 66,
+      "sample_id": "mnist_61075",
+      "sha256_rank": "1d7549eec2571984656475677e72c8620e88b1a06ff4f95849d145d2e8de60e3",
+      "source_index": 61075
+    },
+    {
+      "label": 1,
+      "rank": 7,
+      "row_id": 10,
+      "sample_id": "mnist_60168",
+      "sha256_rank": "1ed3221a08b0784f987b973e2eb0a703da0872bd13f308d82c0856f3b1abab73",
+      "source_index": 60168
+    },
+    {
+      "label": 1,
+      "rank": 8,
+      "row_id": 482,
+      "sample_id": "mnist_69682",
+      "sha256_rank": "20ce54e91826561a843ed8c1f326bf27e57d9b7460e4fd2344cc1cd3cbbb9039",
+      "source_index": 69682
+    },
+    {
+      "label": 1,
+      "rank": 9,
+      "row_id": 141,
+      "sample_id": "mnist_62411",
+      "sha256_rank": "215ed42b23426a99ee61c5acc3c6536cee0a67517f06a645a6d2140a7b83f98c",
+      "source_index": 62411
+    },
+    {
+      "label": 1,
+      "rank": 10,
+      "row_id": 105,
+      "sample_id": "mnist_61885",
+      "sha256_rank": "226fed96a60e61a3c2eebebd99a7fc6e450692ebf34a28afd98f8732e68f1081",
+      "source_index": 61885
+    },
+    {
+      "label": 2,
+      "rank": 1,
+      "row_id": 440,
+      "sample_id": "mnist_68800",
+      "sha256_rank": "004b43244ddde355e93d1b8aa1d478ee37bee47bc6fdbf338f5f10c029b144b8",
+      "source_index": 68800
+    },
+    {
+      "label": 2,
+      "rank": 2,
+      "row_id": 214,
+      "sample_id": "mnist_64205",
+      "sha256_rank": "07852f044bd6ce280f129f668ef5b5938b442cf861ac331b0d3b2b2d8b17c0cd",
+      "source_index": 64205
+    },
+    {
+      "label": 2,
+      "rank": 3,
+      "row_id": 291,
+      "sample_id": "mnist_65723",
+      "sha256_rank": "08ebd76cd1ea00d7baa039cab33fb0af4d30ce17cc065df74368bae0521747bf",
+      "source_index": 65723
+    },
+    {
+      "label": 2,
+      "rank": 4,
+      "row_id": 356,
+      "sample_id": "mnist_67229",
+      "sha256_rank": "09636401fdb719c299551133ed7b7f8a08c65fd5b2b273db7449301384d1b277",
+      "source_index": 67229
+    },
+    {
+      "label": 2,
+      "rank": 5,
+      "row_id": 369,
+      "sample_id": "mnist_67492",
+      "sha256_rank": "0b7570aaea036cebb57cce74a7be35db308ab556354b1eacdce09a3e48d5732e",
+      "source_index": 67492
+    },
+    {
+      "label": 2,
+      "rank": 6,
+      "row_id": 354,
+      "sample_id": "mnist_67156",
+      "sha256_rank": "108e02ac6a0c43a868405e5dadcb01194cac54e1b6135b96085f08215920ac2a",
+      "source_index": 67156
+    },
+    {
+      "label": 2,
+      "rank": 7,
+      "row_id": 13,
+      "sample_id": "mnist_60199",
+      "sha256_rank": "10a91c358d7887b6dd25680722c6f8fa58eaa7361fcec5a5c64297f3ddb64bf7",
+      "source_index": 60199
+    },
+    {
+      "label": 2,
+      "rank": 8,
+      "row_id": 268,
+      "sample_id": "mnist_65308",
+      "sha256_rank": "1386917bca6100db918ee3f315afc1fc259f2911b4507055ffd70577ee669822",
+      "source_index": 65308
+    },
+    {
+      "label": 2,
+      "rank": 9,
+      "row_id": 360,
+      "sample_id": "mnist_67345",
+      "sha256_rank": "2523ca1e8823f1487f31d2c635018796f8d960d32be2fed9ab82aaf80e96471c",
+      "source_index": 67345
+    },
+    {
+      "label": 2,
+      "rank": 10,
+      "row_id": 433,
+      "sample_id": "mnist_68648",
+      "sha256_rank": "27c7bb8fcd8e01343eab66b0454c0ea757a9f8a37791efb273af16190e3fe6a4",
+      "source_index": 68648
+    },
+    {
+      "label": 3,
+      "rank": 1,
+      "row_id": 416,
+      "sample_id": "mnist_68346",
+      "sha256_rank": "02efca1a5b664a912e85f0560db3015b35a85bea52b07b788a14c158332b5165",
+      "source_index": 68346
+    },
+    {
+      "label": 3,
+      "rank": 2,
+      "row_id": 53,
+      "sample_id": "mnist_60923",
+      "sha256_rank": "0580d5e485abfdef21fd47bcab6c74fcc2ae486611f7a18b6d794f82e28dd3db",
+      "source_index": 60923
+    },
+    {
+      "label": 3,
+      "rank": 3,
+      "row_id": 481,
+      "sample_id": "mnist_69656",
+      "sha256_rank": "09a70004101b5acc40599f0e69b7a8d497afac0e20140ce6b56ba99b6cb2c254",
+      "source_index": 69656
+    },
+    {
+      "label": 3,
+      "rank": 4,
+      "row_id": 167,
+      "sample_id": "mnist_62924",
+      "sha256_rank": "125ceec2aa306b6ce53a7ab747884c4b64d65de8611e7de6494e93fbed753e10",
+      "source_index": 62924
+    },
+    {
+      "label": 3,
+      "rank": 5,
+      "row_id": 221,
+      "sample_id": "mnist_64288",
+      "sha256_rank": "14255ad479ed2598c3004d2e52cdb4e92bc8eb3df22b2018f424c0d01be51a24",
+      "source_index": 64288
+    },
+    {
+      "label": 3,
+      "rank": 6,
+      "row_id": 22,
+      "sample_id": "mnist_60323",
+      "sha256_rank": "152a2da72b9d6e01b0e5140c0a8f9cf552f5de8079042ca4e730c8be56ee2326",
+      "source_index": 60323
+    },
+    {
+      "label": 3,
+      "rank": 7,
+      "row_id": 428,
+      "sample_id": "mnist_68570",
+      "sha256_rank": "15988938e6abd1314b973427ff266b06baad3127784e82ea52544909b5b11be6",
+      "source_index": 68570
+    },
+    {
+      "label": 3,
+      "rank": 8,
+      "row_id": 166,
+      "sample_id": "mnist_62921",
+      "sha256_rank": "164592ffd509b0657f721a503066f2b7e094276ed9fc5daa01cc1dd0d96bb1be",
+      "source_index": 62921
+    },
+    {
+      "label": 3,
+      "rank": 9,
+      "row_id": 42,
+      "sample_id": "mnist_60792",
+      "sha256_rank": "1984fa4258dd5922db10b568415b304be213c9748786484d37348d72c0108785",
+      "source_index": 60792
+    },
+    {
+      "label": 3,
+      "rank": 10,
+      "row_id": 251,
+      "sample_id": "mnist_64983",
+      "sha256_rank": "1bb11164957407bb61cd67ea31c7bbec51d13d30ffed046de55309d45df6db40",
+      "source_index": 64983
+    },
+    {
+      "label": 4,
+      "rank": 1,
+      "row_id": 31,
+      "sample_id": "mnist_60544",
+      "sha256_rank": "000bdb66a4fb8da1434a8fefa9790976d743eb28c1515c129a50377660737534",
+      "source_index": 60544
+    },
+    {
+      "label": 4,
+      "rank": 2,
+      "row_id": 164,
+      "sample_id": "mnist_62901",
+      "sha256_rank": "009e918d92be293eff01d4717c040698335f04d30db0036254e5332aede91f89",
+      "source_index": 62901
+    },
+    {
+      "label": 4,
+      "rank": 3,
+      "row_id": 293,
+      "sample_id": "mnist_65822",
+      "sha256_rank": "04f0b75145087a6a47f379a30bd0946c34ca0b2295fceb46f8d2b4bd551cebf9",
+      "source_index": 65822
+    },
+    {
+      "label": 4,
+      "rank": 4,
+      "row_id": 435,
+      "sample_id": "mnist_68695",
+      "sha256_rank": "066235fb841b0770ad9d666647abf6dadd91b41e13c6543f158ed055f883d3c8",
+      "source_index": 68695
+    },
+    {
+      "label": 4,
+      "rank": 5,
+      "row_id": 87,
+      "sample_id": "mnist_61511",
+      "sha256_rank": "0f6765627d8d642c55dfc7749c4e868d8614df4de09a573e741c87713e920fe8",
+      "source_index": 61511
+    },
+    {
+      "label": 4,
+      "rank": 6,
+      "row_id": 382,
+      "sample_id": "mnist_67751",
+      "sha256_rank": "10095a9318985557b29bf28cea19808be88638fc44e73165ff95d707e7dbfbc9",
+      "source_index": 67751
+    },
+    {
+      "label": 4,
+      "rank": 7,
+      "row_id": 134,
+      "sample_id": "mnist_62363",
+      "sha256_rank": "20299d8faf4ad4389ca8e60eaa751220296f52e0880653be479e58b140b1b95b",
+      "source_index": 62363
+    },
+    {
+      "label": 4,
+      "rank": 8,
+      "row_id": 401,
+      "sample_id": "mnist_68092",
+      "sha256_rank": "218e30b515d1f24b548e05e06427224feb4ec09d9f0b850f045d910d213ec428",
+      "source_index": 68092
+    },
+    {
+      "label": 4,
+      "rank": 9,
+      "row_id": 399,
+      "sample_id": "mnist_68081",
+      "sha256_rank": "25dc7864f17deff21630ec0b7e097bfc632c74586bd1b4236f12f1158fa0b3c6",
+      "source_index": 68081
+    },
+    {
+      "label": 4,
+      "rank": 10,
+      "row_id": 295,
+      "sample_id": "mnist_65842",
+      "sha256_rank": "271c3ebe445d35cca92a76012cfc2ae368f752045dbdf5971d8b3be30303b465",
+      "source_index": 65842
+    },
+    {
+      "label": 5,
+      "rank": 1,
+      "row_id": 361,
+      "sample_id": "mnist_67372",
+      "sha256_rank": "04bcfcdd7e45641031973718d3f3058a98920b56d481277360465640a1185046",
+      "source_index": 67372
+    },
+    {
+      "label": 5,
+      "rank": 2,
+      "row_id": 477,
+      "sample_id": "mnist_69583",
+      "sha256_rank": "0a9b0e060c66e028f0d64bcbc3d99b662eda885ac89f12f26c56ac431567f11b",
+      "source_index": 69583
+    },
+    {
+      "label": 5,
+      "rank": 3,
+      "row_id": 158,
+      "sample_id": "mnist_62768",
+      "sha256_rank": "0c7141eb333f6ac7283c72af16fe3d81a5812aa04b8711cb108a069ad8f21841",
+      "source_index": 62768
+    },
+    {
+      "label": 5,
+      "rank": 4,
+      "row_id": 318,
+      "sample_id": "mnist_66244",
+      "sha256_rank": "0e6b8269339bb57b62daaaca5315397a8ec5de08dec0cd500a167b0171f93cca",
+      "source_index": 66244
+    },
+    {
+      "label": 5,
+      "rank": 5,
+      "row_id": 322,
+      "sample_id": "mnist_66390",
+      "sha256_rank": "13954daecd97eacffff15a17fdd66d1886db55f20a842f147a10ec71a3fc6677",
+      "source_index": 66390
+    },
+    {
+      "label": 5,
+      "rank": 6,
+      "row_id": 395,
+      "sample_id": "mnist_67988",
+      "sha256_rank": "18195a45c581b997c31f008a6508934d2e6781931013945f277d5d204b9b7977",
+      "source_index": 67988
+    },
+    {
+      "label": 5,
+      "rank": 7,
+      "row_id": 80,
+      "sample_id": "mnist_61340",
+      "sha256_rank": "216892d65bf8e7e3c9d393fba969d6a40f63c08aada5ea10c1c0a345ad4c63f7",
+      "source_index": 61340
+    },
+    {
+      "label": 5,
+      "rank": 8,
+      "row_id": 81,
+      "sample_id": "mnist_61370",
+      "sha256_rank": "21694d29fe7df020dc75e8d99181ce79314a85083158edd07b753bf9e075a298",
+      "source_index": 61370
+    },
+    {
+      "label": 5,
+      "rank": 9,
+      "row_id": 92,
+      "sample_id": "mnist_61598",
+      "sha256_rank": "263edf8c7d932a669e6f8e3cbf57ccca3fdca4f40b282e36be2636754bc72f80",
+      "source_index": 61598
+    },
+    {
+      "label": 5,
+      "rank": 10,
+      "row_id": 4,
+      "sample_id": "mnist_60052",
+      "sha256_rank": "27c2abeb54f7b19d75975355248e9875a46bce5f4e41562ffc567561b8ddc654",
+      "source_index": 60052
+    },
+    {
+      "label": 6,
+      "rank": 1,
+      "row_id": 463,
+      "sample_id": "mnist_69240",
+      "sha256_rank": "014383bbd58dd6015ec4c572ac77fee1af7988214c5c445d621e7f6bb25be450",
+      "source_index": 69240
+    },
+    {
+      "label": 6,
+      "rank": 2,
+      "row_id": 61,
+      "sample_id": "mnist_61017",
+      "sha256_rank": "0cda7e67188f7df9e91cba9c90e72905fdc07bcc02f73c2230df8ba47a714e63",
+      "source_index": 61017
+    },
+    {
+      "label": 6,
+      "rank": 3,
+      "row_id": 202,
+      "sample_id": "mnist_63914",
+      "sha256_rank": "0cda92370cefa7b9dc425df07f8a7755b785b4a0c358d9208490268c275ff299",
+      "source_index": 63914
+    },
+    {
+      "label": 6,
+      "rank": 4,
+      "row_id": 142,
+      "sample_id": "mnist_62422",
+      "sha256_rank": "0e0a6014f0b5f2c3b1c962b0ac1d7af5d753bb1f23dc135adcaec5ae829a1884",
+      "source_index": 62422
+    },
+    {
+      "label": 6,
+      "rank": 5,
+      "row_id": 41,
+      "sample_id": "mnist_60732",
+      "sha256_rank": "0e3329080f426a0bac0156763f5ee9911595109f309fd7d885abddf8223e16c2",
+      "source_index": 60732
+    },
+    {
+      "label": 6,
+      "rank": 6,
+      "row_id": 228,
+      "sample_id": "mnist_64388",
+      "sha256_rank": "1455ef9e279098b8fcf6da5d37368df8fda2456ee0a7a668ce8c6aee78b0e77e",
+      "source_index": 64388
+    },
+    {
+      "label": 6,
+      "rank": 7,
+      "row_id": 78,
+      "sample_id": "mnist_61332",
+      "sha256_rank": "216980b0d73448f055bb2368da55642c6ae5574baf30f8dc8480cc8c9d145d68",
+      "source_index": 61332
+    },
+    {
+      "label": 6,
+      "rank": 8,
+      "row_id": 389,
+      "sample_id": "mnist_67816",
+      "sha256_rank": "2ac2a59751662037632ac668895630088eaff2ee0af7f273f7021f132b838824",
+      "source_index": 67816
+    },
+    {
+      "label": 6,
+      "rank": 9,
+      "row_id": 57,
+      "sample_id": "mnist_60973",
+      "sha256_rank": "2d2ef564e729eab5865de484ca0fbbed71bb88a3b14c1a205ad93bcdb0f2f98d",
+      "source_index": 60973
+    },
+    {
+      "label": 6,
+      "rank": 10,
+      "row_id": 242,
+      "sample_id": "mnist_64699",
+      "sha256_rank": "2e241856728fb0129e17fa71182f220e0296ef10b78bc50fb69621c94c3ecea0",
+      "source_index": 64699
+    },
+    {
+      "label": 7,
+      "rank": 1,
+      "row_id": 70,
+      "sample_id": "mnist_61175",
+      "sha256_rank": "0cf1525baa2096cb56aeddd034d56702ed385bafb862feb21f0579216ae3c723",
+      "source_index": 61175
+    },
+    {
+      "label": 7,
+      "rank": 2,
+      "row_id": 424,
+      "sample_id": "mnist_68497",
+      "sha256_rank": "12273675685bbe1dc198e9b21054e8436c0ba48cd4754b50905cf666fce4f237",
+      "source_index": 68497
+    },
+    {
+      "label": 7,
+      "rank": 3,
+      "row_id": 72,
+      "sample_id": "mnist_61216",
+      "sha256_rank": "1500ae227996aeb5e511886c5c911e238a15877fafe7a3b6eabc4609481b5089",
+      "source_index": 61216
+    },
+    {
+      "label": 7,
+      "rank": 4,
+      "row_id": 350,
+      "sample_id": "mnist_66986",
+      "sha256_rank": "1a41f3b37f429a866b8fa3a863e3ac7c89f73bf88ba41501d5b8bf57dafac236",
+      "source_index": 66986
+    },
+    {
+      "label": 7,
+      "rank": 5,
+      "row_id": 244,
+      "sample_id": "mnist_64736",
+      "sha256_rank": "1d8806bbb1572e5291b7b5ae56de214b28076563a0143688f4ae153b0f4ada3f",
+      "source_index": 64736
+    },
+    {
+      "label": 7,
+      "rank": 6,
+      "row_id": 130,
+      "sample_id": "mnist_62317",
+      "sha256_rank": "205b402b31e0c1ec26c7db212abd57b8ca4362f9c44deec001e59b1ef543d388",
+      "source_index": 62317
+    },
+    {
+      "label": 7,
+      "rank": 7,
+      "row_id": 357,
+      "sample_id": "mnist_67230",
+      "sha256_rank": "2088c8a11d6dde314ae9e81326adc1c32dd5867e77b8a67b6474cdd680be447d",
+      "source_index": 67230
+    },
+    {
+      "label": 7,
+      "rank": 8,
+      "row_id": 470,
+      "sample_id": "mnist_69340",
+      "sha256_rank": "2112de8467983166f3ef7ebccfef08806dc9a0de6a0fe17c68ef38c6adceb293",
+      "source_index": 69340
+    },
+    {
+      "label": 7,
+      "rank": 9,
+      "row_id": 403,
+      "sample_id": "mnist_68110",
+      "sha256_rank": "2aa7356b2daae00ea4d6827f69282ed735d1006fde7add6855915984bfa0d8a6",
+      "source_index": 68110
+    },
+    {
+      "label": 7,
+      "rank": 10,
+      "row_id": 375,
+      "sample_id": "mnist_67614",
+      "sha256_rank": "2fa9509bd4cb139d44cb233a072d78b58f7083912b5241517de6f668b96d5def",
+      "source_index": 67614
+    },
+    {
+      "label": 8,
+      "rank": 1,
+      "row_id": 176,
+      "sample_id": "mnist_63153",
+      "sha256_rank": "00bb8ea86c7f115e1e28a72ae95321dc27522c3343ea66c5f9c3872ac727f91f",
+      "source_index": 63153
+    },
+    {
+      "label": 8,
+      "rank": 2,
+      "row_id": 156,
+      "sample_id": "mnist_62744",
+      "sha256_rank": "0b00c435a4512beb31efc90bb3b7b26460c07a997c35ef958658cc9f826b1a5b",
+      "source_index": 62744
+    },
+    {
+      "label": 8,
+      "rank": 3,
+      "row_id": 254,
+      "sample_id": "mnist_65041",
+      "sha256_rank": "0e07da8f047eb4a150de139832e8c7a750dd5ccb0f7262cbc9af1a87f4cb8c31",
+      "source_index": 65041
+    },
+    {
+      "label": 8,
+      "rank": 4,
+      "row_id": 186,
+      "sample_id": "mnist_63348",
+      "sha256_rank": "12281a91136f45234759faf2422e09441a5731ff8ef277d39a426e2a9efe5fe2",
+      "source_index": 63348
+    },
+    {
+      "label": 8,
+      "rank": 5,
+      "row_id": 342,
+      "sample_id": "mnist_66826",
+      "sha256_rank": "1543906eca6cbd8e3cc3af8c5db9d780bca60f33004374b7de541d27c0846482",
+      "source_index": 66826
+    },
+    {
+      "label": 8,
+      "rank": 6,
+      "row_id": 266,
+      "sample_id": "mnist_65288",
+      "sha256_rank": "1c6fa7cfa4683499c5ac0eeff1043bf9bff63f1c12d368e08294ec8f3b11ccc7",
+      "source_index": 65288
+    },
+    {
+      "label": 8,
+      "rank": 7,
+      "row_id": 11,
+      "sample_id": "mnist_60177",
+      "sha256_rank": "1db74bc73357522167415df70b21d160aa9846b6b622dfe40df014a5f75a3d23",
+      "source_index": 60177
+    },
+    {
+      "label": 8,
+      "rank": 8,
+      "row_id": 231,
+      "sample_id": "mnist_64429",
+      "sha256_rank": "1f7ab4dd32bd789170a0a4dc57acf3b5a347f2483ceed6c9da6533aff74c7863",
+      "source_index": 64429
+    },
+    {
+      "label": 8,
+      "rank": 9,
+      "row_id": 245,
+      "sample_id": "mnist_64750",
+      "sha256_rank": "2f338270638fb95d4b40a21a26fe39a1378e5948c021b3ba093623756b21a470",
+      "source_index": 64750
+    },
+    {
+      "label": 8,
+      "rank": 10,
+      "row_id": 456,
+      "sample_id": "mnist_69116",
+      "sha256_rank": "300d7eabe2fdb1cd739a04ce4c422272679da88d4a8cf0110f63318cb0a3cd8d",
+      "source_index": 69116
+    },
+    {
+      "label": 9,
+      "rank": 1,
+      "row_id": 400,
+      "sample_id": "mnist_68084",
+      "sha256_rank": "009e08d62ca37be46b3752e5bf0b2d33fb8616d0476413a1fa6f3b74e83f315b",
+      "source_index": 68084
+    },
+    {
+      "label": 9,
+      "rank": 2,
+      "row_id": 159,
+      "sample_id": "mnist_62769",
+      "sha256_rank": "1365024169394a0bc04f852c8cb9b58364bd8f919d9040490d379b6dbe03b7e0",
+      "source_index": 62769
+    },
+    {
+      "label": 9,
+      "rank": 3,
+      "row_id": 206,
+      "sample_id": "mnist_64016",
+      "sha256_rank": "1a8a1b2e3c636c5954a5f7e7f5e817320525918b8bf3197f3f5b588c91292f20",
+      "source_index": 64016
+    },
+    {
+      "label": 9,
+      "rank": 4,
+      "row_id": 90,
+      "sample_id": "mnist_61553",
+      "sha256_rank": "1d72afc6259336ea51e2583246a149d6c7e32d1b9887e603583780533f58000e",
+      "source_index": 61553
+    },
+    {
+      "label": 9,
+      "rank": 5,
+      "row_id": 74,
+      "sample_id": "mnist_61255",
+      "sha256_rank": "258791f17ddcef1b5fc681cabe8fc24cd62b685f7267c7f239189b36e1e0ce0a",
+      "source_index": 61255
+    },
+    {
+      "label": 9,
+      "rank": 6,
+      "row_id": 296,
+      "sample_id": "mnist_65856",
+      "sha256_rank": "25beb16e332761a235ef98585d60d1c9650e3016fa67a60fde5c8e0a2d84a46b",
+      "source_index": 65856
+    },
+    {
+      "label": 9,
+      "rank": 7,
+      "row_id": 352,
+      "sample_id": "mnist_67107",
+      "sha256_rank": "3356e570260b86f6674ff3a6ac3fc1ad467b119014e582c746e3bab0e8eb966d",
+      "source_index": 67107
+    },
+    {
+      "label": 9,
+      "rank": 8,
+      "row_id": 339,
+      "sample_id": "mnist_66747",
+      "sha256_rank": "33efec8143310e6f4853dd270545468343b260536dd2891ffb07b9cb09afff0e",
+      "source_index": 66747
+    },
+    {
+      "label": 9,
+      "rank": 9,
+      "row_id": 216,
+      "sample_id": "mnist_64224",
+      "sha256_rank": "42270db11b4e85fc579117629f3d6987117ccfd862fbed97f319312373a99fe6",
+      "source_index": 64224
+    },
+    {
+      "label": 9,
+      "rank": 10,
+      "row_id": 132,
+      "sample_id": "mnist_62341",
+      "sha256_rank": "47a41959001715cd649d2837acc08f6898764d23b7ab27fc2069e62ee6c080f0",
+      "source_index": 62341
+    }
+  ],
+  "selection_rank_domain": "journal_mlp100_paired_latency_subset_v1",
+  "selection_rule": "SHA-256 class-stratified rank; 10 locked-audit images per class",
+  "warmup_runs": 1
+}
