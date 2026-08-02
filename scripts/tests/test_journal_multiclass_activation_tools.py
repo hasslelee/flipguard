@@ -13,6 +13,10 @@ SPEC.loader.exec_module(MODULE)
 
 
 class JournalMulticlassActivationToolsTest(unittest.TestCase):
+    def test_frozen_comparator_identity_is_full_length(self):
+        self.assertEqual(len(MODULE.COMPARATOR_SOURCE_COMMIT), 40)
+        self.assertEqual(len(MODULE.COMPARATOR_BINARY_DIGEST), 71)
+
     def test_parameter_signature_is_literal_not_candidate_id(self):
         candidate = {
             "id": "ignored",

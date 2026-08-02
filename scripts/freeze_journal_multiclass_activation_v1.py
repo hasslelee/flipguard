@@ -16,6 +16,9 @@ SCHEMA = "flipguard_journal_multiclass_activation_v1"
 RESULTS_SCHEMA = "flipguard_journal_multiclass_extension_results_v1"
 COMPARATOR_SCHEMA = "flipguard_journal_multiclass_graph_only_comparator_v1"
 COMPARATOR_ID = "graph_only_fixed_logit_tolerance_0.001"
+COMPARATOR_SOURCE_COMMIT = "2f61bf5b32e19c0031a94dd5f2ad49f2d6634033"
+COMPARATOR_BINARY_DIGEST = "sha256:a18a7ae7391f40444b17ca8b945facdb595bec092c8d2afbe8dfd2c3d11d77b9"
+PROTOCOL_DIGEST = "sha256:caf39e2b38f8c1a46bb1fece30d68d758b613e2459e51e6af9898e535620b269"
 
 
 def load(path: Path) -> dict:
@@ -92,6 +95,9 @@ def collect(root: Path) -> dict[str, str | list[dict]]:
     require(comparator["comparator_id"] == COMPARATOR_ID, "comparator ID")
     require(comparator_manifest["comparator_id"] == COMPARATOR_ID, "comparator manifest ID")
     require(comparator["comparator_source_commit"] == comparator_manifest["comparator_source_commit"], "comparator source commit")
+    require(comparator_manifest["comparator_source_commit"] == COMPARATOR_SOURCE_COMMIT, "frozen comparator source")
+    require(comparator_manifest["binary_sha256"] == COMPARATOR_BINARY_DIGEST, "frozen comparator binary")
+    require(comparator_manifest["protocol_manifest_sha256"] == PROTOCOL_DIGEST, "frozen comparator protocol")
     require(comparator_manifest["no_audit_retuning"] is True, "comparator no-retuning declaration")
     require(comparator_manifest["fresh_key_repeats"] == 3, "comparator key repeats")
 
