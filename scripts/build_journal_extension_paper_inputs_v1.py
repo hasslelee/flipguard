@@ -358,6 +358,23 @@ def collect(root: Path, source_commit: str) -> dict[str, object]:
         ["arbitrary_packed_cnn", "BLOCKED", False, "not evaluated", "feature-ciphertext sample-slot adapter only"],
         ["core_rc2_claims", "SUPPORTED", True, "unchanged V3/RC2 admission", "journal overlay cannot alter core claims"],
     ]
+    claim_registry = {
+        "schema_version": "flipguard_journal_extension_claim_registry_v1",
+        "vocabulary": ["SUPPORTED", "PARTIALLY_SUPPORTED", "BLOCKED", "NOT_EVALUATED", "SUPERSEDED", "PILOT_ONLY"],
+        "claims": [
+            {
+                "claim_id": row[0],
+                "state": row[1],
+                "paper_admitted": row[2],
+                "scope": row[3],
+                "limitation": row[4],
+                "source_commit": source_commit,
+            }
+            for row in extension_claims
+        ],
+        "core_claim_registry_modified": False,
+        "blocked_claims_must_not_appear_as_headlines": True,
+    }
     tables["tables/07_updated_claim_evidence_matrix.md"] = "# Updated claim-evidence matrix\n\n" + markdown_table(
         ["Claim", "State", "Journal text admitted", "Exact scope", "Limitation"], extension_claims
     )
@@ -417,6 +434,7 @@ def collect(root: Path, source_commit: str) -> dict[str, object]:
         "files": {
             **tables, **figures,
             "publication_inputs/graph_scale_analysis.csv": scale_csv.getvalue(),
+            "publication_inputs/claim_registry.json": canonical(claim_registry),
             "summary.json": canonical(summary),
             "publication_status.json": canonical(publication_status),
         },
