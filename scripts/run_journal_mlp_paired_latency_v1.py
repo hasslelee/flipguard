@@ -14,7 +14,7 @@ from pathlib import Path
 from verify_journal_mlp_paired_latency_protocol_v1 import verify
 
 
-PROTOCOL = Path("docs/evidence/journal_mlp_paired_latency_protocol_v1_1")
+PROTOCOL = Path("docs/evidence/journal_mlp_paired_latency_protocol_v1_2")
 DEFAULT_OUTPUT = Path("results/journal_mlp_paired_latency_v1/execution")
 
 

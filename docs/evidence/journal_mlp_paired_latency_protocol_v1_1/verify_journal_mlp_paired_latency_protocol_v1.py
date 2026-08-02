@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import argparse
 import csv
 import hashlib
 import json
@@ -89,7 +88,6 @@ def verify(pack: Path, repo: Path) -> dict:
         protocol["protocol_id"] in {
             "journal_mlp100_paired_latency_amendment_v1",
             "journal_mlp100_paired_latency_amendment_v1_1",
-            "journal_mlp100_paired_latency_amendment_v1_2",
         },
         "protocol ID",
     )
@@ -133,14 +131,10 @@ def verify(pack: Path, repo: Path) -> dict:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    default_pack = Path(__file__).resolve().parent
-    if default_pack.name == "scripts":
-        default_pack = Path("docs/evidence/journal_mlp_paired_latency_protocol_v1_2")
-    parser.add_argument("--pack", type=Path, default=default_pack)
-    parser.add_argument("--repo", type=Path, default=Path.cwd())
-    args = parser.parse_args()
-    protocol = verify(args.pack, args.repo)
+    protocol = verify(
+        Path("docs/evidence/journal_mlp_paired_latency_protocol_v1"),
+        Path.cwd(),
+    )
     print(
         "journal_mlp_paired_latency_protocol=VERIFIED "
         f"rows={len(protocol['selected_rows'])} records={protocol['expected_measurement_records']}"

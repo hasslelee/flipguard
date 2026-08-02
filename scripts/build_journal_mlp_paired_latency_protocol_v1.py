@@ -42,12 +42,18 @@ def binding(repo: Path, path: Path) -> dict:
     return {"path": str(path), "sha256": sha(repo / path)}
 
 
-def build(repo: Path, output: Path, source_commit: str) -> None:
+def build(
+    repo: Path,
+    output: Path,
+    source_commit: str,
+    binary_relative: Path = BINARY,
+    protocol_id: str = "journal_mlp100_paired_latency_amendment_v1",
+) -> None:
     if output.exists():
         raise RuntimeError(f"refusing to overwrite frozen protocol: {output}")
     if len(source_commit) != 40:
         raise RuntimeError("full execution source commit is required")
-    binary_path = repo / BINARY
+    binary_path = repo / binary_relative
     if not binary_path.exists():
         raise RuntimeError(f"frozen binary is missing: {binary_path}")
 
@@ -71,7 +77,7 @@ def build(repo: Path, output: Path, source_commit: str) -> None:
     output.mkdir(parents=True)
     protocol = {
         "schema_version": SCHEMA,
-        "protocol_id": "journal_mlp100_paired_latency_amendment_v1",
+        "protocol_id": protocol_id,
         "execution_source_commit": source_commit,
         "execution_critical_source_digest": critical_digest(repo),
         "frozen_binary_sha256": sha(binary_path),
@@ -163,7 +169,7 @@ def build(repo: Path, output: Path, source_commit: str) -> None:
         "execution_source_commit": source_commit,
         "execution_protocol_sha256": sha(output / "execution_protocol.json"),
         "latency_subset_manifest_sha256": sha(output / "latency_subset_manifest.json"),
-        "frozen_binary": binding(repo, BINARY),
+        "frozen_binary": binding(repo, binary_relative),
         "host_preflight": {
             "hostname": platform.node(), "system": platform.system(),
             "release": platform.release(), "machine": platform.machine(),
@@ -174,6 +180,18 @@ def build(repo: Path, output: Path, source_commit: str) -> None:
         "policy_retuning": 0,
         "new_dataset_or_model": 0,
     }
+    if protocol_id.endswith("_v1_1"):
+        manifest["predecessor"] = {
+            "path": "docs/evidence/journal_mlp_paired_latency_protocol_v1",
+            "status": "PRESERVED_RECOVERABLE_IMPLEMENTATION_FAILURE",
+            "reason": "strict parser omitted declared analysis metadata; encrypted measurement records=0",
+        }
+    elif protocol_id.endswith("_v1_2"):
+        manifest["predecessor"] = {
+            "path": "docs/evidence/journal_mlp_paired_latency_protocol_v1_1",
+            "status": "PRESERVED_RECOVERABLE_IMPLEMENTATION_FAILURE",
+            "reason": "copied verifier did not default to its own pack; encrypted measurement records=0",
+        }
     (output / "manifest.json").write_text(canonical(manifest), encoding="utf-8")
     sums = []
     for path in sorted(output.rglob("*")):
@@ -188,6 +206,11 @@ def main() -> int:
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--source-commit", required=True)
+    parser.add_argument("--binary", type=Path, default=BINARY)
+    parser.add_argument(
+        "--protocol-id",
+        default="journal_mlp100_paired_latency_amendment_v1",
+    )
     parser.add_argument("--verify", action="store_true")
     args = parser.parse_args()
     repo = args.repo.resolve()
@@ -196,7 +219,7 @@ def main() -> int:
         protocol = verify(output, repo)
         print(f"journal_mlp_paired_latency_protocol=VERIFIED rows={len(protocol['selected_rows'])}")
     else:
-        build(repo, output, args.source_commit)
+        build(repo, output, args.source_commit, args.binary, args.protocol_id)
         print(f"journal_mlp_paired_latency_protocol=FROZEN output={output}")
     return 0
 
