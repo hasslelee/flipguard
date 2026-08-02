@@ -211,7 +211,7 @@ def build_figures(summary: dict, activation: dict, scale_rows: list[dict], gap_r
     for index, (row, color) in enumerate(zip(scale_rows, colors)):
         y = 150 + index * 160
         value = operation_count_upper(row["mul_ops"])
-        width = 820 * math.log10(value + 1) / math.log10(maximum + 1)
+        width = 540 * math.log10(value + 1) / math.log10(maximum + 1)
         lines.append(svg_text(65, y, row["model"], 19, 700))
         lines.append(f'<rect x="285" y="{y-27}" width="{width:.1f}" height="42" fill="{color}"/>')
         lines.append(svg_text(300 + width, y+2, f"mul={row['mul_ops']}; depth={row['depth']}; N=2^{row['log_n']}; Q={row['q_count']}", 16, 400))
@@ -236,6 +236,7 @@ def build_figures(summary: dict, activation: dict, scale_rows: list[dict], gap_r
 
     lines = svg_start("Gap-bin admission and argmax behavior", "Validation-derived bins are applied without audit rebucketing.")
     all_gap = sorted(gap_rows, key=lambda row: (row["model_name"], row["role"], int(row["gap_bin"])))
+    max_gap_bin_samples = max(int(row["unique_samples"]) for row in all_gap)
     y = 120
     for row in all_gap:
         role = "VAL" if row["role"] == "configuration_validation" else "AUDIT"
@@ -244,8 +245,9 @@ def build_figures(summary: dict, activation: dict, scale_rows: list[dict], gap_r
         flips = int(row["argmax_flips"])
         color = "#16a34a" if rejections == 0 and flips == 0 else "#dc2626"
         lines.append(svg_text(70, y, label, 13, 400))
-        lines.append(f'<rect x="330" y="{y-16}" width="{max(4, int(row["unique_samples"])*5)}" height="20" fill="{color}"/>')
-        lines.append(svg_text(860, y, f"samples={row['unique_samples']} reject={rejections} flip={flips}", 13, 400))
+        bar_width = max(4, 480 * int(row["unique_samples"]) / max_gap_bin_samples)
+        lines.append(f'<rect x="330" y="{y-16}" width="{bar_width:.1f}" height="20" fill="{color}"/>')
+        lines.append(svg_text(840, y, f"samples={row['unique_samples']} reject={rejections} flip={flips}", 13, 400))
         y += 25
     figures["figures/figure_06_gap_bin_behavior.svg"] = close_svg(lines)
 

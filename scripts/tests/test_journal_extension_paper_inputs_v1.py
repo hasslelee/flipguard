@@ -56,6 +56,12 @@ class JournalExtensionPaperInputsTest(unittest.TestCase):
             "results/paper",
         )
 
+    def test_graph_scale_and_gap_figures_reserve_annotation_space(self):
+        source = (ROOT / "scripts/build_journal_extension_paper_inputs_v1.py").read_text(encoding="utf-8")
+        self.assertIn("width = 540 * math.log10", source)
+        self.assertIn("bar_width = max(4, 480 *", source)
+        self.assertIn("svg_text(840, y", source)
+
     def test_overclaim_scan_rejects_affirmative_claims(self):
         findings = VERIFY_MODULE.prohibited_overclaims(
             {"table.md": "FlipGuard reaches the global optimum and production speedup."}
