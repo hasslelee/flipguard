@@ -1,0 +1,81 @@
+{
+  "activation_class": "A_LITERAL_EFFECT_SUPPORTED",
+  "claim_state": "SUPPORTED",
+  "direct": {
+    "candidate_id": "synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140",
+    "literal": {
+      "log_default_scale": 29,
+      "log_n": 13,
+      "log_p": [
+        39
+      ],
+      "log_q": [
+        39,
+        29,
+        29,
+        29,
+        29
+      ],
+      "path": "rescale"
+    },
+    "per_logit_error_budget": 0.010624548791414279,
+    "protected_top_two_gap": 0.042498195165657116,
+    "repairs": 0,
+    "status": "SAFE",
+    "synthesis_input": "graph plus frozen natural top-two-gap decision contract",
+    "trials": 1
+  },
+  "explanation": "The frozen natural gap permits a larger per-logit synthesis budget than the fixed 0.001 comparator; the resulting Security-V2-admitted literals differ.",
+  "graph_only_fixed_tolerance": {
+    "argmax_flips": 0,
+    "candidate_id": "synth_analysis_minimum_rescale_N13_Q5_S32_cd07c4b74140",
+    "encrypted_sample_evaluations": 1500,
+    "fixed_per_logit_tolerance": 0.001,
+    "fresh_key_runs": 3,
+    "literal": {
+      "log_default_scale": 32,
+      "log_n": 13,
+      "log_p": [
+        42
+      ],
+      "log_q": [
+        42,
+        32,
+        32,
+        32,
+        32
+      ],
+      "path": "rescale"
+    },
+    "reserve_policy_rejections": 0,
+    "status": "SAFE"
+  },
+  "latency_only_no_certification": {
+    "fastest_executable_profile": "short_chain_5",
+    "fastest_executable_status_under_decision_gate": "SAFE",
+    "fastest_safe_profile": "short_chain_5",
+    "latency_claim": "DESCRIPTIVE_UNPAIRED_ONLY",
+    "same_profile_in_this_scope": true,
+    "scope": "MLP admitted executable catalog profiles"
+  },
+  "lenet_graph_only": {
+    "encrypted_execution": 0,
+    "reason": "no admitted ring dimension for declared logQP=894 required_slots=500 within LogN=[12,15]",
+    "status": "PLAN_UNSUPPORTED_SECURITY_ENVELOPE"
+  },
+  "literal_changed": true,
+  "one_shot_direct": {
+    "derived_from_frozen_direct_ledger": true,
+    "lenet5_small": "SELECTED_FIRST_TRIAL",
+    "mlp_100": "SELECTED_FIRST_TRIAL"
+  },
+  "prohibited_inference": [
+    "universal natural-data activation",
+    "LeNet graph-only encrypted comparison",
+    "paired speedup from extension timings",
+    "global optimality"
+  ],
+  "schema_version": "flipguard_journal_multiclass_activation_v1",
+  "scope": "MNIST MLP 784-100-square-10 configuration-validation rows only",
+  "study_id": "natural_data_margin_literal_effect"
+}

@@ -57,6 +57,14 @@ def parameter_signature(candidate: dict) -> dict:
     }
 
 
+def trial_candidate_id(trial: dict) -> str:
+    candidate = trial.get("candidate")
+    require(isinstance(candidate, dict), "graph-only trial candidate object")
+    candidate_id = candidate.get("id")
+    require(isinstance(candidate_id, str) and candidate_id, "graph-only trial candidate ID")
+    return candidate_id
+
+
 def summarize_gap_bins(observations: list[dict], boundaries: list[float]) -> list[dict]:
     bins: dict[int, list[dict]] = {index: [] for index in range(1, len(boundaries) + 2)}
     for row in observations:
@@ -103,7 +111,7 @@ def collect(root: Path) -> dict[str, str | list[dict]]:
 
     trial = comparator["trial"]
     graph_candidate = comparator["candidate"]
-    require(trial["candidate_id"] == graph_candidate["id"], "graph-only candidate identity")
+    require(trial_candidate_id(trial) == graph_candidate["id"], "graph-only candidate identity")
     require(trial["key_repeats_completed"] == 3, "graph-only completed key repeats")
     require(trial["encrypted_sample_evaluations"] == 1500, "graph-only sample evaluation accounting")
     require(graph_candidate["security"]["final_admission"] == "PASS", "graph-only Security-V2 admission")

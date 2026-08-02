@@ -28,6 +28,14 @@ class JournalMulticlassActivationToolsTest(unittest.TestCase):
             {"path": "rescale", "log_n": 13, "log_q": [42, 29], "log_p": [42], "log_default_scale": 29},
         )
 
+    def test_trial_candidate_identity_uses_nested_candidate(self):
+        trial = {"candidate": {"id": "candidate-v1"}}
+        self.assertEqual(MODULE.trial_candidate_id(trial), "candidate-v1")
+
+    def test_trial_candidate_identity_rejects_missing_candidate(self):
+        with self.assertRaises(RuntimeError):
+            MODULE.trial_candidate_id({})
+
     def test_gap_boundaries_use_frozen_left_closed_rule(self):
         rows = []
         for index, gap in enumerate([0.1, 0.2, 0.3, 0.4, 0.5], start=1):
