@@ -55,6 +55,8 @@ type executionProtocol struct {
 	LockedAudit                   binding       `json:"locked_audit"`
 	SecurityReconciliation        binding       `json:"security_reconciliation"`
 	SelectedRows                  []subsetRow   `json:"selected_rows"`
+	SelectionRule                 string        `json:"selection_rule"`
+	SelectionRankDomain           string        `json:"selection_rank_domain"`
 	FreshKeysets                  int           `json:"fresh_keysets"`
 	WarmupRuns                    int           `json:"warmup_runs"`
 	MeasurementRuns               int           `json:"measurement_runs"`
@@ -62,6 +64,11 @@ type executionProtocol struct {
 	MarginUtilizationCap          float64       `json:"margin_utilization_cap"`
 	ConcurrentCKKSProcesses       int           `json:"concurrent_ckks_processes"`
 	OutlierRemoval                bool          `json:"outlier_removal"`
+	ImageOrder                    string        `json:"image_order"`
+	ArmOrder                      string        `json:"arm_order"`
+	ProcessRestartPolicy          string        `json:"process_restart_policy"`
+	MeasurementUnit               string        `json:"measurement_unit"`
+	ExpectedMeasurementRecords    int           `json:"expected_measurement_records"`
 	Arms                          []protocolArm `json:"arms"`
 }
 
@@ -231,6 +238,10 @@ func validateProtocol(protocol executionProtocol, keyset int) error {
 	}
 	if len(protocol.SelectedRows) != 100 || len(protocol.Arms) != 3 || protocol.ConcurrentCKKSProcesses != 0 || protocol.OutlierRemoval {
 		return fmt.Errorf("protocol population, arm, concurrency, or outlier policy changed")
+	}
+	if protocol.ExpectedMeasurementRecords != 5400 ||
+		protocol.MeasurementUnit != "single-image encrypted inference" {
+		return fmt.Errorf("protocol measurement unit or record count changed")
 	}
 	counts := make([]int, 10)
 	seenRows := make(map[int]bool)

@@ -18,7 +18,9 @@ func validTestProtocol() executionProtocol {
 		ExecutionSourceCommit: "0123456789012345678901234567890123456789",
 		SelectedRows:          rows, FreshKeysets: 3, WarmupRuns: 1,
 		MeasurementRuns: 6, ConcurrentCKKSProcesses: 0,
-		Arms: []protocolArm{{ID: "a"}, {ID: "b"}, {ID: "c"}},
+		MeasurementUnit:            "single-image encrypted inference",
+		ExpectedMeasurementRecords: 5400,
+		Arms:                       []protocolArm{{ID: "a"}, {ID: "b"}, {ID: "c"}},
 	}
 }
 

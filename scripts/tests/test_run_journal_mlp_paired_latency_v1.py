@@ -22,6 +22,13 @@ class FocusedMLPPairedRunnerTest(unittest.TestCase):
             (root / "attempt_03").mkdir()
             self.assertEqual(MODULE.next_attempt(root), 4)
 
+    def test_next_attempt_counts_preserved_log_without_directory(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            parent = Path(temporary)
+            root = parent / "keyset_01"
+            (parent / "keyset_01_attempt_01.log").write_text("failed before output\n", encoding="utf-8")
+            self.assertEqual(MODULE.next_attempt(root), 2)
+
     def test_complete_attempt_rejects_truncated_ledger(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

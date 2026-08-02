@@ -14,7 +14,7 @@ from pathlib import Path
 from verify_journal_mlp_paired_latency_protocol_v1 import verify
 
 
-PROTOCOL = Path("docs/evidence/journal_mlp_paired_latency_protocol_v1")
+PROTOCOL = Path("docs/evidence/journal_mlp_paired_latency_protocol_v1_1")
 DEFAULT_OUTPUT = Path("results/journal_mlp_paired_latency_v1/execution")
 
 
@@ -64,11 +64,16 @@ def existing_ckks_processes(binary: Path) -> list[str]:
 def next_attempt(root: Path) -> int:
     attempts = []
     if root.exists():
-        for path in root.glob("attempt_*" ):
+        for path in root.glob("attempt_*"):
             try:
                 attempts.append(int(path.name.split("_", 1)[1]))
             except ValueError:
                 continue
+    for log_path in root.parent.glob(f"{root.name}_attempt_*.log"):
+        try:
+            attempts.append(int(log_path.stem.rsplit("_", 1)[1]))
+        except ValueError:
+            continue
     return max(attempts, default=0) + 1
 
 
