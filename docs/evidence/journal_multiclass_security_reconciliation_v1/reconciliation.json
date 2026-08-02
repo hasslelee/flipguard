@@ -1,0 +1,219 @@
+{
+  "allowed_security_wording": "The journal candidates pass Security Policy V2 and both declared classical estimator models using exact materialized Q and QP; the Lattigo error truncation is not modeled exactly.",
+  "classification": "CLASS_S1_ESTIMATOR_ADAPTER_MISMATCH",
+  "corrected_static_replay": {
+    "attack_failures": 0,
+    "attacks_per_model": 24,
+    "candidate_count": 4,
+    "candidate_failures": 0,
+    "estimator_models": [
+      "current-3e48ef4",
+      "guidelines-pinned-8f1ff7e"
+    ],
+    "q_objects": 4,
+    "qp_objects": 4
+  },
+  "distribution_caveat": {
+    "exact_distribution_claim_allowed": false,
+    "quantum_cost_model": "NOT_EVALUATED",
+    "xe": "runtime ring.DiscreteGaussian sigma=3.2 bound=19.2 maps to untruncated estimator ND.DiscreteGaussian(3.2)",
+    "xs": "runtime ring.Ternary P=2/3 maps exactly to estimator ND.Uniform(-1,1)"
+  },
+  "encrypted_replay_required": false,
+  "literal_changes": 0,
+  "models": {
+    "lenet5_small": {
+      "actual_log_p": 54.000000000152205,
+      "actual_log_q": 802.00000059666,
+      "actual_log_qp": 856.0000005968122,
+      "candidate_id": "synth_analysis_minimum_rescale_N15_Q18_S44_3d9a3ac648cc",
+      "exact_p_primes": [
+        18014398511382529
+      ],
+      "exact_q_primes": [
+        18014398510661633,
+        17592186175489,
+        17592186372097,
+        17592186634241,
+        17592186765313,
+        17592187617281,
+        17592187748353,
+        17592188928001,
+        17592188993537,
+        17592182833153,
+        17592189976577,
+        17592190107649,
+        17592182243329,
+        17592190763009,
+        17592181260289,
+        17592181129217,
+        17592191746049,
+        17592180736001
+      ],
+      "final_security_state": "SECURITY_CORRECTED_AND_REPLAYED",
+      "literal": {
+        "log_default_scale": 44,
+        "log_n": 15,
+        "log_p": [
+          54
+        ],
+        "log_q": [
+          54,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44
+        ]
+      },
+      "minimum_classical_bits": 132.046927836598,
+      "security_policy_v2": {
+        "admission_reason": "concrete ciphertext Q and evaluation-key QP products are within the conservative Table 5.2 cap",
+        "admission_status": "PASS",
+        "ciphertext_headroom_bits": 65,
+        "ciphertext_q_admission": "PASS",
+        "declared_log_qp": 857,
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "evaluation_key_headroom_bits": 11,
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "headroom_bits": 11,
+        "log_p": 55,
+        "log_q": 803,
+        "log_qp": 857,
+        "max_allowed_log_qp": 868,
+        "measurement": "ceil_log2_concrete_modulus_product",
+        "target_bits": 128
+      }
+    },
+    "mlp_100": {
+      "actual_log_p": 39.000000558946134,
+      "actual_log_q": 154.9992070672203,
+      "actual_log_qp": 193.99920762616645,
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140",
+      "exact_p_primes": [
+        549756026881
+      ],
+      "exact_q_primes": [
+        549755731969,
+        536903681,
+        536952833,
+        536690689,
+        536641537
+      ],
+      "final_security_state": "SECURITY_CORRECTED_AND_REPLAYED",
+      "literal": {
+        "log_default_scale": 29,
+        "log_n": 13,
+        "log_p": [
+          39
+        ],
+        "log_q": [
+          39,
+          29,
+          29,
+          29,
+          29
+        ]
+      },
+      "minimum_classical_bits": 145.229851075969,
+      "security_policy_v2": {
+        "admission_reason": "concrete ciphertext Q and evaluation-key QP products are within the conservative Table 5.2 cap",
+        "admission_status": "PASS",
+        "ciphertext_headroom_bits": 59,
+        "ciphertext_q_admission": "PASS",
+        "declared_log_qp": 194,
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "evaluation_key_headroom_bits": 20,
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "headroom_bits": 20,
+        "log_p": 40,
+        "log_q": 155,
+        "log_qp": 194,
+        "max_allowed_log_qp": 214,
+        "measurement": "ceil_log2_concrete_modulus_product",
+        "target_bits": 128
+      }
+    }
+  },
+  "original_estimator": {
+    "failed_objects": [
+      {
+        "attack_failure_count": "0",
+        "attack_success_count": "3",
+        "candidate_ids": "default|scale38|scale40|scale42",
+        "candidate_sources": "catalog",
+        "estimator_status": "FAIL_ESTIMATOR_MODEL",
+        "exact_log2_modulus": "441.0000000356197",
+        "exact_modulus_bit_length": "442",
+        "log_n": "14",
+        "minimum_log2_rop": "126.959573480345",
+        "model_id": "current-3e48ef4",
+        "model_role": "CURRENT_ESTIMATOR_SENSITIVITY",
+        "object_type": "EVALUATION_KEY_QP",
+        "signature_id": "0a8004fc7d412eda",
+        "static_v2_final_admission": "FAIL",
+        "static_v2_object_admission": "FAIL"
+      },
+      {
+        "attack_failure_count": "0",
+        "attack_success_count": "3",
+        "candidate_ids": "default|scale38|scale40|scale42",
+        "candidate_sources": "catalog",
+        "estimator_status": "FAIL_ESTIMATOR_MODEL",
+        "exact_log2_modulus": "441.0000000356197",
+        "exact_modulus_bit_length": "442",
+        "log_n": "14",
+        "minimum_log2_rop": "126.961484896633",
+        "model_id": "guidelines-pinned-8f1ff7e",
+        "model_role": "GUIDELINE_PINNED_REPLAY",
+        "object_type": "EVALUATION_KEY_QP",
+        "signature_id": "0a8004fc7d412eda",
+        "static_v2_final_admission": "FAIL",
+        "static_v2_object_admission": "FAIL"
+      }
+    ],
+    "global_status": [
+      "FALSIFIED_UNDER_ESTIMATOR_MODEL",
+      "FALSIFIED_UNDER_ESTIMATOR_MODEL"
+    ],
+    "manifest_sha256": "sha256:a445fce77883bf6ce9d5946733790e8f630e9cf277c3d76316e89f643687ccc4",
+    "paper_claim_allowed": false,
+    "source_rows": 14,
+    "static_admitted_estimator_failures": [
+      0,
+      0
+    ],
+    "unique_modulus_identities": 9
+  },
+  "original_estimator_input_journal_candidates": 0,
+  "paired_arms": {
+    "all_pass": true,
+    "catalog_minimum_bits": 166.389858258149,
+    "gap_aware_direct_minimum_bits": 145.229851075969,
+    "graph_only_minimum_bits": 131.786862707963
+  },
+  "policy_retuning": 0,
+  "prohibited_security_wording": [
+    "universal 128-bit security",
+    "exact runtime-distribution equivalence",
+    "quantum 128-bit security"
+  ],
+  "root_cause": "RESULT_SCOPE_AND_AGGREGATION_MISMATCH",
+  "root_cause_detail": "The pre-existing exact-estimator run consumed 14 pre-journal core rows. Its global run status was falsified by a Security-V2-inadmissible N14/QP441 catalog identity, while the journal candidates were absent. That global status was incorrectly attributed to MLP-100 and LeNet-5-small.",
+  "schema_version": "flipguard_journal_multiclass_security_reconciliation_v1",
+  "security_amendment_required": false
+}

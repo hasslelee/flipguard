@@ -1,0 +1,287 @@
+{
+  "candidates": [
+    {
+      "actual_log_p": 54.000000000152205,
+      "actual_log_q": 802.00000059666,
+      "actual_log_qp": 856.0000005968122,
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "arm": "gap_aware_direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N15_Q18_S44_3d9a3ac648cc",
+      "exact_p_primes": [
+        18014398511382529
+      ],
+      "exact_q_primes": [
+        18014398510661633,
+        17592186175489,
+        17592186372097,
+        17592186634241,
+        17592186765313,
+        17592187617281,
+        17592187748353,
+        17592188928001,
+        17592188993537,
+        17592182833153,
+        17592189976577,
+        17592190107649,
+        17592182243329,
+        17592190763009,
+        17592181260289,
+        17592181129217,
+        17592191746049,
+        17592180736001
+      ],
+      "model_id": "mnist_lenet5_small_square_v1",
+      "parameters": {
+        "log_default_scale": 44,
+        "log_n": 15,
+        "log_p": [
+          54
+        ],
+        "log_q": [
+          54,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44
+        ]
+      },
+      "path": "rescale",
+      "required_objects": {
+        "ciphertext_q": true,
+        "evaluation_key_modulus": "QP",
+        "relinearization_key_qp": true,
+        "rotation_key_qp": false
+      },
+      "security_policy_v2": {
+        "admission_reason": "concrete ciphertext Q and evaluation-key QP products are within the conservative Table 5.2 cap",
+        "admission_status": "PASS",
+        "ciphertext_headroom_bits": 65,
+        "ciphertext_q_admission": "PASS",
+        "declared_log_qp": 857,
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "evaluation_key_headroom_bits": 11,
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "headroom_bits": 11,
+        "log_p": 55,
+        "log_q": 803,
+        "log_qp": 857,
+        "max_allowed_log_qp": 868,
+        "measurement": "ceil_log2_concrete_modulus_product",
+        "target_bits": 128
+      }
+    },
+    {
+      "actual_log_p": 109.9999999999895,
+      "actual_log_q": 235.00000001077007,
+      "actual_log_qp": 345.00000001075955,
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "arm": "bounded_catalog_fastest_safe",
+      "candidate_id": "catalog_short_chain_5__rescale",
+      "exact_p_primes": [
+        36028797020209153,
+        36028797017456641
+      ],
+      "exact_q_primes": [
+        36028797019488257,
+        35184372744193,
+        35184373006337,
+        35184373989377,
+        35184368877569
+      ],
+      "model_id": "mnist_mlp_square_784_100_10_v1",
+      "parameters": {
+        "log_default_scale": 40,
+        "log_n": 14,
+        "log_p": [
+          56,
+          55
+        ],
+        "log_q": [
+          56,
+          46,
+          46,
+          46,
+          45
+        ],
+        "p": [
+          36028797020209153,
+          36028797017456641
+        ],
+        "q": [
+          36028797019488257,
+          35184372744193,
+          35184373006337,
+          35184373989377,
+          35184368877569
+        ]
+      },
+      "path": "rescale",
+      "profile": "short_chain_5",
+      "required_objects": {
+        "ciphertext_q": true,
+        "evaluation_key_modulus": "QP",
+        "relinearization_key_qp": true,
+        "rotation_key_qp": false
+      },
+      "security_policy_v2": {
+        "admission_reason": "concrete ciphertext Q and evaluation-key QP products are within the conservative Table 5.2 cap",
+        "admission_status": "PASS",
+        "ciphertext_headroom_bits": 194,
+        "ciphertext_q_admission": "PASS",
+        "declared_log_qp": 346,
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "evaluation_key_headroom_bits": 84,
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "headroom_bits": 84,
+        "log_p": 110,
+        "log_q": 236,
+        "log_qp": 346,
+        "max_allowed_log_qp": 430,
+        "measurement": "ceil_log2_concrete_modulus_product",
+        "target_bits": 128
+      }
+    },
+    {
+      "actual_log_p": 39.000000558946134,
+      "actual_log_q": 154.9992070672203,
+      "actual_log_qp": 193.99920762616645,
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "arm": "gap_aware_direct",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140",
+      "exact_p_primes": [
+        549756026881
+      ],
+      "exact_q_primes": [
+        549755731969,
+        536903681,
+        536952833,
+        536690689,
+        536641537
+      ],
+      "model_id": "mnist_mlp_square_784_100_10_v1",
+      "parameters": {
+        "log_default_scale": 29,
+        "log_n": 13,
+        "log_p": [
+          39
+        ],
+        "log_q": [
+          39,
+          29,
+          29,
+          29,
+          29
+        ]
+      },
+      "path": "rescale",
+      "required_objects": {
+        "ciphertext_q": true,
+        "evaluation_key_modulus": "QP",
+        "relinearization_key_qp": true,
+        "rotation_key_qp": false
+      },
+      "security_policy_v2": {
+        "admission_reason": "concrete ciphertext Q and evaluation-key QP products are within the conservative Table 5.2 cap",
+        "admission_status": "PASS",
+        "ciphertext_headroom_bits": 59,
+        "ciphertext_q_admission": "PASS",
+        "declared_log_qp": 194,
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "evaluation_key_headroom_bits": 20,
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "headroom_bits": 20,
+        "log_p": 40,
+        "log_q": 155,
+        "log_qp": 194,
+        "max_allowed_log_qp": 214,
+        "measurement": "ceil_log2_concrete_modulus_product",
+        "target_bits": 128
+      }
+    },
+    {
+      "actual_log_p": 42.00000017735743,
+      "actual_log_q": 170.00009892565114,
+      "actual_log_qp": 212.00009910300858,
+      "actual_xe": "ring.DiscreteGaussian:{3.2 19.2}",
+      "actual_xs": "ring.Ternary:{0.6666666666666666 0}",
+      "arm": "graph_only_fixed_tolerance",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q5_S32_cd07c4b74140",
+      "exact_p_primes": [
+        4398047051777
+      ],
+      "exact_q_primes": [
+        4398046150657,
+        4295049217,
+        4295294977,
+        4295344129,
+        4294475777
+      ],
+      "model_id": "mnist_mlp_square_784_100_10_v1",
+      "parameters": {
+        "log_default_scale": 32,
+        "log_n": 13,
+        "log_p": [
+          42
+        ],
+        "log_q": [
+          42,
+          32,
+          32,
+          32,
+          32
+        ]
+      },
+      "path": "rescale",
+      "required_objects": {
+        "ciphertext_q": true,
+        "evaluation_key_modulus": "QP",
+        "relinearization_key_qp": true,
+        "rotation_key_qp": false
+      },
+      "security_policy_v2": {
+        "admission_reason": "concrete ciphertext Q and evaluation-key QP products are within the conservative Table 5.2 cap",
+        "admission_status": "PASS",
+        "ciphertext_headroom_bits": 43,
+        "ciphertext_q_admission": "PASS",
+        "declared_log_qp": 213,
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "evaluation_key_headroom_bits": 1,
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "headroom_bits": 1,
+        "log_p": 43,
+        "log_q": 171,
+        "log_qp": 213,
+        "max_allowed_log_qp": 214,
+        "measurement": "ceil_log2_concrete_modulus_product",
+        "target_bits": 128
+      }
+    }
+  ],
+  "lattigo_module": "github.com/tuneinsight/lattigo/v6",
+  "lattigo_version": "v6.2.0",
+  "policy_retuning": 0,
+  "schema_version": "flipguard_journal_multiclass_security_materialization_v1",
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+  "source_commit": "2d6b54330d214cd9c8087ce96cb2cbda38ba8986"
+}
