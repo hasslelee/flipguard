@@ -18,6 +18,8 @@ class JournalExtensionFinalVerifierTest(unittest.TestCase):
         self.assertIn("docs/thesis", MODULE.IMMUTABLE_PATHS)
         self.assertIn("results/thesis_grade_protocol/paper_artifacts_v3/final", MODULE.IMMUTABLE_PATHS)
         self.assertIn("docs/evidence/research_completion_checkpoint_v10", MODULE.IMMUTABLE_PATHS)
+        self.assertIn("internal/ckksplanner/direct_policy.go", MODULE.IMMUTABLE_PATHS)
+        self.assertIn("internal/ckksplanner/security_policy.go", MODULE.IMMUTABLE_PATHS)
 
     def test_rc2_tag_is_still_bound(self):
         commit = subprocess.check_output(

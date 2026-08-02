@@ -17,8 +17,11 @@ IMMUTABLE_PATHS = [
     "docs/thesis",
     "results/thesis_grade_protocol/paper_artifacts_v3/final",
     "docs/evidence/research_completion_checkpoint_v10",
+    "docs/evidence/security_v2_static_attestation",
     "docs/evidence/security_v2_static_attestation_formal_v2",
     "docs/evidence/security_v2_bounded_oracle_v1",
+    "internal/ckksplanner/direct_policy.go",
+    "internal/ckksplanner/security_policy.go",
 ]
 
 
