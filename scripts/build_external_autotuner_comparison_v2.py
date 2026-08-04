@@ -69,6 +69,7 @@ def copy_contracts() -> None:
 
 
 def make_landscape(rows: list[dict]) -> None:
+    registry = read_json(PROTOCOL / "source_registry.json")
     fields = [
         "system", "full_title", "authors", "venue", "year", "publication_status",
         "peer_reviewed", "official_paper", "official_repository", "artifact_revision",
@@ -83,6 +84,7 @@ def make_landscape(rows: list[dict]) -> None:
         "schema_version": "flipguard_external_official_sources_v2",
         "audit_date": "2026-08-05",
         "source_commit": SOURCE_COMMIT,
+        "downloaded_primary_source_sha256": registry["downloaded_primary_source_sha256"],
         "systems": [
             {
                 "system": row["system"],

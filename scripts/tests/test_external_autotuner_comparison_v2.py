@@ -5,6 +5,7 @@ from __future__ import annotations
 import csv
 import importlib.util
 import json
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -30,6 +31,12 @@ class ExternalBaselineBuilderTest(unittest.TestCase):
         names = [row["system"] for row in registry["systems"]]
         self.assertEqual(len(names), 20)
         self.assertEqual(len(set(names)), 20)
+        self.assertGreaterEqual(len(registry["downloaded_primary_source_sha256"]), 8)
+        for source_digest in registry["downloaded_primary_source_sha256"].values():
+            self.assertRegex(source_digest, r"^[0-9a-f]{64}$")
+        for row in registry["systems"]:
+            if row["official_repository"] != "NR":
+                self.assertRegex(row["artifact_revision"], r"^.+@[0-9a-f]{40}$")
 
     def test_csv_writer_keeps_declared_schema(self):
         module = load_module()
