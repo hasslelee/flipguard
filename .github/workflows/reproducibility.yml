@@ -1,0 +1,58 @@
+name: Reproducibility
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-evidence:
+    name: Static evidence verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out requested source
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.12"
+      - name: Verify core release binding
+        run: python3 docs/evidence/research_release_binding_rc2_v1/verify_research_release_binding_rc2.py
+      - name: Verify core claim admission
+        run: python3 docs/evidence/paper_claim_admission_v1/verify_paper_claim_admission.py
+      - name: Verify Paper Artifacts V3
+        run: python3 scripts/verify_flipguard_v3_paper_artifacts.py
+      - name: Verify completion checkpoint V10
+        run: python3 docs/evidence/research_completion_checkpoint_v10/verify_research_completion_checkpoint_v10.py
+      - name: Verify multiclass final pack
+        run: python3 docs/evidence/journal_multiclass_extension_final_v1/verify_journal_multiclass_extension_final_v1.py
+      - name: Verify multiclass claim admission
+        run: python3 docs/evidence/journal_multiclass_claim_admission_v2/verify_journal_multiclass_claim_admission_v2.py
+      - name: Verify focused MLP paired latency
+        run: python3 scripts/verify_journal_mlp_paired_latency_evidence_v1.py
+
+  policy-files:
+    name: Policy and checksum verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out requested source
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
+      - name: Set up Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.12"
+      - name: Verify Security V2 and Direct Policy V2
+        run: python3 scripts/build_security_v2_static_artifacts.py --verify
+      - name: Verify validation identity comparison
+        run: python3 scripts/verify_validation_identity_comparison_evidence.py
+
+# This workflow intentionally performs no encrypted candidate run, key generation,
+# audit replay, or latency benchmark on GitHub-hosted runners.
