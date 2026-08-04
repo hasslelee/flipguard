@@ -1,0 +1,29 @@
+{
+  "schema_version": "flipguard_public_export_manifest_v1",
+  "purpose": "Curate a redistributable source and publication-documentation export without rewriting the frozen research worktree.",
+  "source_research_commit": "fd53d9f23040fd1490d9816a928dd04ec58eb473",
+  "include_classes": [
+    "source",
+    "policies",
+    "public documentation",
+    "public brand assets",
+    "claim registries",
+    "checksum manifests",
+    "deterministic verifiers"
+  ],
+  "exclude_globs": [
+    "docs/evidence/jkiisc_official_sources_v1/files/**",
+    "docs/journal/**",
+    "results/journal/**",
+    "**/submission_form.hwp",
+    "**/publication_form.hwp",
+    "**/*secret*key*",
+    "**/*.pem",
+    "**/*.key",
+    "**/raw_private_data/**",
+    "**/generated-binaries/**"
+  ],
+  "large_evidence_policy": "Prefer the frozen artifact archive, SHA-256 manifest, and verifier over duplicate raw ledgers when a public source bundle is assembled.",
+  "third_party_policy": "Fetch licensed datasets and official forms from authoritative sources; do not redistribute them merely because a frozen development checkpoint records their bytes.",
+  "immutability_note": "Exclusion from a public export does not delete, rewrite, or downgrade the frozen predecessor evidence."
+}
