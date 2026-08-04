@@ -48,6 +48,13 @@ class ExternalBaselineBuilderTest(unittest.TestCase):
                 rows = list(csv.DictReader(handle))
             self.assertEqual(rows, [{"system": "EVA"}])
 
+    def test_csv_reader_returns_declared_rows(self):
+        module = load_module()
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "input.csv"
+            path.write_text("system,status\nEVA,PASS\n", encoding="utf-8")
+            self.assertEqual(module.read_csv(path), [{"system": "EVA", "status": "PASS"}])
+
     def test_portability_policy_is_fail_closed(self):
         policy = json.loads(
             (ROOT / "docs/evidence/external_autotuner_comparison_v2/protocol/reproduction_policy.json").read_text(encoding="utf-8")

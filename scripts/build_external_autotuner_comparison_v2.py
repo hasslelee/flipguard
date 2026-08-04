@@ -36,6 +36,11 @@ def read_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def read_csv(path: Path) -> list[dict]:
+    with path.open(newline="", encoding="utf-8") as handle:
+        return list(csv.DictReader(handle))
+
+
 def write_json(path: Path, value) -> None:
     path.write_text(json.dumps(value, ensure_ascii=True, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
@@ -260,7 +265,7 @@ def make_result_tables(builds: list[dict]) -> None:
         "packing_identity", "output_semantics_identity", "same_host_result", "headline_eligible", "reason",
     ]
     external_tools = [
-        row for row in rows(PROTOCOL / "tool_workload_applicability.csv")
+        row for row in read_csv(PROTOCOL / "tool_workload_applicability.csv")
         if row["tool"] != "FlipGuard"
     ]
     build_by_name = {row["system"]: row for row in builds}
