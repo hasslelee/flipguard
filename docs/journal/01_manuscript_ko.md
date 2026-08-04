@@ -32,6 +32,8 @@ Fig. 1은 이들 provider/autotuner와 FlipGuard의 역할을 구분한다. 기�
 
 **Fig. 1. Separation between configuration providers and the FlipGuard decision-integrity layer.**
 
+Table 1은 관련 연구의 optimization 역할과 FlipGuard의 assurance 역할을 같은 축에서 비교한다.
+
 **Table 1. Comparison of optimization and assurance roles.**
 
 | Work | Main target | Candidate mechanism | Error/correctness role | Difference from FlipGuard |
@@ -74,6 +76,8 @@ Fig. 2는 theorem 조건과 50% utilization policy를 분리한다. Equality는 
 ## 3.3 상태와 보장 범위
 
 `V_cert`는 margin floor보다 큰 결정 margin을 가진 certifiable input 집합이고, `V_amb`는 그 이하의 ambiguous input 집합이다. Candidate 실행이 실패하면 FAILED, `V_cert`에서 flip 또는 reserve-policy violation이 있으면 REJECTED, 모든 검사를 통과하면 SAFE다. Bounded trial 안에 SAFE 후보가 없으면 workload 결과는 NO_SAFE다. Coverage는 `|V_cert|/(|V_cert|+|V_amb|)`로 보고한다.
+
+Table 2는 각 상태가 허용하는 동작과 그 상태만으로는 도출할 수 없는 결론을 구분한다.
 
 **Table 2. FlipGuard outcome semantics and assurance boundary.**
 
