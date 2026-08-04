@@ -2,8 +2,8 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FlipGuard public README preview</title><style>:root{color-scheme:light dark;--bg:#fff;--fg:#24292f;--muted:#57606a;--border:#d0d7de;--code:#f6f8fa;--link:#0969da}
 @media(prefers-color-scheme:dark){:root{--bg:#0d1117;--fg:#f0f6fc;--muted:#b6c2cf;--border:#30363d;--code:#161b22;--link:#58a6ff}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:980px;margin:0 auto;padding:40px 28px 80px}a{color:var(--link)}img{max-width:100%;height:auto}h1,h2{border-bottom:1px solid var(--border);padding-bottom:.35em}h2{margin-top:2em}code{background:var(--code);padding:.15em .35em;border-radius:4px}pre{overflow:auto;background:var(--code);padding:16px;border-radius:6px}pre code{padding:0}table{display:block;overflow-x:auto;border-collapse:collapse;width:max-content;max-width:100%}th,td{border:1px solid var(--border);padding:8px 12px}blockquote{margin-left:0;padding-left:16px;border-left:4px solid var(--border);color:var(--muted)}
-@media(max-width:640px){main{padding:24px 16px 56px;font-size:15px}h1{font-size:1.75rem}h2{font-size:1.35rem}table{font-size:13px}}</style></head>
+main{max-width:980px;margin:0 auto;padding:40px 28px 80px}a{color:var(--link)}img{max-width:100%;height:auto}h1,h2{border-bottom:1px solid var(--border);padding-bottom:.35em}h2{margin-top:2em}code{background:var(--code);padding:.15em .35em;border-radius:4px}pre{overflow:auto;background:var(--code);padding:16px;border-radius:6px}pre code{padding:0}.table-wrap{max-width:100%;overflow-x:auto}.table-wrap table{border-collapse:collapse;width:100%;min-width:720px}th,td{border:1px solid var(--border);padding:8px 12px}blockquote{margin-left:0;padding-left:16px;border-left:4px solid var(--border);color:var(--muted)}
+@media(max-width:640px){main{padding:24px 16px 56px;font-size:15px}h1{font-size:1.75rem}h2{font-size:1.35rem}.table-wrap table{font-size:13px}}</style></head>
 <body><main><p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="../../docs/assets/brand/flipguard-wordmark-dark.svg">
@@ -32,7 +32,7 @@ main{max-width:980px;margin:0 auto;padding:40px 28px 80px}a{color:var(--link)}im
   <a href="../../docs/CLAIM_SCOPE.md">Claim Scope</a> ·
   <a href="#citation">Citation</a>
 </p>
-<table>
+<div class="table-wrap"><table>
 <thead>
 <tr>
 <th style="text-align:center">90% fewer trials</th>
@@ -49,7 +49,7 @@ main{max-width:980px;margin:0 auto;padding:40px 28px 80px}a{color:var(--link)}im
 <td style="text-align:center">MLP-100 and LeNet-5-small</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <blockquote>
 <p>Results are limited to declared finite inputs, supported adapters, one measured host, and explicit security models.</p>
 </blockquote>
@@ -91,7 +91,7 @@ main{max-width:980px;margin:0 auto;padding:40px 28px 80px}a{color:var(--link)}im
 <p>The Security-V2 bounded catalog is an evaluation-only side path. Manual configurations and external providers can be evaluated by the same gate, but broad external-autotuner interoperability remains outside the admitted core claims. See <a href="../../docs/ARCHITECTURE.md">Architecture</a> for module boundaries and evidence flow.</p>
 <h2>Results at a Glance</h2>
 <p><img src="../../docs/assets/figures/results-at-a-glance.svg" alt="Four scoped FlipGuard research results" /></p>
-<table>
+<div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Result</th>
@@ -121,7 +121,7 @@ main{max-width:980px;margin:0 auto;padding:40px 28px 80px}a{color:var(--link)}im
 <td>each model used 500 validation and 500 disjoint locked-audit MNIST images, with three fresh keys</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>The natural top-two-gap contract changed the MLP-100 literal from S32 to S29. It did <strong>not</strong> establish S29-over-S32 latency superiority: the graph-only/direct total-latency ratio was 0.999780 with 95% CI [0.998648, 1.000920]. Against the frozen catalog S40 arm, the S40/S29 ratio was 1.981795 with 95% CI [1.979758, 1.983842]. For LeNet-5-small, the frozen catalog result was <strong>7/7 <code>PLAN_UNSUPPORTED</code></strong>; this is neither <code>NO_SAFE</code> nor a claim of global infeasibility.</p>
 <p>Read <a href="../../docs/RESULTS.md">Results</a> for formal denominators, negative results, security qualifications, and direct evidence links.</p>
 <h2>Decision-Integrity Contracts</h2>
@@ -177,7 +177,7 @@ python3 -m unittest scripts.tests.test_lint_public_readme
 <p>The README commands above are checked on this branch. Encrypted reproduction is intentionally separate because it has stricter provenance, runtime, disk, and source-identity requirements.</p>
 <h2>Reproducing the Results</h2>
 <p>Reproduction is organized by cost and purpose:</p>
-<table>
+<div class="table-wrap"><table>
 <thead>
 <tr>
 <th>Level</th>
@@ -207,7 +207,7 @@ python3 -m unittest scripts.tests.test_lint_public_readme
 <td>dedicated host, frozen source, resumable ledgers, and substantial runtime</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p>Start with <a href="../../docs/REPRODUCIBILITY.md">Reproducibility</a>. Do not run a final suite casually beside another CKKS process: paired latency and fresh-key accounting require the declared execution protocol.</p>
 <h2>Repository Layout</h2>
 <pre><code class="language-text">cmd/                     Go command-line entry points

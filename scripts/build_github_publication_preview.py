@@ -25,8 +25,8 @@ CSS = """
 :root{color-scheme:light dark;--bg:#fff;--fg:#24292f;--muted:#57606a;--border:#d0d7de;--code:#f6f8fa;--link:#0969da}
 @media(prefers-color-scheme:dark){:root{--bg:#0d1117;--fg:#f0f6fc;--muted:#b6c2cf;--border:#30363d;--code:#161b22;--link:#58a6ff}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:980px;margin:0 auto;padding:40px 28px 80px}a{color:var(--link)}img{max-width:100%;height:auto}h1,h2{border-bottom:1px solid var(--border);padding-bottom:.35em}h2{margin-top:2em}code{background:var(--code);padding:.15em .35em;border-radius:4px}pre{overflow:auto;background:var(--code);padding:16px;border-radius:6px}pre code{padding:0}table{display:block;overflow-x:auto;border-collapse:collapse;width:max-content;max-width:100%}th,td{border:1px solid var(--border);padding:8px 12px}blockquote{margin-left:0;padding-left:16px;border-left:4px solid var(--border);color:var(--muted)}
-@media(max-width:640px){main{padding:24px 16px 56px;font-size:15px}h1{font-size:1.75rem}h2{font-size:1.35rem}table{font-size:13px}}
+main{max-width:980px;margin:0 auto;padding:40px 28px 80px}a{color:var(--link)}img{max-width:100%;height:auto}h1,h2{border-bottom:1px solid var(--border);padding-bottom:.35em}h2{margin-top:2em}code{background:var(--code);padding:.15em .35em;border-radius:4px}pre{overflow:auto;background:var(--code);padding:16px;border-radius:6px}pre code{padding:0}.table-wrap{max-width:100%;overflow-x:auto}.table-wrap table{border-collapse:collapse;width:100%;min-width:720px}th,td{border:1px solid var(--border);padding:8px 12px}blockquote{margin-left:0;padding-left:16px;border-left:4px solid var(--border);color:var(--muted)}
+@media(max-width:640px){main{padding:24px 16px 56px;font-size:15px}h1{font-size:1.75rem}h2{font-size:1.35rem}.table-wrap table{font-size:13px}}
 """.strip()
 
 
@@ -46,6 +46,7 @@ def rewrite_relative_assets(html: str) -> str:
 def render_markdown(path: Path, language: str) -> str:
     renderer = MarkdownIt("commonmark", {"html": True}).enable("table")
     body = rewrite_relative_assets(renderer.render(path.read_text(encoding="utf-8")))
+    body = body.replace("<table>", '<div class="table-wrap"><table>').replace("</table>", "</table></div>")
     title = "FlipGuard public README preview"
     return f"""<!doctype html>
 <html lang="{language}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title}</title><style>{CSS}</style></head>
