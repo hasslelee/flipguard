@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FlipGuard public README preview</title><style>:root{color-scheme:light dark;--bg:#fff;--fg:#24292f;--muted:#57606a;--border:#d0d7de;--code:#f6f8fa;--link:#0969da}
+@media(prefers-color-scheme:dark){:root{--bg:#0d1117;--fg:#f0f6fc;--muted:#b6c2cf;--border:#30363d;--code:#161b22;--link:#58a6ff}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:980px;margin:0 auto;padding:40px 28px 80px}a{color:var(--link)}img{max-width:100%;height:auto}h1,h2{border-bottom:1px solid var(--border);padding-bottom:.35em}h2{margin-top:2em}code{background:var(--code);padding:.15em .35em;border-radius:4px}pre{overflow:auto;background:var(--code);padding:16px;border-radius:6px}pre code{padding:0}table{display:block;overflow-x:auto;border-collapse:collapse;width:max-content;max-width:100%}th,td{border:1px solid var(--border);padding:8px 12px}blockquote{margin-left:0;padding-left:16px;border-left:4px solid var(--border);color:var(--muted)}
+@media(max-width:640px){main{padding:24px 16px 56px;font-size:15px}h1{font-size:1.75rem}h2{font-size:1.35rem}table{font-size:13px}}</style></head>
+<body><main><p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="../../docs/assets/brand/flipguard-wordmark-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="../../docs/assets/brand/flipguard-wordmark.svg">
+    <img alt="FlipGuard" src="../../docs/assets/brand/flipguard-wordmark.svg" width="520">
+  </picture>
+</p>
+<p align="center">
+  <strong>Decision-integrity-aware direct synthesis and validation of CKKS configurations.</strong>
+</p>
+<p align="center">
+  English | <a href="../../README_ko.md">한국어</a>
+</p>
+<p align="center">
+  <a href="https://github.com/hasslelee/flipguard/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/hasslelee/flipguard/actions/workflows/ci.yml/badge.svg?branch=docs%2Fgithub-publication-v1"></a>
+  <img alt="Go 1.25.9" src="https://img.shields.io/badge/Go-1.25.9-00ADD8?logo=go&amp;logoColor=white">
+  <img alt="Lattigo 6.2.0" src="https://img.shields.io/badge/Lattigo-6.2.0-1F6FEB">
+  <a href="https://github.com/hasslelee/flipguard/tree/flipguard-thesis-v1.0.0-rc2"><img alt="Research artifact RC2" src="https://img.shields.io/badge/research_artifact-RC2-0D2A52"></a>
+  <a href="../../docs/REPRODUCIBILITY.md"><img alt="Reproducibility" src="https://img.shields.io/badge/reproducibility-documented-2DA44E"></a>
+</p>
+<p align="center">
+  <a href="#quick-start"><strong>Quick Start</strong></a> ·
+  <a href="#architecture">Architecture</a> ·
+  <a href="#results-at-a-glance">Results</a> ·
+  <a href="../../docs/REPRODUCIBILITY.md">Reproducibility</a> ·
+  <a href="../../docs/CLAIM_SCOPE.md">Claim Scope</a> ·
+  <a href="#citation">Citation</a>
+</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">90% fewer trials</th>
+<th style="text-align:center">40/40 locked audits</th>
+<th style="text-align:center">3.140660 catalog/direct ratio</th>
+<th style="text-align:center">0 multiclass argmax flips</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">70 direct / 700 catalog</td>
+<td style="text-align:center">Confirmatory, no retuning</td>
+<td style="text-align:center">95% CI [2.342334, 4.215313]</td>
+<td style="text-align:center">MLP-100 and LeNet-5-small</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Results are limited to declared finite inputs, supported adapters, one measured host, and explicit security models.</p>
+</blockquote>
+<p>FlipGuard directly synthesizes and validates CKKS configurations under explicit decision-integrity contracts. It treats the final threshold or argmax decision as an admission target, not merely the numerical score. A built-in provider derives a CKKS literal from supported graph facts, then encrypted validation and bounded repairs produce <code>SAFE</code>, <code>REJECTED</code>, <code>FAILED</code>, or <code>NO_SAFE</code>. Once selected, the exact literal is replayed without retuning on a disjoint locked audit. A Security-V2-compliant bounded catalog remains an evaluation-only comparison, not a global oracle.</p>
+<p><strong>Direct synthesis · bounded repair · NO_SAFE abstention · locked audit</strong></p>
+<h2>Why FlipGuard?</h2>
+<p>Approximate CKKS arithmetic introduces numerical error. A configuration can execute successfully and still move a score across a decision threshold or change the largest logit. Configuration tools commonly optimize depth, scale, error, bootstrapping, or latency; FlipGuard adds a common <strong>Decision-Integrity Layer</strong> that asks whether the declared decision remains defensible on finite validation evidence.</p>
+<p>The project focuses on three practical gaps:</p>
+<ul>
+<li>candidate generation should not require enumerating every profile in a fixed catalog;</li>
+<li>executable candidates still need decision-aware encrypted admission;</li>
+<li>selection and final assessment must be separated to expose retuning and audit failures.</li>
+</ul>
+<p>FlipGuard is a research framework, not a universal CKKS compiler or production inference engine. Its empirical guarantees are scoped to declared inputs, supported graph adapters, frozen policies, observed fresh-key runs, and stated security models.</p>
+<h2>Key Ideas</h2>
+<ol>
+<li><strong>Decision-integrity contracts.</strong> Binary thresholds use score margin; multiclass predictions use pairwise top-logit separation.</li>
+<li><strong>Direct literal synthesis.</strong> Graph depth, scale trace, required slots, and the decision contract produce an initial CKKS literal without catalog enumeration.</li>
+<li><strong>Bounded failure-aware repair.</strong> Numerical and level failures trigger predeclared repairs under a maximum of four encrypted trials.</li>
+<li><strong>Certify or abstain.</strong> FlipGuard selects the first <code>SAFE</code> literal or returns <code>NO_SAFE</code>; <code>NO_SAFE</code> is bounded evidence, not global infeasibility.</li>
+<li><strong>No-retuning audit.</strong> The selected literal is locked and replayed byte-identically on a disjoint audit partition.</li>
+<li><strong>Traceable evidence.</strong> Source, prepared, and semantic identities, policy digests, execution ledgers, and deterministic verifiers remain distinct.</li>
+</ol>
+<h2>Architecture</h2>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="../../docs/assets/figures/flipguard-overview-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="../../docs/assets/figures/flipguard-overview.svg">
+  <img alt="FlipGuard architecture: direct synthesis, security admission, validation, bounded repair, NO_SAFE, and locked audit" src="../../docs/assets/figures/flipguard-overview.svg">
+</picture>
+<p>The main path is:</p>
+<pre><code class="language-text">supported graph + decision contract
+  -&gt; direct literal synthesis
+  -&gt; Security-V2 admission
+  -&gt; encrypted validation
+  -&gt; bounded repair
+  -&gt; first SAFE or NO_SAFE
+  -&gt; no-retuning locked audit
+</code></pre>
+<p>The Security-V2 bounded catalog is an evaluation-only side path. Manual configurations and external providers can be evaluated by the same gate, but broad external-autotuner interoperability remains outside the admitted core claims. See <a href="../../docs/ARCHITECTURE.md">Architecture</a> for module boundaries and evidence flow.</p>
+<h2>Results at a Glance</h2>
+<p><img src="../../docs/assets/figures/results-at-a-glance.svg" alt="Four scoped FlipGuard research results" /></p>
+<table>
+<thead>
+<tr>
+<th>Result</th>
+<th style="text-align:right">Observation</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Formal candidate-trial reduction</td>
+<td style="text-align:right">70/700 overall and 56/560 confirmatory, <strong>90% reduction</strong></td>
+<td>50 workload-partition instances; the historical pre-security ledger is excluded from this denominator</td>
+</tr>
+<tr>
+<td>Confirmatory locked audit</td>
+<td style="text-align:right"><strong>40/40 PASS</strong>, retuning 0</td>
+<td>seeds 1–4 across 10 dataset-model clusters; repeated partitions are not independent models</td>
+</tr>
+<tr>
+<td>Paired total latency</td>
+<td style="text-align:right">catalog/direct geometric-mean ratio <strong>3.140660</strong>, clustered 95% CI <strong>[2.342334, 4.215313]</strong></td>
+<td>one host; Security-V2 bounded-catalog fastest-safe vs direct; dataset-model cluster is the inference unit</td>
+</tr>
+<tr>
+<td>Standard multiclass decision integrity</td>
+<td style="text-align:right">MLP-100 and LeNet-5-small each had <strong>0 argmax flips</strong></td>
+<td>each model used 500 validation and 500 disjoint locked-audit MNIST images, with three fresh keys</td>
+</tr>
+</tbody>
+</table>
+<p>The natural top-two-gap contract changed the MLP-100 literal from S32 to S29. It did <strong>not</strong> establish S29-over-S32 latency superiority: the graph-only/direct total-latency ratio was 0.999780 with 95% CI [0.998648, 1.000920]. Against the frozen catalog S40 arm, the S40/S29 ratio was 1.981795 with 95% CI [1.979758, 1.983842]. For LeNet-5-small, the frozen catalog result was <strong>7/7 <code>PLAN_UNSUPPORTED</code></strong>; this is neither <code>NO_SAFE</code> nor a claim of global infeasibility.</p>
+<p>Read <a href="../../docs/RESULTS.md">Results</a> for formal denominators, negative results, security qualifications, and direct evidence links.</p>
+<h2>Decision-Integrity Contracts</h2>
+<p>For a binary threshold decision, define the plaintext margin and CKKS absolute error:</p>
+<pre><code class="language-text">m(x) = |f_plain(x) - tau|
+e(x) = |f_CKKS(x) - f_plain(x)|
+</code></pre>
+<p>The sufficient condition <code>e(x) &lt; m(x)</code> preserves the threshold decision. FlipGuard's primary operational policy is stricter:</p>
+<pre><code class="language-text">e(x) &lt; rho * m(x), where rho = 0.5
+</code></pre>
+<p>Here, <code>rho=0.5</code> is a predeclared margin-utilization cap. It is not a theorem constant, an optimum, or a universal CKKS parameter.</p>
+<p>For multiclass logits, let <code>c*</code> be the plaintext argmax and let <code>B_k</code> bound the error of logit <code>k</code>. If, for every <code>j != c*</code>,</p>
+<pre><code class="language-text">z_c*(x) - z_j(x) &gt; B_c*(x) + B_j(x),
+</code></pre>
+<p>then the argmax class is preserved. Under a uniform per-logit bound <code>B</code>, the corollary is <code>2B &lt; top-two gap</code>. Ties, non-finite values, and boundary equality fail closed. The proof and exact <code>V_cert</code> / <code>V_amb</code> definitions are in <a href="../../docs/DECISION_CONTRACTS.md">Decision-Integrity Contracts</a>.</p>
+<h2>Supported Scope</h2>
+<p>The current implementation and frozen evidence cover:</p>
+<ul>
+<li>scalar-replicated tabular linear and square-activation MLP adapters;</li>
+<li>a deeper polynomial MLP holdout;</li>
+<li>finite Sobel, Harris, and CNN-lite adapters within their declared layouts;</li>
+<li>MNIST MLP-100 and an FHE-compatible square-activation LeNet-5-small adapter;</li>
+<li>binary threshold and multiclass argmax contracts;</li>
+<li>Lattigo v6.2.0 CKKS execution with explicit <code>Q</code> and <code>QP</code> security checks;</li>
+<li>direct synthesis, first-SAFE stopping, bounded repair, <code>NO_SAFE</code>, and locked-audit replay.</li>
+</ul>
+<p>It does not establish arbitrary graph or packed-CNN support, global optimality, distribution-wide safety, a complete analytical CKKS certificate, universal 128-bit security for arbitrary runtime distributions, or production-hardware speedups. The precise admitted and blocked statements are listed in <a href="../../docs/CLAIM_SCOPE.md">Claim Scope</a>.</p>
+<h2>Quick Start</h2>
+<h3>1. Clone and check dependencies</h3>
+<pre><code class="language-bash">git clone https://github.com/hasslelee/flipguard.git
+cd flipguard
+go version
+go mod download
+</code></pre>
+<p>The frozen public source uses Go 1.25.9 and Lattigo v6.2.0. Python utilities used by CI are listed in <code>requirements-ci.txt</code>.</p>
+<h3>2. Inspect the direct-synthesis CLI</h3>
+<pre><code class="language-bash">go run ./cmd/flipguard-synthesize --help
+</code></pre>
+<h3>3. Run a static synthesis demo</h3>
+<p>This command analyzes a frozen model and validation contract and emits a candidate plan. It does not launch the thesis-grade encrypted suite.</p>
+<pre><code class="language-bash">go run ./cmd/flipguard-synthesize \
+  --model datasets/tabular_suite/banknote/mlp_square_linear_score/model.json \
+  --validation results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/banknote/mlp_square_linear_score/configuration_validation.csv \
+  --split-id public_smoke_v1 &gt; /tmp/flipguard-public-smoke.json
+
+python3 -m json.tool /tmp/flipguard-public-smoke.json &gt;/dev/null
+</code></pre>
+<h3>4. Run unit tests</h3>
+<pre><code class="language-bash">go test ./...
+go vet ./...
+python3 -m unittest scripts.tests.test_lint_public_readme
+</code></pre>
+<p>The README commands above are checked on this branch. Encrypted reproduction is intentionally separate because it has stricter provenance, runtime, disk, and source-identity requirements.</p>
+<h2>Reproducing the Results</h2>
+<p>Reproduction is organized by cost and purpose:</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Purpose</th>
+<th>Typical work</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Five-minute smoke</td>
+<td>dependency and CLI sanity</td>
+<td>static synthesis plus focused tests</td>
+</tr>
+<tr>
+<td>30–60 minute verification</td>
+<td>artifact and policy integrity</td>
+<td>deterministic verifiers; no new encrypted measurements</td>
+</tr>
+<tr>
+<td>Artifact-only verification</td>
+<td>validate frozen packs</td>
+<td>checksums, manifests, source replay, and claim overlays</td>
+</tr>
+<tr>
+<td>Full thesis-grade reproduction</td>
+<td>reconstruct encrypted evidence</td>
+<td>dedicated host, frozen source, resumable ledgers, and substantial runtime</td>
+</tr>
+</tbody>
+</table>
+<p>Start with <a href="../../docs/REPRODUCIBILITY.md">Reproducibility</a>. Do not run a final suite casually beside another CKKS process: paired latency and fresh-key accounting require the declared execution protocol.</p>
+<h2>Repository Layout</h2>
+<pre><code class="language-text">cmd/                     Go command-line entry points
+internal/                synthesis, certification, execution, and audit logic
+configs/                 frozen policy and profile definitions
+datasets/                source metadata, derived artifacts, and model contracts
+scripts/                 builders, verifiers, and orchestration
+docs/research/           protocol and research design documents
+docs/evidence/           immutable evidence packs and overlays
+results/                 frozen ledgers, summaries, and publication inputs
+docs/assets/             public brand and GitHub figures
+</code></pre>
+<p>The repository contains historical and final artifacts side by side. A newer evidence overlay does not overwrite its predecessor. See <a href="../../docs/REPOSITORY_GUIDE.md">Repository Guide</a> before interpreting a result directory.</p>
+<h2>Research Artifacts</h2>
+<ul>
+<li><strong>Core release:</strong> <a href="https://github.com/hasslelee/flipguard/tree/flipguard-thesis-v1.0.0-rc2"><code>flipguard-thesis-v1.0.0-rc2</code></a>, bound to source commit <code>6c5f8b234f9f9da91a189fa0f2dc180bb996abf5</code>.</li>
+<li><strong>Core claim registry:</strong> <a href="../../docs/evidence/paper_claim_admission_v1/"><code>docs/evidence/paper_claim_admission_v1</code></a>.</li>
+<li><strong>Security-V2 bounded oracle:</strong> <a href="../../docs/evidence/security_v2_bounded_oracle_v1/"><code>docs/evidence/security_v2_bounded_oracle_v1</code></a>.</li>
+<li><strong>Final multiclass extension:</strong> <a href="../../docs/evidence/journal_multiclass_extension_final_v1/"><code>docs/evidence/journal_multiclass_extension_final_v1</code></a>.</li>
+<li><strong>Multiclass claim registry:</strong> <a href="../../docs/evidence/journal_multiclass_claim_admission_v2/"><code>docs/evidence/journal_multiclass_claim_admission_v2</code></a>.</li>
+<li><strong>Paired-latency admission:</strong> <a href="../../results/thesis_grade_protocol/paired_latency_claim_admission_v1/"><code>results/thesis_grade_protocol/paired_latency_claim_admission_v1</code></a>.</li>
+</ul>
+<p>These packs preserve negative results and separate functional execution, decision-integrity admission, security-policy admission, estimator-model status, performance evidence, and claim eligibility. This repository is the research artifact and implementation accompanying the FlipGuard project. The paper manuscript is in preparation.</p>
+<h2>Claim Boundaries</h2>
+<p>Use the repository's canonical claim registries when reporting FlipGuard. In particular:</p>
+<ul>
+<li><code>SAFE</code> means that a candidate passed the declared finite encrypted validation and reserve policy; it is not distribution-wide proof.</li>
+<li><code>NO_SAFE</code> means no <code>SAFE</code> candidate was established within the frozen bounded trial policy; it is not global infeasibility.</li>
+<li><code>PLAN_UNSUPPORTED</code> means a profile cannot instantiate the declared graph; it is distinct from execution failure and decision rejection.</li>
+<li>The bounded-catalog fastest-safe arm is not a global oracle or global optimum.</li>
+<li>Security-V2 admission and estimator-model sensitivity are reported separately.</li>
+<li>MLP-100 S29 and S32 had different literals, but no S29-over-S32 latency advantage was established.</li>
+<li>One structural locked audit was reserve-policy rejected without an observed decision flip; negative evidence is retained.</li>
+</ul>
+<p>See <a href="../../docs/CLAIM_SCOPE.md">Claim Scope</a> for allowed wording and limitations.</p>
+<h2>Citation</h2>
+<p>No paper acceptance, venue, or DOI is claimed. Until verified author metadata and a publication record are available, cite the software artifact by repository, version, and commit:</p>
+<pre><code class="language-bibtex">@software{flipguard2026,
+  title   = {FlipGuard: Decision-Integrity-Aware Direct Synthesis and Validation of CKKS Configurations},
+  author  = {{FlipGuard contributors}},
+  year    = {2026},
+  version = {flipguard-thesis-v1.0.0-rc2},
+  url     = {https://github.com/hasslelee/flipguard}
+}
+</code></pre>
+<p>A <code>CITATION.cff</code> file will be added only after author metadata can be verified without relying on an anonymous manuscript.</p>
+<h2>Contributing</h2>
+<p>Contributions are welcome within the project's evidence discipline. Read <a href="../../CONTRIBUTING.md">CONTRIBUTING.md</a> before opening a pull request. Research changes must declare whether they affect execution semantics, preserve frozen evidence, add tests, and avoid expanding claims beyond verified artifacts.</p>
+<h2>Security</h2>
+<p>Do not disclose suspected vulnerabilities, secrets, or key material in a public issue. Follow <a href="../../SECURITY.md">SECURITY.md</a> for private reporting guidance and for the distinction between implementation vulnerabilities and documented research limitations.</p>
+<h2>License</h2>
+<p>This repository does not currently publish a software license. Copyright permission is therefore not implied; obtain explicit permission before copying, modifying, or redistributing the code or artifacts. A license badge is intentionally omitted.</p>
+</main></body></html>
