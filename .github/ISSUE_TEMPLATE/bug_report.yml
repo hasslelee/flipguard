@@ -1,0 +1,63 @@
+name: Bug report
+description: Report a reproducible software or verifier defect without exposing sensitive material.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not report vulnerabilities, credentials, secret keys, or private data here. Follow SECURITY.md for private reporting.
+  - type: input
+    id: version
+    attributes:
+      label: Commit or tag
+      description: Exact commit SHA or frozen tag used.
+      placeholder: fd53d9f23040fd1490d9816a928dd04ec58eb473
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Direct synthesis
+        - Decision certification
+        - CKKS execution
+        - Locked audit
+        - Security admission or estimator
+        - Evidence verifier
+        - Documentation or CI
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Observed behavior
+      description: Explain what happened and why it differs from the documented contract.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include commands, sanitized inputs, and relevant digest IDs. Do not attach keys or private data.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Go, Python, OS, CPU, Lattigo version, and whether another CKKS process was running.
+    validations:
+      required: true
+  - type: checkboxes
+    id: integrity
+    attributes:
+      label: Integrity checks
+      options:
+        - label: I did not modify a frozen evidence pack.
+          required: true
+        - label: This report contains no secret key, credential, or private dataset content.
+          required: true

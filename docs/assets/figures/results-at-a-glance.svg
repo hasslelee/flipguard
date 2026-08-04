@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420" role="img" aria-labelledby="title desc">
+  <title id="title">FlipGuard results at a glance</title>
+  <desc id="desc">Four scoped research highlights: 90 percent fewer encrypted candidate trials, 40 of 40 confirmatory locked audits passed, a 3.140660 bounded-catalog to direct total latency ratio, and zero argmax flips for MLP-100 and LeNet-5-small on disjoint 500-image validation and audit sets.</desc>
+  <style>
+    .num{font:700 42px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#0D2A52;text-anchor:middle}
+    .title{font:600 17px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#24292F;text-anchor:middle}
+    .scope{font:500 13px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#57606A;text-anchor:middle}
+  </style>
+  <rect width="1200" height="420" fill="#FFFFFF"/>
+  <path d="M300 70v280M600 70v280M900 70v280" stroke="#D0D7DE" stroke-width="2"/>
+  <g transform="translate(0 0)"><text class="num" x="150" y="155">90%</text><text class="title" x="150" y="200"><tspan x="150">fewer encrypted</tspan><tspan x="150" dy="23">candidate trials</tspan></text><text class="scope" x="150" y="280"><tspan x="150">70 direct trials vs 700</tspan><tspan x="150" dy="20">formal catalog candidates</tspan></text></g>
+  <g transform="translate(300 0)"><text class="num" x="150" y="155">40/40</text><text class="title" x="150" y="200"><tspan x="150">confirmatory locked</tspan><tspan x="150" dy="23">audits passed</tspan></text><text class="scope" x="150" y="280"><tspan x="150">post-freeze partitions</tspan><tspan x="150" dy="20">zero retuning</tspan></text></g>
+  <g transform="translate(600 0)"><text class="num" x="150" y="155">3.140660</text><text class="title" x="150" y="200"><tspan x="150">catalog/direct total</tspan><tspan x="150" dy="23">latency ratio</tspan></text><text class="scope" x="150" y="280"><tspan x="150">clustered 95% CI</tspan><tspan x="150" dy="20">[2.342334, 4.215313]</tspan></text></g>
+  <g transform="translate(900 0)"><text class="num" x="150" y="155">0</text><text class="title" x="150" y="200"><tspan x="150">argmax flips</tspan><tspan x="150" dy="23">on standard models</tspan></text><text class="scope" x="150" y="280"><tspan x="150">MLP-100 and LeNet-5-small</tspan><tspan x="150" dy="20">disjoint 500 / 500 sets</tspan></text></g>
+  <text class="scope" x="600" y="390">Declared finite inputs | supported adapters | one measured host | explicit security models</text>
+</svg>

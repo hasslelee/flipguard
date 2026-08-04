@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">FlipGuard architecture overview</title>
+  <desc id="desc">A supported computation graph and decision-integrity contract flow through direct synthesis, security admission, encrypted validation, bounded repair, and a no-retuning locked audit. A security-compliant bounded catalog is used only for evaluation.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0 9 4.5 0 9Z" fill="#57606A"/></marker>
+    <style>
+      .label{font:600 18px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#0D2A52;text-anchor:middle}
+      .small{font:500 14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#57606A;text-anchor:middle}
+      .box{fill:#F6F8FA;stroke:#8C959F;stroke-width:2}
+      .flow{fill:none;stroke:#57606A;stroke-width:3;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1200" height="700" fill="#FFFFFF"/>
+  <text x="600" y="48" class="label" style="font-size:26px">Decision-Integrity Layer</text>
+
+  <rect class="box" x="40" y="96" width="190" height="108" rx="8"/>
+  <text class="label" x="135" y="137"><tspan x="135">Graph + Decision</tspan><tspan x="135" dy="25">Contract</tspan></text>
+  <text class="small" x="135" y="188">finite declared inputs</text>
+
+  <rect x="280" y="96" width="190" height="108" rx="8" fill="#DDF4FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text class="label" x="375" y="137"><tspan x="375">Direct Literal</tspan><tspan x="375" dy="25">Synthesis</tspan></text>
+  <text class="small" x="375" y="188">graph facts + policy</text>
+
+  <rect x="520" y="96" width="190" height="108" rx="8" fill="#FFF8C5" stroke="#BF8700" stroke-width="2"/>
+  <text class="label" x="615" y="137"><tspan x="615">Security-V2</tspan><tspan x="615" dy="25">Admission</tspan></text>
+  <text class="small" x="615" y="188">Q and QP objects</text>
+
+  <rect x="760" y="96" width="190" height="108" rx="8" fill="#F6F8FA" stroke="#8C959F" stroke-width="2"/>
+  <text class="label" x="855" y="137"><tspan x="855">Encrypted</tspan><tspan x="855" dy="25">Validation</tspan></text>
+  <text class="small" x="855" y="188">fresh keys + ledger</text>
+
+  <rect x="1000" y="96" width="160" height="108" rx="8" fill="#F6F8FA" stroke="#8C959F" stroke-width="2"/>
+  <text class="label" x="1080" y="137"><tspan x="1080">Certify</tspan><tspan x="1080" dy="25">Outcome</tspan></text>
+  <text class="small" x="1080" y="188">fail closed</text>
+
+  <path class="flow" d="M230 150H274"/><path class="flow" d="M470 150H514"/><path class="flow" d="M710 150H754"/><path class="flow" d="M950 150H994"/>
+
+  <rect x="790" y="278" width="140" height="62" rx="8" fill="#DAFBE1" stroke="#2DA44E" stroke-width="2"/>
+  <text class="label" x="860" y="316" fill="#1A7F37">SAFE</text>
+  <rect x="954" y="278" width="140" height="62" rx="8" fill="#FFEBE9" stroke="#CF222E" stroke-width="2"/>
+  <text class="label" x="1024" y="316" fill="#CF222E">REJECTED</text>
+  <rect x="1010" y="380" width="140" height="62" rx="8" fill="#F6F8FA" stroke="#57606A" stroke-width="2"/>
+  <text class="label" x="1080" y="418">FAILED</text>
+  <path class="flow" d="M1080 204V248H860V272"/>
+  <path class="flow" d="M1080 204V272"/>
+  <path class="flow" d="M1080 204V374"/>
+
+  <rect x="528" y="278" width="190" height="108" rx="8" fill="#FFF1E5" stroke="#BC4C00" stroke-width="2"/>
+  <text class="label" x="623" y="319"><tspan x="623">Bounded Repair</tspan><tspan x="623" dy="25">or Stop</tspan></text>
+  <text class="small" x="623" y="369">maximum four trials</text>
+  <path d="M954 309H724" class="flow"/><path d="M1010 411H752V332H724" class="flow"/>
+  <path d="M623 278V240H375V210" class="flow"/>
+
+  <rect x="742" y="492" width="235" height="105" rx="8" fill="#DAFBE1" stroke="#2DA44E" stroke-width="2"/>
+  <text class="label" x="859" y="531"><tspan x="859">No-Retuning</tspan><tspan x="859" dy="25">Locked Audit</tspan></text>
+  <text class="small" x="859" y="582">byte-identical literal replay</text>
+  <path class="flow" d="M860 340V486"/>
+
+  <rect x="1012" y="512" width="148" height="68" rx="8" fill="#FFEBE9" stroke="#CF222E" stroke-width="2"/>
+  <text class="label" x="1086" y="553" fill="#CF222E">NO_SAFE</text>
+  <path class="flow" d="M718 351H740V546H1006"/>
+
+  <rect x="48" y="492" width="430" height="105" rx="8" fill="#F6F8FA" stroke="#8250DF" stroke-width="2" stroke-dasharray="8 6"/>
+  <text class="label" x="263" y="531"><tspan x="263">Security-V2 Bounded Catalog</tspan><tspan x="263" dy="25">Evaluation-Only Comparison</tspan></text>
+  <text class="small" x="263" y="582">not a global oracle</text>
+  <path d="M478 545H736" fill="none" stroke="#8250DF" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+
+  <text class="small" x="600" y="660">Direct synthesis | bounded repair | NO_SAFE abstention | locked audit</text>
+</svg>
