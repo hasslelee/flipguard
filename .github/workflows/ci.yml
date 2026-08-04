@@ -56,7 +56,7 @@ jobs:
       - name: Lint public README and assets
         run: python3 scripts/lint_public_readme.py
       - name: Compile public Python tools
-        run: python3 -m py_compile scripts/build_public_brand_assets.py scripts/build_github_publication_preview.py scripts/lint_public_readme.py
+        run: python3 -m py_compile scripts/audit_public_repository.py scripts/build_public_brand_assets.py scripts/build_github_publication_preview.py scripts/lint_public_readme.py
       - name: Check shell syntax
         shell: bash
         run: |
@@ -84,3 +84,5 @@ jobs:
         run: |
           set -euo pipefail
           ! grep -R -n -E '/home/[^/]+/|file://|[A-Za-z]:\\\\Users\\\\' README.md README_ko.md CONTRIBUTING.md SECURITY.md docs/ARCHITECTURE.md docs/DECISION_CONTRACTS.md docs/RESULTS.md docs/REPRODUCIBILITY.md docs/CLAIM_SCOPE.md docs/REPOSITORY_GUIDE.md
+      - name: Verify public repository audit
+        run: python3 scripts/audit_public_repository.py --verify

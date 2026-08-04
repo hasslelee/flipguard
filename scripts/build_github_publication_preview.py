@@ -13,6 +13,7 @@ from pathlib import Path
 
 from markdown_it import MarkdownIt
 
+from audit_public_repository import build_report as build_hygiene_report
 from lint_public_readme import ROOT, collect_link_report
 
 
@@ -93,6 +94,10 @@ def build(output: Path) -> None:
     )
     (output / "link_report.json").write_text(
         json.dumps({"schema_version": "flipguard_public_link_report_v1", "all_relative_links_valid": all(item["inside_root"] and item["exists"] for item in links), "links": links}, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    (output / "public_hygiene_report.json").write_text(
+        json.dumps(build_hygiene_report(), indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
     )
     manifest = {
