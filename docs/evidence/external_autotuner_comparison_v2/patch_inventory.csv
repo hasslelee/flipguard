@@ -1,0 +1,9 @@
+system,attempt,kind,description,semantics_changed
+EVA,2,ENVIRONMENT_RECOVERY,Restored recursively initialized official submodules and an isolated SEAL 3.6.4 dependency.,False
+HECO,3,DEPENDENCY_VERSION_RECOVERY,Selected LLVM/MLIR 17 to match the pinned artifact's API generation; source was unchanged.,False
+HEIR,2,DEPENDENCY_RECOVERY,Installed the official Python extra after the missing numba failure.,False
+HEIR,3,DEPENDENCY_RECOVERY,Installed the official OpenFHE extra and reran the official quickstart.,False
+HECATE,2,OFFICIAL_ENVIRONMENT_RECOVERY,Added the official CUDA 12.2 development base and preserved the exact source revision.,False
+HECATE,3,TOOLCHAIN_RECOVERY,Used GCC/G++ as CUDA host compilers to isolate the broken clang loader; imported MLIR remained incomplete.,False
+DaCapo,2,DEPENDENCY_VERSION_RECOVERY,Used LLVM/MLIR 18 to match current source APIs without changing source semantics.,False
+AutoFHE,2,DEPENDENCY_RECOVERY,Added git and isolated the repository-compatible SEAL 3.6.6 dependency.,False

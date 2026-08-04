@@ -1,0 +1,87 @@
+{
+  "claims": [
+    {
+      "allowed_wording": "We audited 20 representative CKKS compiler and configuration systems using primary publication and official artifact sources.",
+      "claim_id": "landscape_breadth",
+      "limitation": "The census is not every CKKS system and is current only to the audit date.",
+      "paper_admitted": true,
+      "state": "SUPPORTED"
+    },
+    {
+      "allowed_wording": "Official build or runtime smoke reproduction passed for 8 audited systems; blocked systems and exact errors are reported.",
+      "claim_id": "artifact_reproduction",
+      "limitation": "A build smoke is not exact workload equivalence or a performance comparison.",
+      "paper_admitted": true,
+      "state": "PARTIALLY_SUPPORTED"
+    },
+    {
+      "allowed_wording": "No external plan satisfied every PORTABLE_EXACT condition on the frozen workloads.",
+      "claim_id": "external_common_executor_latency",
+      "limitation": "Cross-runtime native timing must not be used as a substitute.",
+      "paper_admitted": false,
+      "state": "NOT_EVALUATED"
+    },
+    {
+      "allowed_wording": "The same fail-closed gate rejected an executable EVA native candidate and blocked semantically incomplete Orion configurations in scoped audits.",
+      "claim_id": "provider_decision_gate",
+      "limitation": "This does not establish general external-provider interoperability.",
+      "paper_admitted": true,
+      "state": "PARTIALLY_SUPPORTED"
+    },
+    {
+      "allowed_wording": "Bootstrap-placement systems were audited but were not performance baselines because none of the four frozen workloads required bootstrapping.",
+      "claim_id": "bootstrap_comparison",
+      "limitation": "No deeper workload was manufactured after observing applicability.",
+      "paper_admitted": true,
+      "state": "NOT_APPLICABLE"
+    }
+  ],
+  "counts": {
+    "attempted_systems": 11,
+    "external_exact_workload_mappings": 0,
+    "external_portable_exact_arms": 0,
+    "landscape_systems": 20,
+    "native_end_to_end_systems": 1,
+    "provider_gate_systems": 2,
+    "reproduced_systems": 8,
+    "reproduction_blocked_systems": 7,
+    "required_reproduction_blocked": 3,
+    "required_reproduction_passed": 5
+  },
+  "main_paper_baseline_set": [
+    {
+      "baseline": "Default",
+      "scope": "existing controlled-primary evidence",
+      "status": "ADMITTED_EXISTING_CORE"
+    },
+    {
+      "baseline": "Latency-only",
+      "scope": "existing controlled-primary ablation",
+      "status": "ADMITTED_EXISTING_CORE"
+    },
+    {
+      "baseline": "Security-V2 bounded catalog",
+      "scope": "existing controlled-primary evidence",
+      "status": "ADMITTED_EXISTING_CORE"
+    },
+    {
+      "baseline": "FlipGuard direct",
+      "scope": "existing controlled-primary evidence",
+      "status": "ADMITTED_EXISTING_CORE"
+    },
+    {
+      "baseline": "EVA",
+      "scope": "native replay plus scoped FlipGuard gate; no cross-runtime latency ranking",
+      "status": "SCOPED_PROVIDER_GATE_ONLY"
+    }
+  ],
+  "paper_claim_allowed": true,
+  "prohibited": [
+    "all state-of-the-art CKKS autotuners",
+    "comprehensive comparison of every CKKS compiler",
+    "global fastest configuration",
+    "universal superiority",
+    "cross-runtime raw latency superiority"
+  ],
+  "schema_version": "flipguard_external_baseline_claim_admission_v2"
+}
