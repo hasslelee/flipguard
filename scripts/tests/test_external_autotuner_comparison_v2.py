@@ -57,6 +57,14 @@ class ExternalBaselineBuilderTest(unittest.TestCase):
         self.assertIn("output_semantics", exact)
         self.assertFalse(policy["native_track"]["raw_cross_runtime_speed_ranking_allowed"])
 
+    def test_applicability_schema_has_frozen_workload_columns(self):
+        path = ROOT / "docs/evidence/external_autotuner_comparison_v2/protocol/tool_workload_applicability.csv"
+        with path.open(newline="", encoding="utf-8") as handle:
+            header = next(csv.reader(handle))
+        self.assertTrue(
+            {"Sobel", "Harris", "MLP-100", "LeNet-5-small", "deeper_bootstrapping_workload"} <= set(header)
+        )
+
     def test_comparison_input_commit_can_be_frozen(self):
         module = load_module()
         expected = "1" * 40
@@ -69,6 +77,35 @@ class ExternalBaselineBuilderTest(unittest.TestCase):
                 os.environ.pop("FLIPGUARD_COMPARISON_INPUT_COMMIT", None)
             else:
                 os.environ["FLIPGUARD_COMPARISON_INPUT_COMMIT"] = previous
+
+    def test_builder_keeps_build_and_exact_reproduction_concepts_separate(self):
+        source = SCRIPT.read_text(encoding="utf-8")
+        self.assertIn('"native_end_to_end_systems"', source)
+        self.assertIn('"external_exact_workload_mappings"', source)
+        self.assertIn('"provider_gate_systems"', source)
+
+    def test_build_attempt_ledger_is_complete_and_bounded(self):
+        ledger = json.loads(
+            (ROOT / "docs/evidence/external_autotuner_comparison_v2/protocol/build_attempts.json").read_text(encoding="utf-8")
+        )
+        systems = ledger["systems"]
+        self.assertEqual(len(systems), 20)
+        self.assertEqual(sum(row["status"] == "PASS" for row in systems), 8)
+        self.assertEqual(sum(row["reproduced"] for row in systems), 8)
+        for row in systems:
+            self.assertLessEqual(row["attempts"], 3)
+            self.assertFalse(row["algorithm_semantics_changed"])
+            if row["attempts"]:
+                for value in row["log_sha256"].split(";"):
+                    self.assertRegex(value, r"^sha256:[0-9a-f]{64}$")
+
+    def test_eva_native_metrics_are_derived_from_frozen_ledger(self):
+        module = load_module()
+        metrics = module.eva_native_metrics()
+        self.assertGreater(metrics["rms_error"], 0)
+        self.assertGreater(metrics["max_error"], metrics["rms_error"])
+        self.assertGreater(metrics["keygen_mean_ms"], 0)
+        self.assertGreater(metrics["evaluation_mean_ms"], 0)
 
 
 if __name__ == "__main__":

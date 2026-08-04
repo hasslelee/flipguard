@@ -39,7 +39,7 @@ HALO.
 | HECATE | HECATE: Performance-Aware Scale Optimization for Homomorphic Encryption Compiler | CGO 2022, peer reviewed | RNS-CKKS performance-aware scale placement | `corelab-src/hecate-compiler`, post-publication snapshot pinned by commit | REQUIRED_REPRODUCTION |
 | ELASM | ELASM: Error-Latency-Aware Scale Management for Fully Homomorphic Encryption | USENIX Security 2023, peer reviewed | RNS-CKKS error/latency scale-plan search | `corelab-src/elasm`, pinned commit | REQUIRED_REPRODUCTION |
 | HEILP | HEILP: An ILP-Based Scale Management Method for Homomorphic Encryption Compiler | DATE 2025, peer reviewed | ILP-based CKKS level and scale management | no official executable artifact verified | CONDITIONAL_REPRODUCTION |
-| DaCapo | DaCapo: Automatic Bootstrapping Management for Efficient Fully Homomorphic Encryption | USENIX Security 2024, peer reviewed | joint scale-aware bootstrap placement | publication points to `corelab-src/elasm`; current code lives in `corelab-src/hecate-compiler` | REQUIRED_REPRODUCTION |
+| DaCapo | DaCapo: Automatic Bootstrapping Management for Efficient Fully Homomorphic Encryption | USENIX Security 2024, peer reviewed | joint scale-aware bootstrap placement | separate `corelab-src/dacapo` current snapshot pinned by commit; no paper-tagged release verified | REQUIRED_REPRODUCTION |
 | HALO | HALO: Loop-aware Bootstrapping Management for Fully Homomorphic Encryption | ASPLOS 2025, peer reviewed | bootstrap placement for flat and nested loops | implementation is present in the post-publication HECATE repository; no paper-tagged release verified | CONDITIONAL_REPRODUCTION |
 | ReSBM | ReSBM: Region-based Scale and Minimal-Level Bootstrapping Management for FHE via Min-Cut | ASPLOS 2025, peer reviewed | min-cut scale and minimum-level bootstrap management | open-sourced in `ant-research/ace-compiler` after the CGO artifact tag | CONDITIONAL_REPRODUCTION |
 | Orbit | Orbit: Optimizing Rescale and Bootstrap Placement with Integer Linear Programming Techniques for Secure Inference | USENIX Security 2026, peer reviewed | joint ILP rescale/bootstrap placement | paper and official proceedings verified; no public executable artifact verified | CONDITIONAL_REPRODUCTION |
@@ -81,6 +81,37 @@ equivalence.
 6. Native absolute latencies are never ranked across runtimes. Missing values
    remain `NR` or `NOT_EVALUATED`, rather than being copied from a paper onto
    this host's result table.
+
+## Observed reproduction closure
+
+The audit attempted an official build, runtime replay, or artifact-availability
+check for 11 systems. Eight pinned artifacts passed the declared build/runtime
+smoke gate: EVA, HECO, ANT-ACE, ELASM, DaCapo, AutoFHE, Orion, and SLOTHE. Of
+the eight predeclared required systems, five passed that gate and three were
+blocked: HEIR exhausted three recovery attempts at its missing Bazel-generated
+Python development configuration; HECATE exhausted three attempts across its
+CUDA and incomplete MLIR package closure; and LOHEN exposed no official
+executable artifact. Exact errors, dependency changes, non-semantic recovery
+steps, and log digests are frozen in `protocol/build_attempts.json`.
+
+These eight successes are artifact build/runtime-smoke reproductions, not eight
+equivalent FlipGuard experiments. One external system, EVA, has a previously
+frozen native end-to-end replay; that candidate executed but the FlipGuard gate
+rejected it after 11 decision flips and 36 reserve-policy violations across 42
+observations. Orion contributes a separate fail-closed static provider audit.
+No external plan satisfied every graph, operation-order, scale-schedule,
+rescale/modswitch/relinearization, LogN/Q/P, packing, and output-semantic
+identity condition. The external common-executor exact-arm count is therefore
+zero, and no external latency winner is reported.
+
+DaCapo built successfully, while HALO, ReSBM, and Orbit remain outside the
+performance comparison because Sobel, Harris, MLP-100, and LeNet-5-small are
+leveled workloads in the frozen contracts. The audit did not deepen a workload
+after the fact. Consequently, the final main-result baseline set remains the
+existing Default, Latency-only, Security-V2 bounded catalog, and FlipGuard
+direct comparisons; EVA appears only as a scoped native/provider-gate result.
+The other systems remain in build-status, applicability, and related-work
+tables.
 
 ## Falsification test
 

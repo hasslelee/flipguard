@@ -7,6 +7,7 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 import os
 import shutil
 import subprocess
@@ -167,55 +168,137 @@ def make_applicability() -> None:
     shutil.copyfile(source, PACK / "applicability_matrix.csv")
 
 
-def make_result_tables() -> None:
+def eva_native_metrics() -> dict:
+    ledger = PACK.parent / "eva_native_runtime_replay_v1/raw/validation_ledger.csv"
+    with ledger.open(newline="", encoding="utf-8") as handle:
+        rows = list(csv.DictReader(handle))
+    errors = [float(row["absolute_error"]) for row in rows]
+    keygen_by_repeat = {}
+    for row in rows:
+        keygen_by_repeat.setdefault(row["key_repeat"], float(row["keygen_ms"]))
+    return {
+        "rms_error": math.sqrt(sum(value * value for value in errors) / len(errors)),
+        "max_error": max(errors),
+        "keygen_mean_ms": sum(keygen_by_repeat.values()) / len(keygen_by_repeat),
+        "evaluation_mean_ms": sum(float(row["execute_ms"]) for row in rows) / len(rows),
+        "total_sample_mean_ms": sum(float(row["total_sample_ms"]) for row in rows) / len(rows),
+    }
+
+
+def make_result_tables(builds: list[dict]) -> None:
     eva = read_json(ROOT / "docs/evidence/eva_native_runtime_replay_v1/summary.json")
-    native = [
-        {
-            "provider": "EVA",
-            "workload": "seed0 development linear_poly3 native replay",
-            "runtime": "EVA v1.0.1 / Microsoft SEAL 3.6.4",
-            "objective": "CKKS vector compilation and parameter generation",
-            "compile_status": "PASS",
-            "execution_status": "PASS",
-            "plans_generated": 1,
-            "plans_executed": 1,
-            "key_runs": eva["accounting"]["validation_key_runs"],
-            "observations": eva["validation"]["counts"]["observations"],
-            "decision_flips": eva["validation"]["counts"]["decision_flips"],
-            "error_violations": eva["validation"]["counts"]["error_violations"],
-            "final_gate_state": eva["validation"]["status"],
-            "security_state": eva["security_interpretation"]["runtime_security_claim"],
-            "latency_scope": "NATIVE_ONLY_NOT_CROSS_RUNTIME_RANKED",
-            "evidence": "docs/evidence/eva_native_runtime_replay_v1/summary.json",
+    eva_metrics = eva_native_metrics()
+    native = []
+    for build in builds:
+        row = {
+            "provider": build["system"],
+            "artifact_revision": build["artifact_revision"],
+            "workload": "NO_EXACT_FROZEN_WORKLOAD_EXECUTION",
+            "runtime": build["container_or_environment"],
+            "objective": "OFFICIAL_ARTIFACT_BUILD_OR_AVAILABILITY_AUDIT",
+            "build_status": build["status"],
+            "compile_time": "NOT_SEPARATELY_RECORDED",
+            "tuning_time": "NOT_EVALUATED",
+            "plans_generated": "NOT_EVALUATED",
+            "plans_executed": "NOT_EVALUATED",
+            "selected_plan": "NOT_EVALUATED",
+            "parameter_configuration": "NOT_EVALUATED",
+            "key_generation": "NOT_EVALUATED",
+            "evaluation_latency": "NOT_EVALUATED",
+            "total_latency": "NOT_EVALUATED",
+            "rms_error": "NOT_EVALUATED",
+            "max_error": "NOT_EVALUATED",
+            "output_values": "NOT_EVALUATED",
+            "decision_flips": "NOT_EVALUATED",
+            "security_state": "NOT_EVALUATED_NO_EXECUTED_CANDIDATE",
+            "execution_failure": "NOT_RUN_NO_EXACT_WORKLOAD_MAPPING" if build["status"] == "PASS" else build["reason_code"],
+            "latency_scope": "NOT_EVALUATED",
+            "evidence": "docs/evidence/external_autotuner_comparison_v2/build_matrix.csv",
         }
+        if build["system"] == "EVA":
+            row.update(
+                {
+                    "workload": "seed0 development linear_poly3 native replay",
+                    "runtime": "EVA v1.0.1 / Microsoft SEAL 3.6.4",
+                    "objective": "CKKS vector compilation and parameter generation",
+                    "compile_time": "NOT_SEPARATELY_RECORDED",
+                    "tuning_time": "NOT_SEPARATELY_RECORDED",
+                    "plans_generated": 1,
+                    "plans_executed": 1,
+                    "selected_plan": "native_v1.0.1_N16384_Q3x60_P60_scale20",
+                    "parameter_configuration": "N=16384; Q=3x60 bits; P=60 bits; input scale=20 bits",
+                    "key_generation": f"mean_ms={eva_metrics['keygen_mean_ms']:.9f}; key_runs={eva['accounting']['validation_key_runs']}",
+                    "evaluation_latency": f"mean_execute_ms_per_sample={eva_metrics['evaluation_mean_ms']:.9f}",
+                    "total_latency": f"mean_total_sample_ms={eva_metrics['total_sample_mean_ms']:.9f}",
+                    "rms_error": f"{eva_metrics['rms_error']:.15g}",
+                    "max_error": f"{eva_metrics['max_error']:.15g}",
+                    "output_values": "docs/evidence/eva_native_runtime_replay_v1/raw/validation_ledger.csv",
+                    "decision_flips": eva["validation"]["counts"]["decision_flips"],
+                    "security_state": eva["security_interpretation"]["runtime_security_claim"],
+                    "execution_failure": "NONE; FINAL_GATE_REJECTED",
+                    "latency_scope": "NATIVE_ONLY_NOT_CROSS_RUNTIME_RANKED",
+                    "evidence": "docs/evidence/eva_native_runtime_replay_v1/summary.json",
+                }
+            )
+        native.append(row)
+    native_fields = [
+        "provider", "artifact_revision", "workload", "runtime", "objective",
+        "build_status", "compile_time", "tuning_time", "plans_generated",
+        "plans_executed", "selected_plan", "parameter_configuration",
+        "key_generation", "evaluation_latency", "total_latency", "rms_error",
+        "max_error", "output_values", "decision_flips", "security_state",
+        "execution_failure", "latency_scope", "evidence",
     ]
     write_csv(
         PACK / "native_results.csv",
         native,
-        ["provider", "workload", "runtime", "objective", "compile_status", "execution_status", "plans_generated", "plans_executed", "key_runs", "observations", "decision_flips", "error_violations", "final_gate_state", "security_state", "latency_scope", "evidence"],
+        native_fields,
     )
     common_fields = [
         "provider", "workload", "portability", "graph_identity", "operation_order_identity",
         "scale_schedule_identity", "rescale_modswitch_relinearization_identity", "logn_qp_identity",
         "packing_identity", "output_semantics_identity", "same_host_result", "headline_eligible", "reason",
     ]
-    common = [
-        {
-            "provider": "EVA",
-            "workload": "existing schedule-bound development replay",
-            "portability": "PORTABLE_PARAMETER_ONLY",
-            "graph_identity": "SEMANTIC_GRAPH_MISMATCH_FOR_FROZEN_CURRENT_WORKLOADS",
+    external_tools = [
+        row for row in rows(PROTOCOL / "tool_workload_applicability.csv")
+        if row["tool"] != "FlipGuard"
+    ]
+    build_by_name = {row["system"]: row for row in builds}
+    common = []
+    for tool in external_tools:
+        name = tool["tool"]
+        build = build_by_name[name]
+        portability = "NATIVE_ONLY" if build["status"] == "PASS" else "REPRODUCTION_BLOCKED"
+        common_row = {
+            "provider": name,
+            "workload": "Sobel; Harris; MLP-100; LeNet-5-small frozen contracts",
+            "portability": portability,
+            "graph_identity": "NOT_ESTABLISHED",
             "operation_order_identity": "NOT_ESTABLISHED",
-            "scale_schedule_identity": "BOUND",
-            "rescale_modswitch_relinearization_identity": "PARTIAL",
-            "logn_qp_identity": "BOUND",
-            "packing_identity": "DIFFERENT_RUNTIME_REPRESENTATION",
-            "output_semantics_identity": "DEVELOPMENT_BINARY_SCORE_ONLY",
+            "scale_schedule_identity": "NOT_ESTABLISHED",
+            "rescale_modswitch_relinearization_identity": "NOT_ESTABLISHED",
+            "logn_qp_identity": "NOT_ESTABLISHED",
+            "packing_identity": "NOT_ESTABLISHED",
+            "output_semantics_identity": "NOT_ESTABLISHED",
             "same_host_result": "NOT_EVALUATED",
             "headline_eligible": "false",
-            "reason": "PORTABLE_EXACT criteria are not all satisfied",
+            "reason": "No provider output satisfied every frozen PORTABLE_EXACT field",
         }
-    ]
+        if name == "EVA":
+            common_row.update(
+                {
+                    "workload": "existing schedule-bound development replay plus four frozen contract audit",
+                    "portability": "PORTABLE_PARAMETER_ONLY",
+                    "graph_identity": "SEMANTIC_GRAPH_MISMATCH_FOR_FROZEN_CURRENT_WORKLOADS",
+                    "scale_schedule_identity": "BOUND_FOR_EXISTING_DEVELOPMENT_REPLAY",
+                    "rescale_modswitch_relinearization_identity": "PARTIAL",
+                    "logn_qp_identity": "BOUND_FOR_EXISTING_DEVELOPMENT_REPLAY",
+                    "packing_identity": "DIFFERENT_RUNTIME_REPRESENTATION",
+                    "output_semantics_identity": "DEVELOPMENT_BINARY_SCORE_ONLY",
+                    "reason": "Parameter materialization exists, but every PORTABLE_EXACT identity field is not satisfied",
+                }
+            )
+        common.append(common_row)
     write_csv(PACK / "common_executor_results.csv", common, common_fields)
     gate = [
         {
@@ -261,19 +344,46 @@ def make_result_tables() -> None:
     )
     write_csv(
         PACK / "tuning_cost_summary.csv",
-        [{"provider": "EVA", "workload": native[0]["workload"], "plans_generated": 1, "plans_executed": 1, "tuning_wall_clock": "NOT_SEPARATELY_RECORDED", "comparison_scope": "NATIVE_ONLY"}],
+        [
+            {
+                "provider": row["provider"],
+                "workload": row["workload"],
+                "plans_generated": row["plans_generated"],
+                "plans_executed": row["plans_executed"],
+                "tuning_wall_clock": row["tuning_time"],
+                "comparison_scope": "NATIVE_ONLY" if row["provider"] == "EVA" else "NOT_EVALUATED",
+            }
+            for row in native
+        ],
         ["provider", "workload", "plans_generated", "plans_executed", "tuning_wall_clock", "comparison_scope"],
     )
     write_csv(
         PACK / "latency_summary.csv",
-        [{"provider": "EVA", "workload": native[0]["workload"], "native_latency": "RECORDED_IN_NATIVE_LOG", "common_executor_latency": "NOT_EVALUATED", "headline_eligible": "false", "reason": "no external PORTABLE_EXACT arm"}],
+        [
+            {
+                "provider": row["provider"],
+                "workload": row["workload"],
+                "native_latency": row["total_latency"],
+                "common_executor_latency": "NOT_EVALUATED",
+                "headline_eligible": "false",
+                "reason": "no external PORTABLE_EXACT arm",
+            }
+            for row in native
+        ],
         ["provider", "workload", "native_latency", "common_executor_latency", "headline_eligible", "reason"],
     )
     write_csv(
         PACK / "security_summary.csv",
         [
-            {"provider": "EVA", "candidate": "native_v1.0.1", "static_policy": "PASS", "runtime_distribution_match": "false", "formal_security_state": "NOT_EVALUATED_DIFFERENT_RUNTIME_DISTRIBUTION", "headline_eligible": "false"},
-            {"provider": "Orion", "candidate": "public_configs", "static_policy": "FAIL_CLOSED", "runtime_distribution_match": "NOT_EVALUATED", "formal_security_state": "NOT_ADMITTED", "headline_eligible": "false"},
+            {
+                "provider": row["provider"],
+                "candidate": "native_v1.0.1" if row["provider"] == "EVA" else ("public_configs" if row["provider"] == "Orion" else "NO_EXECUTED_CANDIDATE"),
+                "static_policy": "PASS" if row["provider"] == "EVA" else ("FAIL_CLOSED" if row["provider"] == "Orion" else "NOT_EVALUATED"),
+                "runtime_distribution_match": "false" if row["provider"] == "EVA" else "NOT_EVALUATED",
+                "formal_security_state": row["security_state"] if row["provider"] == "EVA" else ("NOT_ADMITTED" if row["provider"] == "Orion" else "NOT_EVALUATED_NO_EXECUTED_CANDIDATE"),
+                "headline_eligible": "false",
+            }
+            for row in native
         ],
         ["provider", "candidate", "static_policy", "runtime_distribution_match", "formal_security_state", "headline_eligible"],
     )
@@ -328,7 +438,10 @@ def make_figures_and_tables(rows: list[dict], builds: list[dict]) -> None:
 
 def make_claims(rows: list[dict], builds: list[dict]) -> dict:
     reproduced = sum(row["reproduced"] is True for row in builds)
-    build_blocked = sum(row["status"] != "PASS" for row in builds)
+    reproduction_blocked = sum(row["status"] == "REPRODUCTION_BLOCKED" for row in builds)
+    required_passed = sum(row["set"] == "REQUIRED_REPRODUCTION" and row["status"] == "PASS" for row in builds)
+    required_blocked = sum(row["set"] == "REQUIRED_REPRODUCTION" and row["status"] != "PASS" for row in builds)
+    attempted = sum(int(row["attempts"]) > 0 for row in builds)
     exact_external = 0
     claims = {
         "schema_version": "flipguard_external_baseline_claim_admission_v2",
@@ -373,9 +486,22 @@ def make_claims(rows: list[dict], builds: list[dict]) -> dict:
         "counts": {
             "landscape_systems": len(rows),
             "reproduced_systems": reproduced,
-            "build_blocked_systems": build_blocked,
+            "attempted_systems": attempted,
+            "reproduction_blocked_systems": reproduction_blocked,
+            "required_reproduction_passed": required_passed,
+            "required_reproduction_blocked": required_blocked,
+            "native_end_to_end_systems": 1,
+            "external_exact_workload_mappings": 0,
+            "provider_gate_systems": 2,
             "external_portable_exact_arms": exact_external,
         },
+        "main_paper_baseline_set": [
+            {"baseline": "Default", "scope": "existing controlled-primary evidence", "status": "ADMITTED_EXISTING_CORE"},
+            {"baseline": "Latency-only", "scope": "existing controlled-primary ablation", "status": "ADMITTED_EXISTING_CORE"},
+            {"baseline": "Security-V2 bounded catalog", "scope": "existing controlled-primary evidence", "status": "ADMITTED_EXISTING_CORE"},
+            {"baseline": "FlipGuard direct", "scope": "existing controlled-primary evidence", "status": "ADMITTED_EXISTING_CORE"},
+            {"baseline": "EVA", "scope": "native replay plus scoped FlipGuard gate; no cross-runtime latency ranking", "status": "SCOPED_PROVIDER_GATE_ONLY"},
+        ],
         "prohibited": [
             "all state-of-the-art CKKS autotuners",
             "comprehensive comparison of every CKKS compiler",
@@ -422,6 +548,10 @@ def make_manifest(claims: dict) -> None:
         "new_model_or_dataset": 0,
         "landscape_systems": claims["counts"]["landscape_systems"],
         "reproduced_systems": claims["counts"]["reproduced_systems"],
+        "attempted_systems": claims["counts"]["attempted_systems"],
+        "reproduction_blocked_systems": claims["counts"]["reproduction_blocked_systems"],
+        "required_reproduction_passed": claims["counts"]["required_reproduction_passed"],
+        "required_reproduction_blocked": claims["counts"]["required_reproduction_blocked"],
         "external_portable_exact_arms": claims["counts"]["external_portable_exact_arms"],
         "native_latency_cross_runtime_ranked": False,
         "bootstrap_workload_manufactured": False,
@@ -453,7 +583,7 @@ def main() -> int:
     make_build_outputs(builds)
     make_applicability()
     copy_contracts()
-    make_result_tables()
+    make_result_tables(builds)
     make_provider_manifests()
     make_figures_and_tables(rows, builds)
     claims = make_claims(rows, builds)

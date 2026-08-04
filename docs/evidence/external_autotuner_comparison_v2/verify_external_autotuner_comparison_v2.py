@@ -6,6 +6,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import re
 from pathlib import Path
 
 
@@ -42,6 +43,7 @@ def main() -> int:
     applicability = rows(PACK / "applicability_matrix.csv")
     common = rows(PACK / "common_executor_results.csv")
     gate = rows(PACK / "provider_gate_results.csv")
+    native = rows(PACK / "native_results.csv")
 
     assert manifest["publication_status"] == "FINAL_FAIR_BASELINE_EVIDENCE"
     assert manifest["current_flipguard_evidence_modified"] is False
@@ -49,6 +51,7 @@ def main() -> int:
     assert manifest["new_model_or_dataset"] == 0
     assert manifest["native_latency_cross_runtime_ranked"] is False
     assert manifest["bootstrap_workload_manufactured"] is False
+    assert re.fullmatch(r"[0-9a-f]{40}", manifest["comparison_input_commit"])
     assert len(landscape) == 20
     assert len(builds) == 20
     assert {row["system"] for row in landscape} == {row["system"] for row in builds}
@@ -58,6 +61,10 @@ def main() -> int:
         assert row["algorithm_semantics_changed"].lower() == "false"
         if row["reproduced"].lower() == "true":
             assert row["status"] == "PASS"
+        if int(row["attempts"]) > 0:
+            assert row["log_sha256"] != "NR"
+            for value in row["log_sha256"].split(";"):
+                assert re.fullmatch(r"sha256:[0-9a-f]{64}", value)
     for row in builds:
         if row["system"] in REQUIRED and row["status"] != "PASS":
             assert row["reason_code"]
@@ -69,7 +76,7 @@ def main() -> int:
         "ARTIFACT_UNAVAILABLE", "BUILD_BLOCKED",
     }
     assert len(applicability) == 16
-    workload_fields = ["Sobel", "Harris", "MLP-100", "LeNet-5-small", "deeper bootstrapping workload"]
+    workload_fields = ["Sobel", "Harris", "MLP-100", "LeNet-5-small", "deeper_bootstrapping_workload"]
     for row in applicability:
         assert all(row[field] in expected_applicability for field in workload_fields)
 
@@ -78,8 +85,27 @@ def main() -> int:
     assert len(portable_exact) == manifest["external_portable_exact_arms"]
     assert all(row["portability"] == "PORTABLE_EXACT" for row in headline)
     assert claims["counts"]["external_portable_exact_arms"] == len(portable_exact)
+    assert claims["counts"]["reproduced_systems"] == 8
+    assert claims["counts"]["attempted_systems"] == 11
+    assert claims["counts"]["reproduction_blocked_systems"] == 7
+    assert claims["counts"]["required_reproduction_passed"] == 5
+    assert claims["counts"]["required_reproduction_blocked"] == 3
+    assert claims["counts"]["native_end_to_end_systems"] == 1
+    assert claims["counts"]["external_exact_workload_mappings"] == 0
+    assert claims["counts"]["provider_gate_systems"] == 2
+    assert {row["baseline"] for row in claims["main_paper_baseline_set"]} == {
+        "Default", "Latency-only", "Security-V2 bounded catalog", "FlipGuard direct", "EVA"
+    }
     assert any(row["provider"] == "EVA" and row["final_flipguard_state"] == "REJECTED" for row in gate)
     assert any(row["provider"] == "Orion" and row["final_flipguard_state"] == "PLAN_UNSUPPORTED" for row in gate)
+    assert len(native) == 20
+    assert len(common) == 15
+    assert sum(row["portability"] == "PORTABLE_EXACT" for row in common) == 0
+    eva_native = next(row for row in native if row["provider"] == "EVA")
+    assert eva_native["latency_scope"] == "NATIVE_ONLY_NOT_CROSS_RUNTIME_RANKED"
+    assert int(eva_native["decision_flips"]) == 11
+    assert float(eva_native["rms_error"]) > 0
+    assert all(row["headline_eligible"].lower() == "false" for row in common)
 
     source_text = "\n".join(
         [
