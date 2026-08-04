@@ -1,0 +1,17 @@
+{
+  "artifact_id": "journal_multiclass_claim_admission_v2",
+  "artifact_role": "immutable claim-admission overlay for the closed journal multiclass extension",
+  "generated_from_source_commit": "dac6db35ce09e9f2549a7866fb02a400a5083442",
+  "inputs": {
+    "checkpoint_manifest": "sha256:6a20c76fee50e58fd688a7c19d5cebf7a55d2a1660036ddb03126bd91a9da32b",
+    "extension_results_manifest": "sha256:0ef359c9df347752d01b11ff07119dda206d111a48f6a63b0268adfac5ef35c5",
+    "natural_activation_manifest": "sha256:ff19d9c8a92e4c0063b314c2f0d975664370ce57802d49a01a0487a90ea3f94e",
+    "paired_latency_manifest": "sha256:015c94d6db7a62dd7ff3bca6f10e32ee699ba5ed0567b4d45d4069fc8562120f",
+    "security_reconciliation_manifest": "sha256:26a0a896100740780f7e1581d968ed12ed9c994d5ff644958267cb6a5a3ff2f4"
+  },
+  "paper_admitted_claims": 7,
+  "blocked_claims": 1,
+  "policy_retuning": 0,
+  "encrypted_replay_for_security": 0,
+  "schema_version": "flipguard_journal_multiclass_claim_admission_manifest_v2"
+}
