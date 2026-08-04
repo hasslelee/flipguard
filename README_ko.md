@@ -164,7 +164,7 @@ go run ./cmd/flipguard-synthesize --help
 ```bash
 go run ./cmd/flipguard-synthesize \
   --model datasets/tabular_suite/banknote/mlp_square_linear_score/model.json \
-  --validation results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/banknote/mlp_square_linear_score/configuration_validation.csv \
+  --validation docs/evidence/direct_locked_audit_seed0_development_v1/inputs/prepared_validation/seed0__banknote__mlp_square_linear_score.csv \
   --split-id public_smoke_v1 > /tmp/flipguard-public-smoke.json
 
 python3 -m json.tool /tmp/flipguard-public-smoke.json >/dev/null
