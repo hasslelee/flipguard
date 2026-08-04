@@ -1,0 +1,27 @@
+{
+  "schema_version": "flipguard_external_common_workload_contract_v2",
+  "workload_id": "flipguard_bsds500_harris_corner_response_v1",
+  "graph": {
+    "formula": "For each valid 3x3 neighborhood compute Sobel gx,gy; Sxx=sum(gx^2); Syy=sum(gy^2); Sxy=sum(gx*gy); score=Sxx*Syy-Sxy^2-k*(Sxx+Syy)^2",
+    "input_shape": [5, 5],
+    "harris_k_source": "bound model artifact",
+    "operation_order": "fixed Sobel responses, response products, window sums, determinant, trace-square penalty",
+    "source_path": "internal/benchmarks/harris_corner_response.go",
+    "source_sha256": "sha256:1f623ea71138116658d0d886022a14cb31affbc0364c59a8f18c2c0da199d0da"
+  },
+  "model": {
+    "path": "datasets/vision_suite/bsds500/harris_corner_response/model.json",
+    "sha256": "sha256:6188a86dc9bcbc3d27017b9f3d561d2988a6f64612fc04e4566b848069abf6b7"
+  },
+  "inputs": {
+    "configuration_validation": "datasets/vision_suite/bsds500/harris_corner_response/configuration_validation.csv",
+    "configuration_validation_sha256": "sha256:0c7f049afad0c354fbacce7245ec44103d9c9f9a02e576ab242c2afe8076608e",
+    "locked_audit": "datasets/vision_suite/bsds500/harris_corner_response/locked_audit_test.csv",
+    "locked_audit_sha256": "sha256:bd525ee2f2d1d571b80b86c6402d95d0e4be1232a0139d1be1a8e425b847235c",
+    "overlap_allowed": false
+  },
+  "packing": "scalar-replicated slots",
+  "output_semantics": "binary threshold on Harris response",
+  "decision_contract": "binary threshold decision-integrity contract",
+  "security_target": "Security Policy V2"
+}

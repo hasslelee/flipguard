@@ -1,0 +1,23 @@
+{
+  "schema_version": "flipguard_external_autotuner_comparison_protocol_manifest_v2",
+  "protocol_id": "external_autotuner_comparison_v2",
+  "frozen_source_commit": "fd53d9f23040fd1490d9816a928dd04ec58eb473",
+  "created_at": "2026-08-05T03:56:02+09:00",
+  "result_independent_freeze": true,
+  "landscape_system_count": 20,
+  "matrix_tool_count_including_flipguard": 16,
+  "workload_contracts": [
+    "workload_contracts/sobel.json",
+    "workload_contracts/harris.json",
+    "workload_contracts/mlp100.json",
+    "workload_contracts/lenet5_small.json"
+  ],
+  "applicability_matrix": "tool_workload_applicability.csv",
+  "reproduction_policy": "reproduction_policy.json",
+  "claim_rules": {
+    "raw_cross_runtime_latency_headline": false,
+    "portable_exact_only_in_common_executor_headline": true,
+    "missing_artifact_counted_as_reproduced": false,
+    "bootstrap_depth_manufacture_allowed": false
+  }
+}

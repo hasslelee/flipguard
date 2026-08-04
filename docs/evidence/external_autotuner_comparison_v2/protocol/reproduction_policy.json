@@ -1,0 +1,87 @@
+{
+  "schema_version": "flipguard_external_autotuner_comparison_protocol_v2",
+  "source_commit": "fd53d9f23040fd1490d9816a928dd04ec58eb473",
+  "security_policy": {
+    "id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055"
+  },
+  "direct_policy": {
+    "id": "flipguard_direct_synthesis_policy_v2",
+    "digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "retuning_allowed": false
+  },
+  "required_reproduction": [
+    "EVA",
+    "HECATE",
+    "ELASM",
+    "HEIR",
+    "Orion",
+    "LOHEN",
+    "DaCapo",
+    "ANT-ACE"
+  ],
+  "conditional_priority": [
+    "ReSBM",
+    "Orbit",
+    "HEILP",
+    "AutoFHE",
+    "HALO",
+    "SLOTHE",
+    "HECO"
+  ],
+  "maximum_build_recovery_attempts": 3,
+  "allowed_build_patches": [
+    "dependency version pin",
+    "non-semantic compiler compatibility",
+    "path and container entrypoint repair",
+    "officially documented build flag"
+  ],
+  "forbidden_patches": [
+    "algorithm change",
+    "graph or coefficient change",
+    "security target reduction",
+    "error tolerance relaxation",
+    "provider objective change",
+    "audit-informed configuration change"
+  ],
+  "native_track": {
+    "raw_cross_runtime_speed_ranking_allowed": false,
+    "required_fields": [
+      "compile_time",
+      "tuning_time",
+      "plans_generated",
+      "plans_executed",
+      "selected_plan",
+      "parameters",
+      "key_generation",
+      "evaluation_latency",
+      "total_latency",
+      "rms_error",
+      "max_error",
+      "outputs",
+      "decision_flips",
+      "security_state",
+      "execution_failure"
+    ]
+  },
+  "portable_exact_requires": [
+    "graph",
+    "operation_order",
+    "scale_schedule",
+    "rescale_modswitch_relinearization",
+    "logN",
+    "Q_and_P",
+    "packing",
+    "output_semantics"
+  ],
+  "common_executor": {
+    "host_policy": "same host, no concurrent CKKS process",
+    "fresh_keysets": 3,
+    "warmup": 1,
+    "measurement_passes": 6,
+    "execution_order": "balanced cyclic and reverse",
+    "outlier_removal": false
+  },
+  "bootstrapping_rule": "Do not deepen a frozen workload to manufacture bootstrapping. A new bootstrap-requiring graph requires a separately approved protocol amendment.",
+  "existing_evidence_mutable": false
+}
