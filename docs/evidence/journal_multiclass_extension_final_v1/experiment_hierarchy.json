@@ -1,0 +1,42 @@
+{
+  "schema_version": "flipguard_journal_experiment_hierarchy_v1",
+  "tiers": [
+    {
+      "name": "Tier 1 - Controlled Primary",
+      "contents": {
+        "catalog_candidates": 700,
+        "datasets": 5,
+        "direct_trials": 70,
+        "graph_families": 2,
+        "partitions": 5,
+        "workload_partition_instances": 50
+      },
+      "unit_note": "five deterministic repeated partitions; not 50 independent workloads"
+    },
+    {
+      "name": "Tier 2 - Standard Multiclass Generalization",
+      "contents": {
+        "classes": 10,
+        "fresh_keys_per_role": 3,
+        "locked_audit_images_per_model": 500,
+        "models": [
+          "MNIST MLP-100",
+          "MNIST LeNet-5-small"
+        ],
+        "validation_images_per_model": 500
+      },
+      "unit_note": "one frozen model artifact per architecture and one frozen 1,000-image split"
+    },
+    {
+      "name": "Tier 3 - Additional Robustness",
+      "contents": {
+        "cnn_lite_observations": "250+250",
+        "harris_observations": "200+200",
+        "independent_training_model_instances": 9,
+        "mlp_square_poly3_instances": 25,
+        "sobel_observations": "400+400"
+      },
+      "unit_note": "adapter-specific finite evidence and predeclared NO_SAFE controls"
+    }
+  ]
+}

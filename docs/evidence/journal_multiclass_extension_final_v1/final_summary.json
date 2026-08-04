@@ -1,0 +1,75 @@
+{
+  "artifact_state": "FINAL_FROZEN_JOURNAL_EXTENSION_V1",
+  "catalog": {
+    "formal_security_v2_profiles_per_model": 7,
+    "formal_profile_model_pairs": 14,
+    "lenet5_small": {
+      "encrypted_executable": 0,
+      "plan_unsupported": 7,
+      "status": "PLAN_UNSUPPORTED_WITHIN_FROZEN_CATALOG"
+    },
+    "mlp_100": {
+      "encrypted_executable": 6,
+      "fastest_safe_profile": "short_chain_5",
+      "plan_unsupported": 1,
+      "safe": 6
+    }
+  },
+  "direct_policy_modified": false,
+  "encrypted_security_replay": 0,
+  "models": {
+    "lenet5_small": {
+      "candidate_id": "synth_analysis_minimum_rescale_N15_Q18_S44_3d9a3ac648cc",
+      "catalog_coverage": "PLAN_UNSUPPORTED_WITHIN_FROZEN_CATALOG_7_OF_7",
+      "claim_eligibility": "FINITE_SCOPE_RESULT_ADMITTED_WITH_QUALIFIED_SECURITY",
+      "decision_integrity_admission": "VALIDATION_SAFE_LOCKED_AUDIT_SAFE_ARGMAX_FLIPS_0_RETUNING_0",
+      "estimator_model_status": "SECURITY_CORRECTED_AND_REPLAYED_MIN_CLASSICAL_BITS_132.046928",
+      "functional_execution": "DIRECT_SELECTED_1_TRIAL_0_REPAIRS",
+      "performance_evidence": "DESCRIPTIVE_UNPAIRED_ONLY_FORMAL_CATALOG_COMPARISON_NOT_EVALUATED",
+      "plaintext_accuracy_test_10000": 0.9891,
+      "security_policy_admission": "SECURITY_V2_PASS"
+    },
+    "mlp_100": {
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140",
+      "catalog_coverage": "6_SAFE_1_PLAN_UNSUPPORTED_WITHIN_FROZEN_CATALOG",
+      "claim_eligibility": "FINITE_SCOPE_AND_LITERAL_EFFECT_ADMITTED_LATENCY_SUPERIORITY_OVER_S32_NOT_ADMITTED",
+      "decision_integrity_admission": "VALIDATION_SAFE_LOCKED_AUDIT_SAFE_ARGMAX_FLIPS_0_RETUNING_0",
+      "estimator_model_status": "SECURITY_CORRECTED_AND_REPLAYED_MIN_CLASSICAL_BITS_145.229851",
+      "functional_execution": "DIRECT_SELECTED_1_TRIAL_0_REPAIRS",
+      "graph_only_candidate_id": "synth_analysis_minimum_rescale_N13_Q5_S32_cd07c4b74140",
+      "performance_evidence": {
+        "catalog_over_gap_aware_total_ci95": [
+          1.9797583367357303,
+          1.983841954972276
+        ],
+        "catalog_over_gap_aware_total_ratio": 1.981794788849981,
+        "effect_class": "LITERAL_EFFECT_ONLY",
+        "graph_only_over_gap_aware_total_ci95": [
+          0.9986480496157814,
+          1.0009196039830495
+        ],
+        "graph_only_over_gap_aware_total_ratio": 0.9997798376066447,
+        "records": 5400
+      },
+      "plaintext_accuracy_test_10000": 0.9776,
+      "security_policy_admission": "SECURITY_V2_PASS"
+    }
+  },
+  "natural_gap_activation": "A_LITERAL_EFFECT_SUPPORTED",
+  "policy_retuning": 0,
+  "security_amendment": "NOT_REQUIRED",
+  "security_reconciliation": {
+    "class": "CLASS_S1_ESTIMATOR_ADAPTER_MISMATCH",
+    "root_cause": "RESULT_SCOPE_AND_AGGREGATION_MISMATCH",
+    "runtime_error_distribution_exactly_modeled": false,
+    "quantum_cost_model": "NOT_EVALUATED"
+  },
+  "split": {
+    "configuration_validation_per_model": 500,
+    "locked_audit_per_model": 500,
+    "overlap": 0,
+    "shared_models": 2,
+    "unique_images": 1000
+  },
+  "schema_version": "flipguard_journal_multiclass_extension_final_v1"
+}

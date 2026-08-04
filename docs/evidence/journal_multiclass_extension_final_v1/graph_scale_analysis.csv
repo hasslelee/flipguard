@@ -1,0 +1,4 @@
+model,input_dimension,hidden_or_layers,outputs,add_ops,mul_ops,rescale_ops,multiplicative_depth,direct_log_n,q_count,scale_bits,trials,repairs,selected_latency_role
+Primary MLP-4,4/8/16,4,1,20-68,24-72,1,1,13,6,20,1,0,controlled-primary workload-dependent
+MNIST MLP-100,784,100,10,79400,79500,1,1,13,5,29,1,0,paired gap-aware mean total 19526.938851 ms
+MNIST LeNet-5-small,784,conv6/16; FC120/64,10,418648,421984,4,4,15,18,44,1,0,descriptive unpaired locked-audit mean total 4009140.293740 ms
