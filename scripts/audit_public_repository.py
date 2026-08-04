@@ -175,8 +175,6 @@ def build_report() -> dict[str, object]:
         "research_implementation_semantics_changed": bool(unexpected_changes),
         "frozen_evidence_changed": any(path.startswith(("docs/evidence/", "results/thesis_grade_protocol/", "results/journal/")) for path in changed),
         "hard_failures": hard_failures,
-        "changed_file_count": len(changed),
-        "tracked_file_count": len(tracked),
         "inherited_exclusions": {
             "absolute_local_paths": absolute_summary,
             "official_form_paths": official_forms,

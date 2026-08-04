@@ -1,0 +1,221 @@
+{
+  "frozen_evidence_changed": false,
+  "hard_failures": {
+    "changed_absolute_paths": [],
+    "changed_files_over_2mib": [],
+    "public_surface_absolute_paths": [],
+    "secret_pattern_hits": [],
+    "sensitive_filenames": [],
+    "unexpected_change_paths": []
+  },
+  "inherited_exclusions": {
+    "absolute_local_paths": {
+      "file_count": 885,
+      "group_counts": [
+        {
+          "group": "docs/evidence/no_safe_controls_confirmatory_v1",
+          "occurrences": 900
+        },
+        {
+          "group": "docs/evidence/paired_latency_final_v1",
+          "occurrences": 150
+        },
+        {
+          "group": "docs/evidence/independent_machine_replay_v1",
+          "occurrences": 100
+        },
+        {
+          "group": "docs/evidence/external_source_replay_v1",
+          "occurrences": 60
+        },
+        {
+          "group": "docs/evidence/direct_synthesis_ablation_v1",
+          "occurrences": 50
+        },
+        {
+          "group": "docs/evidence/independent_training_seed_extension_v1",
+          "occurrences": 36
+        },
+        {
+          "group": "docs/evidence/paired_latency_pilot_v1",
+          "occurrences": 30
+        },
+        {
+          "group": "docs/evidence/decision_contract_activation_control_v1",
+          "occurrences": 16
+        },
+        {
+          "group": "docs/evidence/exact_security_estimator_v1",
+          "occurrences": 16
+        },
+        {
+          "group": "docs/evidence/provider_candidate_gate_interoperability_v1",
+          "occurrences": 16
+        },
+        {
+          "group": "docs/evidence/eva_native_runtime_replay_v1",
+          "occurrences": 15
+        },
+        {
+          "group": "docs/evidence/eva_schedule_bound_adapter_replay_v1",
+          "occurrences": 12
+        },
+        {
+          "group": "docs/evidence/eva_native_scale_sensitivity_v1",
+          "occurrences": 8
+        },
+        {
+          "group": "docs/evidence/hit_external_adapter_replay_v1",
+          "occurrences": 8
+        },
+        {
+          "group": "docs/evidence/security_v2_bounded_oracle_v1",
+          "occurrences": 5
+        },
+        {
+          "group": "docs/evidence/journal_mlp_paired_latency_v1",
+          "occurrences": 3
+        },
+        {
+          "group": "docs/evidence/orion_external_adapter_audit_v1",
+          "occurrences": 3
+        },
+        {
+          "group": "scripts/build_validation_identity_audit.py",
+          "occurrences": 2
+        },
+        {
+          "group": "docs/checkpoints",
+          "occurrences": 1
+        },
+        {
+          "group": "docs/evidence/non_tabular_harris_holdout_v1",
+          "occurrences": 1
+        },
+        {
+          "group": "docs/evidence/non_tabular_sobel_holdout_v1",
+          "occurrences": 1
+        },
+        {
+          "group": "docs/evidence/research_completion_checkpoint_v10",
+          "occurrences": 1
+        },
+        {
+          "group": "docs/evidence/validation_identity_comparison_v2",
+          "occurrences": 1
+        }
+      ],
+      "non_evidence_paths": [
+        {
+          "occurrences": 1,
+          "path": "docs/checkpoints/2026-07-29_pre_static_security_v2/checkpoint_metadata.json"
+        },
+        {
+          "occurrences": 2,
+          "path": "scripts/build_validation_identity_audit.py"
+        }
+      ],
+      "occurrence_count": 1435
+    },
+    "anonymous_review_path_count": 29,
+    "anonymous_review_roots": [
+      "docs/journal/",
+      "results/journal/"
+    ],
+    "handling": "Excluded from curated public artifact export; frozen predecessor files are not rewritten by this documentation branch.",
+    "official_form_paths": [
+      "docs/evidence/jkiisc_official_sources_v1/files/forms_notice.html",
+      "docs/evidence/jkiisc_official_sources_v1/files/publication_form.hwp",
+      "docs/evidence/jkiisc_official_sources_v1/files/submission_form.hwp",
+      "docs/evidence/jkiisc_official_sources_v1/files/submission_guidance.html",
+      "docs/evidence/jkiisc_official_sources_v1/files/submission_rules_2024-03-15.pdf"
+    ]
+  },
+  "largest_tracked_files": [
+    {
+      "bytes": 16593444,
+      "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog_result.json"
+    },
+    {
+      "bytes": 6168618,
+      "path": "docs/checkpoints/2026-07-29_pre_static_security_v2/SHA256SUMS"
+    },
+    {
+      "bytes": 5247202,
+      "path": "docs/evidence/journal_multiclass_extension_results_v1/observations.csv"
+    },
+    {
+      "bytes": 3414684,
+      "path": "docs/evidence/journal_mlp_paired_latency_v1/raw/keyset_01/result.json"
+    },
+    {
+      "bytes": 3413992,
+      "path": "docs/evidence/journal_mlp_paired_latency_v1/raw/keyset_02/result.json"
+    },
+    {
+      "bytes": 3412360,
+      "path": "docs/evidence/journal_mlp_paired_latency_v1/raw/keyset_03/result.json"
+    },
+    {
+      "bytes": 2807251,
+      "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/selection_result.json"
+    },
+    {
+      "bytes": 2774014,
+      "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/selection_result.json"
+    },
+    {
+      "bytes": 2645642,
+      "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/locked_audit_result.json"
+    },
+    {
+      "bytes": 2611278,
+      "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/locked_audit_result.json"
+    },
+    {
+      "bytes": 2563734,
+      "path": "datasets/journal_multiclass_extension_v1/mnist/model_training.csv"
+    },
+    {
+      "bytes": 2486838,
+      "path": "results/journal_multiclass_extension_v1/comparators/mlp_graph_only_fixed_logit_tolerance_v1/result.json"
+    },
+    {
+      "bytes": 2453247,
+      "path": "docs/evidence/journal_mlp_paired_latency_v1/raw/keyset_01/records.jsonl"
+    },
+    {
+      "bytes": 2452555,
+      "path": "docs/evidence/journal_mlp_paired_latency_v1/raw/keyset_02/records.jsonl"
+    },
+    {
+      "bytes": 2450923,
+      "path": "docs/evidence/journal_mlp_paired_latency_v1/raw/keyset_03/records.jsonl"
+    },
+    {
+      "bytes": 2335966,
+      "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/trial_01_synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140/trial_result.json"
+    },
+    {
+      "bytes": 2308212,
+      "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/deep_chain_9_scale45/trial_result.json"
+    },
+    {
+      "bytes": 2307871,
+      "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/deep_chain_8_scale45/trial_result.json"
+    },
+    {
+      "bytes": 2302180,
+      "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/catalog/short_chain_6_scale42/trial_result.json"
+    },
+    {
+      "bytes": 2302172,
+      "path": "results/journal_multiclass_extension_v1/encrypted/mnist_lenet5_small_square_v1/trial_01_synth_analysis_minimum_rescale_N15_Q18_S44_3d9a3ac648cc/trial_result.json"
+    }
+  ],
+  "public_export_manifest_sha256": "bbce5eaa42000275a86cf941889c6cce21810889a8882b3dda4a68d36cd318b0",
+  "research_implementation_semantics_changed": false,
+  "schema_version": "flipguard_public_repository_audit_v1",
+  "source_research_commit": "fd53d9f23040fd1490d9816a928dd04ec58eb473",
+  "status": "PASS_WITH_INHERITED_EXCLUSIONS"
+}
