@@ -55,8 +55,8 @@ def main() -> int:
     assert REQUIRED <= {row["system"] for row in builds}
     for row in builds:
         assert 0 <= int(row["attempts"]) <= 3
-        assert row["algorithm_semantics_changed"] == "false"
-        if row["reproduced"] == "True":
+        assert row["algorithm_semantics_changed"].lower() == "false"
+        if row["reproduced"].lower() == "true":
             assert row["status"] == "PASS"
     for row in builds:
         if row["system"] in REQUIRED and row["status"] != "PASS":

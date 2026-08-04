@@ -7,6 +7,7 @@ import argparse
 import csv
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -16,6 +17,14 @@ ROOT = Path(__file__).resolve().parents[1]
 PACK = ROOT / "docs/evidence/external_autotuner_comparison_v2"
 PROTOCOL = PACK / "protocol"
 SOURCE_COMMIT = "fd53d9f23040fd1490d9816a928dd04ec58eb473"
+
+
+def comparison_input_commit() -> str:
+    value = os.environ.get("FLIPGUARD_COMPARISON_INPUT_COMMIT")
+    if value is None:
+        value = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    assert len(value) == 40 and all(char in "0123456789abcdef" for char in value)
+    return value
 
 
 def sha256(path: Path) -> str:
@@ -405,6 +414,7 @@ def make_manifest(claims: dict) -> None:
         "artifact_id": "external_autotuner_comparison_v2",
         "schema_version": "flipguard_external_autotuner_comparison_v2",
         "source_commit": SOURCE_COMMIT,
+        "comparison_input_commit": comparison_input_commit(),
         "protocol_commit": "11d6689c683006b6f80d77aaf8f05bd563525748",
         "audit_date": "2026-08-05",
         "current_flipguard_evidence_modified": False,

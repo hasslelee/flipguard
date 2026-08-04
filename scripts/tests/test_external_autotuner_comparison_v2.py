@@ -5,6 +5,7 @@ from __future__ import annotations
 import csv
 import importlib.util
 import json
+import os
 import re
 import tempfile
 import unittest
@@ -55,6 +56,19 @@ class ExternalBaselineBuilderTest(unittest.TestCase):
         self.assertIn("packing", exact)
         self.assertIn("output_semantics", exact)
         self.assertFalse(policy["native_track"]["raw_cross_runtime_speed_ranking_allowed"])
+
+    def test_comparison_input_commit_can_be_frozen(self):
+        module = load_module()
+        expected = "1" * 40
+        previous = os.environ.get("FLIPGUARD_COMPARISON_INPUT_COMMIT")
+        os.environ["FLIPGUARD_COMPARISON_INPUT_COMMIT"] = expected
+        try:
+            self.assertEqual(module.comparison_input_commit(), expected)
+        finally:
+            if previous is None:
+                os.environ.pop("FLIPGUARD_COMPARISON_INPUT_COMMIT", None)
+            else:
+                os.environ["FLIPGUARD_COMPARISON_INPUT_COMMIT"] = previous
 
 
 if __name__ == "__main__":
