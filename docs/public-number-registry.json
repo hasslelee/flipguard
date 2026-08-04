@@ -1,0 +1,33 @@
+{
+  "schema_version": "flipguard_public_number_registry_v1",
+  "source_registry": "docs/journal/number_registry.json",
+  "source_research_commit": "fd53d9f23040fd1490d9816a928dd04ec58eb473",
+  "values": {
+    "catalog_profiles_admitted": 7,
+    "catalog_profiles_excluded": 4,
+    "confirmatory_catalog_candidates": 560,
+    "confirmatory_direct_trials": 56,
+    "confirmatory_locked_audit_pass": 40,
+    "confirmatory_total_latency_ci_high": 4.21531336367743,
+    "confirmatory_total_latency_ci_low": 2.3423342246526992,
+    "confirmatory_total_latency_ratio": 3.14065956642714,
+    "formal_catalog_candidates": 700,
+    "formal_direct_trials": 70,
+    "formal_trial_reduction": 0.9,
+    "historical_catalog_executions": 1100,
+    "lenet_catalog_plan_unsupported": 7,
+    "mlp_catalog_over_gap_total_ci_high": 1.983841954972276,
+    "mlp_catalog_over_gap_total_ci_low": 1.9797583367357303,
+    "mlp_catalog_over_gap_total_ratio": 1.981794788849981,
+    "mlp_gap_direct_scale_bits": 29,
+    "mlp_graph_over_gap_total_ci_high": 1.0009196039830495,
+    "mlp_graph_over_gap_total_ci_low": 0.9986480496157814,
+    "mlp_graph_over_gap_total_ratio": 0.9997798376066447,
+    "mlp_graph_scale_bits": 32,
+    "multiclass_argmax_flips": 0,
+    "multiclass_audit_images_per_model": 500,
+    "multiclass_validation_images_per_model": 500,
+    "structural_audit_pass": 24,
+    "structural_reserve_policy_reject": 1
+  }
+}
