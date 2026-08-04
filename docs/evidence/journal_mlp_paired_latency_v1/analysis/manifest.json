@@ -1,0 +1,72 @@
+{
+  "analysis_statistical_unit": "image_cluster",
+  "direct_full_audit": {
+    "path": "results/journal_multiclass_extension_v1/encrypted/mnist_mlp_square_784_100_10_v1/locked_audit_result.json",
+    "sha256": "sha256:fe5b1508c567187de483ead74521e7e79b9de781dfb6700cead02583f1a4bbed"
+  },
+  "graph_only_validation": {
+    "path": "results/journal_multiclass_extension_v1/comparators/mlp_graph_only_fixed_logit_tolerance_v1/result.json",
+    "sha256": "sha256:64c680438fcb71dfef3bb20bd3bbf544dd571b8330ed00b3b27598116dd3a53e"
+  },
+  "new_encrypted_records": 5400,
+  "orchestration": {
+    "path": "results/journal_mlp_paired_latency_v1/execution/orchestration_complete.json",
+    "sha256": "sha256:aa1b0c6d4ca1b571f917f17c87ba7ea19fa10b68003c53f8f9141408f46cb062"
+  },
+  "policy_retuning": 0,
+  "protocol": {
+    "path": "docs/evidence/journal_mlp_paired_latency_protocol_v1_3/execution_protocol.json",
+    "sha256": "sha256:8a3e5bc4e4d3520520af0c448e156e710eea8f0db3c255954a6cdcbcb9451064"
+  },
+  "raw_bindings": [
+    {
+      "path": "results/journal_mlp_paired_latency_v1/execution/keyset_01/attempt_05/run_manifest.json",
+      "sha256": "sha256:2884a2dabf8c76009a55e6723b11b71e20db4d6840463fb7f73c74aede1ad104"
+    },
+    {
+      "path": "results/journal_mlp_paired_latency_v1/execution/keyset_01/attempt_05/records.jsonl",
+      "sha256": "sha256:f02929b8c8f4672d8323746a0ec0869ba45c5c368bddf5cfd56e855c05200663"
+    },
+    {
+      "path": "results/journal_mlp_paired_latency_v1/execution/keyset_01/attempt_05/result.json",
+      "sha256": "sha256:12affe20d00cf2d9dd012bf50bfd16e3cf99cedf2dfc61375824bbb0bb9223ec"
+    },
+    {
+      "path": "results/journal_mlp_paired_latency_v1/execution/keyset_01/attempt_05/completed.json",
+      "sha256": "sha256:a391c774833fb9f6e7fae0bf29c71778b63004a918e24e9515ff9771ed006095"
+    },
+    {
+      "path": "results/journal_mlp_paired_latency_v1/execution/keyset_02/attempt_01/run_manifest.json",
+      "sha256": "sha256:34765e5f3b49952a81a1f61e54246f4537ea9e39361691d7637fef9fd22bd3dc"
+    },
+    {
+      "path": "results/journal_mlp_paired_latency_v1/execution/keyset_02/attempt_01/records.jsonl",
+      "sha256": "sha256:58c8a2d4106c7f182b2071d915a65eec542bfb1699086151f24d842c87b23c99"
+    },
+    {
+      "path": "results/journal_mlp_paired_latency_v1/execution/keyset_02/attempt_01/result.json",
+      "sha256": "sha256:f1d9a64d86f11955cbf8e489da803eafd5c0c56fad20ed4cb722bb2b0bdf1aea"
+    },
+    {
+      "path": "results/journal_mlp_paired_latency_v1/execution/keyset_02/attempt_01/completed.json",
+      "sha256": "sha256:38ebbfbca69b8b3588b95cf55c652adaccaca95fa9ea3e7aa037e24eb3486565"
+    },
+    {
+      "path": "results/journal_mlp_paired_latency_v1/execution/keyset_03/attempt_01/run_manifest.json",
+      "sha256": "sha256:fefc1142361162326d1d0978ae7b77abdbbdd72f97db014b5de2e67c0a3bf139"
+    },
+    {
+      "path": "results/journal_mlp_paired_latency_v1/execution/keyset_03/attempt_01/records.jsonl",
+      "sha256": "sha256:c661cdbf52a56839ed3843cc637493ac9a5c2b60721b3037ffdc6d5fe0014f97"
+    },
+    {
+      "path": "results/journal_mlp_paired_latency_v1/execution/keyset_03/attempt_01/result.json",
+      "sha256": "sha256:a6f9c9f854f0d194adc8dd053839fc49535cd0ba720c73db84b2d9575612ce0e"
+    },
+    {
+      "path": "results/journal_mlp_paired_latency_v1/execution/keyset_03/attempt_01/completed.json",
+      "sha256": "sha256:063b4ed67c603988a130427c09d9daada05e39c1413d1f4794d04f020e3acfc7"
+    }
+  ],
+  "schema_version": "flipguard_journal_mlp_paired_latency_analysis_v1"
+}

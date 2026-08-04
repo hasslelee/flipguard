@@ -1,0 +1,10 @@
+{
+  "individual_failure_policy": "preserve and report; complete independent observations when integrity is intact",
+  "le_net_catalog_latency_claim": "BLOCKED_NOT_EVALUATED",
+  "no_outlier_removal": true,
+  "no_posthoc_arm_change": true,
+  "no_posthoc_pass_change": true,
+  "no_posthoc_sample_change": true,
+  "schema_version": "flipguard_journal_mlp_paired_latency_protocol_v1",
+  "security_gate": "all arms require Security-V2 PASS and matched estimator PASS before execution"
+}

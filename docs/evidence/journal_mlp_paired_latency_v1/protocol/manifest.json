@@ -1,0 +1,27 @@
+{
+  "execution_protocol_sha256": "sha256:8a3e5bc4e4d3520520af0c448e156e710eea8f0db3c255954a6cdcbcb9451064",
+  "execution_source_commit": "6fa773b8d46c0b28a6632f2415e44c2e763e18c5",
+  "frozen_binary": {
+    "path": "results/journal_mlp_paired_latency_v1/bin/v1_3/flipguard-journal-mlp-paired-latency",
+    "sha256": "sha256:d1bc60d2cfaa7b4396a9b03e821f4e775de304e2fa4acc4e08b932313081571a"
+  },
+  "host_preflight": {
+    "hostname": "ckks2-VMware-Virtual-Platform",
+    "logical_cpus": 2,
+    "machine": "x86_64",
+    "release": "7.0.0-28-generic",
+    "system": "Linux"
+  },
+  "latency_subset_manifest_sha256": "sha256:bd521f49050b1c90de354949fc219729c5534f9d22c9ab9aa33272ec7044e0c4",
+  "new_dataset_or_model": 0,
+  "policy_retuning": 0,
+  "predecessor": {
+    "path": "docs/evidence/journal_mlp_paired_latency_protocol_v1_2",
+    "reason": "strict parser omitted selected-row rank evidence; encrypted measurement records=0",
+    "status": "PRESERVED_RECOVERABLE_IMPLEMENTATION_FAILURE"
+  },
+  "protocol_id": "journal_mlp100_paired_latency_amendment_v1_3",
+  "schema_version": "flipguard_journal_mlp_paired_latency_protocol_v1",
+  "security_amendment": false,
+  "security_reconciliation_class": "CLASS_S1_ESTIMATOR_ADAPTER_MISMATCH"
+}
