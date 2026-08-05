@@ -59,7 +59,7 @@ def sha256_file(path: Path) -> str:
     return f"sha256:{digest.hexdigest()}"
 
 
-def digest_path(path: Path | None) -> str:
+def digest_path(path: Path | None, *, exclude_vcs: bool = False) -> str:
     if path is None or not path.exists():
         return "NOT_AVAILABLE"
     if path.is_file():
@@ -68,7 +68,10 @@ def digest_path(path: Path | None) -> str:
     for item in sorted(path.rglob("*")):
         if not item.is_file():
             continue
-        relative = item.relative_to(path).as_posix().encode("utf-8")
+        relative_path = item.relative_to(path)
+        if exclude_vcs and any(part in {".git", "__pycache__"} for part in relative_path.parts):
+            continue
+        relative = relative_path.as_posix().encode("utf-8")
         digest.update(len(relative).to_bytes(8, "big"))
         digest.update(relative)
         digest.update(bytes.fromhex(sha256_file(item).removeprefix("sha256:")))
@@ -167,7 +170,7 @@ def main() -> int:
         "heartbeat.txt": timestamp() + "\n",
         "service_unit.txt": os.environ.get("FLIPGUARD_V6_SERVICE_UNIT", unit) + "\n",
         "pid.txt": str(os.getpid()) + "\n",
-        "source_sha256.txt": digest_path(source_path) + "\n",
+        "source_sha256.txt": digest_path(source_path, exclude_vcs=True) + "\n",
         "binary_sha256.txt": digest_path(binary_path) + "\n",
         "input_sha256.txt": digest_path(input_path) + "\n",
         "output_sha256.txt": "PENDING\n",
@@ -270,7 +273,7 @@ def main() -> int:
         "interrupted_signal": interrupted_signal,
         "elapsed_seconds": elapsed,
         "end_timestamp": end,
-        "source_sha256": digest_path(source_path),
+        "source_sha256": digest_path(source_path, exclude_vcs=True),
         "binary_sha256": digest_path(binary_path),
         "input_sha256": digest_path(input_path),
         "output_sha256": digest_path(output_path),

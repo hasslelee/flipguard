@@ -29,6 +29,15 @@ class ExternalV6RunnerTest(unittest.TestCase):
     def test_missing_path_is_not_false_zero(self) -> None:
         self.assertEqual(MODULE.digest_path(None), "NOT_AVAILABLE")
 
+    def test_source_digest_excludes_git_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            MODULE.atomic_text(root / "source.txt", "source\n")
+            MODULE.atomic_text(root / ".git/HEAD", "ref: refs/heads/main\n")
+            before = MODULE.digest_path(root, exclude_vcs=True)
+            MODULE.atomic_text(root / ".git/HEAD", "ref: refs/heads/other\n")
+            self.assertEqual(before, MODULE.digest_path(root, exclude_vcs=True))
+
 
 if __name__ == "__main__":
     unittest.main()
