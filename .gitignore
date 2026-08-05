@@ -20,6 +20,10 @@ tmp/
 *.log.venv/
 .venv/
 
+# Clean external end-to-end V6 runtime workspace
+external/v6/*
+!external/v6/.gitignore
+
 # Python cache
 __pycache__/
 *.pyc
