@@ -1,0 +1,38 @@
+{
+  "schema_version": "flipguard.external-v5.input-manifest.v1",
+  "contract_id": "heco_official_hammingdistance_4_binary_threshold_v1",
+  "frozen_before_execution": true,
+  "provider": "HECO",
+  "provider_source_commit": "cf396f05029930b6476c10266853b2099e23bd32",
+  "provider_graph": "evaluation/benchmark/heco_input/hammingdistance_4.mlir",
+  "scheme": "BFV",
+  "scheme_scope_note": "The pinned HECO artifact lowers its official evaluation graph through fhe2bfv. This probe is excluded from CKKS headline counts.",
+  "input_type": "ordered pairs of length-4 binary vectors",
+  "decision_rule": {
+    "plaintext_value": "sum_i (x_i - y_i)^2",
+    "positive_when": "plaintext_value >= 2",
+    "threshold": 2,
+    "boundary_semantics": "greater-than-or-equal",
+    "reason": "For binary vectors, the official squared-difference graph equals Hamming distance."
+  },
+  "cryptographic_repeats": 3,
+  "key_policy": "one fresh SEAL key set per repeat, reused only across the ordered samples in that repeat",
+  "samples": [
+    {"row_id": "validation-000", "role": "validation", "x": [0, 0, 0, 0], "y": [0, 0, 0, 0], "expected_plaintext": 0},
+    {"row_id": "validation-001", "role": "validation", "x": [0, 0, 0, 0], "y": [0, 0, 0, 1], "expected_plaintext": 1},
+    {"row_id": "validation-002", "role": "validation", "x": [0, 0, 0, 0], "y": [0, 0, 1, 1], "expected_plaintext": 2},
+    {"row_id": "validation-003", "role": "validation", "x": [0, 0, 0, 0], "y": [0, 1, 1, 1], "expected_plaintext": 3},
+    {"row_id": "validation-004", "role": "validation", "x": [0, 0, 0, 0], "y": [1, 1, 1, 1], "expected_plaintext": 4},
+    {"row_id": "validation-005", "role": "validation", "x": [1, 0, 1, 0], "y": [0, 1, 0, 1], "expected_plaintext": 4},
+    {"row_id": "validation-006", "role": "validation", "x": [1, 1, 0, 0], "y": [1, 0, 0, 1], "expected_plaintext": 2},
+    {"row_id": "validation-007", "role": "validation", "x": [1, 0, 1, 1], "y": [1, 1, 1, 0], "expected_plaintext": 2},
+    {"row_id": "audit-000", "role": "audit", "x": [1, 1, 1, 1], "y": [1, 1, 1, 1], "expected_plaintext": 0},
+    {"row_id": "audit-001", "role": "audit", "x": [0, 1, 0, 1], "y": [0, 1, 0, 0], "expected_plaintext": 1},
+    {"row_id": "audit-002", "role": "audit", "x": [1, 1, 0, 1], "y": [1, 0, 0, 1], "expected_plaintext": 1},
+    {"row_id": "audit-003", "role": "audit", "x": [1, 1, 0, 1], "y": [1, 0, 1, 0], "expected_plaintext": 3},
+    {"row_id": "audit-004", "role": "audit", "x": [1, 0, 0, 0], "y": [0, 1, 1, 1], "expected_plaintext": 4},
+    {"row_id": "audit-005", "role": "audit", "x": [0, 0, 1, 1], "y": [0, 1, 0, 1], "expected_plaintext": 2},
+    {"row_id": "audit-006", "role": "audit", "x": [1, 1, 1, 0], "y": [0, 1, 1, 1], "expected_plaintext": 2},
+    {"row_id": "audit-007", "role": "audit", "x": [1, 0, 0, 1], "y": [1, 0, 1, 1], "expected_plaintext": 1}
+  ]
+}
