@@ -8,7 +8,7 @@ if [[ $# -ne 1 ]]; then
   exit 2
 fi
 readonly RUN_ID="$1"
-readonly RUNTIME="external/v6/environments/elasm-runtime"
+readonly RUNTIME="external/v6/environments/elasm-runtime-r1"
 readonly OUTPUT="external/v6/outputs/corelab/elasm-linear-regression-grid-v1"
 test ! -e "$OUTPUT"
 

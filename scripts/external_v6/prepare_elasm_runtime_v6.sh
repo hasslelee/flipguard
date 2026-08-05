@@ -4,9 +4,11 @@ set -euo pipefail
 readonly ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 readonly SOURCE="external/v6/sources/elasm"
-readonly RUNTIME="external/v6/environments/elasm-runtime"
+readonly RUNTIME="external/v6/environments/elasm-runtime-r1"
 test ! -e "$RUNTIME"
-git -C "$SOURCE" worktree add --detach "$ROOT/$RUNTIME" 3c37c11b29ca480525bb6681e0254bdf90029425
+git clone --no-hardlinks "$SOURCE" "$RUNTIME"
+git -C "$RUNTIME" remote set-url origin https://github.com/corelab-src/elasm
+git -C "$RUNTIME" checkout --detach 3c37c11b29ca480525bb6681e0254bdf90029425
 ln -s ../../builds/elasm/compiler "$RUNTIME/build"
 
 docker run --rm \
