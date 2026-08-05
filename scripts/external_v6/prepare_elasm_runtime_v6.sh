@@ -21,7 +21,7 @@ docker run --rm \
     export DEBIAN_FRONTEND=noninteractive
     apt-get update -qq
     apt-get install -y -qq --no-install-recommends python3-numpy
-    export HECATE=/work/external/v6/environments/elasm-runtime
+    export HECATE=/work/external/v6/environments/elasm-runtime-r1
     export PYTHONDONTWRITEBYTECODE=1
     export PYTHONPATH="$HECATE/python/hecate"
     export LD_LIBRARY_PATH="$HECATE/build/lib:/work/external/v6/builds/elasm/seal-install/lib:/usr/lib/llvm-16/lib:${LD_LIBRARY_PATH:-}"
