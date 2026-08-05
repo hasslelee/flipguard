@@ -13,7 +13,6 @@ test ! -e "$RUNTIME"
 git clone --no-hardlinks --no-local "$SOURCE" "$RUNTIME"
 git -C "$RUNTIME" checkout --detach "$EXPECTED_COMMIT"
 test -z "$(git -C "$RUNTIME" status --porcelain)"
-ln -s "$ROOT/external/v6/builds/hecate/compiler" "$RUNTIME/build"
+ln -s ../../builds/hecate/compiler "$RUNTIME/build"
 
 printf '%s\n' "$EXPECTED_COMMIT" > "$RUNTIME/V6_SOURCE_COMMIT"
-

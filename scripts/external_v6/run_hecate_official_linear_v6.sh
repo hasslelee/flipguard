@@ -21,4 +21,4 @@ docker run --rm \
   -w /work \
   --entrypoint bash \
   flipguard/hecate-v6-runtime:torch2.0.1-cpu \
-  -lc 'git config --global --add safe.directory /work/external/v6/runners/hecate-runtime; export LD_LIBRARY_PATH=/work/external/v6/builds/hecate/seal-install/lib:/work/external/v6/builds/hecate/compiler/lib:/usr/lib/llvm-18/lib; exec python3 scripts/external_v6/run_hecate_official_linear_v6.py --runtime-root external/v6/runners/hecate-runtime --output-root external/v6/outputs/hecate/official-linear-v1 --status-file external/v6/status/corelab-hecate/0025-hecate-official-linear-retry1/completed_samples.txt'
+  -lc 'git config --global --add safe.directory /work/external/v6/runners/hecate-runtime; export LD_LIBRARY_PATH=/work/external/v6/builds/hecate/seal-install/lib:/work/external/v6/builds/hecate/compiler/lib:/usr/lib/llvm-18/lib; exec python3 scripts/external_v6/run_hecate_official_linear_v6.py --runtime-root external/v6/runners/hecate-runtime --output-root external/v6/outputs/hecate/official-linear-v1 --status-file external/v6/status/corelab-hecate/0026-hecate-official-linear-retry2/completed_samples.txt'
