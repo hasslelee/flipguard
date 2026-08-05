@@ -1,0 +1,33 @@
+{
+  "activation": "score=0.5+0.197*z-0.004*z^3",
+  "audit_rule": "Replay the first validation-SAFE compiled literal on the disjoint audit rows with three fresh contexts and no retuning.",
+  "candidate_matrix": {
+    "input_scale_bits": [20, 30, 40],
+    "selection": "first Security-V2-reference-admitted validation-SAFE arm in ascending scale order"
+  },
+  "decision_rule": "score>=0.5",
+  "graph": {
+    "inputs": ["x_0", "x_1", "x_2", "x_3"],
+    "operation_order": [
+      "weighted affine sum z=bias+sum_i(weight_i*x_i)",
+      "z_squared=z*z",
+      "z_cubed=z_squared*z",
+      "score=0.5+0.197*z-0.004*z_cubed"
+    ],
+    "output": "score",
+    "vector_size": 1
+  },
+  "input_manifest": "docs/evidence/external_end_to_end_clean_v6/input_manifests/eva_shared_polynomial_v1.json",
+  "packing": "one scalar per EVA vector of size one",
+  "predecessor_contract": {
+    "path": "experiments/eva_native_scale_sensitivity_v1/contract.json",
+    "sha256": "sha256:7b35a83e4cfcb2c87b40d45ee8e66e9a4a7b89e58ad78b89d40d6e59df9c2a97"
+  },
+  "provider": "Microsoft EVA v1.0.1 with SEAL v3.6.4",
+  "rho": 0.5,
+  "schema_version": "flipguard_external_v6_workload_contract_v1",
+  "security_target": "Security-V2 reference admission recorded separately from native SEAL distribution semantics",
+  "threshold": 0.5,
+  "timing_boundary": "per-row keygen, encryption, homomorphic execution, decryption, and total sample time",
+  "workload_id": "eva_shared_iris_linear_poly3_v1"
+}

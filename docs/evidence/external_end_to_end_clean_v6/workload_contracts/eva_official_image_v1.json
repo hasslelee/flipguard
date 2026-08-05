@@ -1,0 +1,20 @@
+{
+  "decision_rule": "NOT_DEFINED_BY_OFFICIAL_EXAMPLE",
+  "evidence_level_ceiling": 3,
+  "graph_source": {
+    "path": "external/v6/sources/eva/examples/image_processing.py",
+    "sha256": "sha256:4b0488a667341a6d29034843c6b23877b7da86ed99e172336885580492498065"
+  },
+  "graphs": {
+    "harris": "official EVA Ix/Iy Sobel derivatives, 3x3 all-ones pooling, det(M)-0.04*trace(M)^2",
+    "sobel": "official EVA Ix/Iy Sobel derivatives and cubic polynomial approximation over Ix^2+Iy^2"
+  },
+  "input_manifest": "docs/evidence/external_end_to_end_clean_v6/input_manifests/eva_official_image_v1.json",
+  "output_semantics": "4096 ordered output pixels per program and context",
+  "packing": "one 64x64 grayscale image in an EVA vector of length 4096",
+  "provider": "Microsoft EVA v1.0.1 official image_processing.py",
+  "schema_version": "flipguard_external_v6_workload_contract_v1",
+  "security_target": "native parameters recorded; provider decision gate not evaluated because the example declares no decision rule",
+  "timing_boundary": "compile once per graph; keygen, encryption, homomorphic execution, and decryption for each of three fresh contexts",
+  "workload_id": "eva_official_baboon_sobel_harris_v1"
+}
