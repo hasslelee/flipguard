@@ -1,0 +1,22 @@
+{
+  "schema_version": "flipguard_external_workload_contract_v5",
+  "contract_id": "elasm_official_linear_regression_waterline_grid_v1",
+  "provider": "ELASM",
+  "provider_commit": "3c37c11b29ca480525bb6681e0254bdf90029425",
+  "workload": "official_LinearRegression",
+  "workload_equivalence": "NATIVE_OFFICIAL_ONLY",
+  "modes_in_order": ["eva", "elasm"],
+  "waterline_start_inclusive": 15,
+  "waterline_end_inclusive": 50,
+  "waterline_count_per_mode": 36,
+  "total_plan_count": 72,
+  "input_seed": 20260805,
+  "source_script": "examples/benchmarks/LinearRegression.py",
+  "test_script": "examples/tests/LinearRegression.py",
+  "backend": "Microsoft SEAL 4.0.0",
+  "terminal_requirement": "keygen_encrypt_evaluate_decrypt_rms",
+  "decision_rule": null,
+  "maximum_evidence_level": 4,
+  "result_dependent_changes_prohibited": true,
+  "outlier_removal": false
+}
