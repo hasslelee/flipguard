@@ -1,0 +1,23 @@
+{
+  "schema_version": "flipguard_external_execution_queue_v5",
+  "frozen_at": "2026-08-05T20:52:12+09:00",
+  "entries": [
+    {"order": 1, "provider": "EVA", "target": "official Sobel; official Harris; shared polynomial", "required_terminal_attempt": true},
+    {"order": 2, "provider": "HECATE/ELASM", "target": "official MLP; LeNet; regression; available modes", "required_terminal_attempt": true},
+    {"order": 3, "provider": "HEIR", "target": "official CKKS OpenFHE and Lattigo paths; shared polynomial if exact", "required_terminal_attempt": true},
+    {"order": 4, "provider": "HECO", "target": "official CKKS end-to-end example; shared polynomial if exact", "required_terminal_attempt": true},
+    {"order": 5, "provider": "Orion", "target": "official LoLa/NN example with decision-bearing outputs", "required_terminal_attempt": true},
+    {"order": 6, "provider": "ANT-ACE", "target": "official ONNX ResNet-20/CIFAR-10 terminal path", "required_terminal_attempt": true},
+    {"order": 7, "provider": "AutoFHE", "target": "official pretrained inference or documented CPU terminal path", "required_terminal_attempt": true},
+    {"order": 8, "provider": "DaCapo", "target": "official smallest complete bootstrap workload", "required_terminal_attempt": true},
+    {"order": 9, "provider": "LOHEN", "target": "official scheduler and runtime if artifact exists", "required_terminal_attempt": true},
+    {"order": 10, "provider": "SLOTHE", "target": "official compiler and model terminal capability", "required_terminal_attempt": true},
+    {"order": 11, "provider": "HEaaN.MLIR", "target": "official terminal capability", "required_terminal_attempt": true},
+    {"order": 12, "provider": "HEILP", "target": "official terminal capability", "required_terminal_attempt": true},
+    {"order": 13, "provider": "HALO", "target": "official bootstrap pipeline", "required_terminal_attempt": true},
+    {"order": 14, "provider": "ReSBM", "target": "official bootstrap-rescale mode", "required_terminal_attempt": true},
+    {"order": 15, "provider": "Orbit", "target": "official full optimizer/frontend/backend terminal path", "required_terminal_attempt": true},
+    {"order": 16, "provider": "FHE-Agent", "target": "official executable artifact if public and credential-free", "required_terminal_attempt": true},
+    {"order": 17, "provider": "FHECrafter", "target": "official executable artifact if public and credential-free", "required_terminal_attempt": true}
+  ]
+}

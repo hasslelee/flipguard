@@ -1,0 +1,21 @@
+{
+  "schema_version": "flipguard_external_end_to_end_24h_v5_protocol",
+  "operating_mode": "24H_MAXIMAL_EXTERNAL_END_TO_END_EXECUTION_V5",
+  "autonomous_start_timestamp": "2026-08-05T20:52:12+09:00",
+  "hard_pause_timestamp": "2026-08-06T20:52:12+09:00",
+  "source_branch": "experiments/external-end-to-end-24h-v5",
+  "predecessor_branch": "experiments/comprehensive-ckks-comparison-v3",
+  "predecessor_commit": "5592b5d2c415eb08c040e7e2b04dd9b6346eb6b8",
+  "predecessor_manifest_sha256": "sha256:ded2b9a8afbc5fb3c55984093367113290e4df7b99c431c3d19ce671d5f68444",
+  "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "direct_policy_id": "flipguard_direct_synthesis_policy_v2",
+  "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+  "frozen_evidence_modification_allowed": false,
+  "policy_retuning_allowed": false,
+  "measurement_parallelism": 1,
+  "missing_value_imputation_allowed": false,
+  "cross_runtime_algorithm_only_claim_allowed": false,
+  "normal_pause_before_hard_pause": false,
+  "manuscript_work_allowed": false
+}

@@ -1,0 +1,13 @@
+{
+  "levels": {
+    "LEVEL_0_SOURCE_AUDITED": "official source and revision verified",
+    "LEVEL_1_BUILD_PASS": "compiler or library build only",
+    "LEVEL_2_CLI_OR_DEMO_SMOKE": "help, unit example, or trivial execution",
+    "LEVEL_3_FULL_OFFICIAL_PIPELINE": "official frontend through final schedule, code, or configuration",
+    "LEVEL_4_ENCRYPTED_END_TO_END": "keygen, encrypt, evaluate, decrypt, plaintext reference, and raw output",
+    "LEVEL_5_DECISION_BEARING_END_TO_END": "level 4 plus frozen decision rule and per-sample decision evidence"
+  },
+  "missing": ["NOT_REPORTED", "NOT_EVALUATED", "NOT_APPLICABLE", "BUILD_BLOCKED", "OUTPUT_UNAVAILABLE"],
+  "gate_states": ["SAFE", "REJECTED", "FAILED", "PLAN_UNSUPPORTED", "NO_SAFE", "NOT_EVALUATED"],
+  "portability": ["PORTABLE_EXACT", "GRAPH_EQUIVALENT_COMMON_EXECUTOR", "PORTABLE_PARAMETER_ONLY", "NATIVE_ONLY", "NOT_PORTABLE"]
+}
