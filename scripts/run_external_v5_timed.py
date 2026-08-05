@@ -64,7 +64,8 @@ def main() -> int:
     if not command:
         parser.error("a command is required after --")
 
-    output = args.output_dir
+    output = args.output_dir.resolve()
+    cwd = args.cwd.resolve()
     output.mkdir(parents=True, exist_ok=False)
     stdout_path = output / "stdout.log"
     stderr_path = output / "stderr.log"
@@ -87,7 +88,14 @@ def main() -> int:
         start_wall = time.time()
         start_iso = time.strftime("%Y-%m-%dT%H:%M:%S%z")
         with stdout_path.open("wb") as stdout, stderr_path.open("wb") as stderr:
-            completed = subprocess.run(wrapped, cwd=args.cwd, env=env, stdout=stdout, stderr=stderr, check=False)
+            completed = subprocess.run(
+                wrapped,
+                cwd=cwd,
+                env=env,
+                stdout=stdout,
+                stderr=stderr,
+                check=False,
+            )
         end_wall = time.time()
         end_iso = time.strftime("%Y-%m-%dT%H:%M:%S%z")
 
@@ -98,7 +106,7 @@ def main() -> int:
         "stage": args.stage,
         "mode": args.mode,
         "command": command,
-        "working_directory": relative(args.cwd),
+        "working_directory": relative(cwd),
         "start_timestamp": start_iso,
         "end_timestamp": end_iso,
         "wall_seconds": end_wall - start_wall,
