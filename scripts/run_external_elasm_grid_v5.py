@@ -44,10 +44,23 @@ def canonical_json(value: object) -> bytes:
     return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode()
 
 
-def run_and_capture(command: list[str], cwd: Path, stdout: Path, stderr: Path) -> tuple[int, float]:
+def run_and_capture(
+    command: list[str],
+    cwd: Path,
+    stdout: Path,
+    stderr: Path,
+    stdin_bytes: bytes | None = None,
+) -> tuple[int, float]:
     started = time.monotonic()
     with stdout.open("wb") as out, stderr.open("wb") as err:
-        result = subprocess.run(command, cwd=cwd, stdout=out, stderr=err, check=False)
+        result = subprocess.run(
+            command,
+            cwd=cwd,
+            input=stdin_bytes,
+            stdout=out,
+            stderr=err,
+            check=False,
+        )
     return result.returncode, time.monotonic() - started
 
 
@@ -143,6 +156,9 @@ def main() -> None:
                     examples,
                     run_dir / "execute.stdout",
                     run_dir / "execute.stderr",
+                    # The official HEVM constructor pauses once before it
+                    # generates the SEAL context and key material.
+                    b"\n",
                 )
                 if execution_exit == 0:
                     reported_seconds, rms = parse_reported_metrics(run_dir / "execute.stdout")
