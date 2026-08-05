@@ -21,9 +21,14 @@ docker run --rm \
   --env PYTHONPATH=/work/$RUNTIME/python/hecate \
   --env LD_LIBRARY_PATH=/work/$RUNTIME/build/lib:/work/external/v6/builds/elasm/seal-install/lib:/usr/lib/llvm-16/lib \
   flipguard/mlir16-seal4:audit-v1 \
-  python3 scripts/external_v6/run_elasm_grid_v6.py \
-    --source-root external/v6/sources/elasm \
-    --runtime-root "$RUNTIME" \
-    --output-root "$OUTPUT" \
-    --status-file "external/v6/status/corelab/$RUN_ID/completed_samples.txt" \
-    --seed 20260805
+  bash -lc "
+    set -euo pipefail
+    git config --global --add safe.directory /work/external/v6/sources/elasm
+    git config --global --add safe.directory /work/$RUNTIME
+    python3 scripts/external_v6/run_elasm_grid_v6.py \\
+      --source-root external/v6/sources/elasm \\
+      --runtime-root '$RUNTIME' \\
+      --output-root '$OUTPUT' \\
+      --status-file 'external/v6/status/corelab/$RUN_ID/completed_samples.txt' \\
+      --seed 20260805
+  "
