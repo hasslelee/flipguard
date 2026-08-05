@@ -1,0 +1,134 @@
+{
+  "decision_gate_state": "NOT_EVALUATED",
+  "evidence_level": 3,
+  "level_ceiling_reason": "The official example has one input image and declares no decision rule.",
+  "programs": [
+    {
+      "compile_ms": 0.837621,
+      "contexts": [
+        {
+          "decrypt_ms": 0.950484,
+          "encrypt_ms": 12.579485,
+          "execute_ms": 171.185187,
+          "key_context": 1,
+          "keygen_ms": 333.466545,
+          "max_absolute_error": 0.615028610459325,
+          "mse": 0.00026352217782076015,
+          "total_ms": 518.197239
+        },
+        {
+          "decrypt_ms": 0.844655,
+          "encrypt_ms": 9.872395,
+          "execute_ms": 124.478855,
+          "key_context": 2,
+          "keygen_ms": 266.678443,
+          "max_absolute_error": 0.5032372689280988,
+          "mse": 0.0002091947722494003,
+          "total_ms": 401.887894
+        },
+        {
+          "decrypt_ms": 0.874101,
+          "encrypt_ms": 9.985226,
+          "execute_ms": 124.432168,
+          "key_context": 3,
+          "keygen_ms": 212.479092,
+          "max_absolute_error": 0.20926040928007056,
+          "mse": 0.00017060098158735404,
+          "total_ms": 347.783992
+        }
+      ],
+      "key_contexts": 3,
+      "max_absolute_error": 0.615028610459325,
+      "mse_all_contexts": 0.00021443931055250542,
+      "ordered_observations": 4096,
+      "poly_modulus_degree": 16384,
+      "prime_bits": [
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "program": "sobel",
+      "raw_output_rows": 12288,
+      "rotations": [
+        0,
+        1,
+        2,
+        64,
+        65,
+        66,
+        128,
+        129,
+        130
+      ]
+    },
+    {
+      "compile_ms": 2.860698,
+      "contexts": [
+        {
+          "decrypt_ms": 0.85815,
+          "encrypt_ms": 10.091857,
+          "execute_ms": 316.336261,
+          "key_context": 1,
+          "keygen_ms": 213.146083,
+          "max_absolute_error": 0.008216333530177145,
+          "mse": 2.158178308177544e-07,
+          "total_ms": 540.448542
+        },
+        {
+          "decrypt_ms": 0.862789,
+          "encrypt_ms": 9.94403,
+          "execute_ms": 296.759948,
+          "key_context": 2,
+          "keygen_ms": 216.013654,
+          "max_absolute_error": 0.003275323377249232,
+          "mse": 1.8358632086126044e-07,
+          "total_ms": 523.594737
+        },
+        {
+          "decrypt_ms": 0.890802,
+          "encrypt_ms": 9.842729,
+          "execute_ms": 295.051022,
+          "key_context": 3,
+          "keygen_ms": 213.616256,
+          "max_absolute_error": 0.006502435989156008,
+          "mse": 2.1544244679359436e-07,
+          "total_ms": 519.415856
+        }
+      ],
+      "key_contexts": 3,
+      "max_absolute_error": 0.008216333530177145,
+      "mse_all_contexts": 2.0494886615753567e-07,
+      "ordered_observations": 4096,
+      "poly_modulus_degree": 16384,
+      "prime_bits": [
+        60,
+        60,
+        60,
+        60,
+        60
+      ],
+      "program": "harris",
+      "raw_output_rows": 12288,
+      "rotations": [
+        0,
+        1,
+        2,
+        64,
+        65,
+        66,
+        128,
+        129,
+        130
+      ]
+    }
+  ],
+  "provider": "Microsoft EVA",
+  "provider_commit": "4cd3254c9c51340ae30c451495ce5378135758c0",
+  "raw_output_rows": 24576,
+  "schema_version": "flipguard_external_v6_eva_official_image_result_v1",
+  "state": "ENCRYPTED_END_TO_END",
+  "unique_input_images": 1,
+  "workload_id": "eva_official_baboon_sobel_harris_v1"
+}
