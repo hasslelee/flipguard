@@ -1,0 +1,14 @@
+{
+  "schema_version": "flipguard_fastest_decision_stable_objective_v1",
+  "workload_symbol": "W",
+  "candidate_set": "C(W)=C_manual(W) union C_catalog(W) union C_external(W) union C_direct(W)",
+  "stable_set": "C_stable(W)={c in C(W) | security/runtime admission passes and the plaintext decision is preserved on frozen validation inputs}",
+  "selection": "c*=argmin_{c in C_stable(W)} T_W(c)",
+  "empty_set_result": "NO_SAFE",
+  "latency_requirement": "same declared measurement conditions within the comparable candidate set",
+  "global_optimality_claimed": false,
+  "flipguard_roles": [
+    "PROVIDER_INDEPENDENT_DECISION_STABILITY_GATE",
+    "BUILT_IN_DIRECT_SYNTHESIS_PROVIDER"
+  ]
+}

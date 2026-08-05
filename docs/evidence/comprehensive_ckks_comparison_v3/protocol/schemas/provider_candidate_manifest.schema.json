@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "flipguard://schemas/provider-candidate-manifest-v3",
+  "title": "ProviderCandidateManifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "provider", "provider_objective", "source_commit", "workload",
+    "log_n", "q", "p", "scale", "scale_schedule",
+    "rescale_modswitch_relinearization_placement", "bootstrapping_placement", "packing",
+    "plans_generated", "plans_executed", "selected_plan", "tuning_parameters",
+    "security_assumptions", "runtime_assumptions", "unsupported_or_missing_fields",
+    "raw_artifact_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "flipguard_provider_candidate_manifest_v3"},
+    "provider": {"type": "string", "minLength": 1},
+    "provider_objective": {"type": "string", "minLength": 1},
+    "source_commit": {"type": "string", "minLength": 1},
+    "workload": {"type": "string", "minLength": 1},
+    "log_n": {}, "q": {}, "p": {}, "scale": {}, "scale_schedule": {},
+    "rescale_modswitch_relinearization_placement": {}, "bootstrapping_placement": {},
+    "packing": {}, "plans_generated": {}, "plans_executed": {}, "selected_plan": {},
+    "tuning_parameters": {}, "security_assumptions": {}, "runtime_assumptions": {},
+    "unsupported_or_missing_fields": {"type": "array"},
+    "raw_artifact_digest": {"type": "string", "minLength": 1}
+  }
+}

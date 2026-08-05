@@ -1,0 +1,51 @@
+{
+  "schema_version": "flipguard_comprehensive_frozen_workload_inventory_v3",
+  "source_commit": "494c660425ebadf08bed0bb669225cabc9f07143",
+  "workloads": [
+    {
+      "workload_family": "CONTROLLED_BINARY_TABULAR_PRIMARY",
+      "role": "FLIPGUARD_FROZEN_WORKLOAD",
+      "binding_path": "docs/evidence/direct_locked_audit_final_source_v1/manifest.json",
+      "binding_sha256": "sha256:f8222a19f32eb78ce6631ae848a7d217bc13851e8bea05f82d581454ff32ef0b"
+    },
+    {
+      "workload_family": "MLP_100_MNIST_ARGMAX",
+      "role": "FLIPGUARD_FROZEN_AND_EXTERNAL_MAPPING_TARGET",
+      "binding_path": "docs/evidence/comprehensive_ckks_comparison_v3/protocol/workload_contracts/mlp100.json",
+      "binding_sha256": "sha256:59a60b127c7d6ab817b0c6660eeab9c70426bc90b4beb9ca8b0d243805697b0a"
+    },
+    {
+      "workload_family": "LENET_5_SMALL_MNIST_ARGMAX",
+      "role": "FLIPGUARD_FROZEN_AND_EXTERNAL_MAPPING_TARGET",
+      "binding_path": "docs/evidence/comprehensive_ckks_comparison_v3/protocol/workload_contracts/lenet5_small.json",
+      "binding_sha256": "sha256:d64440da6f3bb22471d2d272a73e03b4f14e5a6d15d8473eb83fd528372386ac"
+    },
+    {
+      "workload_family": "SOBEL",
+      "role": "FLIPGUARD_FROZEN_AND_EXTERNAL_MAPPING_TARGET",
+      "binding_path": "docs/evidence/comprehensive_ckks_comparison_v3/protocol/workload_contracts/sobel.json",
+      "binding_sha256": "sha256:cb38240834a8c433b7e21a5d9ce4b8469cf1b77067dfc6ca710a87264d79023e"
+    },
+    {
+      "workload_family": "HARRIS",
+      "role": "FLIPGUARD_FROZEN_AND_EXTERNAL_MAPPING_TARGET",
+      "binding_path": "docs/evidence/comprehensive_ckks_comparison_v3/protocol/workload_contracts/harris.json",
+      "binding_sha256": "sha256:0c6e64adca6183165644e2ef3d3aae5ec8f9a9302c06bd4094bc375278e908ab"
+    },
+    {
+      "workload_family": "CNN_LITE_MNIST",
+      "role": "FLIPGUARD_FROZEN_WORKLOAD",
+      "binding_path": "docs/evidence/non_tabular_mnist_cnn_lite_holdout_v1/manifest.json",
+      "binding_sha256": "sha256:de43a2e784d05f6901f87e9f5e7d4e499528dc65a14ed959e4d2665f088482d1"
+    },
+    {
+      "workload_family": "DEEPER_POLYNOMIAL_MLP_SQUARE_POLY3",
+      "role": "FLIPGUARD_FROZEN_WORKLOAD",
+      "binding_path": "docs/evidence/structural_extension_v1/manifest.json",
+      "binding_sha256": "sha256:df371a81ef0a348fc7ac04af14d39873453d15f4ea8d4574f8fbc313e3488e1b"
+    }
+  ],
+  "external_official_workload_rule": "An official provider workload receives a separate canonical contract; name similarity never establishes identity.",
+  "adapter_rule": "Freeze exact graph, weights, preprocessing, packing, output, decision rule, and policy binding before provider output is observed.",
+  "new_core_model_requires_user_approved_amendment": true
+}

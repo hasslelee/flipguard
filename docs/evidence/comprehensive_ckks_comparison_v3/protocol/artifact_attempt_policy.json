@@ -1,0 +1,36 @@
+{
+  "schema_version": "flipguard_external_artifact_attempt_policy_v3",
+  "required_attempt": [
+    "EVA", "HECATE", "ELASM", "HEIR", "HECO", "ANT-ACE", "Orion",
+    "LOHEN", "DaCapo", "AutoFHE", "SLOTHE"
+  ],
+  "conditional_attempt": [
+    "HEILP", "HALO", "ReSBM", "Orbit", "HEaaN.MLIR", "FHE-Agent", "FHECrafter"
+  ],
+  "paper_reported_only_allowed": ["CHET", "Application-Aware Approximate HE"],
+  "maximum_recovery_attempts": 3,
+  "allowed_recovery": [
+    "OFFICIAL_DOCKERFILE",
+    "PINNED_COMPILER_INSTALL",
+    "DOCUMENTED_DEPENDENCY_PATCH",
+    "NON_SEMANTIC_MODERN_COMPILER_COMPATIBILITY",
+    "PATH_OR_BUILD_SYSTEM_PATCH",
+    "DEPRECATED_PACKAGE_API_MINIMAL_PATCH"
+  ],
+  "forbidden_recovery": [
+    "OPTIMIZER_ALGORITHM_CHANGE",
+    "BENCHMARK_GRAPH_CHANGE",
+    "SECURITY_TARGET_REDUCTION",
+    "OUTPUT_COMPUTATION_CHANGE",
+    "FLIPGUARD_FAVORING_PARAMETER_OVERRIDE",
+    "UNPUBLISHED_HEURISTIC"
+  ],
+  "targets_are_nonbinding": {
+    "build_or_runtime_smoke": 10,
+    "native_end_to_end_output": 6,
+    "provider_gate": 6,
+    "common_executor_exact_or_defensible": 3,
+    "paper_reported_normalized_points": 12
+  },
+  "valid_completion": "EXHAUSTED_FEASIBLE_SET"
+}
