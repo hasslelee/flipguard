@@ -1,0 +1,46 @@
+{
+  "artifact_id": "comprehensive_ckks_comparison_v3",
+  "claim_counts": {
+    "BLOCKED": 1,
+    "NOT_EVALUATED": 1,
+    "PARTIALLY_SUPPORTED": 3,
+    "SUPPORTED": 4
+  },
+  "comparison_objective": "fastest decision-stable candidate within a comparable admitted set",
+  "completion": {
+    "all_official_artifacts_audited": true,
+    "blocked_reasons_recorded": true,
+    "common_executor_target_met": false,
+    "frozen_flipguard_evidence_modified": false,
+    "graph_or_algorithm_changed_to_fill_targets": false,
+    "missing_values_explicit": true,
+    "native_target_met": false,
+    "policy_retuning": false,
+    "provider_gate_target_met": false,
+    "reported_result_target_met": true,
+    "status": "EXHAUSTED_FEASIBLE_SET",
+    "target_shortfalls_are_fairness_constraints_not_zeroes": true
+  },
+  "counts": {
+    "build_runtime_smoke_pass_including_flipguard": 11,
+    "external_build_runtime_smoke_pass": 10,
+    "external_graph_equivalent_common_executor": 0,
+    "external_native_end_to_end_pass": 1,
+    "external_official_artifact_rows": 13,
+    "external_portable_exact": 0,
+    "external_provider_gate_rows": 2,
+    "external_raw_output_providers": 1,
+    "external_systems": 20,
+    "figures": 10,
+    "landscape_rows": 21,
+    "official_artifact_rows_including_flipguard": 14,
+    "paper_reported_result_points": 14,
+    "paper_reported_result_systems": 13,
+    "tables": 9
+  },
+  "evidence_tiers": 4,
+  "paper_writing_status": "COMPARATIVE_EVIDENCE_FROZEN; HWP_DOCX_FINALIZATION_STILL_PAUSED",
+  "predecessor": "docs/evidence/external_autotuner_comparison_v2/manifest.json",
+  "protocol_commit": "0076fa55e479b121a11aa747709adcff24750f62",
+  "schema_version": "flipguard_comprehensive_ckks_comparison_v3"
+}

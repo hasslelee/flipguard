@@ -1,0 +1,26 @@
+{
+  "bootstrapping_placement": "NOT_SUPPORTED_IN_FROZEN_SCOPE",
+  "log_n": "PER_LITERAL_IN_FROZEN_MANIFEST",
+  "p": "PER_LITERAL_IN_FROZEN_MANIFEST",
+  "packing": "scalar-replicated",
+  "plans_executed": 70,
+  "plans_generated": 70,
+  "provider": "FlipGuard direct",
+  "provider_objective": "bounded direct synthesis under a decision-integrity contract",
+  "q": "PER_LITERAL_IN_FROZEN_MANIFEST",
+  "raw_artifact_digest": "docs/evidence/final_confirmatory_suite_v1/manifest.json",
+  "rescale_modswitch_relinearization_placement": "Direct Policy V2 graph trace",
+  "runtime_assumptions": "Lattigo v6.2.0 frozen execution",
+  "scale": "PER_LITERAL_IN_FROZEN_MANIFEST",
+  "scale_schedule": "Direct Policy V2",
+  "schema_version": "flipguard_provider_candidate_manifest_v3",
+  "security_assumptions": "Security Policy V2",
+  "selected_plan": "first SAFE literal per instance",
+  "source_commit": "flipguard-thesis-v1.0.0-rc2@6c5f8b234f9f9da91a189fa0f2dc180bb996abf5",
+  "tuning_parameters": "rho=0.5; margin floor=0.001; maximum trials=4; bounded repairs",
+  "unsupported_or_missing_fields": [
+    "single universal literal",
+    "actual tuning wall-clock separated from candidate timing"
+  ],
+  "workload": "controlled primary 50 workload-partition instances"
+}

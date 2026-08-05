@@ -1,0 +1,95 @@
+{
+  "claims": [
+    {
+      "claim_id": "comprehensive_landscape",
+      "limitation": "representative, not every CKKS system",
+      "paper_admitted": true,
+      "prohibited": "all state-of-the-art autotuners",
+      "scope": "named 21-system census",
+      "state": "SUPPORTED",
+      "tier": "TIER_1",
+      "wording": "We audited 20 representative external CKKS systems and FlipGuard across capability, publication, artifact, and evidence axes."
+    },
+    {
+      "claim_id": "official_artifact_audit",
+      "limitation": "license, hardware, and dependency blocks remain",
+      "paper_admitted": true,
+      "prohibited": "all systems reproduced",
+      "scope": "verified repository/archive set",
+      "state": "SUPPORTED",
+      "tier": "TIER_1",
+      "wording": "All official artifacts identified by the frozen registry were audited under a maximum three-recovery policy."
+    },
+    {
+      "claim_id": "original_paper_normalized",
+      "limitation": "not head-to-head",
+      "paper_admitted": true,
+      "prohibited": "cross-paper absolute speed ranking",
+      "scope": "source-located reported values",
+      "state": "SUPPORTED",
+      "tier": "TIER_2",
+      "wording": "Original-paper improvements are shown relative to each paper's own baseline."
+    },
+    {
+      "claim_id": "native_provider_output",
+      "limitation": "other smoke passes are not native reproduction",
+      "paper_admitted": true,
+      "prohibited": "six external runtimes reproduced",
+      "scope": "one external native provider",
+      "state": "PARTIALLY_SUPPORTED",
+      "tier": "TIER_3",
+      "wording": "Native per-sample output and a decision-gate diagnostic were obtained for the scoped EVA replay."
+    },
+    {
+      "claim_id": "provider_independent_gate",
+      "limitation": "only EVA exposes raw per-sample output",
+      "paper_admitted": true,
+      "prohibited": "general external-provider interoperability",
+      "scope": "two feasible external candidate artifacts",
+      "state": "PARTIALLY_SUPPORTED",
+      "tier": "TIER_3",
+      "wording": "The common gate was exercised on an EVA native candidate and an Orion configuration-level fail-closed import."
+    },
+    {
+      "claim_id": "external_common_executor_latency",
+      "limitation": "zero external common-executor arms",
+      "paper_admitted": false,
+      "prohibited": "external head-to-head latency superiority",
+      "scope": "audited external plans",
+      "state": "NOT_EVALUATED",
+      "tier": "TIER_4",
+      "wording": "No external plan met the frozen E1 or E2 portability gate."
+    },
+    {
+      "claim_id": "external_fastest_stable_selection",
+      "limitation": "no exact shared external plan",
+      "paper_admitted": false,
+      "prohibited": "globally fastest",
+      "scope": "external providers",
+      "state": "BLOCKED",
+      "tier": "TIER_4",
+      "wording": "No external fastest-stable winner is claimed."
+    },
+    {
+      "claim_id": "internal_fastest_stable_selection",
+      "limitation": "not the global CKKS space",
+      "paper_admitted": true,
+      "prohibited": "global optimum",
+      "scope": "frozen Lattigo internal arms",
+      "state": "SUPPORTED",
+      "tier": "TIER_4_INTERNAL",
+      "wording": "Within the frozen manual, Security-V2 catalog, and direct arms, the direct arm had the lowest paired point estimate in all 50 controlled-primary instances."
+    },
+    {
+      "claim_id": "tuning_cost_accounting",
+      "limitation": "actual FlipGuard tuning wall-clock was not separately recorded",
+      "paper_admitted": true,
+      "prohibited": "missing wall-clock equals zero",
+      "scope": "available counters",
+      "state": "PARTIALLY_SUPPORTED",
+      "tier": "TIER_2_AND_INTERNAL",
+      "wording": "Candidate executions and provider-native timing boundaries are reported separately."
+    }
+  ],
+  "schema_version": "comprehensive_ckks_claims_v1"
+}

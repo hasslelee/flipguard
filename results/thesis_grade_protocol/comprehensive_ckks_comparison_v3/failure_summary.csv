@@ -1,0 +1,11 @@
+system,stage,status,reason_code,attempts,exact_error,scientific_effect
+CHET,ARTIFACT_AUDIT,RELATED_WORK_ONLY,ARTIFACT_UNAVAILABLE,0,No separate official executable repository was verified.,not counted as native reproduction; retained in landscape
+HEIR,ARTIFACT_AUDIT,REPRODUCTION_BLOCKED,THREE_RECOVERIES_EXHAUSTED_PYTHON_CONFIG_MISSING,3,RuntimeError: Could not build development config. Did you run bazel?,not counted as native reproduction; retained in landscape
+HEaaN.MLIR,ARTIFACT_AUDIT,RELATED_WORK_ONLY,ARTIFACT_UNAVAILABLE,0,No official public executable artifact was verified.,not counted as native reproduction; retained in landscape
+HECATE,ARTIFACT_AUDIT,REPRODUCTION_BLOCKED,THREE_RECOVERIES_EXHAUSTED_BROKEN_MLIR_CUDA_ENVIRONMENT,3,"LLVMExports.cmake references /usr/lib/llvm-18/lib/libLLVM-18.so.1, but the mixed binary package closure does not contain the target.",not counted as native reproduction; retained in landscape
+HEILP,ARTIFACT_AUDIT,REPRODUCTION_BLOCKED,ARTIFACT_UNAVAILABLE,0,No official executable artifact was verified.,not counted as native reproduction; retained in landscape
+HALO,ARTIFACT_AUDIT,REPRODUCTION_BLOCKED,SHARED_REPOSITORY_THREE_RECOVERIES_EXHAUSTED_MODE_NOT_REACHED,3,"The shared repository did not build after three documented HECATE environment recoveries, so the HALO mode could not be reached.",not counted as native reproduction; retained in landscape
+LOHEN,ARTIFACT_AUDIT,REPRODUCTION_BLOCKED,ARTIFACT_UNAVAILABLE,1,The official paper exposes no LOHEN source repository or executable artifact.,not counted as native reproduction; retained in landscape
+Application-Aware Approximate HE,ARTIFACT_AUDIT,NOT_COMPARABLE,POSITIONING_ONLY_NOT_PERFORMANCE_TUNER,0,"The work is a security/precision analysis, not a performance configuration provider.",not counted as native reproduction; retained in landscape
+FHE-Agent,ARTIFACT_AUDIT,REPRODUCTION_BLOCKED,ARTIFACT_UNAVAILABLE_PREPRINT,0,No official executable artifact was verified for the preprint.,not counted as native reproduction; retained in landscape
+FHECrafter,ARTIFACT_AUDIT,REPRODUCTION_BLOCKED,ARTIFACT_UNAVAILABLE,0,No official executable artifact was verified.,not counted as native reproduction; retained in landscape

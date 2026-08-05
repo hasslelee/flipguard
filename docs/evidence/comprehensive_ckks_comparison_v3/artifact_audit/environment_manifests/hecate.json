@@ -1,0 +1,7 @@
+{
+  "dependency": "CUDA compiler; MLIR/LLVM; SEAL 4.0.0; HEonGPU optional in current snapshot",
+  "environment": "Ubuntu 22.04; SEAL 4.0.0; MLIR 18; NVIDIA CUDA 12.2 toolkit",
+  "official_environment_difference": "The current official Dockerfile uses a CUDA 12/13 development image and repository-head dependencies rather than a paper-tagged closure.",
+  "revision": "post-publication-main@aedca73dac27b86044721781b9fca8d12e665876",
+  "system": "HECATE"
+}

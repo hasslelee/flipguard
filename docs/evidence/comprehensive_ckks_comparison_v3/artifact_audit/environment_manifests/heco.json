@@ -1,0 +1,7 @@
+{
+  "dependency": "MLIR/LLVM; SEAL 4.0.0; CMake; Ninja",
+  "environment": "Ubuntu 22.04; MLIR/LLVM 17.0.6; Microsoft SEAL 4.0.0; single-job Ninja",
+  "official_environment_difference": "The pinned artifact submodule dates to the LLVM 17 API window; LLVM 16 lacked OpaqueProperties and LLVM 18 removed mlir::emitc::CallOp.",
+  "revision": "artifact@cf396f05029930b6476c10266853b2099e23bd32",
+  "system": "HECO"
+}

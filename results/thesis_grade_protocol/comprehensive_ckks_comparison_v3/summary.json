@@ -1,0 +1,62 @@
+{
+  "external_graph_equivalent_common_executor": 0,
+  "external_portable_exact": 0,
+  "fastest_stable_internal_workloads": 50,
+  "latency": [
+    {
+      "ci95_high": 4.21531336367743,
+      "ci95_low": 2.3423342246526992,
+      "comparison": "controlled_primary_catalog_over_direct",
+      "cross_runtime_ranking": false,
+      "decision_stable": true,
+      "geometric_mean_total_ratio": 3.14065956642714,
+      "scope": "COMMON_EXECUTOR_INTERNAL_FLIPGUARD_ARMS",
+      "statistical_unit": "10 dataset-model clusters"
+    },
+    {
+      "ci95_high": 1.0009196039830495,
+      "ci95_low": 0.9986480496157814,
+      "comparison": "MLP100_graph_only_over_gap_aware",
+      "cross_runtime_ranking": false,
+      "decision_stable": true,
+      "geometric_mean_total_ratio": 0.9997798376066447,
+      "scope": "COMMON_EXECUTOR_INTERNAL_FLIPGUARD_ARMS",
+      "statistical_unit": "100 image clusters"
+    },
+    {
+      "ci95_high": 1.983841954972276,
+      "ci95_low": 1.9797583367357303,
+      "comparison": "MLP100_catalog_over_gap_aware",
+      "cross_runtime_ranking": false,
+      "decision_stable": true,
+      "geometric_mean_total_ratio": 1.981794788849981,
+      "scope": "COMMON_EXECUTOR_INTERNAL_FLIPGUARD_ARMS",
+      "statistical_unit": "100 image clusters"
+    }
+  ],
+  "native_rows": 21,
+  "no_external_head_to_head_claim": true,
+  "provider_gate_rows": 2,
+  "trial_distribution": {
+    "actual_tuning_wall_clock": "NOT_SEPARATELY_RECORDED",
+    "candidate_trials": 70,
+    "encrypted_sample_evaluations": 36825,
+    "four_trial_instances": 0,
+    "instances": 50,
+    "iqr": 1.0,
+    "maximum": 2,
+    "mean": 1.4,
+    "median": 1.0,
+    "one_trial_instances": 30,
+    "q1": 1.0,
+    "q3": 2.0,
+    "repair_causes": {
+      "NUMERICAL_REJECT": 20
+    },
+    "selection_key_runs": 210,
+    "statistical_unit": "workload-partition instance",
+    "sum_of_per_trial_mean_total_ms_not_wall_clock": 9436.1743057612,
+    "three_trial_instances": 0,
+    "two_trial_instances": 20
+  }
+}

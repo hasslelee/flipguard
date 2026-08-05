@@ -74,6 +74,14 @@ Comparison evidence is divided into four non-interchangeable tiers:
   candidates under a shared security and paired timing protocol. Only this
   tier permits a head-to-head latency statement.
 
+Paper-facing Korean terminology is fixed as follows: configuration provider is
+`구성 생성기`, direct synthesis is `실행 구성 직접 합성`, the
+decision-integrity gate is `결정 안정성 판정 계층`, bounded repair is
+`제한적 보정`, locked audit is `설정 고정 최종 검증`, candidate trial is
+`후보 구성 실행`, admission is `적합성 판정`, abstention is `선택 중단`, and
+bounded catalog is `고정 후보군`. Code states such as `SAFE`, `REJECTED`,
+`FAILED`, `NO_SAFE`, and `PLAN_UNSUPPORTED` remain unchanged.
+
 The frozen predecessor
 `external_autotuner_comparison_v2` remains a 20-system landscape, artifact
 availability, documented build/runtime-smoke, applicability, and limited

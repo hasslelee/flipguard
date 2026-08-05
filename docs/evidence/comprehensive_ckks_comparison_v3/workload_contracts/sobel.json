@@ -1,0 +1,26 @@
+{
+  "schema_version": "flipguard_external_common_workload_contract_v2",
+  "workload_id": "flipguard_bsds500_sobel_edge_score_v1",
+  "graph": {
+    "formula": "gx=(-1*p00)+(1*p02)+(-2*p10)+(2*p12)+(-1*p20)+(1*p22); gy=(-1*p00)+(-2*p01)+(-1*p02)+(1*p20)+(2*p21)+(1*p22); score=gx^2+gy^2",
+    "input_shape": [3, 3],
+    "operation_order": "two fixed Sobel affine kernels, square each response, then add",
+    "source_path": "internal/benchmarks/sobel_edge.go",
+    "source_sha256": "sha256:69e7ebdab1ee7c153cbb5b1600f32bd59b7bd14313c3e15e022ca5ba6000ac1f"
+  },
+  "model": {
+    "path": "datasets/vision_suite/bsds500/sobel_edge_score/model.json",
+    "sha256": "sha256:6fd550087f7374634aae5a56d79545729d8bf7eab986237a4a708334c23499b6"
+  },
+  "inputs": {
+    "configuration_validation": "datasets/vision_suite/bsds500/sobel_edge_score/configuration_validation.csv",
+    "configuration_validation_sha256": "sha256:a254f865457034e530298b245c4a37e993eaa9579edc1fbf15fe25948a1d3d81",
+    "locked_audit": "datasets/vision_suite/bsds500/sobel_edge_score/locked_audit_test.csv",
+    "locked_audit_sha256": "sha256:5d327ddbc8138275ae046a95011594287e5ec0b87da8e7b81797dfb480e27d8d",
+    "overlap_allowed": false
+  },
+  "packing": "scalar-replicated slots",
+  "output_semantics": "binary threshold on Sobel gradient-energy score",
+  "decision_contract": "binary threshold decision-integrity contract",
+  "security_target": "Security Policy V2"
+}
