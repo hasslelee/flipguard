@@ -1,0 +1,31 @@
+{
+  "backend": "Microsoft SEAL 4.0.0 clean-built in V6",
+  "candidate_grid": {
+    "modes_in_order": ["eva", "elasm"],
+    "plans": 72,
+    "waterline_end_inclusive": 50,
+    "waterline_start_inclusive": 15
+  },
+  "decision_rule": "NOT_DEFINED_BY_OFFICIAL_WORKLOAD",
+  "evidence_level_ceiling": 3,
+  "fresh_context_policy": "one new SEAL HEVM context per plan",
+  "graph": {
+    "epochs": 2,
+    "input_length": 4096,
+    "learning_rate": -0.01,
+    "operation_order": "official examples/benchmarks/LinearRegression.py",
+    "outputs": ["W", "c"]
+  },
+  "input_seed": 20260805,
+  "provider": "CoreLab ELASM",
+  "schema_version": "flipguard_external_v6_workload_contract_v1",
+  "source": {
+    "commit": "3c37c11b29ca480525bb6681e0254bdf90029425",
+    "config_sha256": "sha256:5915351d932bc0e809fe23481682d90a78b3c1baec7d828369d36743a23a0c4b",
+    "graph_sha256": "sha256:1e3411b5b1670a2d6881d8650859fa401fdc9c909c34986a40bd4454d9b0a496",
+    "official_test_sha256": "sha256:d8a048f0fab7756212dafe3196ef9cc29d0094e502a973cfeee8a7efd14a5c6c"
+  },
+  "timing_boundary": "optimizer compile; context/key generation; load/preprocess; encryption; homomorphic evaluation; decryption; total plan",
+  "workload_equivalence": "NATIVE_OFFICIAL_ONLY",
+  "workload_id": "elasm_official_linear_regression_grid_v1"
+}
