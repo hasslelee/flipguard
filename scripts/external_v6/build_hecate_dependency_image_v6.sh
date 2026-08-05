@@ -6,5 +6,4 @@ cd "$ROOT"
 docker build \
   --file scripts/external_v6/Dockerfile.hecate-v6 \
   --tag flipguard/hecate-v6-deps:llvm18-cuda12.2 \
-  .
-
+  scripts/external_v6
