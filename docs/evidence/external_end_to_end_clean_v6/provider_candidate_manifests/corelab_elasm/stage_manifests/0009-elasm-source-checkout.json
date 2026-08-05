@@ -1,0 +1,29 @@
+{
+  "binary_sha256": "NOT_AVAILABLE",
+  "command": [
+    "git",
+    "clone",
+    "--reference-if-able",
+    "external/v5/sources/elasm",
+    "--dissociate",
+    "--no-checkout",
+    "https://github.com/corelab-src/elasm",
+    "external/v6/sources/elasm"
+  ],
+  "elapsed_seconds": 0.6700990109993654,
+  "end_timestamp": "2026-08-06T04:49:09+09:00",
+  "input_sha256": "NOT_AVAILABLE",
+  "interrupted_signal": null,
+  "output_sha256": "NOT_AVAILABLE",
+  "provider": "corelab",
+  "return_code": 0,
+  "run_id": "0009-elasm-source-checkout",
+  "schema_version": "flipguard_external_v6_stage_run_v1",
+  "source_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stage": "clean-source-checkout",
+  "state": "PASS",
+  "stderr_sha256": "sha256:b2d2a3ba63f3e00b936cd2e24bb84f4390cc819394669515dda121a230498178",
+  "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "time_sha256": "sha256:624671aec33be1974db6b8e832c3fbfb473baad443ec2cca4707428682ef8a16",
+  "workload": "elasm-source"
+}

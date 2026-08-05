@@ -1,0 +1,38 @@
+{
+  "clean_build": {
+    "binary_sha256": "sha256:176f51161fe3f2f3009f8541a8b278d37acfb5331d688abb492d82020f728aa1",
+    "elapsed_seconds": 223.58848342999954,
+    "status": "PASS"
+  },
+  "failure": {
+    "common_failure": "RUNNER_DEPENDENCY_NUMPY_MISSING_BEFORE_KEYGEN",
+    "common_failure_count": 39,
+    "independent_grid_attempts": 3,
+    "recovery_budget_exhausted": true
+  },
+  "grid": {
+    "actual_output_rows": 0,
+    "decision_output_available": false,
+    "encrypted_end_to_end_runs": 0,
+    "fresh_key_runs": 0,
+    "gate_state": "NOT_EVALUATED",
+    "mode_counts": {
+      "elasm": 3,
+      "eva": 36
+    },
+    "plans_executed": 0,
+    "plans_generated": 39,
+    "predeclared_plans": 72,
+    "recorded_plan_attempts": 39,
+    "security_state": "SECURITY_NOT_EVALUATED"
+  },
+  "maximum_evidence_level": 2,
+  "official_pipeline_state": "PARTIAL_OFFICIAL_PIPELINE",
+  "predecessor_agreement": {
+    "prior_storage_pressure_may_have_affected_result": "NO",
+    "state": "NOT_EVALUATED_NO_V6_ENCRYPTED_OUTPUT"
+  },
+  "provider": "CoreLab ELASM",
+  "schema_version": "flipguard_external_end_to_end_clean_v6_corelab_elasm_evidence_v1",
+  "status": "REPRODUCTION_BLOCKED"
+}

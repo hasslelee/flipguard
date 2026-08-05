@@ -1,0 +1,24 @@
+{
+  "binary_sha256": "NOT_AVAILABLE",
+  "command": [
+    "/bin/bash",
+    "-lc",
+    "git -C external/v6/sources/elasm checkout --detach 3c37c11b29ca480525bb6681e0254bdf90029425; git -C external/v6/sources/elasm submodule update --init --recursive"
+  ],
+  "elapsed_seconds": 0.05042261400012649,
+  "end_timestamp": "2026-08-06T04:49:17+09:00",
+  "input_sha256": "NOT_AVAILABLE",
+  "interrupted_signal": null,
+  "output_sha256": "NOT_AVAILABLE",
+  "provider": "corelab",
+  "return_code": 0,
+  "run_id": "0010-elasm-pin-checkout",
+  "schema_version": "flipguard_external_v6_stage_run_v1",
+  "source_sha256": "sha256:fd72c37684acdacc3f947c6cf7feb2e67ae915f0750c8e0d06f12a943f533f85",
+  "stage": "pin-source-and-submodules",
+  "state": "PASS",
+  "stderr_sha256": "sha256:ccf2e33f4d3aedbc0734b28c54be783b174b3fbee882a6f5985efbc926dc72f7",
+  "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "time_sha256": "sha256:0f9c19bd6d972c380380d4b7b07f761794e6925805510fe5ff6ad3fb33d38cd6",
+  "workload": "elasm-source"
+}

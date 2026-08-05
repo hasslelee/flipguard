@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/work/scripts/external_v6/run_elasm_grid_v6.py", line 181, in <module>
+    raise SystemExit(main())
+  File "/work/scripts/external_v6/run_elasm_grid_v6.py", line 63, in main
+    commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=checkout, check=True, text=True, capture_output=True).stdout.strip()
+  File "/usr/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.

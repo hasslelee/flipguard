@@ -1,0 +1,32 @@
+{
+  "binary_sha256": "NOT_AVAILABLE",
+  "command": [
+    "git",
+    "clone",
+    "--reference-if-able",
+    "external/v5/sources/seal-4.0.0",
+    "--dissociate",
+    "--branch",
+    "4.0.0",
+    "--depth",
+    "1",
+    "https://github.com/microsoft/SEAL.git",
+    "external/v6/sources/seal-4.0.0"
+  ],
+  "elapsed_seconds": 0.9874059750000015,
+  "end_timestamp": "2026-08-06T04:50:01+09:00",
+  "input_sha256": "NOT_AVAILABLE",
+  "interrupted_signal": null,
+  "output_sha256": "NOT_AVAILABLE",
+  "provider": "corelab",
+  "return_code": 0,
+  "run_id": "0013-seal4-source-checkout",
+  "schema_version": "flipguard_external_v6_stage_run_v1",
+  "source_sha256": "sha256:ae80d2ccd81a4aa9c4feb73616a24a8770535040a37ecfbc672fdcf980689f6d",
+  "stage": "clean-dependency-source-checkout",
+  "state": "PASS",
+  "stderr_sha256": "sha256:0d083abf8ceae33529965683a499547ce967630685b7672e28827f0401afd8f9",
+  "stdout_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "time_sha256": "sha256:751cfbe1d70e7ec435aff72a37aa759639fd870547b57efd852899e5f159a885",
+  "workload": "seal-4.0.0"
+}
