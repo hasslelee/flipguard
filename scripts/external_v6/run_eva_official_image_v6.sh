@@ -17,6 +17,7 @@ docker run --rm \
     export DEBIAN_FRONTEND=noninteractive
     apt-get update -qq
     apt-get install -y -qq --no-install-recommends libprotobuf23 python3-numpy python3-pil
+    git config --global --add safe.directory /work/external/v6/sources/eva
     python3 scripts/external_v6/run_eva_official_image_v6.py \
       --eva-root external/v6/sources/eva \
       --output-root external/v6/outputs/eva/official-image-v1 \
