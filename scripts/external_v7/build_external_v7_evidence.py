@@ -440,7 +440,7 @@ def corelab_native_records() -> list[dict[str, Any]]:
         result.append(
             {
                 "provider": "CoreLab",
-                "system": "ELASM" if row["mode"] == "elasm" else "CoreLab EVA mode",
+                "system": "ELASM",
                 "workload": "official_LinearRegression",
                 "arm": f"{row['mode']}_waterline_{int(row['waterline']):02d}",
                 "runtime": "SEAL_HEVM",

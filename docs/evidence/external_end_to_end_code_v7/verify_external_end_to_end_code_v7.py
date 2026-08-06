@@ -173,6 +173,9 @@ def verify(root: Path) -> dict[str, int | str]:
 
     native_path = root / "native_execution_records.csv"
     native_rows = read_csv(native_path)
+    elasm_native = [row for row in native_rows if row["system"] == "ELASM"]
+    if len(elasm_native) != 72 or sum(row["execution_status"] == "PASS" for row in elasm_native) != 70:
+        raise ValueError("ELASM/CoreLab mode accounting drift")
     required_native_fields = {
         "schema_version", "provider_id", "provider_commit", "runtime", "workload_id",
         "evidence_level", "input_id", "plaintext_output", "decrypted_output",
