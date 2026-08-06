@@ -238,6 +238,18 @@ def verify(root: Path) -> dict[str, int | str]:
     if any(row["resource_gate"] not in {"GREEN", "YELLOW", "RED", "HARD_RESOURCE_STOP"} for row in resource_rows):
         raise ValueError("resource gate value drift")
 
+    retry_rows = read_csv(root / "retry_and_patch_inventory.csv")
+    ledger_rows = [row for row in retry_rows if row["amendment"] in {"completed_jobs", "failed_jobs", "supplementary_jobs"}]
+    if not ledger_rows:
+        raise ValueError("provider attempt ledger was not normalized")
+    for provider in {row["provider_or_scope"] for row in ledger_rows}:
+        numeric_attempts = [
+            int(row["attempt"]) for row in ledger_rows
+            if row["provider_or_scope"] == provider and row["attempt"].isdigit()
+        ]
+        if numeric_attempts and max(numeric_attempts) > 3:
+            raise ValueError(f"provider retry budget exceeded: {provider}")
+
     gate_rows = read_csv(root / "provider_gate_records.csv")
     selected = [row for row in gate_rows if row["audit_status"] == "SAFE"]
     if len(selected) != 1 or selected[0]["candidate_id"] != "eva_native_scale30_N14_QP240_ef28317b2a3d":

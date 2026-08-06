@@ -82,6 +82,12 @@ def csv_rows(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
+def jsonl_rows(path: Path) -> list[dict[str, Any]]:
+    if not path.is_file():
+        return []
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line]
+
+
 def verified_heir_capture() -> tuple[Path, dict[str, Any], list[dict[str, str]]] | None:
     root = OUTPUTS / "heir/dot-product-8f-output-capture-v1"
     manifest_path = root / "manifest.json"
@@ -1030,13 +1036,37 @@ def build_retry_inventory(destination: Path) -> None:
                 "encrypted_rerun_count": payload.get("recovery_encrypted_execution_count", NOT_APPLICABLE),
                 "source_path": path.relative_to(ROOT).as_posix(),
                 "payload_sha256": sha256_file(path),
+                "attempt": NOT_APPLICABLE,
+                "start_timestamp": NOT_APPLICABLE,
+                "end_timestamp": NOT_APPLICABLE,
+                "return_code": NOT_APPLICABLE,
             }
         )
+    for ledger_name in ("completed_jobs.jsonl", "failed_jobs.jsonl", "supplementary_jobs.jsonl"):
+        ledger = STATUS / ledger_name
+        for payload in jsonl_rows(ledger):
+            rows.append(
+                {
+                    "amendment": ledger_name.removesuffix(".jsonl"),
+                    "provider_or_scope": payload["provider"],
+                    "classification": payload["state"],
+                    "semantic_change": payload.get("semantic_change", False),
+                    "policy_change": False,
+                    "encrypted_rerun_count": 1 if payload.get("encrypted_execution") is True else NOT_REPORTED,
+                    "source_path": ledger.relative_to(ROOT).as_posix(),
+                    "payload_sha256": sha256_file(ledger),
+                    "attempt": payload.get("attempt", payload.get("provider_attempt", NOT_REPORTED)),
+                    "start_timestamp": payload.get("start_timestamp", payload.get("timestamp", NOT_REPORTED)),
+                    "end_timestamp": payload.get("end_timestamp", payload.get("timestamp", NOT_REPORTED)),
+                    "return_code": payload.get("return_code", NOT_REPORTED),
+                }
+            )
     write_csv(
         destination / "retry_and_patch_inventory.csv",
         [
             "amendment", "provider_or_scope", "classification", "semantic_change",
             "policy_change", "encrypted_rerun_count", "source_path", "payload_sha256",
+            "attempt", "start_timestamp", "end_timestamp", "return_code",
         ],
         rows,
     )
