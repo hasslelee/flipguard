@@ -5,7 +5,7 @@ readonly ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 readonly STATUS="external/v7/status"
 readonly OUTPUTS="external/v7/outputs"
-readonly PRESERVED="external/v7/failed_intermediates/outputs-root-owned-attempt1"
+readonly PRESERVED="external/v7/outputs-root-owned-attempt1"
 
 readarray -t master < <(python3 - <<'PY'
 import json
@@ -28,14 +28,16 @@ if ! flock -n 9; then
   exit 4
 fi
 
-if [[ -w "$OUTPUTS" ]]; then
+if [[ -d "$OUTPUTS" && -w "$OUTPUTS" ]]; then
   printf '%s\n' "OUTPUT_ROOT_ALREADY_WRITABLE"
   exit 0
 fi
-test -d "$OUTPUTS"
-test ! -e "$PRESERVED"
-mkdir -p "$(dirname "$PRESERVED")"
-mv "$OUTPUTS" "$PRESERVED"
+if [[ -d "$OUTPUTS" ]]; then
+  test ! -e "$PRESERVED"
+  mv "$OUTPUTS" "$PRESERVED"
+else
+  test -d "$PRESERVED"
+fi
 install -d -m 0775 "$OUTPUTS"
 test -w "$OUTPUTS"
 
@@ -46,7 +48,7 @@ import json
 from pathlib import Path
 
 root = Path("external/v7")
-preserved = root / "failed_intermediates/outputs-root-owned-attempt1"
+preserved = root / "outputs-root-owned-attempt1"
 
 def tree_digest(path: Path) -> str:
     digest = hashlib.sha256()
