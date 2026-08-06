@@ -33,8 +33,7 @@ git ls-files -z '*.py' | xargs -0 -r python3 -m py_compile
 while IFS= read -r script; do
   bash -n "$script"
 done < <(git ls-files '*.sh')
-go test ./...
-go vet ./...
+scripts/external_v7/run_clean_source_go_gate_v7.sh
 git diff --check
 (cd "$EVIDENCE" && sha256sum -c SHA256SUMS)
 

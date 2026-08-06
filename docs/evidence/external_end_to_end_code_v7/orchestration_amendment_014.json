@@ -1,0 +1,12 @@
+{
+  "affected_scope": "Go repository QA isolation",
+  "amendment_id": "external_v7_orchestration_amendment_014",
+  "classification": "RECOVERABLE_VERIFIER_FAILURE",
+  "encrypted_execution_semantics_changed": false,
+  "frozen_evidence_changed": false,
+  "frozen_policy_changed": false,
+  "reason": "go test ./... in the live V7 workspace traversed ignored HEIR Bazel build caches and treated the downloaded Go SDK compiler test corpus as packages in the FlipGuard module.",
+  "recovery": "Run the required go test ./... and go vet ./... against a git-archive clean source snapshot of the same HEAD, excluding ignored provider build products without changing them.",
+  "research_results_changed": false,
+  "result_dependent_policy_change": false
+}

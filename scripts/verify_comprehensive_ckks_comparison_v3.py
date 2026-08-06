@@ -43,6 +43,8 @@ def verify_checksums(root: Path, ignored_prefixes: tuple[str, ...] = ()) -> None
     assert lines, f"empty checksum file: {root}"
     for line in lines:
         digest, rel = line.split("  ", 1)
+        if "__pycache__" in Path(rel).parts or rel.endswith(".pyc"):
+            continue
         if rel.startswith(ignored_prefixes):
             continue
         path = root / rel
