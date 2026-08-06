@@ -88,6 +88,15 @@ def raw_result_index(source_commit: str) -> dict[str, Any]:
                 "size_bytes": path.stat().st_size,
             }
         )
+    raw_files = []
+    for path in sorted(item for item in (ROOT / "external/v7/outputs").rglob("*") if item.is_file()):
+        raw_files.append(
+            {
+                "path": path.relative_to(ROOT).as_posix(),
+                "sha256": sha256(path),
+                "size_bytes": path.stat().st_size,
+            }
+        )
     stage_manifests = sorted((ROOT / "external/v7/status").glob("*/*/run_manifest.json"))
     return {
         "schema_version": "flipguard_external_v7_raw_result_index_v1",
@@ -95,6 +104,8 @@ def raw_result_index(source_commit: str) -> dict[str, Any]:
         "raw_output_root": "external/v7/outputs",
         "output_manifest_count": len(manifests),
         "output_manifests": manifests,
+        "raw_file_count": len(raw_files),
+        "raw_files": raw_files,
         "stage_manifest_count": len(stage_manifests),
         "large_raw_outputs_tracked_in_git": False,
     }

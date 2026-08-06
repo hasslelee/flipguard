@@ -166,6 +166,7 @@ class ExternalV7ControlTest(unittest.TestCase):
         self.assertIn("refusing to overwrite nonidentical evidence", finalizer)
         self.assertIn("write_json_once_or_verify", finalizer)
         self.assertIn("prepared V7 raw result index drift", finalizer)
+        self.assertIn('"raw_file_count": len(raw_files)', finalizer)
         self.assertIn("--preflight-only", finalizer)
 
     def test_queue_exhausted_wait_is_interruptible(self):
