@@ -7,6 +7,7 @@ import argparse
 import csv
 import datetime as dt
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -55,6 +56,18 @@ def write_text_atomic(path: Path, content: str) -> None:
 
 def write_json_atomic(path: Path, payload: Any) -> None:
     write_text_atomic(path, json.dumps(payload, indent=2, sort_keys=True) + "\n")
+
+
+def write_text_once_or_verify(path: Path, content: str) -> None:
+    if path.exists():
+        if not path.is_file() or path.read_text(encoding="utf-8") != content:
+            raise RuntimeError(f"refusing to overwrite nonidentical evidence: {path}")
+        return
+    write_text_atomic(path, content)
+
+
+def write_json_once_or_verify(path: Path, payload: Any) -> None:
+    write_text_once_or_verify(path, json.dumps(payload, indent=2, sort_keys=True) + "\n")
 
 
 def git_output(*args: str) -> str:
@@ -211,10 +224,11 @@ def downtime_rows() -> list[dict[str, Any]]:
 
 def write_downtime(path: Path) -> None:
     fields = ["timestamp", "event", "previous_pid", "new_pid", "provider", "stage", "reason"]
-    with path.open("x", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
-        writer.writeheader()
-        writer.writerows(downtime_rows())
+    handle = io.StringIO(newline="")
+    writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
+    writer.writeheader()
+    writer.writerows(downtime_rows())
+    write_text_once_or_verify(path, handle.getvalue())
 
 
 def write_predecessor_comparison(path: Path) -> None:
@@ -242,10 +256,11 @@ def write_predecessor_comparison(path: Path) -> None:
         },
     ]
     fields = ["predecessor", "commit", "v7_relation", "result_reused", "difference"]
-    with path.open("x", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
-        writer.writeheader()
-        writer.writerows(rows)
+    handle = io.StringIO(newline="")
+    writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
+    writer.writeheader()
+    writer.writerows(rows)
+    write_text_once_or_verify(path, handle.getvalue())
 
 
 def checkpoint_report(claims: dict[str, Any], environment: dict[str, Any]) -> str:
@@ -317,11 +332,11 @@ def freeze() -> dict[str, Any]:
         copy_or_verify(source, EVIDENCE / source.name)
     copy_or_verify(STATUS / "resource_samples.csv", EVIDENCE / "resource_samples_raw.csv")
 
-    write_json_atomic(EVIDENCE / "environment_end.json", environment)
+    write_json_once_or_verify(EVIDENCE / "environment_end.json", environment)
     write_downtime(EVIDENCE / "downtime_and_restart_log.csv")
     write_predecessor_comparison(EVIDENCE / "predecessor_comparison.csv")
     claims = json.loads((EVIDENCE / "claim_admission.json").read_text(encoding="utf-8"))
-    write_text_atomic(EVIDENCE / "CHECKPOINT_REPORT.md", checkpoint_report(claims, environment))
+    write_text_once_or_verify(EVIDENCE / "CHECKPOINT_REPORT.md", checkpoint_report(claims, environment))
 
     content_lines = checksum_lines(EVIDENCE, {"manifest.json", "SHA256SUMS"})
     tree_material = "\n".join(content_lines) + "\n"
@@ -339,9 +354,9 @@ def freeze() -> dict[str, Any]:
         "content_tree_sha256": tree_digest,
         "prepared_report": prepared_report,
     }
-    write_json_atomic(EVIDENCE / "manifest.json", manifest)
+    write_json_once_or_verify(EVIDENCE / "manifest.json", manifest)
     sums = checksum_lines(EVIDENCE, {"SHA256SUMS"})
-    write_text_atomic(EVIDENCE / "SHA256SUMS", "\n".join(sums) + "\n")
+    write_text_once_or_verify(EVIDENCE / "SHA256SUMS", "\n".join(sums) + "\n")
     verification = run_verifier(EVIDENCE)
     return {"manifest": manifest, "verification": verification}
 
