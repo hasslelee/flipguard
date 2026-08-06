@@ -316,44 +316,106 @@ def write_predecessor_comparison(path: Path) -> None:
 
 
 def checkpoint_report(claims: dict[str, Any], environment: dict[str, Any]) -> str:
-    levels = {
-        row["system"]: row
-        for row in csv.DictReader((EVIDENCE / "artifact_execution_levels.csv").open(newline=""))
-    }
+    def rows(name: str) -> list[dict[str, str]]:
+        with (EVIDENCE / name).open(newline="", encoding="utf-8") as handle:
+            return list(csv.DictReader(handle))
+
+    def compact(values: list[str]) -> str:
+        return "; ".join(values) if values else "NONE"
+
+    def numeric_sum(records: list[dict[str, str]], field: str) -> int:
+        return sum(int(row[field]) for row in records if row[field].isdigit())
+
+    start_environment = load_json(EVIDENCE / "environment_start.json")
+    levels = {row["system"]: row for row in rows("artifact_execution_levels.csv")}
+    source_rows = rows("source_checkout_manifest.csv")
+    build_rows = rows("clean_build_matrix.csv")
+    pipeline_rows = rows("official_pipeline_matrix.csv")
+    native_rows = rows("native_execution_records.csv")
+    accounting = rows("execution_accounting.csv")
+    latency = rows("latency_summary.csv")
+    numerical = rows("numerical_error_summary.csv")
+    gate_rows = rows("provider_gate_records.csv")
+    audit_rows = rows("audit_records.csv")
+    security = rows("security_summary.csv")
+    portability = rows("portability_summary.csv")
+    failures = rows("failure_summary.csv")
+    predecessor = rows("predecessor_comparison.csv")
+    workload_contracts = load_json(EVIDENCE / "workload_contracts/manifest.json")["contracts"]
+    per_sample = load_json(EVIDENCE / "per_sample_outputs/manifest.json")
+    start = dt.datetime.fromisoformat(start_environment["autonomous_start_timestamp"])
+    end = dt.datetime.fromisoformat(environment["finalization_timestamp"])
+    encrypted = [row["system"] for row in levels.values() if int(row["evidence_level"]) >= 3]
+    multi_sample = sorted({row["system"] for row in native_rows if int(row["evidence_level"]) >= 4})
+    workloads = [
+        f"{row['system']}={row['workload']}" for row in accounting
+        if row["workload"] not in {"NOT_EVALUATED", "NOT_REPORTED"}
+    ]
+    selected = [
+        f"{row['provider']}:{row['candidate_id']} ({row['final_flipguard_state']})"
+        for row in gate_rows if row["audit_status"] == "SAFE"
+    ]
+    latency_lines = [
+        f"{row['provider']}/{row['workload']}: mean_total_ms={row['mean_total_ms']}, "
+        f"mean_eval_ms={row['mean_evaluation_ms']}, boundary={row['timing_boundary']}"
+        for row in latency
+    ]
+    numerical_lines = [
+        f"{row['provider']}/{row['arm']}: rms={row['rms_error']}, "
+        f"max_abs={row['max_absolute_error']}, gate={row['gate_state']}"
+        for row in numerical
+    ]
+    admitted = [key for key, value in claims["claims"].items() if value["paper_admitted"]]
+    blocked = [key for key, value in claims["claims"].items() if not value["paper_admitted"]]
+    tables = len(list((EVIDENCE / "tables").glob("*.csv"))) if (EVIDENCE / "tables").is_dir() else 0
+    figures = len(list((EVIDENCE / "figures").glob("*.svg"))) if (EVIDENCE / "figures").is_dir() else 0
+    total_rows = per_sample["total_rows"]
     return f"""# External End-to-End Code V7 Checkpoint
 
-## Disposition
-
-- RUN DISPOSITION: `PAUSE_AT_24H_CHECKPOINT`
-- Classification: `{claims['final_classification']}`
-- Paper claim gate: `false`
-- Source commit: `{environment['source_commit']}`
-
-## Actual Evidence
-
-- Official systems classified: {len(levels)}
-- Encrypted end-to-end systems: {claims['encrypted_e2e_system_count']}
-- Decision-bearing external providers: {claims['decision_bearing_provider_count']}
-- Locked-audit external providers: {claims['locked_audit_provider_count']}
-- PORTABLE_EXACT arms: {claims['portable_exact_count']}
-- ELASM/CoreLab frozen grid: 72 attempted, 70 encrypted E2E, 2 execution failures
-- EVA shared-polynomial gate: one selected SAFE candidate, disjoint locked audit PASS, retuning 0
-
-## Fail-Closed Boundaries
-
-- Native absolute latency is not interpreted as a configuration-only cross-runtime speedup.
-- Build and source checkout results are not counted as encrypted execution.
-- HECO's official recovered benchmark uses BFV and is not a CKKS comparison arm.
-- No global-optimality, universal-provider, or universal-security claim is admitted.
-- HECATE clean build PASS and runtime preparation failure are both preserved.
-- Provider blockers remain explicit states rather than numeric zeros.
-
-## Environment End
-
-- Disk free bytes: {environment['disk_free_bytes']}
-- Resource gate: `{environment['resource_gate']}`
-- Service instances: {environment['service_instance_count']}
-- Service restarts: {environment['service_restart_count']}
+1. **Start/end/elapsed**: {start.isoformat()} / {end.isoformat()} / {(end - start).total_seconds():.3f} seconds.
+2. **VM, Code/Codex, service continuity**: VM downtime `{environment['vm_downtime']}`; Code/Codex downtime `{environment['code_codex_downtime']}`; service restarts {environment['service_restart_count']} across {environment['service_instance_count']} instances.
+3. **Branch/source/origin/tree**: `{environment['branch']}`; source `{environment['source_commit']}`; origin `{environment['origin_commit']}`; pre-freeze porcelain `{environment['pre_freeze_working_tree_porcelain'] or 'CLEAN'}`.
+4. **Commits**: execution and orchestration history is preserved on the branch; the final evidence commit is created after this report is checksummed.
+5. **Resources**: disk free {start_environment['disk_free_bytes']} -> {environment['disk_free_bytes']} bytes; inodes {start_environment['inode_free']} -> {environment['inode_free']}; memory available {start_environment['memory_available_kib']} -> {environment['memory_available_kib']} KiB; swap used {start_environment['swap_used_kib']} -> {environment['swap_used_kib']} KiB; final gate `{environment['resource_gate']}`.
+6. **Official artifacts attempted/available**: {len(levels)} systems classified; source checkout PASS rows {sum(row['state'] == 'PASS' for row in source_rows)}.
+7. **Clean builds passed**: {sum(row['state'] == 'PASS' for row in build_rows)} of {len(build_rows)} clean-build stage rows.
+8. **Official pipelines passed**: {sum(row['state'] == 'PASS' for row in pipeline_rows)} of {len(pipeline_rows)} encrypted/official pipeline stage rows.
+9. **Encrypted E2E systems**: {len(encrypted)}: {compact(encrypted)}.
+10. **Multi-sample E2E systems**: {len(multi_sample)}: {compact(multi_sample)}.
+11. **Decision-bearing providers**: {claims['decision_bearing_provider_count']}.
+12. **Locked-audit providers**: {claims['locked_audit_provider_count']}.
+13. **Provider-specific workloads**: {compact(workloads)}.
+14. **Unique inputs by system**: {compact([f"{row['system']}={row['unique_inputs']}" for row in accounting])}.
+15. **Validation/audit counts**: {compact([f"{row['provider']}={row['validation_samples']}/{row['audit_samples']}" for row in accounting])}.
+16. **Context/keyset counts**: {compact([f"{row['system']}={row['contexts_keysets']}" for row in accounting])}.
+17. **Measurement pass counts**: {compact([f"{row['system']}={row['measurement_passes']}" for row in accounting])}.
+18. **Raw output rows**: normalized per-sample/plan rows {total_rows}; by source {json.dumps(per_sample['row_counts'], sort_keys=True)}.
+19. **Graph identity states**: {compact([f"{row['provider']}:{row['workload_id']}={row['graph_identity']}" for row in workload_contracts])}.
+20. **Selected configurations**: {compact(selected)}.
+21. **Plans generated/executed**: {numeric_sum(accounting, 'plans_generated')}/{numeric_sum(accounting, 'plans_executed')}.
+22. **Build/compile/tuning wall-clock**: {compact([f"{row['system']}={row['build_wall_clock_seconds']}/{row['compile_wall_clock_seconds']}/{row['tuning_wall_clock_seconds']} s" for row in accounting])}.
+23. **Native evaluation and total latency**: {compact(latency_lines)}. No cross-runtime algorithm-only ratio is admitted.
+24. **Numerical errors**: {compact(numerical_lines)}.
+25. **Validation flips**: {compact([f"{row['candidate_id']}={row['validation_flips']}" for row in gate_rows])}.
+26. **Audit flips**: {compact([f"{row['candidate_id']}={row['audit_flips']}" for row in audit_rows])}.
+27. **Provider plus FlipGuard states**: {compact([f"{row['candidate_id']}={row['final_flipguard_state']}" for row in gate_rows])}.
+28. **Security states**: {compact(sorted({row['security_state'] for row in security}))}; security-headline eligible rows {sum(row['headline_eligible'] == 'True' for row in security)}.
+29. **PORTABLE_EXACT count**: {claims['portable_exact_count']}.
+30. **GRAPH_EQUIVALENT_COMMON_EXECUTOR count**: {sum(row['graph_equivalent_common_executor'] == 'True' for row in portability)}.
+31. **Common-executor paired results**: none; the common-executor record table is header-only.
+32. **Fastest stable candidate per exact shared workload**: {compact(selected)}; no cross-runtime shared-workload winner is asserted.
+33. **Predecessor vs V7**: {compact([f"{row['predecessor']}: {row['difference']}" for row in predecessor])}.
+34. **Blockers**: {compact([f"{row['provider']}/{row['run_id']}={row['reason_code']}" for row in failures])}.
+35. **Actual accounting totals**: encrypted candidate runs {numeric_sum(accounting, 'encrypted_candidate_runs')}; raw normalized rows {total_rows}; missing quantities remain explicit states.
+36. **Generated tables/figures**: {tables}/{figures}; generation is restricted to the final 30-minute window and actual V7 records.
+37. **Evidence manifest SHA-256**: bound by `manifest.json`, `content_tree_sha256`, and `SHA256SUMS` after this report is written.
+38. **Admitted scoped claims**: {compact(admitted)}.
+39. **Blocked/not-evaluated claims**: {compact(blocked)}.
+40. **Final classification**: `{claims['final_classification']}`; paper claim gate remains `false`.
+41. **Tests/verifiers**: normalized evidence verifier PASS before freeze; final SHA, policy, repository, Python, shell, and Go gates run in persistent final QA after freeze.
+42. **Manuscript impact**: external evidence is scoped and auxiliary; unlike native timing boundaries are not promoted to a speedup claim.
+43. **Exact remaining work**: manuscript integration remains paused; no additional experiment is auto-started.
+44. **RUN DISPOSITION**: `PAUSE_AT_24H_CHECKPOINT`.
 """
 
 
