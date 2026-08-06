@@ -42,6 +42,15 @@ REQUIRED_DIRECTORIES = {
     "provider_candidate_manifests",
     "workload_contracts",
 }
+FINAL_REQUIRED = {
+    "CHECKPOINT_REPORT.md",
+    "SHA256SUMS",
+    "downtime_and_restart_log.csv",
+    "environment_end.json",
+    "manifest.json",
+    "predecessor_comparison.csv",
+    "resource_samples_raw.csv",
+}
 MISSING = {
     "NOT_REPORTED",
     "NOT_EVALUATED",
@@ -84,6 +93,19 @@ def verify(root: Path) -> dict[str, int | str]:
     )
     if missing_directories:
         raise FileNotFoundError(f"missing V7 evidence directories: {missing_directories}")
+    final_manifest_path = root / "manifest.json"
+    if final_manifest_path.exists():
+        missing_final = sorted(name for name in FINAL_REQUIRED if not (root / name).is_file())
+        if missing_final:
+            raise FileNotFoundError(f"missing final V7 files: {missing_final}")
+        final_manifest = json.loads(final_manifest_path.read_text(encoding="utf-8"))
+        environment_end = json.loads((root / "environment_end.json").read_text(encoding="utf-8"))
+        if final_manifest["state"] != "FROZEN":
+            raise ValueError("final V7 manifest is not frozen")
+        if final_manifest["source_commit"] != environment_end["source_commit"]:
+            raise ValueError("final V7 source binding drift")
+        if final_manifest["paper_claim_allowed"] is not False:
+            raise ValueError("final V7 paper claim gate opened automatically")
 
     levels = {row["system"]: row for row in read_csv(root / "artifact_execution_levels.csv")}
     if len(levels) != 18:

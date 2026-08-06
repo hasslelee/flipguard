@@ -58,6 +58,10 @@ def write_json_atomic(path: Path, payload: Any) -> None:
     write_text_atomic(path, json.dumps(payload, indent=2, sort_keys=True) + "\n")
 
 
+def load_json(path: Path) -> dict[str, Any]:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def write_text_once_or_verify(path: Path, content: str) -> None:
     if path.exists():
         if not path.is_file() or path.read_text(encoding="utf-8") != content:
@@ -113,7 +117,15 @@ def prepare(destination: Path) -> dict[str, Any]:
         if not marker.is_file():
             raise RuntimeError(f"refusing partial prepared-result overwrite: {destination}")
         run_verifier(destination)
-        return json.loads(marker.read_text(encoding="utf-8"))
+        report = json.loads(marker.read_text(encoding="utf-8"))
+        current_commit = git_output("rev-parse", "HEAD")
+        if report["source_commit"] != current_commit:
+            raise RuntimeError("prepared V7 evidence source commit drift")
+        current_index = raw_result_index(current_commit)
+        prepared_index = load_json(destination / "raw_result_index.json")
+        if prepared_index != current_index:
+            raise RuntimeError("prepared V7 raw result index drift")
+        return report
     destination.mkdir(parents=True)
     source_commit = git_output("rev-parse", "HEAD")
     summary = build_normalized(destination, source_commit)
