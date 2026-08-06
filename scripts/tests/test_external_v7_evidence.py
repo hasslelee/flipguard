@@ -54,3 +54,16 @@ class ExternalV7EvidenceTest(unittest.TestCase):
             self.assertEqual(accounting["EVA"]["unique_inputs"], "31")
             self.assertEqual(accounting["EVA"]["encrypted_candidate_runs"], "18")
             self.assertEqual(accounting["ELASM"]["unique_inputs"], "1")
+
+            per_sample = json.loads(
+                (destination / "per_sample_outputs/manifest.json").read_text()
+            )
+            self.assertEqual(per_sample["row_counts"]["eva_official"], 24576)
+            self.assertEqual(per_sample["row_counts"]["eva_shared"], 174)
+            self.assertEqual(per_sample["row_counts"]["corelab"], 72)
+            self.assertEqual(per_sample["row_counts"]["heir"], 2 if capture.is_file() else 0)
+            for directory in (
+                "workload_contracts", "input_manifests", "provider_candidate_manifests",
+                "operation_manifests", "per_sample_outputs",
+            ):
+                self.assertTrue((destination / directory / "manifest.json").is_file())

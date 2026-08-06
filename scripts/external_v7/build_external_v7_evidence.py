@@ -14,6 +14,7 @@ import subprocess
 from typing import Any, Iterable
 
 from normalize_provider_output_v7 import MISSING
+from build_external_v7_overlays import build_overlays
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -1032,6 +1033,7 @@ def build(destination: Path, source_commit: str) -> dict[str, Any]:
     build_retry_inventory(destination)
     claims = build_claims(destination, summaries, native)
     build_fairness(destination)
+    overlays = build_overlays(destination)
     return {
         "stage_manifest_count": len(stages),
         "system_count": len(summaries),
@@ -1042,6 +1044,7 @@ def build(destination: Path, source_commit: str) -> dict[str, Any]:
             "final_classification", "encrypted_e2e_system_count",
             "decision_bearing_provider_count", "locked_audit_provider_count", "portable_exact_count",
         )},
+        **overlays,
     }
 
 

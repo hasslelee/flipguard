@@ -21,6 +21,7 @@ REQUIRED = {
     "execution_accounting.csv",
     "failure_summary.csv",
     "fairness_limitations.md",
+    "flip_summary.csv",
     "latency_summary.csv",
     "license_inventory.csv",
     "native_execution_records.csv",
@@ -32,6 +33,13 @@ REQUIRED = {
     "retry_and_patch_inventory.csv",
     "security_summary.csv",
     "source_checkout_manifest.csv",
+}
+REQUIRED_DIRECTORIES = {
+    "input_manifests",
+    "operation_manifests",
+    "per_sample_outputs",
+    "provider_candidate_manifests",
+    "workload_contracts",
 }
 MISSING = {
     "NOT_REPORTED",
@@ -69,6 +77,12 @@ def verify(root: Path) -> dict[str, int | str]:
     missing_files = sorted(name for name in REQUIRED if not (root / name).is_file())
     if missing_files:
         raise FileNotFoundError(f"missing V7 normalized files: {missing_files}")
+    missing_directories = sorted(
+        name for name in REQUIRED_DIRECTORIES
+        if not (root / name).is_dir() or not (root / name / "manifest.json").is_file()
+    )
+    if missing_directories:
+        raise FileNotFoundError(f"missing V7 evidence directories: {missing_directories}")
 
     levels = {row["system"]: row for row in read_csv(root / "artifact_execution_levels.csv")}
     if len(levels) != 18:
@@ -133,6 +147,47 @@ def verify(root: Path) -> dict[str, int | str]:
     elif captured_heir_rows:
         raise ValueError("HEIR output was invented without a capture artifact")
 
+    per_sample_manifest = json.loads(
+        (root / "per_sample_outputs/manifest.json").read_text(encoding="utf-8")
+    )
+    expected_per_sample = {
+        "eva_official": 24576,
+        "eva_shared": 174,
+        "corelab": 72,
+        "heir": 2 if heir_capture.is_file() else 0,
+    }
+    if per_sample_manifest["row_counts"] != expected_per_sample:
+        raise ValueError(f"per-sample population drift: {per_sample_manifest['row_counts']}")
+    if per_sample_manifest["total_rows"] != sum(expected_per_sample.values()):
+        raise ValueError("per-sample total drift")
+    required_provider_fields = set(per_sample_manifest["schema_fields"])
+    for path in sorted((root / "per_sample_outputs").glob("*.csv")):
+        with path.open(newline="", encoding="utf-8") as handle:
+            reader = csv.DictReader(handle)
+            if set(reader.fieldnames or []) != required_provider_fields:
+                raise ValueError(f"provider execution schema drift: {path.name}")
+            for row_number, row in enumerate(reader, start=2):
+                if any(value == "" for value in row.values()):
+                    raise ValueError(f"blank provider output field: {path.name}:{row_number}")
+
+    shared_rows = read_csv(root / "per_sample_outputs/eva_shared_polynomial.csv")
+    validation_ids = {
+        row["input_id"] for row in shared_rows
+        if row["split_role"].startswith("configuration_validation")
+    }
+    audit_ids = {
+        row["input_id"] for row in shared_rows
+        if row["split_role"].startswith("locked_audit")
+    }
+    if validation_ids & audit_ids or len(validation_ids) != 14 or len(audit_ids) != 16:
+        raise ValueError("EVA shared validation/audit identity drift")
+
+    operation_manifest = json.loads(
+        (root / "operation_manifests/manifest.json").read_text(encoding="utf-8")
+    )
+    if operation_manifest["operation_count"] < 37:
+        raise ValueError("V7 operation manifest lost stage records")
+
     gate_rows = read_csv(root / "provider_gate_records.csv")
     selected = [row for row in gate_rows if row["audit_status"] == "SAFE"]
     if len(selected) != 1 or selected[0]["candidate_id"] != "eva_native_scale30_N14_QP240_ef28317b2a3d":
@@ -152,7 +207,7 @@ def verify(root: Path) -> dict[str, int | str]:
 
     publication_text = "\n".join(
         path.read_text(encoding="utf-8", errors="replace")
-        for path in sorted(root.iterdir())
+        for path in sorted(root.rglob("*"))
         if path.is_file() and path.suffix in {".csv", ".json", ".md"}
     )
     if "/home/ckks2" in publication_text:
