@@ -45,6 +45,24 @@ class ExternalV7ControlTest(unittest.TestCase):
         self.assertNotIn(0, module.MISSING)
         self.assertIn("NOT_EVALUATED", module.MISSING)
 
+    def test_recoveries_reuse_completed_stages(self):
+        dispatcher = (ROOT / "scripts/external_v7/run_provider_job_v7.sh").read_text()
+        heir_recovery = (
+            ROOT / "scripts/external_v7/providers/run_heir_recovery_v7.sh"
+        ).read_text()
+        self.assertIn("run_corelab_recovery_v7.sh", dispatcher)
+        self.assertIn("run_heir_recovery_v7.sh", dispatcher)
+        self.assertIn("0002-openfhe-lattigo-e2e/current_stage.txt", dispatcher)
+        self.assertNotIn("bazelisk", heir_recovery)
+        self.assertIn("encrypted_execution_reused", heir_recovery)
+
+    def test_output_root_repair_requires_idle_queue_and_lock(self):
+        repair = (ROOT / "scripts/external_v7/prepare_writable_output_root_v7.sh").read_text()
+        self.assertIn("QUEUE_EXHAUSTED_QA_WAIT", repair)
+        self.assertIn("flock -n", repair)
+        self.assertIn("outputs-root-owned-attempt1", repair)
+        self.assertIn('"encrypted_execution": 0', repair)
+
 
 if __name__ == "__main__":
     unittest.main()

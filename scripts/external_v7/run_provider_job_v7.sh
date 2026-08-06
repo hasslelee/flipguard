@@ -8,9 +8,18 @@ fi
 
 readonly ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 readonly PROVIDER="$1"
-readonly RUNNER="$ROOT/scripts/external_v7/providers/run_${PROVIDER//-/_}_v7.sh"
 readonly STATUS="$ROOT/external/v7/status/$PROVIDER"
 mkdir -p "$STATUS"
+
+RUNNER="$ROOT/scripts/external_v7/providers/run_${PROVIDER//-/_}_v7.sh"
+if [[ "$PROVIDER" == corelab && -d "$STATUS/0005-elasm-grid" ]]; then
+  RUNNER="$ROOT/scripts/external_v7/providers/run_corelab_recovery_v7.sh"
+elif [[ "$PROVIDER" == heir \
+  && -f "$STATUS/0002-openfhe-lattigo-e2e/current_stage.txt" \
+  && "$(<"$STATUS/0002-openfhe-lattigo-e2e/current_stage.txt")" == PASS ]]; then
+  RUNNER="$ROOT/scripts/external_v7/providers/run_heir_recovery_v7.sh"
+fi
+readonly RUNNER
 
 if [[ ! -x "$RUNNER" ]]; then
   printf '%s\n' "NO_EXECUTABLE_RUNNER" > "$STATUS/final_state.txt"
