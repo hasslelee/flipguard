@@ -12,6 +12,7 @@ from pathlib import Path
 import shutil
 import signal
 import subprocess
+import tempfile
 import threading
 import time
 from typing import Any
@@ -38,12 +39,18 @@ def stamp(value: dt.datetime | None = None) -> str:
 
 def atomic_text(path: Path, value: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    temporary = path.with_name(f".{path.name}.tmp-{os.getpid()}")
-    with temporary.open("w", encoding="utf-8") as handle:
-        handle.write(value)
-        handle.flush()
-        os.fsync(handle.fileno())
-    os.replace(temporary, path)
+    descriptor, temporary_name = tempfile.mkstemp(
+        prefix=f".{path.name}.tmp-{os.getpid()}-", dir=path.parent, text=True
+    )
+    temporary = Path(temporary_name)
+    try:
+        with os.fdopen(descriptor, "w", encoding="utf-8") as handle:
+            handle.write(value)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def atomic_json(path: Path, value: Any) -> None:

@@ -3,6 +3,7 @@ import csv
 import json
 from pathlib import Path
 import tempfile
+import threading
 import unittest
 
 
@@ -19,6 +20,32 @@ def load_module(name: str, path: Path):
 
 
 class ExternalV7ControlTest(unittest.TestCase):
+    def test_atomic_text_is_safe_across_master_threads(self):
+        master = load_module(
+            "master_queue_v7_atomic_test",
+            ROOT / "scripts/external_v7/master_queue_v7.py",
+        )
+        errors = []
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary) / "master_state.json"
+
+            def write_many(worker: int):
+                try:
+                    for sequence in range(50):
+                        master.atomic_text(target, f"{worker}:{sequence}\n")
+                except Exception as error:  # pragma: no cover - asserted below
+                    errors.append(error)
+
+            threads = [threading.Thread(target=write_many, args=(worker,)) for worker in range(8)]
+            for thread in threads:
+                thread.start()
+            for thread in threads:
+                thread.join()
+
+            self.assertEqual(errors, [])
+            self.assertRegex(target.read_text(), r"^\d+:\d+\n$")
+            self.assertEqual(list(target.parent.glob(".master_state.json.tmp-*")), [])
+
     def test_queue_is_ordered_and_unique(self):
         payload = json.loads(
             (ROOT / "docs/evidence/external_end_to_end_code_v7/execution_queue.json").read_text()
