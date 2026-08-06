@@ -53,6 +53,7 @@ class ExternalV7ControlTest(unittest.TestCase):
         self.assertIn("run_corelab_recovery_v7.sh", dispatcher)
         self.assertIn("run_heir_recovery_v7.sh", dispatcher)
         self.assertIn("run_heco_recovery_v7.sh", dispatcher)
+        self.assertIn("run_orion_recovery_v7.sh", dispatcher)
         self.assertIn("0002-openfhe-lattigo-e2e/current_stage.txt", dispatcher)
         self.assertNotIn("bazelisk", heir_recovery)
         self.assertIn("encrypted_execution_reused", heir_recovery)
@@ -63,6 +64,13 @@ class ExternalV7ControlTest(unittest.TestCase):
         self.assertNotIn("../build/bin/benchmark", heco_recovery)
         self.assertIn("0004-official-encrypted-benchmark", heco_recovery)
         self.assertIn("encrypted_execution_reused", heco_recovery)
+
+        orion_recovery = (
+            ROOT / "scripts/external_v7/providers/run_orion_recovery_v7.sh"
+        ).read_text()
+        self.assertIn("poetry-core==1.9.1", orion_recovery)
+        self.assertIn("0002b-environment-recovery1", orion_recovery)
+        self.assertIn("be8a827350a147d610fe3bb998b5bea8de814ff8", orion_recovery)
 
     def test_output_root_repair_requires_idle_queue_and_lock(self):
         repair = (ROOT / "scripts/external_v7/prepare_writable_output_root_v7.sh").read_text()

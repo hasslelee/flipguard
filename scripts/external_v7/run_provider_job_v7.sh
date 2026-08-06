@@ -22,6 +22,8 @@ elif [[ "$PROVIDER" == heco \
   && -f "$STATUS/0004-official-encrypted-benchmark/current_stage.txt" \
   && "$(<"$STATUS/0004-official-encrypted-benchmark/current_stage.txt")" == PASS ]]; then
   RUNNER="$ROOT/scripts/external_v7/providers/run_heco_recovery_v7.sh"
+elif [[ "$PROVIDER" == orion && -d "$STATUS/0002-clean-environment" ]]; then
+  RUNNER="$ROOT/scripts/external_v7/providers/run_orion_recovery_v7.sh"
 fi
 readonly RUNNER
 

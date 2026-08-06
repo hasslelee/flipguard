@@ -1,0 +1,14 @@
+{
+  "amendment_id": "external_v7_orchestration_amendment_005",
+  "affected_provider": "Orion",
+  "classification": "RECOVERABLE_ENVIRONMENT_FAILURE",
+  "environment_semantics_changed": false,
+  "frozen_policy_changed": false,
+  "original_failure_run_id": "0002-clean-environment",
+  "original_failure_reason": "MISSING_DECLARED_POETRY_CORE_BUILD_BACKEND",
+  "official_build_requirement": "poetry-core>=1.0.2",
+  "recovery_dependency": "poetry-core==1.9.1",
+  "recovery": "Complete the existing clean virtual environment with the declared build backend, install the pinned Orion source, and continue the unchanged official execution path.",
+  "source_commit": "be8a827350a147d610fe3bb998b5bea8de814ff8",
+  "source_commit_at_failure": "48dd20e6092e79d68a84ce6fade0e1e7999731ff"
+}
