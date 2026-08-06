@@ -52,9 +52,17 @@ class ExternalV7ControlTest(unittest.TestCase):
         ).read_text()
         self.assertIn("run_corelab_recovery_v7.sh", dispatcher)
         self.assertIn("run_heir_recovery_v7.sh", dispatcher)
+        self.assertIn("run_heco_recovery_v7.sh", dispatcher)
         self.assertIn("0002-openfhe-lattigo-e2e/current_stage.txt", dispatcher)
         self.assertNotIn("bazelisk", heir_recovery)
         self.assertIn("encrypted_execution_reused", heir_recovery)
+
+        heco_recovery = (
+            ROOT / "scripts/external_v7/providers/run_heco_recovery_v7.sh"
+        ).read_text()
+        self.assertNotIn("../build/bin/benchmark", heco_recovery)
+        self.assertIn("0004-official-encrypted-benchmark", heco_recovery)
+        self.assertIn("encrypted_execution_reused", heco_recovery)
 
     def test_output_root_repair_requires_idle_queue_and_lock(self):
         repair = (ROOT / "scripts/external_v7/prepare_writable_output_root_v7.sh").read_text()

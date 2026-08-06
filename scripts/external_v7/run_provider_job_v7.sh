@@ -18,6 +18,10 @@ elif [[ "$PROVIDER" == heir \
   && -f "$STATUS/0002-openfhe-lattigo-e2e/current_stage.txt" \
   && "$(<"$STATUS/0002-openfhe-lattigo-e2e/current_stage.txt")" == PASS ]]; then
   RUNNER="$ROOT/scripts/external_v7/providers/run_heir_recovery_v7.sh"
+elif [[ "$PROVIDER" == heco \
+  && -f "$STATUS/0004-official-encrypted-benchmark/current_stage.txt" \
+  && "$(<"$STATUS/0004-official-encrypted-benchmark/current_stage.txt")" == PASS ]]; then
+  RUNNER="$ROOT/scripts/external_v7/providers/run_heco_recovery_v7.sh"
 fi
 readonly RUNNER
 
