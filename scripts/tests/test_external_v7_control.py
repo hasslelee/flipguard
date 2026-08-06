@@ -136,6 +136,27 @@ class ExternalV7ControlTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "noncanonical resume prefix"):
                 grid.load_resume_records(output, True)
 
+    def test_heir_supplementary_capture_is_output_only_and_bounded(self):
+        runner = (
+            ROOT / "scripts/external_v7/providers/run_heir_output_capture_v7.sh"
+        ).read_text()
+        patch = (
+            ROOT / "scripts/external_v7/patches/heir-dot-product-output-capture-v1.patch"
+        ).read_text()
+        amendment = json.loads(
+            (
+                ROOT
+                / "docs/evidence/external_end_to_end_code_v7/orchestration_amendment_008.json"
+            ).read_text()
+        )
+        self.assertIn("0005-output-capture-e2e-v1", runner)
+        self.assertIn("--nocache_test_results", runner)
+        self.assertIn("heir-output-capture-v1", runner)
+        self.assertIn("FLIPGUARD_V7_OPENFHE_ACTUAL", patch)
+        self.assertIn("FLIPGUARD_V7_LATTIGO_ACTUAL", patch)
+        self.assertFalse(amendment["patch_semantic_change"])
+        self.assertEqual(amendment["maximum_provider_attempt"], 3)
+
 
 if __name__ == "__main__":
     unittest.main()
