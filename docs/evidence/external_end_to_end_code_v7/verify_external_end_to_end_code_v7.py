@@ -31,6 +31,7 @@ REQUIRED = {
     "official_sources.json",
     "portability_summary.csv",
     "provider_gate_records.csv",
+    "raw_result_index.json",
     "resource_samples.csv",
     "retry_and_patch_inventory.csv",
     "security_summary.csv",
