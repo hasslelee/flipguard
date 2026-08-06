@@ -311,6 +311,7 @@ def eva_native_records() -> tuple[list[dict[str, Any]], list[dict[str, Any]], li
                 "security_state": "SECURITY_NOT_EVALUATED",
                 "portability_state": "NATIVE_ONLY",
                 "output_manifest": official_path.relative_to(ROOT).as_posix(),
+                "provider_commit": official["provider_commit"],
             }
         )
 
@@ -354,6 +355,7 @@ def eva_native_records() -> tuple[list[dict[str, Any]], list[dict[str, Any]], li
                 "security_state": "SECURITY_TARGET_MATCH_ASSUMPTIONS_DIFFER",
                 "portability_state": "NATIVE_ONLY",
                 "output_manifest": shared_path.relative_to(ROOT).as_posix(),
+                "provider_commit": shared["runtime"]["eva_commit"],
             }
         )
         gates.append(
@@ -395,6 +397,7 @@ def eva_native_records() -> tuple[list[dict[str, Any]], list[dict[str, Any]], li
 
 def corelab_native_records() -> list[dict[str, Any]]:
     manifest_path = OUTPUTS / "corelab/elasm-linear-regression-grid-v1/manifest.json"
+    manifest = load_json(manifest_path)
     rows = csv_rows(OUTPUTS / "corelab/elasm-linear-regression-grid-v1/records.csv")
     result = []
     for row in rows:
@@ -428,6 +431,7 @@ def corelab_native_records() -> list[dict[str, Any]]:
                 "security_state": "SECURITY_NOT_REPORTED",
                 "portability_state": "NATIVE_ONLY",
                 "output_manifest": manifest_path.relative_to(ROOT).as_posix(),
+                "provider_commit": manifest["provider_commit"],
             }
         )
     return result
@@ -552,6 +556,7 @@ def other_native_records() -> list[dict[str, Any]]:
             "security_state": NOT_APPLICABLE,
             "portability_state": "NOT_PORTABLE_DIFFERENT_SCHEME",
             "output_manifest": heco_path.relative_to(ROOT).as_posix(),
+            "provider_commit": heco["source_commit"],
         }
     )
     return result
@@ -646,11 +651,40 @@ def build_accounting(
             unique_inputs = 31
         elif summary["system"] == "ELASM":
             unique_inputs = 1
+        source_commits = sorted({
+            str(row["provider_commit"])
+            for row in system_native
+            if row.get("provider_commit") not in {None, NOT_REPORTED}
+        })
+        workloads = sorted({str(row["workload"]) for row in system_native})
+        compile_times = [
+            float(row["compile_time_ms"]) / 1000
+            for row in system_native if isinstance(row["compile_time_ms"], (int, float))
+        ]
+        tuning_times = [
+            float(row["tuning_time_ms"]) / 1000
+            for row in system_native if isinstance(row["tuning_time_ms"], (int, float))
+        ]
+        inference_times = [
+            float(row["evaluation_time_ms"]) / 1000
+            for row in system_native if isinstance(row["evaluation_time_ms"], (int, float))
+        ]
+        build_wall = sum(
+            float(row["elapsed_seconds"])
+            for row in provider_stages if row["stage"] == "CLEAN_BUILD"
+        )
+        pipeline_wall = sum(
+            float(row["elapsed_seconds"])
+            for row in provider_stages
+            if row["stage"] in {"OFFICIAL_PIPELINE", "ENCRYPTED_VALIDATION", "ENCRYPTED_AUDIT"}
+        )
         rows.append(
             {
                 "provider": provider,
                 "system": summary["system"],
+                "workload": ";".join(workloads) if workloads else NOT_EVALUATED,
                 "evidence_level": summary["evidence_level"],
+                "source_commit": ";".join(source_commits) if source_commits else NOT_REPORTED,
                 "clean_build_runs": sum(row["stage"] == "CLEAN_BUILD" for row in provider_stages),
                 "compiler_runs": sum(row["stage"] in {"OFFICIAL_PIPELINE", "ENCRYPTED_VALIDATION", "ENCRYPTED_AUDIT"} for row in provider_stages),
                 "plans_generated": 72 if summary["system"] == "ELASM" else NOT_APPLICABLE,
@@ -662,8 +696,12 @@ def build_accounting(
                 "contexts_keysets": max((row["contexts_keysets"] for row in system_native if isinstance(row["contexts_keysets"], int)), default=NOT_REPORTED),
                 "measurement_passes": NOT_SEPARATELY_RECORDED,
                 "raw_output_rows": sum(row["raw_output_rows"] for row in system_native if isinstance(row["raw_output_rows"], int)),
-                "build_wall_clock_seconds": sum(float(row["elapsed_seconds"]) for row in provider_stages if row["stage"] == "CLEAN_BUILD"),
-                "pipeline_wall_clock_seconds": sum(float(row["elapsed_seconds"]) for row in provider_stages if row["stage"] in {"OFFICIAL_PIPELINE", "ENCRYPTED_VALIDATION", "ENCRYPTED_AUDIT"}),
+                "build_wall_clock_seconds": build_wall,
+                "compile_wall_clock_seconds": sum(compile_times) if compile_times else NOT_SEPARATELY_RECORDED,
+                "tuning_wall_clock_seconds": sum(tuning_times) if tuning_times else NOT_SEPARATELY_RECORDED,
+                "inference_wall_clock_seconds": sum(inference_times) if inference_times else NOT_SEPARATELY_RECORDED,
+                "pipeline_wall_clock_seconds": pipeline_wall,
+                "total_elapsed_seconds": build_wall + pipeline_wall,
                 "validation_flips": sum(row["validation_flips"] for row in system_native if isinstance(row["validation_flips"], int)),
                 "audit_flips": sum(row["audit_flips"] for row in system_native if isinstance(row["audit_flips"], int)),
                 "gate_state": summary["decision_gate_state"],
@@ -675,10 +713,13 @@ def build_accounting(
     write_csv(
         destination / "execution_accounting.csv",
         [
-            "provider", "system", "evidence_level", "clean_build_runs", "compiler_runs",
+            "provider", "system", "workload", "evidence_level", "source_commit",
+            "clean_build_runs", "compiler_runs",
             "plans_generated", "plans_executed", "encrypted_candidate_runs", "unique_inputs",
             "validation_samples", "audit_samples", "contexts_keysets", "measurement_passes",
-            "raw_output_rows", "build_wall_clock_seconds", "pipeline_wall_clock_seconds",
+            "raw_output_rows", "build_wall_clock_seconds", "compile_wall_clock_seconds",
+            "tuning_wall_clock_seconds", "inference_wall_clock_seconds",
+            "pipeline_wall_clock_seconds", "total_elapsed_seconds",
             "validation_flips", "audit_flips", "gate_state", "security_state",
             "portability_state", "final_selection_state",
         ],
