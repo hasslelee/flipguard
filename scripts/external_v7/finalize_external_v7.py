@@ -315,7 +315,7 @@ def freeze() -> dict[str, Any]:
     ]
     for source in generated_files:
         copy_or_verify(source, EVIDENCE / source.name)
-    copy_or_verify(STATUS / "resource_samples.csv", EVIDENCE / "resource_samples.csv")
+    copy_or_verify(STATUS / "resource_samples.csv", EVIDENCE / "resource_samples_raw.csv")
 
     write_json_atomic(EVIDENCE / "environment_end.json", environment)
     write_downtime(EVIDENCE / "downtime_and_restart_log.csv")

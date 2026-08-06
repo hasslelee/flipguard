@@ -245,6 +245,36 @@ def build_stage_matrices(destination: Path, stages: list[dict[str, Any]]) -> Non
         build_rows,
     )
 
+
+def build_resource_samples(destination: Path) -> None:
+    raw_path = STATUS / "resource_samples.csv"
+    rows = []
+    for row in csv_rows(raw_path):
+        rows.append(
+            {
+                **row,
+                "docker_disk_usage_bytes": NOT_SEPARATELY_RECORDED,
+                "process_rss_kib": NOT_SEPARATELY_RECORDED,
+                "workspace_size_bytes": NOT_SEPARATELY_RECORDED,
+                "completed_inputs": NOT_SEPARATELY_RECORDED,
+                "completed_keysets": NOT_SEPARATELY_RECORDED,
+                "heartbeat_age_seconds": NOT_SEPARATELY_RECORDED,
+                "raw_resource_ledger_sha256": sha256_file(raw_path),
+            }
+        )
+    write_csv(
+        destination / "resource_samples.csv",
+        [
+            "timestamp", "disk_total_bytes", "disk_used_bytes", "disk_free_bytes",
+            "inode_free", "inode_total", "resource_gate", "memory_available_kib",
+            "swap_used_kib", "docker_disk_usage_bytes", "active_provider", "active_stage",
+            "pid", "process_rss_kib", "workspace_size_bytes", "completed_inputs",
+            "completed_keysets", "heartbeat_age_seconds", "raw_resource_ledger_sha256",
+        ],
+        rows,
+    )
+
+def build_pipeline_matrix(destination: Path, stages: list[dict[str, Any]]) -> None:
     pipeline_rows = []
     for row in stages:
         if row["stage"] not in {"OFFICIAL_PIPELINE", "ENCRYPTED_VALIDATION", "ENCRYPTED_AUDIT"}:
@@ -1089,6 +1119,8 @@ def build(destination: Path, source_commit: str) -> dict[str, Any]:
     sources = official_sources(destination, source_commit)
     build_source_and_license_tables(destination, sources, stages)
     build_stage_matrices(destination, stages)
+    build_pipeline_matrix(destination, stages)
+    build_resource_samples(destination)
 
     eva_native, gates, audits = eva_native_records()
     native = [

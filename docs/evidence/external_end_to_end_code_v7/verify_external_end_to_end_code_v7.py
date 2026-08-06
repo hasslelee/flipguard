@@ -30,6 +30,7 @@ REQUIRED = {
     "official_sources.json",
     "portability_summary.csv",
     "provider_gate_records.csv",
+    "resource_samples.csv",
     "retry_and_patch_inventory.csv",
     "security_summary.csv",
     "source_checkout_manifest.csv",
@@ -201,6 +202,19 @@ def verify(root: Path) -> dict[str, int | str]:
         raise ValueError("security summary schema is incomplete")
     if any(row["headline_eligible"] == "True" for row in security_rows):
         raise ValueError("unaligned external runtime was promoted to a security headline")
+
+    resource_rows = read_csv(root / "resource_samples.csv")
+    required_resource_fields = {
+        "docker_disk_usage_bytes", "process_rss_kib", "workspace_size_bytes",
+        "completed_inputs", "completed_keysets", "heartbeat_age_seconds",
+        "raw_resource_ledger_sha256",
+    }
+    with (root / "resource_samples.csv").open(newline="", encoding="utf-8") as handle:
+        resource_fields = set(csv.DictReader(handle).fieldnames or [])
+    if not resource_rows or not required_resource_fields <= resource_fields:
+        raise ValueError("resource sample schema is incomplete")
+    if any(row["resource_gate"] not in {"GREEN", "YELLOW", "RED", "HARD_RESOURCE_STOP"} for row in resource_rows):
+        raise ValueError("resource gate value drift")
 
     gate_rows = read_csv(root / "provider_gate_records.csv")
     selected = [row for row in gate_rows if row["audit_status"] == "SAFE"]
