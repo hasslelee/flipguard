@@ -24,6 +24,12 @@ class ExternalV7ControlTest(unittest.TestCase):
         providers = payload["providers"]
         self.assertEqual([row["priority"] for row in providers], list(range(1, 18)))
         self.assertEqual(len({row["id"] for row in providers}), 17)
+        for row in providers:
+            runner = row["id"].replace("-", "_")
+            self.assertTrue(
+                (ROOT / f"scripts/external_v7/providers/run_{runner}_v7.sh").is_file(),
+                row["id"],
+            )
 
     def test_service_owns_long_running_process(self):
         unit = (ROOT / "scripts/external_v7/flipguard-external-v7.service").read_text()
