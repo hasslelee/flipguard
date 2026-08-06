@@ -166,6 +166,11 @@ class ExternalV7ControlTest(unittest.TestCase):
         self.assertIn("refusing to overwrite nonidentical evidence", finalizer)
         self.assertIn("--preflight-only", finalizer)
 
+    def test_queue_exhausted_wait_is_interruptible(self):
+        master = (ROOT / "scripts/external_v7/master_queue_v7.py").read_text()
+        self.assertNotIn("time.sleep(min(300", master)
+        self.assertIn("self.stop_requested.wait(", master)
+
 
 if __name__ == "__main__":
     unittest.main()

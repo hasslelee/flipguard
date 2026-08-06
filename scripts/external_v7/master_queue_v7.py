@@ -273,7 +273,9 @@ class Master:
         self.active_stage = "FINALIZATION" if now() >= self.pause - dt.timedelta(minutes=30) else "QUEUE_EXHAUSTED_QA"
         while not self.stop_requested.is_set() and now() < self.pause - dt.timedelta(minutes=30):
             self.state("QUEUE_EXHAUSTED_QA_WAIT")
-            time.sleep(min(300, max(1, (self.pause - dt.timedelta(minutes=30) - now()).total_seconds())))
+            self.stop_requested.wait(
+                min(300, max(1, (self.pause - dt.timedelta(minutes=30) - now()).total_seconds()))
+            )
         if not self.stop_requested.is_set():
             prepare = subprocess.run(
                 ["python3", "scripts/external_v7/finalize_external_v7.py", "--prepare-finalization"],

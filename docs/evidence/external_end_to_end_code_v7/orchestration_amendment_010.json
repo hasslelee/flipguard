@@ -1,0 +1,11 @@
+{
+  "affected_scope": "V7 queue-exhausted QA wait",
+  "amendment_id": "external_v7_orchestration_amendment_010",
+  "classification": "INTERRUPTIBLE_SERVICE_CONTROL_FIX",
+  "encrypted_execution_semantics_changed": false,
+  "frozen_policy_changed": false,
+  "provider_execution_changed": false,
+  "reason": "The queue-exhausted wait used a 300-second time.sleep, delaying systemd SIGTERM handling until TimeoutStopSec and making the controlling shell appear terminated.",
+  "recovery": "Use the existing stop_requested Event for the same bounded wait so SIGTERM exits immediately after writing the on-disk checkpoint.",
+  "result_evidence_changed": false
+}
