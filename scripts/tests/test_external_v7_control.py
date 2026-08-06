@@ -169,6 +169,7 @@ class ExternalV7ControlTest(unittest.TestCase):
         self.assertIn('"raw_file_count": len(raw_files)', finalizer)
         self.assertIn('"declared_hard_pause_timestamp"', finalizer)
         self.assertIn('"docker_system_df"', finalizer)
+        self.assertIn('"policy_bindings"', finalizer)
         self.assertIn("--preflight-only", finalizer)
 
     def test_queue_exhausted_wait_is_interruptible(self):

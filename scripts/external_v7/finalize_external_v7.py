@@ -26,6 +26,12 @@ RESULTS = ROOT / "results/thesis_grade_protocol/external_end_to_end_code_v7"
 PREPARED = RESULTS / "prepared-final-v1"
 VERIFIER = EVIDENCE / "verify_external_end_to_end_code_v7.py"
 FINAL_WINDOW = dt.timedelta(minutes=30)
+SECURITY_POLICY_PATH = Path(
+    "docs/evidence/security_v2_static_attestation_formal_v2/security_policy_v2.json"
+)
+DIRECT_POLICY_PATH = Path(
+    "docs/evidence/security_v2_static_attestation_formal_v2/direct_synthesis_policy_v2.json"
+)
 
 
 def now() -> dt.datetime:
@@ -481,6 +487,18 @@ def freeze() -> dict[str, Any]:
         "final_classification": claims["final_classification"],
         "content_tree_sha256": tree_digest,
         "prepared_report": prepared_report,
+        "policy_bindings": {
+            "security_policy": {
+                "path": SECURITY_POLICY_PATH.as_posix(),
+                "artifact_sha256": sha256(ROOT / SECURITY_POLICY_PATH),
+                "policy_sha256": load_json(ROOT / SECURITY_POLICY_PATH)["policy_sha256"],
+            },
+            "direct_policy": {
+                "path": DIRECT_POLICY_PATH.as_posix(),
+                "artifact_sha256": sha256(ROOT / DIRECT_POLICY_PATH),
+                "policy_sha256": load_json(ROOT / DIRECT_POLICY_PATH)["policy_sha256"],
+            },
+        },
     }
     write_json_once_or_verify(EVIDENCE / "manifest.json", manifest)
     sums = checksum_lines(EVIDENCE, {"SHA256SUMS"})

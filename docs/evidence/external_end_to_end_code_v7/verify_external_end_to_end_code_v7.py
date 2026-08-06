@@ -129,6 +129,15 @@ def verify(root: Path) -> dict[str, int | str]:
             raise ValueError("V7 evidence was frozen before the hard-pause boundary")
         if final_manifest["content_tree_sha256"] != content_tree_sha256(root):
             raise ValueError("final V7 content tree digest mismatch")
+        expected_policies = {
+            "security_policy": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+            "direct_policy": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+        }
+        for policy_name, expected_digest in expected_policies.items():
+            binding = final_manifest["policy_bindings"][policy_name]
+            artifact = REPO / binding["path"]
+            if binding["policy_sha256"] != expected_digest or binding["artifact_sha256"] != f"sha256:{sha256(artifact)}":
+                raise ValueError(f"V7 frozen policy binding drift: {policy_name}")
 
     levels = {row["system"]: row for row in read_csv(root / "artifact_execution_levels.csv")}
     if len(levels) != 18:
