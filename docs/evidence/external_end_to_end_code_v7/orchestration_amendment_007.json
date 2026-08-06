@@ -1,0 +1,16 @@
+{
+  "affected_provider": "CoreLab-ELASM",
+  "amendment_id": "external_v7_orchestration_amendment_007",
+  "classification": "HARD_RESOURCE_RECOVERY_WITH_PREFIX_RESUME",
+  "completed_prefix_rows": 28,
+  "computation_semantics_changed": false,
+  "encrypted_result_files_deleted": 0,
+  "ephemeral_context_allocated_kib_removed": 76079508,
+  "ephemeral_context_count_removed": 29,
+  "frozen_grid_changed": false,
+  "frozen_policy_changed": false,
+  "interrupted_partial_plan": "eva_43",
+  "interrupted_run_id": "0005-elasm-grid-retry1",
+  "recovery": "Validate and resume the canonical 72-plan prefix, quarantine the interrupted partial run, and delete each fresh secret-key context immediately after its result is recorded.",
+  "source_commit_at_recovery": "0f7e5a50046fa7119658dc28b25b047032ef47ea"
+}

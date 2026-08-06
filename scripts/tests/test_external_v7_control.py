@@ -1,6 +1,8 @@
 import importlib.util
+import csv
 import json
 from pathlib import Path
+import tempfile
 import unittest
 
 
@@ -79,6 +81,60 @@ class ExternalV7ControlTest(unittest.TestCase):
         self.assertIn("flock -n", repair)
         self.assertIn("outputs-root-owned-attempt1", repair)
         self.assertIn('"encrypted_execution": 0', repair)
+
+    def test_elasm_grid_resume_is_canonical_and_cleans_ephemeral_keys(self):
+        grid_path = ROOT / "scripts/external_v7/run_elasm_grid_v7.py"
+        grid_source = grid_path.read_text()
+        wrapper = (ROOT / "scripts/external_v7/run_elasm_grid_v7.sh").read_text()
+        recovery = (
+            ROOT / "scripts/external_v7/providers/run_corelab_recovery_v7.sh"
+        ).read_text()
+        self.assertIn("def plan_sequence()", grid_source)
+        self.assertIn("noncanonical resume prefix", grid_source)
+        self.assertIn("shutil.rmtree(context_root)", grid_source)
+        self.assertIn('"ephemeral_key_context_retained": False', grid_source)
+        self.assertIn("--resume", wrapper)
+        self.assertIn("resume_args=(--resume)", recovery)
+
+        grid = load_module("run_elasm_grid_v7", grid_path)
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "output"
+            run_dir = output / "eva_15"
+            run_dir.mkdir(parents=True)
+            for name in (
+                "compile.stdout",
+                "compile.stderr",
+                "optimized.mlir",
+                "plan.hevm",
+                "constants.cst",
+                "execute.stdout",
+                "execute.stderr",
+                "result.json",
+                "decrypted_outputs.npz",
+            ):
+                (run_dir / name).touch()
+            row = {field: "" for field in grid.FIELDS}
+            row.update(
+                {
+                    "mode": "eva",
+                    "waterline": "15",
+                    "compile_status": "PASS",
+                    "encrypted_end_to_end": "true",
+                }
+            )
+            with (output / "records.csv").open("w", newline="", encoding="utf-8") as handle:
+                writer = csv.DictWriter(handle, fieldnames=grid.FIELDS, lineterminator="\n")
+                writer.writeheader()
+                writer.writerow(row)
+            self.assertEqual(len(grid.load_resume_records(output, True)), 1)
+
+            row["waterline"] = "16"
+            with (output / "records.csv").open("w", newline="", encoding="utf-8") as handle:
+                writer = csv.DictWriter(handle, fieldnames=grid.FIELDS, lineterminator="\n")
+                writer.writeheader()
+                writer.writerow(row)
+            with self.assertRaisesRegex(ValueError, "noncanonical resume prefix"):
+                grid.load_resume_records(output, True)
 
 
 if __name__ == "__main__":

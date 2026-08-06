@@ -27,16 +27,15 @@ test -f external/v7/builds/elasm/compiler/lib/libSEAL_HEVM.so
 if ! prefix_passed 0005-elasm-grid-retry; then
   attempt=$(find "$STATUS" -maxdepth 1 -type d -name '0005-elasm-grid*' | wc -l)
   run_id="0005-elasm-grid-retry${attempt}"
+  resume_args=()
   if [[ -e external/v7/outputs/corelab/elasm-linear-regression-grid-v1 ]]; then
-    mkdir -p external/v7/failed_intermediates/corelab
-    mv external/v7/outputs/corelab/elasm-linear-regression-grid-v1 \
-      "external/v7/failed_intermediates/corelab/elasm-grid-attempt${attempt}"
+    resume_args=(--resume)
   fi
   $STAGE --provider corelab --run-id "$run_id" --stage ENCRYPTED_VALIDATION \
     --workload official-linear-regression-grid --cwd . --source-path external/v7/sources/elasm \
     --binary-path external/v7/builds/elasm/compiler/bin/hecate-opt \
     --output-path external/v7/outputs/corelab/elasm-linear-regression-grid-v1 -- \
-    scripts/external_v7/run_elasm_grid_v7.sh "$run_id"
+    scripts/external_v7/run_elasm_grid_v7.sh "$run_id" "${resume_args[@]}"
 fi
 
 if ! stage_passed 0006-hecate-source; then

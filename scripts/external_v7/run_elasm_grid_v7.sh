@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -ne 1 ]]; then
-  echo "usage: $0 RUN_ID" >&2
+if [[ $# -lt 1 || $# -gt 2 || ( $# -eq 2 && "$2" != --resume ) ]]; then
+  echo "usage: $0 RUN_ID [--resume]" >&2
   exit 2
 fi
 readonly RUN_ID="$1"
@@ -10,7 +10,13 @@ readonly ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 readonly RUNTIME="external/v7/environments/elasm-runtime-r1"
 readonly OUTPUT="external/v7/outputs/corelab/elasm-linear-regression-grid-v1"
-test ! -e "$OUTPUT"
+resume_args=""
+if [[ $# -eq 2 ]]; then
+  test -f "$OUTPUT/records.csv"
+  resume_args="--resume --interrupted-root external/v7/failed_intermediates/corelab/$RUN_ID"
+else
+  test ! -e "$OUTPUT"
+fi
 
 docker run --rm --cpuset-cpus 0,1 --volume "$ROOT:/work" --workdir /work \
   --env HECATE=/work/$RUNTIME --env PYTHONDONTWRITEBYTECODE=1 \
@@ -28,5 +34,6 @@ docker run --rm --cpuset-cpus 0,1 --volume "$ROOT:/work" --workdir /work \
       --runtime-root '$RUNTIME' \\
       --output-root '$OUTPUT' \\
       --status-file 'external/v7/status/corelab/$RUN_ID/completed_samples.txt' \\
-      --seed 20260805
+      --seed 20260805 \\
+      $resume_args
   "

@@ -39,6 +39,79 @@ def write_records(path: Path, records: list[dict[str, object]]) -> None:
     temporary.replace(path)
 
 
+def plan_sequence() -> list[tuple[str, int]]:
+    return [(mode, waterline) for mode in ("eva", "elasm") for waterline in range(15, 51)]
+
+
+def load_resume_records(output: Path, resume: bool) -> list[dict[str, str]]:
+    if not output.exists():
+        if resume:
+            raise FileNotFoundError(f"resume output does not exist: {output}")
+        output.mkdir(parents=True)
+        return []
+    if not resume:
+        raise FileExistsError(f"refusing to overwrite {output}")
+    if (output / "manifest.json").exists():
+        raise ValueError(f"refusing to resume finalized ELASM grid: {output}")
+
+    records_path = output / "records.csv"
+    if not records_path.is_file():
+        raise FileNotFoundError(f"resume records missing: {records_path}")
+    with records_path.open(newline="", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle)
+        if reader.fieldnames != FIELDS:
+            raise ValueError(f"resume record schema drift: {reader.fieldnames}")
+        records = list(reader)
+
+    plans = plan_sequence()
+    if len(records) > len(plans):
+        raise ValueError(f"resume prefix exceeds frozen plan count: {len(records)}")
+    for index, row in enumerate(records):
+        expected_mode, expected_waterline = plans[index]
+        actual = (row["mode"], int(row["waterline"]))
+        if actual != (expected_mode, expected_waterline):
+            raise ValueError(
+                "noncanonical resume prefix at row "
+                f"{index + 1}: expected {expected_mode}_{expected_waterline:02d}, "
+                f"found {actual[0]}_{actual[1]:02d}"
+            )
+        run_dir = output / f"{expected_mode}_{expected_waterline:02d}"
+        for required_name in ("compile.stdout", "compile.stderr"):
+            if not (run_dir / required_name).is_file():
+                raise FileNotFoundError(run_dir / required_name)
+        if row["compile_status"] == "PASS":
+            for required_name in ("optimized.mlir", "plan.hevm", "constants.cst"):
+                if not (run_dir / required_name).is_file():
+                    raise FileNotFoundError(run_dir / required_name)
+        if row["encrypted_end_to_end"] == "true":
+            for required_name in (
+                "execute.stdout",
+                "execute.stderr",
+                "result.json",
+                "decrypted_outputs.npz",
+            ):
+                if not (run_dir / required_name).is_file():
+                    raise FileNotFoundError(run_dir / required_name)
+    return records
+
+
+def quarantine_interrupted_run(run_dir: Path, interrupted_root: Path) -> None:
+    interrupted_root.mkdir(parents=True, exist_ok=True)
+    destination = interrupted_root / run_dir.name
+    if destination.exists():
+        raise FileExistsError(f"interrupted run destination already exists: {destination}")
+    shutil.move(str(run_dir), str(destination))
+
+
+def remove_ephemeral_context(context_root: Path, key_context_root: Path) -> None:
+    if context_root.parent.resolve() != key_context_root.resolve():
+        raise ValueError(f"refusing unsafe key-context cleanup: {context_root}")
+    if context_root.exists():
+        shutil.rmtree(context_root)
+    if context_root.exists():
+        raise RuntimeError(f"ephemeral key context still exists: {context_root}")
+
+
 def run(command: list[str], cwd: Path, stdout: Path, stderr: Path) -> tuple[int, float]:
     started = time.monotonic()
     with stdout.open("xb") as out, stderr.open("xb") as err:
@@ -53,19 +126,23 @@ def main() -> int:
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--status-file", required=True, type=Path)
     parser.add_argument("--seed", type=int, default=20260805)
+    parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--interrupted-root", type=Path)
     args = parser.parse_args()
     source = args.source_root.resolve()
     runtime = args.runtime_root.resolve()
     output = args.output_root.resolve()
-    if output.exists():
-        raise FileExistsError(f"refusing to overwrite {output}")
+    if args.resume != (args.interrupted_root is not None):
+        raise ValueError("--resume and --interrupted-root must be provided together")
     for checkout in (source, runtime):
         commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=checkout, check=True, text=True, capture_output=True).stdout.strip()
         if commit != PINNED_COMMIT:
             raise ValueError(f"ELASM source drift at {checkout}: {commit}")
     if args.seed != 20260805:
         raise ValueError("ELASM V7 seed changed")
-    output.mkdir(parents=True)
+    records = load_resume_records(output, args.resume)
+    resumed_prefix_rows = len(records)
+    args.status_file.write_text(str(resumed_prefix_rows) + "\n", encoding="ascii")
     examples = runtime / "examples"
     optimizer = runtime / "build/bin/hecate-opt"
     trace = examples / "traced/LinearRegression.mlir"
@@ -74,75 +151,88 @@ def main() -> int:
         if not required.is_file():
             raise FileNotFoundError(required)
 
-    records: list[dict[str, object]] = []
+    key_context_root = runtime / "key_contexts"
+    interrupted_root = args.interrupted_root.resolve() if args.interrupted_root else None
+    plans = plan_sequence()
     for mode in ("eva", "elasm"):
         optimized = examples / "optimized" / mode
         optimized.mkdir(parents=True, exist_ok=True)
-        for waterline in range(15, 51):
-            run_dir = output / f"{mode}_{waterline:02d}"
-            run_dir.mkdir()
-            mlir = optimized / f"LinearRegression.{waterline}.mlir"
-            compile_command = [
-                str(optimizer), f"--{mode}", f"--ckks-config={runtime / 'config.json'}",
-                f"--waterline={waterline}", str(trace), "-o", str(mlir),
+    for plan_index, (mode, waterline) in enumerate(plans):
+        if plan_index < resumed_prefix_rows:
+            continue
+        optimized = examples / "optimized" / mode
+        run_dir = output / f"{mode}_{waterline:02d}"
+        if run_dir.exists():
+            if plan_index != resumed_prefix_rows or interrupted_root is None:
+                raise FileExistsError(f"unexpected non-prefix run directory: {run_dir}")
+            quarantine_interrupted_run(run_dir, interrupted_root)
+        run_dir.mkdir()
+        mlir = optimized / f"LinearRegression.{waterline}.mlir"
+        compile_command = [
+            str(optimizer), f"--{mode}", f"--ckks-config={runtime / 'config.json'}",
+            f"--waterline={waterline}", str(trace), "-o", str(mlir),
+        ]
+        compile_exit, compile_wall = run(
+            compile_command, examples, run_dir / "compile.stdout", run_dir / "compile.stderr"
+        )
+        execution_exit = -1
+        execution_wall = 0.0
+        rms = ""
+        reported = ""
+        reason = ""
+        actual_output = False
+        if compile_exit == 0:
+            generated_hevm = optimized / f"LinearRegression.{waterline}._hecate_LinearRegression.hevm"
+            generated_const = examples / "traced/_hecate_LinearRegression.cst"
+            shutil.copy2(mlir, run_dir / "optimized.mlir")
+            shutil.copy2(generated_hevm, run_dir / "plan.hevm")
+            shutil.copy2(generated_const, run_dir / "constants.cst")
+            result_json = run_dir / "result.json"
+            result_npz = run_dir / "decrypted_outputs.npz"
+            context_root = key_context_root / f"{mode}_{waterline:02d}"
+            execution_command = [
+                "python3", str(Path(__file__).with_name("run_elasm_plan_v7.py")),
+                "--runtime-root", str(runtime), "--mode", mode, "--waterline", str(waterline),
+                "--seed", str(args.seed), "--context-root", str(context_root),
+                "--output-json", str(result_json), "--output-npz", str(result_npz),
             ]
-            compile_exit, compile_wall = run(
-                compile_command, examples, run_dir / "compile.stdout", run_dir / "compile.stderr"
-            )
-            execution_exit = -1
-            execution_wall = 0.0
-            rms = ""
-            reported = ""
-            reason = ""
-            actual_output = False
-            if compile_exit == 0:
-                generated_hevm = optimized / f"LinearRegression.{waterline}._hecate_LinearRegression.hevm"
-                generated_const = examples / "traced/_hecate_LinearRegression.cst"
-                shutil.copy2(mlir, run_dir / "optimized.mlir")
-                shutil.copy2(generated_hevm, run_dir / "plan.hevm")
-                shutil.copy2(generated_const, run_dir / "constants.cst")
-                result_json = run_dir / "result.json"
-                result_npz = run_dir / "decrypted_outputs.npz"
-                execution_command = [
-                    "python3", str(Path(__file__).with_name("run_elasm_plan_v7.py")),
-                    "--runtime-root", str(runtime), "--mode", mode, "--waterline", str(waterline),
-                    "--seed", str(args.seed), "--context-root", str(runtime / "key_contexts" / f"{mode}_{waterline:02d}"),
-                    "--output-json", str(result_json), "--output-npz", str(result_npz),
-                ]
+            try:
                 execution_exit, execution_wall = run(
                     execution_command, examples, run_dir / "execute.stdout", run_dir / "execute.stderr"
                 )
-                if execution_exit == 0 and result_json.is_file() and result_npz.is_file():
-                    result = json.loads(result_json.read_text(encoding="utf-8"))
-                    reported = str(result["timing_ms"]["evaluation"] / 1000.0)
-                    rms = str(result["rms_error"])
-                    actual_output = True
-                else:
-                    reason = "OFFICIAL_HEVM_EXECUTION_FAILED"
+            finally:
+                remove_ephemeral_context(context_root, key_context_root)
+            if execution_exit == 0 and result_json.is_file() and result_npz.is_file():
+                result = json.loads(result_json.read_text(encoding="utf-8"))
+                reported = str(result["timing_ms"]["evaluation"] / 1000.0)
+                rms = str(result["rms_error"])
+                actual_output = True
             else:
-                reason = "OFFICIAL_OPTIMIZER_FAILED"
-            encrypted = compile_exit == 0 and execution_exit == 0 and actual_output
-            records.append(
-                {
-                    "mode": mode,
-                    "waterline": waterline,
-                    "compile_status": "PASS" if compile_exit == 0 else "FAIL",
-                    "compile_exit_status": compile_exit,
-                    "compile_wall_seconds": f"{compile_wall:.9f}",
-                    "execution_status": "PASS" if encrypted else "FAIL",
-                    "execution_exit_status": execution_exit,
-                    "execution_wrapper_wall_seconds": f"{execution_wall:.9f}",
-                    "reported_hevm_seconds": reported,
-                    "reported_rms_error": rms,
-                    "encrypted_end_to_end": str(encrypted).lower(),
-                    "actual_output_available": str(actual_output).lower(),
-                    "decision_output_available": "false",
-                    "evidence_level": 3 if encrypted else (2 if compile_exit == 0 else 1),
-                    "failure_reason": reason,
-                }
-            )
-            write_records(output / "records.csv", records)
-            args.status_file.write_text(str(len(records)) + "\n", encoding="ascii")
+                reason = "OFFICIAL_HEVM_EXECUTION_FAILED"
+        else:
+            reason = "OFFICIAL_OPTIMIZER_FAILED"
+        encrypted = compile_exit == 0 and execution_exit == 0 and actual_output
+        records.append(
+            {
+                "mode": mode,
+                "waterline": waterline,
+                "compile_status": "PASS" if compile_exit == 0 else "FAIL",
+                "compile_exit_status": compile_exit,
+                "compile_wall_seconds": f"{compile_wall:.9f}",
+                "execution_status": "PASS" if encrypted else "FAIL",
+                "execution_exit_status": execution_exit,
+                "execution_wrapper_wall_seconds": f"{execution_wall:.9f}",
+                "reported_hevm_seconds": reported,
+                "reported_rms_error": rms,
+                "encrypted_end_to_end": str(encrypted).lower(),
+                "actual_output_available": str(actual_output).lower(),
+                "decision_output_available": "false",
+                "evidence_level": 3 if encrypted else (2 if compile_exit == 0 else 1),
+                "failure_reason": reason,
+            }
+        )
+        write_records(output / "records.csv", records)
+        args.status_file.write_text(str(len(records)) + "\n", encoding="ascii")
 
     completed = sum(row["encrypted_end_to_end"] == "true" for row in records)
     manifest = {
@@ -166,6 +256,8 @@ def main() -> int:
         "source_modifications": 0,
         "outlier_removal": False,
         "fresh_context_per_plan": True,
+        "ephemeral_key_context_retained": False,
+        "resumed_prefix_rows": resumed_prefix_rows,
     }
     (output / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     checksums = []
