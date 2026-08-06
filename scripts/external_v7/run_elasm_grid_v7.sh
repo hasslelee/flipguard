@@ -18,6 +18,9 @@ docker run --rm --cpuset-cpus 0,1 --volume "$ROOT:/work" --workdir /work \
   --env LD_LIBRARY_PATH=/work/$RUNTIME/build/lib:/work/external/v7/builds/elasm/seal-install/lib:/usr/lib/llvm-16/lib \
   flipguard/mlir16-seal4:audit-v1 bash -lc "
     set -euo pipefail
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update -qq
+    apt-get install -y -qq --no-install-recommends python3-numpy
     git config --global --add safe.directory /work/external/v7/sources/elasm
     git config --global --add safe.directory /work/$RUNTIME
     python3 scripts/external_v7/run_elasm_grid_v7.py \\

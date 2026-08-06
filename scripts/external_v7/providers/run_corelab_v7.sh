@@ -7,6 +7,10 @@ readonly STAGE="python3 scripts/external_v7/run_stage_v7.py"
 readonly STATUS="external/v7/status/corelab"
 mkdir -p "$STATUS"
 
+if [[ -d "$STATUS/0001-elasm-source" ]]; then
+  exec scripts/external_v7/providers/run_corelab_recovery_v7.sh
+fi
+
 $STAGE --provider corelab --run-id 0001-elasm-source --stage SOURCE_CHECKOUT \
   --workload official-source --cwd . --output-path external/v7/sources/elasm -- \
   bash -lc 'git clone --filter=blob:none https://github.com/corelab-src/elasm external/v7/sources/elasm && git -C external/v7/sources/elasm checkout --detach 3c37c11b29ca480525bb6681e0254bdf90029425 && test "$(git -C external/v7/sources/elasm rev-parse HEAD)" = 3c37c11b29ca480525bb6681e0254bdf90029425'
