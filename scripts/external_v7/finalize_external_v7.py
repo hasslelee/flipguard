@@ -178,6 +178,32 @@ def read_resource_rows() -> list[dict[str, str]]:
 def environment_end(source_commit: str, finalization_timestamp: str) -> dict[str, Any]:
     resources = read_resource_rows()
     last = resources[-1]
+    disk = shutil.disk_usage(ROOT)
+    filesystem = os.statvfs(ROOT)
+    meminfo = {
+        line.split(":", 1)[0]: int(line.split()[1])
+        for line in Path("/proc/meminfo").read_text(encoding="utf-8").splitlines()
+        if line.startswith(("MemAvailable:", "SwapTotal:", "SwapFree:"))
+    }
+    free_gib = disk.free / (1024 ** 3)
+    inode_free_percent = filesystem.f_favail / filesystem.f_files * 100 if filesystem.f_files else 0
+    if free_gib < 25 or inode_free_percent < 10:
+        resource_gate = "HARD_RESOURCE_STOP"
+    elif free_gib < 45:
+        resource_gate = "RED"
+    elif free_gib < 65:
+        resource_gate = "YELLOW"
+    else:
+        resource_gate = "GREEN"
+    try:
+        docker_system_df = subprocess.check_output(
+            ["docker", "system", "df", "--format", "{{json .}}"],
+            cwd=ROOT,
+            text=True,
+            timeout=30,
+        ).splitlines()
+    except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired):
+        docker_system_df = ["NOT_SEPARATELY_RECORDED"]
     pids = []
     for row in resources:
         if row["pid"] not in pids:
@@ -185,18 +211,21 @@ def environment_end(source_commit: str, finalization_timestamp: str) -> dict[str
     return {
         "schema_version": "flipguard_external_v7_environment_end_v1",
         "finalization_timestamp": finalization_timestamp,
+        "declared_hard_pause_timestamp": (STATUS / "hard_pause_timestamp.txt").read_text().strip(),
         "source_commit": source_commit,
         "origin_commit": git_output("rev-parse", "origin/experiments/external-e2e-code-v7"),
         "branch": git_output("branch", "--show-current"),
         "pre_freeze_working_tree_porcelain": git_output("status", "--short"),
-        "disk_total_bytes": int(last["disk_total_bytes"]),
-        "disk_used_bytes": int(last["disk_used_bytes"]),
-        "disk_free_bytes": int(last["disk_free_bytes"]),
-        "inode_free": int(last["inode_free"]),
-        "inode_total": int(last["inode_total"]),
-        "memory_available_kib": int(last["memory_available_kib"]),
-        "swap_used_kib": int(last["swap_used_kib"]),
-        "resource_gate": last["resource_gate"],
+        "disk_total_bytes": disk.total,
+        "disk_used_bytes": disk.used,
+        "disk_free_bytes": disk.free,
+        "inode_free": filesystem.f_favail,
+        "inode_total": filesystem.f_files,
+        "memory_available_kib": meminfo.get("MemAvailable", 0),
+        "swap_used_kib": meminfo.get("SwapTotal", 0) - meminfo.get("SwapFree", 0),
+        "resource_gate": resource_gate,
+        "docker_system_df": docker_system_df,
+        "last_periodic_resource_sample_timestamp": last["timestamp"],
         "service_instance_count": len(pids),
         "service_restart_count": max(0, len(pids) - 1),
         "service_pids": pids,
@@ -344,8 +373,13 @@ def freeze() -> dict[str, Any]:
         raise RuntimeError(f"V7 freeze is blocked until {pause.isoformat()}")
     prepared_report = prepare(PREPARED)
     source_commit = git_output("rev-parse", "HEAD")
-    finalization_timestamp = pause.isoformat(timespec="seconds")
-    environment = environment_end(source_commit, finalization_timestamp)
+    environment_path = EVIDENCE / "environment_end.json"
+    if environment_path.is_file():
+        environment = load_json(environment_path)
+        if environment["source_commit"] != source_commit:
+            raise RuntimeError("existing V7 environment-end source commit drift")
+    else:
+        environment = environment_end(source_commit, now().isoformat(timespec="seconds"))
 
     generated_files = [
         path for path in sorted(PREPARED.iterdir())
