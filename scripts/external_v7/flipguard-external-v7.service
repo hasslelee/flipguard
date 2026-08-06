@@ -1,0 +1,21 @@
+[Unit]
+Description=FlipGuard External CKKS End-to-End V7 Master Queue
+After=default.target docker.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ckks2/flipguard
+ExecStart=/home/ckks2/flipguard/scripts/external_v7/run_master_queue_v7.sh
+Restart=on-failure
+RestartSec=30
+TimeoutStopSec=300
+KillMode=control-group
+OOMPolicy=stop
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=OMP_NUM_THREADS=2
+Environment=OPENBLAS_NUM_THREADS=2
+Environment=MKL_NUM_THREADS=2
+Environment=GOMAXPROCS=2
+
+[Install]
+WantedBy=default.target
