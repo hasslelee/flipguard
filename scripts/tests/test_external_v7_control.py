@@ -176,6 +176,15 @@ class ExternalV7ControlTest(unittest.TestCase):
         self.assertNotIn("time.sleep(min(300", master)
         self.assertIn("self.stop_requested.wait(", master)
 
+    def test_hard_pause_runs_fail_closed_qa_and_commit(self):
+        master = (ROOT / "scripts/external_v7/master_queue_v7.py").read_text()
+        final_qa = (ROOT / "scripts/external_v7/final_qa_commit_v7.sh").read_text()
+        self.assertIn("final_qa_commit_v7.sh", master)
+        self.assertIn("FINAL_QA_COMMIT_FAILED", master)
+        self.assertIn("unexpected working-tree changes", final_qa)
+        self.assertIn("sha256sum -c SHA256SUMS", final_qa)
+        self.assertNotIn("run_provider_job_v7.sh", final_qa)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -292,10 +292,18 @@ class Master:
                     cwd=ROOT,
                     check=False,
                 )
-                self.state(
-                    "PAUSED_AT_24H" if freeze.returncode == 0 else "FINALIZATION_FREEZE_FAILED",
-                    return_code=freeze.returncode,
-                )
+                if freeze.returncode != 0:
+                    self.state("FINALIZATION_FREEZE_FAILED", return_code=freeze.returncode)
+                else:
+                    final_qa = subprocess.run(
+                        ["bash", "scripts/external_v7/final_qa_commit_v7.sh"],
+                        cwd=ROOT,
+                        check=False,
+                    )
+                    self.state(
+                        "PAUSED_AT_24H" if final_qa.returncode == 0 else "FINAL_QA_COMMIT_FAILED",
+                        return_code=final_qa.returncode,
+                    )
         return 0
 
     def stop(self, signum: int, _frame: object) -> None:

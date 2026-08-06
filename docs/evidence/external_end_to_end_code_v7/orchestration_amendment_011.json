@@ -1,0 +1,21 @@
+{
+  "affected_scope": "V7 hard-pause QA and evidence commit",
+  "amendment_id": "external_v7_orchestration_amendment_011",
+  "classification": "PERSISTENT_FINAL_QA_AND_COMMIT",
+  "encrypted_execution_semantics_changed": false,
+  "frozen_policy_changed": false,
+  "provider_execution_changed": false,
+  "reason": "The persistent master must complete deterministic verification and push the frozen checkpoint even when the interactive Codex session is unavailable at the 24-hour boundary.",
+  "staged_path_allowlist": [
+    "docs/evidence/external_end_to_end_code_v7/"
+  ],
+  "tests_include": [
+    "V7 verifier",
+    "Security V2 verifier",
+    "Completion V10 verifier",
+    "Python unittest and py_compile",
+    "bash syntax",
+    "go test and go vet",
+    "SHA256SUMS"
+  ]
+}
