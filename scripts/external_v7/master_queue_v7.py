@@ -275,10 +275,25 @@ class Master:
             self.state("QUEUE_EXHAUSTED_QA_WAIT")
             time.sleep(min(300, max(1, (self.pause - dt.timedelta(minutes=30) - now()).total_seconds())))
         if not self.stop_requested.is_set():
-            subprocess.run(["python3", "scripts/external_v7/finalize_external_v7.py"], cwd=ROOT, check=False)
+            prepare = subprocess.run(
+                ["python3", "scripts/external_v7/finalize_external_v7.py", "--prepare-finalization"],
+                cwd=ROOT,
+                check=False,
+            )
+            if prepare.returncode != 0:
+                self.state("FINALIZATION_PREPARE_FAILED", return_code=prepare.returncode)
             while now() < self.pause and not self.stop_requested.wait(1):
                 pass
-            self.state("PAUSED_AT_24H")
+            if not self.stop_requested.is_set():
+                freeze = subprocess.run(
+                    ["python3", "scripts/external_v7/finalize_external_v7.py", "--freeze"],
+                    cwd=ROOT,
+                    check=False,
+                )
+                self.state(
+                    "PAUSED_AT_24H" if freeze.returncode == 0 else "FINALIZATION_FREEZE_FAILED",
+                    return_code=freeze.returncode,
+                )
         return 0
 
     def stop(self, signum: int, _frame: object) -> None:

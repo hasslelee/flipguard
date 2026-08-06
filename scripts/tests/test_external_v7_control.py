@@ -157,6 +157,15 @@ class ExternalV7ControlTest(unittest.TestCase):
         self.assertFalse(amendment["patch_semantic_change"])
         self.assertEqual(amendment["maximum_provider_attempt"], 3)
 
+    def test_finalizer_separates_preparation_from_hard_pause_freeze(self):
+        master = (ROOT / "scripts/external_v7/master_queue_v7.py").read_text()
+        finalizer = (ROOT / "scripts/external_v7/finalize_external_v7.py").read_text()
+        self.assertIn("--prepare-finalization", master)
+        self.assertIn('"--freeze"', master)
+        self.assertIn("if now() < pause:", finalizer)
+        self.assertIn("refusing to overwrite nonidentical evidence", finalizer)
+        self.assertIn("--preflight-only", finalizer)
+
 
 if __name__ == "__main__":
     unittest.main()
