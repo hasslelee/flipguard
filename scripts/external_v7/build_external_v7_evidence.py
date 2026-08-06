@@ -685,8 +685,22 @@ def build_accounting(
         ) or (NOT_REPORTED if system_native else 0)
         if summary["system"] == "EVA":
             unique_inputs = 31
+            contexts_keysets: int | str = 18
+            context_count_reason = "official image 2 programs x3 contexts plus shared validation 3 arms x3 and locked audit x3"
         elif summary["system"] == "ELASM":
             unique_inputs = 1
+            contexts_keysets = 72
+            context_count_reason = "fresh context generated per frozen plan, including two evaluation failures"
+        elif summary["system"] == "HEIR":
+            unique_inputs = 1
+            contexts_keysets = int(summary["encrypted_e2e_runs"])
+            context_count_reason = "one official context per runtime execution; original and output-capture executions are separate"
+        else:
+            contexts_keysets = max(
+                (row["contexts_keysets"] for row in system_native if isinstance(row["contexts_keysets"], int)),
+                default=NOT_REPORTED,
+            )
+            context_count_reason = NOT_SEPARATELY_RECORDED
         source_commits = sorted({
             str(row["provider_commit"])
             for row in system_native
@@ -729,8 +743,9 @@ def build_accounting(
                 "unique_inputs": unique_inputs,
                 "validation_samples": 14 if summary["system"] == "EVA" else NOT_EVALUATED,
                 "audit_samples": 16 if summary["system"] == "EVA" else NOT_EVALUATED,
-                "contexts_keysets": max((row["contexts_keysets"] for row in system_native if isinstance(row["contexts_keysets"], int)), default=NOT_REPORTED),
-                "measurement_passes": NOT_SEPARATELY_RECORDED,
+                "contexts_keysets": contexts_keysets,
+                "context_count_reason": context_count_reason,
+                "measurement_passes": 1 if int(summary["encrypted_e2e_runs"]) > 0 else NOT_SEPARATELY_RECORDED,
                 "raw_output_rows": sum(row["raw_output_rows"] for row in system_native if isinstance(row["raw_output_rows"], int)),
                 "build_wall_clock_seconds": build_wall,
                 "compile_wall_clock_seconds": sum(compile_times) if compile_times else NOT_SEPARATELY_RECORDED,
@@ -752,7 +767,8 @@ def build_accounting(
             "provider", "system", "workload", "evidence_level", "source_commit",
             "clean_build_runs", "compiler_runs",
             "plans_generated", "plans_executed", "encrypted_candidate_runs", "unique_inputs",
-            "validation_samples", "audit_samples", "contexts_keysets", "measurement_passes",
+            "validation_samples", "audit_samples", "contexts_keysets", "context_count_reason",
+            "measurement_passes",
             "raw_output_rows", "build_wall_clock_seconds", "compile_wall_clock_seconds",
             "tuning_wall_clock_seconds", "inference_wall_clock_seconds",
             "pipeline_wall_clock_seconds", "total_elapsed_seconds",

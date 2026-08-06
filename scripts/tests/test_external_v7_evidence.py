@@ -53,7 +53,9 @@ class ExternalV7EvidenceTest(unittest.TestCase):
                 accounting = {row["system"]: row for row in csv.DictReader(handle)}
             self.assertEqual(accounting["EVA"]["unique_inputs"], "31")
             self.assertEqual(accounting["EVA"]["encrypted_candidate_runs"], "18")
+            self.assertEqual(accounting["EVA"]["contexts_keysets"], "18")
             self.assertEqual(accounting["ELASM"]["unique_inputs"], "1")
+            self.assertEqual(accounting["ELASM"]["contexts_keysets"], "72")
             self.assertEqual(accounting["ELASM"]["source_commit"], "3c37c11b29ca480525bb6681e0254bdf90029425")
             self.assertIn("compile_wall_clock_seconds", accounting["ELASM"])
             self.assertIn("inference_wall_clock_seconds", accounting["ELASM"])
