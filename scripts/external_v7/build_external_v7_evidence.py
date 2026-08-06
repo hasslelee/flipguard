@@ -81,6 +81,29 @@ def csv_rows(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
+def verified_heir_capture() -> tuple[Path, dict[str, Any], list[dict[str, str]]] | None:
+    root = OUTPUTS / "heir/dot-product-8f-output-capture-v1"
+    manifest_path = root / "manifest.json"
+    outputs_path = root / "decrypted_outputs.csv"
+    sums_path = root / "SHA256SUMS"
+    if not manifest_path.exists() and not outputs_path.exists() and not sums_path.exists():
+        return None
+    if not all(path.is_file() for path in (manifest_path, outputs_path, sums_path)):
+        raise RuntimeError("partial HEIR output-capture evidence exists")
+    for line in sums_path.read_text(encoding="ascii").splitlines():
+        digest, relative = line.split("  ", 1)
+        source = root / relative
+        if not source.is_file() or sha256_file(source) != f"sha256:{digest}":
+            raise RuntimeError(f"HEIR output-capture checksum mismatch: {relative}")
+    manifest = load_json(manifest_path)
+    rows = csv_rows(outputs_path)
+    if manifest.get("raw_decrypted_output_available") is not True:
+        raise RuntimeError("HEIR output-capture manifest does not attest raw output")
+    if {row["runtime"] for row in rows} != {"OpenFHE", "Lattigo"} or len(rows) != 2:
+        raise RuntimeError("HEIR output-capture runtime set drift")
+    return manifest_path, manifest, rows
+
+
 def mean(values: Iterable[float]) -> float | str:
     materialized = list(values)
     return statistics.fmean(materialized) if materialized else NOT_REPORTED
@@ -422,13 +445,13 @@ def other_native_records() -> list[dict[str, Any]]:
                 "arm": runtime,
                 "runtime": runtime,
                 "scheme": "CKKS",
-                "evidence_level": heir["evidence_level"],
+                "evidence_level": 2,
                 "execution_status": "PASS",
-                "actual_output_available": True,
+                "actual_output_available": False,
                 "decision_output_available": False,
                 "contexts_keysets": 1,
                 "unique_inputs": 1,
-                "raw_output_rows": 1,
+                "raw_output_rows": 0,
                 "compile_time_ms": NOT_SEPARATELY_RECORDED,
                 "tuning_time_ms": NOT_APPLICABLE,
                 "keygen_time_ms": NOT_SEPARATELY_RECORDED,
@@ -444,8 +467,58 @@ def other_native_records() -> list[dict[str, Any]]:
                 "security_state": "SECURITY_NOT_REPORTED",
                 "portability_state": "NATIVE_ONLY",
                 "output_manifest": heir_path.relative_to(ROOT).as_posix(),
+                "provider_commit": heir["source_commit"],
+                "plaintext_output": "OUTPUT_UNAVAILABLE",
+                "decrypted_output": "OUTPUT_UNAVAILABLE",
+                "numerical_error": "OUTPUT_UNAVAILABLE",
             }
         )
+    capture = verified_heir_capture()
+    if capture is not None:
+        capture_path, capture_manifest, capture_rows = capture
+        for row in capture_rows:
+            result.append(
+                {
+                    "provider": "HEIR",
+                    "system": "HEIR",
+                    "workload": capture_manifest["workload"],
+                    "arm": f"{row['runtime']}_output_capture_v1",
+                    "runtime": row["runtime"],
+                    "scheme": "CKKS",
+                    "evidence_level": 3,
+                    "execution_status": "PASS",
+                    "actual_output_available": True,
+                    "decision_output_available": False,
+                    "contexts_keysets": 1,
+                    "unique_inputs": 1,
+                    "raw_output_rows": 1,
+                    "compile_time_ms": NOT_SEPARATELY_RECORDED,
+                    "tuning_time_ms": NOT_APPLICABLE,
+                    "keygen_time_ms": NOT_SEPARATELY_RECORDED,
+                    "encryption_time_ms": NOT_SEPARATELY_RECORDED,
+                    "evaluation_time_ms": NOT_SEPARATELY_RECORDED,
+                    "decryption_time_ms": NOT_SEPARATELY_RECORDED,
+                    "total_time_ms": NOT_SEPARATELY_RECORDED,
+                    "rms_error": NOT_REPORTED,
+                    "max_absolute_error": row["absolute_error"],
+                    "validation_flips": NOT_EVALUATED,
+                    "audit_flips": NOT_EVALUATED,
+                    "gate_state": NOT_EVALUATED,
+                    "security_state": "SECURITY_NOT_REPORTED",
+                    "portability_state": "NATIVE_ONLY",
+                    "output_manifest": capture_path.relative_to(ROOT).as_posix(),
+                    "provider_commit": capture_manifest["source_commit"],
+                    "input_id": row["input_id"],
+                    "split_role": "official_native_example",
+                    "plaintext_output": row["expected_output"],
+                    "decrypted_output": row["decrypted_output"],
+                    "numerical_error": row["absolute_error"],
+                    "plaintext_decision": NOT_EVALUATED,
+                    "encrypted_decision": NOT_EVALUATED,
+                    "decision_flip": NOT_EVALUATED,
+                    "raw_output_digest": sha256_file(capture_path.parent / "decrypted_outputs.csv"),
+                }
+            )
     heco_path = OUTPUTS / "heco/official-benchmark-v1/manifest.json"
     heco = load_json(heco_path)
     result.append(
@@ -484,6 +557,12 @@ def other_native_records() -> list[dict[str, Any]]:
 
 
 NATIVE_FIELDS = [
+    "schema_version", "provider_id", "provider_commit", "workload_id", "model_digest",
+    "graph_digest", "input_id", "input_digest", "split_role", "context_or_key_id",
+    "pass_index", "plaintext_output", "decrypted_output", "plaintext_decision",
+    "encrypted_decision", "decision_margin_or_top_two_gap", "numerical_error",
+    "decision_flip", "provider_prediction", "gate_status", "security_status",
+    "raw_output_digest",
     "provider", "system", "workload", "arm", "runtime", "scheme", "evidence_level",
     "execution_status", "actual_output_available", "decision_output_available",
     "contexts_keysets", "unique_inputs", "raw_output_rows", "compile_time_ms",
@@ -494,12 +573,31 @@ NATIVE_FIELDS = [
 ]
 
 
+def complete_native_record(row: dict[str, Any]) -> dict[str, Any]:
+    completed = dict(row)
+    completed.setdefault("schema_version", "flipguard_provider_execution_record_v7")
+    completed.setdefault("provider_id", completed["provider"])
+    completed.setdefault("workload_id", completed["workload"])
+    completed.setdefault("gate_status", completed["gate_state"])
+    completed.setdefault("security_status", completed["security_state"])
+    completed.setdefault("decision_flip", completed["validation_flips"])
+    completed.setdefault("numerical_error", completed["max_absolute_error"])
+    completed.setdefault("raw_output_digest", sha256_file(ROOT / completed["output_manifest"]))
+    return completed
+
+
 def system_summary_rows(stages: list[dict[str, Any]], terminals: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
+    heir_capture_available = verified_heir_capture() is not None
     overrides: dict[str, dict[str, Any]] = {
         "EVA": {"final_state": "DECISION_BEARING_LOCKED_AUDIT", "evidence_level": 6, "encrypted_runs": 18, "decision_gate": "SAFE_AUDIT_PASS"},
         "ELASM": {"final_state": "ENCRYPTED_END_TO_END_PARTIAL_GRID", "evidence_level": 3, "encrypted_runs": 70, "decision_gate": NOT_EVALUATED},
         "HECATE": {"final_state": "CLEAN_BUILD_PASS_RUNTIME_PREPARATION_FAILED", "evidence_level": 1, "encrypted_runs": 0, "decision_gate": NOT_EVALUATED},
-        "HEIR": {"final_state": "ENCRYPTED_END_TO_END", "evidence_level": 3, "encrypted_runs": 2, "decision_gate": NOT_EVALUATED},
+        "HEIR": {
+            "final_state": "ENCRYPTED_END_TO_END_RAW_OUTPUT" if heir_capture_available else "OFFICIAL_PIPELINE_PASS_OUTPUT_UNAVAILABLE",
+            "evidence_level": 3 if heir_capture_available else 2,
+            "encrypted_runs": 4 if heir_capture_available else 2,
+            "decision_gate": NOT_EVALUATED,
+        },
         "HECO": {"final_state": "OFFICIAL_PIPELINE_ONLY_DIFFERENT_SCHEME", "evidence_level": 2, "encrypted_runs": 0, "decision_gate": NOT_EVALUATED},
         "Orion": {"final_state": "ENVIRONMENT_CREATE_BLOCKED", "evidence_level": 0, "encrypted_runs": 0, "decision_gate": NOT_EVALUATED},
         "HALO": {"final_state": "SHARED_REPOSITORY_CLEAN_BUILD_ONLY", "evidence_level": 1, "encrypted_runs": 0, "decision_gate": NOT_EVALUATED},
@@ -824,7 +922,7 @@ def build_claims(destination: Path, summaries: list[dict[str, Any]], native: lis
             "state": "PARTIALLY_SUPPORTED",
             "paper_admitted": True,
             "scope": encrypted_systems,
-            "allowed_wording": "V7 reproduced encrypted end-to-end execution for EVA, ELASM, and HEIR on their declared native workloads.",
+            "allowed_wording": f"V7 reproduced encrypted end-to-end execution with raw outputs for {', '.join(encrypted_systems)} on their declared native workloads.",
         },
         "external_decision_bearing_comparison": {
             "state": "PARTIALLY_SUPPORTED",
@@ -894,7 +992,10 @@ def build(destination: Path, source_commit: str) -> dict[str, Any]:
     build_stage_matrices(destination, stages)
 
     eva_native, gates, audits = eva_native_records()
-    native = eva_native + corelab_native_records() + other_native_records()
+    native = [
+        complete_native_record(row)
+        for row in eva_native + corelab_native_records() + other_native_records()
+    ]
     write_csv(destination / "native_execution_records.csv", NATIVE_FIELDS, native)
     write_csv(
         destination / "provider_gate_records.csv",

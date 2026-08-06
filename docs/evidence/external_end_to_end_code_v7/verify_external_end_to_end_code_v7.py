@@ -73,7 +73,9 @@ def verify(root: Path) -> dict[str, int | str]:
     levels = {row["system"]: row for row in read_csv(root / "artifact_execution_levels.csv")}
     if len(levels) != 18:
         raise ValueError(f"expected 18 systems, found {len(levels)}")
-    expected_levels = {"EVA": 6, "ELASM": 3, "HECATE": 1, "HEIR": 3, "HECO": 2, "Orion": 0}
+    heir_capture = REPO / "external/v7/outputs/heir/dot-product-8f-output-capture-v1/decrypted_outputs.csv"
+    expected_heir_level = 3 if heir_capture.is_file() else 2
+    expected_levels = {"EVA": 6, "ELASM": 3, "HECATE": 1, "HEIR": expected_heir_level, "HECO": 2, "Orion": 0}
     for system, expected in expected_levels.items():
         if int(levels[system]["evidence_level"]) != expected:
             raise ValueError(f"{system} evidence level drift")
@@ -99,7 +101,8 @@ def verify(root: Path) -> dict[str, int | str]:
     claims = json.loads((root / "claim_admission.json").read_text(encoding="utf-8"))
     if claims["final_classification"] != "PARTIAL_EXTERNAL_EVIDENCE":
         raise ValueError("V7 classification was improperly promoted")
-    if claims["encrypted_e2e_system_count"] != 3:
+    expected_encrypted_systems = 3 if heir_capture.is_file() else 2
+    if claims["encrypted_e2e_system_count"] != expected_encrypted_systems:
         raise ValueError("encrypted E2E system count drift")
     if claims["decision_bearing_provider_count"] != 1:
         raise ValueError("decision-bearing provider count drift")
@@ -107,6 +110,28 @@ def verify(root: Path) -> dict[str, int | str]:
         raise ValueError("PORTABLE_EXACT was invented")
     if claims["paper_claim_allowed"] is not False:
         raise ValueError("V7 paper claim gate opened automatically")
+
+    native_path = root / "native_execution_records.csv"
+    native_rows = read_csv(native_path)
+    required_native_fields = {
+        "schema_version", "provider_id", "provider_commit", "runtime", "workload_id",
+        "evidence_level", "input_id", "plaintext_output", "decrypted_output",
+        "numerical_error", "execution_status", "gate_status", "security_status",
+        "raw_output_digest",
+    }
+    with native_path.open(newline="", encoding="utf-8") as handle:
+        native_fields = set(csv.DictReader(handle).fieldnames or [])
+    if not required_native_fields <= native_fields:
+        raise ValueError("native execution schema is incomplete")
+    captured_heir_rows = [
+        row for row in native_rows
+        if row["provider_id"] == "HEIR" and row["actual_output_available"] == "True"
+    ]
+    if heir_capture.is_file():
+        if len(captured_heir_rows) != 2 or any(row["decrypted_output"] in MISSING for row in captured_heir_rows):
+            raise ValueError("HEIR raw output capture was not normalized")
+    elif captured_heir_rows:
+        raise ValueError("HEIR output was invented without a capture artifact")
 
     gate_rows = read_csv(root / "provider_gate_records.csv")
     selected = [row for row in gate_rows if row["audit_status"] == "SAFE"]

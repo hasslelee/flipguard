@@ -31,7 +31,8 @@ class ExternalV7EvidenceTest(unittest.TestCase):
             self.assertEqual(len(levels), 18)
             self.assertEqual(levels["EVA"]["evidence_level"], "6")
             self.assertEqual(levels["ELASM"]["encrypted_e2e_runs"], "70")
-            self.assertEqual(levels["HEIR"]["evidence_level"], "3")
+            capture = ROOT / "external/v7/outputs/heir/dot-product-8f-output-capture-v1/decrypted_outputs.csv"
+            self.assertEqual(levels["HEIR"]["evidence_level"], "3" if capture.is_file() else "2")
             self.assertEqual(levels["HECO"]["evidence_level"], "2")
             self.assertEqual(levels["ANT-ACE"]["evidence_level"], "0")
 
@@ -43,7 +44,7 @@ class ExternalV7EvidenceTest(unittest.TestCase):
             self.assertEqual(plan_failures, {"elasm_36", "elasm_41"})
 
             claims = json.loads((destination / "claim_admission.json").read_text())
-            self.assertEqual(claims["encrypted_e2e_system_count"], 3)
+            self.assertEqual(claims["encrypted_e2e_system_count"], 3 if capture.is_file() else 2)
             self.assertEqual(claims["decision_bearing_provider_count"], 1)
             self.assertEqual(claims["final_classification"], "PARTIAL_EXTERNAL_EVIDENCE")
             self.assertFalse(claims["paper_claim_allowed"])
@@ -53,4 +54,3 @@ class ExternalV7EvidenceTest(unittest.TestCase):
             self.assertEqual(accounting["EVA"]["unique_inputs"], "31")
             self.assertEqual(accounting["EVA"]["encrypted_candidate_runs"], "18")
             self.assertEqual(accounting["ELASM"]["unique_inputs"], "1")
-
