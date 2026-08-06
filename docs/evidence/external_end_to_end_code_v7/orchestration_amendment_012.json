@@ -1,0 +1,12 @@
+{
+  "affected_provider": "HEIR",
+  "amendment_id": "external_v7_orchestration_amendment_012",
+  "classification": "PARTIAL_RAW_OUTPUT_CAPTURE_NORMALIZATION",
+  "encrypted_execution_semantics_changed": false,
+  "encrypted_rerun_allowed": false,
+  "frozen_policy_changed": false,
+  "provider_attempt": 3,
+  "reason": "OpenFHE persisted its actual output, while testing.T.Logf was suppressed by the successful non-verbose Lattigo Go test. The official Lattigo assertion PASS is preserved at Level 2 and its actual output remains OUTPUT_UNAVAILABLE.",
+  "recovery": "After the third-attempt service is terminal, normalize only the existing OpenFHE marker and both official PASS logs without another encrypted execution.",
+  "result_dependent_policy_change": false
+}

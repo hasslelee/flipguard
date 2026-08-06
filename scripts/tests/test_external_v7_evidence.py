@@ -67,7 +67,12 @@ class ExternalV7EvidenceTest(unittest.TestCase):
             self.assertEqual(per_sample["row_counts"]["eva_official"], 24576)
             self.assertEqual(per_sample["row_counts"]["eva_shared"], 174)
             self.assertEqual(per_sample["row_counts"]["corelab"], 72)
-            self.assertEqual(per_sample["row_counts"]["heir"], 2 if capture.is_file() else 0)
+            if capture.is_file():
+                with capture.open(newline="", encoding="utf-8") as handle:
+                    expected_heir_rows = len(list(csv.DictReader(handle)))
+            else:
+                expected_heir_rows = 0
+            self.assertEqual(per_sample["row_counts"]["heir"], expected_heir_rows)
             for directory in (
                 "workload_contracts", "input_manifests", "provider_candidate_manifests",
                 "operation_manifests", "per_sample_outputs",

@@ -200,8 +200,17 @@ def verify(root: Path) -> dict[str, int | str]:
         if row["provider_id"] == "HEIR" and row["actual_output_available"] == "True"
     ]
     if heir_capture.is_file():
-        if len(captured_heir_rows) != 2 or any(row["decrypted_output"] in MISSING for row in captured_heir_rows):
+        raw_heir_rows = read_csv(heir_capture)
+        if len(captured_heir_rows) != len(raw_heir_rows) or any(row["decrypted_output"] in MISSING for row in captured_heir_rows):
             raise ValueError("HEIR raw output capture was not normalized")
+        if {row["runtime"] for row in captured_heir_rows} != {"OpenFHE"}:
+            raise ValueError("HEIR raw output availability was improperly promoted")
+        if any(
+            row["actual_output_available"] == "True"
+            for row in native_rows
+            if row["provider_id"] == "HEIR" and row["runtime"] == "Lattigo"
+        ):
+            raise ValueError("Lattigo raw output was invented from a suppressed test log")
     elif captured_heir_rows:
         raise ValueError("HEIR output was invented without a capture artifact")
 
@@ -212,7 +221,7 @@ def verify(root: Path) -> dict[str, int | str]:
         "eva_official": 24576,
         "eva_shared": 174,
         "corelab": 72,
-        "heir": 2 if heir_capture.is_file() else 0,
+        "heir": len(read_csv(heir_capture)) if heir_capture.is_file() else 0,
     }
     if per_sample_manifest["row_counts"] != expected_per_sample:
         raise ValueError(f"per-sample population drift: {per_sample_manifest['row_counts']}")

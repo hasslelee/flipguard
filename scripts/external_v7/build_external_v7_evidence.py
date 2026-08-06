@@ -106,8 +106,17 @@ def verified_heir_capture() -> tuple[Path, dict[str, Any], list[dict[str, str]]]
     rows = csv_rows(outputs_path)
     if manifest.get("raw_decrypted_output_available") is not True:
         raise RuntimeError("HEIR output-capture manifest does not attest raw output")
-    if {row["runtime"] for row in rows} != {"OpenFHE", "Lattigo"} or len(rows) != 2:
+    expected_runtimes = set(manifest.get("raw_decrypted_output_runtimes", manifest["runtimes"]))
+    if {row["runtime"] for row in rows} != expected_runtimes or not rows:
         raise RuntimeError("HEIR output-capture runtime set drift")
+    status_rows = csv_rows(root / "runtime_output_status.csv")
+    if {row["runtime"] for row in status_rows} != set(manifest["runtimes"]):
+        raise RuntimeError("HEIR runtime output-status set drift")
+    available = {
+        row["runtime"] for row in status_rows if row["raw_output_available"] == "True"
+    }
+    if available != expected_runtimes:
+        raise RuntimeError("HEIR raw-output availability declaration drift")
     return manifest_path, manifest, rows
 
 
