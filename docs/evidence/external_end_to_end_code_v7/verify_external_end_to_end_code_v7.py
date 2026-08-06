@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import datetime as dt
 import hashlib
 import json
 from pathlib import Path
@@ -83,6 +84,17 @@ def verify_checksums(root: Path) -> None:
             raise ValueError(f"checksum mismatch: {relative}")
 
 
+def content_tree_sha256(root: Path) -> str:
+    lines = []
+    for path in sorted(item for item in root.rglob("*") if item.is_file()):
+        relative = path.relative_to(root).as_posix()
+        if relative in {"manifest.json", "SHA256SUMS"}:
+            continue
+        lines.append(f"{sha256(path)}  {relative}")
+    material = "\n".join(lines) + "\n"
+    return f"sha256:{hashlib.sha256(material.encode()).hexdigest()}"
+
+
 def verify(root: Path) -> dict[str, int | str]:
     missing_files = sorted(name for name in REQUIRED if not (root / name).is_file())
     if missing_files:
@@ -104,8 +116,18 @@ def verify(root: Path) -> dict[str, int | str]:
             raise ValueError("final V7 manifest is not frozen")
         if final_manifest["source_commit"] != environment_end["source_commit"]:
             raise ValueError("final V7 source binding drift")
+        if final_manifest["prepared_report"]["source_commit"] != final_manifest["source_commit"]:
+            raise ValueError("prepared/final V7 source binding drift")
         if final_manifest["paper_claim_allowed"] is not False:
             raise ValueError("final V7 paper claim gate opened automatically")
+        if environment_end["pre_freeze_working_tree_porcelain"] != "":
+            raise ValueError("V7 source tree was dirty before evidence freeze")
+        freeze_time = dt.datetime.fromisoformat(environment_end["finalization_timestamp"])
+        pause_time = dt.datetime.fromisoformat(environment_end["declared_hard_pause_timestamp"])
+        if freeze_time < pause_time:
+            raise ValueError("V7 evidence was frozen before the hard-pause boundary")
+        if final_manifest["content_tree_sha256"] != content_tree_sha256(root):
+            raise ValueError("final V7 content tree digest mismatch")
 
     levels = {row["system"]: row for row in read_csv(root / "artifact_execution_levels.csv")}
     if len(levels) != 18:
