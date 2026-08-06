@@ -74,7 +74,8 @@ class ExternalV7ControlTest(unittest.TestCase):
 
     def test_output_root_repair_requires_idle_queue_and_lock(self):
         repair = (ROOT / "scripts/external_v7/prepare_writable_output_root_v7.sh").read_text()
-        self.assertIn("QUEUE_EXHAUSTED_QA_WAIT", repair)
+        self.assertIn("QUEUE_EXHAUSTED_QA", repair)
+        self.assertIn('"${master[2]}" != NONE', repair)
         self.assertIn("flock -n", repair)
         self.assertIn("outputs-root-owned-attempt1", repair)
         self.assertIn('"encrypted_execution": 0', repair)

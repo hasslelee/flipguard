@@ -7,15 +7,18 @@ readonly STATUS="external/v7/status"
 readonly OUTPUTS="external/v7/outputs"
 readonly PRESERVED="external/v7/failed_intermediates/outputs-root-owned-attempt1"
 
-state="$(python3 - <<'PY'
+readarray -t master < <(python3 - <<'PY'
 import json
 from pathlib import Path
 path = Path("external/v7/status/master_state.json")
-print(json.loads(path.read_text(encoding="utf-8"))["state"] if path.exists() else "MISSING")
+payload = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+print(payload.get("state", "MISSING"))
+print(payload.get("active_stage", "MISSING"))
+print(payload.get("active_provider", "MISSING"))
 PY
-)"
-if [[ "$state" != QUEUE_EXHAUSTED_QA_WAIT ]]; then
-  echo "refusing output-root repair outside QUEUE_EXHAUSTED_QA_WAIT: $state" >&2
+)
+if [[ "${master[1]}" != QUEUE_EXHAUSTED_QA || "${master[2]}" != NONE ]]; then
+  echo "refusing output-root repair outside idle queue: state=${master[0]} stage=${master[1]} provider=${master[2]}" >&2
   exit 3
 fi
 
