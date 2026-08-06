@@ -7,17 +7,41 @@ readonly STAGE="python3 scripts/external_v7/run_stage_v7.py"
 readonly STATUS="external/v7/status/eva"
 mkdir -p "$STATUS"
 
-$STAGE --provider eva --run-id 0001-eva-source --stage SOURCE_CHECKOUT \
-  --workload official-source --cwd . --output-path external/v7/sources/eva -- \
-  bash -lc 'git clone --filter=blob:none https://github.com/microsoft/EVA external/v7/sources/eva && git -C external/v7/sources/eva checkout --detach 4cd3254c9c51340ae30c451495ce5378135758c0 && test "$(git -C external/v7/sources/eva rev-parse HEAD)" = 4cd3254c9c51340ae30c451495ce5378135758c0'
+stage_passed() {
+  [[ -f "$STATUS/$1/current_stage.txt" ]] && [[ "$(<"$STATUS/$1/current_stage.txt")" == PASS ]]
+}
 
-$STAGE --provider eva --run-id 0002-seal-source --stage SOURCE_CHECKOUT \
-  --workload seal-3.6.4 --cwd . --output-path external/v7/sources/seal-3.6.4 -- \
-  bash -lc 'git clone --filter=blob:none --branch v3.6.4 https://github.com/microsoft/SEAL external/v7/sources/seal-3.6.4 && test "$(git -C external/v7/sources/seal-3.6.4 describe --tags --exact-match)" = v3.6.4'
+if ! stage_passed 0001-eva-source; then
+  $STAGE --provider eva --run-id 0001-eva-source --stage SOURCE_CHECKOUT \
+    --workload official-source --cwd . --output-path external/v7/sources/eva -- \
+    bash -lc 'git clone --filter=blob:none https://github.com/microsoft/EVA external/v7/sources/eva && git -C external/v7/sources/eva checkout --detach 4cd3254c9c51340ae30c451495ce5378135758c0 && test "$(git -C external/v7/sources/eva rev-parse HEAD)" = 4cd3254c9c51340ae30c451495ce5378135758c0'
+fi
 
-$STAGE --provider eva --run-id 0003-clean-build --stage CLEAN_BUILD \
-  --workload eva-v1.0.1 --cwd . --source-path external/v7/sources/eva \
-  --output-path external/v7/builds/eva -- scripts/external_v7/build_eva_v7.sh
+if ! stage_passed 0002-seal-source; then
+  $STAGE --provider eva --run-id 0002-seal-source --stage SOURCE_CHECKOUT \
+    --workload seal-3.6.4 --cwd . --output-path external/v7/sources/seal-3.6.4 -- \
+    bash -lc 'git clone --filter=blob:none --branch v3.6.4 https://github.com/microsoft/SEAL external/v7/sources/seal-3.6.4 && test "$(git -C external/v7/sources/seal-3.6.4 describe --tags --exact-match)" = v3.6.4'
+fi
+
+if [[ ! -f external/v7/sources/eva/third_party/pybind11/CMakeLists.txt ]]; then
+  $STAGE --provider eva --run-id 0002b-submodules-recovery1 --stage SOURCE_VERIFY \
+    --workload official-source-submodules --cwd . --source-path external/v7/sources/eva -- \
+    bash -lc 'git -C external/v7/sources/eva submodule update --init --recursive && test -f external/v7/sources/eva/third_party/pybind11/CMakeLists.txt && test "$(git -C external/v7/sources/eva rev-parse HEAD)" = 4cd3254c9c51340ae30c451495ce5378135758c0'
+fi
+
+if ! stage_passed 0003-clean-build && ! stage_passed 0003-clean-build-retry1; then
+  build_run=0003-clean-build
+  if [[ -d "$STATUS/0003-clean-build" ]]; then
+    mkdir -p external/v7/failed_intermediates/eva
+    if [[ -e external/v7/builds/eva ]]; then
+      mv external/v7/builds/eva external/v7/failed_intermediates/eva/build-attempt1
+    fi
+    build_run=0003-clean-build-retry1
+  fi
+  $STAGE --provider eva --run-id "$build_run" --stage CLEAN_BUILD \
+    --workload eva-v1.0.1 --cwd . --source-path external/v7/sources/eva \
+    --output-path external/v7/builds/eva -- scripts/external_v7/build_eva_v7.sh
+fi
 
 $STAGE --provider eva --run-id 0004-official-image --stage ENCRYPTED_VALIDATION \
   --workload eva-official-sobel-harris --cwd . --source-path external/v7/sources/eva \

@@ -232,31 +232,43 @@ class Master:
             json.loads(line)["provider"]
             for line in (STATUS / "completed_jobs.jsonl").read_text(encoding="utf-8").splitlines()
         } if (STATUS / "completed_jobs.jsonl").exists() else set()
+        failed_attempts: dict[str, int] = {}
+        if (STATUS / "failed_jobs.jsonl").exists():
+            for line in (STATUS / "failed_jobs.jsonl").read_text(encoding="utf-8").splitlines():
+                provider_id = json.loads(line)["provider"]
+                failed_attempts[provider_id] = failed_attempts.get(provider_id, 0) + 1
         for provider in queue:
             if self.stop_requested.is_set() or provider["id"] in completed:
                 continue
-            remaining = (self.pause - now()).total_seconds()
-            if remaining <= NO_NEW_JOB_SECONDS:
-                break
-            resource = disk_state()
-            if resource["resource_gate"] in {"RED", "HARD_RESOURCE_STOP"}:
-                self.state("RESOURCE_GATE_BLOCK", resource=resource)
-                break
-            self.active_provider = provider["id"]
-            self.active_stage = "PROVIDER_JOB"
-            self.state("RUNNING_PROVIDER")
-            started = stamp()
-            command = [str(ROOT / "scripts/external_v7/run_provider_job_v7.sh"), provider["id"]]
-            result = subprocess.run(command, cwd=ROOT, check=False)
-            record = {
-                "provider": provider["id"],
-                "start_timestamp": started,
-                "end_timestamp": stamp(),
-                "return_code": result.returncode,
-                "state": "COMPLETED" if result.returncode == 0 else "PROVIDER_FAILED_CONTINUE",
-            }
-            destination = "completed_jobs.jsonl" if result.returncode == 0 else "failed_jobs.jsonl"
-            append_jsonl(STATUS / destination, record)
+            attempt = failed_attempts.get(provider["id"], 0)
+            while attempt < 3 and not self.stop_requested.is_set():
+                remaining = (self.pause - now()).total_seconds()
+                if remaining <= NO_NEW_JOB_SECONDS:
+                    break
+                resource = disk_state()
+                if resource["resource_gate"] in {"RED", "HARD_RESOURCE_STOP"}:
+                    self.state("RESOURCE_GATE_BLOCK", resource=resource)
+                    break
+                attempt += 1
+                self.active_provider = provider["id"]
+                self.active_stage = "PROVIDER_JOB"
+                self.state("RUNNING_PROVIDER", provider_attempt=attempt)
+                started = stamp()
+                command = [str(ROOT / "scripts/external_v7/run_provider_job_v7.sh"), provider["id"]]
+                result = subprocess.run(command, cwd=ROOT, check=False)
+                record = {
+                    "provider": provider["id"],
+                    "attempt": attempt,
+                    "start_timestamp": started,
+                    "end_timestamp": stamp(),
+                    "return_code": result.returncode,
+                    "state": "COMPLETED" if result.returncode == 0 else "PROVIDER_FAILED_CONTINUE",
+                }
+                destination = "completed_jobs.jsonl" if result.returncode == 0 else "failed_jobs.jsonl"
+                append_jsonl(STATUS / destination, record)
+                if result.returncode == 0:
+                    completed.add(provider["id"])
+                    break
         self.active_provider = "NONE"
         self.active_stage = "FINALIZATION" if now() >= self.pause - dt.timedelta(minutes=30) else "QUEUE_EXHAUSTED_QA"
         while not self.stop_requested.is_set() and now() < self.pause - dt.timedelta(minutes=30):
