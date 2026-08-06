@@ -1,0 +1,27 @@
+{
+  "classification": "CONTROL_PLANE_WAIT_TIMEOUT_APPEARED_AS_CODE_TERMINATION",
+  "encrypted_provider_affected": false,
+  "fix_commit": "473b5fbab89d50f6ed4c49f557b4472c82c4d5c1",
+  "fix_validation": {
+    "heir_service_pid_after": 66361,
+    "heir_service_pid_before": 66361,
+    "master_restart_elapsed_seconds": 0.02,
+    "result": "PASS"
+  },
+  "incident_id": "external_v7_control_plane_incident_001",
+  "observed": {
+    "master_pid": 51707,
+    "restart_request_timestamp": "2026-08-06T17:14:24+09:00",
+    "service_stopped_timestamp": "2026-08-06T17:18:21+09:00",
+    "stop_wait_seconds": 237,
+    "systemd_substate": "stop-sigterm"
+  },
+  "root_cause": {
+    "master_wait": "time.sleep with a maximum 300-second interval",
+    "signal_checkpoint_written": true,
+    "systemd_timeout_stop_seconds": 300
+  },
+  "schema_version": "flipguard_external_v7_control_plane_incident_v1",
+  "semantic_impact": "none",
+  "source_or_evidence_corruption": false
+}
