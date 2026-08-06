@@ -789,9 +789,59 @@ def _group(rows: list[dict[str, Any]], key):
 
 
 def build_security_and_portability(destination: Path, native: list[dict[str, Any]]) -> None:
+    eva_official = load_json(OUTPUTS / "eva/official-image-v1/manifest.json")
+    eva_shared = load_json(OUTPUTS / "eva/shared-polynomial-v1/manifest.json")
+    shared_arms = {arm["candidate_id"]: arm for arm in eva_shared["arms"]}
     security_rows = []
     portability_rows = []
     for row in native:
+        parameters = {
+            "log_n": NOT_REPORTED,
+            "n": NOT_REPORTED,
+            "q_prime_bits": NOT_REPORTED,
+            "p_prime_bits": NOT_REPORTED,
+            "q_primes_exact": "EXACT_VALUES_NOT_REPORTED",
+            "p_primes_exact": "EXACT_VALUES_NOT_REPORTED",
+            "log_q": NOT_REPORTED,
+            "log_p": NOT_REPORTED,
+            "log_qp": NOT_REPORTED,
+            "scale_bits": NOT_REPORTED,
+            "secret_distribution": NOT_REPORTED,
+            "error_distribution": NOT_REPORTED,
+            "ciphertext_q_admission": NOT_EVALUATED,
+            "evaluation_key_qp_admission": NOT_EVALUATED,
+            "final_admission": NOT_EVALUATED,
+        }
+        if row["system"] == "EVA" and row["arm"] in shared_arms:
+            arm = shared_arms[row["arm"]]
+            security = arm["security_reference"]
+            parameters.update(
+                {
+                    "log_n": security["log_n"],
+                    "n": arm["poly_modulus_degree"],
+                    "q_prime_bits": json.dumps(security["q_prime_bits"], separators=(",", ":")),
+                    "p_prime_bits": json.dumps(security["p_prime_bits"], separators=(",", ":")),
+                    "log_q": security["log_q"],
+                    "log_p": security["log_p"],
+                    "log_qp": security["log_qp"],
+                    "scale_bits": arm["input_scale_bits"],
+                    "secret_distribution": eva_shared["runtime"]["native_seal_secret"],
+                    "error_distribution": eva_shared["runtime"]["native_seal_error"],
+                    "ciphertext_q_admission": security["ciphertext_q_admission"],
+                    "evaluation_key_qp_admission": security["evaluation_key_qp_admission"],
+                    "final_admission": security["final_admission"],
+                }
+            )
+        elif row["system"] == "EVA" and row["arm"] in {"sobel", "harris"}:
+            program = next(item for item in eva_official["programs"] if item["program"] == row["arm"])
+            parameters.update(
+                {
+                    "log_n": 14,
+                    "n": program["poly_modulus_degree"],
+                    "q_prime_bits": json.dumps(program["prime_bits"], separators=(",", ":")),
+                    "scale_bits": NOT_REPORTED,
+                }
+            )
         security_rows.append(
             {
                 "provider": row["provider"],
@@ -801,6 +851,7 @@ def build_security_and_portability(destination: Path, native: list[dict[str, Any
                 "security_state": row["security_state"],
                 "headline_eligible": row["security_state"] == "SECURITY_ALIGNED",
                 "reason": "Runtime distribution equivalence was not established" if row["security_state"] != "SECURITY_ALIGNED" else NOT_APPLICABLE,
+                **parameters,
             }
         )
         portability_rows.append(
@@ -816,7 +867,13 @@ def build_security_and_portability(destination: Path, native: list[dict[str, Any
         )
     write_csv(
         destination / "security_summary.csv",
-        ["provider", "workload", "arm", "scheme", "security_state", "headline_eligible", "reason"],
+        [
+            "provider", "workload", "arm", "scheme", "log_n", "n", "q_prime_bits",
+            "p_prime_bits", "q_primes_exact", "p_primes_exact", "log_q", "log_p",
+            "log_qp", "scale_bits", "secret_distribution", "error_distribution",
+            "ciphertext_q_admission", "evaluation_key_qp_admission", "final_admission",
+            "security_state", "headline_eligible", "reason",
+        ],
         security_rows,
     )
     write_csv(

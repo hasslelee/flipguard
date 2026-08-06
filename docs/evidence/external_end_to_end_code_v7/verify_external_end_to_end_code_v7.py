@@ -188,6 +188,20 @@ def verify(root: Path) -> dict[str, int | str]:
     if operation_manifest["operation_count"] < 37:
         raise ValueError("V7 operation manifest lost stage records")
 
+    security_rows = read_csv(root / "security_summary.csv")
+    required_security_fields = {
+        "log_n", "n", "q_prime_bits", "p_prime_bits", "q_primes_exact",
+        "p_primes_exact", "log_q", "log_p", "log_qp", "scale_bits",
+        "secret_distribution", "error_distribution", "ciphertext_q_admission",
+        "evaluation_key_qp_admission", "final_admission", "security_state",
+    }
+    with (root / "security_summary.csv").open(newline="", encoding="utf-8") as handle:
+        security_fields = set(csv.DictReader(handle).fieldnames or [])
+    if not required_security_fields <= security_fields:
+        raise ValueError("security summary schema is incomplete")
+    if any(row["headline_eligible"] == "True" for row in security_rows):
+        raise ValueError("unaligned external runtime was promoted to a security headline")
+
     gate_rows = read_csv(root / "provider_gate_records.csv")
     selected = [row for row in gate_rows if row["audit_status"] == "SAFE"]
     if len(selected) != 1 or selected[0]["candidate_id"] != "eva_native_scale30_N14_QP240_ef28317b2a3d":
