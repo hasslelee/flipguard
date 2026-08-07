@@ -18,7 +18,8 @@ REQUIRED = (
     "provider_gate_records.csv", "audit_records.csv", "common_executor_records.csv", "common_executor_paired_summary.csv",
     "operation_mismatch_records.csv", "latency_records.csv", "latency_summary.csv",
     "numerical_error_summary.csv", "unique_input_accounting.csv", "execution_accounting.csv",
-    "security_summary.csv", "portability_summary.csv", "failure_summary.csv",
+    "security_summary.csv", "portability_summary.csv", "corelab_plan_status.csv",
+    "recovery_provenance.csv", "failure_summary.csv",
     "fairness_limitations.md", "claim_admission.json", "CHECKPOINT_REPORT.md", "SHA256SUMS",
 )
 
@@ -62,6 +63,70 @@ def main() -> int:
         common = rows("common_executor_records.csv")
         if len(common) != 5400 or {row["latency_state"] for row in common} != {"PAIRED_HEADLINE"}:
             raise RuntimeError("paired latency admitted without the frozen 5,400 common-harness records")
+    common = rows("common_executor_records.csv")
+    if len(common) != 5400:
+        raise RuntimeError(f"unexpected common-executor record count: {len(common)}")
+    flips = [row for row in common if row["decision_flip"].lower() == "true"]
+    violations = [row for row in common if row["reserve_violation"].lower() == "true"]
+    if len(flips) != 8 or {row["arm"] for row in flips} != {"flipguard_direct"} or {row["row_id"] for row in flips} != {"711"}:
+        raise RuntimeError("common-executor decision-flip negative result drift")
+    if violations:
+        raise RuntimeError("unexpected common-executor reserve violation drift")
+    if {row["latency_state"] for row in common} != {"PAIRED_DIAGNOSTIC_UNSAFE_ARM"}:
+        raise RuntimeError("unsafe common-executor rows were not forced to diagnostic status")
+    if claims["claims"]["paired_common_executor_latency"] != "BLOCKED":
+        raise RuntimeError("common-executor flips did not block the paired latency claim")
+
+    corelab = rows("corelab_plan_status.csv")
+    if len(corelab) != 72:
+        raise RuntimeError(f"unexpected CoreLab plan count: {len(corelab)}")
+    passed = [row for row in corelab if row["status"] == "PASS"]
+    failed = [row for row in corelab if row["status"] == "EXECUTION_FAILED"]
+    if len(passed) != 70 or {row["plan_id"] for row in failed} != {"elasm_36", "elasm_41"}:
+        raise RuntimeError("CoreLab 70 PASS / 2 native-failure matrix drift")
+    if any(int(row["raw_output_rows"]) != 200 for row in passed):
+        raise RuntimeError("completed CoreLab plan does not contain 200 input rows")
+    if any(int(row["raw_output_rows"]) != 0 or row["reason_code"] != "NATIVE_PLAN_EXECUTION_ABORT" for row in failed):
+        raise RuntimeError("failed CoreLab plan contains output or lacks a failure reason")
+    if len(rows("corelab_multi_input_records.csv")) != 14000:
+        raise RuntimeError("CoreLab raw numerical population is not 14,000 rows")
+    if claims["claims"]["corelab_multi_input_numerical_grid"] != "PARTIALLY_SUPPORTED":
+        raise RuntimeError("CoreLab partial scientific result was not preserved")
+
+    execution = {(row["provider"], row["phase"]): row for row in rows("execution_accounting.csv")}
+    expected_execution = {
+        ("FlipGuard direct", "direct_synthesis_trials"): ("2", "6", "3000"),
+        ("FlipGuard direct", "provider_literal_validation"): ("1", "3", "1500"),
+        ("FlipGuard direct", "locked_audit"): ("1", "3", "1500"),
+        ("Security-V2 bounded catalog", "catalog_validation"): ("2", "6", "3000"),
+        ("Security-V2 bounded catalog", "fastest_safe_locked_audit"): ("1", "3", "1500"),
+    }
+    for key, expected in expected_execution.items():
+        row = execution.get(key)
+        actual = (row["encrypted_candidate_executions"], row["key_runs"], row["total_encrypted_sample_evaluations"]) if row else None
+        if actual != expected:
+            raise RuntimeError(f"execution accounting drift for {key}: {actual} != {expected}")
+    common_execution = execution.get(("Common Lattigo harness", "paired_latency"))
+    if not common_execution or (
+        common_execution["recorded_encrypted_sample_evaluations"],
+        common_execution["warmup_encrypted_sample_evaluations"],
+        common_execution["total_encrypted_sample_evaluations"],
+        common_execution["raw_output_rows"],
+    ) != ("5400", "900", "6300", "5400"):
+        raise RuntimeError("common-harness warm-up/measurement accounting drift")
+
+    recovery = rows("recovery_provenance.csv")
+    if len(recovery) != 8 or any(row["candidate_changed"].lower() != "false" or row["policy_changed"].lower() != "false" for row in recovery):
+        raise RuntimeError("recovery provenance is incomplete or changes frozen semantics")
+    failures = rows("failure_summary.csv")
+    common_failure = next((row for row in failures if row["reason_code"] == "COMMON_EXECUTOR_DECISION_FLIP"), None)
+    if not common_failure or (common_failure["count"], common_failure["unique_failure_inputs"], common_failure["affected_arm"]) != ("8", "1", "flipguard_direct"):
+        raise RuntimeError("common-executor negative result missing from failure summary")
+
+    if manifest["execution_initial_commit"] != "f4db86960f2a9a1e3fc02643836257b40f0f08f3" or manifest["execution_critical_source_digest"] != "sha256:c4e29067a997ab04c53acbe8100a25d0124a7f0a23d7fda070826ced264d9d1b":
+        raise RuntimeError("execution-critical provenance drift")
+    if (manifest["common_executor_decision_flips"], manifest["common_executor_unique_flip_inputs"], manifest["corelab_plans_completed"], manifest["corelab_plans_failed"]) != (8, 1, 70, 2):
+        raise RuntimeError("manifest negative-result accounting drift")
     text = "\n".join((PACK / name).read_text(encoding="utf-8", errors="ignore") for name in ("CHECKPOINT_REPORT.md", "fairness_limitations.md"))
     for phrase in ("global optimum", "all state-of-the-art", "universally safe"):
         if phrase in text.lower():

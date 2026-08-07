@@ -172,6 +172,17 @@ def main() -> int:
     RESULTS.mkdir(parents=True, exist_ok=True)
     end_timestamp = dt.datetime.now().astimezone().isoformat(timespec="seconds")
     start_timestamp = (STATUS / "autonomous_start_timestamp.txt").read_text().strip() if (STATUS / "autonomous_start_timestamp.txt").is_file() else "NOT_RECORDED"
+    run_manifest = json_file(ROOT / "external/v8/manifests/run_manifest.json")
+    current_commit = subprocess.run(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, check=True, text=True, capture_output=True,
+    ).stdout.strip()
+    comparison_digest = hashlib.sha256()
+    for source in (
+        ROOT / "scripts/external_v8/finalize_v8.py",
+        ROOT / "docs/evidence/focused_external_comparison_v8/verify_focused_external_comparison_v8.py",
+    ):
+        comparison_digest.update(source.relative_to(ROOT).as_posix().encode("utf-8") + b"\0")
+        comparison_digest.update(hashlib.sha256(source.read_bytes()).digest())
     environment_start = {
         "schema_version": "flipguard_focused_external_v8_environment_v1",
         "timestamp": start_timestamp, "hostname_redacted": True,
@@ -200,7 +211,16 @@ def main() -> int:
     flipguard_manifest, gate_rows, flipguard_audits = flipguard_facts()
     eva_complete = bool(eva_manifest and eva_manifest.get("status") == "PASS")
     heir_complete = bool(heir_manifest and heir_manifest.get("status") == "PASS")
-    corelab_complete = bool(corelab_manifest and corelab_manifest.get("status") == "PASS" and corelab_manifest.get("raw_plan_input_rows", 0) > 0)
+    corelab_complete = bool(
+        corelab_manifest
+        and corelab_manifest.get("status") in {"PASS", "PARTIAL_SCIENTIFIC_RESULT"}
+        and corelab_manifest.get("raw_plan_input_rows", 0) > 0
+    )
+    corelab_claim_state = (
+        "SUPPORTED" if corelab_manifest and corelab_manifest.get("status") == "PASS"
+        else "PARTIALLY_SUPPORTED" if corelab_complete
+        else "NOT_EVALUATED"
+    )
     flipguard_complete = bool(flipguard_manifest and flipguard_manifest.get("status") == "PASS")
     common_path = OUTPUTS / "flipguard/shared-polynomial-threshold-v8/common_executor_paired_latency.json"
     common_data = json_file(common_path) if common_path.is_file() else None
@@ -232,6 +252,8 @@ def main() -> int:
             and flipguard_manifest["catalog"]["locked_audit_outcome"] == "LOCKED_AUDIT_PASS"
             and all(not row["decision_flip"] and not row["reserve_violation"] for row in common_data["records"])
         )
+    common_flip_rows = [row for row in common_data["records"] if row["decision_flip"]] if common_data else []
+    common_violation_rows = [row for row in common_data["records"] if row["reserve_violation"]] if common_data else []
     write_csv(EVIDENCE / "provider_gate_records.csv", sorted({key for row in gate_rows for key in row}) or ["provider", "status"], gate_rows or [{"provider": "FlipGuard", "status": "NOT_EVALUATED"}])
     audit_rows: list[dict[str, object]] = list(flipguard_audits)
     if eva_manifest:
@@ -288,6 +310,9 @@ def main() -> int:
             paired_ratio_summary(common_data["records"], "bounded_catalog", "flipguard_direct"),
             paired_ratio_summary(common_data["records"], "bounded_catalog", "heir_generated"),
         ]
+        for summary in pair_summaries:
+            summary["claim_state"] = "PAIRED_HEADLINE" if common_safe else "BLOCKED_DIAGNOSTIC_UNSAFE_ARM"
+            summary["common_executor_decision_flips"] = len(common_flip_rows)
         write_csv(EVIDENCE / "common_executor_paired_summary.csv", list(pair_summaries[0]), pair_summaries)
     else:
         write_csv(EVIDENCE / "common_executor_paired_summary.csv", ["comparison", "status"], [{"comparison": "none", "status": "NOT_EVALUATED"}])
@@ -305,10 +330,21 @@ def main() -> int:
     accounting = [
         {"provider": "Microsoft EVA", "workload": "shared_polynomial_threshold_v8", "unique_inputs": observed_or_not_evaluated(eva_complete, 1000), "contexts": observed_or_not_evaluated(eva_complete, 15), "plans_or_arms": observed_or_not_evaluated(eva_complete, 5), "raw_rows": observed_or_not_evaluated(eva_complete, len(eva_rows)), "row_meaning": "input-context-arm observations"},
         {"provider": "Google HEIR", "workload": "shared_polynomial_threshold_v8", "unique_inputs": observed_or_not_evaluated(heir_complete, 1000), "contexts": observed_or_not_evaluated(heir_complete, 12), "plans_or_arms": observed_or_not_evaluated(heir_complete, 4), "raw_rows": observed_or_not_evaluated(heir_complete, len(heir_rows)), "row_meaning": "input-context-runtime-role observations"},
-        {"provider": "CoreLab EVA/ELASM", "workload": "official_LinearRegression_multi_input_v8", "unique_inputs": observed_or_not_evaluated(corelab_complete, corelab_manifest["unique_inputs_per_completed_plan"] if corelab_manifest else None), "contexts": observed_or_not_evaluated(corelab_complete, corelab_manifest["fresh_contexts"] if corelab_manifest else None), "plans_or_arms": observed_or_not_evaluated(corelab_complete, corelab_manifest["plans_completed"] if corelab_manifest else None), "raw_rows": observed_or_not_evaluated(corelab_complete, corelab_manifest["raw_plan_input_rows"] if corelab_manifest else None), "row_meaning": "unique-input-plan observations"},
+        {"provider": "CoreLab EVA/ELASM", "workload": "official_LinearRegression_multi_input_v8", "unique_inputs": observed_or_not_evaluated(corelab_complete, corelab_manifest["unique_inputs_per_completed_plan"] if corelab_manifest else None), "contexts": observed_or_not_evaluated(corelab_complete, corelab_manifest["fresh_contexts"] if corelab_manifest else None), "plans_or_arms": observed_or_not_evaluated(corelab_complete, corelab_manifest["plans_completed"] if corelab_manifest else None), "raw_rows": observed_or_not_evaluated(corelab_complete, corelab_manifest["raw_plan_input_rows"] if corelab_manifest else None), "row_meaning": "unique-input-plan observations; two failed plans emitted no rows"},
+        {"provider": "FlipGuard", "workload": "shared_polynomial_threshold_v8", "unique_inputs": observed_or_not_evaluated(flipguard_complete, 1000), "contexts": observed_or_not_evaluated(flipguard_complete, 30), "plans_or_arms": "SEE_EXECUTION_ACCOUNTING" if flipguard_complete else "NOT_EVALUATED", "raw_rows": observed_or_not_evaluated(bool(common_data), len(common_data["records"]) if common_data else None), "row_meaning": "selection/audit summaries plus common-harness measurement rows; see execution accounting"},
     ]
     write_csv(EVIDENCE / "unique_input_accounting.csv", list(accounting[0]), accounting)
-    execution = [{**row, "encrypted_execution_complete": isinstance(row["raw_rows"], int) and row["raw_rows"] > 0} for row in accounting]
+    execution = [
+        {"provider": "Microsoft EVA", "phase": "native_validation_and_locked_audit", "workload": "shared_polynomial_threshold_v8", "unique_inputs": 1000, "validation_inputs": 500, "audit_inputs": 500, "validation_audit_overlap": 0, "plans_or_arms": 5, "candidate_trials": 5, "encrypted_candidate_executions": 5, "fresh_contexts_or_keysets": 15, "key_runs": 15, "measurement_passes": 1, "warmup_encrypted_sample_evaluations": 0, "recorded_encrypted_sample_evaluations": 7500, "total_encrypted_sample_evaluations": 7500, "raw_output_rows": len(eva_rows), "decision_bearing_rows": len(eva_rows), "execution_state": "PASS" if eva_complete else "NOT_EVALUATED"},
+        {"provider": "Google HEIR", "phase": "native_and_translated_validation_and_locked_audit", "workload": "shared_polynomial_threshold_v8", "unique_inputs": 1000, "validation_inputs": 500, "audit_inputs": 500, "validation_audit_overlap": 0, "plans_or_arms": 4, "candidate_trials": 4, "encrypted_candidate_executions": 4, "fresh_contexts_or_keysets": 12, "key_runs": 12, "measurement_passes": 1, "warmup_encrypted_sample_evaluations": 0, "recorded_encrypted_sample_evaluations": 6000, "total_encrypted_sample_evaluations": 6000, "raw_output_rows": len(heir_rows), "decision_bearing_rows": len(heir_rows), "execution_state": "PASS" if heir_complete else "NOT_EVALUATED"},
+        {"provider": "CoreLab EVA/ELASM", "phase": "native_numerical_plan_grid", "workload": "official_LinearRegression_multi_input_v8", "unique_inputs": 200, "validation_inputs": 200, "audit_inputs": "NOT_APPLICABLE_NUMERICAL_ONLY", "validation_audit_overlap": "NOT_APPLICABLE", "plans_or_arms": 72, "candidate_trials": 72, "encrypted_candidate_executions": 70, "fresh_contexts_or_keysets": 72, "key_runs": 70, "measurement_passes": 1, "warmup_encrypted_sample_evaluations": 0, "recorded_encrypted_sample_evaluations": 14000, "total_encrypted_sample_evaluations": 14000, "raw_output_rows": 14000, "decision_bearing_rows": 0, "execution_state": corelab_manifest["status"] if corelab_manifest else "NOT_EVALUATED"},
+        {"provider": "FlipGuard direct", "phase": "direct_synthesis_trials", "workload": "shared_polynomial_threshold_v8", "unique_inputs": 500, "validation_inputs": 500, "audit_inputs": 0, "validation_audit_overlap": 0, "plans_or_arms": 2, "candidate_trials": 2, "encrypted_candidate_executions": 2, "fresh_contexts_or_keysets": 6, "key_runs": 6, "measurement_passes": 1, "warmup_encrypted_sample_evaluations": 0, "recorded_encrypted_sample_evaluations": 3000, "total_encrypted_sample_evaluations": 3000, "raw_output_rows": "SUMMARY_ONLY_NO_PER_SAMPLE_LEDGER", "decision_bearing_rows": 3000, "execution_state": "PASS" if flipguard_complete else "NOT_EVALUATED"},
+        {"provider": "FlipGuard direct", "phase": "provider_literal_validation", "workload": "shared_polynomial_threshold_v8", "unique_inputs": 500, "validation_inputs": 500, "audit_inputs": 0, "validation_audit_overlap": 0, "plans_or_arms": 1, "candidate_trials": 1, "encrypted_candidate_executions": 1, "fresh_contexts_or_keysets": 3, "key_runs": 3, "measurement_passes": 1, "warmup_encrypted_sample_evaluations": 0, "recorded_encrypted_sample_evaluations": 1500, "total_encrypted_sample_evaluations": 1500, "raw_output_rows": "SUMMARY_ONLY_NO_PER_SAMPLE_LEDGER", "decision_bearing_rows": 1500, "execution_state": "PASS" if flipguard_complete else "NOT_EVALUATED"},
+        {"provider": "FlipGuard direct", "phase": "locked_audit", "workload": "shared_polynomial_threshold_v8", "unique_inputs": 500, "validation_inputs": 0, "audit_inputs": 500, "validation_audit_overlap": 0, "plans_or_arms": 1, "candidate_trials": 1, "encrypted_candidate_executions": 1, "fresh_contexts_or_keysets": 3, "key_runs": 3, "measurement_passes": 1, "warmup_encrypted_sample_evaluations": 0, "recorded_encrypted_sample_evaluations": 1500, "total_encrypted_sample_evaluations": 1500, "raw_output_rows": "SUMMARY_ONLY_NO_PER_SAMPLE_LEDGER", "decision_bearing_rows": 1500, "execution_state": "PASS" if flipguard_complete else "NOT_EVALUATED"},
+        {"provider": "Security-V2 bounded catalog", "phase": "catalog_validation", "workload": "shared_polynomial_threshold_v8", "unique_inputs": 500, "validation_inputs": 500, "audit_inputs": 0, "validation_audit_overlap": 0, "plans_or_arms": 7, "candidate_trials": 7, "encrypted_candidate_executions": 2, "fresh_contexts_or_keysets": 6, "key_runs": 6, "measurement_passes": 1, "warmup_encrypted_sample_evaluations": 0, "recorded_encrypted_sample_evaluations": 3000, "total_encrypted_sample_evaluations": 3000, "raw_output_rows": "SUMMARY_ONLY_NO_PER_SAMPLE_LEDGER", "decision_bearing_rows": 3000, "execution_state": "PARTIAL_PLAN_SUPPORT_2_OF_7" if flipguard_complete else "NOT_EVALUATED"},
+        {"provider": "Security-V2 bounded catalog", "phase": "fastest_safe_locked_audit", "workload": "shared_polynomial_threshold_v8", "unique_inputs": 500, "validation_inputs": 0, "audit_inputs": 500, "validation_audit_overlap": 0, "plans_or_arms": 1, "candidate_trials": 1, "encrypted_candidate_executions": 1, "fresh_contexts_or_keysets": 3, "key_runs": 3, "measurement_passes": 1, "warmup_encrypted_sample_evaluations": 0, "recorded_encrypted_sample_evaluations": 1500, "total_encrypted_sample_evaluations": 1500, "raw_output_rows": "SUMMARY_ONLY_NO_PER_SAMPLE_LEDGER", "decision_bearing_rows": 1500, "execution_state": "PASS" if flipguard_complete else "NOT_EVALUATED"},
+        {"provider": "Common Lattigo harness", "phase": "paired_latency", "workload": "shared_polynomial_threshold_v8", "unique_inputs": 100, "validation_inputs": 0, "audit_inputs": 100, "validation_audit_overlap": 0, "plans_or_arms": 3, "candidate_trials": 3, "encrypted_candidate_executions": 3, "fresh_contexts_or_keysets": 9, "key_runs": 9, "measurement_passes": 6, "warmup_encrypted_sample_evaluations": 900, "recorded_encrypted_sample_evaluations": 5400, "total_encrypted_sample_evaluations": 6300, "raw_output_rows": 5400, "decision_bearing_rows": 5400, "execution_state": "BLOCKED_DIAGNOSTIC_UNSAFE_ARM" if common_data and not common_safe else "PASS" if common_safe else "NOT_EVALUATED"},
+    ]
     write_csv(EVIDENCE / "execution_accounting.csv", list(execution[0]), execution)
 
     security = [
@@ -326,12 +362,47 @@ def main() -> int:
         {"provider": "CoreLab EVA/ELASM", "state": "DIFFERENT_MODEL_NUMERICAL_ONLY", "exact_graph": False, "common_executor": False},
     ]
     write_csv(EVIDENCE / "portability_summary.csv", list(portability[0]), portability)
+    corelab_plan_status = []
+    if corelab_manifest:
+        for path in sorted((corelab_root / "plans").glob("*.json")):
+            plan = json_file(path)
+            corelab_plan_status.append({
+                "plan_id": plan["plan_id"], "mode": plan["mode"],
+                "waterline": plan["waterline"], "status": plan["status"],
+                "unique_inputs": plan["unique_inputs"], "raw_output_rows": len(plan["records"]),
+                "reason_code": plan.get("reason_code", ""), "exit_code": plan.get("exit_code", ""),
+                "plan_sha256": plan.get("plan_sha256", ""),
+                "constants_sha256": plan.get("constants_sha256", ""),
+                "failure_log_sha256": plan.get("failure_log_sha256", ""),
+            })
+    write_csv(
+        EVIDENCE / "corelab_plan_status.csv",
+        list(corelab_plan_status[0]) if corelab_plan_status else ["plan_id", "status"],
+        corelab_plan_status or [{"plan_id": "none", "status": "NOT_EVALUATED"}],
+    )
+
+    recovery_rows = [
+        {"sequence": 1, "provider": "Microsoft EVA", "reason_code": "EVA_OUTPUT_OWNERSHIP_RECOVERY", "failure_class": "RECOVERABLE_IMPLEMENTATION_FAILURE", "action": "normalize Docker-owned output permissions without encrypted rerun", "encrypted_rerun": False, "candidate_changed": False, "policy_changed": False, "result": "PASS"},
+        {"sequence": 2, "provider": "Google HEIR", "reason_code": "HEIR_BAZEL_WORKSPACE_CWD_RECOVERY", "failure_class": "RECOVERABLE_IMPLEMENTATION_FAILURE", "action": "invoke the exact preflight-built runner from its Bazel workspace; reuse completed Lattigo rows", "encrypted_rerun": "OPENFHE_ONLY_AFTER_PREEXECUTION_FAILURE", "candidate_changed": False, "policy_changed": False, "result": "PASS"},
+        {"sequence": 3, "provider": "FlipGuard", "reason_code": "FLIPGUARD_PROVIDER_SCHEMA_LABEL_RECOVERY", "failure_class": "RECOVERABLE_IMPLEMENTATION_FAILURE", "action": "serialize the same direct literal with the supported provider schema", "encrypted_rerun": "TARGETED_AFTER_PREEXECUTION_FAILURE", "candidate_changed": False, "policy_changed": False, "result": "PASS"},
+        {"sequence": 4, "provider": "FlipGuard locked audit", "reason_code": "CUSTOM_SPLIT_ID_AND_PATH_REPRESENTATION_NORMALIZATION", "failure_class": "RECOVERABLE_IMPLEMENTATION_FAILURE", "action": "bind the frozen named split ID and canonical paths without changing rows", "encrypted_rerun": "TARGETED_AFTER_PREEXECUTION_IDENTITY_FAILURE", "candidate_changed": False, "policy_changed": False, "result": "PASS"},
+        {"sequence": 5, "provider": "Security-V2 bounded catalog", "reason_code": "SCHEMA2_MIXED_LOG_AND_CONCRETE_MODULI", "failure_class": "RECOVERABLE_IMPLEMENTATION_FAILURE", "action": "retain exact concrete Q/P and remove duplicate log hints", "encrypted_rerun": "TARGETED_AFTER_PREEXECUTION_SCHEMA_FAILURE", "candidate_changed": False, "policy_changed": False, "result": "PASS"},
+        {"sequence": 6, "provider": "Security-V2 bounded catalog", "reason_code": "CATALOG_PLAN_UNSUPPORTED_CONTINUATION", "failure_class": "PARTIAL_SCIENTIFIC_RESULT", "action": "record five insufficient-depth profiles and continue the two supported profiles", "encrypted_rerun": False, "candidate_changed": False, "policy_changed": False, "result": "2_SAFE_5_PLAN_UNSUPPORTED"},
+        {"sequence": 7, "provider": "CoreLab EVA/ELASM", "reason_code": "CORELAB_MONOLITHIC_NATIVE_MEMORY_GROWTH", "failure_class": "RECOVERABLE_IMPLEMENTATION_FAILURE", "action": "execute each frozen plan in a short-lived process and resume completed plan files", "encrypted_rerun": "ONLY_INCOMPLETE_PLANS", "candidate_changed": False, "policy_changed": False, "result": "PASS_PROCESS_ISOLATION"},
+        {"sequence": 8, "provider": "CoreLab ELASM", "reason_code": "NATIVE_PLAN_EXECUTION_ABORT", "failure_class": "PARTIAL_SCIENTIFIC_RESULT", "action": "preserve elasm_36 and elasm_41 NTT mismatch failures with zero output rows; continue independent plans", "encrypted_rerun": "ELASM_36_ONE_DIAGNOSTIC_RETRY_ELASM_41_NO_RETRY", "candidate_changed": False, "policy_changed": False, "result": "70_PASS_2_EXECUTION_FAILED"},
+    ]
+    write_csv(EVIDENCE / "recovery_provenance.csv", list(recovery_rows[0]), recovery_rows)
+
     failures = []
+    if corelab_manifest and corelab_manifest.get("plans_failed"):
+        failures.append({"provider": "CoreLab EVA/ELASM", "reason_code": "NATIVE_PLAN_EXECUTION_ABORT", "count": corelab_manifest["plans_failed"], "unique_failure_inputs": 0, "affected_arm": "elasm_36;elasm_41", "claim_effect": "NUMERICAL_GRID_PARTIALLY_SUPPORTED"})
     if corelab_manifest and corelab_manifest["plans_unavailable"]:
-        failures.append({"provider": "CoreLab EVA/ELASM", "reason_code": "PLAN_UNAVAILABLE_FROM_V7_EXECUTION", "count": corelab_manifest["plans_unavailable"], "claim_effect": "NUMERICAL_GRID_PARTIAL"})
+        failures.append({"provider": "CoreLab EVA/ELASM", "reason_code": "PLAN_UNAVAILABLE_FROM_V7_EXECUTION", "count": corelab_manifest["plans_unavailable"], "unique_failure_inputs": 0, "affected_arm": "", "claim_effect": "NUMERICAL_GRID_PARTIAL"})
     if not common_data:
-        failures.append({"provider": "common", "reason_code": "PAIRED_LATENCY_NOT_EVALUATED", "count": 1, "claim_effect": "LATENCY_CLAIM_BLOCKED"})
-    write_csv(EVIDENCE / "failure_summary.csv", list(failures[0]) if failures else ["provider", "reason_code", "count", "claim_effect"], failures or [{"provider": "none", "reason_code": "NONE", "count": 0, "claim_effect": "NONE"}])
+        failures.append({"provider": "common", "reason_code": "PAIRED_LATENCY_NOT_EVALUATED", "count": 1, "unique_failure_inputs": 0, "affected_arm": "", "claim_effect": "LATENCY_CLAIM_BLOCKED"})
+    elif not common_safe:
+        failures.append({"provider": "Common Lattigo harness", "reason_code": "COMMON_EXECUTOR_DECISION_FLIP", "count": len(common_flip_rows), "unique_failure_inputs": len({row["row_id"] for row in common_flip_rows}), "affected_arm": ";".join(sorted({row["arm"] for row in common_flip_rows})), "claim_effect": "PAIRED_LATENCY_CLAIM_BLOCKED_DIAGNOSTIC_ONLY"})
+    write_csv(EVIDENCE / "failure_summary.csv", ["provider", "reason_code", "count", "unique_failure_inputs", "affected_arm", "claim_effect"], failures or [{"provider": "none", "reason_code": "NONE", "count": 0, "unique_failure_inputs": 0, "affected_arm": "", "claim_effect": "NONE"}])
 
     decision_providers = int(eva_complete) + int(heir_complete)
     locked_providers = decision_providers
@@ -347,7 +418,7 @@ def main() -> int:
         "claims": {
             "eva_substantial_population_and_locked_audit": "SUPPORTED" if eva_complete else "NOT_EVALUATED",
             "heir_decision_bearing_shared_polynomial": "SUPPORTED" if heir_complete else "NOT_EVALUATED",
-            "corelab_multi_input_numerical_grid": "SUPPORTED" if corelab_complete else "NOT_EVALUATED",
+            "corelab_multi_input_numerical_grid": corelab_claim_state,
             "external_decision_bearing_providers_at_least_two": "SUPPORTED" if decision_providers >= 2 else "BLOCKED",
             "graph_equivalent_common_executor": "SUPPORTED" if graph_equivalent else "BLOCKED",
             "portable_exact": "SUPPORTED" if portable_exact else "NOT_EVALUATED",
@@ -357,9 +428,9 @@ def main() -> int:
         "prohibited": ["raw rows as unique inputs", "cross-runtime latency ratio", "global optimum", "all external providers"],
     }
     (EVIDENCE / "claim_admission.json").write_text(json.dumps(claim_admission, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    limitations = """# Fairness limitations\n\n- Native EVA/SEAL, HEIR/OpenFHE, and CoreLab/SEAL timings are runtime-specific panels; no cross-runtime speed ratio is admitted.\n- The common Lattigo harness links HEIR's generated evaluator without changing its schedule and interleaves it with FlipGuard direct/catalog arms, but the arms necessarily use parameter-compatible independent keys.\n- CoreLab's official LinearRegression graph has no natural frozen threshold output, so it contributes numerical multi-input evidence rather than a decision-integrity claim.\n- `PORTABLE_EXACT` applies only to the frozen HEIR-generated Lattigo arm on the exact shared polynomial; it is not a general compiler-portability claim.\n- All safety observations are finite-scope validation and locked-audit results, not distribution-wide or analytical guarantees.\n"""
+    limitations = """# Fairness limitations\n\n- Native EVA/SEAL, HEIR/OpenFHE, and CoreLab/SEAL timings are runtime-specific panels; no cross-runtime speed ratio is admitted.\n- The common Lattigo harness links HEIR's generated evaluator without changing its schedule and interleaves it with FlipGuard direct/catalog arms, but the arms necessarily use parameter-compatible independent keys. Eight decision flips on one near-threshold input in the direct arm make all common-harness latency ratios diagnostic only.\n- CoreLab's official LinearRegression graph has no natural frozen threshold output, so it contributes numerical multi-input evidence rather than a decision-integrity claim. Seventy plans completed; `elasm_36` and `elasm_41` failed before producing rows.\n- `PORTABLE_EXACT` applies only to the frozen HEIR-generated Lattigo arm on the exact shared polynomial; it is not a general compiler-portability claim.\n- All safety observations are finite-scope validation and locked-audit results, not distribution-wide or analytical guarantees.\n"""
     (EVIDENCE / "fairness_limitations.md").write_text(limitations, encoding="utf-8")
-    report = f"""# Focused External Comparison V8 Checkpoint\n\n- Classification: `{classification}`\n- V7 predecessor: `a5e4ef8726784cbe504d3a8067469bf0b91d3886`\n- EVA unique inputs: `{1000 if eva_complete else 'NOT_EVALUATED'}`\n- HEIR unique inputs: `{1000 if heir_complete else 'NOT_EVALUATED'}`\n- CoreLab unique inputs per completed plan: `{corelab_manifest['unique_inputs_per_completed_plan'] if corelab_complete else 'NOT_EVALUATED'}`\n- External decision-bearing providers: `{decision_providers}`\n- External locked-audit providers: `{locked_providers}`\n- GRAPH_EQUIVALENT common-executor rows: `{graph_equivalent}`\n- PORTABLE_EXACT external arms: `{portable_exact}`\n- Common-executor paired latency: `{'SUPPORTED' if common_safe else 'BLOCKED'}`\n- Policy retuning: `0`\n- Manuscript modification: `0`\n"""
+    report = f"""# Focused External Comparison V8 Checkpoint\n\n- Classification: `{classification}`\n- V7 predecessor: `a5e4ef8726784cbe504d3a8067469bf0b91d3886`\n- EVA unique inputs: `{1000 if eva_complete else 'NOT_EVALUATED'}`\n- HEIR unique inputs: `{1000 if heir_complete else 'NOT_EVALUATED'}`\n- CoreLab plans: `{corelab_manifest['plans_completed'] if corelab_complete else 'NOT_EVALUATED'}/72 completed; {corelab_manifest.get('plans_failed', 'NOT_EVALUATED') if corelab_manifest else 'NOT_EVALUATED'} native failures`\n- CoreLab unique inputs per completed plan: `{corelab_manifest['unique_inputs_per_completed_plan'] if corelab_complete else 'NOT_EVALUATED'}`\n- External decision-bearing providers: `{decision_providers}`\n- External locked-audit providers: `{locked_providers}`\n- GRAPH_EQUIVALENT common-executor rows: `{graph_equivalent}`\n- PORTABLE_EXACT external arms: `{portable_exact}`\n- Common-executor paired latency: `{'SUPPORTED' if common_safe else 'BLOCKED'}`\n- Common-executor decision flips: `{len(common_flip_rows) if common_data else 'NOT_EVALUATED'}` across `{len({row['row_id'] for row in common_flip_rows}) if common_data else 'NOT_EVALUATED'}` unique input(s)\n- Policy retuning: `0`\n- Manuscript modification: `0`\n"""
     (EVIDENCE / "CHECKPOINT_REPORT.md").write_text(report, encoding="utf-8")
 
     provider_manifest_dir = EVIDENCE / "provider_candidate_manifests"
@@ -373,21 +444,37 @@ def main() -> int:
         "schema_version": "flipguard_focused_external_comparison_v8",
         "classification": classification,
         "predecessor_v7_manifest_sha256": "sha256:09d6e25b64bfbfc7c8e6d3945049b4492709e28695e95813508e97181f7c12cd",
-        "source_commit": subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, check=True, text=True, capture_output=True).stdout.strip(),
+        "source_commit": current_commit,
+        "current_suite_commit": current_commit,
+        "evidence_builder_commit": current_commit,
+        "comparison_source_digest": "sha256:" + comparison_digest.hexdigest(),
+        "execution_initial_commit": run_manifest["source_commit"],
+        "execution_critical_source_digest": run_manifest["execution_critical_source_digest"],
+        "audit_identity_repair_commit": "9de4ccf3a62d3a35ea2fb9762a937c329e74bb51",
+        "catalog_plan_gate_commit": "be591718bbb185c8737889e68f26aeea483b8945",
+        "corelab_failure_preservation_commit": "04f3f8d96c554fbe156826b063055ef7576d5268",
         "autonomous_start_timestamp": start_timestamp, "freeze_timestamp": end_timestamp,
         "providers": {"eva": eva_complete, "heir": heir_complete, "corelab": corelab_complete, "flipguard": flipguard_complete},
         "external_decision_bearing_provider_count": decision_providers,
         "external_locked_audit_provider_count": locked_providers,
         "portable_exact_count": portable_exact,
         "graph_equivalent_common_executor_count": graph_equivalent,
+        "common_executor_record_count": len(common_data["records"]) if common_data else 0,
+        "common_executor_decision_flips": len(common_flip_rows),
+        "common_executor_unique_flip_inputs": len({row["row_id"] for row in common_flip_rows}),
+        "common_executor_reserve_violations": len(common_violation_rows),
+        "corelab_plans_attempted": corelab_manifest["plans_attempted"] if corelab_manifest else 0,
+        "corelab_plans_completed": corelab_manifest["plans_completed"] if corelab_manifest else 0,
+        "corelab_plans_failed": corelab_manifest.get("plans_failed", 0) if corelab_manifest else 0,
         "security_aligned_comparison_rows": security_rows,
         "raw_rows_are_not_unique_inputs": True,
         "cross_runtime_ratio_claim_allowed": False,
+        "common_executor_latency_claim_allowed": common_safe,
         "policy_retuning": 0,
     }
     (EVIDENCE / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
-    for name in ("provider_gate_records.csv", "audit_records.csv", "common_executor_records.csv", "common_executor_paired_summary.csv", "latency_summary.csv", "numerical_error_summary.csv", "unique_input_accounting.csv", "security_summary.csv", "portability_summary.csv", "failure_summary.csv"):
+    for name in ("provider_gate_records.csv", "audit_records.csv", "common_executor_records.csv", "common_executor_paired_summary.csv", "latency_summary.csv", "numerical_error_summary.csv", "unique_input_accounting.csv", "execution_accounting.csv", "security_summary.csv", "portability_summary.csv", "corelab_plan_status.csv", "recovery_provenance.csv", "failure_summary.csv"):
         shutil.copyfile(EVIDENCE / name, RESULTS / name)
     (RESULTS / "claim_admission.json").write_text(json.dumps(claim_admission, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (RESULTS / "manifest.json").write_text(json.dumps({"schema_version": "flipguard_focused_external_v8_publication_inputs_v1", "source_evidence": "docs/evidence/focused_external_comparison_v8", "classification": classification, "speculative_values": 0}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
