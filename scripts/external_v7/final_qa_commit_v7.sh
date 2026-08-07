@@ -9,6 +9,9 @@ readonly BRANCH="experiments/external-e2e-code-v7"
 cd "$ROOT"
 mkdir -p "$LOG_DIR"
 
+# The user systemd manager does not inherit the interactive shell's Go path.
+export PATH="/usr/local/go/bin:$HOME/go/bin:$PATH"
+
 exec > >(tee "$LOG_DIR/final_qa_commit.log") 2>&1
 
 python3 - <<'PY'
