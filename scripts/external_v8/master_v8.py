@@ -13,6 +13,7 @@ import signal
 import subprocess
 import tempfile
 import time
+import traceback
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -82,6 +83,17 @@ def resource_state() -> dict[str, object]:
         for line in Path("/proc/meminfo").read_text().splitlines()
         if line.startswith(("MemAvailable:", "SwapTotal:", "SwapFree:"))
     }
+    free_gib = disk.free / 1024**3
+    inode_free_pct = 100 * stat.f_favail / stat.f_files
+    return {
+        "timestamp": timestamp(),
+        "disk_free_bytes": disk.free,
+        "disk_free_gib": free_gib,
+        "inode_free_pct": inode_free_pct,
+        "memory_available_kib": meminfo["MemAvailable"],
+        "swap_used_kib": meminfo["SwapTotal"] - meminfo["SwapFree"],
+        "gate": "HARD_RESOURCE_STOP" if free_gib < 25 or inode_free_pct < 10 else "PASS",
+    }
 
 
 def command_output(command: list[str]) -> str:
@@ -134,17 +146,6 @@ def bind_run_manifest(start: dt.datetime, deadline: dt.datetime) -> None:
             raise RuntimeError("INTEGRITY_BLOCK: V8 run manifest changed on resume")
     else:
         atomic_json(path, manifest)
-    free_gib = disk.free / 1024**3
-    inode_free_pct = 100 * stat.f_favail / stat.f_files
-    return {
-        "timestamp": timestamp(),
-        "disk_free_bytes": disk.free,
-        "disk_free_gib": free_gib,
-        "inode_free_pct": inode_free_pct,
-        "memory_available_kib": meminfo["MemAvailable"],
-        "swap_used_kib": meminfo["SwapTotal"] - meminfo["SwapFree"],
-        "gate": "HARD_RESOURCE_STOP" if free_gib < 25 or inode_free_pct < 10 else "PASS",
-    }
 
 
 def main() -> int:
@@ -223,4 +224,21 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    try:
+        raise SystemExit(main())
+    except Exception as error:
+        LOGS.mkdir(parents=True, exist_ok=True)
+        failure = {
+            "state": "MASTER_UNHANDLED_EXCEPTION",
+            "timestamp": timestamp(),
+            "error_type": type(error).__name__,
+            "error": str(error),
+            "traceback_log": str(LOGS / "master_exception.log"),
+        }
+        atomic_json(STATUS / "master_state.json", failure)
+        with (LOGS / "master_exception.log").open("a", encoding="utf-8") as handle:
+            handle.write(f"[{timestamp()}] {type(error).__name__}: {error}\n")
+            traceback.print_exc(file=handle)
+            handle.flush()
+            os.fsync(handle.fileno())
+        raise

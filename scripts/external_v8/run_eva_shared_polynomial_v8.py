@@ -191,7 +191,10 @@ def main() -> int:
         runtime[scale] = (compiled, parameters, signature)
     selected = next((arm for arm in arms if arm["validation"]["status"] == "SAFE"), None)
     audits = []
-    for scale in (30, 40):
+    audit_scales = [30, 40]
+    if selected and selected["scale_bits"] not in audit_scales:
+        audit_scales.insert(0, selected["scale_bits"])
+    for scale in audit_scales:
         compiled, parameters, signature = runtime[scale]
         records, summary = run_phase("locked_audit", scale, audit, compiled, parameters, signature, args.contexts)
         candidate_id = next(arm["candidate_id"] for arm in arms if arm["scale_bits"] == scale)
