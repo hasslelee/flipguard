@@ -49,6 +49,10 @@ def main() -> int:
     manifest = json.loads((PACK / "manifest.json").read_text())
     accounting = rows("unique_input_accounting.csv")
     for row in accounting:
+        if row["raw_rows"] == "NOT_EVALUATED":
+            if row["unique_inputs"] != "NOT_EVALUATED":
+                raise RuntimeError("missing provider has a false numeric input population")
+            continue
         if int(row["raw_rows"]) > 0 and int(row["unique_inputs"]) <= 0:
             raise RuntimeError("raw row count masquerades as missing unique input population")
     if manifest["cross_runtime_ratio_claim_allowed"]:

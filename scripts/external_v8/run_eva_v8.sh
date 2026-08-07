@@ -5,6 +5,7 @@ readonly ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 readonly OUTPUT="external/v8/outputs/eva/shared-polynomial-threshold-v8"
 if [[ -f "$OUTPUT/manifest.json" ]]; then
+  python3 -c 'import json,sys; assert json.load(open(sys.argv[1]))["status"] == "PASS"' "$OUTPUT/manifest.json"
   exit 0
 fi
 readonly PARTIAL="${OUTPUT}.partial"

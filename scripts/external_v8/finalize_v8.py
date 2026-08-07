@@ -52,6 +52,10 @@ def truth(value: object) -> bool:
     return str(value).lower() in {"1", "true"}
 
 
+def observed_or_not_evaluated(completed: bool, value: object) -> object:
+    return value if completed else "NOT_EVALUATED"
+
+
 def geometric_mean(values: list[float]) -> float:
     if not values or any(value <= 0 for value in values):
         raise ValueError("geometric mean requires positive values")
@@ -194,6 +198,10 @@ def main() -> int:
         write_csv(EVIDENCE / "corelab_multi_input_records.csv", ["provider", "status", "reason"], [{"provider": "CoreLab EVA/ELASM", "status": "NOT_EVALUATED", "reason": "MISSING_COMPLETED_MANIFEST"}])
 
     flipguard_manifest, gate_rows, flipguard_audits = flipguard_facts()
+    eva_complete = bool(eva_manifest and eva_manifest.get("status") == "PASS")
+    heir_complete = bool(heir_manifest and heir_manifest.get("status") == "PASS")
+    corelab_complete = bool(corelab_manifest and corelab_manifest.get("status") == "PASS" and corelab_manifest.get("raw_plan_input_rows", 0) > 0)
+    flipguard_complete = bool(flipguard_manifest and flipguard_manifest.get("status") == "PASS")
     common_path = OUTPUTS / "flipguard/shared-polynomial-threshold-v8/common_executor_paired_latency.json"
     common_data = json_file(common_path) if common_path.is_file() else None
     common_safe = False
@@ -295,19 +303,19 @@ def main() -> int:
     write_csv(EVIDENCE / "numerical_error_summary.csv", list(error_summary[0]) if error_summary else ["provider", "status"], error_summary or [{"provider": "none", "status": "NOT_EVALUATED"}])
 
     accounting = [
-        {"provider": "Microsoft EVA", "workload": "shared_polynomial_threshold_v8", "unique_inputs": 1000 if eva_manifest else 0, "contexts": 15 if eva_manifest else 0, "plans_or_arms": 5 if eva_manifest else 0, "raw_rows": len(eva_rows), "row_meaning": "input-context-arm observations"},
-        {"provider": "Google HEIR", "workload": "shared_polynomial_threshold_v8", "unique_inputs": 1000 if heir_manifest else 0, "contexts": 12 if heir_manifest else 0, "plans_or_arms": 4 if heir_manifest else 0, "raw_rows": len(heir_rows), "row_meaning": "input-context-runtime-role observations"},
-        {"provider": "CoreLab EVA/ELASM", "workload": "official_LinearRegression_multi_input_v8", "unique_inputs": corelab_manifest["unique_inputs_per_completed_plan"] if corelab_manifest else 0, "contexts": corelab_manifest["fresh_contexts"] if corelab_manifest else 0, "plans_or_arms": corelab_manifest["plans_completed"] if corelab_manifest else 0, "raw_rows": corelab_manifest["raw_plan_input_rows"] if corelab_manifest else 0, "row_meaning": "unique-input-plan observations"},
+        {"provider": "Microsoft EVA", "workload": "shared_polynomial_threshold_v8", "unique_inputs": observed_or_not_evaluated(eva_complete, 1000), "contexts": observed_or_not_evaluated(eva_complete, 15), "plans_or_arms": observed_or_not_evaluated(eva_complete, 5), "raw_rows": observed_or_not_evaluated(eva_complete, len(eva_rows)), "row_meaning": "input-context-arm observations"},
+        {"provider": "Google HEIR", "workload": "shared_polynomial_threshold_v8", "unique_inputs": observed_or_not_evaluated(heir_complete, 1000), "contexts": observed_or_not_evaluated(heir_complete, 12), "plans_or_arms": observed_or_not_evaluated(heir_complete, 4), "raw_rows": observed_or_not_evaluated(heir_complete, len(heir_rows)), "row_meaning": "input-context-runtime-role observations"},
+        {"provider": "CoreLab EVA/ELASM", "workload": "official_LinearRegression_multi_input_v8", "unique_inputs": observed_or_not_evaluated(corelab_complete, corelab_manifest["unique_inputs_per_completed_plan"] if corelab_manifest else None), "contexts": observed_or_not_evaluated(corelab_complete, corelab_manifest["fresh_contexts"] if corelab_manifest else None), "plans_or_arms": observed_or_not_evaluated(corelab_complete, corelab_manifest["plans_completed"] if corelab_manifest else None), "raw_rows": observed_or_not_evaluated(corelab_complete, corelab_manifest["raw_plan_input_rows"] if corelab_manifest else None), "row_meaning": "unique-input-plan observations"},
     ]
     write_csv(EVIDENCE / "unique_input_accounting.csv", list(accounting[0]), accounting)
-    execution = [{**row, "encrypted_execution_complete": row["raw_rows"] > 0} for row in accounting]
+    execution = [{**row, "encrypted_execution_complete": isinstance(row["raw_rows"], int) and row["raw_rows"] > 0} for row in accounting]
     write_csv(EVIDENCE / "execution_accounting.csv", list(execution[0]), execution)
 
     security = [
         {"provider": "Microsoft EVA", "runtime": "SEAL native", "scheme": "CKKS", "log_n": "", "q": "", "p": "", "log_qp": "", "scale_bits": "20/30/40", "distribution": "native runtime model", "standard": "native compiler security_level=128", "state": "NATIVE_RUNTIME_SECURITY_NOT_EQUIVALENT_TO_LATTIGO_SECURITY_V2", "headline_eligible": False},
-        {"provider": "Google HEIR", "runtime": "Lattigo v6.2.0", "scheme": "CKKS", "log_n": heir_manifest["lattigo_v6_2_parameters"]["log_n"] if heir_manifest else "", "q": json.dumps(heir_manifest["lattigo_v6_2_parameters"]["q_primes"]) if heir_manifest else "", "p": json.dumps(heir_manifest["lattigo_v6_2_parameters"]["p_primes"]) if heir_manifest else "", "log_qp": heir_manifest["lattigo_v6_2_parameters"]["log_qp"] if heir_manifest else "", "scale_bits": heir_manifest["lattigo_v6_2_parameters"]["log_default_scale"] if heir_manifest else "", "distribution": "Xs=ring.Ternary(P=2/3); Xe=ring.DiscreteGaussian(sigma=3.2,bound=19.2)", "standard": "Security Guidelines Table 5.2 conservative admission", "state": heir_manifest["lattigo_v6_2_parameters"]["final_admission"] if heir_manifest else "NOT_EVALUATED", "headline_eligible": bool(heir_manifest)},
+        {"provider": "Google HEIR", "runtime": "Lattigo v6.2.0", "scheme": "CKKS", "log_n": heir_manifest["lattigo_v6_2_parameters"]["log_n"] if heir_complete else "", "q": json.dumps(heir_manifest["lattigo_v6_2_parameters"]["q_primes"]) if heir_complete else "", "p": json.dumps(heir_manifest["lattigo_v6_2_parameters"]["p_primes"]) if heir_complete else "", "log_qp": heir_manifest["lattigo_v6_2_parameters"]["log_qp"] if heir_complete else "", "scale_bits": heir_manifest["lattigo_v6_2_parameters"]["log_default_scale"] if heir_complete else "", "distribution": "Xs=ring.Ternary(P=2/3); Xe=ring.DiscreteGaussian(sigma=3.2,bound=19.2)", "standard": "Security Guidelines Table 5.2 conservative admission", "state": heir_manifest["lattigo_v6_2_parameters"]["final_admission"] if heir_complete else "NOT_EVALUATED", "headline_eligible": heir_complete},
         {"provider": "Google HEIR", "runtime": "OpenFHE", "scheme": "CKKS", "log_n": "", "q": "", "p": "", "log_qp": "", "scale_bits": "", "distribution": "native runtime model", "standard": "not aligned to Security V2", "state": "NATIVE_RUNTIME_SECURITY_MODEL_NOT_ALIGNED", "headline_eligible": False},
-        {"provider": "FlipGuard direct/catalog", "runtime": "Lattigo v6.2.0", "scheme": "CKKS", "log_n": "bound in provider candidate manifests", "q": "bound in provider candidate manifests", "p": "bound in provider candidate manifests", "log_qp": "recomputed by provider gate", "scale_bits": "bound in provider candidate manifests", "distribution": "Xs=ring.Ternary(P=2/3); Xe=ring.DiscreteGaussian(sigma=3.2,bound=19.2)", "standard": "Security Guidelines Table 5.2 conservative admission", "state": "PASS" if flipguard_manifest else "NOT_EVALUATED", "headline_eligible": bool(flipguard_manifest)},
+        {"provider": "FlipGuard direct/catalog", "runtime": "Lattigo v6.2.0", "scheme": "CKKS", "log_n": "bound in provider candidate manifests", "q": "bound in provider candidate manifests", "p": "bound in provider candidate manifests", "log_qp": "recomputed by provider gate", "scale_bits": "bound in provider candidate manifests", "distribution": "Xs=ring.Ternary(P=2/3); Xe=ring.DiscreteGaussian(sigma=3.2,bound=19.2)", "standard": "Security Guidelines Table 5.2 conservative admission", "state": "PASS" if flipguard_complete else "NOT_EVALUATED", "headline_eligible": flipguard_complete},
         {"provider": "CoreLab EVA/ELASM", "runtime": "SEAL native", "scheme": "CKKS", "log_n": "", "q": "", "p": "", "log_qp": "", "scale_bits": "waterline 15..50", "distribution": "native runtime model", "standard": "not aligned to Security V2", "state": "NATIVE_RUNTIME_SECURITY_MODEL_NOT_ALIGNED", "headline_eligible": False},
     ]
     write_csv(EVIDENCE / "security_summary.csv", list(security[0]), security)
@@ -325,21 +333,21 @@ def main() -> int:
         failures.append({"provider": "common", "reason_code": "PAIRED_LATENCY_NOT_EVALUATED", "count": 1, "claim_effect": "LATENCY_CLAIM_BLOCKED"})
     write_csv(EVIDENCE / "failure_summary.csv", list(failures[0]) if failures else ["provider", "reason_code", "count", "claim_effect"], failures or [{"provider": "none", "reason_code": "NONE", "count": 0, "claim_effect": "NONE"}])
 
-    decision_providers = int(bool(eva_manifest)) + int(bool(heir_manifest))
+    decision_providers = int(eva_complete) + int(heir_complete)
     locked_providers = decision_providers
     portable_exact = int(bool(common_data))
     graph_equivalent = int(bool(common_data))
     security_rows = sum(row["headline_eligible"] for row in security)
-    path_a = bool(eva_manifest and heir_manifest and corelab_manifest and flipguard_manifest and decision_providers >= 2 and locked_providers >= 2 and graph_equivalent >= 1 and security_rows >= 2)
+    path_a = bool(eva_complete and heir_complete and corelab_complete and flipguard_complete and decision_providers >= 2 and locked_providers >= 2 and graph_equivalent >= 1 and security_rows >= 2)
     classification = "EXTERNAL_COMPARISON_CLOSED" if path_a else "FINAL_VERIFIED_LIMITATION"
     claim_admission = {
         "schema_version": "flipguard_focused_external_v8_claim_admission_v1",
         "classification": classification,
         "paper_claim_allowed": False,
         "claims": {
-            "eva_substantial_population_and_locked_audit": "SUPPORTED" if eva_manifest else "NOT_EVALUATED",
-            "heir_decision_bearing_shared_polynomial": "SUPPORTED" if heir_manifest else "NOT_EVALUATED",
-            "corelab_multi_input_numerical_grid": "SUPPORTED" if corelab_manifest else "NOT_EVALUATED",
+            "eva_substantial_population_and_locked_audit": "SUPPORTED" if eva_complete else "NOT_EVALUATED",
+            "heir_decision_bearing_shared_polynomial": "SUPPORTED" if heir_complete else "NOT_EVALUATED",
+            "corelab_multi_input_numerical_grid": "SUPPORTED" if corelab_complete else "NOT_EVALUATED",
             "external_decision_bearing_providers_at_least_two": "SUPPORTED" if decision_providers >= 2 else "BLOCKED",
             "graph_equivalent_common_executor": "SUPPORTED" if graph_equivalent else "BLOCKED",
             "portable_exact": "SUPPORTED" if portable_exact else "NOT_EVALUATED",
@@ -351,7 +359,7 @@ def main() -> int:
     (EVIDENCE / "claim_admission.json").write_text(json.dumps(claim_admission, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     limitations = """# Fairness limitations\n\n- Native EVA/SEAL, HEIR/OpenFHE, and CoreLab/SEAL timings are runtime-specific panels; no cross-runtime speed ratio is admitted.\n- The common Lattigo harness links HEIR's generated evaluator without changing its schedule and interleaves it with FlipGuard direct/catalog arms, but the arms necessarily use parameter-compatible independent keys.\n- CoreLab's official LinearRegression graph has no natural frozen threshold output, so it contributes numerical multi-input evidence rather than a decision-integrity claim.\n- `PORTABLE_EXACT` applies only to the frozen HEIR-generated Lattigo arm on the exact shared polynomial; it is not a general compiler-portability claim.\n- All safety observations are finite-scope validation and locked-audit results, not distribution-wide or analytical guarantees.\n"""
     (EVIDENCE / "fairness_limitations.md").write_text(limitations, encoding="utf-8")
-    report = f"""# Focused External Comparison V8 Checkpoint\n\n- Classification: `{classification}`\n- V7 predecessor: `a5e4ef8726784cbe504d3a8067469bf0b91d3886`\n- EVA unique inputs: `{1000 if eva_manifest else 'NOT_EVALUATED'}`\n- HEIR unique inputs: `{1000 if heir_manifest else 'NOT_EVALUATED'}`\n- CoreLab unique inputs per completed plan: `{corelab_manifest['unique_inputs_per_completed_plan'] if corelab_manifest else 'NOT_EVALUATED'}`\n- External decision-bearing providers: `{decision_providers}`\n- External locked-audit providers: `{locked_providers}`\n- GRAPH_EQUIVALENT common-executor rows: `{graph_equivalent}`\n- PORTABLE_EXACT external arms: `{portable_exact}`\n- Common-executor paired latency: `{'SUPPORTED' if common_safe else 'BLOCKED'}`\n- Policy retuning: `0`\n- Manuscript modification: `0`\n"""
+    report = f"""# Focused External Comparison V8 Checkpoint\n\n- Classification: `{classification}`\n- V7 predecessor: `a5e4ef8726784cbe504d3a8067469bf0b91d3886`\n- EVA unique inputs: `{1000 if eva_complete else 'NOT_EVALUATED'}`\n- HEIR unique inputs: `{1000 if heir_complete else 'NOT_EVALUATED'}`\n- CoreLab unique inputs per completed plan: `{corelab_manifest['unique_inputs_per_completed_plan'] if corelab_complete else 'NOT_EVALUATED'}`\n- External decision-bearing providers: `{decision_providers}`\n- External locked-audit providers: `{locked_providers}`\n- GRAPH_EQUIVALENT common-executor rows: `{graph_equivalent}`\n- PORTABLE_EXACT external arms: `{portable_exact}`\n- Common-executor paired latency: `{'SUPPORTED' if common_safe else 'BLOCKED'}`\n- Policy retuning: `0`\n- Manuscript modification: `0`\n"""
     (EVIDENCE / "CHECKPOINT_REPORT.md").write_text(report, encoding="utf-8")
 
     provider_manifest_dir = EVIDENCE / "provider_candidate_manifests"
@@ -367,7 +375,7 @@ def main() -> int:
         "predecessor_v7_manifest_sha256": "sha256:09d6e25b64bfbfc7c8e6d3945049b4492709e28695e95813508e97181f7c12cd",
         "source_commit": subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, check=True, text=True, capture_output=True).stdout.strip(),
         "autonomous_start_timestamp": start_timestamp, "freeze_timestamp": end_timestamp,
-        "providers": {"eva": bool(eva_manifest), "heir": bool(heir_manifest), "corelab": bool(corelab_manifest), "flipguard": bool(flipguard_manifest)},
+        "providers": {"eva": eva_complete, "heir": heir_complete, "corelab": corelab_complete, "flipguard": flipguard_complete},
         "external_decision_bearing_provider_count": decision_providers,
         "external_locked_audit_provider_count": locked_providers,
         "portable_exact_count": portable_exact,
