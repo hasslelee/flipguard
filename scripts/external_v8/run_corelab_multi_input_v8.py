@@ -84,8 +84,13 @@ def run_plan(runtime: Path, v7: Path, output: Path, mode: str, waterline: int, i
     final = output / "plans" / f"{plan_id}.json"
     if final.exists():
         result = json.loads(final.read_text(encoding="utf-8"))
-        if len(result.get("records", [])) != INPUT_COUNT:
+        status = result.get("status")
+        if status == "PASS" and len(result.get("records", [])) != INPUT_COUNT:
             raise RuntimeError(f"INTEGRITY_BLOCK: incomplete resumed CoreLab plan {plan_id}")
+        if status not in {"PASS", "EXECUTION_FAILED"}:
+            raise RuntimeError(f"INTEGRITY_BLOCK: unknown resumed CoreLab plan state {plan_id}: {status}")
+        if status == "EXECUTION_FAILED" and result.get("records"):
+            raise RuntimeError(f"INTEGRITY_BLOCK: failed CoreLab plan contains output rows {plan_id}")
         return result
     source = v7 / plan_id
     plan = source / "plan.hevm"
@@ -182,18 +187,22 @@ def main() -> int:
             writer = csv.DictWriter(handle, fieldnames=FIELDS, lineterminator="\n")
             writer.writeheader(); writer.writerows(rows)
         records_partial.replace(records_path)
+    completed = sum(plan["status"] == "PASS" for plan in plan_results)
+    failed = sum(plan["status"] == "EXECUTION_FAILED" for plan in plan_results)
+    unavailable = sum(plan["status"] == "PLAN_UNAVAILABLE" for plan in plan_results)
     manifest = {
         "schema_version": "flipguard_focused_external_v8_corelab_result_v1",
-        "status": "PASS" if rows else "FAILED",
+        "status": "PASS" if completed == 72 else "PARTIAL_SCIENTIFIC_RESULT" if rows else "FAILED",
         "provider": "CoreLab EVA/ELASM", "provider_commit": head,
         "workload": "official_LinearRegression_multi_input_v8",
         "decision_semantics": "NUMERICAL_ONLY_NO_NATURAL_DECISION_OUTPUT",
         "plans_attempted": 72,
-        "plans_completed": sum(plan["status"] == "PASS" for plan in plan_results),
-        "plans_unavailable": sum(plan["status"] != "PASS" for plan in plan_results),
+        "plans_completed": completed,
+        "plans_failed": failed,
+        "plans_unavailable": unavailable,
         "unique_inputs_per_completed_plan": INPUT_COUNT,
         "raw_plan_input_rows": len(rows),
-        "fresh_contexts": sum(plan["status"] == "PASS" for plan in plan_results),
+        "fresh_contexts": completed,
         "max_rms_error": max((float(row["rms_error"]) for row in rows), default=None),
         "input_manifest_sha256": sha256(output / "input_manifest.csv"),
         "records_sha256": sha256(records_path),
