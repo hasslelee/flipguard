@@ -66,6 +66,7 @@ type LockedAuditResult struct {
 type lockedSplitManifest struct {
 	SchemaVersion int    `json:"schema_version"`
 	SplitSeed     int    `json:"split_seed"`
+	SplitID       string `json:"split_id,omitempty"`
 	DatasetID     string `json:"dataset_id"`
 	ModelID       string `json:"model_id"`
 
@@ -718,13 +719,16 @@ func validateLockedSplit(
 			"split manifest model digest does not match selection",
 		)
 	}
-	expectedSplitID := fmt.Sprintf(
-		"split_seed_%d",
-		manifest.SplitSeed,
-	)
+	expectedSplitID := strings.TrimSpace(manifest.SplitID)
+	if expectedSplitID == "" {
+		expectedSplitID = fmt.Sprintf(
+			"split_seed_%d",
+			manifest.SplitSeed,
+		)
+	}
 	if selectionContract.SplitID != expectedSplitID {
 		return fmt.Errorf(
-			"split manifest seed implies %q, selection uses %q",
+			"split manifest implies %q, selection uses %q",
 			expectedSplitID,
 			selectionContract.SplitID,
 		)

@@ -74,6 +74,67 @@ func TestRunLockedTabularAuditPassesWithoutRetuning(
 	}
 }
 
+func TestValidateLockedSplitAcceptsExplicitSplitID(t *testing.T) {
+	modelPath, validationPath := writeLinearFixture(t, false)
+	auditPath := writeAuditCSVFixture(
+		t,
+		filepath.Dir(modelPath),
+		[]int{3, 4, 5},
+	)
+	options := DefaultTabularContractOptions()
+	options.ModelPath = modelPath
+	options.ValidationPath = validationPath
+	options.SplitID = "named_validation_partition_v1"
+	contract, err := BuildTabularWorkloadContract(options)
+	if err != nil {
+		t.Fatalf("build explicit-split contract: %v", err)
+	}
+	validationBytes, err := os.ReadFile(validationPath)
+	if err != nil {
+		t.Fatalf("read validation fixture: %v", err)
+	}
+	auditBytes, err := os.ReadFile(auditPath)
+	if err != nil {
+		t.Fatalf("read audit fixture: %v", err)
+	}
+	manifest := lockedSplitManifest{
+		SchemaVersion:       1,
+		SplitSeed:           20260807,
+		SplitID:             contract.SplitID,
+		DatasetID:           contract.DatasetID,
+		ModelID:             contract.ModelID,
+		ModelArtifactDigest: contract.ModelArtifact.SHA256,
+		ConfigurationValidation: lockedSplitPartition{
+			Path:      validationPath,
+			CSVDigest: digestBytes(validationBytes),
+			RowIDs:    []string{"0", "1", "2"},
+		},
+		LockedAuditTest: lockedSplitPartition{
+			Path:      auditPath,
+			CSVDigest: digestBytes(auditBytes),
+			RowIDs:    []string{"3", "4", "5"},
+		},
+	}
+	if err := validateLockedSplit(
+		contract,
+		manifest,
+		auditPath,
+		auditBytes,
+	); err != nil {
+		t.Fatalf("validate explicit split ID: %v", err)
+	}
+
+	manifest.SplitID = "different_partition"
+	if err := validateLockedSplit(
+		contract,
+		manifest,
+		auditPath,
+		auditBytes,
+	); err == nil || !strings.Contains(err.Error(), "split manifest implies") {
+		t.Fatalf("expected explicit split mismatch, got %v", err)
+	}
+}
+
 func TestRunLockedTabularCandidateAuditPassesWithoutSynthesis(
 	t *testing.T,
 ) {
