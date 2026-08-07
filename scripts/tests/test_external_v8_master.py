@@ -52,6 +52,16 @@ class ExternalV8MasterTest(unittest.TestCase):
         )
         self.assertEqual(FINALIZER.observed_or_not_evaluated(True, 17), 17)
 
+    def test_heir_runner_uses_bazel_package_header_path(self) -> None:
+        source = (
+            ROOT / "scripts/external_v8/prepare_heir_shared_polynomial_v8.py"
+        ).read_text(encoding="utf-8")
+        self.assertIn(
+            'tests/Examples/openfhe/ckks/shared_polynomial_v8/shared_polynomial_lib.h',
+            source,
+        )
+        self.assertIn('openfhe_runner_sha256', source)
+
 
 if __name__ == "__main__":
     unittest.main()

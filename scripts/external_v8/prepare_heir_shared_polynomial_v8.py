@@ -123,7 +123,7 @@ def cpp_runner() -> str:
 #include <string>
 #include <vector>
 
-#include "shared_polynomial_lib.h"
+#include "tests/Examples/openfhe/ckks/shared_polynomial_v8/shared_polynomial_lib.h"
 
 std::vector<std::string> split(const std::string& line) {
   std::vector<std::string> out; std::stringstream stream(line); std::string value;
@@ -170,6 +170,15 @@ def main() -> int:
                 output / "lattigo_v6_2/sharedpoly/shared_polynomial.go",
                 common_package / "shared_polynomial.go",
             )
+            runner = ROOT / "external/v8/sources/heir/tests/Examples/openfhe/ckks/shared_polynomial_v8/runner.cpp"
+            if runner.is_file():
+                runner.write_text(cpp_runner(), encoding="utf-8")
+                manifest_path = output / "manifest.json"
+                manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+                manifest["openfhe_runner_sha256"] = sha256(runner)
+                manifest_partial = manifest_path.with_suffix(".json.partial")
+                manifest_partial.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+                manifest_partial.replace(manifest_path)
             print((output / "manifest.json").read_text(), end="")
             return 0
         raise FileExistsError(f"refusing incomplete HEIR translation root: {output}")
@@ -228,6 +237,7 @@ cc_binary(
         "graph_sha256": sha256(graph), "heir_opt_sha256": sha256(heir_opt), "heir_translate_sha256": sha256(heir_translate),
         "lattigo_mlir_sha256": sha256(lattigo_mlir), "openfhe_mlir_sha256": sha256(openfhe_mlir),
         "generated_lattigo_go_sha256": sha256(package / "shared_polynomial.go"),
+        "openfhe_runner_sha256": sha256(package_root / "runner.cpp"),
         "lattigo_runtime_version": "v6.2.0", "source_semantics_modified": False,
     }
     (output / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
