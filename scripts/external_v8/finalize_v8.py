@@ -6,6 +6,7 @@ from __future__ import annotations
 import csv
 import datetime as dt
 import hashlib
+import html
 import json
 import math
 import os
@@ -106,6 +107,193 @@ def copy_csv(source: Path, destination: Path) -> list[dict[str, str]]:
     rows = csv_file(source)
     shutil.copyfile(source, destination)
     return rows
+
+
+def svg_text(x: float, y: float, value: object, size: int = 22, anchor: str = "start", color: str = "#172033", weight: int = 400) -> str:
+    return (
+        f'<text x="{x:.1f}" y="{y:.1f}" font-family="sans-serif" font-size="{size}" '
+        f'font-weight="{weight}" text-anchor="{anchor}" fill="{color}">{html.escape(str(value))}</text>'
+    )
+
+
+def write_svg(path: Path, title: str, subtitle: str, elements: list[str], width: int = 1200, height: int = 675) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    content = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img">',
+        f'<title>{html.escape(title)}</title>',
+        f'<desc>{html.escape(subtitle)}</desc>',
+        f'<rect width="{width}" height="{height}" fill="#ffffff"/>',
+        svg_text(54, 58, title, 30, weight=700),
+        svg_text(54, 91, subtitle, 17, color="#526072"),
+        *elements,
+        '</svg>',
+    ]
+    path.write_text("\n".join(content) + "\n", encoding="utf-8")
+
+
+def bar_figure(path: Path, title: str, subtitle: str, labels: list[str], values: list[float], colors: list[str], value_labels: list[str] | None = None) -> None:
+    if not labels or len(labels) != len(values) or len(colors) != len(values):
+        raise ValueError("invalid bar figure data")
+    width, height = 1200, 675
+    left, right, top, bottom = 110, 55, 135, 105
+    plot_width, plot_height = width - left - right, height - top - bottom
+    maximum = max(values) or 1.0
+    slot = plot_width / len(values)
+    bar_width = min(150, slot * 0.58)
+    elements = [
+        f'<line x1="{left}" y1="{top + plot_height}" x2="{width - right}" y2="{top + plot_height}" stroke="#9ba7b5" stroke-width="2"/>'
+    ]
+    for index, (label, value, color) in enumerate(zip(labels, values, colors)):
+        x = left + index * slot + (slot - bar_width) / 2
+        bar_height = 0 if value == 0 else max(3, value / maximum * plot_height)
+        y = top + plot_height - bar_height
+        elements.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{bar_width:.1f}" height="{bar_height:.1f}" fill="{color}" rx="3"/>')
+        elements.append(svg_text(x + bar_width / 2, y - 12, (value_labels or [format(item, ".6g") for item in values])[index], 20, "middle", weight=700))
+        elements.append(svg_text(x + bar_width / 2, top + plot_height + 34, label, 18, "middle"))
+    write_svg(path, title, subtitle, elements, width, height)
+
+
+def build_publication_inputs(
+    eva_manifest: dict[str, object],
+    heir_manifest: dict[str, object],
+    flipguard_manifest: dict[str, object],
+    corelab_manifest: dict[str, object],
+    common_data: dict[str, object],
+    eva_rows: list[dict[str, object]],
+    heir_rows: list[dict[str, object]],
+    common_rows: list[dict[str, object]],
+    accounting: list[dict[str, object]],
+    execution: list[dict[str, object]],
+    gate_rows: list[dict[str, object]],
+    audit_rows: list[dict[str, object]],
+    corelab_plan_status: list[dict[str, object]],
+    pair_summaries: list[dict[str, object]],
+) -> dict[str, object]:
+    tables = RESULTS / "tables"
+    figures = RESULTS / "figures"
+    tables.mkdir(parents=True, exist_ok=True)
+    figures.mkdir(parents=True, exist_ok=True)
+
+    table_rows: list[tuple[str, list[dict[str, object]]]] = []
+    table_rows.append(("table_01_external_provider_populations.csv", accounting))
+    eva_table = []
+    for arm in eva_manifest["arms"]:
+        item = arm["validation"]
+        eva_table.append({"role": "configuration_validation", "scale_bits": arm["scale_bits"], "candidate_id": arm["candidate_id"], "status": item["status"], "unique_inputs": item["unique_inputs"], "contexts": item["contexts"], "decision_flips": item["decision_flips"], "reserve_policy_violations": item["reserve_policy_violations"], "max_absolute_error": item["max_absolute_error"], "max_normalized_budget_usage": item["max_normalized_budget_usage"]})
+    for item in eva_manifest["audits"]:
+        eva_table.append({"role": "locked_audit", "scale_bits": item["scale_bits"], "candidate_id": item["candidate_id"], "status": item["status"], "unique_inputs": item["unique_inputs"], "contexts": item["contexts"], "decision_flips": item["decision_flips"], "reserve_policy_violations": item["reserve_policy_violations"], "max_absolute_error": item["max_absolute_error"], "max_normalized_budget_usage": item["max_normalized_budget_usage"]})
+    table_rows.append(("table_02_eva_scale_and_locked_audit.csv", eva_table))
+    shared_table = []
+    for runtime, summaries in heir_manifest["runtime_summaries"].items():
+        for item in summaries:
+            shared_table.append({"provider": "Google HEIR", "runtime": runtime, "role": item["role"], "candidate_id": f"heir_{runtime}_shared_polynomial", "status": "SAFE" if not item["decision_flips"] and not item["reserve_policy_violations"] else "REJECTED", "unique_inputs": item["unique_inputs"], "fresh_key_runs": item["fresh_contexts"], "decision_flips": item["decision_flips"], "reserve_policy_violations": item["reserve_policy_violations"], "retuning": 0})
+    shared_table.extend({**row, "runtime": "Lattigo v6.2.0", "role": "configuration_validation"} for row in gate_rows if row["provider"] != "Google HEIR")
+    shared_table.extend({**row, "runtime": "Lattigo v6.2.0", "role": "locked_audit"} for row in audit_rows if row["provider"] in {"FlipGuard direct", "Security-V2 bounded catalog"})
+    table_rows.append(("table_03_shared_polynomial_decision_results.csv", shared_table))
+    table_rows.append(("table_04_corelab_plan_grid.csv", corelab_plan_status))
+    gate_table = [{"record_type": "validation", **row} for row in gate_rows] + [{"record_type": "locked_audit", **row} for row in audit_rows]
+    table_rows.append(("table_05_provider_decision_stability.csv", gate_table))
+    table_rows.append(("table_06_common_executor_latency.csv", pair_summaries))
+    table_rows.append(("table_07_execution_and_tuning_accounting.csv", execution))
+    table_rows.append(("table_08_fairness_limitations.csv", [
+        {"dimension": "cross_runtime_latency", "state": "BLOCKED", "limitation": "Native runtime timings are not used for cross-runtime ratios."},
+        {"dimension": "common_executor_latency", "state": "BLOCKED_DIAGNOSTIC", "limitation": "Eight direct-arm flips on one near-threshold input block a stable-candidate latency claim."},
+        {"dimension": "corelab_decision", "state": "NOT_EVALUATED", "limitation": "The official LinearRegression workload has no frozen natural decision output."},
+        {"dimension": "corelab_plan_grid", "state": "PARTIALLY_SUPPORTED", "limitation": "70/72 plans completed; elasm_36 and elasm_41 failed before output."},
+        {"dimension": "portability", "state": "SCOPED", "limitation": "PORTABLE_EXACT applies only to the frozen HEIR-generated Lattigo arm."},
+        {"dimension": "assurance", "state": "FINITE_SCOPE", "limitation": "Observed validation and locked audit are not distribution-wide analytical guarantees."},
+    ]))
+    table_paths = []
+    for name, data in table_rows:
+        fields = sorted({key for row in data for key in row})
+        path = tables / name
+        write_csv(path, fields, data)
+        table_paths.append(path)
+
+    v7_rows = csv_file(ROOT / "docs/evidence/external_end_to_end_code_v7/execution_accounting.csv")
+    v7_unique = {row["provider"]: int(row["unique_inputs"]) for row in v7_rows if row["provider"] in {"eva", "heir", "corelab"}}
+    depth_labels = ["EVA V7", "EVA V8", "HEIR V7", "HEIR V8", "CoreLab V7", "CoreLab V8"]
+    depth_exact = [v7_unique["eva"], 1000, v7_unique["heir"], 1000, v7_unique["corelab"], 200]
+    depth_plot = [math.log10(value + 1) for value in depth_exact]
+    bar_figure(figures / "figure_01_v7_to_v8_evidence_depth.svg", "V7 to V8 evidence-depth improvement", "Bar height uses log10(unique inputs + 1); labels report exact unique-input counts.", depth_labels, depth_plot, ["#8c98a8", "#1f6feb", "#8c98a8", "#1f6feb", "#8c98a8", "#1f6feb"], [str(value) for value in depth_exact])
+
+    eva_flips = [next(arm for arm in eva_manifest["arms"] if arm["scale_bits"] == scale)["validation"]["decision_flips"] for scale in (20, 30, 40)]
+    bar_figure(figures / "figure_02_eva_scale_decision_flips.svg", "EVA validation decision flips by scale", "Three predeclared native EVA scale arms; 500 validation inputs and three contexts per arm.", ["scale20", "scale30", "scale40"], eva_flips, ["#cf222e", "#2da44e", "#2da44e"])
+
+    arm_stats = {}
+    for arm in ("heir_generated", "flipguard_direct", "bounded_catalog"):
+        rows_for_arm = [row for row in common_data["records"] if row["arm"] == arm]
+        arm_stats[arm] = (statistics.fmean(float(row["total_ms"]) for row in rows_for_arm), sum(bool(row["decision_flip"]) for row in rows_for_arm))
+    plane = [f'<line x1="100" y1="570" x2="1135" y2="570" stroke="#9ba7b5" stroke-width="2"/>', f'<line x1="100" y1="130" x2="100" y2="570" stroke="#9ba7b5" stroke-width="2"/>', svg_text(620, 635, "Mean total latency (ms)", 19, "middle"), svg_text(32, 350, "Flips", 19, "middle")]
+    max_latency = max(value[0] for value in arm_stats.values())
+    colors = {"heir_generated": "#2f9eca", "flipguard_direct": "#cf222e", "bounded_catalog": "#8250df"}
+    for arm, (latency, flips) in arm_stats.items():
+        x = 100 + latency / max_latency * 1010
+        y = 570 - flips / 8 * 390
+        anchor = "end" if x > 950 else "start" if x < 250 else "middle"
+        label_x = x - 10 if anchor == "end" else x + 10 if anchor == "start" else x
+        plane.extend([f'<circle cx="{x:.1f}" cy="{y:.1f}" r="13" fill="{colors[arm]}"/>', svg_text(label_x, y - 22, f"{arm}: {latency:.2f} ms, {flips} flips", 17, anchor, weight=700)])
+    write_svg(figures / "figure_03_common_latency_decision_plane.svg", "Common-executor latency and decision outcomes", "Same Lattigo harness; direct-arm flips make latency ratios diagnostic only.", plane)
+
+    points = []
+    plan_records = {plan["plan_id"]: plan for plan in (json_file(path) for path in sorted((OUTPUTS / "corelab/linear-regression-multi-input-v8/plans").glob("*.json"))) if plan["status"] == "PASS"}
+    plan_stats = []
+    for plan in plan_records.values():
+        latency = statistics.fmean(float(row["total_ms"]) for row in plan["records"])
+        error = max(float(row["rms_error"]) for row in plan["records"])
+        plan_stats.append((plan["mode"], plan["waterline"], latency, error))
+    min_x, max_x = min(item[2] for item in plan_stats), max(item[2] for item in plan_stats)
+    logs = [math.log10(max(item[3], 1e-18)) for item in plan_stats]
+    min_y, max_y = min(logs), max(logs)
+    points.extend([f'<line x1="100" y1="570" x2="1135" y2="570" stroke="#9ba7b5" stroke-width="2"/>', f'<line x1="100" y1="130" x2="100" y2="570" stroke="#9ba7b5" stroke-width="2"/>', svg_text(620, 635, "Mean per-input total latency (ms)", 19, "middle"), svg_text(80, 120, "log10(max RMS error)", 17)])
+    for mode, waterline, latency, error in plan_stats:
+        x = 100 + (latency - min_x) / max(max_x - min_x, 1e-12) * 1010
+        log_error = math.log10(max(error, 1e-18))
+        y = 570 - (log_error - min_y) / max(max_y - min_y, 1e-12) * 410
+        color = "#1f6feb" if mode == "eva" else "#2da44e"
+        points.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="5" fill="{color}"><title>{mode}_{waterline}: {latency:.6g} ms, RMS {error:.6g}</title></circle>')
+    points.extend([svg_text(935, 135, "EVA", 17, color="#1f6feb", weight=700), svg_text(1030, 135, "ELASM", 17, color="#2da44e", weight=700)])
+    write_svg(figures / "figure_04_corelab_error_latency.svg", "CoreLab plan error-latency distribution", "Seventy completed numerical plans over 200 unique inputs per plan; failed plans are reported separately.", points)
+
+    flow = []
+    boxes = [(55, "EVA scale30", "SAFE audit", "#2f9eca"), (330, "HEIR Lattigo", "SAFE audit", "#2f9eca"), (605, "FlipGuard direct", "8 common-repeat flips", "#cf222e"), (880, "Catalog fastest", "SAFE audit", "#8250df")]
+    for x, name, state, color in boxes:
+        flow.extend([f'<rect x="{x}" y="220" width="225" height="150" rx="6" fill="#f6f8fa" stroke="{color}" stroke-width="3"/>', svg_text(x + 112.5, 276, name, 20, "middle", weight=700), svg_text(x + 112.5, 317, "Decision-integrity gate", 15, "middle", color="#526072"), svg_text(x + 112.5, 350, state, 17, "middle", color=color, weight=700)])
+        if x < 880:
+            flow.append(f'<path d="M {x + 225} 295 H {x + 267}" stroke="#526072" stroke-width="2" marker-end="url(#arrow)"/>')
+    flow.insert(0, '<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#526072"/></marker></defs>')
+    flow.append(svg_text(600, 455, "Provider outputs are admitted or rejected by the same finite-scope gate; no provider is forced to win.", 18, "middle"))
+    write_svg(figures / "figure_05_provider_gate_outcomes.svg", "Provider to gate to final evidence state", "Validation, locked audit, and common-repeat outcomes remain distinct.", flow)
+
+    matrix = [f'<rect x="55" y="130" width="1090" height="440" fill="#f6f8fa" stroke="#d0d7de"/>']
+    headers = ["Provider", "Unique inputs", "Contexts/key runs", "Passes", "Recorded rows"]
+    xs = [85, 390, 590, 800, 955]
+    for x, header in zip(xs, headers): matrix.append(svg_text(x, 173, header, 18, weight=700))
+    display_rows = [("EVA", "1,000", "15", "1", "7,500"), ("HEIR", "1,000", "12", "1", "6,000"), ("CoreLab", "200/plan", "72 attempts", "1", "14,000"), ("Common harness", "100", "9 arm-keysets", "6 + warm-up", "5,400")]
+    for index, values in enumerate(display_rows):
+        y = 235 + index * 78
+        matrix.append(f'<line x1="70" y1="{y + 24}" x2="1130" y2="{y + 24}" stroke="#d8dee4"/>')
+        for x, value in zip(xs, values): matrix.append(svg_text(x, y, value, 18))
+    matrix.append(svg_text(85, 540, "Raw rows are execution observations, not unique-input counts.", 17, color="#cf222e", weight=700))
+    write_svg(figures / "figure_06_execution_accounting.svg", "Unique inputs, contexts, passes, and raw rows", "Counts use distinct units and do not treat repeated execution rows as independent inputs.", matrix)
+
+    figure_paths = sorted(figures.glob("*.svg"))
+    publication_root = Path("results/thesis_grade_protocol/focused_external_comparison_v8")
+    publication = {
+        "schema_version": "flipguard_focused_external_v8_publication_inputs_v1",
+        "status": "FINAL_VERIFIED_INPUTS",
+        "source_evidence": "docs/evidence/focused_external_comparison_v8",
+        "table_count": len(table_paths),
+        "figure_count": len(figure_paths),
+        "tables": [{"path": (publication_root / path.relative_to(RESULTS)).as_posix(), "sha256": sha256(path)} for path in table_paths],
+        "figures": [{"path": (publication_root / path.relative_to(RESULTS)).as_posix(), "sha256": sha256(path)} for path in figure_paths],
+        "speculative_values": 0,
+        "cross_runtime_ratio_claim_allowed": False,
+        "common_executor_latency_claim_allowed": False,
+    }
+    (RESULTS / "publication_inputs_manifest.json").write_text(json.dumps(publication, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return publication
 
 
 def flatten_eva() -> tuple[list[dict[str, object]], dict[str, object] | None]:
@@ -476,8 +664,14 @@ def main() -> int:
 
     for name in ("provider_gate_records.csv", "audit_records.csv", "common_executor_records.csv", "common_executor_paired_summary.csv", "latency_summary.csv", "numerical_error_summary.csv", "unique_input_accounting.csv", "execution_accounting.csv", "security_summary.csv", "portability_summary.csv", "corelab_plan_status.csv", "recovery_provenance.csv", "failure_summary.csv"):
         shutil.copyfile(EVIDENCE / name, RESULTS / name)
+    publication_inputs = build_publication_inputs(
+        eva_manifest, heir_manifest, flipguard_manifest, corelab_manifest, common_data,
+        eva_rows, heir_rows, common_rows, accounting, execution, gate_rows, audit_rows,
+        corelab_plan_status, pair_summaries,
+    )
+    shutil.copyfile(RESULTS / "publication_inputs_manifest.json", EVIDENCE / "publication_inputs_manifest.json")
     (RESULTS / "claim_admission.json").write_text(json.dumps(claim_admission, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    (RESULTS / "manifest.json").write_text(json.dumps({"schema_version": "flipguard_focused_external_v8_publication_inputs_v1", "source_evidence": "docs/evidence/focused_external_comparison_v8", "classification": classification, "speculative_values": 0}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    (RESULTS / "manifest.json").write_text(json.dumps({"schema_version": "flipguard_focused_external_v8_publication_inputs_v1", "source_evidence": "docs/evidence/focused_external_comparison_v8", "classification": classification, "table_count": publication_inputs["table_count"], "figure_count": publication_inputs["figure_count"], "speculative_values": 0}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     checksums = [f"{sha256(path)[7:]}  {path.relative_to(EVIDENCE).as_posix()}" for path in sorted(EVIDENCE.rglob("*")) if path.is_file() and path.name != "SHA256SUMS"]
     (EVIDENCE / "SHA256SUMS").write_text("\n".join(checksums) + "\n", encoding="ascii")

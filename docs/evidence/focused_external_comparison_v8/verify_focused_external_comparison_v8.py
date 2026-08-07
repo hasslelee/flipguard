@@ -8,6 +8,7 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
+import xml.etree.ElementTree as ET
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -20,7 +21,8 @@ REQUIRED = (
     "numerical_error_summary.csv", "unique_input_accounting.csv", "execution_accounting.csv",
     "security_summary.csv", "portability_summary.csv", "corelab_plan_status.csv",
     "recovery_provenance.csv", "failure_summary.csv",
-    "fairness_limitations.md", "claim_admission.json", "CHECKPOINT_REPORT.md", "SHA256SUMS",
+    "fairness_limitations.md", "claim_admission.json", "publication_inputs_manifest.json",
+    "CHECKPOINT_REPORT.md", "SHA256SUMS",
 )
 
 
@@ -127,6 +129,22 @@ def main() -> int:
         raise RuntimeError("execution-critical provenance drift")
     if (manifest["common_executor_decision_flips"], manifest["common_executor_unique_flip_inputs"], manifest["corelab_plans_completed"], manifest["corelab_plans_failed"]) != (8, 1, 70, 2):
         raise RuntimeError("manifest negative-result accounting drift")
+
+    publication = json.loads((PACK / "publication_inputs_manifest.json").read_text())
+    if publication["status"] != "FINAL_VERIFIED_INPUTS" or publication["table_count"] != 8 or publication["figure_count"] != 6:
+        raise RuntimeError("publication input count/status drift")
+    publication_root = (ROOT / "results/thesis_grade_protocol/focused_external_comparison_v8").resolve()
+    for kind, expected_suffix in (("tables", ".csv"), ("figures", ".svg")):
+        for entry in publication[kind]:
+            path = (ROOT / entry["path"]).resolve()
+            if publication_root not in path.parents or path.suffix != expected_suffix or not path.is_file():
+                raise RuntimeError(f"invalid publication input path: {entry['path']}")
+            if "sha256:" + sha256(path) != entry["sha256"]:
+                raise RuntimeError(f"publication input checksum mismatch: {entry['path']}")
+            if kind == "figures":
+                ET.parse(path)
+    if publication["cross_runtime_ratio_claim_allowed"] or publication["common_executor_latency_claim_allowed"]:
+        raise RuntimeError("publication inputs incorrectly admit a blocked latency claim")
     text = "\n".join((PACK / name).read_text(encoding="utf-8", errors="ignore") for name in ("CHECKPOINT_REPORT.md", "fairness_limitations.md"))
     for phrase in ("global optimum", "all state-of-the-art", "universally safe"):
         if phrase in text.lower():
