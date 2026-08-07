@@ -138,6 +138,17 @@ def verify(root: Path) -> dict[str, int | str]:
             artifact = REPO / binding["path"]
             if binding["policy_sha256"] != expected_digest or binding["artifact_sha256"] != f"sha256:{sha256(artifact)}":
                 raise ValueError(f"V7 frozen policy binding drift: {policy_name}")
+        publication = json.loads((root / "publication_inputs_manifest.json").read_text())
+        if publication["table_count"] != 8 or publication["figure_count"] != 8:
+            raise ValueError("V7 publication-input count drift")
+        if len(list((root / "tables").glob("*.csv"))) != 8:
+            raise ValueError("V7 publication table count drift")
+        if len(list((root / "figures").glob("*.svg"))) != 8:
+            raise ValueError("V7 publication figure count drift")
+        for item in publication["files"]:
+            path = root / item["path"]
+            if not path.is_file() or f"sha256:{sha256(path)}" != item["sha256"]:
+                raise ValueError(f"V7 publication input checksum drift: {item['path']}")
 
     levels = {row["system"]: row for row in read_csv(root / "artifact_execution_levels.csv")}
     if len(levels) != 18:

@@ -1,0 +1,12 @@
+{
+  "affected_scope": "final evidence recursive freeze and publication inputs",
+  "amendment_id": "external_v7_orchestration_amendment_015",
+  "classification": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+  "encrypted_execution_semantics_changed": false,
+  "frozen_evidence_changed": false,
+  "frozen_policy_changed": false,
+  "reason": "Finalizer review in the permitted final 30-minute window found that only prepared top-level files would be copied, omitting nested identity/per-sample manifests, and no final-window publication tables or figures were generated.",
+  "recovery": "Create a new immutable prepared-final version after the implementation commit, recursively copy every prepared file without overwrite, and generate eight tables plus eight SVG figures strictly from normalized V7 records.",
+  "research_results_changed": false,
+  "result_dependent_policy_change": false
+}

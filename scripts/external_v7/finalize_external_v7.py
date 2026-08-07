@@ -17,13 +17,14 @@ import tempfile
 from typing import Any
 
 from build_external_v7_evidence import build as build_normalized
+from build_publication_inputs_v7 import build as build_publication_inputs
 
 
 ROOT = Path(__file__).resolve().parents[2]
 STATUS = ROOT / "external/v7/status"
 EVIDENCE = ROOT / "docs/evidence/external_end_to_end_code_v7"
 RESULTS = ROOT / "results/thesis_grade_protocol/external_end_to_end_code_v7"
-PREPARED = RESULTS / "prepared-final-v1"
+PREPARED = RESULTS / "prepared-final-v3"
 VERIFIER = EVIDENCE / "verify_external_end_to_end_code_v7.py"
 FINAL_WINDOW = dt.timedelta(minutes=30)
 SECURITY_POLICY_PATH = Path(
@@ -459,11 +460,11 @@ def freeze() -> dict[str, Any]:
         environment = environment_end(source_commit, now().isoformat(timespec="seconds"))
 
     generated_files = [
-        path for path in sorted(PREPARED.iterdir())
-        if path.is_file() and path.name not in {"prepare_report.json"}
+        path for path in sorted(PREPARED.rglob("*"))
+        if path.is_file() and path.relative_to(PREPARED).as_posix() != "prepare_report.json"
     ]
     for source in generated_files:
-        copy_or_verify(source, EVIDENCE / source.name)
+        copy_or_verify(source, EVIDENCE / source.relative_to(PREPARED))
     copy_or_verify(STATUS / "resource_samples.csv", EVIDENCE / "resource_samples_raw.csv")
 
     write_json_once_or_verify(EVIDENCE / "environment_end.json", environment)
@@ -513,7 +514,10 @@ def prepare_finalization() -> dict[str, Any]:
         raise RuntimeError(f"V7 final preparation is blocked until {(pause - FINAL_WINDOW).isoformat()}")
     if now() >= pause:
         return freeze()
-    return prepare(PREPARED)
+    report = prepare(PREPARED)
+    publication = build_publication_inputs(PREPARED)
+    run_verifier(PREPARED)
+    return {**report, "publication_inputs": publication}
 
 
 def main() -> int:
