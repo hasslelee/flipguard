@@ -1,0 +1,22 @@
+{
+  "candidate_grid": {
+    "modes": ["eva", "elasm"],
+    "waterline_first": 15,
+    "waterline_last": 50,
+    "waterline_step": 1
+  },
+  "decision_rule": "NOT_AVAILABLE_IN_OFFICIAL_WORKLOAD",
+  "frozen_before_execution": true,
+  "input_population": {
+    "dataset_instances": 200,
+    "generator": "sha256-derived deterministic regression datasets",
+    "points_per_instance": 4096,
+    "seed_namespace": "flipguard-corelab-v8-20260807"
+  },
+  "provider": "CoreLab EVA/ELASM",
+  "result_classification": "NUMERICAL_ONLY_MULTI_SAMPLE",
+  "schema_version": "flipguard_focused_external_v8_workload_contract_v1",
+  "source_commit": "3c37c11b29ca480525bb6681e0254bdf90029425",
+  "status": "FROZEN",
+  "workload_id": "corelab_official_linear_regression_multi_input_v8"
+}

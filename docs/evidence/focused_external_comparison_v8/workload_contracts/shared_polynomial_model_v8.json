@@ -1,0 +1,20 @@
+{
+  "dataset_id": "shared_polynomial_threshold_v8",
+  "dataset_name": "Frozen deterministic shared-polynomial domain",
+  "input_dim": 3,
+  "label_mapping": {"0": "below_threshold", "1": "at_or_above_threshold"},
+  "model_id": "shared_polynomial_linear_poly3_v8",
+  "model_type": "linear_poly3",
+  "polynomial_score": {
+    "decision_threshold": 0.5,
+    "formula": "0.5 + 0.197*z - 0.004*z^3"
+  },
+  "scaled_model_for_ckks": {
+    "bias": -0.3,
+    "weights": [0.8, -0.5, 1.2]
+  },
+  "selected_feature_indices": [0, 1, 2],
+  "selected_feature_names": ["x_0", "x_1", "x_2"],
+  "standardization": {"mean": [0.0, 0.0, 0.0], "std": [1.0, 1.0, 1.0]},
+  "task": "binary threshold decision"
+}

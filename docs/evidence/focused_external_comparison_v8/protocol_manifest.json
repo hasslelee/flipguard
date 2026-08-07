@@ -1,0 +1,19 @@
+{
+  "deadline_hours": 24,
+  "focus_providers": ["EVA", "HEIR", "CoreLab EVA/ELASM"],
+  "immutable_dependencies": [
+    "docs/evidence/external_end_to_end_code_v7",
+    "policies/security_policy_v2.json",
+    "policies/direct_synthesis_policy_v2.json"
+  ],
+  "long_run_owner": "systemd_user_service",
+  "no_new_dataset_model_provider": true,
+  "no_result_dependent_threshold_or_sample_change": true,
+  "optional_provider": "Orion only after mandatory objectives",
+  "paper_claim_allowed": false,
+  "pipeline_order": ["binding", "eva", "heir", "flipguard", "corelab", "normalization", "freeze"],
+  "prohibited": ["policy retuning", "V7 overwrite", "cross-runtime speedup ratio", "raw-row-as-unique-input", "history rewrite"],
+  "schema_version": "flipguard_focused_external_comparison_v8_protocol_v1",
+  "source_branch": "experiments/focused-external-closure-v8",
+  "status": "FROZEN_BEFORE_EXECUTION"
+}

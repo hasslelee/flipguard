@@ -1,0 +1,22 @@
+[Unit]
+Description=FlipGuard Focused External Comparison V8 Master
+After=default.target docker.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ckks2/flipguard
+ExecStart=/home/ckks2/flipguard/scripts/external_v8/run_master_v8.sh
+Restart=on-failure
+RestartSec=30
+TimeoutStopSec=600
+KillMode=control-group
+OOMPolicy=stop
+Environment=PATH=/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin
+Environment=PYTHONDONTWRITEBYTECODE=1
+Environment=OMP_NUM_THREADS=2
+Environment=OPENBLAS_NUM_THREADS=2
+Environment=MKL_NUM_THREADS=2
+Environment=GOMAXPROCS=2
+
+[Install]
+WantedBy=default.target

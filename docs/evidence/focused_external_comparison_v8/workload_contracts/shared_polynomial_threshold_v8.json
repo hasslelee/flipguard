@@ -1,0 +1,37 @@
+{
+  "audit_retuning": 0,
+  "decision_contract": {
+    "margin_floor": 0.001,
+    "operational_budget": "absolute_error < rho * abs(plaintext_score - threshold)",
+    "plaintext_decision": "score >= 0.5",
+    "rho": 0.5,
+    "threshold": 0.5
+  },
+  "frozen_before_execution": true,
+  "graph": {
+    "affine": "z = ((0.8*x_0 - 0.5*x_1) + 1.2*x_2) - 0.3",
+    "multiplication_order": ["z2 = z*z", "z3 = z2*z", "linear = 0.197*z", "cubic = 0.004*z3", "score = (0.5 + linear) - cubic"],
+    "output": "score = 0.5 + 0.197*z - 0.004*z^3"
+  },
+  "input_population": {
+    "audit": 500,
+    "generator_script": "scripts/external_v8/generate_shared_polynomial_inputs_v8.py",
+    "overlap": 0,
+    "preferred_total": 1000,
+    "validation": 500
+  },
+  "eva_candidate_matrix": {
+    "audit_arms": [30, 40],
+    "first_safe_stopping": true,
+    "scale_arm_order": [20, 30, 40],
+    "selected_candidate_locked_before_audit": true
+  },
+  "policy_binding": {
+    "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055"
+  },
+  "providers": ["Microsoft EVA", "Google HEIR", "FlipGuard direct Lattigo"],
+  "schema_version": "flipguard_focused_external_v8_workload_contract_v1",
+  "status": "FROZEN",
+  "workload_id": "shared_polynomial_threshold_v8"
+}
