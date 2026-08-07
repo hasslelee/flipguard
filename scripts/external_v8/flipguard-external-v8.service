@@ -8,6 +8,7 @@ WorkingDirectory=/home/ckks2/flipguard
 ExecStart=/home/ckks2/flipguard/scripts/external_v8/run_master_v8.sh
 Restart=on-failure
 RestartSec=30
+RestartPreventExitStatus=3 4
 TimeoutStopSec=600
 KillMode=control-group
 OOMPolicy=stop
