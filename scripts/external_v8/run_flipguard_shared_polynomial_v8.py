@@ -53,6 +53,32 @@ def write_request(path: Path, provider_kind: str, provider_id: str, parameters: 
         path.write_text(encoded, encoding="utf-8")
 
 
+def catalog_plan_support(
+    profile: str,
+    parameters: dict[str, object],
+    required_q_primes: int,
+) -> dict[str, object]:
+    available_q_primes = len(parameters.get("q", parameters.get("log_q", [])))
+    if available_q_primes >= required_q_primes:
+        return {
+            "profile": profile,
+            "status": "PLAN_SUPPORTED",
+            "available_q_primes": available_q_primes,
+            "required_q_primes": required_q_primes,
+        }
+    return {
+        "schema_version": "flipguard_focused_external_v8_catalog_plan_status_v1",
+        "profile": profile,
+        "status": "PLAN_UNSUPPORTED",
+        "reason_code": "INSUFFICIENT_Q_PRIMES_FOR_FROZEN_GRAPH",
+        "available_q_primes": available_q_primes,
+        "required_q_primes": required_q_primes,
+        "encrypted_candidate_executions": 0,
+        "security_v2_admission": "PASS",
+        "candidate_space_changed": False,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--binary-root", type=Path, required=True)
@@ -88,6 +114,10 @@ def main() -> int:
     selected = json.loads(direct_selection.read_text(encoding="utf-8")).get("selected")
     if not selected:
         raise RuntimeError("direct synthesis returned NO_SAFE on V8 shared polynomial")
+    selection_payload = json.loads(direct_selection.read_text(encoding="utf-8"))
+    required_q_primes = int(
+        selection_payload["plan"]["contract"]["deployment"]["required_q_primes"]
+    )
     direct_request = requests / "direct.json"
     write_request(direct_request, "direct_synthesizer", "flipguard_direct_v2_v8", selected["parameters"])
     direct_gate = output / "direct_validation.json"
@@ -118,6 +148,19 @@ def main() -> int:
         }
         request = requests / f"catalog_{name}.json"
         write_request(request, "bounded_catalog", f"security_v2_{name}", parameters)
+        support = catalog_plan_support(name, parameters, required_q_primes)
+        if support["status"] == "PLAN_UNSUPPORTED":
+            status_path = catalog_out / f"{name}_plan_status.json"
+            encoded = json.dumps(support, indent=2, sort_keys=True) + "\n"
+            if status_path.exists():
+                if status_path.read_text(encoding="utf-8") != encoded:
+                    raise RuntimeError(f"INTEGRITY_BLOCK: catalog plan status drift: {status_path}")
+            else:
+                partial = status_path.with_suffix(".json.partial")
+                partial.write_text(encoded, encoding="utf-8")
+                partial.replace(status_path)
+            catalog_results.append((name, status_path, support))
+            continue
         result_path = catalog_out / f"{name}_validation.json"
         atomic_command([
             str(certify), "--model", str(model), "--validation", str(validation),
@@ -125,7 +168,11 @@ def main() -> int:
         ], result_path)
         result = json.loads(result_path.read_text(encoding="utf-8"))
         catalog_results.append((name, result_path, result))
-    safe = [(name, path, result) for name, path, result in catalog_results if result["outcome"] == "SELECTED"]
+    safe = [
+        (name, path, result)
+        for name, path, result in catalog_results
+        if result.get("outcome") == "SELECTED"
+    ]
     fastest = min(safe, key=lambda item: float(item[2]["trial"]["mean_total_ms"])) if safe else None
     catalog_audit = None
     if fastest:
@@ -171,8 +218,10 @@ def main() -> int:
         "catalog": {
             "formal_denominator": len(ADMITTED),
             "admitted_profiles": list(ADMITTED),
-            "safe_profiles": [name for name, _, result in catalog_results if result["outcome"] == "SELECTED"],
-            "rejected_profiles": [name for name, _, result in catalog_results if result["outcome"] != "SELECTED"],
+            "plan_supported_profiles": [name for name, _, result in catalog_results if result.get("status") != "PLAN_UNSUPPORTED"],
+            "plan_unsupported_profiles": [name for name, _, result in catalog_results if result.get("status") == "PLAN_UNSUPPORTED"],
+            "safe_profiles": [name for name, _, result in catalog_results if result.get("outcome") == "SELECTED"],
+            "rejected_profiles": [name for name, _, result in catalog_results if result.get("outcome") == "NO_SAFE"],
             "fastest_safe_profile": fastest[0] if fastest else None,
             "fastest_safe_mean_total_ms": fastest[2]["trial"]["mean_total_ms"] if fastest else None,
             "locked_audit_outcome": json.loads(catalog_audit.read_text(encoding="utf-8"))["outcome"] if catalog_audit else "NOT_EVALUATED_NO_SAFE",
