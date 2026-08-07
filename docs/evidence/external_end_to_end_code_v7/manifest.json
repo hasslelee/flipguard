@@ -1,0 +1,57 @@
+{
+  "autonomous_start_timestamp": "2026-08-06T14:33:15+09:00",
+  "content_tree_sha256": "sha256:595dec38b65c480a8b72eb401f81977267e8a1c03818272576087d83ebcc85a3",
+  "final_classification": "PARTIAL_EXTERNAL_EVIDENCE",
+  "hard_pause_timestamp": "2026-08-07T14:33:15+09:00",
+  "origin_commit": "df0062740dd403c716272b20f38fe3b2d45c97b0",
+  "paper_claim_allowed": false,
+  "policy_bindings": {
+    "direct_policy": {
+      "artifact_sha256": "sha256:694a721212b3f4d1a4d01d8e8ef64293af57f842e1a3fc7c77ca23b28271eec4",
+      "path": "docs/evidence/security_v2_static_attestation_formal_v2/direct_synthesis_policy_v2.json",
+      "policy_sha256": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603"
+    },
+    "security_policy": {
+      "artifact_sha256": "sha256:238e7a9a119a0940d88da384d69e97e81fe6a205407cfee597a4c484ea2cbcfb",
+      "path": "docs/evidence/security_v2_static_attestation_formal_v2/security_policy_v2.json",
+      "policy_sha256": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055"
+    }
+  },
+  "prepared_report": {
+    "hard_pause_timestamp": "2026-08-07T14:33:15+09:00",
+    "schema_version": "flipguard_external_v7_prepare_report_v1",
+    "source_commit": "df0062740dd403c716272b20f38fe3b2d45c97b0",
+    "state": "PASS",
+    "summary": {
+      "audit_record_count": 1,
+      "decision_bearing_provider_count": 1,
+      "encrypted_e2e_system_count": 3,
+      "final_classification": "PARTIAL_EXTERNAL_EVIDENCE",
+      "input_manifest_count": 6,
+      "locked_audit_provider_count": 1,
+      "native_record_count": 81,
+      "per_sample_output_counts": {
+        "corelab": 72,
+        "eva_official": 24576,
+        "eva_shared": 174,
+        "heir": 1
+      },
+      "per_sample_output_total": 24823,
+      "portable_exact_count": 0,
+      "provider_gate_record_count": 3,
+      "stage_manifest_count": 38,
+      "system_count": 18,
+      "workload_contract_count": 5
+    },
+    "verification": {
+      "classification": "PARTIAL_EXTERNAL_EVIDENCE",
+      "decision_bearing_provider_count": 1,
+      "encrypted_e2e_system_count": 3,
+      "system_count": 18
+    }
+  },
+  "run_disposition": "PAUSE_AT_24H_CHECKPOINT",
+  "schema_version": "flipguard_external_end_to_end_code_v7_final_v1",
+  "source_commit": "df0062740dd403c716272b20f38fe3b2d45c97b0",
+  "state": "FROZEN"
+}

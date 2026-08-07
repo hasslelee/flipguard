@@ -1,0 +1,78 @@
+{
+  "contracts": [
+    {
+      "decision_rule": "NOT_EVALUATED",
+      "graph_identity": "PROVIDER_NATIVE_EXACT",
+      "programs": [
+        {
+          "graph_digest": "sha256:b7d9aa65c8c0016131235f70c0bd08087e8c9ea3216eb737d5d11c1a414261a4",
+          "name": "sobel",
+          "ordered_observations": 4096
+        },
+        {
+          "graph_digest": "sha256:8aeb771caf012d3e59f455c23a631b60a6f28d6ac3cd6d3799aa9843f294cc60",
+          "name": "harris",
+          "ordered_observations": 4096
+        }
+      ],
+      "provider": "EVA",
+      "raw_manifest": {
+        "path": "external/v7/outputs/eva/official-image-v1/manifest.json",
+        "sha256": "sha256:2ba93c680ef8e4cc4d222d92f8e0832144652e38ee76486d1feb70f526182870",
+        "size_bytes": 3491
+      },
+      "workload_id": "eva_official_baboon_sobel_harris_v1"
+    },
+    {
+      "decision_rule": "binary_threshold",
+      "graph_digest": "sha256:7b35a83e4cfcb2c87b40d45ee8e66e9a4a7b89e58ad78b89d40d6e59df9c2a97",
+      "graph_identity": "SHARED_POLYNOMIAL_CONTRACT",
+      "provider": "EVA",
+      "raw_manifest": {
+        "path": "external/v7/outputs/eva/shared-polynomial-v1/manifest.json",
+        "sha256": "sha256:7e683bf7e3c338b448b6a00c5b9eeb9b4105a97b51ed1c4942f2f995d7a2aad5",
+        "size_bytes": 5338
+      },
+      "threshold": 0.5,
+      "workload_id": "shared_polynomial_v1"
+    },
+    {
+      "decision_rule": "NOT_EVALUATED",
+      "graph_digest": "sha256:f2339e82fe63bc30fd35b63242df88fe59ce19e3b2d0e5c3d86b14cb968c8292",
+      "graph_identity": "PROVIDER_NATIVE_EXACT",
+      "provider": "ELASM/CoreLab",
+      "raw_manifest": {
+        "path": "external/v7/outputs/corelab/elasm-linear-regression-grid-v1/manifest.json",
+        "sha256": "sha256:8e412acddc176627a9d1d30e5fdcd5da7ed5012d19c1a00d2aaf0619a1b96e2c",
+        "size_bytes": 1291
+      },
+      "workload_id": "official_LinearRegression"
+    },
+    {
+      "decision_rule": "NOT_EVALUATED",
+      "graph_digest": "sha256:08b73014aa97c12f317bb3c09d74b141f6126e1d049f1de351155d8078acb74f",
+      "graph_identity": "PROVIDER_NATIVE_EXACT",
+      "provider": "HEIR",
+      "raw_manifest": {
+        "path": "external/v7/outputs/heir/dot-product-8f-v1/manifest.json",
+        "sha256": "sha256:6b61ee6c118ba871a4a7e9296e950e7c60d2d47162e9248cd38392c5e9fa0643",
+        "size_bytes": 396
+      },
+      "workload_id": "official_dot_product_8f"
+    },
+    {
+      "decision_rule": "NOT_EVALUATED",
+      "graph_digest": "NOT_REPORTED",
+      "graph_identity": "PROVIDER_NATIVE_DIFFERENT_SCHEME",
+      "provider": "HECO",
+      "raw_manifest": {
+        "path": "external/v7/outputs/heco/official-benchmark-v1/manifest.json",
+        "sha256": "sha256:7891f42b9d8bd316d6bbbdcdf491d2d07d59f0bd9e91dfdb7ada0e002c7c39f3",
+        "size_bytes": 424
+      },
+      "scheme": "BFV",
+      "workload_id": "official_benchmark"
+    }
+  ],
+  "schema_version": "flipguard_external_v7_workload_contracts_v1"
+}

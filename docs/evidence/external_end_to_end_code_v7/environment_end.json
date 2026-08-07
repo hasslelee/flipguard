@@ -1,0 +1,39 @@
+{
+  "branch": "experiments/external-e2e-code-v7",
+  "code_codex_downtime": "NOT_SEPARATELY_RECORDED",
+  "declared_hard_pause_timestamp": "2026-08-07T14:33:15+09:00",
+  "disk_free_bytes": 84115140608,
+  "disk_total_bytes": 189906968576,
+  "disk_used_bytes": 97615175680,
+  "docker_system_df": [
+    "{\"Active\":\"1\",\"Reclaimable\":\"1.567GB (4%)\",\"Size\":\"35.81GB\",\"TotalCount\":\"17\",\"Type\":\"Images\"}",
+    "{\"Active\":\"0\",\"Reclaimable\":\"65.54kB (100%)\",\"Size\":\"65.54kB\",\"TotalCount\":\"1\",\"Type\":\"Containers\"}",
+    "{\"Active\":\"0\",\"Reclaimable\":\"0B\",\"Size\":\"0B\",\"TotalCount\":\"0\",\"Type\":\"Local Volumes\"}",
+    "{\"Active\":\"0\",\"Reclaimable\":\"0B\",\"Size\":\"0B\",\"TotalCount\":\"0\",\"Type\":\"Build Cache\"}"
+  ],
+  "finalization_timestamp": "2026-08-07T14:33:15+09:00",
+  "frozen_core_evidence_modifications": 0,
+  "inode_free": 9824172,
+  "inode_total": 11796480,
+  "last_periodic_resource_sample_timestamp": "2026-08-07T14:18:51+09:00",
+  "memory_available_kib": 12506776,
+  "origin_commit": "df0062740dd403c716272b20f38fe3b2d45c97b0",
+  "policy_retuning": 0,
+  "pre_freeze_working_tree_porcelain": "",
+  "resource_gate": "GREEN",
+  "schema_version": "flipguard_external_v7_environment_end_v1",
+  "service_instance_count": 7,
+  "service_pids": [
+    "9763",
+    "45498",
+    "51707",
+    "86444",
+    "86630",
+    "89962",
+    "121260"
+  ],
+  "service_restart_count": 6,
+  "source_commit": "df0062740dd403c716272b20f38fe3b2d45c97b0",
+  "swap_used_kib": 1951356,
+  "vm_downtime": "NOT_OBSERVED_IN_RESOURCE_LEDGER"
+}

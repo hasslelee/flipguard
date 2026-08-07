@@ -1,0 +1,538 @@
+{
+  "operation_count": 38,
+  "operations": [
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/ant-ace/0001-source/run_manifest.json",
+        "sha256": "sha256:ff26a5ebb287cac9202ee16d0b0add74af7f2340508c28a89684a726f9847e6d",
+        "size_bytes": 1171
+      },
+      "output_sha256": "sha256:2a21275e3bcec06ff6f9383214cfb114491d45737ea717af74941b5caefcbdf6",
+      "provider": "ant-ace",
+      "run_id": "0001-source",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "SOURCE_CHECKOUT",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/autofhe/0001-source/run_manifest.json",
+        "sha256": "sha256:b130ccfeccc292639043c7d6e6a0baec5cb7b36972e1cd4341badd39e41e83be",
+        "size_bytes": 1169
+      },
+      "output_sha256": "sha256:9d5aaedca52ba077afa2a35f37c9be1ea9154ab7c51e4446884a5a804b2bc8cc",
+      "provider": "autofhe",
+      "run_id": "0001-source",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "SOURCE_CHECKOUT",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/corelab/0001-elasm-source/run_manifest.json",
+        "sha256": "sha256:b388532022af00b196f243ba4cc059890168b2e4d6610cd230940a2ec715ddd9",
+        "size_bytes": 1162
+      },
+      "output_sha256": "sha256:9f0a37eeccf59cbd0d996422dd686318bbf0c1f882b466990b3c458448b6588e",
+      "provider": "corelab",
+      "run_id": "0001-elasm-source",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "SOURCE_CHECKOUT",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/corelab/0002-seal4-source/run_manifest.json",
+        "sha256": "sha256:1f67705a4a843f05aef566cadb37476dadf5e49c90b1817a0c585a9a5d010489",
+        "size_bytes": 1067
+      },
+      "output_sha256": "sha256:3020ec0360d8c4c23615c738f2dbe0f6ba24257e8dbeaf7df7574bda283304b1",
+      "provider": "corelab",
+      "run_id": "0002-seal4-source",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "SOURCE_CHECKOUT",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/corelab/0003-elasm-build/run_manifest.json",
+        "sha256": "sha256:e20b126876d5b0521fab54e2d85f78c1902b9627e58899f3ceb9237a06f9fd77",
+        "size_bytes": 959
+      },
+      "output_sha256": "sha256:25387804e3024e8eac19714a23958023c131bf2f7ec0e4ed995a0ab505c7410a",
+      "provider": "corelab",
+      "run_id": "0003-elasm-build",
+      "source_sha256": "sha256:fd72c37684acdacc3f947c6cf7feb2e67ae915f0750c8e0d06f12a943f533f85",
+      "stage": "CLEAN_BUILD",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/corelab/0004-elasm-runtime/run_manifest.json",
+        "sha256": "sha256:41442606ba97330ce898334ed27a4873015d754e62d4ddb64169856919162f84",
+        "size_bytes": 968
+      },
+      "output_sha256": "sha256:01d21eb6284e361a6b34e72157db1b7a4b5d54e996891b3ae1c76e7f3da5375c",
+      "provider": "corelab",
+      "run_id": "0004-elasm-runtime",
+      "source_sha256": "sha256:fd72c37684acdacc3f947c6cf7feb2e67ae915f0750c8e0d06f12a943f533f85",
+      "stage": "ENVIRONMENT_CREATE",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/corelab/0005-elasm-grid/run_manifest.json",
+        "sha256": "sha256:a4860ed161189649fb658a85616d063ac84b05d3d094b81c00576f52bf6f7ad7",
+        "size_bytes": 1049
+      },
+      "output_sha256": "sha256:837ad477654d8fd2a0fdf19d6f59a33cc61aa4352417d8c3725135ee48c579b9",
+      "provider": "corelab",
+      "run_id": "0005-elasm-grid",
+      "source_sha256": "sha256:fd72c37684acdacc3f947c6cf7feb2e67ae915f0750c8e0d06f12a943f533f85",
+      "stage": "ENCRYPTED_VALIDATION",
+      "state": "FAILED"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/corelab/0005-elasm-grid-retry2/run_manifest.json",
+        "sha256": "sha256:a88721734da487f99295e2e3540c051d9d9cddb26048d6077abd9c96bc8df892",
+        "size_bytes": 1076
+      },
+      "output_sha256": "sha256:0200d36ee1caa2616f7d847c06561a8e4d45b4d3d4be44a908f24f152792bc41",
+      "provider": "corelab",
+      "run_id": "0005-elasm-grid-retry2",
+      "source_sha256": "sha256:fd72c37684acdacc3f947c6cf7feb2e67ae915f0750c8e0d06f12a943f533f85",
+      "stage": "ENCRYPTED_VALIDATION",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/corelab/0006-hecate-source/run_manifest.json",
+        "sha256": "sha256:74fa8a24d119bdec27c507ffa1be80e2f60b31a7992fbe4b4578ed8194499457",
+        "size_bytes": 1176
+      },
+      "output_sha256": "sha256:22b07b90ed93daa517dbd976857d73d8c47f43fb77795136a7f6bb2ce049dc7e",
+      "provider": "corelab",
+      "run_id": "0006-hecate-source",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "SOURCE_CHECKOUT",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/corelab/0007-hecate-deps/run_manifest.json",
+        "sha256": "sha256:49dbc6fa7d14ae3d93c291ebcc19d4b826b406a22bc2d3787a3bc98418e92e48",
+        "size_bytes": 1085
+      },
+      "output_sha256": "sha256:6ed3fef7ec9e3b8e27ae3d74c6b11aa0f03ef1b49ebe229d798d208681e551ca",
+      "provider": "corelab",
+      "run_id": "0007-hecate-deps",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "ENVIRONMENT_CREATE",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/corelab/0008-hecate-build/run_manifest.json",
+        "sha256": "sha256:c4cf5b2bf15ea9698048f54222aca7840d35197b53371d5e2ca2f8e5612a9b05",
+        "size_bytes": 960
+      },
+      "output_sha256": "sha256:bcb3031630fb1d8e2081f76a60f231306ca833ae6e15a8a34155503a6df07b8a",
+      "provider": "corelab",
+      "run_id": "0008-hecate-build",
+      "source_sha256": "sha256:c99f26f3e356078d01248106783e2f73abc1536512234928fded2f4309dd2ba0",
+      "stage": "CLEAN_BUILD",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/corelab/0009-hecate-runtime-image/run_manifest.json",
+        "sha256": "sha256:02d540481e2b257d912125b64ff8086d91251a6abfc897cad0df5b43976c0e8b",
+        "size_bytes": 1052
+      },
+      "output_sha256": "sha256:7a4ea1c7351f0b58ae5bcf70027ffcfff38dfbcc5519c5661e38315e6e954c58",
+      "provider": "corelab",
+      "run_id": "0009-hecate-runtime-image",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "ENVIRONMENT_CREATE",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/corelab/0010-hecate-runtime/run_manifest.json",
+        "sha256": "sha256:c736f52247966c589cc9930c9905602a65e4bd48fad005a425f0423f5db8b1a5",
+        "size_bytes": 916
+      },
+      "output_sha256": "NOT_AVAILABLE",
+      "provider": "corelab",
+      "run_id": "0010-hecate-runtime",
+      "source_sha256": "sha256:c99f26f3e356078d01248106783e2f73abc1536512234928fded2f4309dd2ba0",
+      "stage": "ENVIRONMENT_CREATE",
+      "state": "FAILED"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/dacapo/0001-source/run_manifest.json",
+        "sha256": "sha256:a3eae00ca6df161239a8d43ad29116396668f5f00db36a612fd229e14b5f11db",
+        "size_bytes": 1161
+      },
+      "output_sha256": "sha256:5e560f037f7ce6d74b3c638d4e5d78964c40c251319686f8d7fcb165fa143dde",
+      "provider": "dacapo",
+      "run_id": "0001-source",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "SOURCE_CHECKOUT",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/eva/0001-eva-source/run_manifest.json",
+        "sha256": "sha256:a78d64acaf1d83ac45188e342c6bc89e3099c831ab69056b932678576334e0c2",
+        "size_bytes": 1147
+      },
+      "output_sha256": "sha256:086937e03ab9f8922f78651dad9c1bd56764f551a363365a6a6604686bfdeaf9",
+      "provider": "eva",
+      "run_id": "0001-eva-source",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "SOURCE_CHECKOUT",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/eva/0002-seal-source/run_manifest.json",
+        "sha256": "sha256:a802c0066442fc49f2a60344cb7d7288953a3ec90a5c9c0c0687ef0069d1436c",
+        "size_bytes": 1062
+      },
+      "output_sha256": "sha256:f245f6926674014221a47380784d3aa56606089481f185bca7e47916f98ac1e9",
+      "provider": "eva",
+      "run_id": "0002-seal-source",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "SOURCE_CHECKOUT",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/eva/0002b-submodules-recovery1/run_manifest.json",
+        "sha256": "sha256:d909e928cb40703b6475702a205cdc9ff07b992eda45735ba14e242073f830fd",
+        "size_bytes": 1126
+      },
+      "output_sha256": "NOT_AVAILABLE",
+      "provider": "eva",
+      "run_id": "0002b-submodules-recovery1",
+      "source_sha256": "sha256:8509ec2c292f52d56affa0dfcf8feaae94a9f591cd74791211731a669f1bc8f7",
+      "stage": "SOURCE_VERIFY",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/eva/0003-clean-build/run_manifest.json",
+        "sha256": "sha256:c57c0df2e5716d8e53f3767a452075d041b6be4f2a8cd59b664e048fb260bb55",
+        "size_bytes": 927
+      },
+      "output_sha256": "sha256:00a095be803febbf7593c329165104f2d2db8e8007f7ac691eb17b60fc35d4d1",
+      "provider": "eva",
+      "run_id": "0003-clean-build",
+      "source_sha256": "sha256:e877398a4b3315707f2edd9e0263a5ba5e70c7ad9773776b82e2c9b1b9678937",
+      "stage": "CLEAN_BUILD",
+      "state": "FAILED"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/eva/0003-clean-build-retry1/run_manifest.json",
+        "sha256": "sha256:54a4176dd421346fa354b24f124e0578b1b3c3bee9bcca3b8ec981ced8ccfbd1",
+        "size_bytes": 934
+      },
+      "output_sha256": "sha256:4d393df4e278b47cd9e3a15f7f74e9206585d34ea3ab945b5efba1942c556d22",
+      "provider": "eva",
+      "run_id": "0003-clean-build-retry1",
+      "source_sha256": "sha256:8509ec2c292f52d56affa0dfcf8feaae94a9f591cd74791211731a669f1bc8f7",
+      "stage": "CLEAN_BUILD",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "sha256:4c7972709f69b3ca699dfe11e3af3dc584e60e6399206cb04f5e3de53d660fa4",
+      "manifest": {
+        "path": "external/v7/status/eva/0004-official-image/run_manifest.json",
+        "sha256": "sha256:dfab2e9d4a11133683e21adcd5e1f28fc54a15d65d4f3053b67e238d16c8e5eb",
+        "size_bytes": 1083
+      },
+      "output_sha256": "sha256:406fa1051c7e7f942dd8cba9317d7fc02136aa3596b7aa8ac44aaaa729b187e2",
+      "provider": "eva",
+      "run_id": "0004-official-image",
+      "source_sha256": "sha256:8509ec2c292f52d56affa0dfcf8feaae94a9f591cd74791211731a669f1bc8f7",
+      "stage": "ENCRYPTED_VALIDATION",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "sha256:7e8cd11479e37b54315062874c2a036b160261db156507e1431f8eb458c460ef",
+      "manifest": {
+        "path": "external/v7/status/eva/0005-shared-polynomial/run_manifest.json",
+        "sha256": "sha256:19d47fd28170e9c6c771965d4dfdf6b537179ff7412d2be2b78c72a149b6ff5d",
+        "size_bytes": 1077
+      },
+      "output_sha256": "sha256:72acbccb5cc9752e92edd5f81014882ce302e895e5d1a4971de2adf476855655",
+      "provider": "eva",
+      "run_id": "0005-shared-polynomial",
+      "source_sha256": "sha256:8509ec2c292f52d56affa0dfcf8feaae94a9f591cd74791211731a669f1bc8f7",
+      "stage": "ENCRYPTED_AUDIT",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/heco/0001-source/run_manifest.json",
+        "sha256": "sha256:735f671d80032783679bed9a02e5c43b9c59a478d563fcc386fd3fd7e7f406dc",
+        "size_bytes": 1148
+      },
+      "output_sha256": "sha256:9d6f6e5530744c1a155aee6c78562bdd6e17862b9faacf735fa0f1beb753a573",
+      "provider": "heco",
+      "run_id": "0001-source",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "SOURCE_CHECKOUT",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/heco/0002-clean-build/run_manifest.json",
+        "sha256": "sha256:e913767616f08cbc89126853bc2e03dc942d9bbc18cfa979e36a77b8ca7f115f",
+        "size_bytes": 1877
+      },
+      "output_sha256": "sha256:bc40e63c090fbba43650aa5687cddc885afcc32d0606c5ac6326501c32fbeef8",
+      "provider": "heco",
+      "run_id": "0002-clean-build",
+      "source_sha256": "sha256:385c4bd58bdb69a491d57e26fc4ada5d3fa26f550a296c31d9d36cb3fad04263",
+      "stage": "CLEAN_BUILD",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/heco/0003-official-pipeline/run_manifest.json",
+        "sha256": "sha256:53b5ff2b9d90de8daf8d645663e9c50313072633bc1476f29fd65fa113f6d09c",
+        "size_bytes": 1597
+      },
+      "output_sha256": "NOT_AVAILABLE",
+      "provider": "heco",
+      "run_id": "0003-official-pipeline",
+      "source_sha256": "sha256:385c4bd58bdb69a491d57e26fc4ada5d3fa26f550a296c31d9d36cb3fad04263",
+      "stage": "OFFICIAL_PIPELINE",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/heco/0004-official-encrypted-benchmark/run_manifest.json",
+        "sha256": "sha256:fdbf27c6a84929c32b9fa2199293fed0d2ab395e4d0135a9d11d36c8abfb8ee6",
+        "size_bytes": 1262
+      },
+      "output_sha256": "NOT_AVAILABLE",
+      "provider": "heco",
+      "run_id": "0004-official-encrypted-benchmark",
+      "source_sha256": "sha256:385c4bd58bdb69a491d57e26fc4ada5d3fa26f550a296c31d9d36cb3fad04263",
+      "stage": "ENCRYPTED_VALIDATION",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/heco/0005-output-freeze/run_manifest.json",
+        "sha256": "sha256:d58ca4a45e69d6e9b7009443e010820f3c2e7286df7a443ccb7b63d52084ac82",
+        "size_bytes": 1681
+      },
+      "output_sha256": "NOT_AVAILABLE",
+      "provider": "heco",
+      "run_id": "0005-output-freeze",
+      "source_sha256": "sha256:385c4bd58bdb69a491d57e26fc4ada5d3fa26f550a296c31d9d36cb3fad04263",
+      "stage": "OUTPUT_NORMALIZATION",
+      "state": "FAILED"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/heco/0005-output-freeze-retry1/run_manifest.json",
+        "sha256": "sha256:13c5c6731334d9ebf6f2a496e24d880c22573441b959169f6284a2c33ae85dd5",
+        "size_bytes": 2425
+      },
+      "output_sha256": "sha256:d693719fc18473f586a263de479704b722258ad35e2ad107828c8ef0090852f2",
+      "provider": "heco",
+      "run_id": "0005-output-freeze-retry1",
+      "source_sha256": "sha256:385c4bd58bdb69a491d57e26fc4ada5d3fa26f550a296c31d9d36cb3fad04263",
+      "stage": "OUTPUT_NORMALIZATION",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/heir/0000-bazelisk/run_manifest.json",
+        "sha256": "sha256:109076cc402a44e436ac0d1e9ce88260f4762202960087851cdf2d6c38c9e4be",
+        "size_bytes": 1192
+      },
+      "output_sha256": "sha256:6539c12842ad76966f3d493e8f80d67caa84ec4a000e220d5459833c967c12bc",
+      "provider": "heir",
+      "run_id": "0000-bazelisk",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "ENVIRONMENT_CREATE",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/heir/0001-source/run_manifest.json",
+        "sha256": "sha256:d21078a592c47523a6b0c9b2b1506568e69e377b058f2d0a55f7f594315d1f43",
+        "size_bytes": 1153
+      },
+      "output_sha256": "sha256:0b784acd8d4c1ae56df35a05a9f1a978d780a61f6f402bce3abde622a847cc87",
+      "provider": "heir",
+      "run_id": "0001-source",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "SOURCE_CHECKOUT",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/heir/0002-openfhe-lattigo-e2e/run_manifest.json",
+        "sha256": "sha256:4f48ead430c5d3fb8a527e7bf4b72306024b64797828820e8f15069e9947cea0",
+        "size_bytes": 1299
+      },
+      "output_sha256": "sha256:9f7fe66a2ca27595fca0fc1f402828a075e452316c621d43617103d8eadb0b03",
+      "provider": "heir",
+      "run_id": "0002-openfhe-lattigo-e2e",
+      "source_sha256": "sha256:25f1348ed69e3d310cce97870915ce6626ae97a722a12078d6e3e8ae9cc8bc3e",
+      "stage": "ENCRYPTED_VALIDATION",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/heir/0003-output-freeze/run_manifest.json",
+        "sha256": "sha256:8429fef32282aa0bf8c7413323ee118d265f442088f66cf25fc26242d4269f8c",
+        "size_bytes": 2117
+      },
+      "output_sha256": "NOT_AVAILABLE",
+      "provider": "heir",
+      "run_id": "0003-output-freeze",
+      "source_sha256": "sha256:25f1348ed69e3d310cce97870915ce6626ae97a722a12078d6e3e8ae9cc8bc3e",
+      "stage": "OUTPUT_NORMALIZATION",
+      "state": "FAILED"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/heir/0003-output-freeze-retry1/run_manifest.json",
+        "sha256": "sha256:846e5ff9ac62927d2ef09ea1b3eaf9c54133b8a86c33afde2703cd12c57483b6",
+        "size_bytes": 2598
+      },
+      "output_sha256": "sha256:d241c6444608a91b753ff789d8b393af89badf81cb2e8158d4fd1f5a3064d635",
+      "provider": "heir",
+      "run_id": "0003-output-freeze-retry1",
+      "source_sha256": "sha256:25f1348ed69e3d310cce97870915ce6626ae97a722a12078d6e3e8ae9cc8bc3e",
+      "stage": "OUTPUT_NORMALIZATION",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "sha256:56470c874ae51217bf6248cef534ee50f3652340d746a7fe1758f20d72b7d7aa",
+      "manifest": {
+        "path": "external/v7/status/heir/0004-output-capture-patch-v1/run_manifest.json",
+        "sha256": "sha256:12fb23209193cf41a094f6b8eacaf9e2b6c4abe87e95ab180cba9604ccd65336",
+        "size_bytes": 1685
+      },
+      "output_sha256": "sha256:58185f1dc3ca229f97a792906d69883b0b4f3957eb07b8b0e44865b9ca57265a",
+      "provider": "heir",
+      "run_id": "0004-output-capture-patch-v1",
+      "source_sha256": "sha256:b8f7019c7fb4261a128121c1603c41411c1040d71a1ed11e2731ec5e6fc1c4c2",
+      "stage": "SOURCE_VERIFY",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "sha256:56470c874ae51217bf6248cef534ee50f3652340d746a7fe1758f20d72b7d7aa",
+      "manifest": {
+        "path": "external/v7/status/heir/0005-output-capture-e2e-v1/run_manifest.json",
+        "sha256": "sha256:04b8cfd4fd17c55598dda218c9047220fbd46f74860221330ff5ea50a4684435",
+        "size_bytes": 1391
+      },
+      "output_sha256": "sha256:719a89630c5f00bdf492909f6d1875e935b4a31122e32d12f0fd743e62947e43",
+      "provider": "heir",
+      "run_id": "0005-output-capture-e2e-v1",
+      "source_sha256": "sha256:b8f7019c7fb4261a128121c1603c41411c1040d71a1ed11e2731ec5e6fc1c4c2",
+      "stage": "ENCRYPTED_VALIDATION",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/orion/0001-source/run_manifest.json",
+        "sha256": "sha256:aa079338386a0205d43f051707447f07497da6ece1541c9e51119a1fea24602c",
+        "size_bytes": 1151
+      },
+      "output_sha256": "sha256:381308a9cf7003455474cd19585355908e82b24f8f4b77942fb6da879a3456ff",
+      "provider": "orion",
+      "run_id": "0001-source",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "SOURCE_CHECKOUT",
+      "state": "PASS"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/orion/0002-clean-environment/run_manifest.json",
+        "sha256": "sha256:44cf7b1858ae9fb4d4c77e70f185234efa9f37695c72012b4627facd0bbe6b3d",
+        "size_bytes": 1411
+      },
+      "output_sha256": "sha256:c361b06701e952736fe12ab2edb0ee285bea2461f3e8b2fe21a4663bb6b818bc",
+      "provider": "orion",
+      "run_id": "0002-clean-environment",
+      "source_sha256": "sha256:6ae5b8b34cca48673b9bc98f2a054d05f5fd18305630011517a1c3b36740f9e9",
+      "stage": "ENVIRONMENT_CREATE",
+      "state": "FAILED"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/orion/0002b-environment-recovery1/run_manifest.json",
+        "sha256": "sha256:67917616f725bf991dc8fe05be966a026f8ea45f120acc84f23d0b27e91eb494",
+        "size_bytes": 1279
+      },
+      "output_sha256": "sha256:efc7a6459e13b045e148a46167b18c348bd1fc5d8dc9944f076b170a66065f1a",
+      "provider": "orion",
+      "run_id": "0002b-environment-recovery1",
+      "source_sha256": "sha256:6ae5b8b34cca48673b9bc98f2a054d05f5fd18305630011517a1c3b36740f9e9",
+      "stage": "ENVIRONMENT_CREATE",
+      "state": "FAILED"
+    },
+    {
+      "input_sha256": "NOT_AVAILABLE",
+      "manifest": {
+        "path": "external/v7/status/slothe/0001-source/run_manifest.json",
+        "sha256": "sha256:251d198457fdf93d93ed3973ab053244240fe812f93738987404e69e6f3c27c6",
+        "size_bytes": 1161
+      },
+      "output_sha256": "sha256:16615e25a872f9b923956768427d5ea556723c220392085d97be9ff64eea3c44",
+      "provider": "slothe",
+      "run_id": "0001-source",
+      "source_sha256": "NOT_AVAILABLE",
+      "stage": "SOURCE_CHECKOUT",
+      "state": "PASS"
+    }
+  ],
+  "schema_version": "flipguard_external_v7_operation_manifests_v1"
+}

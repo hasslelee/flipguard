@@ -1,0 +1,112 @@
+{
+  "providers": {
+    "ELASM/CoreLab": {
+      "modes": [
+        "eva",
+        "elasm"
+      ],
+      "plans_executed": 72,
+      "plans_generated": 72,
+      "waterlines": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50
+      ]
+    },
+    "EVA": {
+      "official_programs": [
+        "sobel",
+        "harris"
+      ],
+      "selected_candidate": "eva_native_scale30_N14_QP240_ef28317b2a3d",
+      "shared_candidates": [
+        {
+          "candidate_id": "eva_native_scale20_N14_QP240_403b0d9e5ee9",
+          "input_scale_bits": 20,
+          "poly_modulus_degree": 16384,
+          "prime_bits": [
+            60,
+            60,
+            60,
+            60
+          ],
+          "security_state": "PASS",
+          "validation_state": "REJECTED"
+        },
+        {
+          "candidate_id": "eva_native_scale30_N14_QP240_ef28317b2a3d",
+          "input_scale_bits": 30,
+          "poly_modulus_degree": 16384,
+          "prime_bits": [
+            60,
+            60,
+            60,
+            60
+          ],
+          "security_state": "PASS",
+          "validation_state": "SAFE"
+        },
+        {
+          "candidate_id": "eva_native_scale40_N14_QP320_eeed1dcd1ccb",
+          "input_scale_bits": 40,
+          "poly_modulus_degree": 16384,
+          "prime_bits": [
+            60,
+            20,
+            60,
+            60,
+            60,
+            60
+          ],
+          "security_state": "PASS",
+          "validation_state": "SAFE"
+        }
+      ]
+    },
+    "HECO": {
+      "ckks_eligible": false,
+      "scheme": "BFV"
+    },
+    "HEIR": {
+      "decision_rule": "NOT_AVAILABLE_IN_OFFICIAL_WORKLOAD",
+      "runtimes": [
+        "OpenFHE",
+        "Lattigo"
+      ]
+    }
+  },
+  "schema_version": "flipguard_external_v7_provider_candidates_v1"
+}

@@ -1,0 +1,73 @@
+{
+  "identities": {
+    "corelab_linear_regression": {
+      "input_digest": "sha256:d66bf444fdaac8d46cd4225cc3315782db888ee0bec2255daa27c38b18d8255f",
+      "input_id": "official_linear_regression_seed_20260805",
+      "input_x_sha256": "sha256:ecc5b5c0ab61e0014d12934825e654a9271254ccc02193d2590ae2864132b63d",
+      "input_y_sha256": "sha256:d47b1fdaa1e0a216db74a37ebb121652d9e824cf554cb5c60fd339b859cdc671",
+      "unique_inputs": 1
+    },
+    "eva_official_image": {
+      "input_digest": "sha256:6b12fa355322633e496aead57f2f6c235e86d01a195afa23be4cb2ed8577abb0",
+      "input_id": "eva_v1.0.1_official_baboon_64x64",
+      "ordered_observations": 4096,
+      "source": {
+        "path": "external/v7/outputs/eva/official-image-v1/per_pixel_outputs.csv",
+        "sha256": "sha256:b89304d18b86ba76f44cfbddeefc590c3706a98b4d14092a440b0dd79cd29dc4",
+        "size_bytes": 4502216
+      },
+      "unique_inputs": 1
+    },
+    "eva_shared_audit": {
+      "input_digest": "sha256:e08a12045817a727b04603a3462ec7240884aae00679da4c8602d9f962626d4b",
+      "input_id": "shared_polynomial_locked_audit_v1",
+      "role": "locked_audit",
+      "source": {
+        "path": "external/v7/outputs/eva/shared-polynomial-v1/locked_audit_selected.csv",
+        "sha256": "sha256:02a6cfb4fe17c40ddd323806435d8f78840fa385653311fc77b30e7c5eaa53c8",
+        "size_bytes": 12013
+      },
+      "unique_inputs": 16
+    },
+    "eva_shared_validation": {
+      "input_digest": "sha256:dfc254192e6c4c82b53a0a33c487f6897731cdcc8b1f0ade804eff14de585dfc",
+      "input_id": "shared_polynomial_validation_v1",
+      "role": "configuration_validation",
+      "source": {
+        "path": "external/v7/outputs/eva/shared-polynomial-v1/validation_scale_30.csv",
+        "sha256": "sha256:29eac11722d50e79dbcad7eefaa2d51c4b60c0492af6128a6ae3d3af8e17fe34",
+        "size_bytes": 11200
+      },
+      "unique_inputs": 14
+    },
+    "heco_official_benchmark": {
+      "input_digest": "OUTPUT_UNAVAILABLE",
+      "input_id": "OUTPUT_UNAVAILABLE",
+      "unique_inputs": "NOT_REPORTED"
+    },
+    "heir_dot_product_8f": {
+      "input_digest": "sha256:74b075464a7e817c5b5c902c6f840d6603600ba852a00f6bccea3a63e9b236c0",
+      "input_id": "official_dot_product_8f_input_v1",
+      "source_files": [
+        {
+          "path": "external/v7/sources/heir/tests/Examples/common/dot_product_8f.mlir",
+          "sha256": "sha256:08b73014aa97c12f317bb3c09d74b141f6126e1d049f1de351155d8078acb74f",
+          "size_bytes": 334
+        },
+        {
+          "path": "external/v7/sources/heir/tests/Examples/openfhe/ckks/dot_product_8f/dot_product_8f_test.cpp",
+          "sha256": "sha256:28f082b1e22931c63f29673180ec94ac54594df9bc03e180a24f3fb6246084da",
+          "size_bytes": 1383
+        },
+        {
+          "path": "external/v7/sources/heir/tests/Examples/lattigo/ckks/dot_product_8f/dot_product_8f_test.go",
+          "sha256": "sha256:5c0d39436d0920922a0d84d162f6a1343f8137be922d3b9ccf8e26b0562af0f7",
+          "size_bytes": 844
+        }
+      ],
+      "unique_inputs": 1
+    }
+  },
+  "schema_version": "flipguard_external_v7_input_manifests_v1",
+  "validation_audit_overlap": 0
+}
