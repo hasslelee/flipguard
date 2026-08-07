@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[2]
 STATUS = ROOT / "external/v7/status"
 EVIDENCE = ROOT / "docs/evidence/external_end_to_end_code_v7"
 RESULTS = ROOT / "results/thesis_grade_protocol/external_end_to_end_code_v7"
-PREPARED = RESULTS / "prepared-final-v3"
+PREPARED = RESULTS / "prepared-final-v4"
 VERIFIER = EVIDENCE / "verify_external_end_to_end_code_v7.py"
 FINAL_WINDOW = dt.timedelta(minutes=30)
 SECURITY_POLICY_PATH = Path(
@@ -180,6 +180,7 @@ def copy_or_verify(source: Path, destination: Path) -> None:
         if not destination.is_file() or sha256(source) != sha256(destination):
             raise RuntimeError(f"refusing to overwrite nonidentical evidence: {destination}")
         return
+    destination.parent.mkdir(parents=True, exist_ok=True)
     temporary = destination.with_name(f".{destination.name}.tmp-{os.getpid()}")
     shutil.copy2(source, temporary)
     os.replace(temporary, destination)
