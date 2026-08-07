@@ -46,7 +46,9 @@ done
 
 readonly HEIR_ROOT="external/v8/sources/heir"
 readonly BAZELISK="external/v7/tools/bazelisk"
-"$BAZELISK" --output_user_root="$ROOT/external/v8/builds/heir" build \
+# Reuse the exact preflight output root so the service does not rebuild HEIR's
+# full dependency closure after the target has already passed static build QA.
+"$BAZELISK" --output_user_root="$ROOT/external/v8/builds/heir-preflight" build \
   --jobs=2 --local_cpu_resources=2 \
   //tests/Examples/openfhe/ckks/shared_polynomial_v8:runner
 readonly OPENFHE_RUNNER="$HEIR_ROOT/bazel-bin/tests/Examples/openfhe/ckks/shared_polynomial_v8/runner"
