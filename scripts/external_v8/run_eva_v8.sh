@@ -4,14 +4,16 @@ set -euo pipefail
 readonly ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 readonly OUTPUT="external/v8/outputs/eva/shared-polynomial-threshold-v8"
-if [[ -f "$OUTPUT/manifest.json" ]]; then
+if [[ -f "$OUTPUT/manifest.json" && -f "$OUTPUT/SHA256SUMS" ]]; then
   python3 -c 'import json,sys; assert json.load(open(sys.argv[1]))["status"] == "PASS"' "$OUTPUT/manifest.json"
+  (cd "$OUTPUT" && sha256sum -c SHA256SUMS >/dev/null)
   exit 0
 fi
 readonly PARTIAL="${OUTPUT}.partial"
-if [[ -e "$PARTIAL" ]]; then
+if [[ -e "$PARTIAL" || -e "$OUTPUT" ]]; then
   mkdir -p external/v8/failed_intermediates/eva
-  mv "$PARTIAL" "external/v8/failed_intermediates/eva/shared-polynomial-$(date -u +%Y%m%dT%H%M%SZ)"
+  [[ ! -e "$PARTIAL" ]] || mv "$PARTIAL" "external/v8/failed_intermediates/eva/shared-polynomial-partial-$(date -u +%Y%m%dT%H%M%SZ)"
+  [[ ! -e "$OUTPUT" ]] || mv "$OUTPUT" "external/v8/failed_intermediates/eva/shared-polynomial-incomplete-$(date -u +%Y%m%dT%H%M%SZ)"
 fi
 
 docker run --rm --cpuset-cpus 0,1 \

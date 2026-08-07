@@ -4,8 +4,9 @@ set -euo pipefail
 readonly ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 readonly OUT="external/v8/outputs/flipguard/shared-polynomial-threshold-v8"
-if [[ -f "$OUT/manifest.json" ]]; then
+if [[ -f "$OUT/manifest.json" && -f "$OUT/SHA256SUMS" ]]; then
   python3 -c 'import json,sys; assert json.load(open(sys.argv[1]))["status"] == "PASS"' "$OUT/manifest.json"
+  (cd "$OUT" && sha256sum -c SHA256SUMS >/dev/null)
   exit 0
 fi
 mkdir -p external/v8/binaries "$OUT"

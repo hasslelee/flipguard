@@ -176,9 +176,12 @@ def main() -> int:
     rows = [row for plan in plan_results for row in plan["records"]]
     records_path = output / "records.csv"
     if not records_path.exists():
-        with records_path.open("x", newline="", encoding="utf-8") as handle:
+        records_partial = records_path.with_suffix(".csv.partial")
+        records_partial.unlink(missing_ok=True)
+        with records_partial.open("x", newline="", encoding="utf-8") as handle:
             writer = csv.DictWriter(handle, fieldnames=FIELDS, lineterminator="\n")
             writer.writeheader(); writer.writerows(rows)
+        records_partial.replace(records_path)
     manifest = {
         "schema_version": "flipguard_focused_external_v8_corelab_result_v1",
         "status": "PASS" if rows else "FAILED",
@@ -196,7 +199,10 @@ def main() -> int:
         "records_sha256": sha256(records_path),
         "source_modifications": 0,
     }
-    (output / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    manifest_path = output / "manifest.json"
+    manifest_partial = manifest_path.with_suffix(".json.partial")
+    manifest_partial.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    manifest_partial.replace(manifest_path)
     checksums = [f"{sha256(path)[7:]}  {path.relative_to(output).as_posix()}" for path in sorted(output.rglob("*")) if path.is_file() and path.name != "SHA256SUMS"]
     (output / "SHA256SUMS").write_text("\n".join(checksums) + "\n", encoding="ascii")
     print(json.dumps(manifest, indent=2, sort_keys=True))

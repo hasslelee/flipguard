@@ -4,8 +4,9 @@ set -euo pipefail
 readonly ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
 readonly OUTPUT="external/v8/outputs/corelab/linear-regression-multi-input-v8"
-if [[ -f "$OUTPUT/manifest.json" ]]; then
+if [[ -f "$OUTPUT/manifest.json" && -f "$OUTPUT/SHA256SUMS" ]]; then
   python3 -c 'import json,sys; assert json.load(open(sys.argv[1]))["status"] == "PASS"' "$OUTPUT/manifest.json"
+  (cd "$OUTPUT" && sha256sum -c SHA256SUMS >/dev/null)
   exit 0
 fi
 mkdir -p "$OUTPUT"

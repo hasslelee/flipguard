@@ -133,7 +133,9 @@ def main() -> int:
         if json.loads(manifest_path.read_text()) != manifest:
             raise RuntimeError("HEIR result manifest drift on resume")
     else:
-        manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        partial = manifest_path.with_suffix(".json.partial")
+        partial.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        partial.replace(manifest_path)
     checksums = [
         f"{sha256(path)[7:]}  {path.relative_to(output).as_posix()}"
         for path in sorted(output.rglob("*")) if path.is_file() and path.name != "SHA256SUMS"

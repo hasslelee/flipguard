@@ -194,7 +194,9 @@ def main() -> int:
         "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
     }
     manifest_path = output / "manifest.json"
-    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    manifest_partial = manifest_path.with_suffix(".json.partial")
+    manifest_partial.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    manifest_partial.replace(manifest_path)
     checksums = [f"{sha256(path)[7:]}  {path.relative_to(output).as_posix()}" for path in sorted(output.rglob("*")) if path.is_file() and path.name != "SHA256SUMS"]
     (output / "SHA256SUMS").write_text("\n".join(checksums) + "\n", encoding="ascii")
     print(json.dumps(manifest, indent=2, sort_keys=True))
