@@ -194,6 +194,18 @@ def main() -> int:
                 break
             time.sleep(30 * attempt)
         assert result is not None
+        if stage == "binding" and result.returncode != 0:
+            atomic_json(STATUS / "binding_failure.json", {
+                **terminal,
+                "classification": "INTEGRITY_BLOCK",
+            })
+            atomic_json(STATUS / "master_state.json", {
+                "state": "INTEGRITY_BLOCK",
+                "stage": stage,
+                "timestamp": timestamp(),
+                "exit_code": result.returncode,
+            })
+            return 4
         if result.returncode == 0:
             with completed_path.open("a", encoding="utf-8") as handle:
                 handle.write(json.dumps({"stage": stage, "timestamp": timestamp()}, sort_keys=True) + "\n")

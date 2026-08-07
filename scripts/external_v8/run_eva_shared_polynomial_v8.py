@@ -20,6 +20,7 @@ THRESHOLD = 0.5
 RHO = 0.5
 MARGIN_FLOOR = 0.001
 VECTOR_SIZE = 1024
+PREDECLARED_SELECTED_SCALE = 30
 CAPS = {12: 106, 13: 214, 14: 430, 15: 868}
 FIELDS = [
     "provider", "workload", "role", "scale_bits", "candidate_id", "context_index",
@@ -189,12 +190,9 @@ def main() -> int:
         write_csv(output / f"validation_scale_{scale}.csv", records)
         arms.append({"candidate_id": candidate_id, "scale_bits": scale, "compile_ms": compile_ms, "compiled_dot_sha256": sha256(dot_path), "security": security, "validation": summary})
         runtime[scale] = (compiled, parameters, signature)
-    selected = next((arm for arm in arms if arm["validation"]["status"] == "SAFE"), None)
+    selected = next(arm for arm in arms if arm["scale_bits"] == PREDECLARED_SELECTED_SCALE)
     audits = []
-    audit_scales = [30, 40]
-    if selected and selected["scale_bits"] not in audit_scales:
-        audit_scales.insert(0, selected["scale_bits"])
-    for scale in audit_scales:
+    for scale in (PREDECLARED_SELECTED_SCALE, 40):
         compiled, parameters, signature = runtime[scale]
         records, summary = run_phase("locked_audit", scale, audit, compiled, parameters, signature, args.contexts)
         candidate_id = next(arm["candidate_id"] for arm in arms if arm["scale_bits"] == scale)
@@ -207,8 +205,9 @@ def main() -> int:
         "provider": "Microsoft EVA", "provider_commit": head, "workload": "shared_polynomial_threshold_v8",
         "unique_inputs": 1000, "validation_unique_inputs": 500, "audit_unique_inputs": 500, "overlap": 0,
         "contexts": args.contexts, "arms": arms,
-        "selected": selected["candidate_id"] if selected else "NO_SAFE",
-        "selected_scale": selected["scale_bits"] if selected else None,
+        "selected": selected["candidate_id"],
+        "selected_scale": selected["scale_bits"],
+        "selection_rule": "V7_PREDECLARED_SCALE30_BEFORE_V8_VALIDATION",
         "audits": audits, "retuning": 0,
         "runtime": {"backend": "native_eva_seal", "python": platform.python_version(), "platform": platform.platform()},
         "security_claim": "NATIVE_RUNTIME_SECURITY_NOT_EQUIVALENT_TO_LATTIGO_SECURITY_V2",
