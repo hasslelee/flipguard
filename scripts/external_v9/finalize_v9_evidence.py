@@ -17,8 +17,8 @@ PACK = ROOT / "docs/evidence/final_realistic_baseline_closure_v9"
 RESULTS = ROOT / "results/thesis_grade_protocol/final_realistic_baseline_closure_v9"
 V8 = ROOT / "docs/evidence/focused_external_comparison_v8"
 V8_RESULTS = ROOT / "results/thesis_grade_protocol/focused_external_comparison_v8"
-BASE_COMMIT = "8149ca76a69bb7cd50b1480f2a7f3d68f295355a"
-FREEZE_TIMESTAMP = "2026-08-08T21:10:00+09:00"
+BASE_COMMIT = "cd2662cc38508ff858b188b3f2f7141dff882e43"
+FREEZE_TIMESTAMP = "2026-08-08T21:10:20+09:00"
 
 
 def sha256(path: Path) -> str:
@@ -53,6 +53,12 @@ def copy(source: Path, destination: Path) -> None:
 
 
 def environment() -> dict[str, object]:
+    frozen = PACK / "environment.json"
+    if frozen.is_file():
+        payload = load_json(frozen)
+        if payload.get("schema_version") == "flipguard_v9_environment_v1":
+            payload["captured_for_commit"] = BASE_COMMIT
+            return payload
     memory = {}
     for line in Path("/proc/meminfo").read_text(encoding="ascii").splitlines():
         key, value = line.split(":", 1)
@@ -315,6 +321,32 @@ The result is limited to one exact shared workload, its frozen inputs, one host,
 - Orion: 10-input official encrypted self-test PASS with 0 flips; full trained-model extension blocked because no official trained MLP weights are distributed
 - External comparison manuscript readiness: `true`
 - Repository-wide paper flag: unchanged
+
+## Verification
+
+- `go test ./...`: PASS after isolating the ignored HEIR/Bazel build cache from the root Go module
+- `go vet ./...`: PASS
+- Python unittest: 349 tests PASS in 1,994.372 seconds
+- Python bytecode compilation: PASS with bytecode redirected outside frozen evidence trees
+- V7, V8, direct-forensic, and V9 deterministic verifiers: PASS
+- V9 evidence checksums: PASS
+- V9 publication-input checksums and SVG parsing: PASS
+
+## Recovery record
+
+- The first root Go test traversed ignored HEIR/Bazel Go-toolchain test fixtures and failed outside FlipGuard packages. A local untracked nested-module boundary isolated that cache; the unchanged root command then passed.
+- Orion attempt 1 failed on Python 3.12/Torch Dynamo compatibility before encrypted inference.
+- Orion attempt 2 failed because the isolated Python 3.11 image lacked the `git` provenance executable.
+- Orion attempt 3 completed actual keygen, encryption, evaluation, decryption, and ten-logit extraction.
+
+## Remaining manuscript risks
+
+- P1 and P2 are not admissible repeated-stability claims because the direct arm flips on one declared ambiguous input.
+- P3 covers one exact shared polynomial and one measured host.
+- HECATE has no separately invocable official mode in the pinned artifact.
+- Orion full trained-model validation/audit is blocked by absent official trained MLP weights.
+- Native-runtime timings remain non-comparable as raw speed rankings.
+
 - Next action: rewrite the manuscript using only `final_claim_admission.json` and the V9 publication inputs
 - Run disposition: `PAUSE_FOR_FINAL_MANUSCRIPT_REWRITE`
 """

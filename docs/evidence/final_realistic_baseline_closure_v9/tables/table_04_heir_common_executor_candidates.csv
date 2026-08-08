@@ -1,0 +1,10 @@
+arm,candidate_id,decision_flips,fresh_key_runs,mean_total_ms,outcome,provider,raw_observations,reserve_policy_violations,retuning,role,runtime,security_state,status,unique_inputs,workload
+,heir_lattigo_v6_2_shared_polynomial,0,3,,,Google HEIR,,0,0,configuration_validation,lattigo_v6_2,,SAFE,500,
+,heir_lattigo_v6_2_shared_polynomial,0,3,,,Google HEIR,,0,0,locked_audit,lattigo_v6_2,,SAFE,500,
+,heir_openfhe_shared_polynomial,0,3,,,Google HEIR,,0,0,configuration_validation,openfhe,,SAFE,500,
+,heir_openfhe_shared_polynomial,0,3,,,Google HEIR,,0,0,locked_audit,openfhe,,SAFE,500,
+direct,provider_direct_synthesizer_ab7d6d8fcdf10d4e,0,3,65.07174885733329,SELECTED,FlipGuard direct,1500,0,,configuration_validation,Lattigo v6.2.0,PASS,SAFE,500,shared_polynomial_threshold_v8
+deep_chain_8_scale45,provider_bounded_catalog_3aaf661a70fb4fde,0,3,317.8693810279999,SELECTED,Security-V2 bounded catalog,1500,0,,configuration_validation,Lattigo v6.2.0,PASS,SAFE,500,shared_polynomial_threshold_v8
+deep_chain_9_scale45,provider_bounded_catalog_e676624a7a581a78,0,3,372.25588057599975,SELECTED,Security-V2 bounded catalog,1500,0,,configuration_validation,Lattigo v6.2.0,PASS,SAFE,500,shared_polynomial_threshold_v8
+direct,provider_direct_synthesizer_ab7d6d8fcdf10d4e,0,3,,LOCKED_AUDIT_PASS,FlipGuard direct,,0,False,locked_audit,Lattigo v6.2.0,,SAFE,500,shared_polynomial_threshold_v8
+catalog_fastest_safe,provider_bounded_catalog_3aaf661a70fb4fde,0,3,,LOCKED_AUDIT_PASS,Security-V2 bounded catalog,,0,False,locked_audit,Lattigo v6.2.0,,SAFE,500,shared_polynomial_threshold_v8

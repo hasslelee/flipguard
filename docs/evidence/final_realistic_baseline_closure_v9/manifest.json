@@ -1,0 +1,54 @@
+{
+  "completion_state": "FINAL_BASELINE_V8_SUFFICIENT_OPTIONALS_BLOCKED",
+  "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+  "direct_policy_id": "flipguard_direct_synthesis_policy_v2",
+  "direct_repeat_flip_class": "F4_NEAR_BOUNDARY_AMBIGUITY",
+  "direct_repeat_flips": 8,
+  "direct_repeat_unique_inputs": 1,
+  "external_comparison_manuscript_ready": true,
+  "external_measured_decision_providers": [
+    "Microsoft EVA",
+    "Google HEIR Lattigo",
+    "Google HEIR OpenFHE"
+  ],
+  "external_numerical_modes": [
+    "CoreLab EVA",
+    "CoreLab ELASM"
+  ],
+  "freeze_timestamp": "2026-08-08T21:10:20+09:00",
+  "hecate_plans_attempted": 0,
+  "hecate_status": "HECATE_PAPER_BASELINE_ONLY",
+  "mandatory_closure_states": [
+    "DIRECT_REPEAT_FLIP_CLASSIFIED",
+    "PAIRWISE_LATENCY_CLAIMS_CLASSIFIED",
+    "FINAL_BASELINE_SET_FROZEN",
+    "EXTERNAL_COMPARISON_READY_FOR_MANUSCRIPT"
+  ],
+  "new_dataset_or_trained_model": 0,
+  "optional_measured_providers_added": 0,
+  "orion_full_run_performed": false,
+  "orion_preflight_flips": 0,
+  "orion_preflight_inputs": 10,
+  "orion_status": "ORION_OFFICIAL_SELF_TEST_ONLY_FULL_EXTENSION_BLOCKED",
+  "p3_ci": [
+    6.361221883796193,
+    6.427118084866673
+  ],
+  "p3_ratio": 6.393517225744701,
+  "pairwise_states": {
+    "P1": "BLOCKED_UNSTABLE_ARM",
+    "P2": "BLOCKED_UNSTABLE_ARM",
+    "P3": "PAPER_ADMITTED"
+  },
+  "policy_retuning": 0,
+  "predecessor_commit": "d32fae893bc381729b1eb2139ebdb4e444362552",
+  "predecessor_v8_manifest_sha256": "sha256:a3c345aaf95b29753d5a62c80cd86d8fdae158bc5bbe38f1f83bbd363c92f867",
+  "publication_inputs_manifest_sha256": "sha256:1a4dccf3afaa3ee940ac4f483d904067dd44bcfca56b69ca1fded0715e73f0e9",
+  "repository_wide_paper_claim_allowed_unchanged": false,
+  "schema_version": "flipguard_final_realistic_baseline_closure_v9",
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+  "source_commit": "cd2662cc38508ff858b188b3f2f7141dff882e43",
+  "start_timestamp": "2026-08-08T20:41:46+09:00",
+  "targeted_replay_performed": false
+}
