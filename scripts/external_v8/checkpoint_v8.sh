@@ -19,14 +19,26 @@ done < <(git ls-files '*.sh')
 scripts/external_v7/run_clean_source_go_gate_v7.sh
 git diff --check
 (cd docs/evidence/focused_external_comparison_v8 && sha256sum -c SHA256SUMS)
-if rg -n '/home/ckks2|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|ghp_[A-Za-z0-9]+' \
-  docs/evidence/focused_external_comparison_v8 \
-  results/thesis_grade_protocol/focused_external_comparison_v8; then
+readonly SENSITIVE_PATTERN='/home/ckks2|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|ghp_[A-Za-z0-9]+'
+if command -v rg >/dev/null 2>&1; then
+  sensitive_matches="$(rg -n "$SENSITIVE_PATTERN" \
+    docs/evidence/focused_external_comparison_v8 \
+    results/thesis_grade_protocol/focused_external_comparison_v8 || true)"
+else
+  sensitive_matches="$(grep -RInE --exclude='*.pyc' "$SENSITIVE_PATTERN" \
+    docs/evidence/focused_external_comparison_v8 \
+    results/thesis_grade_protocol/focused_external_comparison_v8 || true)"
+fi
+if [[ -n "$sensitive_matches" ]]; then
+  printf '%s\n' "$sensitive_matches"
   echo "sensitive/local path scan failed" >&2
   exit 1
 fi
 
-git add docs/evidence/focused_external_comparison_v8 results/thesis_grade_protocol/focused_external_comparison_v8
+git add docs/evidence/focused_external_comparison_v8
+# Thesis-grade result packs are ignored by default to prevent accidental bulk
+# staging. This final, verifier-bound V8 pack is an intentional exception.
+git add -f results/thesis_grade_protocol/focused_external_comparison_v8
 if ! git diff --cached --quiet; then
   git commit -m "Freeze focused external comparison V8 evidence"
 fi
