@@ -1,0 +1,70 @@
+{
+  "claims": {
+    "corelab_eva_elasm_numerical_grid": {
+      "paper_admitted": true,
+      "state": "PARTIALLY_SUPPORTED"
+    },
+    "cross_runtime_speed_superiority": {
+      "paper_admitted": false,
+      "state": "BLOCKED"
+    },
+    "direct_finite_v_cert_locked_audit": {
+      "paper_admitted": true,
+      "scope": "original finite V_cert audit only",
+      "state": "SUPPORTED"
+    },
+    "direct_repeat_flip_classification": {
+      "paper_admitted": true,
+      "state": "SUPPORTED",
+      "wording": "Eight repeated flips arose from one declared ambiguous input and are reported as F4 near-boundary ambiguity."
+    },
+    "direct_repeated_stability_on_v_amb": {
+      "paper_admitted": false,
+      "state": "BLOCKED"
+    },
+    "global_optimality": {
+      "paper_admitted": false,
+      "state": "BLOCKED"
+    },
+    "hecate_measured_provider": {
+      "paper_admitted": false,
+      "state": "NOT_EVALUATED"
+    },
+    "literature_baseline_practice": {
+      "paper_admitted": true,
+      "state": "SUPPORTED"
+    },
+    "orion_official_encrypted_self_test": {
+      "paper_admitted": false,
+      "state": "PILOT_ONLY"
+    },
+    "orion_trained_decision_provider": {
+      "paper_admitted": false,
+      "state": "BLOCKED"
+    },
+    "p1_heir_over_direct_latency": {
+      "paper_admitted": false,
+      "state": "BLOCKED_UNSTABLE_ARM"
+    },
+    "p2_catalog_over_direct_latency": {
+      "paper_admitted": false,
+      "state": "BLOCKED_UNSTABLE_ARM"
+    },
+    "p3_catalog_over_heir_latency": {
+      "paper_admitted": true,
+      "state": "SUPPORTED",
+      "wording": "On the exact shared polynomial in the common Lattigo executor, catalog total latency divided by HEIR total latency was 6.393517 with a cluster-bootstrap 95% CI of [6.361222, 6.427118]."
+    }
+  },
+  "external_comparison_manuscript_ready": true,
+  "prohibited": [
+    "all state-of-the-art autotuners",
+    "comprehensive execution of every CKKS compiler",
+    "global optimum",
+    "universal superiority",
+    "direct synthesis always wins",
+    "build success equals experimental reproduction"
+  ],
+  "repository_wide_paper_claim_allowed_unchanged": false,
+  "schema_version": "flipguard_final_realistic_baseline_v9_claims_v1"
+}

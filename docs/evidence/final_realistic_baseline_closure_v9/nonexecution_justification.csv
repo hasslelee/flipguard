@@ -1,0 +1,12 @@
+system,primary_optimization_objective,official_workload,runtime_hardware,closest_flipguard_research_question,exact_shared_workload_available,decision_bearing_output_available,reason_not_executed_v9,evidence_tier
+DaCapo,bootstrapping placement,deep GPU DNNs,HEaaN GPU,bootstrapping applicability,NO,YES,Current exact workload needs no bootstrap; paper treats scale managers as complementary.,RELATED_WORK_ONLY
+AutoFHE,architecture/polynomial/bootstrap co-search,CIFAR CNNs,GPU RNS-CKKS,application adaptation,NO,YES,Official search is a different optimization unit and requires a substantially larger GPU budget.,RELATED_WORK_ONLY
+LOHEN,layer-wise ciphertext configuration,GPU CNN inference,Liberate-FHE GPU,configuration breadth,NO,YES,"Different model suite, runtime, hardware, and layer-level optimization unit.",RELATED_WORK_ONLY
+SLOTHE,non-arithmetic transformer-function approximation,encrypted transformers,GPU FHE,application adaptation,NO,YES,Not a CKKS parameter-provider equivalent for the frozen workload.,RELATED_WORK_ONLY
+ANT-ACE,ONNX CNN compilation,CNN models,compiler/runtime specific,compiler breadth,NO,UNKNOWN,No pre-frozen exact common workload or validated environment in the V9 window.,RELATED_WORK_ONLY
+HEaaN.MLIR,MLIR compilation for HEaaN,HEaaN workloads,HEaaN,compiler breadth,NO,UNKNOWN,No exact frozen common workload and runtime-equivalent decision output.,RELATED_WORK_ONLY
+HALO,scale and bootstrap management,bootstrap-requiring graphs,artifact-specific,bootstrapping applicability,NO,UNKNOWN,No bootstrap requirement in the exact V9 polynomial workload.,RELATED_WORK_ONLY
+ReSBM,rescaling/bootstrap management,bootstrap-requiring graphs,artifact-specific,bootstrapping applicability,NO,UNKNOWN,No bootstrap requirement and no approved protocol amendment.,RELATED_WORK_ONLY
+Orbit,bootstrapping optimization,bootstrap workloads,artifact unavailable for exact V9 mapping,bootstrapping applicability,NO,UNKNOWN,Official exact common-workload artifact was not available for this final comparison.,RELATED_WORK_ONLY
+FHE-Agent,agentic FHE program/configuration generation,agent-generated tasks,preprint artifact,provider interoperability,NO,UNKNOWN,No verified exact candidate/output path for the frozen workload in V9.,RELATED_WORK_ONLY
+FHECrafter,agentic FHE construction,agent-generated tasks,artifact-specific,provider interoperability,NO,UNKNOWN,No verified official exact-workload artifact in the frozen comparison window.,RELATED_WORK_ONLY
