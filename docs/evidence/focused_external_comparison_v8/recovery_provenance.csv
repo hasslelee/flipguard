@@ -1,0 +1,9 @@
+sequence,provider,reason_code,failure_class,action,encrypted_rerun,candidate_changed,policy_changed,result
+1,Microsoft EVA,EVA_OUTPUT_OWNERSHIP_RECOVERY,RECOVERABLE_IMPLEMENTATION_FAILURE,normalize Docker-owned output permissions without encrypted rerun,False,False,False,PASS
+2,Google HEIR,HEIR_BAZEL_WORKSPACE_CWD_RECOVERY,RECOVERABLE_IMPLEMENTATION_FAILURE,invoke the exact preflight-built runner from its Bazel workspace; reuse completed Lattigo rows,OPENFHE_ONLY_AFTER_PREEXECUTION_FAILURE,False,False,PASS
+3,FlipGuard,FLIPGUARD_PROVIDER_SCHEMA_LABEL_RECOVERY,RECOVERABLE_IMPLEMENTATION_FAILURE,serialize the same direct literal with the supported provider schema,TARGETED_AFTER_PREEXECUTION_FAILURE,False,False,PASS
+4,FlipGuard locked audit,CUSTOM_SPLIT_ID_AND_PATH_REPRESENTATION_NORMALIZATION,RECOVERABLE_IMPLEMENTATION_FAILURE,bind the frozen named split ID and canonical paths without changing rows,TARGETED_AFTER_PREEXECUTION_IDENTITY_FAILURE,False,False,PASS
+5,Security-V2 bounded catalog,SCHEMA2_MIXED_LOG_AND_CONCRETE_MODULI,RECOVERABLE_IMPLEMENTATION_FAILURE,retain exact concrete Q/P and remove duplicate log hints,TARGETED_AFTER_PREEXECUTION_SCHEMA_FAILURE,False,False,PASS
+6,Security-V2 bounded catalog,CATALOG_PLAN_UNSUPPORTED_CONTINUATION,PARTIAL_SCIENTIFIC_RESULT,record five insufficient-depth profiles and continue the two supported profiles,False,False,False,2_SAFE_5_PLAN_UNSUPPORTED
+7,CoreLab EVA/ELASM,CORELAB_MONOLITHIC_NATIVE_MEMORY_GROWTH,RECOVERABLE_IMPLEMENTATION_FAILURE,execute each frozen plan in a short-lived process and resume completed plan files,ONLY_INCOMPLETE_PLANS,False,False,PASS_PROCESS_ISOLATION
+8,CoreLab ELASM,NATIVE_PLAN_EXECUTION_ABORT,PARTIAL_SCIENTIFIC_RESULT,preserve elasm_36 and elasm_41 NTT mismatch failures with zero output rows; continue independent plans,ELASM_36_ONE_DIAGNOSTIC_RETRY_ELASM_41_NO_RETRY,False,False,70_PASS_2_EXECUTION_FAILED

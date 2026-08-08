@@ -1,0 +1,4 @@
+provider,workload,dimension,state,reason
+Microsoft EVA,shared_polynomial_threshold_v8,runtime_and_modulus_schedule,NATIVE_ONLY,EVA/SEAL native schedule is not an exact Lattigo literal
+CoreLab EVA/ELASM,official_LinearRegression_multi_input_v8,output_semantics,NUMERICAL_ONLY,official workload has no natural frozen threshold decision
+Google HEIR,shared_polynomial_threshold_v8,operation_order,PORTABLE_EXACT,the unmodified generated Lattigo evaluator is linked into the common harness

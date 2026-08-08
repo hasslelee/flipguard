@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img">
+<title>Common-executor latency and decision outcomes</title>
+<desc>Same Lattigo harness; direct-arm flips make latency ratios diagnostic only.</desc>
+<rect width="1200" height="675" fill="#ffffff"/>
+<text x="54.0" y="58.0" font-family="sans-serif" font-size="30" font-weight="700" text-anchor="start" fill="#172033">Common-executor latency and decision outcomes</text>
+<text x="54.0" y="91.0" font-family="sans-serif" font-size="17" font-weight="400" text-anchor="start" fill="#526072">Same Lattigo harness; direct-arm flips make latency ratios diagnostic only.</text>
+<line x1="100" y1="570" x2="1135" y2="570" stroke="#9ba7b5" stroke-width="2"/>
+<line x1="100" y1="130" x2="100" y2="570" stroke="#9ba7b5" stroke-width="2"/>
+<text x="620.0" y="635.0" font-family="sans-serif" font-size="19" font-weight="400" text-anchor="middle" fill="#172033">Mean total latency (ms)</text>
+<text x="32.0" y="350.0" font-family="sans-serif" font-size="19" font-weight="400" text-anchor="middle" fill="#172033">Flips</text>
+<circle cx="258.4" cy="570.0" r="13" fill="#2f9eca"/>
+<text x="258.4" y="548.0" font-family="sans-serif" font-size="17" font-weight="700" text-anchor="middle" fill="#172033">heir_generated: 49.06 ms, 0 flips</text>
+<circle cx="297.6" cy="180.0" r="13" fill="#cf222e"/>
+<text x="297.6" y="158.0" font-family="sans-serif" font-size="17" font-weight="700" text-anchor="middle" fill="#172033">flipguard_direct: 61.19 ms, 8 flips</text>
+<circle cx="1110.0" cy="570.0" r="13" fill="#8250df"/>
+<text x="1100.0" y="548.0" font-family="sans-serif" font-size="17" font-weight="700" text-anchor="end" fill="#172033">bounded_catalog: 312.70 ms, 0 flips</text>
+</svg>
