@@ -1,0 +1,23 @@
+{
+  "schema_version": "flipguard_orion_v9_preflight_input_manifest_v1",
+  "frozen_before_encrypted_output": true,
+  "source_dataset": "torchvision.datasets.MNIST official test split",
+  "source_model": "Orion MLP at be8a827350a147d610fe3bb998b5bea8de814ff8",
+  "selection_rule": "first ten ordered official test-set examples",
+  "ordered_test_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "unique_inputs": 10,
+  "result_independent": true,
+  "full_run_population_frozen": false,
+  "full_run_note": "A 100+100 population is frozen only after every V9 full-run gate passes."
+}
