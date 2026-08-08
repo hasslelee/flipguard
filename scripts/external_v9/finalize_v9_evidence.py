@@ -42,14 +42,17 @@ def write_json(path: Path, value: object) -> None:
 def write_csv(path: Path, fields: list[str], rows: list[dict[str, object]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
 
 def copy(source: Path, destination: Path) -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(source, destination)
+    if source.suffix == ".csv":
+        destination.write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
+    else:
+        shutil.copyfile(source, destination)
 
 
 def environment() -> dict[str, object]:
