@@ -1,0 +1,23 @@
+{
+  "allow_targeted_replay_classes": [
+    "F1_HARNESS_OR_IDENTITY_MISMATCH",
+    "F2_RECORD_OR_AGGREGATION_DEFECT"
+  ],
+  "branch": "experiments/final-realistic-baseline-v9",
+  "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+  "direct_policy_id": "flipguard_direct_synthesis_policy_v2",
+  "hard_deadline_timestamp": "2026-08-09T10:41:46+09:00",
+  "margin_floor": 0.001,
+  "margin_utilization_cap": 0.5,
+  "new_job_cutoff_timestamp": "2026-08-09T09:11:46+09:00",
+  "no_audit_retuning": true,
+  "no_cross_runtime_speed_claim": true,
+  "optional_providers": ["HECATE", "Orion"],
+  "predecessor_commit": "d32fae893bc381729b1eb2139ebdb4e444362552",
+  "predecessor_manifest_sha256": "sha256:a3c345aaf95b29753d5a62c80cd86d8fdae158bc5bbe38f1f83bbd363c92f867",
+  "schema_version": "flipguard_final_realistic_baseline_v9_protocol_v1",
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+  "start_timestamp": "2026-08-08T20:41:46+09:00",
+  "threshold": 0.5
+}
