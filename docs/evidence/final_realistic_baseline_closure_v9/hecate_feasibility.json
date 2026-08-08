@@ -1,0 +1,70 @@
+{
+  "schema_version": "flipguard_v9_hecate_feasibility_v1",
+  "provider": "HECATE",
+  "final_status": "HECATE_PAPER_BASELINE_ONLY",
+  "official_mode_available": false,
+  "encrypted_execution_performed": false,
+  "plans_attempted": 0,
+  "plans_completed": 0,
+  "reason_code": "OFFICIAL_STANDALONE_HECATE_MODE_NOT_EXPOSED",
+  "reason": "The pinned official compiler and its built CLI expose eva, snr, elasm, dacapo, pars, halo, and prototype pipelines, but no separately invocable hecate or smse pipeline. Constructing HECATE by composing passes from the paper would be a new source-level reimplementation rather than an official reproduction.",
+  "source": {
+    "repository": "https://github.com/corelab-src/hecate-compiler",
+    "commit": "aedca73dac27b86044721781b9fca8d12e665876",
+    "working_tree_clean": true,
+    "dispatch_path": "external/v7/sources/hecate/tools/hecate-opt/HecatePipeline.cpp",
+    "dispatch_sha256": "sha256:591f7a626602749b8714b940e963c109d7c60bd88c90d71ac3c6c9eade709d3d",
+    "readme_path": "external/v7/sources/hecate/README.md",
+    "readme_sha256": "sha256:40c2d9757334b8a89b07ab4df5147b022e3d1c5cebd61b0b1a29efc5266f3d85"
+  },
+  "binary": {
+    "path": "external/v7/builds/hecate/compiler/bin/hecate-opt",
+    "sha256": "sha256:5916ea65762d84bcdbc51744986f24b525e30fdad46857a55e44b8091612a054",
+    "build_status": "V7_CLEAN_BUILD_PASS",
+    "host_help_status": "DYNAMIC_LOAD_BLOCKED_LIBCUDART_AND_LLVM",
+    "container_help_status": "PASS"
+  },
+  "commands_attempted": [
+    "git -C external/v7/sources/hecate rev-parse HEAD",
+    "rg -n 'PassPipelineRegistration<>' external/v7/sources/hecate/tools/hecate-opt/*.cpp -A2",
+    "external/v7/builds/hecate/compiler/bin/hecate-opt --help",
+    "docker run --rm --network none -v ${PWD}:${PWD}:ro -w ${PWD} flipguard/hecate-v7-deps:llvm18-cuda12.2 bash -lc '<LD_LIBRARY_PATH>; hecate-opt --help'"
+  ],
+  "cli_pipeline_names": [
+    "eva",
+    "snr",
+    "elasm",
+    "dacapo",
+    "pars",
+    "halo",
+    "dacapo_flex",
+    "simple_loop",
+    "packed_loop",
+    "unroll_loop",
+    "unroll_factor_loop",
+    "packed_unroll_loop",
+    "packed_flex_loop",
+    "flex_loop",
+    "unroll_flex_loop",
+    "dacapo_rh",
+    "pars_rh",
+    "level-preserved-shape-independent"
+  ],
+  "cli_relevant_output": [
+    "--eva - Perform waterline rescaling and early modswitch",
+    "--elasm - Perform ELASM exploration",
+    "--pars - Perform Scale Management on bootstrapped models",
+    "--waterline=<long> - Waterline of scale management"
+  ],
+  "prior_attempt": {
+    "v7_clean_build": "PASS",
+    "v7_runtime_prepare": "FAILED_BEFORE_EXECUTION",
+    "v7_runtime_reason": "partial-clone promisor object fetch failure",
+    "run_manifest": "external/v7/status/corelab/0010-hecate-runtime/run_manifest.json",
+    "run_manifest_sha256": "sha256:c736f52247966c589cc9930c9905602a65e4bd48fad005a425f0423f5db8b1a5"
+  },
+  "paper_derived_reimplementation_performed": false,
+  "same_200_input_population_evaluated": false,
+  "full_36_waterline_grid_evaluated": false,
+  "claim_effect": "HECATE remains an official-paper related-work baseline and is not a measured V9 provider."
+}
