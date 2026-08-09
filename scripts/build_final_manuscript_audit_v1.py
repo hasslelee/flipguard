@@ -473,6 +473,18 @@ ISSUES: list[dict[str, str]] = [
         "decision": "No manuscript decision; document RC2 archive restoration as a deterministic audit-build prerequisite.",
     },
     {
+        "issue_id": "P0-016",
+        "document": "Final audit evidence pack",
+        "location": "SHA256SUMS deterministic rebuild",
+        "current_text": "The first targeted rebuild included an ignored __pycache__/verify_final_manuscript_audit_v1.cpython-312.pyc entry from the working checkout.",
+        "problem": "Interpreter cache bytes are environment-dependent and made the committed checksum inventory differ from a clean clone.",
+        "severity": "P0",
+        "evidence": "clean-clone targeted deterministic rebuild diff",
+        "replacement": "Exclude every __pycache__ component and .pyc/.pyo file from the audit checksum inventory; include only deterministic evidence files.",
+        "scope": "artifact evaluation",
+        "decision": "No manuscript decision; retain the deterministic checksum exclusion in the audit builder.",
+    },
+    {
         "issue_id": "P1-001",
         "document": "Journal",
         "location": "page 8 references and dense tables",
@@ -1558,7 +1570,10 @@ def main() -> int:
     checksum_paths = [
         path for base in (EVIDENCE_ROOT, REVIEW_ROOT, REPRO_ROOT)
         for path in base.rglob("*")
-        if path.is_file() and path.name != "SHA256SUMS"
+        if path.is_file()
+        and path.name != "SHA256SUMS"
+        and "__pycache__" not in path.parts
+        and path.suffix not in {".pyc", ".pyo"}
     ]
     (EVIDENCE_ROOT / "SHA256SUMS").write_text(
         checksum_lines(ROOT, checksum_paths), encoding="utf-8"

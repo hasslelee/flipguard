@@ -2,7 +2,7 @@
 
 Status: **PROPOSED ONLY - authoritative manuscripts remain byte-identical.**
 
-Issue count: P0=15, P1=8, P2=3.
+Issue count: P0=16, P1=8, P2=3.
 
 ## P0-001: An ignored Python bytecode cache makes the legacy verifier report a false integrity failure in a dirty checkout; the same tracked-only checkout verifies successfully.
 - **Document:** Frozen V3 verifier
@@ -182,6 +182,18 @@ Issue count: P0=15, P1=8, P2=3.
 - **Exact proposed replacement/action:** Verify the RC2 archive against 05ef7030...c0be, restore it only for the audit rebuild, and remove it before the final clean-tree assertion.
 - **Applies to:** artifact evaluation
 - **User decision required:** No manuscript decision; document RC2 archive restoration as a deterministic audit-build prerequisite.
+- **Auto-fix permitted:** NO
+
+## P0-016: Interpreter cache bytes are environment-dependent and made the committed checksum inventory differ from a clean clone.
+- **Document:** Final audit evidence pack
+- **Section/page/paragraph:** SHA256SUMS deterministic rebuild
+- **Current text/state:** The first targeted rebuild included an ignored __pycache__/verify_final_manuscript_audit_v1.cpython-312.pyc entry from the working checkout.
+- **Problem:** Interpreter cache bytes are environment-dependent and made the committed checksum inventory differ from a clean clone.
+- **Severity:** P0
+- **Evidence:** clean-clone targeted deterministic rebuild diff
+- **Exact proposed replacement/action:** Exclude every __pycache__ component and .pyc/.pyo file from the audit checksum inventory; include only deterministic evidence files.
+- **Applies to:** artifact evaluation
+- **User decision required:** No manuscript decision; retain the deterministic checksum exclusion in the audit builder.
 - **Auto-fix permitted:** NO
 
 ## P1-001: The content is present but readability may be inadequate in print or reviewer PDF viewers.

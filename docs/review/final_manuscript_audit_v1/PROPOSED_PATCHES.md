@@ -137,6 +137,15 @@ These patches are review proposals only. They have not been applied to a DOCX, P
 
 **Evidence guard:** clean_clone_audit.json recovery_attempts and rebuild_archive_inputs
 
+## P0-016
+**Target:** Final audit evidence pack - SHA256SUMS deterministic rebuild
+
+**Current:** The first targeted rebuild included an ignored __pycache__/verify_final_manuscript_audit_v1.cpython-312.pyc entry from the working checkout.
+
+**Proposed:** Exclude every __pycache__ component and .pyc/.pyo file from the audit checksum inventory; include only deterministic evidence files.
+
+**Evidence guard:** clean-clone targeted deterministic rebuild diff
+
 ## P1-001
 **Target:** Journal - page 8 references and dense tables
 

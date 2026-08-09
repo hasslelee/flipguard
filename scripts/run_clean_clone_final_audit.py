@@ -328,6 +328,12 @@ def main() -> int:
                 "failure": "all tests passed, but the audit rebuild changed rc2_archive.present because the ignored RC2 archive was absent",
                 "resolution": "verify and restore the already bound RC2 archive for rebuild, then remove it before the clean-tree assertion",
             },
+            {
+                "attempt": 10,
+                "classification": "RECOVERABLE_DETERMINISM_FAILURE",
+                "failure": "a targeted rebuild differed because the audit checksum inventory included an ignored interpreter cache file",
+                "resolution": "exclude __pycache__, .pyc, and .pyo files from the generated audit SHA256SUMS inventory",
+            },
         ],
         "new_scientific_execution_count": 0,
         "long_experiments_run": [],
