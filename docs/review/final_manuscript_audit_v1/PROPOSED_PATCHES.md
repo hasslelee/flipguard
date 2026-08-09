@@ -146,6 +146,15 @@ These patches are review proposals only. They have not been applied to a DOCX, P
 
 **Evidence guard:** clean-clone targeted deterministic rebuild diff
 
+## P0-017
+**Target:** Final audit evidence pack - clean_clone_audit.json compact command/output log
+
+**Current:** The internal audit log retains the local repository path and ephemeral /tmp paths from the successful clean-clone run.
+
+**Proposed:** Before any public release, create a derived redacted log that replaces the repository and temporary roots with placeholders while preserving command return codes, elapsed time, and raw-output SHA-256; keep this bound internal log private.
+
+**Evidence guard:** local absolute-path scan of final_manuscript_audit_v1
+
 ## P1-001
 **Target:** Journal - page 8 references and dense tables
 

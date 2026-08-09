@@ -2,7 +2,7 @@
 
 Status: **PROPOSED ONLY - authoritative manuscripts remain byte-identical.**
 
-Issue count: P0=16, P1=8, P2=3.
+Issue count: P0=17, P1=8, P2=3.
 
 ## P0-001: An ignored Python bytecode cache makes the legacy verifier report a false integrity failure in a dirty checkout; the same tracked-only checkout verifies successfully.
 - **Document:** Frozen V3 verifier
@@ -194,6 +194,18 @@ Issue count: P0=16, P1=8, P2=3.
 - **Exact proposed replacement/action:** Exclude every __pycache__ component and .pyc/.pyo file from the audit checksum inventory; include only deterministic evidence files.
 - **Applies to:** artifact evaluation
 - **User decision required:** No manuscript decision; retain the deterministic checksum exclusion in the audit builder.
+- **Auto-fix permitted:** NO
+
+## P0-017: No secret or private-key material is present, but publishing the audit pack verbatim would disclose machine-local path metadata.
+- **Document:** Final audit evidence pack
+- **Section/page/paragraph:** clean_clone_audit.json compact command/output log
+- **Current text/state:** The internal audit log retains the local repository path and ephemeral /tmp paths from the successful clean-clone run.
+- **Problem:** No secret or private-key material is present, but publishing the audit pack verbatim would disclose machine-local path metadata.
+- **Severity:** P0
+- **Evidence:** local absolute-path scan of final_manuscript_audit_v1
+- **Exact proposed replacement/action:** Before any public release, create a derived redacted log that replaces the repository and temporary roots with placeholders while preserving command return codes, elapsed time, and raw-output SHA-256; keep this bound internal log private.
+- **Applies to:** artifact release
+- **User decision required:** Choose whether the final audit pack remains private or approve a digest-preserving redacted publication overlay.
 - **Auto-fix permitted:** NO
 
 ## P1-001: The content is present but readability may be inadequate in print or reviewer PDF viewers.

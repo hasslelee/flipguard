@@ -485,6 +485,18 @@ ISSUES: list[dict[str, str]] = [
         "decision": "No manuscript decision; retain the deterministic checksum exclusion in the audit builder.",
     },
     {
+        "issue_id": "P0-017",
+        "document": "Final audit evidence pack",
+        "location": "clean_clone_audit.json compact command/output log",
+        "current_text": "The internal audit log retains the local repository path and ephemeral /tmp paths from the successful clean-clone run.",
+        "problem": "No secret or private-key material is present, but publishing the audit pack verbatim would disclose machine-local path metadata.",
+        "severity": "P0",
+        "evidence": "local absolute-path scan of final_manuscript_audit_v1",
+        "replacement": "Before any public release, create a derived redacted log that replaces the repository and temporary roots with placeholders while preserving command return codes, elapsed time, and raw-output SHA-256; keep this bound internal log private.",
+        "scope": "artifact release",
+        "decision": "Choose whether the final audit pack remains private or approve a digest-preserving redacted publication overlay.",
+    },
+    {
         "issue_id": "P1-001",
         "document": "Journal",
         "location": "page 8 references and dense tables",
