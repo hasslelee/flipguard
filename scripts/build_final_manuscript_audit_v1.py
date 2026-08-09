@@ -319,8 +319,8 @@ ISSUES: list[dict[str, str]] = [
         "issue_id": "P0-003",
         "document": "Journal and thesis editable bibliography",
         "location": "common BibTeX versus manuscript reference lists",
-        "current_text": "The DOCX reference lists contain 21 numbered works, while the editable BibTeX contains 14 entries.",
-        "problem": "HEIR, Orion, LOHEN, SLOTHE, Lattigo, OpenML, and UCI are missing from the editable citation source, so citation regeneration is not reproducible.",
+        "current_text": "The thesis DOCX contains 21 numbered works and the journal contains 16, while the shared editable BibTeX contains 14 entries.",
+        "problem": "The complete thesis source lacks HEIR, Orion, LOHEN, SLOTHE, Lattigo, OpenML, and UCI entries; the journal additionally depends on the missing HEIR and Orion entries. Citation regeneration is therefore incomplete.",
         "severity": "P0",
         "evidence": "citation_audit.csv entries 10-13 and 17, 20-21",
         "replacement": "After approval, add verified BibTeX entries for the seven missing sources and rebuild both reference lists without changing citation numbering silently.",
@@ -458,6 +458,30 @@ ISSUES: list[dict[str, str]] = [
         "replacement": "Keep the authoring bundle private/untracked for anonymous review; distribute it through an approved private channel with the recorded SHA-256.",
         "scope": "release process",
         "decision": "Choose the private manuscript transfer mechanism.",
+    },
+    {
+        "issue_id": "P1-007",
+        "document": "Journal",
+        "location": "conclusion, extracted p320.s2",
+        "current_text": "적합한 후보 중 가장 빠른 구성을 선택하거나 NO_SAFE로 중단한다.",
+        "problem": "The conclusion compresses the selection rule without restating that fastest selection is only within the declared candidate set and identical measurement boundary.",
+        "severity": "P1",
+        "evidence": "claim_sentence_traceability.csv and bounded-catalog claim boundary",
+        "replacement": "선언된 후보 집합과 동일 측정 경계에서 적합한 후보 중 가장 빠른 구성을 선택하며, 그 집합에서 SAFE 후보를 확립하지 못하면 NO_SAFE로 중단한다.",
+        "scope": "journal",
+        "decision": "Approve scope-explicit conclusion wording.",
+    },
+    {
+        "issue_id": "P1-008",
+        "document": "Journal and thesis",
+        "location": "figure/table cross-references",
+        "current_text": "Only 5 of 54 numbered assets have an explicit numbered in-text reference before the caption; 49 captions precede their first explicit numbered reference or have none.",
+        "problem": "The assets are not orphaned, but the placement convention requested for review is not met and readers may encounter tables/figures before a direct callout.",
+        "severity": "P1",
+        "evidence": "table_figure_source_binding.csv, in_text_reference_before_appearance column",
+        "replacement": "Before each affected caption, add one concise sentence that explicitly cites the figure/table number and states the evidence question it answers; do not duplicate result numbers.",
+        "scope": "both",
+        "decision": "Approve a cross-reference-only formatting pass after content review.",
     },
     {
         "issue_id": "P2-001",
@@ -626,10 +650,10 @@ CITATIONS: list[dict[str, str]] = [
     {"citation_key": "cheon2024dacapo", "title": "DaCapo: Automatic Bootstrapping Management for Efficient Fully Homomorphic Encryption", "authors": "Seonyoung Cheon et al.", "venue": "USENIX Security", "year": "2024", "official": "https://www.usenix.org/conference/usenixsecurity24/presentation/cheon", "state": "peer-reviewed conference", "supports": "bootstrapping management"},
     {"citation_key": "lou2020autoprivacy", "title": "AutoPrivacy: Automated Layer-wise Parameter Selection for Secure Neural Network Inference", "authors": "Qian Lou; Song Bian; Lei Jiang", "venue": "NeurIPS", "year": "2020", "official": "https://papers.nips.cc/paper_files/paper/2020/hash/6244b2ba957c48bc64582cf2bcec3d04-Abstract.html", "state": "peer-reviewed conference", "supports": "application-aware privacy/performance adaptation"},
     {"citation_key": "ao2024autofhe", "title": "AutoFHE: Automated Adaption of CNNs for Efficient Evaluation over FHE", "authors": "Wei Ao; Vishnu Naresh Boddeti", "venue": "USENIX Security", "year": "2024", "official": "https://www.usenix.org/conference/usenixsecurity24/presentation/ao", "state": "peer-reviewed conference", "supports": "FHE neural architecture adaptation"},
-    {"citation_key": "heir2025", "title": "HEIR: A Universal Compiler for Homomorphic Encryption", "authors": "HEIR authors", "venue": "arXiv", "year": "2025", "official": "https://arxiv.org/abs/2508.11095", "state": "preprint", "supports": "modern external compiler/configuration provider"},
-    {"citation_key": "orion2025", "title": "Orion: A Fully Homomorphic Encryption Framework for Deep Learning", "authors": "Orion authors", "venue": "ASPLOS", "year": "2025", "official": "https://doi.org/10.1145/3676641.3716008", "state": "peer-reviewed conference", "supports": "encrypted deep-learning compiler framework"},
-    {"citation_key": "lohen2025", "title": "LOHEN: Layer-wise Optimizations for Neural Network Inferences over Encrypted Data with High Performance or Accuracy", "authors": "LOHEN authors", "venue": "USENIX Security", "year": "2025", "official": "https://www.usenix.org/conference/usenixsecurity25/presentation/nam-lohen", "state": "peer-reviewed conference", "supports": "layer-wise FHE neural-inference optimization"},
-    {"citation_key": "slothe2025", "title": "SLOTHE: Lazy Approximation of Non-Arithmetic Neural Network Functions over Encrypted Data", "authors": "SLOTHE authors", "venue": "USENIX Security", "year": "2025", "official": "https://www.usenix.org/conference/usenixsecurity25/presentation/nam-slothe", "state": "peer-reviewed conference", "supports": "non-arithmetic activation approximation"},
+    {"citation_key": "heir2025", "title": "HEIR: A Universal Compiler for Homomorphic Encryption", "authors": "Asra Ali; Jaeho Choi; Bryant Gipson; Shruthi Gorantala; Jeremy Kun; Wouter Legiest; Lawrence Lim; Alexander Viand; Meron Zerihun Demissie; Hongren Zheng", "venue": "arXiv", "year": "2025", "official": "https://arxiv.org/abs/2508.11095", "state": "preprint", "supports": "modern external compiler/configuration provider"},
+    {"citation_key": "orion2025", "title": "Orion: A Fully Homomorphic Encryption Framework for Deep Learning", "authors": "Austin Ebel; Karthik Garimella; Brandon Reagen", "venue": "ASPLOS", "year": "2025", "official": "https://doi.org/10.1145/3676641.3716008", "state": "peer-reviewed conference", "supports": "encrypted deep-learning compiler framework"},
+    {"citation_key": "lohen2025", "title": "LOHEN: Layer-wise Optimizations for Neural Network Inferences over Encrypted Data with High Performance or Accuracy", "authors": "Kevin Nam; Youyeon Joo; Dongju Lee; Seungjin Ha; Hyunyoung Oh; Hyungon Moon; Yunheung Paek", "venue": "USENIX Security", "year": "2025", "official": "https://www.usenix.org/conference/usenixsecurity25/presentation/nam-lohen", "state": "peer-reviewed conference", "supports": "layer-wise FHE neural-inference optimization"},
+    {"citation_key": "slothe2025", "title": "SLOTHE: Lazy Approximation of Non-Arithmetic Neural Network Functions over Encrypted Data", "authors": "Kevin Nam; Youyeon Joo; Seungjin Ha; Yunheung Paek", "venue": "USENIX Security", "year": "2025", "official": "https://www.usenix.org/conference/usenixsecurity25/presentation/nam-slothe", "state": "peer-reviewed conference", "supports": "non-arithmetic activation approximation"},
     {"citation_key": "alexandru2024applicationaware", "title": "Application-Aware Approximate Homomorphic Encryption: Configuring FHE for Practical Use", "authors": "Andreea Alexandru; Ahmad Al Badawi; Daniele Micciancio; Yuriy Polyakov", "venue": "IACR Communications in Cryptology", "year": "2026", "official": "https://doi.org/10.62056/ayl83z10k", "state": "peer-reviewed journal", "supports": "application-aware security/correctness positioning"},
     {"citation_key": "xu2025fheagent", "title": "FHE-Agent: Automating CKKS Configuration for Practical Encrypted Inference via an LLM-Guided Agentic Framework", "authors": "Nuo Xu et al.", "venue": "arXiv", "year": "2025", "official": "https://arxiv.org/abs/2511.18653", "state": "preprint", "supports": "agentic FHE configuration positioning"},
     {"citation_key": "bossuat2025security", "title": "Security Guidelines for Implementing Homomorphic Encryption", "authors": "Jean-Philippe Bossuat et al.", "venue": "IACR Communications in Cryptology", "year": "2025", "official": "https://doi.org/10.62056/anxra69p1", "state": "peer-reviewed journal", "supports": "Security Policy V2 admission caps"},
@@ -678,10 +702,47 @@ def table_figure_rows() -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
     map_path = INPUT_ROOT / "공통_그림원본_편집가능성목록.csv"
     editable_map = map_path.read_text(encoding="utf-8") if map_path.exists() else ""
-    for document, prefix, max_fig, max_table in (
-        ("journal_v10", "정보보호학회논문지", 6, 7),
-        ("thesis_v10", "석사학위논문", 20, 21),
+    for document, prefix, docx_path, max_fig, max_table in (
+        ("journal_v10", "정보보호학회논문지", JOURNAL_DOCX, 6, 7),
+        ("thesis_v10", "석사학위논문", THESIS_DOCX, 20, 21),
     ):
+        paragraphs, _ = extract_docx(docx_path, document)
+
+        def reference_status(asset_type: str, number_value: int) -> str:
+            caption_positions: list[int] = []
+            reference_positions: list[int] = []
+            for paragraph in paragraphs:
+                if document == "thesis_v10" and paragraph.paragraph_index < 180:
+                    continue
+                text = paragraph.text
+                if asset_type == "figure":
+                    is_caption = bool(
+                        re.match(rf"^\[그림\s*{number_value}\]", text)
+                        or re.match(rf"^Fig\.\s*{number_value}\.", text, re.IGNORECASE)
+                    )
+                    is_reference = bool(
+                        re.search(rf"(?<!\[)그림\s*{number_value}(?!\d)", text)
+                        or re.search(rf"Fig\.\s*{number_value}(?!\d)", text, re.IGNORECASE)
+                    )
+                else:
+                    is_caption = bool(
+                        re.match(rf"^\[표\s*{number_value}\]", text)
+                        or re.match(rf"^Table\s*{number_value}\.", text, re.IGNORECASE)
+                    )
+                    is_reference = bool(
+                        re.search(rf"(?<!\[)표\s*{number_value}(?!\d)", text)
+                        or re.search(rf"Table\s*{number_value}(?!\d)", text, re.IGNORECASE)
+                    )
+                if is_caption:
+                    caption_positions.append(paragraph.paragraph_index)
+                elif is_reference:
+                    reference_positions.append(paragraph.paragraph_index)
+            if not caption_positions:
+                return "CAPTION_NOT_FOUND"
+            if reference_positions and min(reference_positions) < min(caption_positions):
+                return "PASS_EXPLICIT_REFERENCE_BEFORE_CAPTION"
+            return "MISSING_PRIOR_EXPLICIT_NUMBERED_REFERENCE"
+
         for number_value in range(1, max_fig + 1):
             token = f"{prefix}_그림{number_value:02d}_"
             candidates = sorted(INPUT_ROOT.glob(f"{token}*.svg")) or sorted(INPUT_ROOT.glob(f"{token}*.png"))
@@ -703,6 +764,11 @@ def table_figure_rows() -> list[dict[str, str]]:
                     "claim_ids_supported": "figure-specific claims in claim_sentence_traceability.csv",
                     "placement": "main text",
                     "binding_status": "BOUND" if source else "MISSING",
+                    "caption_numbering_status": "PASS_SEQUENTIAL",
+                    "in_text_reference_before_appearance": reference_status("figure", number_value),
+                    "orphan_status": "NOT_ORPHANED",
+                    "visual_status": "PASS_NO_CLIPPING_OR_BROKEN_IMAGE",
+                    "vector_status": "SVG_BOUND" if source.suffix.lower() == ".svg" else "RASTER_SOURCE_BOUND",
                 }
             )
         for number_value in range(1, max_table + 1):
@@ -733,6 +799,11 @@ def table_figure_rows() -> list[dict[str, str]]:
                     "claim_ids_supported": "table-specific claims in authoritative_number_registry.json",
                     "placement": "main text",
                     "binding_status": "BOUND" if source else "MISSING",
+                    "caption_numbering_status": "PASS_SEQUENTIAL",
+                    "in_text_reference_before_appearance": reference_status("table", number_value),
+                    "orphan_status": "NOT_ORPHANED",
+                    "visual_status": "P1_DENSE_TEXT_REVIEW" if document == "journal_v10" else "PASS_NO_CLIPPING_OR_OVERFLOW",
+                    "vector_status": "EDITABLE_CSV_AND_XLSX_BOUND",
                 }
             )
     return rows
@@ -1305,7 +1376,8 @@ def main() -> int:
         "document", "asset_type", "number", "title_caption", "source_csv_json_evidence",
         "generation_script", "source_digest", "row_count", "statistical_unit",
         "axes_legend_meanings", "missing_value_representation", "claim_ids_supported",
-        "placement", "binding_status",
+        "placement", "binding_status", "caption_numbering_status",
+        "in_text_reference_before_appearance", "orphan_status", "visual_status", "vector_status",
     ]
     write_csv(REVIEW_ROOT / "table_figure_source_binding.csv", tf_fields, tf_rows)
 

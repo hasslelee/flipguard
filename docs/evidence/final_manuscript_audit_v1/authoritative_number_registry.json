@@ -1,0 +1,1163 @@
+{
+  "number_count": 64,
+  "numbers": [
+    {
+      "admitted_claim_ids": [
+        "formal_trial_reduction",
+        "primary_no_retuning_locked_audit"
+      ],
+      "allowed_wording": "five real tabular datasets",
+      "exact_value": 5,
+      "number_id": "primary_datasets",
+      "prohibited_interpretation": "five independent datasets with independent training",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/thesis/number_registry.json",
+      "source_evidence_sha256": "a61d6cafd80031b4aabee222f96f7f72d7360a1596d0bd9ce8302e5ca92fcc64",
+      "source_field_or_row": "primary_datasets",
+      "split_role": "all partitions",
+      "statistical_unit": "dataset",
+      "unit": "datasets",
+      "workload": "controlled primary"
+    },
+    {
+      "admitted_claim_ids": [
+        "formal_trial_reduction",
+        "primary_no_retuning_locked_audit"
+      ],
+      "allowed_wording": "two binary graph families",
+      "exact_value": 2,
+      "number_id": "primary_graph_families",
+      "prohibited_interpretation": "universal model support",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/thesis/number_registry.json",
+      "source_evidence_sha256": "a61d6cafd80031b4aabee222f96f7f72d7360a1596d0bd9ce8302e5ca92fcc64",
+      "source_field_or_row": "primary_model_graphs",
+      "split_role": "all partitions",
+      "statistical_unit": "graph family",
+      "unit": "graph families",
+      "workload": "controlled primary"
+    },
+    {
+      "admitted_claim_ids": [
+        "formal_trial_reduction",
+        "primary_no_retuning_locked_audit"
+      ],
+      "allowed_wording": "five deterministic repeated partitions",
+      "exact_value": 5,
+      "number_id": "deterministic_partitions",
+      "prohibited_interpretation": "five independent dataset splits",
+      "runtime": "offline split",
+      "source_evidence_file": "docs/thesis/number_registry.json",
+      "source_evidence_sha256": "a61d6cafd80031b4aabee222f96f7f72d7360a1596d0bd9ce8302e5ca92fcc64",
+      "source_field_or_row": "deterministic_partitions",
+      "split_role": "seed 0 development; seeds 1-4 confirmatory",
+      "statistical_unit": "repeated partition",
+      "unit": "partitions",
+      "workload": "controlled primary"
+    },
+    {
+      "admitted_claim_ids": [
+        "formal_trial_reduction",
+        "primary_no_retuning_locked_audit"
+      ],
+      "allowed_wording": "50 workload-partition instances",
+      "exact_value": 50,
+      "number_id": "workload_partition_instances",
+      "prohibited_interpretation": "50 independent workloads or samples",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/thesis/number_registry.json",
+      "source_evidence_sha256": "a61d6cafd80031b4aabee222f96f7f72d7360a1596d0bd9ce8302e5ca92fcc64",
+      "source_field_or_row": "combined_descriptive_instances",
+      "split_role": "combined descriptive",
+      "statistical_unit": "workload-partition instance",
+      "unit": "instances",
+      "workload": "10 dataset-model clusters"
+    },
+    {
+      "admitted_claim_ids": [
+        "formal_trial_reduction"
+      ],
+      "allowed_wording": "700 Security-V2-admitted bounded-catalog candidates",
+      "exact_value": 700,
+      "number_id": "formal_catalog_candidates_all",
+      "prohibited_interpretation": "1,100 as the formal denominator or global search",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/thesis/number_registry.json",
+      "source_evidence_sha256": "a61d6cafd80031b4aabee222f96f7f72d7360a1596d0bd9ce8302e5ca92fcc64",
+      "source_field_or_row": "formal_catalog_all",
+      "split_role": "combined descriptive",
+      "statistical_unit": "candidate trial",
+      "unit": "candidate executions",
+      "workload": "Security-V2 bounded catalog"
+    },
+    {
+      "admitted_claim_ids": [
+        "formal_trial_reduction"
+      ],
+      "allowed_wording": "560 confirmatory admitted candidates",
+      "exact_value": 560,
+      "number_id": "formal_catalog_candidates_confirmatory",
+      "prohibited_interpretation": "560 independent samples",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/thesis/number_registry.json",
+      "source_evidence_sha256": "a61d6cafd80031b4aabee222f96f7f72d7360a1596d0bd9ce8302e5ca92fcc64",
+      "source_field_or_row": "formal_catalog_confirmatory",
+      "split_role": "seeds 1-4 confirmatory",
+      "statistical_unit": "candidate trial",
+      "unit": "candidate executions",
+      "workload": "Security-V2 bounded catalog"
+    },
+    {
+      "admitted_claim_ids": [
+        "formal_trial_reduction"
+      ],
+      "allowed_wording": "70 direct encrypted candidate trials",
+      "exact_value": 70,
+      "number_id": "direct_trials_all",
+      "prohibited_interpretation": "70 workloads or 70 independent samples",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_07_internal_direct_trial_distribution.csv",
+      "source_evidence_sha256": "935937f6f48e7c3e4bce629cf5a7332980de8852f83e124ebad1eb737b219c6e",
+      "source_field_or_row": "data row/direct_candidate_trials",
+      "split_role": "combined descriptive",
+      "statistical_unit": "candidate trial",
+      "unit": "candidate executions",
+      "workload": "direct synthesis"
+    },
+    {
+      "admitted_claim_ids": [
+        "formal_trial_reduction"
+      ],
+      "allowed_wording": "56 confirmatory direct trials",
+      "exact_value": 56,
+      "number_id": "direct_trials_confirmatory",
+      "prohibited_interpretation": "56 independent workloads",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/thesis/number_registry.json",
+      "source_evidence_sha256": "a61d6cafd80031b4aabee222f96f7f72d7360a1596d0bd9ce8302e5ca92fcc64",
+      "source_field_or_row": "direct_trials_confirmatory",
+      "split_role": "seeds 1-4 confirmatory",
+      "statistical_unit": "candidate trial",
+      "unit": "candidate executions",
+      "workload": "direct synthesis"
+    },
+    {
+      "admitted_claim_ids": [
+        "formal_trial_reduction"
+      ],
+      "allowed_wording": "90% fewer candidate trials within the formal bounded catalog",
+      "exact_value": 0.9,
+      "number_id": "formal_trial_reduction",
+      "prohibited_interpretation": "90% reduction versus global search or versus 1,100",
+      "runtime": "derived",
+      "source_evidence_file": "docs/thesis/number_registry.json",
+      "source_evidence_sha256": "a61d6cafd80031b4aabee222f96f7f72d7360a1596d0bd9ce8302e5ca92fcc64",
+      "source_field_or_row": "formal_trial_reduction_all and _confirmatory",
+      "split_role": "combined and confirmatory, separately",
+      "statistical_unit": "candidate trial",
+      "unit": "fraction",
+      "workload": "direct vs Security-V2 bounded catalog"
+    },
+    {
+      "admitted_claim_ids": [
+        "scoped_direct_synthesis"
+      ],
+      "allowed_wording": "mean 1.4 trials per instance",
+      "exact_value": 1.4,
+      "number_id": "direct_trial_mean",
+      "prohibited_interpretation": "population-independent mean",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_07_internal_direct_trial_distribution.csv",
+      "source_evidence_sha256": "935937f6f48e7c3e4bce629cf5a7332980de8852f83e124ebad1eb737b219c6e",
+      "source_field_or_row": "data row/mean_trials",
+      "split_role": "combined descriptive",
+      "statistical_unit": "workload-partition instance",
+      "unit": "trials/instance",
+      "workload": "direct synthesis"
+    },
+    {
+      "admitted_claim_ids": [
+        "scoped_direct_synthesis"
+      ],
+      "allowed_wording": "median 1 trial",
+      "exact_value": 1.0,
+      "number_id": "direct_trial_median",
+      "prohibited_interpretation": "independent-sample inference",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_07_internal_direct_trial_distribution.csv",
+      "source_evidence_sha256": "935937f6f48e7c3e4bce629cf5a7332980de8852f83e124ebad1eb737b219c6e",
+      "source_field_or_row": "data row/median_trials",
+      "split_role": "combined descriptive",
+      "statistical_unit": "workload-partition instance",
+      "unit": "trials/instance",
+      "workload": "direct synthesis"
+    },
+    {
+      "admitted_claim_ids": [
+        "scoped_direct_synthesis"
+      ],
+      "allowed_wording": "trial IQR 1",
+      "exact_value": 1.0,
+      "number_id": "direct_trial_iqr",
+      "prohibited_interpretation": "confidence interval",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_07_internal_direct_trial_distribution.csv",
+      "source_evidence_sha256": "935937f6f48e7c3e4bce629cf5a7332980de8852f83e124ebad1eb737b219c6e",
+      "source_field_or_row": "data row/iqr_trials",
+      "split_role": "combined descriptive",
+      "statistical_unit": "workload-partition instance",
+      "unit": "trials/instance",
+      "workload": "direct synthesis"
+    },
+    {
+      "admitted_claim_ids": [
+        "scoped_direct_synthesis"
+      ],
+      "allowed_wording": "observed maximum 2 trials",
+      "exact_value": 2,
+      "number_id": "direct_trial_maximum",
+      "prohibited_interpretation": "policy maximum; frozen policy limit is 4",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_07_internal_direct_trial_distribution.csv",
+      "source_evidence_sha256": "935937f6f48e7c3e4bce629cf5a7332980de8852f83e124ebad1eb737b219c6e",
+      "source_field_or_row": "data row/max_trials",
+      "split_role": "combined descriptive",
+      "statistical_unit": "workload-partition instance",
+      "unit": "trials",
+      "workload": "direct synthesis"
+    },
+    {
+      "admitted_claim_ids": [
+        "scoped_direct_synthesis"
+      ],
+      "allowed_wording": "30 instances selected in one trial",
+      "exact_value": 30,
+      "number_id": "one_trial_instances",
+      "prohibited_interpretation": "30 independent workloads",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_07_internal_direct_trial_distribution.csv",
+      "source_evidence_sha256": "935937f6f48e7c3e4bce629cf5a7332980de8852f83e124ebad1eb737b219c6e",
+      "source_field_or_row": "data row/trials_eq_1",
+      "split_role": "combined descriptive",
+      "statistical_unit": "workload-partition instance",
+      "unit": "instances",
+      "workload": "direct synthesis"
+    },
+    {
+      "admitted_claim_ids": [
+        "adaptive_repair"
+      ],
+      "allowed_wording": "20 instances required a second trial",
+      "exact_value": 20,
+      "number_id": "two_trial_instances",
+      "prohibited_interpretation": "20 universal repair successes",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_07_internal_direct_trial_distribution.csv",
+      "source_evidence_sha256": "935937f6f48e7c3e4bce629cf5a7332980de8852f83e124ebad1eb737b219c6e",
+      "source_field_or_row": "data row/trials_eq_2",
+      "split_role": "combined descriptive",
+      "statistical_unit": "workload-partition instance",
+      "unit": "instances",
+      "workload": "direct synthesis"
+    },
+    {
+      "admitted_claim_ids": [
+        "adaptive_repair"
+      ],
+      "allowed_wording": "20 observed bounded repairs",
+      "exact_value": 20,
+      "number_id": "repair_count",
+      "prohibited_interpretation": "universal repair success",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_07_internal_direct_trial_distribution.csv",
+      "source_evidence_sha256": "935937f6f48e7c3e4bce629cf5a7332980de8852f83e124ebad1eb737b219c6e",
+      "source_field_or_row": "data row/repairs",
+      "split_role": "combined descriptive",
+      "statistical_unit": "repair event",
+      "unit": "repairs",
+      "workload": "direct synthesis"
+    },
+    {
+      "admitted_claim_ids": [
+        "primary_no_retuning_locked_audit"
+      ],
+      "allowed_wording": "40/40 confirmatory locked audits passed",
+      "exact_value": 40,
+      "number_id": "confirmatory_locked_audit_pass",
+      "prohibited_interpretation": "50 independent samples or distribution-wide safety",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/thesis/number_registry.json",
+      "source_evidence_sha256": "a61d6cafd80031b4aabee222f96f7f72d7360a1596d0bd9ce8302e5ca92fcc64",
+      "source_field_or_row": "confirmatory_locked_audit_pass",
+      "split_role": "seeds 1-4 confirmatory",
+      "statistical_unit": "workload-partition instance",
+      "unit": "instances",
+      "workload": "controlled primary"
+    },
+    {
+      "admitted_claim_ids": [
+        "primary_no_retuning_locked_audit"
+      ],
+      "allowed_wording": "10/10 development locked audits passed",
+      "exact_value": 10,
+      "number_id": "development_locked_audit_pass",
+      "prohibited_interpretation": "part of confirmatory aggregate",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/thesis/number_registry.json",
+      "source_evidence_sha256": "a61d6cafd80031b4aabee222f96f7f72d7360a1596d0bd9ce8302e5ca92fcc64",
+      "source_field_or_row": "development_locked_audit_pass",
+      "split_role": "seed 0 development",
+      "statistical_unit": "workload-partition instance",
+      "unit": "instances",
+      "workload": "controlled primary"
+    },
+    {
+      "admitted_claim_ids": [
+        "primary_no_retuning_locked_audit"
+      ],
+      "allowed_wording": "zero retuning events",
+      "exact_value": 0,
+      "number_id": "primary_locked_audit_retuning",
+      "prohibited_interpretation": "proof of distribution-wide safety",
+      "runtime": "protocol ledger",
+      "source_evidence_file": "docs/thesis/number_registry.json",
+      "source_evidence_sha256": "a61d6cafd80031b4aabee222f96f7f72d7360a1596d0bd9ce8302e5ca92fcc64",
+      "source_field_or_row": "primary_locked_audit_retuning",
+      "split_role": "all partitions",
+      "statistical_unit": "audit replay",
+      "unit": "retuning events",
+      "workload": "controlled primary"
+    },
+    {
+      "admitted_claim_ids": [
+        "paired_latency"
+      ],
+      "allowed_wording": "catalog total latency divided by direct total latency was 3.140660",
+      "exact_value": 3.14065956642714,
+      "number_id": "primary_catalog_direct_total_ratio",
+      "prohibited_interpretation": "production or universal speedup",
+      "runtime": "one measured host; Lattigo v6.2.0",
+      "source_evidence_file": "docs/thesis/number_registry.json",
+      "source_evidence_sha256": "a61d6cafd80031b4aabee222f96f7f72d7360a1596d0bd9ce8302e5ca92fcc64",
+      "source_field_or_row": "paired_total_ratio_confirmatory",
+      "split_role": "seeds 1-4 confirmatory",
+      "statistical_unit": "dataset-model cluster",
+      "unit": "catalog/direct total-latency ratio",
+      "workload": "controlled primary paired latency"
+    },
+    {
+      "admitted_claim_ids": [
+        "paired_latency"
+      ],
+      "allowed_wording": "cluster-bootstrap 95% CI [2.342334, 4.215313]",
+      "exact_value": [
+        2.3423342246526992,
+        4.21531336367743
+      ],
+      "number_id": "primary_catalog_direct_ci95",
+      "prohibited_interpretation": "raw record-level confidence interval",
+      "runtime": "one measured host; Lattigo v6.2.0",
+      "source_evidence_file": "docs/thesis/number_registry.json",
+      "source_evidence_sha256": "a61d6cafd80031b4aabee222f96f7f72d7360a1596d0bd9ce8302e5ca92fcc64",
+      "source_field_or_row": "paired_total_ci_low/high",
+      "split_role": "seeds 1-4 confirmatory",
+      "statistical_unit": "dataset-model cluster",
+      "unit": "95% cluster-bootstrap CI",
+      "workload": "controlled primary paired latency"
+    },
+    {
+      "admitted_claim_ids": [
+        "eva_substantial_population_and_locked_audit"
+      ],
+      "allowed_wording": "1,000 unique inputs",
+      "exact_value": 1000,
+      "number_id": "eva_unique_inputs",
+      "prohibited_interpretation": "3,000 inputs from key repeats",
+      "runtime": "Microsoft EVA/SEAL",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_03_eva_scale_and_locked_audit.csv",
+      "source_evidence_sha256": "87cfe1aa3668c98d55f87b61d10d7426065056e0b512b08191a9d49cd7566f43",
+      "source_field_or_row": "all rows/input counts",
+      "split_role": "500 validation + 500 audit",
+      "statistical_unit": "input",
+      "unit": "unique inputs",
+      "workload": "EVA polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "eva_substantial_population_and_locked_audit"
+      ],
+      "allowed_wording": "500 validation inputs",
+      "exact_value": 500,
+      "number_id": "eva_validation_inputs",
+      "prohibited_interpretation": "independent model samples",
+      "runtime": "Microsoft EVA/SEAL",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_03_eva_scale_and_locked_audit.csv",
+      "source_evidence_sha256": "87cfe1aa3668c98d55f87b61d10d7426065056e0b512b08191a9d49cd7566f43",
+      "source_field_or_row": "all rows/validation_inputs",
+      "split_role": "validation",
+      "statistical_unit": "input",
+      "unit": "inputs",
+      "workload": "EVA polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "eva_substantial_population_and_locked_audit"
+      ],
+      "allowed_wording": "500 disjoint audit inputs",
+      "exact_value": 500,
+      "number_id": "eva_audit_inputs",
+      "prohibited_interpretation": "independent population sample",
+      "runtime": "Microsoft EVA/SEAL",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_03_eva_scale_and_locked_audit.csv",
+      "source_evidence_sha256": "87cfe1aa3668c98d55f87b61d10d7426065056e0b512b08191a9d49cd7566f43",
+      "source_field_or_row": "all rows/audit_inputs",
+      "split_role": "locked audit",
+      "statistical_unit": "input",
+      "unit": "inputs",
+      "workload": "EVA polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "eva_substantial_population_and_locked_audit"
+      ],
+      "allowed_wording": "three contexts per arm and role",
+      "exact_value": 3,
+      "number_id": "eva_contexts_per_arm_role",
+      "prohibited_interpretation": "three new inputs per source row",
+      "runtime": "Microsoft EVA/SEAL",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_03_eva_scale_and_locked_audit.csv",
+      "source_evidence_sha256": "87cfe1aa3668c98d55f87b61d10d7426065056e0b512b08191a9d49cd7566f43",
+      "source_field_or_row": "all rows/context_repeats",
+      "split_role": "each arm and role",
+      "statistical_unit": "key/context repeat",
+      "unit": "fresh contexts",
+      "workload": "EVA polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "eva_substantial_population_and_locked_audit"
+      ],
+      "allowed_wording": "133 S20 validation flips",
+      "exact_value": 133,
+      "number_id": "eva_s20_validation_flips",
+      "prohibited_interpretation": "133% or universal EVA failure",
+      "runtime": "Microsoft EVA/SEAL",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_03_eva_scale_and_locked_audit.csv",
+      "source_evidence_sha256": "87cfe1aa3668c98d55f87b61d10d7426065056e0b512b08191a9d49cd7566f43",
+      "source_field_or_row": "S20 row/validation_flips",
+      "split_role": "validation",
+      "statistical_unit": "unique validation input",
+      "unit": "decision flips",
+      "workload": "EVA S20"
+    },
+    {
+      "admitted_claim_ids": [
+        "eva_substantial_population_and_locked_audit"
+      ],
+      "allowed_wording": "maximum absolute error 1.211499",
+      "exact_value": 1.2114988677117884,
+      "number_id": "eva_s20_validation_max_error",
+      "prohibited_interpretation": "runtime-independent error bound",
+      "runtime": "Microsoft EVA/SEAL",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_03_eva_scale_and_locked_audit.csv",
+      "source_evidence_sha256": "87cfe1aa3668c98d55f87b61d10d7426065056e0b512b08191a9d49cd7566f43",
+      "source_field_or_row": "S20 row/validation_max_abs_error",
+      "split_role": "validation",
+      "statistical_unit": "observation",
+      "unit": "absolute error",
+      "workload": "EVA S20"
+    },
+    {
+      "admitted_claim_ids": [
+        "eva_substantial_population_and_locked_audit"
+      ],
+      "allowed_wording": "zero validation and audit flips for S30",
+      "exact_value": [
+        0,
+        0
+      ],
+      "number_id": "eva_s30_validation_audit_flips",
+      "prohibited_interpretation": "analytical guarantee",
+      "runtime": "Microsoft EVA/SEAL",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_03_eva_scale_and_locked_audit.csv",
+      "source_evidence_sha256": "87cfe1aa3668c98d55f87b61d10d7426065056e0b512b08191a9d49cd7566f43",
+      "source_field_or_row": "S30 row/validation_flips,audit_flips",
+      "split_role": "validation/audit",
+      "statistical_unit": "unique input by role",
+      "unit": "decision flips",
+      "workload": "EVA S30"
+    },
+    {
+      "admitted_claim_ids": [
+        "eva_substantial_population_and_locked_audit"
+      ],
+      "allowed_wording": "maximum errors 0.001383 and 0.002074",
+      "exact_value": [
+        0.0013827018385910161,
+        0.0020735645861611196
+      ],
+      "number_id": "eva_s30_validation_audit_max_error",
+      "prohibited_interpretation": "universal bound",
+      "runtime": "Microsoft EVA/SEAL",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_03_eva_scale_and_locked_audit.csv",
+      "source_evidence_sha256": "87cfe1aa3668c98d55f87b61d10d7426065056e0b512b08191a9d49cd7566f43",
+      "source_field_or_row": "S30 row/validation_max_abs_error,audit_max_abs_error",
+      "split_role": "validation/audit",
+      "statistical_unit": "observation by role",
+      "unit": "absolute error",
+      "workload": "EVA S30"
+    },
+    {
+      "admitted_claim_ids": [
+        "eva_substantial_population_and_locked_audit"
+      ],
+      "allowed_wording": "zero validation and audit flips for S40",
+      "exact_value": [
+        0,
+        0
+      ],
+      "number_id": "eva_s40_validation_audit_flips",
+      "prohibited_interpretation": "analytical guarantee",
+      "runtime": "Microsoft EVA/SEAL",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_03_eva_scale_and_locked_audit.csv",
+      "source_evidence_sha256": "87cfe1aa3668c98d55f87b61d10d7426065056e0b512b08191a9d49cd7566f43",
+      "source_field_or_row": "S40 row/validation_flips,audit_flips",
+      "split_role": "validation/audit",
+      "statistical_unit": "unique input by role",
+      "unit": "decision flips",
+      "workload": "EVA S40"
+    },
+    {
+      "admitted_claim_ids": [
+        "eva_substantial_population_and_locked_audit"
+      ],
+      "allowed_wording": "maximum errors 3.378e-6 and 3.034e-6",
+      "exact_value": [
+        3.3781765328422253e-06,
+        3.0338053744749516e-06
+      ],
+      "number_id": "eva_s40_validation_audit_max_error",
+      "prohibited_interpretation": "universal bound",
+      "runtime": "Microsoft EVA/SEAL",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_03_eva_scale_and_locked_audit.csv",
+      "source_evidence_sha256": "87cfe1aa3668c98d55f87b61d10d7426065056e0b512b08191a9d49cd7566f43",
+      "source_field_or_row": "S40 row/validation_max_abs_error,audit_max_abs_error",
+      "split_role": "validation/audit",
+      "statistical_unit": "observation by role",
+      "unit": "absolute error",
+      "workload": "EVA S40"
+    },
+    {
+      "admitted_claim_ids": [
+        "direct_finite_v_cert_locked_audit"
+      ],
+      "allowed_wording": "500 validation and 500 audit inputs",
+      "exact_value": [
+        500,
+        500
+      ],
+      "number_id": "heir_validation_audit_inputs",
+      "prohibited_interpretation": "1,000 independent workloads",
+      "runtime": "common Lattigo/OpenFHE executors",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_04_heir_common_executor_candidates.csv",
+      "source_evidence_sha256": "c7c39d82bdfe1b2c878a4a5b75bc03db093a62bdab12b29793ed43bc70d88062",
+      "source_field_or_row": "HEIR rows/validation_inputs,audit_inputs",
+      "split_role": "validation/audit",
+      "statistical_unit": "unique input by role",
+      "unit": "inputs",
+      "workload": "HEIR exact shared polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "direct_finite_v_cert_locked_audit"
+      ],
+      "allowed_wording": "three contexts per arm and role",
+      "exact_value": 3,
+      "number_id": "heir_contexts",
+      "prohibited_interpretation": "new input count",
+      "runtime": "common Lattigo/OpenFHE executors",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_04_heir_common_executor_candidates.csv",
+      "source_evidence_sha256": "c7c39d82bdfe1b2c878a4a5b75bc03db093a62bdab12b29793ed43bc70d88062",
+      "source_field_or_row": "HEIR rows/context_repeats",
+      "split_role": "each role/runtime",
+      "statistical_unit": "key/context repeat",
+      "unit": "fresh contexts",
+      "workload": "HEIR exact shared polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "direct_finite_v_cert_locked_audit"
+      ],
+      "allowed_wording": "HEIR-Lattigo had zero validation/audit flips",
+      "exact_value": [
+        0,
+        0
+      ],
+      "number_id": "heir_lattigo_flips",
+      "prohibited_interpretation": "all HEIR programs",
+      "runtime": "Lattigo common executor",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_04_heir_common_executor_candidates.csv",
+      "source_evidence_sha256": "c7c39d82bdfe1b2c878a4a5b75bc03db093a62bdab12b29793ed43bc70d88062",
+      "source_field_or_row": "HEIR_LATTIGO/validation_flips,audit_flips",
+      "split_role": "validation/audit",
+      "statistical_unit": "unique input by role",
+      "unit": "decision flips",
+      "workload": "HEIR exact shared polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "direct_finite_v_cert_locked_audit"
+      ],
+      "allowed_wording": "HEIR-OpenFHE had zero validation/audit flips",
+      "exact_value": [
+        0,
+        0
+      ],
+      "number_id": "heir_openfhe_flips",
+      "prohibited_interpretation": "cross-runtime equivalence",
+      "runtime": "OpenFHE common graph",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_04_heir_common_executor_candidates.csv",
+      "source_evidence_sha256": "c7c39d82bdfe1b2c878a4a5b75bc03db093a62bdab12b29793ed43bc70d88062",
+      "source_field_or_row": "HEIR_OPENFHE/validation_flips,audit_flips",
+      "split_role": "validation/audit",
+      "statistical_unit": "unique input by role",
+      "unit": "decision flips",
+      "workload": "HEIR exact shared polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "p3_catalog_over_heir_latency"
+      ],
+      "allowed_wording": "100 unique latency inputs",
+      "exact_value": 100,
+      "number_id": "common_latency_unique_inputs",
+      "prohibited_interpretation": "1,800 independent inputs",
+      "runtime": "common Lattigo executor",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_05_pairwise_latency_claims.csv",
+      "source_evidence_sha256": "c6e578f27e139719fb641635a1ce131e92d3beab70dc68389f463a346d67cde0",
+      "source_field_or_row": "all pairs/unique_inputs",
+      "split_role": "locked-audit subset",
+      "statistical_unit": "input cluster",
+      "unit": "unique inputs",
+      "workload": "exact shared polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "p3_catalog_over_heir_latency"
+      ],
+      "allowed_wording": "three keysets",
+      "exact_value": 3,
+      "number_id": "common_latency_keysets",
+      "prohibited_interpretation": "three new datasets",
+      "runtime": "common Lattigo executor",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_05_pairwise_latency_claims.csv",
+      "source_evidence_sha256": "c6e578f27e139719fb641635a1ce131e92d3beab70dc68389f463a346d67cde0",
+      "source_field_or_row": "all pairs/keysets",
+      "split_role": "locked-audit subset",
+      "statistical_unit": "keyset repeat",
+      "unit": "keysets",
+      "workload": "exact shared polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "p3_catalog_over_heir_latency"
+      ],
+      "allowed_wording": "six measured passes",
+      "exact_value": 6,
+      "number_id": "common_latency_measured_passes",
+      "prohibited_interpretation": "six new inputs",
+      "runtime": "common Lattigo executor",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_05_pairwise_latency_claims.csv",
+      "source_evidence_sha256": "c6e578f27e139719fb641635a1ce131e92d3beab70dc68389f463a346d67cde0",
+      "source_field_or_row": "all pairs/measured_passes",
+      "split_role": "locked-audit subset",
+      "statistical_unit": "measurement repeat",
+      "unit": "passes",
+      "workload": "exact shared polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "p3_catalog_over_heir_latency"
+      ],
+      "allowed_wording": "1,800 raw paired measurements",
+      "exact_value": 1800,
+      "number_id": "common_latency_p3_pairs",
+      "prohibited_interpretation": "1,800 independent samples",
+      "runtime": "common Lattigo executor",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_05_pairwise_latency_claims.csv",
+      "source_evidence_sha256": "c6e578f27e139719fb641635a1ce131e92d3beab70dc68389f463a346d67cde0",
+      "source_field_or_row": "P3/raw_pairs",
+      "split_role": "locked-audit subset",
+      "statistical_unit": "input cluster with repeated keysets/passes",
+      "unit": "paired measurements",
+      "workload": "catalog vs HEIR"
+    },
+    {
+      "admitted_claim_ids": [
+        "p3_catalog_over_heir_latency"
+      ],
+      "allowed_wording": "catalog/HEIR ratio 6.393517",
+      "exact_value": 6.393517225744701,
+      "number_id": "common_latency_p3_ratio",
+      "prohibited_interpretation": "cross-runtime or global superiority",
+      "runtime": "common Lattigo executor",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_05_pairwise_latency_claims.csv",
+      "source_evidence_sha256": "c6e578f27e139719fb641635a1ce131e92d3beab70dc68389f463a346d67cde0",
+      "source_field_or_row": "P3/ratio",
+      "split_role": "locked-audit subset",
+      "statistical_unit": "input cluster",
+      "unit": "catalog/HEIR total-latency ratio",
+      "workload": "catalog vs HEIR exact shared polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "p3_catalog_over_heir_latency"
+      ],
+      "allowed_wording": "95% CI [6.361222, 6.427118]",
+      "exact_value": [
+        6.361221883796193,
+        6.427118084866673
+      ],
+      "number_id": "common_latency_p3_ci95",
+      "prohibited_interpretation": "raw-pair confidence interval",
+      "runtime": "common Lattigo executor",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_05_pairwise_latency_claims.csv",
+      "source_evidence_sha256": "c6e578f27e139719fb641635a1ce131e92d3beab70dc68389f463a346d67cde0",
+      "source_field_or_row": "P3/ci_low,ci_high",
+      "split_role": "locked-audit subset",
+      "statistical_unit": "input cluster",
+      "unit": "95% cluster-bootstrap CI",
+      "workload": "catalog vs HEIR exact shared polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "p3_catalog_over_heir_latency"
+      ],
+      "allowed_wording": "HEIR mean total latency 49.0566 ms",
+      "exact_value": 49.05661117166667,
+      "number_id": "heir_mean_total_ms",
+      "prohibited_interpretation": "native HEIR runtime result",
+      "runtime": "common Lattigo executor",
+      "source_evidence_file": "docs/evidence/focused_external_comparison_v8/latency_summary.csv",
+      "source_evidence_sha256": "0dadc8870645d5116da69600c4861b76b2b63f27c9dc9fd3a59d5664154deb0c",
+      "source_field_or_row": "HEIR/mean_total_ms",
+      "split_role": "latency subset",
+      "statistical_unit": "paired execution",
+      "unit": "milliseconds",
+      "workload": "HEIR exact shared polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "p3_catalog_over_heir_latency"
+      ],
+      "allowed_wording": "catalog mean total latency 312.7026 ms",
+      "exact_value": 312.70259030833336,
+      "number_id": "catalog_mean_total_ms_common",
+      "prohibited_interpretation": "primary 478.9484 ms or cross-runtime latency",
+      "runtime": "common Lattigo executor",
+      "source_evidence_file": "docs/evidence/focused_external_comparison_v8/latency_summary.csv",
+      "source_evidence_sha256": "0dadc8870645d5116da69600c4861b76b2b63f27c9dc9fd3a59d5664154deb0c",
+      "source_field_or_row": "BOUNDED_CATALOG/mean_total_ms",
+      "split_role": "latency subset",
+      "statistical_unit": "paired execution",
+      "unit": "milliseconds",
+      "workload": "bounded catalog exact shared polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "direct_repeat_flip_classification"
+      ],
+      "allowed_wording": "direct mean total latency 61.1860 ms (unstable arm)",
+      "exact_value": 61.18595561722223,
+      "number_id": "direct_mean_total_ms_common",
+      "prohibited_interpretation": "admitted stable speedup",
+      "runtime": "common Lattigo executor",
+      "source_evidence_file": "docs/evidence/focused_external_comparison_v8/latency_summary.csv",
+      "source_evidence_sha256": "0dadc8870645d5116da69600c4861b76b2b63f27c9dc9fd3a59d5664154deb0c",
+      "source_field_or_row": "FLIPGUARD_DIRECT/mean_total_ms",
+      "split_role": "latency subset",
+      "statistical_unit": "paired execution",
+      "unit": "milliseconds",
+      "workload": "direct exact shared polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "direct_repeat_flip_classification"
+      ],
+      "allowed_wording": "eight repeated flips",
+      "exact_value": 8,
+      "number_id": "direct_repeated_flips",
+      "prohibited_interpretation": "eight unique inputs",
+      "runtime": "common Lattigo executor",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/manifest.json",
+      "source_evidence_sha256": "6337f978c084b4717f7ce2c8df84f914659895a10569a792d8764fbff0a5db9c",
+      "source_field_or_row": "direct_repeat_flips",
+      "split_role": "latency subset",
+      "statistical_unit": "input-keyset-pass observation",
+      "unit": "raw repeated flips",
+      "workload": "direct exact shared polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "direct_repeat_flip_classification"
+      ],
+      "allowed_wording": "one near-boundary V_amb input",
+      "exact_value": 1,
+      "number_id": "direct_affected_unique_ambiguous_inputs",
+      "prohibited_interpretation": "eight unique failures",
+      "runtime": "common Lattigo executor",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/manifest.json",
+      "source_evidence_sha256": "6337f978c084b4717f7ce2c8df84f914659895a10569a792d8764fbff0a5db9c",
+      "source_field_or_row": "direct_repeat_unique_inputs",
+      "split_role": "latency subset",
+      "statistical_unit": "unique input",
+      "unit": "unique V_amb input",
+      "workload": "direct exact shared polynomial"
+    },
+    {
+      "admitted_claim_ids": [
+        "corelab_eva_elasm_numerical_grid"
+      ],
+      "allowed_wording": "36 EVA plans",
+      "exact_value": 36,
+      "number_id": "corelab_eva_plans",
+      "prohibited_interpretation": "decision-bearing candidates",
+      "runtime": "CoreLab container",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_06_corelab_eva_hecate_elasm_grid.csv",
+      "source_evidence_sha256": "8b30202c4075561b54b7ead29c6b9cb8b5f2009cd18450514b20985ddcce66e2",
+      "source_field_or_row": "EVA rows/attempted plans",
+      "split_role": "numerical only",
+      "statistical_unit": "plan",
+      "unit": "plans",
+      "workload": "CoreLab EVA grid"
+    },
+    {
+      "admitted_claim_ids": [
+        "corelab_eva_elasm_numerical_grid"
+      ],
+      "allowed_wording": "36 ELASM plans",
+      "exact_value": 36,
+      "number_id": "corelab_elasm_plans",
+      "prohibited_interpretation": "decision-bearing candidates",
+      "runtime": "CoreLab container",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_06_corelab_eva_hecate_elasm_grid.csv",
+      "source_evidence_sha256": "8b30202c4075561b54b7ead29c6b9cb8b5f2009cd18450514b20985ddcce66e2",
+      "source_field_or_row": "ELASM rows/attempted plans",
+      "split_role": "numerical only",
+      "statistical_unit": "plan",
+      "unit": "plans",
+      "workload": "CoreLab ELASM grid"
+    },
+    {
+      "admitted_claim_ids": [
+        "corelab_eva_elasm_numerical_grid"
+      ],
+      "allowed_wording": "72 numerical plans",
+      "exact_value": 72,
+      "number_id": "corelab_total_plans",
+      "prohibited_interpretation": "formal FlipGuard candidate denominator",
+      "runtime": "CoreLab container",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_06_corelab_eva_hecate_elasm_grid.csv",
+      "source_evidence_sha256": "8b30202c4075561b54b7ead29c6b9cb8b5f2009cd18450514b20985ddcce66e2",
+      "source_field_or_row": "derived total",
+      "split_role": "numerical only",
+      "statistical_unit": "plan",
+      "unit": "plans",
+      "workload": "CoreLab EVA/ELASM grid"
+    },
+    {
+      "admitted_claim_ids": [
+        "corelab_eva_elasm_numerical_grid"
+      ],
+      "allowed_wording": "70 encrypted E2E passes and 2 failures",
+      "exact_value": [
+        70,
+        2
+      ],
+      "number_id": "corelab_pass_fail",
+      "prohibited_interpretation": "decision-integrity outcomes",
+      "runtime": "CoreLab container",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_06_corelab_eva_hecate_elasm_grid.csv",
+      "source_evidence_sha256": "8b30202c4075561b54b7ead29c6b9cb8b5f2009cd18450514b20985ddcce66e2",
+      "source_field_or_row": "all rows/e2e_pass,e2e_fail",
+      "split_role": "numerical only",
+      "statistical_unit": "plan",
+      "unit": "plans",
+      "workload": "CoreLab EVA/ELASM grid"
+    },
+    {
+      "admitted_claim_ids": [
+        "corelab_eva_elasm_numerical_grid"
+      ],
+      "allowed_wording": "200 unique inputs per successful plan",
+      "exact_value": 200,
+      "number_id": "corelab_inputs_per_successful_plan",
+      "prohibited_interpretation": "200 independent plans",
+      "runtime": "CoreLab container",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_06_corelab_eva_hecate_elasm_grid.csv",
+      "source_evidence_sha256": "8b30202c4075561b54b7ead29c6b9cb8b5f2009cd18450514b20985ddcce66e2",
+      "source_field_or_row": "all successful rows/unique_inputs",
+      "split_role": "numerical only",
+      "statistical_unit": "input",
+      "unit": "unique inputs",
+      "workload": "CoreLab EVA/ELASM grid"
+    },
+    {
+      "admitted_claim_ids": [
+        "corelab_eva_elasm_numerical_grid"
+      ],
+      "allowed_wording": "14,000 numerical observations",
+      "exact_value": 14000,
+      "number_id": "corelab_numerical_rows",
+      "prohibited_interpretation": "14,000 decision-bearing or independent samples",
+      "runtime": "CoreLab container",
+      "source_evidence_file": "docs/evidence/final_realistic_baseline_closure_v9/tables/table_06_corelab_eva_hecate_elasm_grid.csv",
+      "source_evidence_sha256": "8b30202c4075561b54b7ead29c6b9cb8b5f2009cd18450514b20985ddcce66e2",
+      "source_field_or_row": "70 successful plans x 200 inputs",
+      "split_role": "numerical only",
+      "statistical_unit": "plan-input row",
+      "unit": "numerical rows",
+      "workload": "CoreLab EVA/ELASM grid"
+    },
+    {
+      "admitted_claim_ids": [
+        "mlp100_finite_validation_audit"
+      ],
+      "allowed_wording": "500 validation and 500 audit images",
+      "exact_value": [
+        500,
+        500
+      ],
+      "number_id": "mlp100_validation_audit",
+      "prohibited_interpretation": "distribution-wide MNIST evidence",
+      "runtime": "Lattigo scalar-replicated",
+      "source_evidence_file": "docs/evidence/journal_multiclass_extension_results_v1/summary.json",
+      "source_evidence_sha256": "ed46298b45f62474b518baf8099c41630618896b26c520a1c2aec6fb54b68911",
+      "source_field_or_row": "models.mlp100/validation_inputs,audit_inputs",
+      "split_role": "validation/audit",
+      "statistical_unit": "unique image by role",
+      "unit": "images",
+      "workload": "MNIST MLP-100"
+    },
+    {
+      "admitted_claim_ids": [
+        "mlp100_finite_validation_audit"
+      ],
+      "allowed_wording": "zero observed argmax flips",
+      "exact_value": [
+        0,
+        0
+      ],
+      "number_id": "mlp100_argmax_flips",
+      "prohibited_interpretation": "universal model guarantee",
+      "runtime": "Lattigo scalar-replicated",
+      "source_evidence_file": "docs/evidence/journal_multiclass_extension_results_v1/summary.json",
+      "source_evidence_sha256": "ed46298b45f62474b518baf8099c41630618896b26c520a1c2aec6fb54b68911",
+      "source_field_or_row": "models.mlp100/validation_flips,audit_flips",
+      "split_role": "validation/audit",
+      "statistical_unit": "unique image by role",
+      "unit": "argmax flips",
+      "workload": "MNIST MLP-100"
+    },
+    {
+      "admitted_claim_ids": [
+        "lenet5_small_finite_validation_audit"
+      ],
+      "allowed_wording": "500 validation and 500 audit images",
+      "exact_value": [
+        500,
+        500
+      ],
+      "number_id": "lenet_validation_audit",
+      "prohibited_interpretation": "packed or arbitrary CNN inference",
+      "runtime": "Lattigo scalar-replicated",
+      "source_evidence_file": "docs/evidence/journal_multiclass_extension_results_v1/summary.json",
+      "source_evidence_sha256": "ed46298b45f62474b518baf8099c41630618896b26c520a1c2aec6fb54b68911",
+      "source_field_or_row": "models.lenet5_small/validation_inputs,audit_inputs",
+      "split_role": "validation/audit",
+      "statistical_unit": "unique image by role",
+      "unit": "images",
+      "workload": "MNIST LeNet-5-small"
+    },
+    {
+      "admitted_claim_ids": [
+        "lenet5_small_finite_validation_audit"
+      ],
+      "allowed_wording": "zero observed argmax flips",
+      "exact_value": [
+        0,
+        0
+      ],
+      "number_id": "lenet_argmax_flips",
+      "prohibited_interpretation": "universal CNN guarantee",
+      "runtime": "Lattigo scalar-replicated",
+      "source_evidence_file": "docs/evidence/journal_multiclass_extension_results_v1/summary.json",
+      "source_evidence_sha256": "ed46298b45f62474b518baf8099c41630618896b26c520a1c2aec6fb54b68911",
+      "source_field_or_row": "models.lenet5_small/validation_flips,audit_flips",
+      "split_role": "validation/audit",
+      "statistical_unit": "unique image by role",
+      "unit": "argmax flips",
+      "workload": "MNIST LeNet-5-small"
+    },
+    {
+      "admitted_claim_ids": [
+        "structural_extension"
+      ],
+      "allowed_wording": "25 structural instances",
+      "exact_value": 25,
+      "number_id": "structural_instances",
+      "prohibited_interpretation": "25 independent models",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/evidence/structural_extension_v1/summary/audit_summary.json",
+      "source_evidence_sha256": "5eed6772c5d6b26c525db421177c4436df321fd3cd22a38aa14a18cd886fe87e",
+      "source_field_or_row": "instances",
+      "split_role": "structural holdout",
+      "statistical_unit": "workload-partition instance",
+      "unit": "instances",
+      "workload": "mlp_square_poly3"
+    },
+    {
+      "admitted_claim_ids": [
+        "structural_extension"
+      ],
+      "allowed_wording": "24 PASS and one reserve-policy rejection",
+      "exact_value": [
+        24,
+        1
+      ],
+      "number_id": "structural_audit_outcomes",
+      "prohibited_interpretation": "all structural audits passed or observed decision failure",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/evidence/structural_extension_v1/summary/audit_summary.json",
+      "source_evidence_sha256": "5eed6772c5d6b26c525db421177c4436df321fd3cd22a38aa14a18cd886fe87e",
+      "source_field_or_row": "audit_pass,reserve_policy_reject",
+      "split_role": "locked audit",
+      "statistical_unit": "workload-partition instance",
+      "unit": "instances",
+      "workload": "mlp_square_poly3"
+    },
+    {
+      "admitted_claim_ids": [
+        "scoped_non_tabular_extension"
+      ],
+      "allowed_wording": "400 validation and 400 audit observations",
+      "exact_value": [
+        400,
+        400
+      ],
+      "number_id": "sobel_validation_audit",
+      "prohibited_interpretation": "400 images per role",
+      "runtime": "Lattigo scalar-replicated",
+      "source_evidence_file": "docs/evidence/non_tabular_sobel_holdout_v1/summary.json",
+      "source_evidence_sha256": "3aa0bd09d683eff7069246ce9469524c1eb4d47e6e23c4ad08bb32ba378569db",
+      "source_field_or_row": "validation_samples,audit_samples",
+      "split_role": "validation/audit",
+      "statistical_unit": "operator observation",
+      "unit": "observations",
+      "workload": "Sobel"
+    },
+    {
+      "admitted_claim_ids": [
+        "scoped_non_tabular_extension"
+      ],
+      "allowed_wording": "200 validation and 200 audit observations",
+      "exact_value": [
+        200,
+        200
+      ],
+      "number_id": "harris_validation_audit",
+      "prohibited_interpretation": "200 images per role",
+      "runtime": "Lattigo scalar-replicated",
+      "source_evidence_file": "docs/evidence/non_tabular_harris_holdout_v1/summary.json",
+      "source_evidence_sha256": "9e5989db378b6eef050cd2e90443521851481841ca2af37d1e9dbbedb53bc199",
+      "source_field_or_row": "validation_samples,audit_samples",
+      "split_role": "validation/audit",
+      "statistical_unit": "operator observation",
+      "unit": "observations",
+      "workload": "Harris"
+    },
+    {
+      "admitted_claim_ids": [
+        "scoped_non_tabular_extension"
+      ],
+      "allowed_wording": "250 validation and 250 audit observations",
+      "exact_value": [
+        250,
+        250
+      ],
+      "number_id": "cnn_lite_validation_audit",
+      "prohibited_interpretation": "packed or arbitrary CNN evidence",
+      "runtime": "Lattigo scalar-replicated",
+      "source_evidence_file": "docs/evidence/non_tabular_mnist_cnn_lite_holdout_v1/summary.json",
+      "source_evidence_sha256": "c6857a4f953653a7cfd2420dc0ee28ca20a60ab955e70380cfff5990ba120ecb",
+      "source_field_or_row": "validation_samples,audit_samples",
+      "split_role": "validation/audit",
+      "statistical_unit": "image observation",
+      "unit": "observations",
+      "workload": "MNIST CNN-lite"
+    },
+    {
+      "admitted_claim_ids": [
+        "training_model_seed_extension"
+      ],
+      "allowed_wording": "9/9 independently trained models passed selection and audit",
+      "exact_value": [
+        9,
+        9
+      ],
+      "number_id": "independent_training_seed_pass",
+      "prohibited_interpretation": "universal training-seed generalization",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/evidence/independent_training_seed_extension_v1/summary.json",
+      "source_evidence_sha256": "fbe48dfd397f386738ff3063d4f331dce120ab38dcca5217e7d61093a9602a68",
+      "source_field_or_row": "pass,total",
+      "split_role": "selection/audit",
+      "statistical_unit": "independently trained model",
+      "unit": "trained models",
+      "workload": "three datasets x three seeds"
+    },
+    {
+      "admitted_claim_ids": [
+        "no_safe_behavior"
+      ],
+      "allowed_wording": "NO_SAFE in 16/40 budget controls",
+      "exact_value": [
+        16,
+        40
+      ],
+      "number_id": "no_safe_budget_controls",
+      "prohibited_interpretation": "global infeasibility",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/evidence/no_safe_controls_confirmatory_v1/manifest.json",
+      "source_evidence_sha256": "878a92d00c928c7fed6dd4caa9ac0597f59e810f32fded3224670b6ee4c2220c",
+      "source_field_or_row": "no_safe,total",
+      "split_role": "confirmatory",
+      "statistical_unit": "control instance",
+      "unit": "controls",
+      "workload": "confirmatory budget control"
+    },
+    {
+      "admitted_claim_ids": [
+        "no_safe_behavior"
+      ],
+      "allowed_wording": "NO_SAFE in 50/50 finite-domain controls",
+      "exact_value": [
+        50,
+        50
+      ],
+      "number_id": "no_safe_finite_domain",
+      "prohibited_interpretation": "proof that no CKKS configuration exists",
+      "runtime": "Lattigo v6.2.0",
+      "source_evidence_file": "docs/thesis/number_registry.json",
+      "source_evidence_sha256": "a61d6cafd80031b4aabee222f96f7f72d7360a1596d0bd9ce8302e5ca92fcc64",
+      "source_field_or_row": "no_safe_finite_domain,total",
+      "split_role": "confirmatory control",
+      "statistical_unit": "finite-domain control",
+      "unit": "controls",
+      "workload": "finite-domain NO_SAFE"
+    }
+  ],
+  "policy": "Every paper-facing number is bound to immutable evidence and a scoped interpretation.",
+  "schema_version": "flipguard_final_manuscript_audit_v1_authoritative_number_registry",
+  "source_commit": "98e5e4105c0b0597d6fb245b5718a00eb4828349"
+}
