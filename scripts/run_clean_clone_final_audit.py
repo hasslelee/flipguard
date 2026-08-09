@@ -51,10 +51,50 @@ BOUND_RUNTIME_INPUTS = {
         "bounded_oracle_security_v2/oracle_selection_security_v2.csv"
     ): "dc08523ec449d123d0b7aab2df8449bb450dc97236d70ad5f122bd0f99a333c6",
 }
+BOUND_RUNTIME_TREES = {
+    Path(
+        "results/thesis_grade_protocol/provider_candidate_gate_v1/"
+        "run_707441b"
+    ): {
+        "sha256": "d1ecd65e0380d0bb4b654dec850f1549f5ff0ac99dfada146ad9145247b998af",
+        "file_count": 24,
+        "size_bytes": 22392926,
+    },
+    Path(
+        "results/thesis_grade_protocol/provider_candidate_gate_v1/"
+        "run_f84ecff"
+    ): {
+        "sha256": "8447dd6a5a11035954e35f187bf5eff0afbb96d5acd515d4860ab99104013a16",
+        "file_count": 21,
+        "size_bytes": 22364768,
+    },
+}
 
 
 def sha256_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
+def tree_binding(path: Path) -> dict[str, object]:
+    digest = hashlib.sha256()
+    file_count = 0
+    size_bytes = 0
+    for file_path in sorted(item for item in path.rglob("*") if item.is_file()):
+        file_digest = hashlib.sha256()
+        with file_path.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                file_digest.update(chunk)
+        digest.update(file_path.relative_to(path).as_posix().encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(file_digest.digest())
+        digest.update(b"\n")
+        file_count += 1
+        size_bytes += file_path.stat().st_size
+    return {
+        "sha256": digest.hexdigest(),
+        "file_count": file_count,
+        "size_bytes": size_bytes,
+    }
 
 
 def run(command: list[str], cwd: Path, env: dict[str, str], timeout: int = 7200) -> dict[str, object]:
@@ -86,6 +126,10 @@ def main() -> int:
         source = ROOT / relative_path
         if not source.is_file() or hashlib.sha256(source.read_bytes()).hexdigest() != expected:
             raise SystemExit(f"clean_clone_audit=FAILED test_input_digest:{relative_path}")
+    for relative_path, expected in BOUND_RUNTIME_TREES.items():
+        source = ROOT / relative_path
+        if not source.is_dir() or tree_binding(source) != expected:
+            raise SystemExit(f"clean_clone_audit=FAILED test_input_tree:{relative_path}")
 
     start = dt.datetime.now(dt.timezone.utc)
     checks: list[dict[str, object]] = []
@@ -110,6 +154,8 @@ def main() -> int:
             destination = clone / relative_path
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / relative_path, destination)
+        for relative_path in BOUND_RUNTIME_TREES:
+            shutil.copytree(ROOT / relative_path, clone / relative_path)
 
         commands = [
             ["go", "test", "./..."],
@@ -137,6 +183,8 @@ def main() -> int:
         external_zip.unlink()
         for relative_path in temporary_test_inputs:
             (clone / relative_path).unlink()
+        for relative_path in BOUND_RUNTIME_TREES:
+            shutil.rmtree(clone / relative_path)
         final_status = subprocess.check_output(["git", "status", "--short"], cwd=clone, text=True)
         if final_status:
             raise SystemExit(f"clean_clone_audit=FAILED dirty_tree:{final_status}")
@@ -172,6 +220,15 @@ def main() -> int:
             }
             for path, digest in BOUND_RUNTIME_INPUTS.items()
         ],
+        "bound_runtime_test_trees": [
+            {
+                "path": path.as_posix(),
+                **binding,
+                "copied_for_tests": True,
+                "removed_before_clean_status_check": True,
+            }
+            for path, binding in BOUND_RUNTIME_TREES.items()
+        ],
         "recovery_attempts": [
             {
                 "attempt": 1,
@@ -190,6 +247,18 @@ def main() -> int:
                 "classification": "RECOVERABLE_REPRODUCIBILITY_FAILURE",
                 "failure": "Python tests lacked five ignored contract-bound split, selection, and bounded-oracle artifacts",
                 "resolution": "verify and temporarily restore only the five files named by frozen contracts, then remove them before the clean-tree check",
+            },
+            {
+                "attempt": 4,
+                "classification": "RUNNER_INPUT_ERROR_REPEAT",
+                "failure": "a second manually transcribed audit commit was rejected before verification",
+                "resolution": "obtain the full commit only from git rev-parse HEAD and retry without transcription",
+            },
+            {
+                "attempt": 5,
+                "classification": "RECOVERABLE_REPRODUCIBILITY_FAILURE",
+                "failure": "three provider evidence-freezer tests lacked two ignored provider-gate run trees",
+                "resolution": "bind both trees by relative-path and per-file SHA-256 aggregation, restore them temporarily, and remove them before the clean-tree check",
             },
         ],
         "new_scientific_execution_count": 0,

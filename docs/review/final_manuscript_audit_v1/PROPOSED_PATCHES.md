@@ -92,6 +92,15 @@ These patches are review proposals only. They have not been applied to a DOCX, P
 
 **Evidence guard:** clean_clone_audit.json recovery_attempts and bound_runtime_test_inputs
 
+## P0-011
+**Target:** Release-readiness workflow - clean-clone provider evidence-freezer tests
+
+**Current:** After the five contract files were restored, three deep-validation tests still lacked the ignored provider-gate run_707441b and run_f84ecff trees.
+
+**Proposed:** Restore the two frozen run trees only after verifying their aggregate relative-path/per-file SHA-256 bindings; remove both trees before the final clean-tree assertion.
+
+**Evidence guard:** clean_clone_audit.json recovery_attempts and bound_runtime_test_trees
+
 ## P1-001
 **Target:** Journal - page 8 references and dense tables
 

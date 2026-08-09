@@ -2,7 +2,7 @@
 
 Status: **PROPOSED ONLY - authoritative manuscripts remain byte-identical.**
 
-Issue count: P0=10, P1=8, P2=3.
+Issue count: P0=11, P1=8, P2=3.
 
 ## P0-001: An ignored Python bytecode cache makes the legacy verifier report a false integrity failure in a dirty checkout; the same tracked-only checkout verifies successfully.
 - **Document:** Frozen V3 verifier
@@ -122,6 +122,18 @@ Issue count: P0=10, P1=8, P2=3.
 - **Exact proposed replacement/action:** Restore only the three iris split files, one direct-selection JSON, and one Security-V2 bounded-oracle CSV after verifying their frozen SHA-256 values; remove them before the final clean-tree assertion.
 - **Applies to:** artifact evaluation
 - **User decision required:** No manuscript decision; document the five-file artifact dependency in release instructions.
+- **Auto-fix permitted:** NO
+
+## P0-011: The regression suite verifies both the preserved fail-closed incident and the corrected provider run, but a source-only clone does not contain either runtime tree.
+- **Document:** Release-readiness workflow
+- **Section/page/paragraph:** clean-clone provider evidence-freezer tests
+- **Current text/state:** After the five contract files were restored, three deep-validation tests still lacked the ignored provider-gate run_707441b and run_f84ecff trees.
+- **Problem:** The regression suite verifies both the preserved fail-closed incident and the corrected provider run, but a source-only clone does not contain either runtime tree.
+- **Severity:** P0
+- **Evidence:** clean_clone_audit.json recovery_attempts and bound_runtime_test_trees
+- **Exact proposed replacement/action:** Restore the two frozen run trees only after verifying their aggregate relative-path/per-file SHA-256 bindings; remove both trees before the final clean-tree assertion.
+- **Applies to:** artifact evaluation
+- **User decision required:** No manuscript decision; list both provider-gate runtime trees as required artifact-test inputs.
 - **Auto-fix permitted:** NO
 
 ## P1-001: The content is present but readability may be inadequate in print or reviewer PDF viewers.

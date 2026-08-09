@@ -413,6 +413,18 @@ ISSUES: list[dict[str, str]] = [
         "decision": "No manuscript decision; document the five-file artifact dependency in release instructions.",
     },
     {
+        "issue_id": "P0-011",
+        "document": "Release-readiness workflow",
+        "location": "clean-clone provider evidence-freezer tests",
+        "current_text": "After the five contract files were restored, three deep-validation tests still lacked the ignored provider-gate run_707441b and run_f84ecff trees.",
+        "problem": "The regression suite verifies both the preserved fail-closed incident and the corrected provider run, but a source-only clone does not contain either runtime tree.",
+        "severity": "P0",
+        "evidence": "clean_clone_audit.json recovery_attempts and bound_runtime_test_trees",
+        "replacement": "Restore the two frozen run trees only after verifying their aggregate relative-path/per-file SHA-256 bindings; remove both trees before the final clean-tree assertion.",
+        "scope": "artifact evaluation",
+        "decision": "No manuscript decision; list both provider-gate runtime trees as required artifact-test inputs.",
+    },
+    {
         "issue_id": "P1-001",
         "document": "Journal",
         "location": "page 8 references and dense tables",
