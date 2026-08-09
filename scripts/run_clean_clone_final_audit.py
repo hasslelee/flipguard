@@ -29,6 +29,18 @@ EXTERNAL_DATASETS = {
 }
 BOUND_RUNTIME_INPUTS = {
     Path(
+        "external/v7/sources/heir/tests/Examples/common/"
+        "dot_product_8f.mlir"
+    ): "08b73014aa97c12f317bb3c09d74b141f6126e1d049f1de351155d8078acb74f",
+    Path(
+        "external/v7/sources/heir/tests/Examples/openfhe/ckks/"
+        "dot_product_8f/dot_product_8f_test.cpp"
+    ): "28f082b1e22931c63f29673180ec94ac54594df9bc03e180a24f3fb6246084da",
+    Path(
+        "external/v7/sources/heir/tests/Examples/lattigo/ckks/"
+        "dot_product_8f/dot_product_8f_test.go"
+    ): "5c0d39436d0920922a0d84d162f6a1343f8137be922d3b9ccf8e26b0562af0f7",
+    Path(
         "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/"
         "iris_binary/linear_poly3/configuration_validation.csv"
     ): "29cf99a47cd25520a15aa36d8e7fdf58328fc3a91ad54067266d443b4c04e5ea",
@@ -52,6 +64,16 @@ BOUND_RUNTIME_INPUTS = {
     ): "dc08523ec449d123d0b7aab2df8449bb450dc97236d70ad5f122bd0f99a333c6",
 }
 BOUND_RUNTIME_TREES = {
+    Path("external/v7/status"): {
+        "sha256": "f8faf693a75c6fba8f35ece9eb53f6d205be0f547183d4609fb7ef139f0088dd",
+        "file_count": 678,
+        "size_bytes": 91186,
+    },
+    Path("external/v7/outputs"): {
+        "sha256": "5adb61d3405b3ffe5df82fcece58fcf9de00a5bcc7fefa7561ff70cdc7768a73",
+        "file_count": 727,
+        "size_bytes": 17203933,
+    },
     Path(
         "results/thesis_grade_protocol/provider_candidate_gate_v1/"
         "run_707441b"
@@ -259,6 +281,18 @@ def main() -> int:
                 "classification": "RECOVERABLE_REPRODUCIBILITY_FAILURE",
                 "failure": "three provider evidence-freezer tests lacked two ignored provider-gate run trees",
                 "resolution": "bind both trees by relative-path and per-file SHA-256 aggregation, restore them temporarily, and remove them before the clean-tree check",
+            },
+            {
+                "attempt": 6,
+                "classification": "RECOVERABLE_REPRODUCIBILITY_FAILURE",
+                "failure": "one V7 fail-closed builder test lacked ignored status and normalized-output trees",
+                "resolution": "bind only external/v7/status and external/v7/outputs by relative-path and per-file SHA-256 aggregation, then restore them temporarily for the regression suite",
+            },
+            {
+                "attempt": 7,
+                "classification": "RECOVERABLE_REPRODUCIBILITY_FAILURE",
+                "failure": "the targeted V7 builder test also required three official HEIR dot-product source files for input-identity recomputation",
+                "resolution": "bind and restore only the three named HEIR source files; do not copy the external build or source tree",
             },
         ],
         "new_scientific_execution_count": 0,

@@ -2,7 +2,7 @@
 
 Status: **PROPOSED ONLY - authoritative manuscripts remain byte-identical.**
 
-Issue count: P0=11, P1=8, P2=3.
+Issue count: P0=13, P1=8, P2=3.
 
 ## P0-001: An ignored Python bytecode cache makes the legacy verifier report a false integrity failure in a dirty checkout; the same tracked-only checkout verifies successfully.
 - **Document:** Frozen V3 verifier
@@ -134,6 +134,30 @@ Issue count: P0=11, P1=8, P2=3.
 - **Exact proposed replacement/action:** Restore the two frozen run trees only after verifying their aggregate relative-path/per-file SHA-256 bindings; remove both trees before the final clean-tree assertion.
 - **Applies to:** artifact evaluation
 - **User decision required:** No manuscript decision; list both provider-gate runtime trees as required artifact-test inputs.
+- **Auto-fix permitted:** NO
+
+## P0-012: The source-only checkout contains the deterministic builder and frozen V7 pack, but not the raw status/normalized-output inputs used by that regression test.
+- **Document:** Release-readiness workflow
+- **Section/page/paragraph:** clean-clone V7 evidence-builder regression
+- **Current text/state:** After provider-gate inputs were restored, one fail-closed V7 evidence-builder test still lacked the ignored external/v7/status and external/v7/outputs trees.
+- **Problem:** The source-only checkout contains the deterministic builder and frozen V7 pack, but not the raw status/normalized-output inputs used by that regression test.
+- **Severity:** P0
+- **Evidence:** clean_clone_audit.json recovery_attempts and bound_runtime_test_trees
+- **Exact proposed replacement/action:** Restore only the digest-bound V7 status and normalized-output trees for the regression suite; do not copy logs, build trees, containers, or caches, and remove both trees before the clean-tree assertion.
+- **Applies to:** artifact evaluation
+- **User decision required:** No manuscript decision; list the two V7 regression-input trees in artifact evaluation instructions.
+- **Auto-fix permitted:** NO
+
+## P0-013: The overlay intentionally hashes the MLIR, OpenFHE test, and Lattigo test sources, but these files live in an ignored external checkout.
+- **Document:** Release-readiness workflow
+- **Section/page/paragraph:** targeted clean-clone V7 overlay regression
+- **Current text/state:** With V7 status and outputs restored, the overlay identity check still lacked three official HEIR dot-product source files.
+- **Problem:** The overlay intentionally hashes the MLIR, OpenFHE test, and Lattigo test sources, but these files live in an ignored external checkout.
+- **Severity:** P0
+- **Evidence:** clean_clone_audit.json recovery_attempts and bound_runtime_test_inputs
+- **Exact proposed replacement/action:** Restore only the three digest-bound HEIR dot-product source files used by input_identities(); do not restore external repositories, build products, or caches.
+- **Applies to:** artifact evaluation
+- **User decision required:** No manuscript decision; add the three HEIR source bindings to the artifact evaluator input inventory.
 - **Auto-fix permitted:** NO
 
 ## P1-001: The content is present but readability may be inadequate in print or reviewer PDF viewers.

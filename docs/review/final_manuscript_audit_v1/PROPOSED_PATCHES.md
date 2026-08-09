@@ -101,6 +101,24 @@ These patches are review proposals only. They have not been applied to a DOCX, P
 
 **Evidence guard:** clean_clone_audit.json recovery_attempts and bound_runtime_test_trees
 
+## P0-012
+**Target:** Release-readiness workflow - clean-clone V7 evidence-builder regression
+
+**Current:** After provider-gate inputs were restored, one fail-closed V7 evidence-builder test still lacked the ignored external/v7/status and external/v7/outputs trees.
+
+**Proposed:** Restore only the digest-bound V7 status and normalized-output trees for the regression suite; do not copy logs, build trees, containers, or caches, and remove both trees before the clean-tree assertion.
+
+**Evidence guard:** clean_clone_audit.json recovery_attempts and bound_runtime_test_trees
+
+## P0-013
+**Target:** Release-readiness workflow - targeted clean-clone V7 overlay regression
+
+**Current:** With V7 status and outputs restored, the overlay identity check still lacked three official HEIR dot-product source files.
+
+**Proposed:** Restore only the three digest-bound HEIR dot-product source files used by input_identities(); do not restore external repositories, build products, or caches.
+
+**Evidence guard:** clean_clone_audit.json recovery_attempts and bound_runtime_test_inputs
+
 ## P1-001
 **Target:** Journal - page 8 references and dense tables
 
