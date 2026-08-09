@@ -27,6 +27,11 @@ EXTERNAL_DATASETS = {
     Path("results/source_datasets/mnist/mnist_784.arff.gz"): "fe4410d8dbb50f6db6482b187557c5cb8bccfbcec74eeb6abc47c858f4ffab78",
     Path("results/source_datasets/bsds500/BSR_bsds500.tgz"): "97e49d31764f3912f0c4122707d53062ac9e783ba0f095e447a4d53c1a41af8e",
 }
+REBUILD_ARCHIVE_INPUTS = {
+    Path(
+        "dist/flipguard-thesis-artifact-v1.0.0-rc2.tar.zst"
+    ): "05ef70306a11ab577243b0c708489864f19ccd104e6036e28fc6bd1dab45c0be",
+}
 BOUND_RUNTIME_INPUTS = {
     Path(
         "external/v7/sources/heir/tests/Examples/common/"
@@ -143,7 +148,9 @@ def main() -> int:
     args = parser.parse_args()
     if not INPUT_DIR.is_dir() or not INPUT_ZIP.is_file():
         raise SystemExit("clean_clone_audit=FAILED immutable_manuscript_input_missing")
-    temporary_test_inputs = EXTERNAL_DATASETS | BOUND_RUNTIME_INPUTS
+    temporary_test_inputs = (
+        EXTERNAL_DATASETS | BOUND_RUNTIME_INPUTS | REBUILD_ARCHIVE_INPUTS
+    )
     for relative_path, expected in temporary_test_inputs.items():
         source = ROOT / relative_path
         if not source.is_file() or hashlib.sha256(source.read_bytes()).hexdigest() != expected:
@@ -180,7 +187,7 @@ def main() -> int:
         for command in (["go", "test", "./..."], ["go", "vet", "./..."]):
             checks.append(run(command, clone, env))
 
-        for relative_path in BOUND_RUNTIME_INPUTS:
+        for relative_path in BOUND_RUNTIME_INPUTS | REBUILD_ARCHIVE_INPUTS:
             destination = clone / relative_path
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / relative_path, destination)
@@ -248,6 +255,15 @@ def main() -> int:
             }
             for path, digest in BOUND_RUNTIME_INPUTS.items()
         ],
+        "rebuild_archive_inputs": [
+            {
+                "path": path.as_posix(),
+                "sha256": digest,
+                "copied_for_rebuild": True,
+                "removed_before_clean_status_check": True,
+            }
+            for path, digest in REBUILD_ARCHIVE_INPUTS.items()
+        ],
         "bound_runtime_test_trees": [
             {
                 "path": path.as_posix(),
@@ -305,6 +321,12 @@ def main() -> int:
                 "classification": "RECOVERABLE_ORCHESTRATION_FAILURE",
                 "failure": "restoring the HEIR Lattigo test source before go test exposed an intentionally incomplete external generated package",
                 "resolution": "run Go tests with only digest-bound datasets, then restore HEIR and V7 runtime inputs immediately before Python regression tests",
+            },
+            {
+                "attempt": 9,
+                "classification": "RECOVERABLE_REPRODUCIBILITY_FAILURE",
+                "failure": "all tests passed, but the audit rebuild changed rc2_archive.present because the ignored RC2 archive was absent",
+                "resolution": "verify and restore the already bound RC2 archive for rebuild, then remove it before the clean-tree assertion",
             },
         ],
         "new_scientific_execution_count": 0,

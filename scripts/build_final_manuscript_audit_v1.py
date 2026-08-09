@@ -461,6 +461,18 @@ ISSUES: list[dict[str, str]] = [
         "decision": "No manuscript decision; retain staged restoration in the clean-clone protocol.",
     },
     {
+        "issue_id": "P0-015",
+        "document": "Release-readiness workflow",
+        "location": "clean-clone deterministic audit rebuild",
+        "current_text": "All source tests and verifiers passed, but the audit builder changed rc2_archive.present from true to false because the ignored RC2 release archive was absent.",
+        "problem": "The generated dependency manifest records archive presence, so a source-only environment cannot reproduce the committed bytes without restoring the already bound archive.",
+        "severity": "P0",
+        "evidence": "clean_clone_audit.json recovery_attempts and rebuild_archive_inputs",
+        "replacement": "Verify the RC2 archive against 05ef7030...c0be, restore it only for the audit rebuild, and remove it before the final clean-tree assertion.",
+        "scope": "artifact evaluation",
+        "decision": "No manuscript decision; document RC2 archive restoration as a deterministic audit-build prerequisite.",
+    },
+    {
         "issue_id": "P1-001",
         "document": "Journal",
         "location": "page 8 references and dense tables",

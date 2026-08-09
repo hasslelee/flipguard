@@ -2,7 +2,7 @@
 
 Status: **PROPOSED ONLY - authoritative manuscripts remain byte-identical.**
 
-Issue count: P0=14, P1=8, P2=3.
+Issue count: P0=15, P1=8, P2=3.
 
 ## P0-001: An ignored Python bytecode cache makes the legacy verifier report a false integrity failure in a dirty checkout; the same tracked-only checkout verifies successfully.
 - **Document:** Frozen V3 verifier
@@ -170,6 +170,18 @@ Issue count: P0=14, P1=8, P2=3.
 - **Exact proposed replacement/action:** Stage external inputs by consumer: restore only MNIST/BSDS500 before Go tests, then restore HEIR source and V7/provider runtime inputs before Python regression tests.
 - **Applies to:** artifact evaluation
 - **User decision required:** No manuscript decision; retain staged restoration in the clean-clone protocol.
+- **Auto-fix permitted:** NO
+
+## P0-015: The generated dependency manifest records archive presence, so a source-only environment cannot reproduce the committed bytes without restoring the already bound archive.
+- **Document:** Release-readiness workflow
+- **Section/page/paragraph:** clean-clone deterministic audit rebuild
+- **Current text/state:** All source tests and verifiers passed, but the audit builder changed rc2_archive.present from true to false because the ignored RC2 release archive was absent.
+- **Problem:** The generated dependency manifest records archive presence, so a source-only environment cannot reproduce the committed bytes without restoring the already bound archive.
+- **Severity:** P0
+- **Evidence:** clean_clone_audit.json recovery_attempts and rebuild_archive_inputs
+- **Exact proposed replacement/action:** Verify the RC2 archive against 05ef7030...c0be, restore it only for the audit rebuild, and remove it before the final clean-tree assertion.
+- **Applies to:** artifact evaluation
+- **User decision required:** No manuscript decision; document RC2 archive restoration as a deterministic audit-build prerequisite.
 - **Auto-fix permitted:** NO
 
 ## P1-001: The content is present but readability may be inadequate in print or reviewer PDF viewers.

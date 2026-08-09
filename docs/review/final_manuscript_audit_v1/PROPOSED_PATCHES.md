@@ -128,6 +128,15 @@ These patches are review proposals only. They have not been applied to a DOCX, P
 
 **Evidence guard:** clean_clone_audit.json recovery_attempts and staged command records
 
+## P0-015
+**Target:** Release-readiness workflow - clean-clone deterministic audit rebuild
+
+**Current:** All source tests and verifiers passed, but the audit builder changed rc2_archive.present from true to false because the ignored RC2 release archive was absent.
+
+**Proposed:** Verify the RC2 archive against 05ef7030...c0be, restore it only for the audit rebuild, and remove it before the final clean-tree assertion.
+
+**Evidence guard:** clean_clone_audit.json recovery_attempts and rebuild_archive_inputs
+
 ## P1-001
 **Target:** Journal - page 8 references and dense tables
 
