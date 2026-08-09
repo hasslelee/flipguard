@@ -172,7 +172,15 @@ def main() -> int:
         shutil.copytree(INPUT_DIR, external_dir)
         external_zip.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(INPUT_ZIP, external_zip)
-        for relative_path in temporary_test_inputs:
+        for relative_path in EXTERNAL_DATASETS:
+            destination = clone / relative_path
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ROOT / relative_path, destination)
+
+        for command in (["go", "test", "./..."], ["go", "vet", "./..."]):
+            checks.append(run(command, clone, env))
+
+        for relative_path in BOUND_RUNTIME_INPUTS:
             destination = clone / relative_path
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / relative_path, destination)
@@ -180,8 +188,6 @@ def main() -> int:
             shutil.copytree(ROOT / relative_path, clone / relative_path)
 
         commands = [
-            ["go", "test", "./..."],
-            ["go", "vet", "./..."],
             ["python3", "-m", "unittest", "discover", "-s", "scripts/tests", "-p", "test_*.py"],
             ["python3", "scripts/verify_tracked_predecessors.py"],
             ["bash", "scripts/verify_frozen_evidence.sh"],
@@ -293,6 +299,12 @@ def main() -> int:
                 "classification": "RECOVERABLE_REPRODUCIBILITY_FAILURE",
                 "failure": "the targeted V7 builder test also required three official HEIR dot-product source files for input-identity recomputation",
                 "resolution": "bind and restore only the three named HEIR source files; do not copy the external build or source tree",
+            },
+            {
+                "attempt": 8,
+                "classification": "RECOVERABLE_ORCHESTRATION_FAILURE",
+                "failure": "restoring the HEIR Lattigo test source before go test exposed an intentionally incomplete external generated package",
+                "resolution": "run Go tests with only digest-bound datasets, then restore HEIR and V7 runtime inputs immediately before Python regression tests",
             },
         ],
         "new_scientific_execution_count": 0,

@@ -449,6 +449,18 @@ ISSUES: list[dict[str, str]] = [
         "decision": "No manuscript decision; add the three HEIR source bindings to the artifact evaluator input inventory.",
     },
     {
+        "issue_id": "P0-014",
+        "document": "Release-readiness workflow",
+        "location": "clean-clone Go/Python input staging",
+        "current_text": "The first run with HEIR source bindings restored them before go test, which discovered an external generated test package without its generated implementation.",
+        "problem": "The same source file is a Python evidence-builder input but must not expand the repository Go package set during the native source test gate.",
+        "severity": "P0",
+        "evidence": "clean_clone_audit.json recovery_attempts and staged command records",
+        "replacement": "Stage external inputs by consumer: restore only MNIST/BSDS500 before Go tests, then restore HEIR source and V7/provider runtime inputs before Python regression tests.",
+        "scope": "artifact evaluation",
+        "decision": "No manuscript decision; retain staged restoration in the clean-clone protocol.",
+    },
+    {
         "issue_id": "P1-001",
         "document": "Journal",
         "location": "page 8 references and dense tables",

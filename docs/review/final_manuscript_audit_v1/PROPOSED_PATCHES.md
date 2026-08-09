@@ -119,6 +119,15 @@ These patches are review proposals only. They have not been applied to a DOCX, P
 
 **Evidence guard:** clean_clone_audit.json recovery_attempts and bound_runtime_test_inputs
 
+## P0-014
+**Target:** Release-readiness workflow - clean-clone Go/Python input staging
+
+**Current:** The first run with HEIR source bindings restored them before go test, which discovered an external generated test package without its generated implementation.
+
+**Proposed:** Stage external inputs by consumer: restore only MNIST/BSDS500 before Go tests, then restore HEIR source and V7/provider runtime inputs before Python regression tests.
+
+**Evidence guard:** clean_clone_audit.json recovery_attempts and staged command records
+
 ## P1-001
 **Target:** Journal - page 8 references and dense tables
 

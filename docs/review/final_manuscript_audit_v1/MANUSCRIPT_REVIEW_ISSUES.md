@@ -2,7 +2,7 @@
 
 Status: **PROPOSED ONLY - authoritative manuscripts remain byte-identical.**
 
-Issue count: P0=13, P1=8, P2=3.
+Issue count: P0=14, P1=8, P2=3.
 
 ## P0-001: An ignored Python bytecode cache makes the legacy verifier report a false integrity failure in a dirty checkout; the same tracked-only checkout verifies successfully.
 - **Document:** Frozen V3 verifier
@@ -158,6 +158,18 @@ Issue count: P0=13, P1=8, P2=3.
 - **Exact proposed replacement/action:** Restore only the three digest-bound HEIR dot-product source files used by input_identities(); do not restore external repositories, build products, or caches.
 - **Applies to:** artifact evaluation
 - **User decision required:** No manuscript decision; add the three HEIR source bindings to the artifact evaluator input inventory.
+- **Auto-fix permitted:** NO
+
+## P0-014: The same source file is a Python evidence-builder input but must not expand the repository Go package set during the native source test gate.
+- **Document:** Release-readiness workflow
+- **Section/page/paragraph:** clean-clone Go/Python input staging
+- **Current text/state:** The first run with HEIR source bindings restored them before go test, which discovered an external generated test package without its generated implementation.
+- **Problem:** The same source file is a Python evidence-builder input but must not expand the repository Go package set during the native source test gate.
+- **Severity:** P0
+- **Evidence:** clean_clone_audit.json recovery_attempts and staged command records
+- **Exact proposed replacement/action:** Stage external inputs by consumer: restore only MNIST/BSDS500 before Go tests, then restore HEIR source and V7/provider runtime inputs before Python regression tests.
+- **Applies to:** artifact evaluation
+- **User decision required:** No manuscript decision; retain staged restoration in the clean-clone protocol.
 - **Auto-fix permitted:** NO
 
 ## P1-001: The content is present but readability may be inadequate in print or reviewer PDF viewers.
