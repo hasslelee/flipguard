@@ -2,7 +2,7 @@
 
 Status: **PROPOSED ONLY - authoritative manuscripts remain byte-identical.**
 
-Issue count: P0=8, P1=8, P2=3.
+Issue count: P0=10, P1=8, P2=3.
 
 ## P0-001: An ignored Python bytecode cache makes the legacy verifier report a false integrity failure in a dirty checkout; the same tracked-only checkout verifies successfully.
 - **Document:** Frozen V3 verifier
@@ -98,6 +98,30 @@ Issue count: P0=8, P1=8, P2=3.
 - **Exact proposed replacement/action:** bounded catalog, 11 profiles x 2 execution paths (22 candidate identities per workload)
 - **Applies to:** thesis
 - **User decision required:** Approve terminology correction.
+- **Auto-fix permitted:** NO
+
+## P0-009: A source-only clone cannot run the full test suite until external dataset restoration is executed and verified.
+- **Document:** Release-readiness workflow
+- **Section/page/paragraph:** clean-clone go test ./...
+- **Current text/state:** The first valid clean-clone test run omitted ignored MNIST and BSDS500 source archives and four graph-contract tests failed with file-not-found errors.
+- **Problem:** A source-only clone cannot run the full test suite until external dataset restoration is executed and verified.
+- **Severity:** P0
+- **Evidence:** clean_clone_audit.json recovery_attempts and source archive SHA-256 records
+- **Exact proposed replacement/action:** Before tests, restore only the recorded MNIST and BSDS500 archives through the documented fetch/checksum path; verify SHA-256, run tests, then remove the archives before the clean-tree check.
+- **Applies to:** artifact evaluation
+- **User decision required:** No manuscript decision; retain the dependency explicitly in release instructions.
+- **Auto-fix permitted:** NO
+
+## P0-010: A source-only clone cannot execute the complete Python regression suite without restoring these frozen runtime inputs, even though their expected digests remain embedded in the contracts.
+- **Document:** Release-readiness workflow
+- **Section/page/paragraph:** clean-clone Python unittest discovery
+- **Current text/state:** The first dependency-restored clean-clone run still omitted five git-ignored files bound by the EVA, HIT, and provider-gate contracts; 13 tests errored or failed before their intended assertions.
+- **Problem:** A source-only clone cannot execute the complete Python regression suite without restoring these frozen runtime inputs, even though their expected digests remain embedded in the contracts.
+- **Severity:** P0
+- **Evidence:** clean_clone_audit.json recovery_attempts and bound_runtime_test_inputs
+- **Exact proposed replacement/action:** Restore only the three iris split files, one direct-selection JSON, and one Security-V2 bounded-oracle CSV after verifying their frozen SHA-256 values; remove them before the final clean-tree assertion.
+- **Applies to:** artifact evaluation
+- **User decision required:** No manuscript decision; document the five-file artifact dependency in release instructions.
 - **Auto-fix permitted:** NO
 
 ## P1-001: The content is present but readability may be inadequate in print or reviewer PDF viewers.

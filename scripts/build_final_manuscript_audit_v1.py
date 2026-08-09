@@ -389,6 +389,30 @@ ISSUES: list[dict[str, str]] = [
         "decision": "Approve terminology correction.",
     },
     {
+        "issue_id": "P0-009",
+        "document": "Release-readiness workflow",
+        "location": "clean-clone go test ./...",
+        "current_text": "The first valid clean-clone test run omitted ignored MNIST and BSDS500 source archives and four graph-contract tests failed with file-not-found errors.",
+        "problem": "A source-only clone cannot run the full test suite until external dataset restoration is executed and verified.",
+        "severity": "P0",
+        "evidence": "clean_clone_audit.json recovery_attempts and source archive SHA-256 records",
+        "replacement": "Before tests, restore only the recorded MNIST and BSDS500 archives through the documented fetch/checksum path; verify SHA-256, run tests, then remove the archives before the clean-tree check.",
+        "scope": "artifact evaluation",
+        "decision": "No manuscript decision; retain the dependency explicitly in release instructions.",
+    },
+    {
+        "issue_id": "P0-010",
+        "document": "Release-readiness workflow",
+        "location": "clean-clone Python unittest discovery",
+        "current_text": "The first dependency-restored clean-clone run still omitted five git-ignored files bound by the EVA, HIT, and provider-gate contracts; 13 tests errored or failed before their intended assertions.",
+        "problem": "A source-only clone cannot execute the complete Python regression suite without restoring these frozen runtime inputs, even though their expected digests remain embedded in the contracts.",
+        "severity": "P0",
+        "evidence": "clean_clone_audit.json recovery_attempts and bound_runtime_test_inputs",
+        "replacement": "Restore only the three iris split files, one direct-selection JSON, and one Security-V2 bounded-oracle CSV after verifying their frozen SHA-256 values; remove them before the final clean-tree assertion.",
+        "scope": "artifact evaluation",
+        "decision": "No manuscript decision; document the five-file artifact dependency in release instructions.",
+    },
+    {
         "issue_id": "P1-001",
         "document": "Journal",
         "location": "page 8 references and dense tables",
@@ -1203,19 +1227,20 @@ This path verifies frozen evidence; it creates no scientific result.
 
 ```bash
 git checkout 98e5e4105c0b0597d6fb245b5718a00eb4828349
+python3 scripts/fetch_external_source_inputs.py --output results/source_datasets/fetch_manifest.json
 go test ./...
 go vet ./...
 scripts/verify_frozen_evidence.sh
 scripts/reproduce_quick_demo.sh
 ```
 
-Expected: tests pass, predecessor digests verify, and the demo prints scoped SAFE, REJECTED, and NO_SAFE examples. It must not write below any frozen results/evidence directory.
+The fetch step restores byte-pinned MNIST and BSDS500 source archives required by four graph-contract tests; it is not an encrypted experiment. Expected: tests pass, predecessor digests verify, and the demo prints scoped SAFE, REJECTED, and NO_SAFE examples. The demo must not write below any frozen results/evidence directory.
 """,
         "FULL_REPRODUCTION.md": """# Full Reproduction Boundaries
 
 This readiness audit does not rerun the 700-candidate catalog, EVA 1,000-input evaluation, HEIR paired protocol, CoreLab 72-plan grid, or any other long encrypted experiment. Full scientific reproduction remains documented by the predecessor manifests and release archive. Reviewers should first verify SHA-256 dependencies and deterministic derived artifacts, then schedule encrypted reproduction only under the original frozen protocol and hardware constraints.
 
-The authoritative source checkpoint is `98e5e4105c0b0597d6fb245b5718a00eb4828349`. External datasets must be fetched under their licenses and checked against recorded digests. Never use audit data for selection or policy repair.
+The authoritative source checkpoint is `98e5e4105c0b0597d6fb245b5718a00eb4828349`. Before the full Go test gate, run `python3 scripts/fetch_external_source_inputs.py --output results/source_datasets/fetch_manifest.json`; it fetches and validates MNIST (`fe4410...ab78`) and BSDS500 (`97e49d...af8e`) under their upstream licenses. Never use audit data for selection or policy repair.
 """,
         "ARTIFACT_EVALUATION_GUIDE.md": """# Artifact Evaluation Guide
 

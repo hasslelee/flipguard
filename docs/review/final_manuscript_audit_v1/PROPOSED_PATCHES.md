@@ -74,6 +74,24 @@ These patches are review proposals only. They have not been applied to a DOCX, P
 
 **Evidence guard:** docs/thesis/number_registry.json: security_catalog_profiles_total=11 and catalog_execution_paths=2
 
+## P0-009
+**Target:** Release-readiness workflow - clean-clone go test ./...
+
+**Current:** The first valid clean-clone test run omitted ignored MNIST and BSDS500 source archives and four graph-contract tests failed with file-not-found errors.
+
+**Proposed:** Before tests, restore only the recorded MNIST and BSDS500 archives through the documented fetch/checksum path; verify SHA-256, run tests, then remove the archives before the clean-tree check.
+
+**Evidence guard:** clean_clone_audit.json recovery_attempts and source archive SHA-256 records
+
+## P0-010
+**Target:** Release-readiness workflow - clean-clone Python unittest discovery
+
+**Current:** The first dependency-restored clean-clone run still omitted five git-ignored files bound by the EVA, HIT, and provider-gate contracts; 13 tests errored or failed before their intended assertions.
+
+**Proposed:** Restore only the three iris split files, one direct-selection JSON, and one Security-V2 bounded-oracle CSV after verifying their frozen SHA-256 values; remove them before the final clean-tree assertion.
+
+**Evidence guard:** clean_clone_audit.json recovery_attempts and bound_runtime_test_inputs
+
 ## P1-001
 **Target:** Journal - page 8 references and dense tables
 
