@@ -128,9 +128,8 @@ func main() {
 	allRecords := make([]ckksbackend.V17PrimaryPairedLatencyRecord, 0, 36)
 	for keyset := 1; keyset <= 3; keyset++ {
 		keysetPath := filepath.Join(*outRoot, fmt.Sprintf("keyset_%02d.json", keyset))
-		var result ckksbackend.V17PrimaryPairedLatencyResult
-		if !loadJSON(keysetPath, &result) {
-			result, err := ckksbackend.RunV17PrimaryPairedLatencyKeyset(
+		result, created, err := loadOrRunKeyset(keysetPath, func() (ckksbackend.V17PrimaryPairedLatencyResult, error) {
+			return ckksbackend.RunV17PrimaryPairedLatencyKeyset(
 				ckksbackend.V17PrimaryPairedLatencyConfig{
 					Kind: *kind, ModelPath: *model, DataPath: *data, SelectedRowIDs: rows,
 					Keyset: keyset, WarmupRuns: 1, MeasurementRuns: 6,
@@ -138,9 +137,11 @@ func main() {
 				},
 				func(record ckksbackend.V17PrimaryPairedLatencyRecord) error { return nil },
 			)
-			if err != nil {
-				fatalf("keyset %d: %v", keyset, err)
-			}
+		})
+		if err != nil {
+			fatalf("keyset %d: %v", keyset, err)
+		}
+		if created {
 			writeExclusiveJSON(keysetPath, result)
 		}
 		keysetResults = append(keysetResults, result)
@@ -178,6 +179,19 @@ func main() {
 	}
 	writeExclusiveJSON(finalPath, combined)
 	fmt.Printf("kind=%s model=%s keysets=3 records=%d output=%s\n", *kind, modelID, len(allRecords), finalPath)
+}
+
+func loadOrRunKeyset(path string, run func() (ckksbackend.V17PrimaryPairedLatencyResult, error)) (ckksbackend.V17PrimaryPairedLatencyResult, bool, error) {
+	var result ckksbackend.V17PrimaryPairedLatencyResult
+	if loadJSON(path, &result) {
+		return result, false, nil
+	}
+	var err error
+	result, err = run()
+	if err != nil {
+		return ckksbackend.V17PrimaryPairedLatencyResult{}, false, err
+	}
+	return result, true, nil
 }
 
 func loadDirectCandidate(path string) ckksplanner.SynthesizedCandidate {

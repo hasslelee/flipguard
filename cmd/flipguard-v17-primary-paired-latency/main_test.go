@@ -2,10 +2,42 @@ package main
 
 import (
 	"math"
+	"path/filepath"
 	"testing"
 
 	"github.com/hasslelee/flipguard/internal/ckksbackend"
 )
+
+func TestLoadOrRunThreeKeysetsPreservesThirtySixRecordsAndEighteenPairs(t *testing.T) {
+	keysetResults := make([]ckksbackend.V17PrimaryPairedLatencyResult, 0, 3)
+	allRecords := make([]ckksbackend.V17PrimaryPairedLatencyRecord, 0, 36)
+	for keyset := 1; keyset <= 3; keyset++ {
+		result, created, err := loadOrRunKeyset(filepath.Join(t.TempDir(), "missing.json"), func() (ckksbackend.V17PrimaryPairedLatencyResult, error) {
+			records := make([]ckksbackend.V17PrimaryPairedLatencyRecord, 0, 12)
+			for measurement := 1; measurement <= 6; measurement++ {
+				records = append(records,
+					ckksbackend.V17PrimaryPairedLatencyRecord{Keyset: keyset, MeasurementRun: measurement, ArmID: "direct", TotalMS: 2, EvaluationOnlyMS: 1},
+					ckksbackend.V17PrimaryPairedLatencyRecord{Keyset: keyset, MeasurementRun: measurement, ArmID: "finite_fastest_safe", TotalMS: 4, EvaluationOnlyMS: 2},
+				)
+			}
+			return ckksbackend.V17PrimaryPairedLatencyResult{Records: records}, nil
+		})
+		if err != nil {
+			t.Fatalf("keyset %d: %v", keyset, err)
+		}
+		if !created {
+			t.Fatalf("keyset %d unexpectedly loaded a cached result", keyset)
+		}
+		keysetResults = append(keysetResults, result)
+		allRecords = append(allRecords, result.Records...)
+	}
+	if len(keysetResults) != 3 || len(allRecords) != 36 {
+		t.Fatalf("keysets=%d records=%d, want 3 and 36", len(keysetResults), len(allRecords))
+	}
+	if pairs := summarizePairs(allRecords)["pairs"]; pairs != 18 {
+		t.Fatalf("pairs=%v, want 18", pairs)
+	}
+}
 
 func TestSummarizePairsUsesMatchedKeysetAndPass(t *testing.T) {
 	records := []ckksbackend.V17PrimaryPairedLatencyRecord{
