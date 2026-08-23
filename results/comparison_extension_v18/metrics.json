@@ -1,0 +1,129 @@
+{
+  "all_scope_negative_context": {
+    "cases": 131,
+    "false_no_safe": 0,
+    "separate_input_failed": 0,
+    "separate_input_rejected": 1
+  },
+  "candidate_evaluation_reduction": 0.8342644320297952,
+  "candidate_ledger_rows": 1607,
+  "decision_gate": {
+    "additional_candidate_evaluations": 21,
+    "cases": 68,
+    "changed_literal_log_n_increase_cases": 0,
+    "changed_literal_median_candidate_stage_latency_gap_ms": 0.6161360805553784,
+    "changed_literal_median_log_n_delta": 0.0,
+    "changed_literal_median_p_bits_delta": 0.0,
+    "changed_literal_median_q_bits_delta": 28.0,
+    "changed_literal_median_scale_bits_delta": 4.0,
+    "changed_literal_p_bits_increase_cases": 0,
+    "changed_literal_q_bits_increase_cases": 21,
+    "changed_literal_scale_increase_cases": 21,
+    "formal_inference_latency_gap": "NOT_MEASURED_FOR_GATE_OFF_ARM",
+    "gate_off_abstentions": 0,
+    "gate_off_selected": 68,
+    "group": "ALL_PRIMARY",
+    "median_candidate_stage_latency_gap_ms": 0.0,
+    "proposed_abstentions": 0,
+    "proposed_literal_changed": 21,
+    "reserve_violation_cases": 21,
+    "reserve_violation_events": 4894,
+    "selection_flip_cases": 20,
+    "selection_flip_events": 1054,
+    "separate_input_evaluated": 47,
+    "separate_input_failures": 0
+  },
+  "direct_candidate_evaluations": 89,
+  "external_comparator_counts": {
+    "EXACT_COMPARABLE": 1,
+    "NUMERICAL_ONLY": 2,
+    "OUTPUT_COMPARABLE": 1,
+    "RELATED_WORK_ONLY": 7
+  },
+  "finite_reference": {
+    "false_no_safe": 0,
+    "formal_finite_over_direct_total_ratio_cluster_bootstrap": {
+      "bootstrap_replicates": 10000,
+      "bootstrap_seed": 20260824,
+      "case_count": 68,
+      "ci_high": 1.0011217812090207,
+      "ci_low": 0.9999674747655278,
+      "cluster_count": 16,
+      "cluster_definition": "dataset_model",
+      "estimate": 1.000540931232697
+    },
+    "formal_latency_regret": {
+      "iqr": 0.0018258049676439791,
+      "maximum": 0.002309669255065927,
+      "median": -0.00015323624671320646,
+      "n": 68,
+      "p90": 0.0014261898161542356,
+      "q1": -0.0013228563830798012,
+      "q3": 0.0005029485845641779
+    },
+    "selected_rank": {
+      "iqr": 0.0,
+      "maximum": 3.0,
+      "median": 1.0,
+      "n": 68,
+      "p90": 1.0,
+      "q1": 1.0,
+      "q3": 1.0
+    }
+  },
+  "finite_reference_candidate_evaluations": 537,
+  "formal_latency_rows": 68,
+  "new_encrypted_candidate_evaluations": 0,
+  "preexisting_baselines": {
+    "fixed_default_status_counts": {
+      "NOT_REEVALUATED_FOR_MULTICLASS": 2,
+      "PLAN_UNSUPPORTED_PACKING": 1,
+      "SECURITY_INADMISSIBLE": 65
+    },
+    "latency_only_gate_status_counts": {
+      "NOT_EVALUATED_PACKING": 1,
+      "NOT_EVALUATED_PLAN_UNSUPPORTED": 1,
+      "REJECTED": 15,
+      "SAFE": 51
+    }
+  },
+  "protocol_sha256": "4adf230d43d6120cd805f51e970d1dfcd452c229ae7d8a03ea85c1adc971db44",
+  "repair_ablation": {
+    "additional_candidate_evaluations": 21,
+    "cases": 68,
+    "full_method_separate_input_pass": 68,
+    "full_method_separate_input_reject_or_fail": 0,
+    "group": "ALL_PRIMARY",
+    "initial_candidate_acceptable": 47,
+    "repair_failure": 0,
+    "repair_needed": 21,
+    "repair_success": 21
+  },
+  "schema_version": "flipguard_comparison_extension_v18_metrics_v1",
+  "selected_literal_counts": {
+    "all_scope": 16,
+    "primary": 7
+  },
+  "selection_wall_clock_matched_cases": 66,
+  "selection_wall_clock_ratio_definition": "sum(finite_reference_wall_clock_ms)/sum(direct_selection_wall_clock_ms)",
+  "selection_wall_clock_ratio_finite_over_direct_aggregate": 12.201706730010272,
+  "selection_wall_clock_ratio_finite_over_direct_case_distribution": {
+    "iqr": 7.465864139269627,
+    "maximum": 17.711344385738283,
+    "median": 12.398599026421792,
+    "n": 66,
+    "p90": 16.75655132437581,
+    "q1": 7.493242059725233,
+    "q3": 14.95910619899486
+  },
+  "targeted_execution_state": "OFFLINE_COMPARISON_COMPLETE_NO_NEW_ENCRYPTED_RUN_REQUIRED",
+  "traditional_objectives": {
+    "cases": 68,
+    "fastest_executable_unstable_cases": 18,
+    "minimum_max_error_unstable_cases": 0,
+    "rms_available_for_all_finite_candidates": false,
+    "unstable_pareto_candidates": 28
+  },
+  "v17_cases_all_scope": 131,
+  "v17_cases_primary": 68
+}

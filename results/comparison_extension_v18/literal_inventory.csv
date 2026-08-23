@@ -1,0 +1,17 @@
+literal_id,log_n,ordered_q,ordered_p,scale,path,all_scope_case_count,primary_case_count,models
+L01,12,21;18;18,30,18,rescale,15,0,linear_affine_score
+L02,13,23;20;20;20;20;20,30,20,rescale,37,25,mlp_square_linear_score
+L03,13,23;20;20;20;20;20;20,30,20,rescale,5,5,linear_poly3
+L04,13,23;20;20;20;20;20;20;20;20,30,20,rescale,25,15,mlp_square2_linear_score
+L05,13,27;24;24;24;24;24,30,24,rescale,3,1,packed_cnn_lite_binary01_v17
+L06,13,27;24;24;24;24;24;24,30,24,rescale,20,20,linear_poly3
+L07,13,31;28;28;28;28;28,31,28,rescale,1,0,packed_cnn_lite_binary01_v17
+L08,13,36;26;26;26;26,36,26,rescale,1,0,mnist_mlp_square_784_100_10_v1
+L09,13,36;27;27;27;27,36,27,rescale,1,0,mnist_mlp_square_784_100_10_v1
+L10,13,39;29;29;29;29,39,29,rescale,2,1,mnist_mlp_square_784_100_10_v1
+L11,14,25;22;22;22;22;22;22;22;22,30,22,rescale,2,0,mlp_square2_linear_score
+L12,14,25;22;22;22;22;22;22;22;22;22,30,22,rescale,4,0,mlp_square_poly3
+L13,14,29;26;26;26;26;26;26;26;26;26,30,26,rescale,11,0,mlp_square_poly3
+L14,15,50;40;40;40;40;40;40;40;40;40;40;40;40;40;40;40;40;40,50,40,rescale,1,0,mnist_lenet5_small_square_v1
+L15,15,51;41;41;41;41;41;41;41;41;41;41;41;41;41;41;41;41;41,51,41,rescale,2,0,mnist_lenet5_small_square_v1
+L16,15,54;44;44;44;44;44;44;44;44;44;44;44;44;44;44;44;44;44,54,44,rescale,1,1,mnist_lenet5_small_square_v1
