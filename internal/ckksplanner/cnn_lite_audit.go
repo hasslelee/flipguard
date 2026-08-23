@@ -243,9 +243,12 @@ func RunLockedCNNLiteAudit(
 	contractOptions.ValidationKeyRepeats = options.KeyRepeats
 	contractOptions.AllowedPaths =
 		[]tuner.ExecutionPath{selected.Path}
-	auditContract, err := BuildCNNLiteWorkloadContract(
-		contractOptions,
-	)
+	var auditContract WorkloadContract
+	if selection.ExecutionAdapter == MNISTPackedCNNLiteGraphAdapterV17 {
+		auditContract, err = BuildPackedCNNLiteWorkloadContract(contractOptions)
+	} else {
+		auditContract, err = BuildCNNLiteWorkloadContract(contractOptions)
+	}
 	if err != nil {
 		return CNNLiteLockedAuditResult{}, fmt.Errorf(
 			"build CNN-lite locked audit contract: %w",
@@ -262,11 +265,12 @@ func RunLockedCNNLiteAudit(
 			"CNN-lite locked audit model/source identity changed",
 		)
 	}
-	trial, err := ExecuteCNNLiteCandidate(
-		auditContract,
-		selected,
-		1,
-	)
+	var trial CNNLiteTrialResult
+	if selection.ExecutionAdapter == MNISTPackedCNNLiteGraphAdapterV17 {
+		trial, err = ExecutePackedCNNLiteCandidate(auditContract, selected, 1)
+	} else {
+		trial, err = ExecuteCNNLiteCandidate(auditContract, selected, 1)
+	}
 	if err != nil {
 		return CNNLiteLockedAuditResult{}, fmt.Errorf(
 			"execute CNN-lite locked audit: %w",
@@ -311,7 +315,8 @@ func RunLockedCNNLiteAudit(
 func ValidateSelectedCNNLiteAutotuneResult(
 	selection AdaptiveCNNLiteAutotuneResult,
 ) (SynthesizedCandidate, error) {
-	if selection.ExecutionAdapter != MNISTCNNLiteGraphAdapterV1 {
+	if selection.ExecutionAdapter != MNISTCNNLiteGraphAdapterV1 &&
+		selection.ExecutionAdapter != MNISTPackedCNNLiteGraphAdapterV17 {
 		return SynthesizedCandidate{}, fmt.Errorf(
 			"unsupported CNN-lite execution adapter %q",
 			selection.ExecutionAdapter,

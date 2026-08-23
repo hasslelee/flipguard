@@ -1,0 +1,33 @@
+{
+  "GOMAXPROCS": 6,
+  "affinity_policy": "single CKKS process allowed CPUs 0-5",
+  "case_worker_count": 1,
+  "cpu_allowed_list": "0-5",
+  "created_at": "2026-08-11T05:01:04.903211Z",
+  "execution_profile_id": "vmware_ubuntu24_1socket_6core_vcpu6_v1",
+  "guest_cores_per_socket": 6,
+  "guest_total_vcpu": 6,
+  "guest_virtual_sockets": 1,
+  "homogeneous_reexecution_rule": "superseded 2x1 V17 result/checkpoint/key/latency state is never imported",
+  "host_concurrent_use_policy": {
+    "allowed": [
+      "web browsing",
+      "document editing",
+      "light IDE use"
+    ],
+    "prohibited_during_formal_latency": [
+      "gaming",
+      "video encoding",
+      "large compression",
+      "host compilation",
+      "benchmarks",
+      "Windows Update",
+      "full antivirus scan"
+    ]
+  },
+  "latency_worker_count": 1,
+  "references_scientific_protocol_digest": "sha256:09aac669e2a970edfadf99486a3c977f92e0a5ddc96f20432ed9221cc070d6c6",
+  "scientific_protocol_environment_field_status": "immutable historical metadata; superseded only by this execution overlay",
+  "supersedes_environment_id": "vmware_ubuntu24_2socket_1core_vcpu2_protocol_frozen",
+  "telemetry_policy": "guest load, CPU deltas, iowait, steal, memory, swap, context switches, process CPU, and IO pressure; no post-hoc sample deletion"
+}

@@ -1,0 +1,50 @@
+{
+  "Cpus_allowed_list": "0-5",
+  "Git_HEAD": "c550185c753220b8b5c0a5d9d2e922496d543414",
+  "Go_version": "go version go1.25.9 linux/amd64",
+  "Lattigo_version": "v6.2.0",
+  "Python_version": "Python 3.12.3",
+  "candidate_space_digest": "sha256:174b9c0ebc553a14ebf6f61df5ffc890ab448103677a890d9f159fc4429bc3b7",
+  "case_worker_count": 1,
+  "cpu_quota": "max 100000",
+  "created_at": "2026-08-11T05:01:04.910495Z",
+  "dataset_split_digest": "sha256:a02e61ce17ec49291c065a5ba60069506cda8d275144a17b8dd890272cfce8b5",
+  "effective_GOMAXPROCS": 6,
+  "effective_cpuset": "0-5",
+  "environment_id": "vmware_ubuntu24_1socket_6core_vcpu6_20260811T050104Z",
+  "execution_profile_digest": "sha256:4bce37d854c66310e3e5b6556addd4f3490c1c319fab411d092db296cda5c2db",
+  "guest_cores_per_socket": 6,
+  "guest_kernel": "7.0.0-28-generic",
+  "guest_os": "Ubuntu 24.04.4 LTS",
+  "guest_total_vcpu": 6,
+  "guest_virtual_sockets": 1,
+  "guest_visible_cpu_count": 6,
+  "host_concurrent_use_policy": {
+    "allowed": [
+      "web browsing",
+      "document editing",
+      "light IDE use"
+    ],
+    "prohibited_during_formal_latency": [
+      "gaming",
+      "video encoding",
+      "large compression",
+      "host compilation",
+      "benchmarks",
+      "Windows Update",
+      "full antivirus scan"
+    ]
+  },
+  "host_cpu_model": "AMD Ryzen 5 3600 6-Core Processor",
+  "host_logical_processors": 12,
+  "host_observability_limit": "Windows-host load is not fully observable from the guest; raw guest telemetry is retained and no new outlier rule is introduced.",
+  "host_physical_cores": 6,
+  "hypervisor": "VMware Workstation",
+  "memory_kib": 16324060,
+  "scientific_protocol_digest": "sha256:09aac669e2a970edfadf99486a3c977f92e0a5ddc96f20432ed9221cc070d6c6",
+  "scientific_source_digest": "sha256:495ca799cd110c6180b5bf981bebf8339d31d895c71c20d6db02ea34acc88c57",
+  "source_tree_digest": "sha256:495ca799cd110c6180b5bf981bebf8339d31d895c71c20d6db02ea34acc88c57",
+  "supersedes_old_environment_id": "vmware_ubuntu24_2socket_1core_vcpu2_protocol_frozen",
+  "supersedes_old_run_id": "v17_pre_vcpu_change_2x1_20260810T143647Z",
+  "swap_kib": 4194300
+}

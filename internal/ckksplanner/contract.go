@@ -28,6 +28,10 @@ const (
 	// not a modification of the frozen Direct Policy V2 packing scope.
 	FeatureCiphertextSampleSlotsV1 = "feature_ciphertext_sample_slots_v1"
 
+	// SpatialSlotsPackedV1 stores one image's spatial cells in contiguous
+	// ciphertext slots and uses rotations for neighborhood operations.
+	SpatialSlotsPackedV1 = "spatial_slots_packed_v1"
+
 	// LattigoRescaleScaleTraceV1 symbolically tracks the scale growth caused by
 	// ciphertext multiplications and Lattigo's non-integer scalar encoding. It
 	// derives both consumed levels and the terminal modulus capacity.
@@ -473,7 +477,8 @@ func (deployment DeploymentContract) validate() error {
 		)
 	}
 	if deployment.PackingStrategy != ScalarReplicatedPackingV1 &&
-		deployment.PackingStrategy != FeatureCiphertextSampleSlotsV1 {
+		deployment.PackingStrategy != FeatureCiphertextSampleSlotsV1 &&
+		deployment.PackingStrategy != SpatialSlotsPackedV1 {
 		return fmt.Errorf(
 			"unsupported deployment packing strategy %q",
 			deployment.PackingStrategy,

@@ -76,6 +76,37 @@ func buildTabularSampleLedger(
 	return ledger
 }
 
+// CountTabularRepeatedKeyDecisionDisagreements counts unique samples whose
+// CKKS decision differs across fresh-key repeats. It is an evidence statistic;
+// it does not affect candidate admission or repair.
+func CountTabularRepeatedKeyDecisionDisagreements(
+	ledger []TabularSampleObservation,
+) (int, error) {
+	if len(ledger) == 0 {
+		return 0, fmt.Errorf("tabular sample ledger is empty")
+	}
+	decisions := make(map[string]map[bool]struct{})
+	for index, row := range ledger {
+		if row.SampleID == "" || row.KeyRepeat <= 0 {
+			return 0, fmt.Errorf(
+				"invalid tabular sample ledger identity at row %d",
+				index,
+			)
+		}
+		if decisions[row.SampleID] == nil {
+			decisions[row.SampleID] = make(map[bool]struct{})
+		}
+		decisions[row.SampleID][row.CKKSDecision] = struct{}{}
+	}
+	disagreements := 0
+	for _, observed := range decisions {
+		if len(observed) > 1 {
+			disagreements++
+		}
+	}
+	return disagreements, nil
+}
+
 // ValidateTabularSampleLedger proves that a captured observation ledger
 // reproduces the aggregate trial fields used by certification.
 func ValidateTabularSampleLedger(

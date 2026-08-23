@@ -385,6 +385,18 @@ func ExecuteTabularCandidateWithOptions(
 func RunAdaptiveTabularAutotune(
 	plan SynthesisPlan,
 ) (AdaptiveAutotuneResult, error) {
+	return RunAdaptiveTabularAutotuneWithOptions(
+		plan,
+		TabularCandidateExecutionOptions{},
+	)
+}
+
+// RunAdaptiveTabularAutotuneWithOptions preserves the adaptive policy while
+// allowing evidence-only observation capture for each encrypted trial.
+func RunAdaptiveTabularAutotuneWithOptions(
+	plan SynthesisPlan,
+	options TabularCandidateExecutionOptions,
+) (AdaptiveAutotuneResult, error) {
 	if plan.SchemaVersion != SynthesisPlanSchemaVersion {
 		return AdaptiveAutotuneResult{}, fmt.Errorf(
 			"unsupported synthesis plan schema version %d",
@@ -418,10 +430,11 @@ func RunAdaptiveTabularAutotune(
 	maxTrials := plan.Contract.Deployment.MaxEncryptedTrials
 
 	for trialIndex := 1; trialIndex <= maxTrials; trialIndex++ {
-		trial, err := ExecuteTabularCandidate(
+		trial, err := ExecuteTabularCandidateWithOptions(
 			plan.Contract,
 			candidate,
 			trialIndex,
+			options,
 		)
 		if err != nil {
 			return AdaptiveAutotuneResult{}, err

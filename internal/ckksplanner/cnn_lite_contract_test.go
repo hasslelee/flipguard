@@ -159,3 +159,51 @@ func TestCNNLiteInitialCandidateOneRowSmoke(t *testing.T) {
 		)
 	}
 }
+
+func TestPackedCNNLiteContractAndOneRowSmoke(t *testing.T) {
+	options := DefaultPrimaryCNNLiteContractOptions()
+	options.ModelPath = cnnLiteDatasetRoot + "/model.json"
+	options.ValidationPath = cnnLiteDatasetRoot + "/configuration_validation.csv"
+	options.SourcePath = cnnLiteSourcePath
+	options.SplitID = "mnist/cnn_lite/packed_v17_smoke"
+	contract, err := BuildPackedCNNLiteWorkloadContract(options)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if contract.Graph.RotOps != 11 || contract.Graph.MultiplicativeDepth != 2 ||
+		contract.Deployment.PackingStrategy != SpatialSlotsPackedV1 ||
+		contract.Deployment.RequiredSlots != 16 {
+		t.Fatalf("unexpected packed contract: %+v", contract)
+	}
+	plan, err := Synthesize(contract, DefaultPrimarySynthesisPolicy())
+	if err != nil {
+		t.Fatal(err)
+	}
+	profile, err := plan.InitialCandidates[0].Profile()
+	if err != nil {
+		t.Fatal(err)
+	}
+	context, err := ckksbackend.NewContextFromProfile(profile)
+	if err != nil {
+		t.Fatal(err)
+	}
+	records, err := context.RunCKKSPackedCNNLiteInference(
+		ckksbackend.CKKSCNNLiteConfig{
+			ModelPath: options.ModelPath,
+			DataPath:  options.ValidationPath,
+			MaxRows:   1,
+		},
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(records) != 1 || records[0].DecisionFlip {
+		t.Fatalf("unexpected packed smoke record: %+v", records)
+	}
+	// Candidate admission belongs to the adaptive encrypted executor. This
+	// adapter test only rejects a broken packed computation or a decision flip;
+	// the initial low-scale candidate may legitimately require repair.
+	if records[0].AbsError > 0.05 {
+		t.Fatalf("packed smoke computation diverged: error %.8g", records[0].AbsError)
+	}
+}

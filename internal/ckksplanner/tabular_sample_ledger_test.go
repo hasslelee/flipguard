@@ -69,3 +69,20 @@ func TestTabularSampleLedgerRejectsMutation(t *testing.T) {
 		t.Fatal("expected sample-ledger mutation rejection")
 	}
 }
+
+func TestCountTabularRepeatedKeyDecisionDisagreements(t *testing.T) {
+	ledger := []TabularSampleObservation{
+		{SampleID: "stable", KeyRepeat: 1, CKKSDecision: true},
+		{SampleID: "stable", KeyRepeat: 2, CKKSDecision: true},
+		{SampleID: "unstable", KeyRepeat: 1, CKKSDecision: false},
+		{SampleID: "unstable", KeyRepeat: 2, CKKSDecision: true},
+		{SampleID: "unstable", KeyRepeat: 3, CKKSDecision: false},
+	}
+	count, err := CountTabularRepeatedKeyDecisionDisagreements(ledger)
+	if err != nil {
+		t.Fatalf("count disagreements: %v", err)
+	}
+	if count != 1 {
+		t.Fatalf("disagreement count=%d, want 1", count)
+	}
+}

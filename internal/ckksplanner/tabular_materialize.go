@@ -13,6 +13,7 @@ import (
 	"strings"
 
 	"github.com/hasslelee/flipguard/internal/ir"
+	"github.com/hasslelee/flipguard/internal/modelregistry"
 	fgruntime "github.com/hasslelee/flipguard/internal/runtime"
 )
 
@@ -692,14 +693,18 @@ func evaluateTabularScaledLogit(
 	features []float64,
 ) (float64, error) {
 	scaled := model.ScaledModelForCKKS
-	switch model.ModelType {
-	case "linear_poly3":
+	family, err := modelregistry.LookupTabular(model.ModelType)
+	if err != nil {
+		return 0, err
+	}
+	switch family.Body {
+	case modelregistry.BodyLinear:
 		return affineValue(
 			features,
 			scaled.Weights,
 			scaled.Bias,
 		)
-	case "mlp_square_linear_score", "mlp_square_poly3":
+	case modelregistry.BodyOneHiddenSquare, modelregistry.BodyTwoHiddenSquares:
 		hidden := make([]float64, len(scaled.HiddenWeights))
 		for index, weights := range scaled.HiddenWeights {
 			value, err := affineValue(
@@ -712,6 +717,21 @@ func evaluateTabularScaledLogit(
 			}
 			hidden[index] = value * value
 		}
+		if family.Body == modelregistry.BodyTwoHiddenSquares {
+			second := make([]float64, len(scaled.Hidden2Weights))
+			for index, weights := range scaled.Hidden2Weights {
+				value, err := affineValue(
+					hidden,
+					weights,
+					scaled.Hidden2Bias[index],
+				)
+				if err != nil {
+					return 0, err
+				}
+				second[index] = value * value
+			}
+			hidden = second
+		}
 		return affineValue(
 			hidden,
 			scaled.OutputWeights,
@@ -719,8 +739,8 @@ func evaluateTabularScaledLogit(
 		)
 	default:
 		return 0, fmt.Errorf(
-			"unsupported tabular model_type %q",
-			model.ModelType,
+			"unsupported tabular body %q",
+			family.Body,
 		)
 	}
 }

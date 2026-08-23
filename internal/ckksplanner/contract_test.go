@@ -157,6 +157,74 @@ func TestLattigoScaleTraceDistinguishesMLPOutputForms(t *testing.T) {
 	}
 }
 
+func TestGenericTabularRegistryBuildsAffineAndTwoHiddenSquareGraphs(t *testing.T) {
+	linear := tabularModelArtifact{
+		DatasetID: "toy",
+		ModelID:   "linear_affine_score",
+		ModelType: "linear_affine_score",
+		InputDim:  2,
+		ScaledModelForCKKS: tabularScaledModel{
+			Weights: []float64{0.25, -0.5},
+			Bias:    0.1,
+		},
+		PolynomialScore: tabularPolynomialScore{
+			Formula:           "0.5 + 0.197*z",
+			DecisionThreshold: 0.5,
+		},
+	}
+	linearGraph, err := buildTabularIRGraph(linear)
+	if err != nil {
+		t.Fatalf("build affine linear graph: %v", err)
+	}
+	linearSummary, err := summarizeTabularGraph(linearGraph)
+	if err != nil {
+		t.Fatalf("summarize affine linear graph: %v", err)
+	}
+	if linearSummary.MultiplicativeDepth != 0 || linearSummary.RescaleOps != 0 {
+		t.Fatalf("unexpected affine linear graph summary: %+v", linearSummary)
+	}
+
+	deep := tabularModelArtifact{
+		DatasetID: "toy",
+		ModelID:   "mlp_square2_linear_score",
+		ModelType: "mlp_square2_linear_score",
+		InputDim:  2,
+		ScaledModelForCKKS: tabularScaledModel{
+			HiddenWeights:  [][]float64{{0.5, -0.25}, {0.1, 0.2}},
+			HiddenBias:     []float64{0.1, -0.1},
+			Hidden2Weights: [][]float64{{0.3, -0.2}},
+			Hidden2Bias:    []float64{0.05},
+			OutputWeights:  []float64{0.4},
+			OutputBias:     -0.02,
+		},
+		PolynomialScore: tabularPolynomialScore{
+			Formula:           "0.5 + 0.197*z",
+			DecisionThreshold: 0.5,
+		},
+	}
+	if err := validateTabularModel(deep); err != nil {
+		t.Fatalf("validate two-hidden square model: %v", err)
+	}
+	deepGraph, err := buildTabularIRGraph(deep)
+	if err != nil {
+		t.Fatalf("build two-hidden square graph: %v", err)
+	}
+	deepSummary, err := summarizeTabularGraph(deepGraph)
+	if err != nil {
+		t.Fatalf("summarize two-hidden square graph: %v", err)
+	}
+	if deepSummary.MultiplicativeDepth != 2 || deepSummary.RescaleOps != 2 {
+		t.Fatalf("unexpected two-hidden square graph summary: %+v", deepSummary)
+	}
+	deepDemand, err := analyzeLattigoRescaleDemand(deepGraph)
+	if err != nil {
+		t.Fatalf("trace two-hidden square graph: %v", err)
+	}
+	if deepDemand.LevelsConsumed <= 3 || deepDemand.RequiredQPrimes <= 6 {
+		t.Fatalf("two-hidden graph did not exceed shallow MLP demand: %+v", deepDemand)
+	}
+}
+
 func TestMulticlassDecisionContractIsBackwardCompatibleExtension(t *testing.T) {
 	contract := validContractFixture()
 	contract.Decision = DecisionStabilityContract{}

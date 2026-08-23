@@ -15,6 +15,7 @@ import (
 
 	"github.com/hasslelee/flipguard/internal/analysis"
 	"github.com/hasslelee/flipguard/internal/ir"
+	"github.com/hasslelee/flipguard/internal/modelregistry"
 	fgruntime "github.com/hasslelee/flipguard/internal/runtime"
 	"github.com/hasslelee/flipguard/internal/tuner"
 )
@@ -90,10 +91,12 @@ type tabularScaledModel struct {
 	Weights []float64 `json:"weights"`
 	Bias    float64   `json:"bias"`
 
-	HiddenWeights [][]float64 `json:"hidden_weights"`
-	HiddenBias    []float64   `json:"hidden_bias"`
-	OutputWeights []float64   `json:"output_weights"`
-	OutputBias    float64     `json:"output_bias"`
+	HiddenWeights  [][]float64 `json:"hidden_weights"`
+	HiddenBias     []float64   `json:"hidden_bias"`
+	Hidden2Weights [][]float64 `json:"hidden2_weights,omitempty"`
+	Hidden2Bias    []float64   `json:"hidden2_bias,omitempty"`
+	OutputWeights  []float64   `json:"output_weights"`
+	OutputBias     float64     `json:"output_bias"`
 }
 
 type tabularValidationSample struct {
@@ -439,8 +442,12 @@ func validateTabularModel(model tabularModelArtifact) error {
 	}
 
 	scaled := model.ScaledModelForCKKS
-	switch model.ModelType {
-	case "linear_poly3":
+	family, err := modelregistry.LookupTabular(model.ModelType)
+	if err != nil {
+		return err
+	}
+	switch family.Body {
+	case modelregistry.BodyLinear:
 		if len(scaled.Weights) != model.InputDim {
 			return fmt.Errorf(
 				"linear model has %d weights, expected %d",
@@ -448,23 +455,15 @@ func validateTabularModel(model tabularModelArtifact) error {
 				model.InputDim,
 			)
 		}
-		if model.PolynomialScore.Formula !=
-			"0.5 + 0.197*z - 0.004*z^3" {
-			return fmt.Errorf(
-				"linear_poly3 has unsupported score formula %q",
-				model.PolynomialScore.Formula,
-			)
-		}
 
-	case "mlp_square_linear_score", "mlp_square_poly3":
+	case modelregistry.BodyOneHiddenSquare, modelregistry.BodyTwoHiddenSquares:
 		hiddenUnits := len(scaled.HiddenWeights)
 		if hiddenUnits == 0 {
 			return fmt.Errorf("square MLP has no hidden units")
 		}
-		if len(scaled.HiddenBias) != hiddenUnits ||
-			len(scaled.OutputWeights) != hiddenUnits {
+		if len(scaled.HiddenBias) != hiddenUnits {
 			return fmt.Errorf(
-				"square MLP hidden/output dimensions are inconsistent",
+				"square MLP first hidden dimensions are inconsistent",
 			)
 		}
 		for index, weights := range scaled.HiddenWeights {
@@ -477,23 +476,37 @@ func validateTabularModel(model tabularModelArtifact) error {
 				)
 			}
 		}
-
-		expectedFormula := "0.5 + 0.197*z"
-		if model.ModelType == "mlp_square_poly3" {
-			expectedFormula = "0.5 + 0.197*z - 0.004*z^3"
+		outputInputs := hiddenUnits
+		if family.Body == modelregistry.BodyTwoHiddenSquares {
+			secondUnits := len(scaled.Hidden2Weights)
+			if secondUnits == 0 || len(scaled.Hidden2Bias) != secondUnits {
+				return fmt.Errorf("two-hidden square MLP second hidden dimensions are inconsistent")
+			}
+			for index, weights := range scaled.Hidden2Weights {
+				if len(weights) != hiddenUnits {
+					return fmt.Errorf(
+						"second hidden unit %d has %d weights, expected %d",
+						index, len(weights), hiddenUnits,
+					)
+				}
+			}
+			outputInputs = secondUnits
 		}
-		if model.PolynomialScore.Formula != expectedFormula {
+		if len(scaled.OutputWeights) != outputInputs {
 			return fmt.Errorf(
-				"%s has unsupported score formula %q",
-				model.ModelType,
-				model.PolynomialScore.Formula,
+				"square MLP output has %d weights, expected %d",
+				len(scaled.OutputWeights), outputInputs,
 			)
 		}
 
 	default:
+		return fmt.Errorf("unsupported tabular body %q", family.Body)
+	}
+	if model.PolynomialScore.Formula != family.ExpectedFormula {
 		return fmt.Errorf(
-			"unsupported tabular model_type %q",
+			"%s has unsupported score formula %q",
 			model.ModelType,
+			model.PolynomialScore.Formula,
 		)
 	}
 
@@ -510,9 +523,13 @@ func validateFiniteModelValues(model tabularModelArtifact) error {
 	)
 	values = append(values, model.ScaledModelForCKKS.Bias)
 	values = append(values, model.ScaledModelForCKKS.HiddenBias...)
+	values = append(values, model.ScaledModelForCKKS.Hidden2Bias...)
 	values = append(values, model.ScaledModelForCKKS.OutputWeights...)
 	values = append(values, model.ScaledModelForCKKS.OutputBias)
 	for _, weights := range model.ScaledModelForCKKS.HiddenWeights {
+		values = append(values, weights...)
+	}
+	for _, weights := range model.ScaledModelForCKKS.Hidden2Weights {
 		values = append(values, weights...)
 	}
 	for index, value := range values {
@@ -537,8 +554,12 @@ func buildTabularIRGraph(model tabularModelArtifact) (*ir.Graph, error) {
 	}
 
 	var zID ir.NodeID
-	switch model.ModelType {
-	case "linear_poly3":
+	family, err := modelregistry.LookupTabular(model.ModelType)
+	if err != nil {
+		return nil, err
+	}
+	switch family.Body {
+	case modelregistry.BodyLinear:
 		zID = addTabularAffine(
 			graph,
 			"model",
@@ -547,33 +568,19 @@ func buildTabularIRGraph(model tabularModelArtifact) (*ir.Graph, error) {
 			model.ScaledModelForCKKS.Bias,
 		)
 
-	case "mlp_square_linear_score", "mlp_square_poly3":
-		hiddenOutputs := make(
-			[]ir.NodeID,
-			len(model.ScaledModelForCKKS.HiddenWeights),
+	case modelregistry.BodyOneHiddenSquare, modelregistry.BodyTwoHiddenSquares:
+		hiddenOutputs := addTabularSquareLayer(
+			graph, "hidden1", inputs,
+			model.ScaledModelForCKKS.HiddenWeights,
+			model.ScaledModelForCKKS.HiddenBias,
 		)
-		for hiddenIndex, weights := range model.ScaledModelForCKKS.HiddenWeights {
-			hiddenID := addTabularAffine(
-				graph,
-				fmt.Sprintf("hidden_%d", hiddenIndex),
-				inputs,
-				weights,
-				model.ScaledModelForCKKS.HiddenBias[hiddenIndex],
+		if family.Body == modelregistry.BodyTwoHiddenSquares {
+			hiddenOutputs = addTabularSquareLayer(
+				graph, "hidden2", hiddenOutputs,
+				model.ScaledModelForCKKS.Hidden2Weights,
+				model.ScaledModelForCKKS.Hidden2Bias,
 			)
-			squaredID := ir.NodeID(
-				fmt.Sprintf("hidden_%d_square", hiddenIndex),
-			)
-			graph.MustAddNode(
-				ir.NewUnary(
-					squaredID,
-					string(squaredID),
-					ir.OpPow2,
-					hiddenID,
-				),
-			)
-			hiddenOutputs[hiddenIndex] = squaredID
 		}
-
 		zID = addTabularAffine(
 			graph,
 			"output",
@@ -627,6 +634,34 @@ func buildTabularIRGraph(model tabularModelArtifact) (*ir.Graph, error) {
 		return nil, fmt.Errorf("validate tabular planner graph: %w", err)
 	}
 	return graph, nil
+}
+
+func addTabularSquareLayer(
+	graph *ir.Graph,
+	prefix string,
+	inputs []ir.NodeID,
+	weights [][]float64,
+	biases []float64,
+) []ir.NodeID {
+	outputs := make([]ir.NodeID, len(weights))
+	for unit, row := range weights {
+		affineID := addTabularAffine(
+			graph,
+			fmt.Sprintf("%s_%d", prefix, unit),
+			inputs,
+			row,
+			biases[unit],
+		)
+		squaredID := ir.NodeID(fmt.Sprintf("%s_%d_square", prefix, unit))
+		graph.MustAddNode(ir.NewUnary(
+			squaredID,
+			string(squaredID),
+			ir.OpPow2,
+			affineID,
+		))
+		outputs[unit] = squaredID
+	}
+	return outputs
 }
 
 func addTabularAffine(

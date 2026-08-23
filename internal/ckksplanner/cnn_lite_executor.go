@@ -93,13 +93,38 @@ func ExecuteCNNLiteCandidate(
 	candidate SynthesizedCandidate,
 	trialIndex int,
 ) (CNNLiteTrialResult, error) {
+	return executeCNNLiteCandidateWithAdapter(
+		contract, candidate, trialIndex, false,
+	)
+}
+
+func ExecutePackedCNNLiteCandidate(
+	contract WorkloadContract,
+	candidate SynthesizedCandidate,
+	trialIndex int,
+) (CNNLiteTrialResult, error) {
+	return executeCNNLiteCandidateWithAdapter(
+		contract, candidate, trialIndex, true,
+	)
+}
+
+func executeCNNLiteCandidateWithAdapter(
+	contract WorkloadContract,
+	candidate SynthesizedCandidate,
+	trialIndex int,
+	packed bool,
+) (CNNLiteTrialResult, error) {
 	if err := contract.Validate(); err != nil {
 		return CNNLiteTrialResult{}, fmt.Errorf(
 			"validate CNN-lite execution contract: %w",
 			err,
 		)
 	}
-	if contract.ModelType != MNISTCNNLiteModelType {
+	expectedModelType := MNISTCNNLiteModelType
+	if packed {
+		expectedModelType = MNISTPackedCNNLiteModelType
+	}
+	if contract.ModelType != expectedModelType {
 		return CNNLiteTrialResult{}, fmt.Errorf(
 			"unsupported CNN-lite contract model_type %q",
 			contract.ModelType,
@@ -153,12 +178,16 @@ func ExecuteCNNLiteCandidate(
 			result.FailureSignal = classifyExecutionFailure(err)
 			return result, nil
 		}
-		records, err := context.RunCKKSCNNLiteInference(
-			ckksbackend.CKKSCNNLiteConfig{
-				ModelPath: contract.ModelArtifact.Path,
-				DataPath:  contract.ValidationData.Path,
-			},
-		)
+		config := ckksbackend.CKKSCNNLiteConfig{
+			ModelPath: contract.ModelArtifact.Path,
+			DataPath:  contract.ValidationData.Path,
+		}
+		var records []ckksbackend.CKKSCNNLiteRecord
+		if packed {
+			records, err = context.RunCKKSPackedCNNLiteInference(config)
+		} else {
+			records, err = context.RunCKKSCNNLiteInference(config)
+		}
 		if err != nil {
 			result.Status = certify.StatusFailed
 			result.Assurance = certify.AssuranceNone
@@ -334,6 +363,19 @@ func ExecuteCNNLiteCandidate(
 func RunAdaptiveCNNLiteAutotune(
 	plan SynthesisPlan,
 ) (AdaptiveCNNLiteAutotuneResult, error) {
+	return runAdaptiveCNNLiteAutotuneWithAdapter(plan, false)
+}
+
+func RunAdaptivePackedCNNLiteAutotune(
+	plan SynthesisPlan,
+) (AdaptiveCNNLiteAutotuneResult, error) {
+	return runAdaptiveCNNLiteAutotuneWithAdapter(plan, true)
+}
+
+func runAdaptiveCNNLiteAutotuneWithAdapter(
+	plan SynthesisPlan,
+	packed bool,
+) (AdaptiveCNNLiteAutotuneResult, error) {
 	if plan.SchemaVersion != SynthesisPlanSchemaVersion ||
 		len(plan.InitialCandidates) != 1 {
 		return AdaptiveCNNLiteAutotuneResult{}, fmt.Errorf(
@@ -349,20 +391,29 @@ func RunAdaptiveCNNLiteAutotune(
 			"CNN-lite synthesis plan contract digest mismatch",
 		)
 	}
+	executionAdapter := MNISTCNNLiteGraphAdapterV1
+	if packed {
+		executionAdapter = MNISTPackedCNNLiteGraphAdapterV17
+	}
 	result := AdaptiveCNNLiteAutotuneResult{
 		SchemaVersion:    SynthesisPlanSchemaVersion,
-		ExecutionAdapter: MNISTCNNLiteGraphAdapterV1,
+		ExecutionAdapter: executionAdapter,
 		Plan:             plan,
 		Trials:           make([]CNNLiteTrialResult, 0),
 	}
 	candidate := plan.InitialCandidates[0]
 	maxTrials := plan.Contract.Deployment.MaxEncryptedTrials
 	for trialIndex := 1; trialIndex <= maxTrials; trialIndex++ {
-		trial, err := ExecuteCNNLiteCandidate(
-			plan.Contract,
-			candidate,
-			trialIndex,
-		)
+		var trial CNNLiteTrialResult
+		if packed {
+			trial, err = ExecutePackedCNNLiteCandidate(
+				plan.Contract, candidate, trialIndex,
+			)
+		} else {
+			trial, err = ExecuteCNNLiteCandidate(
+				plan.Contract, candidate, trialIndex,
+			)
+		}
 		if err != nil {
 			return AdaptiveCNNLiteAutotuneResult{}, err
 		}

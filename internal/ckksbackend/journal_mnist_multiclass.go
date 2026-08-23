@@ -21,9 +21,10 @@ import (
 const JournalMNISTMulticlassExecutionAdapterV1 = "mnist_multiclass_feature_ciphertext_batch_adapter_v1"
 
 type JournalMNISTMulticlassConfig struct {
-	ModelPath string
-	DataPath  string
-	Role      string
+	ModelPath      string
+	DataPath       string
+	Role           string
+	SelectedRowIDs []int
 }
 
 type JournalMNISTMulticlassRecord struct {
@@ -85,6 +86,30 @@ func (c Context) RunCKKSJournalMNISTMulticlassInference(
 	rows, err := journalmnist.LoadPartitionCSV(config.DataPath, config.Role)
 	if err != nil {
 		return nil, JournalMNISTMulticlassSummary{}, err
+	}
+	if len(config.SelectedRowIDs) > 0 {
+		byID := make(map[int]journalmnist.PartitionRow, len(rows))
+		for _, row := range rows {
+			byID[row.RowID] = row
+		}
+		selected := make([]journalmnist.PartitionRow, 0, len(config.SelectedRowIDs))
+		seen := make(map[int]struct{}, len(config.SelectedRowIDs))
+		for _, rowID := range config.SelectedRowIDs {
+			if _, duplicate := seen[rowID]; duplicate {
+				return nil, JournalMNISTMulticlassSummary{}, fmt.Errorf(
+					"duplicate selected MNIST row_id %d", rowID,
+				)
+			}
+			seen[rowID] = struct{}{}
+			row, ok := byID[rowID]
+			if !ok {
+				return nil, JournalMNISTMulticlassSummary{}, fmt.Errorf(
+					"selected MNIST row_id %d is outside verified partition", rowID,
+				)
+			}
+			selected = append(selected, row)
+		}
+		rows = selected
 	}
 	if len(rows) > c.Params.MaxSlots() {
 		return nil, JournalMNISTMulticlassSummary{}, fmt.Errorf(

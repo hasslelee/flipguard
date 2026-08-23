@@ -24,6 +24,8 @@ const (
 	MNISTCNNLiteExtractionPolicyV1      = "mnist_binary01_cnn_lite_export_v1"
 	MNISTCNNLiteMaterializationSchemaV1 = "flipguard_mnist_cnn_lite_materialization_v1"
 	MNISTCNNLiteSourceFeatureSpaceV1    = "mnist_28x28_grayscale_image_v1"
+	MNISTPackedCNNLiteModelType         = "packed_cnn_lite_binary01_v17"
+	MNISTPackedCNNLiteGraphAdapterV17   = "mnist_cnn_lite_spatial_slots_graph_adapter_v17"
 )
 
 type CNNLiteContractOptions struct {
@@ -357,6 +359,45 @@ func BuildCNNLiteWorkloadContract(
 	if err := contract.Validate(); err != nil {
 		return WorkloadContract{}, fmt.Errorf(
 			"validate derived CNN-lite workload contract: %w",
+			err,
+		)
+	}
+	return contract, nil
+}
+
+// BuildPackedCNNLiteWorkloadContract preserves the learned CNN-lite function
+// and evidence identities while replacing the scalar-replicated executor with
+// the predeclared V17 spatial-slot/rotation adapter. The Direct Policy V2
+// constants remain byte-identical; this is new generic operation support.
+func BuildPackedCNNLiteWorkloadContract(
+	options CNNLiteContractOptions,
+) (WorkloadContract, error) {
+	contract, err := BuildCNNLiteWorkloadContract(options)
+	if err != nil {
+		return WorkloadContract{}, err
+	}
+	contract.WorkloadID = strings.Join(
+		[]string{options.SplitID, contract.DatasetID, MNISTPackedCNNLiteModelType},
+		"/",
+	)
+	contract.ModelID = MNISTPackedCNNLiteModelType
+	contract.ModelType = MNISTPackedCNNLiteModelType
+	contract.Graph.MultiplicativeDepth = 2
+	contract.Graph.RescaleOps = 2
+	contract.Graph.RotOps = 11
+	contract.Graph.Notes = []string{
+		"same learned 4x4 CNN-lite function as the scalar-replicated predecessor",
+		"one image occupies sixteen spatial ciphertext slots",
+		"three shared convolution-offset rotations and eight spatial-reduction rotations",
+		"packed output-weight multiplication consumes one additional rescale stage",
+	}
+	contract.Deployment.RequiredSlots = 16
+	contract.Deployment.PackingStrategy = SpatialSlotsPackedV1
+	contract.Deployment.RescaleLevelsConsumed++
+	contract.Deployment.RequiredQPrimes++
+	if err := contract.Validate(); err != nil {
+		return WorkloadContract{}, fmt.Errorf(
+			"validate packed CNN-lite workload contract: %w",
 			err,
 		)
 	}
