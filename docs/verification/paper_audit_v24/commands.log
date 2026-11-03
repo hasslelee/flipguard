@@ -1,0 +1,125 @@
+# V24 paper audit command log
+# Exploratory phase used read-only git status, find, rg, sed, jq, wc, and Python calculations; all exited 0 unless listed below.
+$ sed -n '1,520p' /home/ckks2/.codex/attachments/20b3d1e2-f916-4f45-8a5d-9325b28dcb74/pasted-text.txt
+[exit=0] request contract read
+$ rg/find/sed/jq over frozen V17/V18/V20 source, manifests, CSV, JSON, and raw paired records
+[exit=0] read-only evidence discovery and schema inspection
+$ python3 read-only boundary, pairing, and aggregate probes
+[exit=0] no CKKS execution
+
+## Audit-script recovery history
+$ PYTHONDONTWRITEBYTECODE=1 python3 paper_audit_v24/audit_v24.py
+[exit=1] fixed-case split identifier mismatch; audit-only mapping corrected
+$ PYTHONDONTWRITEBYTECODE=1 python3 paper_audit_v24/audit_v24.py
+[exit=1] latency_regret source-table mismatch; audit-only reader corrected
+$ PYTHONDONTWRITEBYTECODE=1 python3 paper_audit_v24/audit_v24.py
+[exit=1] execution-policy/frozen-policy schema-layer mismatch; audit-only reader corrected
+$ PYTHONDONTWRITEBYTECODE=1 python3 paper_audit_v24/audit_v24.py
+[exit=1] negative-case local variable collision; audit-only variable renamed
+$ PYTHONDONTWRITEBYTECODE=1 python3 paper_audit_v24/audit_v24.py
+[exit=1] two frozen fixed-model wall-clock fields are status strings; audit-only numeric filter corrected
+
+$ git branch --show-current
+paper/v22-1-editorial-sync
+[exit=0]
+
+$ git rev-parse HEAD
+67251c57ca7be5aa8aeffd746a6a6671685e98c5
+[exit=0]
+
+$ PYTHONDONTWRITEBYTECODE=1 python3 paper_audit_v24/audit_v24.py
+[exit=0] current audit invocation
+
+$ git status --short
+ M AGENTS.md
+?? .codex/
+?? "docs/FlipGuard_\354\240\225\353\263\264\353\263\264\355\230\270\355\225\231\355\232\214\353\205\274\353\254\270\354\247\200_\352\260\200\353\217\205\354\204\261\352\260\225\355\231\224_v16.docx"
+?? "docs/FlipGuard_\354\240\225\353\263\264\353\263\264\355\230\270\355\225\231\355\232\214\353\205\274\353\254\270\354\247\200_\352\260\200\353\217\205\354\204\261\352\260\225\355\231\224_v16_\353\202\264\354\232\251\352\262\200\355\206\240\354\232\251.pdf"
+?? "docs/FlipGuard_\354\240\225\353\263\264\353\263\264\355\230\270\355\225\231\355\232\214\353\205\274\353\254\270\354\247\200_\352\265\254\354\241\260\352\260\234\354\204\240_v12_\354\265\234\354\242\205.docx"
+?? "docs/FlipGuard_\354\240\225\353\263\264\353\263\264\355\230\270\355\225\231\355\232\214\353\205\274\353\254\270\354\247\200_\353\251\224\354\235\270\354\213\234\354\212\244\355\205\234\352\260\225\355\231\224_v13_\354\210\230\354\213\235\354\225\214\352\263\240\353\246\254\354\246\230.docx"
+?? "docs/FlipGuard_\354\240\225\353\263\264\353\263\264\355\230\270\355\225\231\355\232\214\353\205\274\353\254\270\354\247\200_\353\251\224\354\235\270\354\213\234\354\212\244\355\205\234\352\260\225\355\231\224_v14_\355\225\231\354\210\240\354\232\251\354\226\264\354\240\225\354\240\234.docx"
+?? "docs/FlipGuard_\354\240\225\353\263\264\353\263\264\355\230\270\355\225\231\355\232\214\353\205\274\353\254\270\354\247\200_\354\204\235\354\202\254\355\225\231\354\234\204\353\205\274\353\254\270_\354\240\204\354\262\264\355\216\270\354\247\221\354\233\220\353\263\270_v10_\355\217\211\353\251\264\352\265\254\354\241\260.zip"
+?? "docs/FlipGuard_\354\240\225\353\263\264\353\263\264\355\230\270\355\225\231\355\232\214\353\205\274\353\254\270\354\247\200_\355\225\234\352\270\200\354\235\264\354\213\235\354\240\204_v16_1.docx"
+?? "docs/FlipGuard_\354\240\225\353\263\264\353\263\264\355\230\270\355\225\231\355\232\214\353\205\274\353\254\270\354\247\200_\355\225\234\352\270\200\354\235\264\354\213\235\354\240\204_v16_1.pdf"
+?? docs/V16_1_PRE_HWP_CHANGELOG.md
+?? docs/audit/
+?? docs/audits/
+?? docs/checkpoints/model_family_expansion_v17_vcpu6/
+?? docs/checkpoints/v17_source_closure_commits/
+?? docs/checkpoints/vcpu_2x1_to_1x6/
+?? docs/evidence/model_family_expansion_v17/archive/
+?? docs/evidence/model_family_expansion_v17/environments/vmware_ubuntu24_1socket_6core_vcpu6_20260811T050030Z.json
+?? docs/evidence/model_family_expansion_v17/final_vm1x6/
+?? docs/evidence/model_family_expansion_v17/source_snapshots/
+?? docs/evidence/model_family_expansion_v17_checkpoint_12h/
+?? docs/evidence/model_family_expansion_v17_checkpoint_12h_v2/
+?? docs/evidence/model_family_expansion_v17_checkpoint_12h_v3/
+?? docs/evidence/model_family_expansion_v17_checkpoint_12h_v4/
+?? docs/final_manuscript_v22/
+?? docs/final_manuscript_v22_1.zip
+?? docs/final_manuscript_v22_1/
+?? docs/manuscript_review_input/
+?? docs/manuscript_revision_v13/
+?? docs/manuscript_revision_v14.zip
+?? docs/manuscript_revision_v14/
+?? docs/manuscript_revision_v16.zip
+?? docs/manuscript_revision_v16/
+?? docs/manuscript_revision_v16_1.zip
+?? docs/manuscript_revision_v16_1/
+?? docs/manuscript_v19/
+?? docs/project_sync/
+?? docs/protocols/model_family_expansion_v17/AMENDMENTS.md
+?? docs/protocols/model_family_expansion_v17/SHA256SUMS
+?? docs/protocols/model_family_expansion_v17/candidate_space.json
+?? docs/protocols/model_family_expansion_v17/latency_subsets.json
+?? docs/protocols/model_family_expansion_v17/model_suite.csv
+?? docs/protocols/model_family_expansion_v17/protocol.json
+?? docs/protocols/model_family_expansion_v17/protocol.md
+?? docs/protocols/model_family_expansion_v17/split_plan.csv
+?? docs/reports/model_family_expansion_v17/
+?? docs/research/step_10b_flipguard_standalone_system_recenter_v13.md
+?? docs/research/step_10c_academic_terminology_refinement_v14.md
+?? "docs/\354\240\225\353\263\264\353\263\264\355\230\270\355\225\231\355\232\214\353\205\274\353\254\270\354\247\200_\352\267\270\353\246\27401-06_\352\260\200\353\217\205\354\204\261\352\260\225\355\231\224_\353\217\204\355\230\225\355\216\270\354\247\221\353\263\270_v16.pptx"
+?? "docs/\354\240\225\353\263\264\353\263\264\355\230\270\355\225\231\355\232\214\353\205\274\353\254\270\354\247\200_\352\267\270\353\246\27401-06_\353\217\204\355\230\225\355\216\270\354\247\221\353\263\270_v16_1.pptx"
+?? paper_audit_v24/
+?? scripts/build_final_manuscript_v22.py
+?? scripts/build_final_manuscript_v22_1.py
+?? scripts/build_final_pre_manuscript_v21.py
+?? scripts/build_flipguard_journal_v13.py
+?? scripts/build_flipguard_journal_v14.py
+?? scripts/build_flipguard_journal_v16.py
+?? scripts/build_flipguard_journal_v16_1.py
+?? scripts/build_manuscript_implementation_facts_v20.py
+?? scripts/build_model_family_expansion_v17_reports.py
+?? scripts/build_project_sync_v1.py
+?? scripts/build_v19_manuscript.py
+?? scripts/freeze_model_family_expansion_v17_evidence.py
+?? scripts/freeze_model_family_expansion_v17_protocol.py
+?? scripts/recover_v17_primary_paired_latency_aggregation.py
+?? scripts/run_v17_multiclass_training_seeds.py
+?? scripts/tests/test_build_model_family_expansion_v17_reports.py
+?? scripts/tests/test_recover_v17_primary_paired_latency_aggregation.py
+?? scripts/tests/test_v17_protocol_freeze_helpers.py
+?? scripts/tests/test_v17_vm1x6_infrastructure.py
+?? scripts/tests/test_verify_v17_plaintext_suite.py
+?? scripts/v19_manuscript_content.py
+?? scripts/v22_1_manuscript_content.py
+?? scripts/v22_manuscript_content.py
+?? scripts/verify_final_manuscript_v22.py
+?? scripts/verify_final_manuscript_v22_1.py
+?? scripts/verify_final_pre_manuscript_v21.py
+?? scripts/verify_flipguard_journal_v13.py
+?? scripts/verify_flipguard_journal_v14.py
+?? scripts/verify_flipguard_journal_v16.py
+?? scripts/verify_flipguard_journal_v16_1.py
+?? scripts/verify_manuscript_implementation_facts_v20.py
+?? scripts/verify_model_family_expansion_v17_evidence.py
+?? scripts/verify_model_family_expansion_v17_results.py
+?? scripts/verify_project_sync_v1.py
+?? scripts/verify_v19_manuscript.py
+[exit=0]
+
+$ PYTHONDONTWRITEBYTECODE=1 python3 -c "compile(open('paper_audit_v24/audit_v24.py', encoding='utf-8').read(), 'paper_audit_v24/audit_v24.py', 'exec')"
+[exit=0] final syntax verification
+$ sha256sum -c paper_audit_v24/checksums.sha256
+[exit=0] executed after final generation; every listed file OK

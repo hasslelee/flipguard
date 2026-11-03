@@ -1,0 +1,495 @@
+{
+  "as_run_manifest_git_head": "c550185c753220b8b5c0a5d9d2e922496d543414",
+  "changes_required": [
+    "Scope 68/68 SAFE explicitly to V_delta; boundary inputs are coverage denominator members but not SAFE/failure numerator members.",
+    "Describe the latency estimator as an equal-cluster geometric mean, not a simple 68-case geometric mean or ratio of sums.",
+    "Write EVA S20 as 133/1500 observations and separately report 114/500 unique inputs.",
+    "Separate the as-run manifest Git HEAD c550185... from the later exact-as-run source closure commit cefc44... and aggregation fix 86b040...."
+  ],
+  "coverage": {
+    "selection": {
+      "all": {
+        "boundary_inputs": 2304,
+        "case_coverage_max": 1.0,
+        "case_coverage_median": 0.9912280701754386,
+        "case_coverage_min": 0.17543859649122806,
+        "cases": 68,
+        "coverage_100_percent_cases": 28,
+        "coverage_below_100_percent_cases": 40,
+        "empty_v_delta_cases": 0,
+        "lowest_case_id": "primary|wdbc|mlp_square2_linear_score|outer_fold_4_training_seed_0",
+        "lowest_case_total_inputs": 114,
+        "lowest_case_v_delta": 20,
+        "pooled_coverage": 0.8746804460157738,
+        "safe_cases": 68,
+        "total_inputs": 18385,
+        "v_delta": 16081
+      },
+      "binary": {
+        "boundary_inputs": 2304,
+        "case_coverage_max": 1.0,
+        "case_coverage_median": 0.9912280701754386,
+        "case_coverage_min": 0.17543859649122806,
+        "cases": 66,
+        "coverage_100_percent_cases": 26,
+        "coverage_below_100_percent_cases": 40,
+        "empty_v_delta_cases": 0,
+        "lowest_case_id": "primary|wdbc|mlp_square2_linear_score|outer_fold_4_training_seed_0",
+        "lowest_case_total_inputs": 114,
+        "lowest_case_v_delta": 20,
+        "pooled_coverage": 0.867471958584987,
+        "safe_cases": 66,
+        "total_inputs": 17385,
+        "v_delta": 15081
+      },
+      "multiclass": {
+        "boundary_inputs": 0,
+        "case_coverage_max": 1.0,
+        "case_coverage_median": 1.0,
+        "case_coverage_min": 1.0,
+        "cases": 2,
+        "coverage_100_percent_cases": 2,
+        "coverage_below_100_percent_cases": 0,
+        "empty_v_delta_cases": 0,
+        "lowest_case_id": "primary|mnist_10class|mnist_lenet5_small_square_v1|journal_mnist_frozen_500_500_v1",
+        "lowest_case_total_inputs": 500,
+        "lowest_case_v_delta": 500,
+        "pooled_coverage": 1.0,
+        "safe_cases": 2,
+        "total_inputs": 1000,
+        "v_delta": 1000
+      }
+    },
+    "separate": {
+      "all": {
+        "boundary_inputs": 2318,
+        "case_coverage_max": 1.0,
+        "case_coverage_median": 0.994436706901888,
+        "case_coverage_min": 0.20353982300884957,
+        "cases": 68,
+        "coverage_100_percent_cases": 31,
+        "coverage_below_100_percent_cases": 37,
+        "empty_v_delta_cases": 0,
+        "lowest_case_id": "primary|wdbc|mlp_square2_linear_score|outer_fold_4_training_seed_0",
+        "lowest_case_total_inputs": 113,
+        "lowest_case_v_delta": 23,
+        "pooled_coverage": 0.8737953939129961,
+        "safe_cases": 68,
+        "total_inputs": 18367,
+        "v_delta": 16049
+      },
+      "binary": {
+        "boundary_inputs": 2318,
+        "case_coverage_max": 1.0,
+        "case_coverage_median": 0.9944289693593314,
+        "case_coverage_min": 0.20353982300884957,
+        "cases": 66,
+        "coverage_100_percent_cases": 29,
+        "coverage_below_100_percent_cases": 37,
+        "empty_v_delta_cases": 0,
+        "lowest_case_id": "primary|wdbc|mlp_square2_linear_score|outer_fold_4_training_seed_0",
+        "lowest_case_total_inputs": 113,
+        "lowest_case_v_delta": 23,
+        "pooled_coverage": 0.8665284735417746,
+        "safe_cases": 66,
+        "total_inputs": 17367,
+        "v_delta": 15049
+      },
+      "multiclass": {
+        "boundary_inputs": 0,
+        "case_coverage_max": 1.0,
+        "case_coverage_median": 1.0,
+        "case_coverage_min": 1.0,
+        "cases": 2,
+        "coverage_100_percent_cases": 2,
+        "coverage_below_100_percent_cases": 0,
+        "empty_v_delta_cases": 0,
+        "lowest_case_id": "primary|mnist_10class|mnist_lenet5_small_square_v1|journal_mnist_frozen_500_500_v1",
+        "lowest_case_total_inputs": 500,
+        "lowest_case_v_delta": 500,
+        "pooled_coverage": 1.0,
+        "safe_cases": 2,
+        "total_inputs": 1000,
+        "v_delta": 1000
+      }
+    }
+  },
+  "current_repository_head": "67251c57ca7be5aa8aeffd746a6a6671685e98c5",
+  "environment": {
+    "cores_per_socket": 6,
+    "go": "go version go1.25.9 linux/amd64",
+    "gomaxprocs": 6,
+    "kernel": "7.0.0-28-generic",
+    "lattigo": "v6.2.0",
+    "memory_kib": 16324060,
+    "numpy": "2.2.6",
+    "python": "Python 3.12.3",
+    "scikit_learn": "1.6.1",
+    "total_vcpu": 6,
+    "ubuntu": "Ubuntu 24.04.4 LTS",
+    "virtual_sockets": 1
+  },
+  "eva_s20": {
+    "audit_executed": false,
+    "candidate_id": "eva_v8_scale20_N13_QP140_3fc14b392a39",
+    "contexts": 3,
+    "decision_flip_observations": 133,
+    "definition": "EVA input scale setting of 20 bits (EvaProgram.set_input_scales(20)); not a security-bit label",
+    "flip_repeat_histogram": {
+      "1": 96,
+      "2": 17,
+      "3": 1
+    },
+    "observations": 1500,
+    "reason_no_audit": "S20 was REJECTED in configuration validation; the frozen V8 audit arms were the predeclared selected S30 and S40 comparator",
+    "reserve_policy_violation_observations": 794,
+    "unique_inputs": 500,
+    "unique_inputs_with_at_least_one_flip": 114
+  },
+  "graph_analysis": {
+    "backend_supported_tabular_ops": ["Input", "Const", "Add", "Sub", "MulConst", "Mul", "Pow2", "cubic Poly"],
+    "fail_closed_ops": ["standalone Pow3 in the rescale tracer", "non-cubic Poly", "unknown operations", "plaintext-only arithmetic where ciphertext execution is required"],
+    "graph_summary_ops": ["Input", "Const", "Add", "Sub", "MulConst", "Mul", "Pow2", "Pow3", "Poly"],
+    "plaintext_coefficients": "exact model coefficients are embedded in the IR; MulConst uses the coefficient absolute value, while observed node min/max and maximum plaintext output magnitude come from plaintext selection execution",
+    "rescale_demand": "Lattigo v6 scale-exponent trace; RequiredQPrimes = LevelsConsumed + terminal ScaleExponent, not a blanket equality with graph depth",
+    "rotations_and_slots": "adapter-specific deployment facts; scalar sensitivity IR has no rotation fallback"
+  },
+  "initial_synthesis": {
+    "assurance": "empirical initial-candidate planning signal; not an analytical CKKS error certificate",
+    "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "binary_output_allowance": "B_out = rho * min_{x: |f(x)-tau| > delta} |f(x)-tau|",
+    "binary_sensitivity": "sum of backward sensitivities of every non-input/non-constant operation node; reused paths accumulate by addition",
+    "first_q_prime_bits": "q_0 = max(18, s + ceil(log2(max(1, max_abs_plain_output))) + 1 + 2)",
+    "initial_scale_bits": "s = max(18, p + 3)",
+    "materialization_scale_rule": "s = max(p+3, policy minimum 18, repair/backend-requested minimum); s>50 fails rather than clamps",
+    "multiclass_per_logit_allowance": "B_out = rho * min_{x: g(x) > delta} g(x) / 2",
+    "multiclass_sensitivity": "adapter-specific layerwise L-infinity roundoff signal, not a generic multi-output sum/max/matrix norm",
+    "p_prime_bits": "one P prime with max(30, q_0) bits",
+    "precision_slack_mode": "none across all 66 primary selection plans; the initial candidate does not maximize scale within the admitted tier",
+    "precision_bits": "p = 0 if B_unit >= 1, otherwise ceil(-log2(B_unit))",
+    "q_prime_count": "required_Q_primes + level_guard + extra_levels",
+    "remaining_q_prime_bits": "q_i = s for i >= 1",
+    "ring_dimension": "minimum admitted log2(N) satisfying N/2 >= required_slots and declared log2(QP) <= Security-V2 cap",
+    "security_envelope_log2n_log2qp_caps": [[12, 106], [13, 214], [14, 430], [15, 868]],
+    "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+    "unit_budget": "B_unit = B_out / S_G"
+  },
+  "latency": {
+    "all_case_geometric_mean_not_reported_estimator": 1.0005872532925908,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260824,
+    "case_rows": 68,
+    "ci_high": 1.0011217812090207,
+    "ci_low": 0.9999674747655278,
+    "cluster_count": 16,
+    "clusters": [
+      {
+        "case_count": 5,
+        "cluster_geometric_mean": 1.0015651081238812,
+        "dataset": "banknote",
+        "model_id": "linear_poly3",
+        "raw_pair_count": 1800
+      },
+      {
+        "case_count": 5,
+        "cluster_geometric_mean": 1.0005179207592205,
+        "dataset": "banknote",
+        "model_id": "mlp_square2_linear_score",
+        "raw_pair_count": 1800
+      },
+      {
+        "case_count": 5,
+        "cluster_geometric_mean": 0.9992576829497908,
+        "dataset": "banknote",
+        "model_id": "mlp_square_linear_score",
+        "raw_pair_count": 1800
+      },
+      {
+        "case_count": 5,
+        "cluster_geometric_mean": 1.00070671698034,
+        "dataset": "digits_binary",
+        "model_id": "linear_poly3",
+        "raw_pair_count": 1800
+      },
+      {
+        "case_count": 5,
+        "cluster_geometric_mean": 1.000991841793039,
+        "dataset": "digits_binary",
+        "model_id": "mlp_square_linear_score",
+        "raw_pair_count": 1800
+      },
+      {
+        "case_count": 5,
+        "cluster_geometric_mean": 1.0027356265579226,
+        "dataset": "iris_binary",
+        "model_id": "linear_poly3",
+        "raw_pair_count": 1800
+      },
+      {
+        "case_count": 5,
+        "cluster_geometric_mean": 0.9995106932777649,
+        "dataset": "iris_binary",
+        "model_id": "mlp_square_linear_score",
+        "raw_pair_count": 1800
+      },
+      {
+        "case_count": 5,
+        "cluster_geometric_mean": 1.0001403870125445,
+        "dataset": "mnist_pool16",
+        "model_id": "linear_poly3",
+        "raw_pair_count": 1800
+      },
+      {
+        "case_count": 5,
+        "cluster_geometric_mean": 1.0001982017162387,
+        "dataset": "mnist_pool16",
+        "model_id": "mlp_square2_linear_score",
+        "raw_pair_count": 1800
+      },
+      {
+        "case_count": 5,
+        "cluster_geometric_mean": 1.0015203990480526,
+        "dataset": "mnist_pool16",
+        "model_id": "mlp_square_linear_score",
+        "raw_pair_count": 1800
+      },
+      {
+        "case_count": 1,
+        "cluster_geometric_mean": 0.9999211240026366,
+        "dataset": "multiclass",
+        "model_id": "mnist_lenet5_small_square_v1",
+        "raw_pair_count": 18
+      },
+      {
+        "case_count": 1,
+        "cluster_geometric_mean": 1.0027941678337366,
+        "dataset": "multiclass",
+        "model_id": "mnist_mlp_square_784_100_10_v1",
+        "raw_pair_count": 18
+      },
+      {
+        "case_count": 1,
+        "cluster_geometric_mean": 0.9981256903074909,
+        "dataset": "packed_cnn_lite_binary01_v17",
+        "model_id": "packed_cnn_lite_binary01_v17",
+        "raw_pair_count": 18
+      },
+      {
+        "case_count": 5,
+        "cluster_geometric_mean": 1.000736025814053,
+        "dataset": "wdbc",
+        "model_id": "linear_poly3",
+        "raw_pair_count": 1800
+      },
+      {
+        "case_count": 5,
+        "cluster_geometric_mean": 1.0004101511601364,
+        "dataset": "wdbc",
+        "model_id": "mlp_square2_linear_score",
+        "raw_pair_count": 1800
+      },
+      {
+        "case_count": 5,
+        "cluster_geometric_mean": 0.9995343571888989,
+        "dataset": "wdbc",
+        "model_id": "mlp_square_linear_score",
+        "raw_pair_count": 1800
+      }
+    ],
+    "estimate": 1.000540931232697,
+    "maximum_case_rebuild_absolute_difference": 0.0,
+    "pair_distribution": {
+      "18": 3,
+      "360": 65
+    },
+    "percentile_quantile": "linear interpolation at positions (n-1)q",
+    "raw_pairs": 23454
+  },
+  "manuscript_ready_sentences_ko": {
+    "coverage": "구성-선택 단계의 68개 사례는 사례-입력 쌍 18,385개 중 마진이 경계 하한을 초과한 16,081개를 적합 판정 대상으로 사용하여 pooled coverage 0.874680을 보였다. 별도 입력 재평가에서는 18,367개 중 16,049개가 적합 판정 대상이었고 pooled coverage는 0.873795였다. 68/68 SAFE는 각 사례의 이 적합 판정 대상에서 세 키 반복 모두 판단 반전과 운용 예산 위반이 없었다는 유한 범위의 결과이며, 경계 입력이나 전체 입력 분포에 대한 보장을 뜻하지 않는다.",
+    "eva_s20": "EVA S20은 보안 bit가 아니라 EVA 프로그램의 초기 입력 scale을 20 bit로 설정한 native EVA/SEAL 구성이다. 구성-선택 입력 500개를 세 독립 context에서 실행한 1,500개 관측 중 133회 판단 반전이 발생했으며, 적어도 한 번 반전된 고유 입력은 114개였다.",
+    "latency": "각 사례에서는 짝지은 원시 지연 시간의 유한 기준 구성/제안 구성 비율을 기하평균한 뒤, 동일 데이터셋-모델 조합 16개 클러스터마다 사례 비율을 다시 기하평균하였다. 최종 점추정량은 16개 클러스터 요약값의 동일 가중 기하평균으로 1.000540931이었고, 클러스터를 복원 추출한 10,000회 percentile bootstrap의 95% 신뢰구간은 [0.999967475, 1.001121781]이었다. 비율이 1보다 크면 기준 구성의 total latency가 더 크다는 뜻이지만, 이 구간은 1을 포함하므로 지연 시간 우월성을 주장하지 않는다.",
+    "q_repair": "level 또는 rescale 부족이 관측되면 정책은 Q 소수 하나를 추가한 후보를 다시 구성하고, 늘어난 QP 크기와 slot 요구를 함께 사용해 목표 보안 정책을 만족하는 최소 log2 N을 다시 선택한다. 이어 ciphertext Q와 evaluation-key QP를 모두 재검사하며, 적합한 N이 없으면 보정을 중단하고 NO_SAFE를 반환한다. 주 평가 68개 사례에서는 이 level 보정이 발생하지 않았고, 관측된 21개 추가 평가는 모두 scale을 4 bit 늘린 수치 보정이었다.",
+    "synthesis": "FlipGuard는 구성-선택 입력의 최소 적격 결정 마진에 rho를 곱해 출력 오차 허용량을 만들고, 이를 계산 그래프의 경험적 민감도 S_G로 나눈 단위 오차 예산에서 필요한 정밀도 p를 산출한다. 초기 scale bit는 s=max(18, ceil(-log2(B_out/S_G))+3)으로 정하되 단위 오차 예산이 1 이상이면 p=0으로 둔다. 이 값은 암호화 검증 전 첫 후보를 만드는 경험적 계획 신호이며 분석적 CKKS 오차 증명은 아니다."
+  },
+  "model_families": [
+    {
+      "activation": "cubic output polynomial 0.5+0.197z-0.004z^3",
+      "architecture": "linear body; no hidden layer",
+      "case_count": 25,
+      "datasets": [
+        "banknote",
+        "digits_binary",
+        "iris_binary",
+        "mnist_pool16",
+        "wdbc"
+      ],
+      "decision_rule": "binary threshold tau=0.5",
+      "model_family": "Polynomial model",
+      "output_head": "cubic scalar score",
+      "selection_inputs_per_case_max": 500,
+      "selection_inputs_per_case_min": 20,
+      "selection_inputs_total": 6345,
+      "separate_inputs_per_case_max": 500,
+      "separate_inputs_per_case_min": 20,
+      "separate_inputs_total": 6338,
+      "training": "retrained independently in each outer fold",
+      "width": "input 4-16; scalar score"
+    },
+    {
+      "activation": "square",
+      "architecture": "one hidden affine layer",
+      "case_count": 25,
+      "datasets": [
+        "banknote",
+        "digits_binary",
+        "iris_binary",
+        "mnist_pool16",
+        "wdbc"
+      ],
+      "decision_rule": "binary threshold tau=0.5",
+      "model_family": "1-layer MLP",
+      "output_head": "affine score 0.5+0.197z",
+      "selection_inputs_per_case_max": 500,
+      "selection_inputs_per_case_min": 20,
+      "selection_inputs_total": 6345,
+      "separate_inputs_per_case_max": 500,
+      "separate_inputs_per_case_min": 20,
+      "separate_inputs_total": 6338,
+      "training": "retrained independently in each outer fold",
+      "width": "input 4-16 -> hidden 4 -> scalar score"
+    },
+    {
+      "activation": "square after each hidden affine",
+      "architecture": "two hidden affine layers",
+      "case_count": 15,
+      "datasets": [
+        "banknote",
+        "mnist_pool16",
+        "wdbc"
+      ],
+      "decision_rule": "binary threshold tau=0.5",
+      "model_family": "2-layer MLP",
+      "output_head": "affine score 0.5+0.197z",
+      "selection_inputs_per_case_max": 500,
+      "selection_inputs_per_case_min": 114,
+      "selection_inputs_total": 4445,
+      "separate_inputs_per_case_max": 500,
+      "separate_inputs_per_case_min": 113,
+      "separate_inputs_total": 4441,
+      "training": "retrained independently in each outer fold",
+      "width": "input 4-16 -> hidden 8 -> hidden 4 -> scalar score"
+    },
+    {
+      "activation": "square",
+      "architecture": "MNIST fully connected MLP",
+      "case_count": 1,
+      "datasets": [
+        "mnist_10class"
+      ],
+      "decision_rule": "multiclass argmax",
+      "model_family": "MLP-100",
+      "output_head": "10 affine logits",
+      "selection_inputs_per_case_max": 500,
+      "selection_inputs_per_case_min": 500,
+      "selection_inputs_total": 500,
+      "separate_inputs_per_case_max": 500,
+      "separate_inputs_per_case_min": 500,
+      "separate_inputs_total": 500,
+      "training": "one frozen pretrained artifact",
+      "width": "784 -> 100 -> 10 logits"
+    },
+    {
+      "activation": "square after both convolutions and FC120/FC64",
+      "architecture": "conv5x5x6 -> avgpool2 -> conv5x5x16 -> avgpool2 -> FC120 -> FC64",
+      "case_count": 1,
+      "datasets": [
+        "mnist_10class"
+      ],
+      "decision_rule": "multiclass argmax",
+      "model_family": "LeNet-5-small",
+      "output_head": "10 affine logits",
+      "selection_inputs_per_case_max": 500,
+      "selection_inputs_per_case_min": 500,
+      "selection_inputs_total": 500,
+      "separate_inputs_per_case_max": 500,
+      "separate_inputs_per_case_min": 500,
+      "separate_inputs_total": 500,
+      "training": "one frozen pretrained artifact",
+      "width": "1x28x28 (zero-padded 32x32) -> 10 logits"
+    },
+    {
+      "activation": "square",
+      "architecture": "4x4 input -> four valid 2x2 convolutions -> square -> packed affine reduction",
+      "case_count": 1,
+      "datasets": [
+        "mnist_binary01"
+      ],
+      "decision_rule": "binary threshold tau=0",
+      "model_family": "Packed CNN-lite",
+      "output_head": "affine scalar score",
+      "selection_inputs_per_case_max": 250,
+      "selection_inputs_per_case_min": 250,
+      "selection_inputs_total": 250,
+      "separate_inputs_per_case_max": 250,
+      "separate_inputs_per_case_min": 250,
+      "separate_inputs_total": 250,
+      "training": "one frozen pretrained artifact",
+      "width": "one image in 16 spatial slots; four 3x3 activation maps -> scalar"
+    }
+  ],
+  "packed_cnn_lite": {
+    "packing": "one 4x4 image in 16 contiguous spatial slots",
+    "rotation_breakdown": "3 shared convolution-offset rotations + 8 spatial-reduction rotations",
+    "rotation_keys": [
+      1,
+      4,
+      5,
+      2,
+      6,
+      8,
+      9,
+      10
+    ],
+    "rotation_operations": 11,
+    "unique_rotation_keys": 8
+  },
+  "post_run_aggregation_tooling_commit": "86b0403208abbc741a65934358a5dea4a66e4d88",
+  "primary_run_id": "v17_final_vm1x6_20260811T050104Z",
+  "q_extension_transition": {
+    "behavior": "add one Q prime, rebuild/materialize the candidate, rerun minimum-logN admission, and reassess both Q and QP security",
+    "classification": "A",
+    "maximum_evaluation_budget": "the triggering failed encrypted candidate already counts; a repaired candidate counts only when subsequently encrypted and evaluated",
+    "no_admitted_log_n": "repair exhaustion; executor returns NO_SAFE",
+    "primary_68_level_repairs": 0,
+    "primary_68_scale_repairs": 21,
+    "stage_2_wording": "accurate only if Stage 2 means candidate construction, materialization, and security admission; graph calibration is not recomputed"
+  },
+  "schema_version": "flipguard_v34_required_code_audit_v1",
+  "scientific_execution_source_commit": "cefc44b0d7e351db2a34886dd758a2d31a3e4c12",
+  "scope": "read-only code, frozen raw result, and independent aggregation audit; no CKKS execution",
+  "separate_input_distribution": {
+    "113": 3,
+    "114": 12,
+    "20": 10,
+    "250": 1,
+    "274": 9,
+    "275": 6,
+    "359": 6,
+    "360": 4,
+    "500": 17
+  },
+  "separate_input_distribution_sum": 18367,
+  "severity": {
+    "BLOCKING": 0,
+    "MAJOR": 0,
+    "MINOR": 4
+  },
+  "v17_final_manifest_sha256": "sha256:2c6671debb4f885ed3b8003a8bd93e24a8c4fcca6e4f8178ef999f8ded6eddde",
+  "v33_reference_pdf": {
+    "path": "/home/ckks2/Downloads/CKKS_정보보호학회논문지_전체적용_2단예시_v33.pdf",
+    "role": "reference only; this audit does not inspect manuscript prose",
+    "sha256": "sha256:6b5ec1ac06e859c5530d9827ab243165f64c16f31b7d7c3fbfe9b71a4e3cde42"
+  },
+  "verdict": "PASS WITH CHANGES"
+}

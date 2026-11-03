@@ -1,0 +1,250 @@
+{
+  "schema_version": "flipguard_v25_code_verification_v1",
+  "verdict": "FAIL",
+  "verdict_reason": "The evidence-side recomputation passes, but the named V25 manuscript source is absent, so manuscript-level Table/Figure/wording verification is blocked. The requested assertion that every primary case used exactly 20 separate inputs is also false; 20 is the formal latency subset size.",
+  "repository": "/home/ckks2/flipguard",
+  "git_branch": "paper/v22-1-editorial-sync",
+  "git_commit": "67251c57ca7be5aa8aeffd746a6a6671685e98c5",
+  "scientific_execution_source_commit": "cefc44b0d7e351db2a34886dd758a2d31a3e4c12",
+  "post_run_aggregation_tooling_commit": "86b0403208abbc741a65934358a5dea4a66e4d88",
+  "run_id": "v17_final_vm1x6_20260811T050104Z",
+  "environment_match": {
+    "as_run_manifest_matches_expected_manuscript_environment": true,
+    "host_cpu": "AMD Ryzen 5 3600 6-Core Processor",
+    "hypervisor": "VMware Workstation",
+    "hypervisor_version": "NOT VERIFIABLE",
+    "guest_os": "Ubuntu 24.04.4 LTS",
+    "as_run_kernel": "7.0.0-28-generic",
+    "current_audit_kernel": "7.0.0-30-generic",
+    "architecture": "x86_64",
+    "guest_topology": "1 socket x 6 cores, 6 vCPU",
+    "affinity": "0-5",
+    "gomaxprocs": 6,
+    "memory_kib": 16324060,
+    "swap_kib": 4194300,
+    "go": "1.25.9",
+    "python": "3.12.3",
+    "lattigo": "6.2.0",
+    "numpy": "2.2.6",
+    "scikit_learn": "1.6.1"
+  },
+  "equation_checks": {
+    "equation_1": "PASS",
+    "equation_2": "PASS WITH NOTE: implementation applies the stricter operational condition e < rho*margin; the theorem condition e < margin remains sufficient, not necessary",
+    "equation_3": "PASS",
+    "equation_4": "PASS",
+    "equation_5": "PASS",
+    "selection_empty_v_delta_cases": 0,
+    "separate_empty_v_delta_cases": 0
+  },
+  "data_split_check": {
+    "status": "PASS WITH ONE MAJOR MANUSCRIPT-UNIT CORRECTION",
+    "tabular_primary_cases_checked": 65,
+    "tabular_overlap_cases": 0,
+    "all_tabular_dataset_model_groups_have_five_fold_specific_model_digests": true,
+    "multiclass_selection_rows": 500,
+    "multiclass_separate_rows": 500,
+    "multiclass_overlap": 0,
+    "packed_selection_rows": 250,
+    "packed_separate_rows": 250,
+    "packed_overlap": 0,
+    "twenty_input_finding": "20 is the predeclared formal-latency subset, not the full separate-input reevaluation size for every primary case",
+    "tabular_full_separate_size_distribution": {
+      "20": 10,
+      "113": 3,
+      "114": 12,
+      "274": 9,
+      "275": 6,
+      "359": 6,
+      "360": 4,
+      "500": 15
+    }
+  },
+  "key_independence_check": {
+    "status": "PASS WITH NOTE",
+    "source_creates_new_context_per_key_repeat": true,
+    "selection_and_separate_replay_are_separate_stages": true,
+    "key_repeats_per_candidate_bundle": 3,
+    "raw_key_fingerprint_or_rng_seed_recorded": false,
+    "low_level_material_nonreuse": "NOT VERIFIABLE from result JSON alone"
+  },
+  "primary_case_count": 68,
+  "gate_off_candidate_evaluation_count": 68,
+  "candidate_evaluation_count": 89,
+  "comparison_evaluation_count": 537,
+  "candidate_evaluation_reduction": 0.8342644320297952,
+  "candidate_evaluation_reduction_percent": 83.42644320297952,
+  "gate_off_cross_table": {
+    "no_flip_no_violation": 47,
+    "flip_only": 0,
+    "violation_only": 1,
+    "flip_and_violation": 20,
+    "union": 21,
+    "flip_cases": 20,
+    "violation_cases": 21
+  },
+  "additional_candidate_evaluations": {
+    "cases": 21,
+    "exactly_one": 21,
+    "two_or_more": 0,
+    "scale_plus_4_bits": 21,
+    "q_prime_count_changed": 0,
+    "q_chain_length_changed": 0,
+    "log_n_changed": 0
+  },
+  "separate_input_pass_count": 68,
+  "gate_off_separate_input": {
+    "pass": 47,
+    "not_evaluated": 21,
+    "failed": 0,
+    "not_evaluated_counted_as_failure": false
+  },
+  "missed_acceptable_count": 0,
+  "false_no_safe_count": 0,
+  "traditional_objective_diagnostics": {
+    "fastest_executable_unstable_cases": 18,
+    "minimum_error_unstable_cases": 0,
+    "minimum_error_differs_from_proposed_cases": 68
+  },
+  "protocol_record_count": 204,
+  "protocol_terminal_done_count": 204,
+  "all_scope_selection_case_count": 131,
+  "non_primary_selection_case_count": 63,
+  "unique_parameter_literal_count_all_scope": 16,
+  "unique_parameter_literal_count_primary": 7,
+  "selection_wall_clock_ratio": {
+    "direction": "finite reference / full method",
+    "matched_case_count": 66,
+    "median": 12.398599026421792,
+    "q1": 7.493242059725233,
+    "q3": 14.95910619899486,
+    "iqr": 7.465864139269627,
+    "p90": 16.75655132437581,
+    "excluded_predecessor_frozen_direct_wall_clock_cases": 2,
+    "historical_asymmetric_ratio_not_admissible": 13.844078722408751
+  },
+  "latency_ratio": 1.000540931232697,
+  "latency_ratio_direction": "finite_reference_total_latency / proposed_total_latency",
+  "latency_ci": [
+    0.9999674747655278,
+    1.0011217812090207
+  ],
+  "latency_ci_includes_one": true,
+  "latency_cluster_count": 16,
+  "latency_bootstrap_seed": 20260824,
+  "latency_bootstrap_replicates": 10000,
+  "raw_paired_latency_pair_count": 23454,
+  "changed_case_observational_latency_ratio": {
+    "direction": "final candidate / initial candidate",
+    "median": 1.0045077568931444,
+    "p90": 1.0112181988336308,
+    "measurement_class": "selection-stage observational, not formal paired inference latency"
+  },
+  "formal_latency_regret": {
+    "formula": "(proposed_latency - finite_reference_latency) / finite_reference_latency",
+    "median": -0.00015323624671320646,
+    "q1": -0.0013228563830798012,
+    "q3": 0.0005029485845641779,
+    "iqr": 0.0018258049676439791,
+    "p90": 0.0014261898161542356,
+    "maximum": 0.002309669255065927
+  },
+  "depth_q_chain_lengths": [2, 3, 5, 8, 11],
+  "depth_log_n": [12, 12, 13, 14, 14],
+  "negative_case_count": 1,
+  "negative_case": {
+    "case": "banknote/mlp_square_poly3/fold_3",
+    "sample_id": "1068",
+    "key_repeat": 1,
+    "plaintext_score": 0.5196440056932156,
+    "ckks_score": 0.508866189688053,
+    "threshold": 0.5,
+    "margin": 0.01964400569321556,
+    "rho_times_margin": 0.00982200284660778,
+    "observed_error": 0.010777816005162588,
+    "excess": 0.000955813158554808,
+    "plaintext_decision": true,
+    "ckks_decision": true,
+    "decision_flips": 0,
+    "reserve_policy_violations": 1,
+    "candidate_id": "synth_analysis_minimum_rescale_N14_Q10_S22_188825b7cf8c",
+    "log_n": 14,
+    "q_bits": [25, 22, 22, 22, 22, 22, 22, 22, 22, 22],
+    "p_bits": [30],
+    "scale_bits": 22
+  },
+  "external_comparison": {
+    "heir": {
+      "log_n": 14,
+      "scale_bits": 45,
+      "inputs": 500,
+      "contexts": 3,
+      "observations": 1500,
+      "flips": 0,
+      "violations": 0,
+      "maximum_absolute_error": 5.079101816907183e-08
+    },
+    "eva_s20": {
+      "inputs": 500,
+      "contexts": 3,
+      "observations": 1500,
+      "flip_events": 133,
+      "affected_inputs": 114
+    },
+    "elasm": "34/36 numerical plans PASS; two execution failures; no matching decision contract",
+    "hecate": "NOT VERIFIABLE as an exact V17 decision baseline"
+  },
+  "blocking_issues": [
+    {
+      "claim_id": "REPO-03",
+      "issue": "The named V25 manuscript file is absent, preventing direct wording, Table 2-6, Fig. 3-6 and overclaim verification."
+    }
+  ],
+  "major_issues": [
+    {
+      "claim_id": "DATA-06",
+      "issue": "The assertion that every primary case has exactly 20 separate inputs is false; 20 is only the formal-latency subset."
+    }
+  ],
+  "minor_issues": [
+    {
+      "claim_id": "MET-17",
+      "issue": "The legacy final manifest labels 131 case identities as distinct selected configurations; the immutable R3 correction distinguishes 131 identities from 16 exact literals."
+    }
+  ],
+  "not_verifiable_items": [
+    "Exact V25 prose and equation typography",
+    "V25 Table 2 through Table 6 cells, units and captions",
+    "V25 Figure 3 through Figure 6 rendering and captions",
+    "V25 claim-strength scan and exact sentence quotations",
+    "Cryptographic key fingerprints or RNG seeds for byte-level nonreuse proof",
+    "Exact VMware Workstation version",
+    "HECATE exact decision-bearing V17 output"
+  ],
+  "verification": {
+    "new_encrypted_executions": 0,
+    "full_experiment_rerun": false,
+    "source_or_raw_evidence_modifications": 0,
+    "go_targeted_tests": "PASS",
+    "v18_verifier": "PASS",
+    "v18_paper_facts_verifier": "PASS",
+    "v17_r3_sha256sums": "PASS",
+    "focused_external_v8_sha256sums": "PASS",
+    "r3_head_pinned_verifier": "EXPECTED FAIL ON DESCENDANT HEAD: repository HEAD moved",
+    "as_run_current_source_verifier": "EXPECTED FAIL AFTER POST-RUN AGGREGATION FIX: source snapshot drift in paired-latency aggregator"
+  },
+  "evidence_status_counts": {
+    "PASS": 65,
+    "PASS WITH NOTE": 9,
+    "MINOR": 1,
+    "MAJOR": 1,
+    "BLOCKING": 1,
+    "NOT VERIFIABLE": 15
+  },
+  "generated_files": [
+    "/home/ckks2/flipguard/v25_code_verification_report.md",
+    "/home/ckks2/flipguard/v25_code_verification_evidence.tsv",
+    "/home/ckks2/flipguard/v25_code_verification_summary.json",
+    "/home/ckks2/flipguard/v25_code_verification_commands.log"
+  ]
+}

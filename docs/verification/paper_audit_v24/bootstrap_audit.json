@@ -1,0 +1,256 @@
+{
+  "case_count": 68,
+  "ci_high_unrounded": 1.0011217812090207,
+  "ci_low_unrounded": 0.9999674747655278,
+  "cluster_count": 16,
+  "cluster_mapping": [
+    {
+      "case_count": 5,
+      "case_ids": [
+        "primary|banknote|linear_poly3|outer_fold_0_training_seed_0",
+        "primary|banknote|linear_poly3|outer_fold_1_training_seed_0",
+        "primary|banknote|linear_poly3|outer_fold_2_training_seed_0",
+        "primary|banknote|linear_poly3|outer_fold_3_training_seed_0",
+        "primary|banknote|linear_poly3|outer_fold_4_training_seed_0"
+      ],
+      "cluster_id": "banknote|linear_poly3",
+      "dataset": "banknote",
+      "model": "linear_poly3",
+      "within_cluster_geometric_mean_ratio": 1.0015651081238812
+    },
+    {
+      "case_count": 5,
+      "case_ids": [
+        "primary|banknote|mlp_square2_linear_score|outer_fold_0_training_seed_0",
+        "primary|banknote|mlp_square2_linear_score|outer_fold_1_training_seed_0",
+        "primary|banknote|mlp_square2_linear_score|outer_fold_2_training_seed_0",
+        "primary|banknote|mlp_square2_linear_score|outer_fold_3_training_seed_0",
+        "primary|banknote|mlp_square2_linear_score|outer_fold_4_training_seed_0"
+      ],
+      "cluster_id": "banknote|mlp_square2_linear_score",
+      "dataset": "banknote",
+      "model": "mlp_square2_linear_score",
+      "within_cluster_geometric_mean_ratio": 1.0005179207592205
+    },
+    {
+      "case_count": 5,
+      "case_ids": [
+        "primary|banknote|mlp_square_linear_score|outer_fold_0_training_seed_0",
+        "primary|banknote|mlp_square_linear_score|outer_fold_1_training_seed_0",
+        "primary|banknote|mlp_square_linear_score|outer_fold_2_training_seed_0",
+        "primary|banknote|mlp_square_linear_score|outer_fold_3_training_seed_0",
+        "primary|banknote|mlp_square_linear_score|outer_fold_4_training_seed_0"
+      ],
+      "cluster_id": "banknote|mlp_square_linear_score",
+      "dataset": "banknote",
+      "model": "mlp_square_linear_score",
+      "within_cluster_geometric_mean_ratio": 0.9992576829497908
+    },
+    {
+      "case_count": 5,
+      "case_ids": [
+        "primary|digits_binary|linear_poly3|outer_fold_0_training_seed_0",
+        "primary|digits_binary|linear_poly3|outer_fold_1_training_seed_0",
+        "primary|digits_binary|linear_poly3|outer_fold_2_training_seed_0",
+        "primary|digits_binary|linear_poly3|outer_fold_3_training_seed_0",
+        "primary|digits_binary|linear_poly3|outer_fold_4_training_seed_0"
+      ],
+      "cluster_id": "digits_binary|linear_poly3",
+      "dataset": "digits_binary",
+      "model": "linear_poly3",
+      "within_cluster_geometric_mean_ratio": 1.00070671698034
+    },
+    {
+      "case_count": 5,
+      "case_ids": [
+        "primary|digits_binary|mlp_square_linear_score|outer_fold_0_training_seed_0",
+        "primary|digits_binary|mlp_square_linear_score|outer_fold_1_training_seed_0",
+        "primary|digits_binary|mlp_square_linear_score|outer_fold_2_training_seed_0",
+        "primary|digits_binary|mlp_square_linear_score|outer_fold_3_training_seed_0",
+        "primary|digits_binary|mlp_square_linear_score|outer_fold_4_training_seed_0"
+      ],
+      "cluster_id": "digits_binary|mlp_square_linear_score",
+      "dataset": "digits_binary",
+      "model": "mlp_square_linear_score",
+      "within_cluster_geometric_mean_ratio": 1.000991841793039
+    },
+    {
+      "case_count": 5,
+      "case_ids": [
+        "primary|iris_binary|linear_poly3|outer_fold_0_training_seed_0",
+        "primary|iris_binary|linear_poly3|outer_fold_1_training_seed_0",
+        "primary|iris_binary|linear_poly3|outer_fold_2_training_seed_0",
+        "primary|iris_binary|linear_poly3|outer_fold_3_training_seed_0",
+        "primary|iris_binary|linear_poly3|outer_fold_4_training_seed_0"
+      ],
+      "cluster_id": "iris_binary|linear_poly3",
+      "dataset": "iris_binary",
+      "model": "linear_poly3",
+      "within_cluster_geometric_mean_ratio": 1.0027356265579226
+    },
+    {
+      "case_count": 5,
+      "case_ids": [
+        "primary|iris_binary|mlp_square_linear_score|outer_fold_0_training_seed_0",
+        "primary|iris_binary|mlp_square_linear_score|outer_fold_1_training_seed_0",
+        "primary|iris_binary|mlp_square_linear_score|outer_fold_2_training_seed_0",
+        "primary|iris_binary|mlp_square_linear_score|outer_fold_3_training_seed_0",
+        "primary|iris_binary|mlp_square_linear_score|outer_fold_4_training_seed_0"
+      ],
+      "cluster_id": "iris_binary|mlp_square_linear_score",
+      "dataset": "iris_binary",
+      "model": "mlp_square_linear_score",
+      "within_cluster_geometric_mean_ratio": 0.9995106932777649
+    },
+    {
+      "case_count": 5,
+      "case_ids": [
+        "primary|mnist_pool16|linear_poly3|outer_fold_0_training_seed_0",
+        "primary|mnist_pool16|linear_poly3|outer_fold_1_training_seed_0",
+        "primary|mnist_pool16|linear_poly3|outer_fold_2_training_seed_0",
+        "primary|mnist_pool16|linear_poly3|outer_fold_3_training_seed_0",
+        "primary|mnist_pool16|linear_poly3|outer_fold_4_training_seed_0"
+      ],
+      "cluster_id": "mnist_pool16|linear_poly3",
+      "dataset": "mnist_pool16",
+      "model": "linear_poly3",
+      "within_cluster_geometric_mean_ratio": 1.0001403870125445
+    },
+    {
+      "case_count": 5,
+      "case_ids": [
+        "primary|mnist_pool16|mlp_square2_linear_score|outer_fold_0_training_seed_0",
+        "primary|mnist_pool16|mlp_square2_linear_score|outer_fold_1_training_seed_0",
+        "primary|mnist_pool16|mlp_square2_linear_score|outer_fold_2_training_seed_0",
+        "primary|mnist_pool16|mlp_square2_linear_score|outer_fold_3_training_seed_0",
+        "primary|mnist_pool16|mlp_square2_linear_score|outer_fold_4_training_seed_0"
+      ],
+      "cluster_id": "mnist_pool16|mlp_square2_linear_score",
+      "dataset": "mnist_pool16",
+      "model": "mlp_square2_linear_score",
+      "within_cluster_geometric_mean_ratio": 1.0001982017162387
+    },
+    {
+      "case_count": 5,
+      "case_ids": [
+        "primary|mnist_pool16|mlp_square_linear_score|outer_fold_0_training_seed_0",
+        "primary|mnist_pool16|mlp_square_linear_score|outer_fold_1_training_seed_0",
+        "primary|mnist_pool16|mlp_square_linear_score|outer_fold_2_training_seed_0",
+        "primary|mnist_pool16|mlp_square_linear_score|outer_fold_3_training_seed_0",
+        "primary|mnist_pool16|mlp_square_linear_score|outer_fold_4_training_seed_0"
+      ],
+      "cluster_id": "mnist_pool16|mlp_square_linear_score",
+      "dataset": "mnist_pool16",
+      "model": "mlp_square_linear_score",
+      "within_cluster_geometric_mean_ratio": 1.0015203990480526
+    },
+    {
+      "case_count": 1,
+      "case_ids": [
+        "primary|mnist_10class|mnist_lenet5_small_square_v1|mnist_sha_rank_validation_500_v1"
+      ],
+      "cluster_id": "multiclass|mnist_lenet5_small_square_v1",
+      "dataset": "multiclass",
+      "model": "mnist_lenet5_small_square_v1",
+      "within_cluster_geometric_mean_ratio": 0.9999211240026366
+    },
+    {
+      "case_count": 1,
+      "case_ids": [
+        "primary|mnist_10class|mnist_mlp_square_784_100_10_v1|mnist_sha_rank_validation_500_v1"
+      ],
+      "cluster_id": "multiclass|mnist_mlp_square_784_100_10_v1",
+      "dataset": "multiclass",
+      "model": "mnist_mlp_square_784_100_10_v1",
+      "within_cluster_geometric_mean_ratio": 1.0027941678337366
+    },
+    {
+      "case_count": 1,
+      "case_ids": [
+        "primary|mnist_binary01|packed_cnn_lite_binary01_v17|v17_p6_packed_cnn_lite"
+      ],
+      "cluster_id": "packed_cnn_lite_binary01_v17|packed_cnn_lite_binary01_v17",
+      "dataset": "packed_cnn_lite_binary01_v17",
+      "model": "packed_cnn_lite_binary01_v17",
+      "within_cluster_geometric_mean_ratio": 0.9981256903074909
+    },
+    {
+      "case_count": 5,
+      "case_ids": [
+        "primary|wdbc|linear_poly3|outer_fold_0_training_seed_0",
+        "primary|wdbc|linear_poly3|outer_fold_1_training_seed_0",
+        "primary|wdbc|linear_poly3|outer_fold_2_training_seed_0",
+        "primary|wdbc|linear_poly3|outer_fold_3_training_seed_0",
+        "primary|wdbc|linear_poly3|outer_fold_4_training_seed_0"
+      ],
+      "cluster_id": "wdbc|linear_poly3",
+      "dataset": "wdbc",
+      "model": "linear_poly3",
+      "within_cluster_geometric_mean_ratio": 1.000736025814053
+    },
+    {
+      "case_count": 5,
+      "case_ids": [
+        "primary|wdbc|mlp_square2_linear_score|outer_fold_0_training_seed_0",
+        "primary|wdbc|mlp_square2_linear_score|outer_fold_1_training_seed_0",
+        "primary|wdbc|mlp_square2_linear_score|outer_fold_2_training_seed_0",
+        "primary|wdbc|mlp_square2_linear_score|outer_fold_3_training_seed_0",
+        "primary|wdbc|mlp_square2_linear_score|outer_fold_4_training_seed_0"
+      ],
+      "cluster_id": "wdbc|mlp_square2_linear_score",
+      "dataset": "wdbc",
+      "model": "mlp_square2_linear_score",
+      "within_cluster_geometric_mean_ratio": 1.0004101511601364
+    },
+    {
+      "case_count": 5,
+      "case_ids": [
+        "primary|wdbc|mlp_square_linear_score|outer_fold_0_training_seed_0",
+        "primary|wdbc|mlp_square_linear_score|outer_fold_1_training_seed_0",
+        "primary|wdbc|mlp_square_linear_score|outer_fold_2_training_seed_0",
+        "primary|wdbc|mlp_square_linear_score|outer_fold_3_training_seed_0",
+        "primary|wdbc|mlp_square_linear_score|outer_fold_4_training_seed_0"
+      ],
+      "cluster_id": "wdbc|mlp_square_linear_score",
+      "dataset": "wdbc",
+      "model": "mlp_square_linear_score",
+      "within_cluster_geometric_mean_ratio": 0.9995343571888989
+    }
+  ],
+  "cluster_weighting": "equal weight per dataset-model cluster; equal case weight within each cluster",
+  "confidence_interval_method": "percentile interval with linear interpolation at 2.5% and 97.5%; not BCa",
+  "difference_from_locked_artifact": {
+    "ci_high": 0.0,
+    "ci_low": 0.0,
+    "point_estimate": 0.0
+  },
+  "difference_from_manuscript": {
+    "ci_high": 2.0902080066775852e-10,
+    "ci_low": -2.344722194180804e-10,
+    "point_estimate": 2.3269697280170476e-10
+  },
+  "input_file": "results/model_family_expansion_v17/final_vm1x6/table_05_formal_paired_latency.csv",
+  "locked_artifact": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260824,
+    "case_count": 68,
+    "ci_high": 1.0011217812090207,
+    "ci_low": 0.9999674747655278,
+    "cluster_count": 16,
+    "cluster_definition": "dataset_model",
+    "estimate": 1.000540931232697
+  },
+  "manuscript_claim": {
+    "ci_high": 1.001121781,
+    "ci_low": 0.999967475,
+    "point_estimate": 1.000540931
+  },
+  "pass_at_9_decimal_places": true,
+  "point_estimate_unrounded": 1.000540931232697,
+  "ratio_direction": "finite_reference_total_latency / proposed_total_latency",
+  "replicates": 10000,
+  "resampling_algorithm": "Compute one geometric mean of finite/direct case ratios within each dataset-model cluster; sample 16 cluster means with replacement; compute the equally cluster-weighted geometric mean for each replicate.",
+  "seed": 20260824,
+  "statistic_formula": "exp((1/K) * sum_k log(exp((1/n_k) * sum_i log(finite_i/direct_i))))",
+  "within_case_aggregation": "geometric mean of raw paired ratios preserving input/keyset/pass pairing"
+}

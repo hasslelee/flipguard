@@ -1,0 +1,196 @@
+{
+  "schema_version": "flipguard_v25_code_verification_r2",
+  "audit_date": "2026-08-30",
+  "verdict": "PASS WITH CHANGES",
+  "verdict_reason": "The supplied V25 manuscript exists and all equations, tables, reported experimental values, scope statements, and the repository's current editable figure content agree with source code and immutable results. One minor release-traceability change remains: bind the exact Fig. 1-6 asset or deck digest in the V25 publication package because the TXT contains placeholders only.",
+  "issue_counts": {
+    "BLOCKING": 0,
+    "MAJOR": 0,
+    "MINOR": 1
+  },
+  "repository": "/home/ckks2/flipguard",
+  "git_branch": "paper/v22-1-editorial-sync",
+  "git_commit": "67251c57ca7be5aa8aeffd746a6a6671685e98c5",
+  "scientific_execution_source_commit": "cefc44b0d7e351db2a34886dd758a2d31a3e4c12",
+  "post_run_aggregation_tooling_commit": "86b0403208abbc741a65934358a5dea4a66e4d88",
+  "run_id": "v17_final_vm1x6_20260811T050104Z",
+  "manuscript": {
+    "path": "/home/ckks2/flipguard/CKKS_결정안정성_실행구성선택_정보보호학회논문지_v25.txt",
+    "exists": true,
+    "size_bytes": 48966,
+    "line_count": 305,
+    "sha256": "9db961268890b1ae1cbf724a6eaa1b5172d0e4d6151311df09aa989d9e061703",
+    "prior_missing_file_blocker_resolved": true
+  },
+  "equation_checks": {
+    "equation_1": "PASS",
+    "equation_2": "PASS WITH NOTE: theorem condition e < margin is sufficient; operational admission is the stricter e < rho*margin",
+    "equation_3": "PASS",
+    "equation_4": "PASS",
+    "equation_5": "PASS"
+  },
+  "table_checks": {
+    "table_1": "PASS",
+    "table_2": "PASS",
+    "table_3": "PASS",
+    "table_4": "PASS WITH NOTE: 68 latency entries are case-level aggregate rows over 23,454 raw pairs",
+    "table_5": "PASS",
+    "table_6": "PASS"
+  },
+  "figure_checks": {
+    "content_status": "PASS WITH NOTE",
+    "current_editable_source": "/home/ckks2/flipguard/docs/final_manuscript_v22_1/CKKS_논문그림01_06_영문한글_편집가능_v22_1.pptx",
+    "current_editable_source_sha256": "3dd16a8df79982bf34256c7abdc0a470966698fa16a4c1ae293b8634755a731a",
+    "figure_1": "PASS",
+    "figure_2": "PASS",
+    "figure_3": "PASS",
+    "figure_4": "PASS",
+    "figure_5": "PASS",
+    "figure_6": "PASS",
+    "minor_issue": "The V25 TXT contains only insertion placeholders and does not bind a V25-specific figure file or digest."
+  },
+  "separate_input_check": {
+    "manuscript_range_20_to_500": true,
+    "observed_min": 20,
+    "observed_max": 500,
+    "primary_case_count": 68,
+    "size_distribution": {
+      "20": 10,
+      "113": 3,
+      "114": 12,
+      "250": 1,
+      "274": 9,
+      "275": 6,
+      "359": 6,
+      "360": 4,
+      "500": 17
+    },
+    "formal_latency_subset_size": 20,
+    "formal_latency_artifacts_with_20_inputs": 68,
+    "table_4_separate_reevaluation_semantics": "68 selected-configuration aggregate outcomes, not 68 inputs",
+    "tabular_selection_separate_overlap_cases": 0,
+    "status": "PASS"
+  },
+  "key_independence_check": {
+    "candidate_evaluation_keysets": 3,
+    "separate_input_keysets": 3,
+    "selection_and_separate_are_distinct_execution_stages": true,
+    "source_creates_new_context_per_repeat": true,
+    "raw_key_fingerprints_or_rng_seeds_recorded": false,
+    "status": "PASS WITH NOTE",
+    "note": "Source semantics verify fresh generation in each stage, but result JSON alone cannot prove byte-level key-material nonreuse."
+  },
+  "data_and_selection_isolation": {
+    "tabular_primary_cases_checked": 65,
+    "tabular_overlap_cases": 0,
+    "multiclass_selection_rows": 500,
+    "multiclass_separate_rows": 500,
+    "packed_selection_rows": 250,
+    "packed_separate_rows": 250,
+    "post_separate_input_reselection": false,
+    "retuning_after_separate_input": false,
+    "status": "PASS"
+  },
+  "recomputed_metrics": {
+    "primary_cases": 68,
+    "gate_off_candidate_evaluations": 68,
+    "proposed_candidate_evaluations": 89,
+    "finite_comparison_evaluations": 537,
+    "candidate_evaluation_reduction": 0.8342644320297952,
+    "candidate_evaluation_reduction_percent": 83.42644320297952,
+    "gate_off_cross_table": {
+      "no_flip_no_violation": 47,
+      "flip_only": 0,
+      "violation_only": 1,
+      "flip_and_violation": 20,
+      "union": 21
+    },
+    "additional_candidate_cases": 21,
+    "cases_with_exactly_one_additional_evaluation": 21,
+    "cases_with_two_or_more_additional_evaluations": 0,
+    "scale_plus_4_bits_cases": 21,
+    "q_prime_count_changed_cases": 0,
+    "q_chain_length_changed_cases": 0,
+    "log_n_changed_cases": 0,
+    "primary_separate_safe": 68,
+    "gate_off_separate_safe": 47,
+    "gate_off_separate_not_evaluated": 21,
+    "gate_off_separate_failed": 0,
+    "false_no_safe": 0,
+    "protocol_records": 204,
+    "all_scope_selected_cases": 131,
+    "unique_parameter_literals_all_scope": 16,
+    "unique_parameter_literals_primary": 7
+  },
+  "latency": {
+    "formal_case_aggregate_rows": 68,
+    "raw_paired_record_count": 23454,
+    "ratio_direction": "finite_reference_total_latency / proposed_total_latency",
+    "ratio": 1.000540931232697,
+    "cluster_count": 16,
+    "bootstrap_seed": 20260824,
+    "bootstrap_replicates": 10000,
+    "ci_95": [
+      0.9999674747655278,
+      1.0011217812090207
+    ],
+    "ci_includes_one": true,
+    "superiority_claim_allowed": false,
+    "formal_regret": {
+      "median": -0.00015323624671320646,
+      "q1": -0.0013228563830798012,
+      "q3": 0.0005029485845641779,
+      "p90": 0.0014261898161542356,
+      "maximum": 0.002309669255065927
+    }
+  },
+  "depth_adaptation": {
+    "depths": [1, 2, 4, 6, 8],
+    "q_chain_lengths": [2, 3, 5, 8, 11],
+    "log_n": [12, 12, 13, 14, 14]
+  },
+  "negative_case": {
+    "count": 1,
+    "denominator": 131,
+    "case": "banknote/mlp_square_poly3/fold_3/training_seed_0",
+    "sample_id": "1068",
+    "key_repeat": 1,
+    "plaintext_score": 0.5196440056932156,
+    "ckks_score": 0.508866189688053,
+    "threshold": 0.5,
+    "margin": 0.01964400569321556,
+    "observed_error": 0.010777816005162588,
+    "allowed_limit": 0.00982200284660778,
+    "decision_flip": false,
+    "error_violation": true
+  },
+  "overclaim_scan": {
+    "global_optimality": "PASS: explicitly disclaimed",
+    "latency_superiority": "PASS: explicitly disclaimed",
+    "candidate_reduction_as_operating_time_reduction": "PASS: explicitly disclaimed",
+    "universal_graph_or_backend_generalization": "PASS: explicitly disclaimed",
+    "finite_68_of_68_as_distribution_wide_guarantee": "PASS: explicitly disclaimed"
+  },
+  "mismatches": [],
+  "required_change": {
+    "severity": "MINOR",
+    "description": "Bind the exact Fig. 1-6 source/export path and SHA-256 in the V25 publication package. No manuscript number or scientific claim needs correction."
+  },
+  "verification": {
+    "new_encrypted_executions": 0,
+    "full_experiment_rerun": false,
+    "source_or_frozen_evidence_modifications": 0,
+    "v18_evidence_verifier": "PASS",
+    "primary_68_inventory_verifier": "PASS",
+    "paper_facts_verifier": "PASS",
+    "targeted_go_tests": "PASS",
+    "v17_final_sha256sums": "PASS",
+    "v17_release_r3_sha256sums": "PASS"
+  },
+  "generated_files": [
+    "/home/ckks2/flipguard/v25_code_verification_report_r2.md",
+    "/home/ckks2/flipguard/v25_code_verification_evidence_r2.tsv",
+    "/home/ckks2/flipguard/v25_code_verification_summary_r2.json",
+    "/home/ckks2/flipguard/v25_code_verification_commands_r2.log"
+  ]
+}

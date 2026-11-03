@@ -1,0 +1,181 @@
+FlipGuard V25 code verification command log
+date=2026-08-30
+working_directory=/home/ckks2/flipguard
+environment=PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 for Python verifiers
+new_encrypted_executions=0
+
+[01] Read user audit request
+sed -n '1,620p' /home/ckks2/.codex/attachments/59af77c3-8e02-466b-a3b7-5ca72d424d61/pasted-text.txt
+result=PASS
+
+[02] Repository identity
+git branch --show-current
+output=paper/v22-1-editorial-sync
+git rev-parse HEAD
+output=67251c57ca7be5aa8aeffd746a6a6671685e98c5
+git status --short
+result=tracked pre-existing modification AGENTS.md plus pre-existing untracked research/manuscript artifacts; four V25 audit files added by this audit
+
+[03] Locate authoritative V25 manuscript
+find /home/ckks2 -type f \( -iname '*v25*.txt' -o -iname '*v25*.md' -o -iname '*v25*.docx' -o -iname '*v25*.pdf' \) -not -path '*/external/*' -not -path '*/.cache/*'
+find /home/ckks2/flipguard /home/ckks2/Downloads -type f -name 'CKKS_결정안정성_실행구성선택_정보보호학회논문지_v25.txt'
+output=no matches
+classification=BLOCKING
+
+[04] Locate source, raw, aggregate, verifier and manuscript-builder paths
+rg --files scripts cmd internal | rg '(v17|v18|model_family|latency|certify|security)'
+find results/model_family_expansion_v17/final_vm1x6 docs/reports/comparison_extension_v18 docs/audit/model_family_expansion_v17/final_vm1x6_release_r3 docs/evidence/focused_external_comparison_v8 -maxdepth 2 -type f
+rg -n 'table_0[3-6]|figure_0[3-6]|PRIMARY_68|PAPER_FACTS|run_model_family|case_summary|final_vm1x6' scripts/*.py docs/reports/comparison_extension_v18/*.py
+result=PASS
+
+[05] Inspect code with numbered lines
+nl -ba internal/certify/coverage.go
+nl -ba internal/certify/observation.go
+nl -ba internal/certify/engine.go
+nl -ba internal/certify/multiclass_decision_contract.go
+nl -ba internal/ckksplanner/direct_policy.go
+nl -ba internal/ckksplanner/executor.go
+nl -ba internal/ckksplanner/synthesis.go
+nl -ba internal/ckksplanner/security_policy.go
+nl -ba internal/ckksplanner/audit.go
+nl -ba internal/ckksplanner/tabular_sample_ledger.go
+nl -ba internal/ckksbackend/context.go
+nl -ba internal/ckksbackend/paired_tabular_latency.go
+nl -ba internal/ckksbackend/v17_primary_paired_latency.go
+nl -ba cmd/flipguard-v17-primary-paired-latency/main.go
+nl -ba scripts/build_v17_plaintext_suite.py
+nl -ba scripts/run_model_family_expansion_v17_vm1x6.py
+nl -ba scripts/finalize_model_family_expansion_v17_vm1x6.py
+result=PASS
+
+[06] Inspect locked facts, tables, protocol and manifests
+jq . docs/reports/comparison_extension_v18/PAPER_FACTS_V18_LOCKED.json
+jq . docs/audit/model_family_expansion_v17/final_vm1x6_release_r3/PAPER_VALUES_V17_LOCKED.json
+head -n 4 results/model_family_expansion_v17/final_vm1x6/table_03_decision_stability.csv
+head -n 4 results/model_family_expansion_v17/final_vm1x6/table_04_direct_vs_exhaustive.csv
+head -n 4 results/model_family_expansion_v17/final_vm1x6/table_05_formal_paired_latency.csv
+head -n 4 results/model_family_expansion_v17/final_vm1x6/table_06_latency_regret.csv
+head -n 4 results/model_family_expansion_v17/final_vm1x6/table_07_selected_configurations.csv
+cat results/model_family_expansion_v17/final_vm1x6/table_10_depth_ladder.csv
+jq . docs/protocols/model_family_expansion_v17/protocol.json
+jq . docs/protocols/model_family_expansion_v17/latency_subsets.json
+jq . docs/evidence/model_family_expansion_v17/environments/vmware_ubuntu24_1socket_6core_vcpu6_20260811T050104Z.json
+result=PASS
+
+[07] Independent CSV/JSON metric recomputation
+command=python3 read-only heredoc over case_level_ledger.csv, candidate_level_ledger.csv, table_numerical_objective_diagnostics.csv, V17 table_03 through table_10, final_run_status.csv, plaintext role manifests, multiclass/packed split CSVs, 68 raw paired_latency.json files, negative-case sample ledger, HEIR/EVA/CoreLab CSVs
+implementation=standard-library csv/json/math/random/statistics/hashlib; did not import V17/V18 report builders
+output.primary_cases=68
+output.gate_off_evaluations=68
+output.cross_table=47,0,1,20
+output.union_flip_or_violation=21
+output.flip_cases=20
+output.violation_cases=21
+output.additional_evaluation_distribution=0:47,1:21
+output.scale_plus_4=21
+output.q_prime_or_chain_change=0
+output.log_n_change=0
+output.full_candidate_evaluations=89
+output.finite_candidate_evaluations=537
+output.reduction=0.8342644320297952
+output.full_separate_status=SAFE:68
+output.gate_off_separate_status=SAFE:47,NOT_EVALUATED:21
+output.fastest_executable_unstable=18
+output.minimum_error_unstable=0
+output.minimum_error_differs=68
+output.protocol_records=DONE:204
+output.selection_cases=131
+output.nonprimary_selection_cases=63
+output.literal_counts=all:16,primary:7
+output.raw_latency_pairs=23454
+output.raw_latency_summary_mismatch=0
+output.raw_latency_order_mismatch=0
+output.cluster_count=16
+output.ratio=1.000540931232697
+output.bootstrap_ci=0.9999674747655278,1.0011217812090207
+output.regret_median=-0.00015323624671320646
+output.regret_q1=-0.0013228563830798012
+output.regret_q3=0.0005029485845641779
+output.regret_p90=0.0014261898161542356
+output.regret_max=0.002309669255065927
+output.depth_q_chain=2,3,5,8,11
+output.depth_log_n=12,12,13,14,14
+output.tabular_overlap_cases=0
+output.multiclass_selection_audit_overlap=0
+output.packed_selection_audit_overlap=0
+output.candidate_source_hash_mismatches=0
+result=PASS
+
+[08] Independent matched selection wall-clock distribution
+command=python3 read-only heredoc over candidate_level_ledger.csv and case_level_ledger.csv; ratio=finite total_selection_wall_clock_ms/full-method total_selection_wall_clock_ms for matched numeric cases
+output.n=66
+output.median=12.398599026421792
+output.q1=7.493242059725233
+output.q3=14.95910619899486
+output.iqr=7.465864139269627
+output.p90=16.75655132437581
+output.excluded=MLP-100 and LeNet-5-small PREDECESSOR_FROZEN direct wall-clock
+result=PASS_WITH_NOTE
+
+[09] Current and as-run environment
+go version
+python3 --version
+nproc
+uname -a
+source /etc/os-release
+grep '^Cpus_allowed_list' /proc/self/status
+free -h
+lscpu
+systemd-detect-virt
+output.current=Ubuntu 24.04.4, kernel 7.0.0-30-generic, 6 vCPU, CPUs 0-5
+output.as_run=Ubuntu 24.04.4, kernel 7.0.0-28-generic, 6 vCPU, CPUs 0-5
+result=PASS_WITH_NOTE_current_kernel_differs_from_as_run
+
+[10] Provenance and source-closure inspection
+git log --oneline --decorate -8
+git merge-base --is-ancestor 86b0403208abbc741a65934358a5dea4a66e4d88 HEAD
+git diff --name-status cefc44b0d7e351db2a34886dd758a2d31a3e4c12..HEAD -- internal/certify internal/ckksplanner internal/ckksbackend cmd/flipguard-v17-primary-paired-latency cmd/flipguard-v17-tabular-case cmd/flipguard-v17-tabular-paired-latency scripts/run_model_family_expansion_v17_vm1x6.py scripts/finalize_model_family_expansion_v17_vm1x6.py scripts/build_model_family_expansion_v17_reports.py
+output=only post-run paired-latency aggregation main.go and test differ in scoped path
+result=PASS_WITH_NOTE
+
+[11] SHA-256 verification
+(cd results/model_family_expansion_v17/final_vm1x6 && sha256sum -c SHA256SUMS)
+(cd docs/audit/model_family_expansion_v17/final_vm1x6_release_r3 && sha256sum -c SHA256SUMS)
+(cd docs/evidence/focused_external_comparison_v8 && sha256sum -c SHA256SUMS)
+result=PASS_all_listed_files_OK
+
+[12] V18 verifiers
+PYTHONDONTWRITEBYTECODE=1 python3 docs/evidence/comparison_extension_v18/verify_comparison_extension_v18.py
+output=V18_COMPARISON_VERIFY_PASS immutable_inputs=4201 cases=131 primary=68 direct=89 finite=537 formal=68 payload_sha256=884d979087b62a1f4e2ca066902f4deb603589dbff6fd5349c57bead5539aded
+PYTHONDONTWRITEBYTECODE=1 python3 docs/reports/comparison_extension_v18/verify_primary_68_inventory.py
+output=PRIMARY_68_INVENTORY_VERIFY_PASS cases=68 evaluations=89 finite=537 formal=68
+PYTHONDONTWRITEBYTECODE=1 python3 docs/reports/comparison_extension_v18/verify_paper_facts_v18.py
+output=V18_PAPER_FACTS_VERIFY_PASS cases=68 changed=21 external=11
+result=PASS
+
+[13] Exact-HEAD/source verifier behavior
+PYTHONDONTWRITEBYTECODE=1 python3 docs/audit/model_family_expansion_v17/final_vm1x6_release_r3/verify_release_r3.py
+output=RuntimeError: repository HEAD moved
+classification=PASS_WITH_NOTE_expected exact-COMMIT_B binding; payload SHA256SUMS separately PASS
+PYTHONDONTWRITEBYTECODE=1 python3 scripts/verify_model_family_expansion_v17_vm1x6.py --run-id v17_final_vm1x6_20260811T050104Z --require-complete
+output=RuntimeError: source snapshot drift: cmd/flipguard-v17-primary-paired-latency/main.go
+classification=PASS_WITH_NOTE_expected after post-run aggregation fix; frozen binary/raw result unchanged
+
+[14] Targeted code regression tests
+PYTHONDONTWRITEBYTECODE=1 go test ./internal/certify ./internal/ckksplanner ./internal/ckksbackend
+output=all three packages PASS (cached)
+result=PASS
+
+[15] Previous-manuscript diagnostic only, not substituted for V25
+rg -n '20개|별도 입력|독립 평가' docs/final_manuscript_v22_1/CKKS_결정안정성_실행구성최적화_정보보호학회논문지_v22_1.txt
+output=line 196 contains the inaccurate full-separate-input=20 statement
+classification=diagnostic predecessor evidence only; V25 remains missing
+
+[16] Output validation commands
+python3 -m json.tool v25_code_verification_summary.json
+python3 -c 'import csv; rows=list(csv.DictReader(open("v25_code_verification_evidence.tsv"), delimiter="\\t")); print(len(rows)); print(sorted(set(row["status"] for row in rows)))'
+git diff --check -- v25_code_verification_report.md v25_code_verification_evidence.tsv v25_code_verification_summary.json v25_code_verification_commands.log
+sha256sum v25_code_verification_report.md v25_code_verification_evidence.tsv v25_code_verification_summary.json v25_code_verification_commands.log
+output=json valid; evidence rows=92; claim IDs unique; allowed statuses only; git diff check PASS
+output=line/word/byte counts: report 341/2851/24866 before final status-count correction; evidence 93/2786/29329; summary 250/732/9135 before correction; commands 179/605/9788 before this final log correction
+result=PASS

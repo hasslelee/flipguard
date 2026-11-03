@@ -1,0 +1,73 @@
+FlipGuard V34 required code audit command log
+audit_date=2026-09-01
+working_directory=/home/ckks2/flipguard
+current_head=67251c57ca7be5aa8aeffd746a6a6671685e98c5
+primary_run=v17_final_vm1x6_20260811T050104Z
+new_ckks_encrypted_executions=0
+commit_push=0
+
+[PASS] sha256sum /home/ckks2/Downloads/CKKS_정보보호학회논문지_전체적용_2단예시_v33.pdf
+sha256:6b5ec1ac06e859c5530d9827ab243165f64c16f31b7d7c3fbfe9b71a4e3cde42
+
+[PASS] Read primary binding and immutable ledgers
+python3 independent aggregation over docs/evidence/model_family_expansion_v17/final_vm1x6/result_binding.csv
+result: primary cases=68; coverage rows=136; key repeats exactly {1,2,3}
+
+[PASS] Rebuild coverage
+result: selection |V|=18385 |V_delta|=16081 boundary=2304
+result: separate |V|=18367 |V_delta|=16049 boundary=2318
+result: separate distribution={20: 10, 113: 3, 114: 12, 250: 1, 274: 9, 275: 6, 359: 6, 360: 4, 500: 17}
+
+[PASS] Rebuild all formal case latency ratios from immutable paired_latency.json records
+result: raw pairs=23454; case rows=68; pair distribution={'18': 3, '360': 65}
+result: maximum absolute case-table difference=0.0
+
+[PASS] Independently recompute equal-cluster estimate and percentile bootstrap
+seed=20260824 replicates=10000 clusters=16
+result: estimate=1.000540931232697
+result: ci=[0.9999674747655278, 1.0011217812090207]
+
+[PASS] Pure non-encrypted targeted tests
+command: go test ./internal/ckksplanner ./internal/analysis ./internal/certify -run 'Test(SynthesizeRaisesLogNWhenModulusRequiresIt|RepairCandidateIsMonotoneAndFeedbackDriven|AnalyzeBoundsAndSensitivityLogRegSmall|MulticlassArgmaxProposition|MulticlassArgmaxRejectsEqualityBoundary|MulticlassUniformBoundCorollary|MulticlassTieIsAmbiguousWithLowestIndexRule|MulticlassRejectsNonFiniteLogitsAndBounds|AggregateObservedMulticlassCandidate|AnalyzeValidationCoverage)$' -count=1
+result: PASS for all three packages
+
+[EXPECTED BRANCH-POSITION BLOCK] python3 docs/audit/model_family_expansion_v17/final_vm1x6_release_r3/verify_release_r3.py
+result: RuntimeError: repository HEAD moved
+reason: verifier requires HEAD 86b0403208abbc741a65934358a5dea4a66e4d88; current editorial HEAD is 67251c57ca7be5aa8aeffd746a6a6671685e98c5; no payload mismatch was reported before the HEAD gate
+
+[PASS] python3 docs/evidence/comparison_extension_v18/verify_comparison_extension_v18.py
+result: V18_PROTOCOL_VERIFY_PASS; V18_COMPARISON_VERIFY_PASS primary=68 direct=89 finite=537 formal=68
+
+[PASS] python3 docs/reports/comparison_extension_v18/verify_paper_facts_v18.py
+result: V18_PAPER_FACTS_VERIFY_PASS cases=68 changed=21
+
+[PASS] Production source read at scientific execution commit
+command family: git show cefc44b0d7e351db2a34886dd758a2d31a3e4c12:internal/analysis/bounds.go; git show cefc44b0d7e351db2a34886dd758a2d31a3e4c12:internal/ckksplanner/{tabular_contract.go,synthesis.go,executor.go,multiclass_contract.go,cnn_lite_contract.go}; git show cefc44b0d7e351db2a34886dd758a2d31a3e4c12:internal/certify/multiclass_decision_contract.go; git show cefc44b0d7e351db2a34886dd758a2d31a3e4c12:internal/journalmnist/calibration.go
+
+[PASS] EVA S20 independent count
+input: docs/evidence/focused_external_comparison_v8/eva_population_records.csv
+result: 500 unique inputs; 3 contexts; 1500 observations; 133 flip observations; 114 unique flip inputs; 794 reserve-policy violations
+
+[PASS] Output creation policy
+mode: exclusive create; no overwrite
+outputs: v34_required_code_audit_report.md, v34_required_code_audit_summary.json, v34_primary_coverage_by_case.tsv, v34_required_code_audit_evidence.tsv, v34_required_code_audit_commands.log
+
+[PASS] Primary selection policy binding
+input: 66 primary selection.json plans under v17_final_vm1x6_20260811T050104Z
+result: precision_slack_mode=none for all plans
+result: Direct Policy V2 digest=sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603
+result: Security Policy V2 digest=sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055
+
+[PASS] Independent final QA from immutable ledgers
+result: selection coverage=16081/18385; separate coverage=16049/18367
+result: paired raw records=23454; clusters=16; estimate=1.000540931232697
+result: 95% CI=[0.9999674747655278, 1.0011217812090207]
+result: EVA S20=133/1500 flip observations; 114/500 unique flip inputs
+
+[PASS] Final targeted tests and V18 verifiers
+command: go test ./internal/ckksplanner ./internal/analysis ./internal/certify -run <audit-targeted-tests> -count=1
+result: PASS
+command: python3 docs/evidence/comparison_extension_v18/verify_comparison_extension_v18.py
+result: V18_PROTOCOL_VERIFY_PASS; V18_COMPARISON_VERIFY_PASS
+command: python3 docs/reports/comparison_extension_v18/verify_paper_facts_v18.py
+result: V18_PAPER_FACTS_VERIFY_PASS

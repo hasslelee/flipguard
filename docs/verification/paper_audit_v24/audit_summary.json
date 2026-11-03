@@ -1,0 +1,616 @@
+{
+  "as_run_environment": {
+    "affinity": "0-5",
+    "all_claimed_fields_confirmed": true,
+    "architecture": "x86_64",
+    "authority_order": [
+      "docs/evidence/model_family_expansion_v17/environments/vmware_ubuntu24_1socket_6core_vcpu6_20260811T050104Z.json",
+      "docs/protocols/model_family_expansion_v17/execution_profiles/vmware_ubuntu24_1socket_6core_vcpu6_v1.json",
+      "docs/protocols/model_family_expansion_v17/protocol.json",
+      "docs/audit/manuscript_implementation_facts_v20/TABLE_3_EXPERIMENT_ENVIRONMENT_FINAL.csv"
+    ],
+    "case_worker_count": 1,
+    "execution_profile_case_worker_count": 1,
+    "execution_profile_latency_worker_count": 1,
+    "field_checks": {
+      "affinity_gomaxprocs": true,
+      "architecture": true,
+      "go_python": true,
+      "guest_os_kernel": true,
+      "guest_topology": true,
+      "host_core_topology": true,
+      "host_cpu": true,
+      "hypervisor": true,
+      "lattigo_numpy_sklearn": true,
+      "memory_swap": true,
+      "single_case_worker": true
+    },
+    "go_version": "go version go1.25.9 linux/amd64",
+    "gomaxprocs": 6,
+    "guest_cores_per_socket": 6,
+    "guest_os": "Ubuntu 24.04.4 LTS",
+    "guest_total_vcpu": 6,
+    "guest_virtual_sockets": 1,
+    "host_cpu_model": "AMD Ryzen 5 3600 6-Core Processor",
+    "host_logical_processors": 12,
+    "host_physical_cores": 6,
+    "hypervisor": "VMware Workstation",
+    "hypervisor_version": "NOT_VERIFIABLE",
+    "kernel": "7.0.0-28-generic",
+    "lattigo_version": "v6.2.0",
+    "memory_kib": 16324060,
+    "numpy_version": "2.2.6",
+    "python_version": "Python 3.12.3",
+    "qualification": "The 1x6 execution overlay supersedes the protocol's historical 2-CPU topology fields; software versions and architecture remain scientific-protocol-bound.",
+    "scikit_learn_version": "1.6.1",
+    "swap_kib": 4194300,
+    "v20_rows": [
+      {
+        "Evidence status": "CONFIRMED_AS_RUN_MANIFEST",
+        "Item": "Host CPU",
+        "Setting": "AMD Ryzen 5 3600 6-Core Processor"
+      },
+      {
+        "Evidence status": "CONFIRMED_AS_RUN_MANIFEST",
+        "Item": "Host cores / logical processors",
+        "Setting": "6 / 12"
+      },
+      {
+        "Evidence status": "CONFIRMED_AS_RUN_MANIFEST / NOT_CONFIRMED version",
+        "Item": "Hypervisor",
+        "Setting": "VMware Workstation (exact version not recorded)"
+      },
+      {
+        "Evidence status": "CONFIRMED_AS_RUN_MANIFEST",
+        "Item": "Guest OS / kernel / architecture",
+        "Setting": "Ubuntu 24.04.4 LTS / 7.0.0-28-generic / x86_64"
+      },
+      {
+        "Evidence status": "CONFIRMED_AS_RUN_MANIFEST",
+        "Item": "Guest CPU topology",
+        "Setting": "1 virtual socket × 6 cores; 6 online vCPU"
+      },
+      {
+        "Evidence status": "CONFIRMED_AS_RUN_MANIFEST + SOURCE",
+        "Item": "Affinity / GOMAXPROCS / worker",
+        "Setting": "CPUs 0-5 / 6 / one CKKS case"
+      },
+      {
+        "Evidence status": "CONFIRMED_AS_RUN_MANIFEST",
+        "Item": "Memory / swap",
+        "Setting": "15.568 GiB / 4.000 GiB"
+      },
+      {
+        "Evidence status": "CONFIRMED_AS_RUN_MANIFEST",
+        "Item": "Go / Python",
+        "Setting": "Go 1.25.9 linux/amd64 / Python 3.12.3"
+      },
+      {
+        "Evidence status": "CONFIRMED_AS_RUN_MANIFEST",
+        "Item": "Lattigo / NumPy / scikit-learn",
+        "Setting": "Lattigo v6.2.0 / NumPy 2.2.6 / scikit-learn 1.6.1"
+      },
+      {
+        "Evidence status": "CONFIRMED_AS_RUN_MANIFEST",
+        "Item": "Execution source / run",
+        "Setting": "cefc44b0d7e3 / v17_final_vm1x6_20260811T050104Z"
+      }
+    ]
+  },
+  "bootstrap": {
+    "case_count": 68,
+    "ci_high_unrounded": 1.0011217812090207,
+    "ci_low_unrounded": 0.9999674747655278,
+    "cluster_count": 16,
+    "cluster_weighting": "equal weight per dataset-model cluster; equal case weight within each cluster",
+    "confidence_interval_method": "percentile interval with linear interpolation at 2.5% and 97.5%; not BCa",
+    "difference_from_locked_artifact": {
+      "ci_high": 0.0,
+      "ci_low": 0.0,
+      "point_estimate": 0.0
+    },
+    "difference_from_manuscript": {
+      "ci_high": 2.0902080066775852e-10,
+      "ci_low": -2.344722194180804e-10,
+      "point_estimate": 2.3269697280170476e-10
+    },
+    "input_file": "results/model_family_expansion_v17/final_vm1x6/table_05_formal_paired_latency.csv",
+    "locked_artifact": {
+      "bootstrap_replicates": 10000,
+      "bootstrap_seed": 20260824,
+      "case_count": 68,
+      "ci_high": 1.0011217812090207,
+      "ci_low": 0.9999674747655278,
+      "cluster_count": 16,
+      "cluster_definition": "dataset_model",
+      "estimate": 1.000540931232697
+    },
+    "manuscript_claim": {
+      "ci_high": 1.001121781,
+      "ci_low": 0.999967475,
+      "point_estimate": 1.000540931
+    },
+    "pass_at_9_decimal_places": true,
+    "point_estimate_unrounded": 1.000540931232697,
+    "ratio_direction": "finite_reference_total_latency / proposed_total_latency",
+    "replicates": 10000,
+    "resampling_algorithm": "Compute one geometric mean of finite/direct case ratios within each dataset-model cluster; sample 16 cluster means with replacement; compute the equally cluster-weighted geometric mean for each replicate.",
+    "seed": 20260824,
+    "statistic_formula": "exp((1/K) * sum_k log(exp((1/n_k) * sum_i log(finite_i/direct_i))))",
+    "within_case_aggregation": "geometric mean of raw paired ratios preserving input/keyset/pass pairing"
+  },
+  "boundary_totals": {
+    "contract_mismatches": [],
+    "selection": {
+      "boundary_rate": 0.12531955398422628,
+      "cases": 68,
+      "empty_vdelta_cases": [],
+      "min_margin": 5.301645747968209e-07,
+      "n_boundary": 2304,
+      "n_total": 18385,
+      "n_vdelta": 16081
+    },
+    "separate": {
+      "boundary_rate": 0.12620460608700387,
+      "cases": 68,
+      "empty_vdelta_cases": [],
+      "min_margin": 2.0095735286940197e-07,
+      "n_boundary": 2318,
+      "n_total": 18367,
+      "n_vdelta": 16049
+    }
+  },
+  "candidate_evaluation_and_keys": {
+    "all_completed_key_repeats_equal_3": true,
+    "all_primary_bundles_have_three_key_runs": true,
+    "all_primary_candidate_evaluation_bundles": 89,
+    "all_requested_key_repeats_equal_3": true,
+    "candidate_between_trial_key_reuse": "source creates fresh contexts for every candidate key run; no key fingerprint is recorded, so low-level RNG independence is NOT_VERIFIABLE from result JSON alone",
+    "candidate_evaluation_unit": "one candidate over the complete selection input set under three fresh key contexts",
+    "multiclass_candidate_evaluation_bundles": 2,
+    "multiclass_initial_candidate_keyrun_files": 6,
+    "selection_vs_separate_keys": "separate-input replay creates fresh contexts and does not invoke Synthesize or RepairCandidate",
+    "source_references": [
+      "internal/ckksplanner/executor.go:432-456",
+      "internal/ckksplanner/audit.go:85-87",
+      "internal/ckksplanner/tabular_sample_ledger.go:38-73"
+    ],
+    "tabular_and_packed_candidate_evaluation_bundles": 87
+  },
+  "claims": [
+    {
+      "claim": "주요 평가 사례",
+      "claimed": 68,
+      "evidence": "docs/reports/comparison_extension_v18/PRIMARY_68_CASE_INVENTORY.csv",
+      "number": 1,
+      "observed": 68,
+      "status": "PASS"
+    },
+    {
+      "claim": "gate-off 초기 후보 평가",
+      "claimed": 68,
+      "evidence": "docs/reports/comparison_extension_v18/PRIMARY_68_CASE_INVENTORY.csv",
+      "number": 2,
+      "observed": 68,
+      "status": "PASS"
+    },
+    {
+      "claim": "전체 기법 후보 평가",
+      "claimed": 89,
+      "evidence": "results/model_family_expansion_v17/final_vm1x6/table_04_direct_vs_exhaustive.csv",
+      "number": 3,
+      "observed": 89,
+      "status": "PASS"
+    },
+    {
+      "claim": "유한 비교 후보 평가",
+      "claimed": 537,
+      "evidence": "results/model_family_expansion_v17/final_vm1x6/table_04_direct_vs_exhaustive.csv",
+      "number": 4,
+      "observed": 537,
+      "status": "PASS"
+    },
+    {
+      "claim": "별도 입력 재평가 기록",
+      "claimed": 68,
+      "evidence": "results/model_family_expansion_v17/final_vm1x6/table_04_direct_vs_exhaustive.csv",
+      "number": 5,
+      "observed": 68,
+      "status": "PASS"
+    },
+    {
+      "claim": "공식 짝지은 지연시간 기록",
+      "claimed": 68,
+      "evidence": "results/model_family_expansion_v17/final_vm1x6/table_05_formal_paired_latency.csv",
+      "number": 6,
+      "observed": 68,
+      "status": "PASS"
+    },
+    {
+      "claim": "초기 후보 교차표 (47/0/1/20; union 21)",
+      "claimed": [
+        47,
+        0,
+        1,
+        20,
+        21
+      ],
+      "evidence": "docs/reports/comparison_extension_v18/PRIMARY_68_CASE_INVENTORY.csv",
+      "number": 7,
+      "observed": [
+        47,
+        0,
+        1,
+        20,
+        21
+      ],
+      "status": "PASS"
+    },
+    {
+      "claim": "문제 사례의 추가 평가 1회",
+      "claimed": 21,
+      "evidence": "docs/reports/comparison_extension_v18/PRIMARY_68_CASE_INVENTORY.csv",
+      "number": 8,
+      "observed": 21,
+      "status": "PASS"
+    },
+    {
+      "claim": "문제 사례 scale +4 bit",
+      "claimed": 21,
+      "evidence": "docs/reports/comparison_extension_v18/PRIMARY_68_CASE_INVENTORY.csv",
+      "number": 9,
+      "observed": 21,
+      "status": "PASS"
+    },
+    {
+      "claim": "Q-chain/LogN 변경 사례",
+      "claimed": [
+        0,
+        0
+      ],
+      "evidence": "docs/reports/comparison_extension_v18/PRIMARY_68_CASE_INVENTORY.csv",
+      "number": 10,
+      "observed": [
+        0,
+        0
+      ],
+      "status": "PASS"
+    },
+    {
+      "claim": "최종 별도 입력 SAFE",
+      "claimed": 68,
+      "evidence": "results/model_family_expansion_v17/final_vm1x6/table_04_direct_vs_exhaustive.csv",
+      "number": 11,
+      "observed": 68,
+      "status": "PASS"
+    },
+    {
+      "claim": "적합 후보 누락",
+      "claimed": 0,
+      "evidence": "results/model_family_expansion_v17/final_vm1x6/table_04_direct_vs_exhaustive.csv",
+      "number": 12,
+      "observed": 0,
+      "status": "PASS"
+    },
+    {
+      "claim": "후보 평가 감소율",
+      "claimed": 0.8342644320297952,
+      "evidence": "results/model_family_expansion_v17/final_vm1x6/table_04_direct_vs_exhaustive.csv",
+      "number": 13,
+      "observed": 0.8342644320297952,
+      "status": "PASS"
+    },
+    {
+      "claim": "finite/proposed 총 지연시간 비율과 CI",
+      "claimed": [
+        1.000540931232697,
+        0.9999674747655278,
+        1.0011217812090207
+      ],
+      "evidence": "raw paired_latency.json files listed by table_05_formal_paired_latency.csv",
+      "number": 14,
+      "observed": [
+        1.000540931232697,
+        0.9999674747655278,
+        1.0011217812090207
+      ],
+      "status": "PASS"
+    },
+    {
+      "claim": "변경 21건 관측 지연시간 비율 median/p90",
+      "claimed": [
+        1.0045077568931444,
+        1.0112181988336308
+      ],
+      "evidence": "docs/reports/comparison_extension_v18/PAPER_FACTS_V18_LOCKED.json",
+      "number": 15,
+      "observed": [
+        1.0045077568931444,
+        1.0112181988336308
+      ],
+      "status": "PASS"
+    },
+    {
+      "claim": "formal latency regret median/p90/max",
+      "claimed": [
+        -0.00015323624671320646,
+        0.0014261898161542356,
+        0.002309669255065927
+      ],
+      "evidence": "results/model_family_expansion_v17/final_vm1x6/table_06_latency_regret.csv",
+      "number": 16,
+      "observed": [
+        -0.00015323624671320646,
+        0.0014261898161542356,
+        0.002309669255065927
+      ],
+      "status": "PASS"
+    },
+    {
+      "claim": "전체 선택 사례",
+      "claimed": 131,
+      "evidence": "results/model_family_expansion_v17/final_vm1x6/table_03_decision_stability.csv",
+      "number": 17,
+      "observed": 131,
+      "status": "PASS"
+    },
+    {
+      "claim": "공개 음성 사례와 상세값",
+      "claimed": [
+        1,
+        0,
+        1,
+        "1068",
+        0.010777816005162588,
+        0.00982200284660778
+      ],
+      "evidence": "results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/ablation/banknote/mlp_square_poly3/fold_3/training_seed_0/direct_independent_evaluation.json",
+      "number": 18,
+      "observed": [
+        1,
+        0,
+        1,
+        "1068",
+        0.010777816005162588,
+        0.00982200284660778
+      ],
+      "status": "PASS"
+    },
+    {
+      "claim": "D1-D8 Q-chain 길이",
+      "claimed": [
+        2,
+        3,
+        5,
+        8,
+        11
+      ],
+      "evidence": "results/model_family_expansion_v17/final_vm1x6/table_10_depth_ladder.csv",
+      "number": 19,
+      "observed": [
+        2,
+        3,
+        5,
+        8,
+        11
+      ],
+      "status": "PASS"
+    },
+    {
+      "claim": "D1-D8 LogN",
+      "claimed": [
+        12,
+        12,
+        13,
+        14,
+        14
+      ],
+      "evidence": "results/model_family_expansion_v17/final_vm1x6/table_10_depth_ladder.csv",
+      "number": 20,
+      "observed": [
+        12,
+        12,
+        13,
+        14,
+        14
+      ],
+      "status": "PASS"
+    },
+    {
+      "claim": "전체 파라미터 조합",
+      "claimed": 16,
+      "evidence": "results/model_family_expansion_v17/final_vm1x6/table_07_selected_configurations.csv",
+      "number": 21,
+      "observed": 16,
+      "status": "PASS"
+    },
+    {
+      "claim": "주요 평가 파라미터 조합",
+      "claimed": 7,
+      "evidence": "results/model_family_expansion_v17/final_vm1x6/table_07_selected_configurations.csv",
+      "number": 22,
+      "observed": 7,
+      "status": "PASS"
+    }
+  ],
+  "data_disjointness": {
+    "all_65_tabular_cases_have_fold_specific_model_artifacts": true,
+    "fold_specific_model_digest_count": {
+      "banknote|linear_poly3": 5,
+      "banknote|mlp_square2_linear_score": 5,
+      "banknote|mlp_square_linear_score": 5,
+      "digits_binary|linear_poly3": 5,
+      "digits_binary|mlp_square_linear_score": 5,
+      "iris_binary|linear_poly3": 5,
+      "iris_binary|mlp_square_linear_score": 5,
+      "mnist_pool16|linear_poly3": 5,
+      "mnist_pool16|mlp_square2_linear_score": 5,
+      "mnist_pool16|mlp_square_linear_score": 5,
+      "wdbc|linear_poly3": 5,
+      "wdbc|mlp_square2_linear_score": 5,
+      "wdbc|mlp_square_linear_score": 5
+    },
+    "multiclass_validation_audit_overlap_count": 0,
+    "packed_audit_used_for_training_or_selection": false,
+    "separate_input_size_finding": "The full separate-input decision reevaluation is not 20 inputs per case. Twenty is the formal latency subset. Tabular full reevaluation sizes follow outer test folds; MLP-100 and LeNet use 500 each; packed CNN-lite uses 250.",
+    "tabular_case_count": 65,
+    "tabular_overlap_cases": [],
+    "tabular_role_size_distribution": {
+      "selection:114": 15,
+      "selection:20": 10,
+      "selection:275": 15,
+      "selection:360": 10,
+      "selection:500": 15,
+      "separate:113": 3,
+      "separate:114": 12,
+      "separate:20": 10,
+      "separate:274": 9,
+      "separate:275": 6,
+      "separate:359": 6,
+      "separate:360": 4,
+      "separate:500": 15,
+      "train:1077": 4,
+      "train:1078": 6,
+      "train:1500": 15,
+      "train:341": 12,
+      "train:342": 3,
+      "train:60": 10,
+      "train:822": 6,
+      "train:823": 9
+    },
+    "training_source_reference": "scripts/build_v17_plaintext_suite.py:380-397; preprocessing/model fitting precedes role export"
+  },
+  "external_comparators": {
+    "corelab": {
+      "elasm_direct_decision_baseline": "NOT_COMPARABLE: numerical output has no matching threshold/argmax contract",
+      "hecate_direct_decision_baseline": "NOT_VERIFIABLE: no exact V17 decision-bearing output",
+      "plan_status_counts": {
+        "elasm:EXECUTION_FAILED": 2,
+        "elasm:PASS": 34,
+        "eva:PASS": 36
+      }
+    },
+    "eva_scale20": {
+      "contexts": 3,
+      "decision_flip_events": 133,
+      "decision_flip_unique_inputs": 114,
+      "observations": 1500,
+      "status": "PASS",
+      "unique_inputs": 500
+    },
+    "heir": {
+      "contexts": 3,
+      "decision_flips": 0,
+      "log_n": 14,
+      "max_absolute_error": 5.079101816907183e-08,
+      "observations": 1500,
+      "reserve_violations": 0,
+      "scale_bits": 45,
+      "status": "PASS",
+      "unique_inputs": 500
+    },
+    "latency_fairness": "HEIR uses a common Lattigo diagnostic but its paired direct arm was unsafe; EVA/CoreLab values are native cross-runtime measurements. No cross-runtime speed superiority is admissible."
+  },
+  "latency_raw_rebuild": {
+    "all_68_order_schedules_verified": true,
+    "raw_pair_total": 23454,
+    "raw_ratio_mismatches": [],
+    "unbalanced_order_cases": []
+  },
+  "new_encrypted_executions": 0,
+  "observed_values": {
+    "all_literal_count": 16,
+    "all_scope_cases": 131,
+    "all_scope_negative": 1,
+    "bootstrap_ci_high": 1.0011217812090207,
+    "bootstrap_ci_low": 0.9999674747655278,
+    "bootstrap_estimate": 1.000540931232697,
+    "candidate_reduction": 0.8342644320297952,
+    "changed_exactly_one": 21,
+    "changed_log_n": 0,
+    "changed_q_chain": 0,
+    "changed_ratio_median": 1.0045077568931444,
+    "changed_ratio_p90": 1.0112181988336308,
+    "changed_scale_plus4": 21,
+    "cross_both": 20,
+    "cross_flip_only": 0,
+    "cross_no_flip_no_violation": 47,
+    "cross_union": 21,
+    "cross_violation_only": 1,
+    "depth_log_n": [
+      12,
+      12,
+      13,
+      14,
+      14
+    ],
+    "depth_q_chain": [
+      2,
+      3,
+      5,
+      8,
+      11
+    ],
+    "false_no_safe": 0,
+    "finite_candidate_evaluations": 537,
+    "formal_latency_rows": 68,
+    "full_candidate_evaluations": 89,
+    "gate_off_evaluations": 68,
+    "negative_case": {
+      "case": "banknote/mlp_square_poly3/fold_3",
+      "ckks_decision": true,
+      "decision_flips": 0,
+      "excess": 0.000955813158554808,
+      "input_id": "1068",
+      "key_repeat": 1,
+      "margin": 0.01964400569321556,
+      "matches_manuscript": true,
+      "observed_error": 0.010777816005162588,
+      "plaintext_decision": true,
+      "reserve_policy_violations": 1,
+      "rho_times_margin": 0.00982200284660778,
+      "source_file": "results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/ablation/banknote/mlp_square_poly3/fold_3/training_seed_0/direct_independent_evaluation.json",
+      "status": "REJECTED"
+    },
+    "primary_cases": 68,
+    "primary_literal_count": 7,
+    "regret_max": 0.002309669255065927,
+    "regret_median": -0.00015323624671320646,
+    "regret_p90": 0.0014261898161542356,
+    "selection_wallclock_finite_over_full": {
+      "iqr": 7.465864139269627,
+      "measurement_class": "selection-stage wall-clock; separate from formal inference latency",
+      "median": 12.398599026421792,
+      "n": 66,
+      "p90": 16.75655132437581
+    },
+    "separate_records": 68,
+    "separate_safe": 68
+  },
+  "policy": {
+    "checks_q_and_qp": true,
+    "delta": 0.001,
+    "first_safe_stop": "stop_at_first_encrypted_candidate_certified_SAFE",
+    "initial_scale_formula": "s0=max(18,p+3)",
+    "level_repair_q_primes": 1,
+    "max_candidate_evaluations_including_initial": 4,
+    "min_scale_bits": 18,
+    "numerical_repair_scale_bits": 4,
+    "primary_level_adjustment_cases": 0,
+    "rho": 0.5,
+    "runtime_error": {
+      "bound": 19.2,
+      "concrete_type": "ring.DiscreteGaussian",
+      "sigma": 3.2
+    },
+    "runtime_secret": {
+      "concrete_type": "ring.Ternary",
+      "p": 0.6666666666666666
+    },
+    "scale_guard_bits": 3,
+    "security_bits": 128
+  },
+  "schema_version": "flipguard_paper_audit_v24_v1",
+  "source_or_evidence_modifications": 0,
+  "verdict": "PASS WITH NOTES"
+}

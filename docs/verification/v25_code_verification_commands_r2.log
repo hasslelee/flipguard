@@ -1,0 +1,183 @@
+FlipGuard V25 code verification R2 command log
+date=2026-08-30
+working_directory=/home/ckks2/flipguard
+environment=PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 for Python verifiers
+new_encrypted_executions=0
+source_or_frozen_evidence_modifications=0
+
+[01] Confirm manuscript existence, metadata and digest
+command=ls -l -- 'CKKS_결정안정성_실행구성선택_정보보호학회논문지_v25.txt'
+command=stat --printf='path=%n\nsize=%s\nmtime=%y\n' -- 'CKKS_결정안정성_실행구성선택_정보보호학회논문지_v25.txt'
+command=sha256sum -- 'CKKS_결정안정성_실행구성선택_정보보호학회논문지_v25.txt'
+command=wc -l -w -c -- 'CKKS_결정안정성_실행구성선택_정보보호학회논문지_v25.txt'
+output=size 48966 bytes; lines 305; words 5547
+output=sha256 9db961268890b1ae1cbf724a6eaa1b5172d0e4d6151311df09aa989d9e061703
+result=PASS; prior manuscript-missing BLOCKING resolved
+
+[02] Repository identity and non-overwrite check
+command=git branch --show-current
+output=paper/v22-1-editorial-sync
+command=git rev-parse HEAD
+output=67251c57ca7be5aa8aeffd746a6a6671685e98c5
+command=git status --short --untracked-files=all
+command=for f in v25_code_verification_report_r2.md v25_code_verification_evidence_r2.tsv v25_code_verification_summary_r2.json v25_code_verification_commands_r2.log; do test -e "$f"; done
+output=all four R2 targets absent before creation; R1 files retained
+result=PASS
+
+[03] Read manuscript with stable line numbers
+command=nl -ba -- 'CKKS_결정안정성_실행구성선택_정보보호학회논문지_v25.txt' | sed -n '1,330p'
+command=rg -n '식 \([1-5]\)|Table [1-6]|Fig\. [1-6]|68|89|537|83\.43|1\.000540931|0\.999967475|1\.001121781|20.?500|0\.0107778|0\.00982200' -- manuscript
+result=PASS; equations 1-5, Tables 1-6 and Figs 1-6 occur once and in order
+
+[04] Extract equation/table/figure order
+command=python3 regex scan over manuscript lines for trailing equation numbers, Table captions and Fig. captions
+output=equations (1)-(5) at lines 65,69,75,85,108
+output=tables 1-6 at lines 54,118,171,187,230,257
+output=figures 1-6 at lines 32,90,199,228,255,277
+result=PASS
+
+[05] Inspect code with numbered lines
+command=nl -ba internal/certify/coverage.go
+command=nl -ba internal/certify/observation.go
+command=nl -ba internal/certify/engine.go
+command=nl -ba internal/certify/multiclass_decision_contract.go
+command=nl -ba internal/ckksplanner/direct_policy.go
+command=nl -ba internal/ckksplanner/security_policy.go
+command=nl -ba internal/ckksplanner/synthesis.go
+command=nl -ba internal/ckksplanner/executor.go
+command=nl -ba internal/ckksplanner/audit.go
+command=nl -ba internal/ckksbackend/context.go
+command=nl -ba scripts/build_v17_plaintext_suite.py
+command=nl -ba cmd/flipguard-v17-primary-paired-latency/main.go
+command=nl -ba internal/ckksbackend/paired_tabular_latency.go
+command=nl -ba internal/ckksbackend/v17_primary_paired_latency.go
+result=PASS
+
+[06] Inspect locked facts, raw ledgers, environment and protocol
+command=jq . docs/reports/comparison_extension_v18/PAPER_FACTS_V18_LOCKED.json
+command=jq . docs/audit/model_family_expansion_v17/final_vm1x6_release_metadata_r2/PAPER_VALUES_V17_LOCKED.json
+command=head results/comparison_extension_v18/case_level_ledger.csv
+command=head results/comparison_extension_v18/candidate_level_ledger.csv
+command=head docs/audit/manuscript_implementation_facts_v20/PRIMARY_68_CASE_INVENTORY_FINAL.csv
+command=head results/model_family_expansion_v17/final_vm1x6/table_05_formal_paired_latency.csv
+command=cat results/model_family_expansion_v17/final_vm1x6/table_10_depth_ladder.csv
+command=jq . docs/evidence/model_family_expansion_v17/environments/vmware_ubuntu24_1socket_6core_vcpu6_20260811T050104Z.json
+command=jq . docs/protocols/model_family_expansion_v17/protocol.json
+result=PASS
+
+[07] Inspect current editable figure source
+command=sha256sum docs/final_manuscript_v22_1/CKKS_논문그림01_06_영문한글_편집가능_v22_1.pptx
+output=3dd16a8df79982bf34256c7abdc0a470966698fa16a4c1ae293b8634755a731a
+command=for n in 1 2 3 4 5 6; do unzip -p PPTX "ppt/slides/slide${n}.xml" and extract a:t text; done
+result=PASS WITH NOTE; slide values and equations match, but V25 TXT has no V25-specific asset digest binding
+
+[08] Independent metric recomputation attempt 1
+command=python3 standard-library read-only scan over case_level_ledger.csv, PRIMARY_68 inventory, full separate artifacts and formal latency rows
+output_before_error=primary68; gate-off68; full89; finite537; cross47/0/1/20; changed21; scale+4=21; separate sizes20-500
+error=ValueError: invalid literal for int() with base 10: '18.0'
+cause=three batched formal-latency rows serialize pair count as numeric string 18.0
+impact=temporary audit parser only; no source/raw/evidence write
+recovery=use int(float(value)) for pair-count field
+
+[09] Independent metric recomputation attempt 2
+command=python3 corrected pair-count conversion and 68 artifact selected-input scan
+output_before_error=formal rows68; raw pairs23454; all observed tabular selected_rows=20
+error=KeyError: 'selected_rows'
+cause=65 tabular artifacts store top-level selected_rows; three batched neural/packed artifacts store selected_inputs in records
+impact=temporary audit parser only; no source/raw/evidence write
+recovery=branch on artifact schema and read records[0].selected_inputs for batched paths
+
+[10] Independent metric recomputation final
+command=python3 standard-library read-only recomputation with explicit tabular/batched schema handling; no report-builder imports
+output.primary_cases=68
+output.gate_off_evaluations=68
+output.full_evaluations=89
+output.finite_evaluations=537
+output.reduction=0.8342644320297952
+output.cross=47,0,1,20
+output.affected_cases=21
+output.additional_exactly_one=21
+output.additional_two_or_more=0
+output.scale_plus_4=21
+output.q_prime_count_changed=0
+output.q_chain_length_changed=0
+output.log_n_changed=0
+output.full_separate=SAFE:68
+output.gateoff_separate=SAFE:47,NOT_EVALUATED:21
+output.false_no_safe=0
+output.separate_size_distribution=20:10,113:3,114:12,250:1,274:9,275:6,359:6,360:4,500:17
+output.separate_minmax=20,500
+output.tabular_selection_separate_overlap_cases=0
+output.formal_latency_rows=68
+output.raw_latency_pairs=23454
+output.formal_artifacts_selected_inputs_20=68
+output.latency_ratio=1.000540931232697
+output.latency_ci=0.9999674747655278,1.0011217812090207
+output.latency_clusters=16
+output.depth_q_chain=2,3,5,8,11
+output.depth_log_n=12,12,13,14,14
+output.negative_rows=1
+output.negative_sample=1068,key1,error0.010777816005162588,budget0.00982200284660778,flip0,violation1
+result=PASS
+
+[11] Formal latency raw protocol spot check
+command=jq selected_rows/warmup_runs/measurement_passes/fresh_keysets/order/outlier_removal/keysets from tabular paired_latency.json
+output=20/1/6/3/balanced_cyclic_and_reverse_row_rotated_v1/false
+command=jq subset_id/records[0].selected_inputs from MLP-100, LeNet and packed CNN paired_latency.json
+output=20 for all three
+result=PASS
+
+[12] Separate role and negative-row checks
+command=count data rows in 65 configuration_selection.prepared.csv and independent_evaluation.prepared.csv files; intersect row IDs
+output=overlap cases0; missing files0
+command=read locked audit aggregation for MLP-100 and LeNet and audit trial for packed CNN
+output=500,500,250 separate inputs
+command=read banknote/mlp_square_poly3/fold_3 direct_independent_evaluation.json sample_ledger
+output=sample1068 key1 plain0.5196440056932156 ckks0.508866189688053 threshold0.5 error0.010777816005162588 budget0.00982200284660778 decision true/true
+result=PASS
+
+[13] Overclaim scan
+command=rg -n -i '전역|global|최적|우월|빠르|operating|운영.?시간|83\.43|모든|임의|보편|일반화|전체 입력|분포|보장|universal' manuscript
+output=finite comparison scope, CI includes1, candidate-count-only reduction, supported graph/backend and finite-input limitations explicitly stated
+result=PASS
+
+[14] V18 deterministic verifiers
+command=PYTHONDONTWRITEBYTECODE=1 python3 docs/evidence/comparison_extension_v18/verify_comparison_extension_v18.py
+output=V18_PROTOCOL_VERIFY_PASS sha256=4adf230d43d6120cd805f51e970d1dfcd452c229ae7d8a03ea85c1adc971db44
+output=V18_COMPARISON_VERIFY_PASS immutable_inputs=4201 cases=131 primary=68 direct=89 finite=537 formal=68 package_files=43 payload_sha256=884d979087b62a1f4e2ca066902f4deb603589dbff6fd5349c57bead5539aded
+command=PYTHONDONTWRITEBYTECODE=1 python3 docs/reports/comparison_extension_v18/verify_primary_68_inventory.py
+output=PRIMARY_68_INVENTORY_VERIFY_PASS cases=68 evaluations=89 finite=537 formal=68
+command=PYTHONDONTWRITEBYTECODE=1 python3 docs/reports/comparison_extension_v18/verify_paper_facts_v18.py
+output=V18_PAPER_FACTS_VERIFY_PASS cases=68 changed=21 external=11 payload_sha256=884d979087b62a1f4e2ca066902f4deb603589dbff6fd5349c57bead5539aded
+result=PASS
+
+[15] Targeted code regression tests
+command=PYTHONDONTWRITEBYTECODE=1 go test ./internal/certify ./internal/ckksplanner ./internal/ckksbackend
+output=all three packages PASS (cached)
+result=PASS; no encrypted full run
+
+[16] Frozen package checksum verification
+command=(cd results/model_family_expansion_v17/final_vm1x6 && sha256sum -c SHA256SUMS)
+output=all listed figures and tables OK
+command=(cd docs/audit/model_family_expansion_v17/final_vm1x6_release_r3 && sha256sum -c SHA256SUMS)
+output=all listed release R3 files OK
+result=PASS
+
+[17] R2 output validation
+command=python3 -m json.tool v25_code_verification_summary_r2.json
+command=python3 csv.DictReader delimiter tab over v25_code_verification_evidence_r2.tsv; verify unique claim IDs and field count
+command=rg/check report references and absolute output paths
+command=git diff --check -- v25_code_verification_report_r2.md v25_code_verification_evidence_r2.tsv v25_code_verification_summary_r2.json v25_code_verification_commands_r2.log
+command=sha256sum v25_code_verification_report_r2.md v25_code_verification_evidence_r2.tsv v25_code_verification_summary_r2.json v25_code_verification_commands_r2.log
+output=JSON valid; TSV rows68; unique claim IDs68; statuses PASS57/PASS WITH NOTE10/MINOR1
+output=issue counts BLOCKING0/MAJOR0/MINOR1
+output=trailing whitespace first found on two intentional Markdown hard-break lines; replaced with blank-line paragraphs
+result=PASS after correction; final hashes computed after this log was closed
+
+FINAL_CLASSIFICATION=PASS_WITH_CHANGES
+BLOCKING=0
+MAJOR=0
+MINOR=1
+MINOR_REASON=V25 TXT does not bind exact Fig.1-6 asset/export digest; current deck content itself matches
+NEW_ENCRYPTED_EXECUTIONS=0
+COMMIT_PUSH=0
