@@ -76,11 +76,25 @@ jobs:
           path: ${{ runner.temp }}/sbom/flipguard-go.cdx.json
           if-no-files-found: error
 
-      - name: govulncheck (fails only on vulnerabilities reachable from this code)
+      - name: govulncheck (fails on called vulnerabilities in required modules)
         shell: bash
         run: |
           set -euo pipefail
-          govulncheck ./...
+          # -format json always exits 0; the gate script decides. Called
+          # advisories in required modules fail the job. Called advisories in
+          # the Go standard library are reported with a warning, because the
+          # Go toolchain is part of the reproduction environment lock.
+          govulncheck -format json ./... > "${RUNNER_TEMP}/govulncheck.json"
+          python3 .github/scripts/govulncheck_gate.py \
+            "${RUNNER_TEMP}/govulncheck.json" "${GITHUB_STEP_SUMMARY}"
+
+      - name: Upload govulncheck report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: govulncheck-json
+          path: ${{ runner.temp }}/govulncheck.json
+          if-no-files-found: warn
 
   python-ci-requirements:
     name: CI Python requirements (report only)
