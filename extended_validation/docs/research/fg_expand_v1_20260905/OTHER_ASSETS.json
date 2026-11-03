@@ -1,0 +1,482 @@
+{
+  "dp_pilot_cases": [
+    {
+      "case_id": "spambase__logistic_linear__20260905",
+      "source": "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260905/summary.json",
+      "dataset": "spambase",
+      "model": "logistic_linear",
+      "seed": 20260905,
+      "training": {
+        "optimizer": "sklearn LogisticRegression",
+        "iterations": [
+          23
+        ],
+        "wall_seconds": 0.00723304389975965
+      },
+      "role_rows": {
+        "train": 2102,
+        "development": 630,
+        "calibration": 630,
+        "test": 842
+      },
+      "source_archive_sha256": "813ac1df8effac70463c09c9c4b11e8803eefcab54771af66150852bcdcd1636",
+      "model_sha256": "976849f972d93bed1814d19ae39de162312b326750bbeb415fe498181e68eb7a",
+      "protocol_sha256": "8f072c4c61e3e77b0bd2e6b11f862fe33b1e46de8cac1a027edf35850ec09d37",
+      "keys": 3,
+      "methods": "fixed precision / envelope / cascade; not frozen offline configuration selection",
+      "formal_risk_claim": "NOT_ADMITTED_DEPENDENT_KEYS_AND_PACKED_SLOTS"
+    },
+    {
+      "case_id": "spambase__logistic_linear__20260906",
+      "source": "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260906/summary.json",
+      "dataset": "spambase",
+      "model": "logistic_linear",
+      "seed": 20260906,
+      "training": {
+        "optimizer": "sklearn LogisticRegression",
+        "iterations": [
+          24
+        ],
+        "wall_seconds": 0.006175801856443286
+      },
+      "role_rows": {
+        "train": 2102,
+        "development": 630,
+        "calibration": 630,
+        "test": 842
+      },
+      "source_archive_sha256": "813ac1df8effac70463c09c9c4b11e8803eefcab54771af66150852bcdcd1636",
+      "model_sha256": "dfdc4aaf8b231d72279b93b06eaacbb7e249d3438414282efb72718864593455",
+      "protocol_sha256": "8f072c4c61e3e77b0bd2e6b11f862fe33b1e46de8cac1a027edf35850ec09d37",
+      "keys": 3,
+      "methods": "fixed precision / envelope / cascade; not frozen offline configuration selection",
+      "formal_risk_claim": "NOT_ADMITTED_DEPENDENT_KEYS_AND_PACKED_SLOTS"
+    },
+    {
+      "case_id": "spambase__logistic_linear__20260907",
+      "source": "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260907/summary.json",
+      "dataset": "spambase",
+      "model": "logistic_linear",
+      "seed": 20260907,
+      "training": {
+        "optimizer": "sklearn LogisticRegression",
+        "iterations": [
+          29
+        ],
+        "wall_seconds": 0.00681369798257947
+      },
+      "role_rows": {
+        "train": 2102,
+        "development": 630,
+        "calibration": 630,
+        "test": 842
+      },
+      "source_archive_sha256": "813ac1df8effac70463c09c9c4b11e8803eefcab54771af66150852bcdcd1636",
+      "model_sha256": "e189b3e71c0d48046f0ae13d96bab1377cf5e8727018ae7a6bb6da732a2f549b",
+      "protocol_sha256": "8f072c4c61e3e77b0bd2e6b11f862fe33b1e46de8cac1a027edf35850ec09d37",
+      "keys": 3,
+      "methods": "fixed precision / envelope / cascade; not frozen offline configuration selection",
+      "formal_risk_claim": "NOT_ADMITTED_DEPENDENT_KEYS_AND_PACKED_SLOTS"
+    },
+    {
+      "case_id": "spambase__square_mlp12__20260905",
+      "source": "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260905/summary.json",
+      "dataset": "spambase",
+      "model": "square_mlp12",
+      "seed": 20260905,
+      "training": {
+        "optimizer": "L-BFGS-B",
+        "iterations": 200,
+        "converged": false,
+        "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+        "final_loss": 0.04703240448267808,
+        "wall_seconds": 0.21726570092141628
+      },
+      "role_rows": {
+        "train": 2102,
+        "development": 630,
+        "calibration": 630,
+        "test": 842
+      },
+      "source_archive_sha256": "813ac1df8effac70463c09c9c4b11e8803eefcab54771af66150852bcdcd1636",
+      "model_sha256": "e81537013eb23d68f0e68df49bceabaefcb054c65f60628946e28ece79cb960b",
+      "protocol_sha256": "8f072c4c61e3e77b0bd2e6b11f862fe33b1e46de8cac1a027edf35850ec09d37",
+      "keys": 3,
+      "methods": "fixed precision / envelope / cascade; not frozen offline configuration selection",
+      "formal_risk_claim": "NOT_ADMITTED_DEPENDENT_KEYS_AND_PACKED_SLOTS"
+    },
+    {
+      "case_id": "spambase__square_mlp12__20260906",
+      "source": "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260906/summary.json",
+      "dataset": "spambase",
+      "model": "square_mlp12",
+      "seed": 20260906,
+      "training": {
+        "optimizer": "L-BFGS-B",
+        "iterations": 200,
+        "converged": false,
+        "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+        "final_loss": 0.05154625722366269,
+        "wall_seconds": 0.23682686500251293
+      },
+      "role_rows": {
+        "train": 2102,
+        "development": 630,
+        "calibration": 630,
+        "test": 842
+      },
+      "source_archive_sha256": "813ac1df8effac70463c09c9c4b11e8803eefcab54771af66150852bcdcd1636",
+      "model_sha256": "61c893f8a3bafebdc15209d494599e65ff33bb0134037ee0e731745aeb93011c",
+      "protocol_sha256": "8f072c4c61e3e77b0bd2e6b11f862fe33b1e46de8cac1a027edf35850ec09d37",
+      "keys": 3,
+      "methods": "fixed precision / envelope / cascade; not frozen offline configuration selection",
+      "formal_risk_claim": "NOT_ADMITTED_DEPENDENT_KEYS_AND_PACKED_SLOTS"
+    },
+    {
+      "case_id": "spambase__square_mlp12__20260907",
+      "source": "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260907/summary.json",
+      "dataset": "spambase",
+      "model": "square_mlp12",
+      "seed": 20260907,
+      "training": {
+        "optimizer": "L-BFGS-B",
+        "iterations": 200,
+        "converged": false,
+        "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+        "final_loss": 0.04542112257652506,
+        "wall_seconds": 0.21326653100550175
+      },
+      "role_rows": {
+        "train": 2102,
+        "development": 630,
+        "calibration": 630,
+        "test": 842
+      },
+      "source_archive_sha256": "813ac1df8effac70463c09c9c4b11e8803eefcab54771af66150852bcdcd1636",
+      "model_sha256": "4a55a6b59787af08b54b39650f8b65e1d578f3d1528807f74c27f979d287432b",
+      "protocol_sha256": "8f072c4c61e3e77b0bd2e6b11f862fe33b1e46de8cac1a027edf35850ec09d37",
+      "keys": 3,
+      "methods": "fixed precision / envelope / cascade; not frozen offline configuration selection",
+      "formal_risk_claim": "NOT_ADMITTED_DEPENDENT_KEYS_AND_PACKED_SLOTS"
+    },
+    {
+      "case_id": "wine__logistic_linear__20260905",
+      "source": "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260905/summary.json",
+      "dataset": "wine",
+      "model": "logistic_linear",
+      "seed": 20260905,
+      "training": {
+        "optimizer": "sklearn LogisticRegression",
+        "iterations": [
+          15
+        ],
+        "wall_seconds": 0.004179196897894144
+      },
+      "role_rows": {
+        "train": 89,
+        "development": 26,
+        "calibration": 27,
+        "test": 36
+      },
+      "source_archive_sha256": "2bae62c4481220623579d4c4fb36b55652b6b75e06e49fa1981b8198362dfdab",
+      "model_sha256": "28dc5ac66b3be2e7cb8a83dce03d4551692e93b7e37db652361671ed155eb9fc",
+      "protocol_sha256": "8f072c4c61e3e77b0bd2e6b11f862fe33b1e46de8cac1a027edf35850ec09d37",
+      "keys": 3,
+      "methods": "fixed precision / envelope / cascade; not frozen offline configuration selection",
+      "formal_risk_claim": "NOT_ADMITTED_DEPENDENT_KEYS_AND_PACKED_SLOTS"
+    },
+    {
+      "case_id": "wine__logistic_linear__20260906",
+      "source": "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260906/summary.json",
+      "dataset": "wine",
+      "model": "logistic_linear",
+      "seed": 20260906,
+      "training": {
+        "optimizer": "sklearn LogisticRegression",
+        "iterations": [
+          17
+        ],
+        "wall_seconds": 0.0034011281095445156
+      },
+      "role_rows": {
+        "train": 89,
+        "development": 26,
+        "calibration": 27,
+        "test": 36
+      },
+      "source_archive_sha256": "2bae62c4481220623579d4c4fb36b55652b6b75e06e49fa1981b8198362dfdab",
+      "model_sha256": "663a0bd15d09a0cf26afdf64662b6679dc067c0348cce24a839785dbf643a176",
+      "protocol_sha256": "8f072c4c61e3e77b0bd2e6b11f862fe33b1e46de8cac1a027edf35850ec09d37",
+      "keys": 3,
+      "methods": "fixed precision / envelope / cascade; not frozen offline configuration selection",
+      "formal_risk_claim": "NOT_ADMITTED_DEPENDENT_KEYS_AND_PACKED_SLOTS"
+    },
+    {
+      "case_id": "wine__logistic_linear__20260907",
+      "source": "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260907/summary.json",
+      "dataset": "wine",
+      "model": "logistic_linear",
+      "seed": 20260907,
+      "training": {
+        "optimizer": "sklearn LogisticRegression",
+        "iterations": [
+          16
+        ],
+        "wall_seconds": 0.0034732441417872906
+      },
+      "role_rows": {
+        "train": 89,
+        "development": 26,
+        "calibration": 27,
+        "test": 36
+      },
+      "source_archive_sha256": "2bae62c4481220623579d4c4fb36b55652b6b75e06e49fa1981b8198362dfdab",
+      "model_sha256": "4f1edaf9f9ebb0780f8412280fbc4df5e3c31ddc46442264b975ecfa3c7b2005",
+      "protocol_sha256": "8f072c4c61e3e77b0bd2e6b11f862fe33b1e46de8cac1a027edf35850ec09d37",
+      "keys": 3,
+      "methods": "fixed precision / envelope / cascade; not frozen offline configuration selection",
+      "formal_risk_claim": "NOT_ADMITTED_DEPENDENT_KEYS_AND_PACKED_SLOTS"
+    },
+    {
+      "case_id": "wine__square_mlp12__20260905",
+      "source": "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260905/summary.json",
+      "dataset": "wine",
+      "model": "square_mlp12",
+      "seed": 20260905,
+      "training": {
+        "optimizer": "L-BFGS-B",
+        "iterations": 200,
+        "converged": false,
+        "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+        "final_loss": 0.0003920237866198958,
+        "wall_seconds": 0.06966714700683951
+      },
+      "role_rows": {
+        "train": 89,
+        "development": 26,
+        "calibration": 27,
+        "test": 36
+      },
+      "source_archive_sha256": "2bae62c4481220623579d4c4fb36b55652b6b75e06e49fa1981b8198362dfdab",
+      "model_sha256": "15eea4dc7750a29d0e7045816f8ec56c1ccab6d0ccc57370018105cc215ca0b3",
+      "protocol_sha256": "8f072c4c61e3e77b0bd2e6b11f862fe33b1e46de8cac1a027edf35850ec09d37",
+      "keys": 3,
+      "methods": "fixed precision / envelope / cascade; not frozen offline configuration selection",
+      "formal_risk_claim": "NOT_ADMITTED_DEPENDENT_KEYS_AND_PACKED_SLOTS"
+    },
+    {
+      "case_id": "wine__square_mlp12__20260906",
+      "source": "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260906/summary.json",
+      "dataset": "wine",
+      "model": "square_mlp12",
+      "seed": 20260906,
+      "training": {
+        "optimizer": "L-BFGS-B",
+        "iterations": 200,
+        "converged": false,
+        "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+        "final_loss": 0.0004729036738854365,
+        "wall_seconds": 0.05675231106579304
+      },
+      "role_rows": {
+        "train": 89,
+        "development": 26,
+        "calibration": 27,
+        "test": 36
+      },
+      "source_archive_sha256": "2bae62c4481220623579d4c4fb36b55652b6b75e06e49fa1981b8198362dfdab",
+      "model_sha256": "62bf51410f85d4dc1c45095aa405293afb0440ed0d8fb8adc8e15bb7bf74f98b",
+      "protocol_sha256": "8f072c4c61e3e77b0bd2e6b11f862fe33b1e46de8cac1a027edf35850ec09d37",
+      "keys": 3,
+      "methods": "fixed precision / envelope / cascade; not frozen offline configuration selection",
+      "formal_risk_claim": "NOT_ADMITTED_DEPENDENT_KEYS_AND_PACKED_SLOTS"
+    },
+    {
+      "case_id": "wine__square_mlp12__20260907",
+      "source": "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260907/summary.json",
+      "dataset": "wine",
+      "model": "square_mlp12",
+      "seed": 20260907,
+      "training": {
+        "optimizer": "L-BFGS-B",
+        "iterations": 200,
+        "converged": false,
+        "message": "STOP: TOTAL NO. OF ITERATIONS REACHED LIMIT",
+        "final_loss": 0.0004976023007894818,
+        "wall_seconds": 0.06700986693613231
+      },
+      "role_rows": {
+        "train": 89,
+        "development": 26,
+        "calibration": 27,
+        "test": 36
+      },
+      "source_archive_sha256": "2bae62c4481220623579d4c4fb36b55652b6b75e06e49fa1981b8198362dfdab",
+      "model_sha256": "de6dfa483d91d937e3bd29db47c23481ece590cf0f29dd2f337006e53303dc21",
+      "protocol_sha256": "8f072c4c61e3e77b0bd2e6b11f862fe33b1e46de8cac1a027edf35850ec09d37",
+      "keys": 3,
+      "methods": "fixed precision / envelope / cascade; not frozen offline configuration selection",
+      "formal_risk_claim": "NOT_ADMITTED_DEPENDENT_KEYS_AND_PACKED_SLOTS"
+    }
+  ],
+  "external_v8_tables": {
+    "audit_records.csv": {
+      "rows": 6,
+      "columns": [
+        "arm",
+        "candidate_id",
+        "decision_flips",
+        "fresh_key_runs",
+        "outcome",
+        "provider",
+        "reserve_policy_violations",
+        "retuning",
+        "status",
+        "unique_inputs",
+        "workload"
+      ],
+      "raw_exists": true
+    },
+    "corelab_multi_input_records.csv": {
+      "rows": 14000,
+      "columns": [
+        "mode",
+        "waterline",
+        "plan_status",
+        "input_id",
+        "input_x_sha256",
+        "input_y_sha256",
+        "plaintext_w",
+        "plaintext_c",
+        "encrypted_w_slot0",
+        "encrypted_c_slot0",
+        "max_abs_w_error",
+        "max_abs_c_error",
+        "rms_error",
+        "context_keygen_ms",
+        "load_preprocess_ms",
+        "encrypt_ms",
+        "evaluate_ms",
+        "decrypt_ms",
+        "total_ms"
+      ],
+      "raw_exists": true
+    },
+    "common_executor_records.csv": {
+      "rows": 5400,
+      "columns": [
+        "keyset",
+        "pass",
+        "row_id",
+        "order_index",
+        "order_position",
+        "arm",
+        "candidate_id",
+        "plaintext",
+        "decrypted",
+        "absolute_error",
+        "decision_flip",
+        "reserve_violation",
+        "encrypt_ms",
+        "evaluate_ms",
+        "decrypt_ms",
+        "total_ms",
+        "runtime",
+        "workload",
+        "portability",
+        "security_state",
+        "latency_state"
+      ],
+      "raw_exists": true
+    },
+    "unique_input_accounting.csv": {
+      "rows": 4,
+      "columns": [
+        "provider",
+        "workload",
+        "unique_inputs",
+        "contexts",
+        "plans_or_arms",
+        "raw_rows",
+        "row_meaning"
+      ],
+      "raw_exists": true
+    },
+    "claim_admission.json": {
+      "claims": {
+        "corelab_multi_input_numerical_grid": "PARTIALLY_SUPPORTED",
+        "cross_runtime_speed_superiority": "BLOCKED",
+        "eva_substantial_population_and_locked_audit": "SUPPORTED",
+        "external_decision_bearing_providers_at_least_two": "SUPPORTED",
+        "graph_equivalent_common_executor": "SUPPORTED",
+        "heir_decision_bearing_shared_polynomial": "SUPPORTED",
+        "paired_common_executor_latency": "BLOCKED",
+        "portable_exact": "SUPPORTED"
+      },
+      "classification": "EXTERNAL_COMPARISON_CLOSED",
+      "paper_claim_allowed": false,
+      "prohibited": [
+        "raw rows as unique inputs",
+        "cross-runtime latency ratio",
+        "global optimum",
+        "all external providers"
+      ],
+      "schema_version": "flipguard_focused_external_v8_claim_admission_v1"
+    }
+  },
+  "source_bindings": {
+    "/home/ckks2/flipguard/docs/evidence/focused_external_comparison_v8/audit_records.csv": "444bc34d22ef028d680fa0a020689ef8c09ff358fc51c2093e2e4bade6a4370c",
+    "/home/ckks2/flipguard/docs/evidence/focused_external_comparison_v8/corelab_multi_input_records.csv": "b87c9d9280ddf108e9597cf3b105832c61665b34e4da1b3bdc2de0a28076e6b4",
+    "/home/ckks2/flipguard/docs/evidence/focused_external_comparison_v8/common_executor_records.csv": "e271872340e08ea074704d30138d444c0c53ed5f597aa881e876234c99e48f2d",
+    "/home/ckks2/flipguard/docs/evidence/focused_external_comparison_v8/unique_input_accounting.csv": "5eb8a93ce35d7ae5600f0268249060fcf5f7f084adcfbdac592fa6d01b154698",
+    "/home/ckks2/flipguard/docs/evidence/focused_external_comparison_v8/claim_admission.json": "f2568704496a9c136aab9d4997ffba0887d7ec00c317d11e6e298b08f8a01750",
+    "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260905/summary.json": "37a449e9418ebf07c40057c7156b0be1ac40c67473b7a6524c7928ceec4d1c39",
+    "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260905/model.json": "976849f972d93bed1814d19ae39de162312b326750bbeb415fe498181e68eb7a",
+    "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260905/data_manifest.json": "60ebf674c651176274958c8f07c4178039990d5f847f2e17f70d9f06b67446d6",
+    "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260905/deployment_lock.json": "4d1adbc596e7b8cfb13c5003aeb314f804d2271cba7c9969289954e236cc7e7a",
+    "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260906/summary.json": "1679a2df67a552b694f31de6d37918a54c20e4203b585318533b2d331e1e46e1",
+    "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260906/model.json": "dfdc4aaf8b231d72279b93b06eaacbb7e249d3438414282efb72718864593455",
+    "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260906/data_manifest.json": "91ff63ce712cb8b2740da7c321afbfae8b1fdc19292ac3e48f20ae1066baef11",
+    "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260906/deployment_lock.json": "27a84b5770428f353962b1372cc4d0fc614226f857a4f0d77ad69f5e4cbfb3d1",
+    "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260907/summary.json": "d453b028d9194935b892d87335754d1f6959dbbff27030c73eb863146646d9ef",
+    "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260907/model.json": "e189b3e71c0d48046f0ae13d96bab1377cf5e8727018ae7a6bb6da732a2f549b",
+    "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260907/data_manifest.json": "fa9d06d6a300ea6e420800cc1adad505dc702f7f3795e3a2afa862e7f72121c9",
+    "results/dp_pilot_v1a_20260905/spambase__logistic_linear__20260907/deployment_lock.json": "e9264ff49a66246220656e9c915c71d67a76a87144675dd443111eb3b5cd957e",
+    "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260905/summary.json": "5eda17db50f7beef7af3d847ed91463af53fc74de525320847652bfee6d823d8",
+    "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260905/model.json": "e81537013eb23d68f0e68df49bceabaefcb054c65f60628946e28ece79cb960b",
+    "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260905/data_manifest.json": "60ebf674c651176274958c8f07c4178039990d5f847f2e17f70d9f06b67446d6",
+    "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260905/deployment_lock.json": "a8960f80c4941cd3725452bb0dad6edd3ee3788828586f928c4ef5b6c00925f5",
+    "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260906/summary.json": "1dd5dbd8765b79e5cd761799a1b1693bcf23d38f1ddc2c8a7809daab223d3947",
+    "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260906/model.json": "61c893f8a3bafebdc15209d494599e65ff33bb0134037ee0e731745aeb93011c",
+    "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260906/data_manifest.json": "91ff63ce712cb8b2740da7c321afbfae8b1fdc19292ac3e48f20ae1066baef11",
+    "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260906/deployment_lock.json": "eb1a4da1b7d3bb11d242ea7968b5eae6cec1e9b1eb52a3398579e954f5727f34",
+    "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260907/summary.json": "7ca1ba44bec0f2eee429e0d01d2606a0de6e3dcf6c887448befdab59bbc8eedc",
+    "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260907/model.json": "4a55a6b59787af08b54b39650f8b65e1d578f3d1528807f74c27f979d287432b",
+    "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260907/data_manifest.json": "fa9d06d6a300ea6e420800cc1adad505dc702f7f3795e3a2afa862e7f72121c9",
+    "results/dp_pilot_v1a_20260905/spambase__square_mlp12__20260907/deployment_lock.json": "1b6cfb816c014a72e42a07f47feeafb3de356f5776cc5aec1a6943616846ac54",
+    "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260905/summary.json": "48c666e61747b598c42d809dd9aec456c47ba55e328a427bd6a10317fb3094f5",
+    "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260905/model.json": "28dc5ac66b3be2e7cb8a83dce03d4551692e93b7e37db652361671ed155eb9fc",
+    "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260905/data_manifest.json": "7152ef723332018436df9db4c6765d875465026fea793d2ca11c18d0ad21505c",
+    "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260905/deployment_lock.json": "5e0d2294d9e58feb66292c8357fa46e4425f53c58d58db29ee42ba405ae95a55",
+    "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260906/summary.json": "b0377e2bff0dd63a073b2f89c984cdec0c93e6566b4848c6d9c0c350e6006600",
+    "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260906/model.json": "663a0bd15d09a0cf26afdf64662b6679dc067c0348cce24a839785dbf643a176",
+    "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260906/data_manifest.json": "0770f00c0b08d8f3b1d36b15d5d823fa303497c949a4084112e70da812d13596",
+    "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260906/deployment_lock.json": "64fd78275b481bc148f03194b5b8a488170a8c2918360c96f6f20a6aa9c1a623",
+    "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260907/summary.json": "b354611b2cdfa1da2260b0af76a3e4edc89b95fa46bce4c4562ca4e453244f4b",
+    "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260907/model.json": "4f1edaf9f9ebb0780f8412280fbc4df5e3c31ddc46442264b975ecfa3c7b2005",
+    "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260907/data_manifest.json": "e7dd255fa6dc34669dad9484650fac3377fdc7d486938cf3ce97643e94842da1",
+    "results/dp_pilot_v1a_20260905/wine__logistic_linear__20260907/deployment_lock.json": "0271477562b97b4c97bcfcf1cd8d48f6590ff19329c3bd64f6aa3729333a03a5",
+    "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260905/summary.json": "77856dd18482c0c69330dcaba8fbd8e30265d7a31bef91f39e9cdcefb0744056",
+    "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260905/model.json": "15eea4dc7750a29d0e7045816f8ec56c1ccab6d0ccc57370018105cc215ca0b3",
+    "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260905/data_manifest.json": "7152ef723332018436df9db4c6765d875465026fea793d2ca11c18d0ad21505c",
+    "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260905/deployment_lock.json": "b14e64440ea8915d3d4ef12a522f613b7735e221896f20c3f5a7a7cf4c8009a2",
+    "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260906/summary.json": "2aa5e33e9110eeff15eac3f092444d5bab63e6893ae8a899b04230cc2af5accf",
+    "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260906/model.json": "62bf51410f85d4dc1c45095aa405293afb0440ed0d8fb8adc8e15bb7bf74f98b",
+    "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260906/data_manifest.json": "0770f00c0b08d8f3b1d36b15d5d823fa303497c949a4084112e70da812d13596",
+    "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260906/deployment_lock.json": "7ebf84a347386cf6db8ed33772ab272b0429b21b777deaaff3808028692e4731",
+    "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260907/summary.json": "4e32417365e9e2c75f36edaa05a30cdfec35968d008bd542482291a80126490d",
+    "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260907/model.json": "de6dfa483d91d937e3bd29db47c23481ece590cf0f29dd2f337006e53303dc21",
+    "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260907/data_manifest.json": "e7dd255fa6dc34669dad9484650fac3377fdc7d486938cf3ce97643e94842da1",
+    "results/dp_pilot_v1a_20260905/wine__square_mlp12__20260907/deployment_lock.json": "2d3de5a38ceef3bb69eee0eb58c421a71d45e23b5c55e4f700187fcaa1b1446b"
+  }
+}

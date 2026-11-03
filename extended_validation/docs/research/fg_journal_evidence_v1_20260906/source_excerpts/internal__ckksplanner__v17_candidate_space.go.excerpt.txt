@@ -1,0 +1,171 @@
+1: package ckksplanner
+2: 
+3: import (
+4: 	"errors"
+5: 	"fmt"
+6: 
+7: 	"github.com/hasslelee/flipguard/internal/ckksbackend"
+8: 	"github.com/hasslelee/flipguard/internal/tuner"
+9: )
+10: 
+11: const V17DepthCompleteCandidateGeneratorID = "flipguard_v17_depth_complete_finite_set_v1"
+12: 
+13: const V17LegacyFiniteSetID = "flipguard_v17_legacy_security_v2_7_profiles_2_paths_v1"
+14: 
+15: type V17LegacyFiniteEntry struct {
+16: 	ProfileName                string               `json:"profile_name"`
+17: 	Candidate                  SynthesizedCandidate `json:"candidate"`
+18: 	RequiredQPrimes            int                  `json:"required_q_primes"`
+19: 	AvailableQPrimes           int                  `json:"available_q_primes"`
+20: 	StaticStatus               string               `json:"static_status"`
+21: 	EncryptedExecutionRequired bool                 `json:"encrypted_execution_required"`
+22: }
+23: 
+24: func BuildV17FixedDefaultBaseline(contract WorkloadContract) (V17LegacyFiniteEntry, error) {
+25: 	profile, err := ckksbackend.FindCKKSProfile("default")
+26: 	if err != nil {
+27: 		return V17LegacyFiniteEntry{}, err
+28: 	}
+29: 	logQ := literalPrimeBits(profile.Literal.LogQ, profile.Literal.Q)
+30: 	logP := literalPrimeBits(profile.Literal.LogP, profile.Literal.P)
+31: 	spec := CKKSParameterLiteralSpec{
+32: 		LogN: profile.Literal.LogN, LogQ: logQ, LogP: logP,
+33: 		Q:               append([]uint64(nil), profile.Literal.Q...),
+34: 		P:               append([]uint64(nil), profile.Literal.P...),
+35: 		LogDefaultScale: profile.Literal.LogDefaultScale,
+36: 	}
+37: 	security, err := AssessSecurity(spec, contract.Deployment.SecurityBits, DefaultSecurityEnvelope())
+38: 	if err != nil {
+39: 		return V17LegacyFiniteEntry{}, err
+40: 	}
+41: 	candidate := SynthesizedCandidate{
+42: 		ID: "fixed_default__rescale", Path: tuner.PathRescale,
+43: 		Parameters: spec, Security: security,
+44: 		RequiredRescaleLevels: contract.Deployment.RescaleLevelsConsumed,
+45: 		GenerationKind:        "fixed_default_diagnostic",
+46: 		Reason:                "built-in fixed default; execution requires Security-V2 admission",
+47: 	}
+48: 	status := "PLAN_OK"
+49: 	execute := true
+50: 	if security.FinalAdmission != SecurityAdmissionPass {
+51: 		status, execute = "SECURITY_INADMISSIBLE", false
+52: 	} else if len(logQ) < contract.Deployment.RequiredQPrimes {
+53: 		status, execute = "PLAN_UNSUPPORTED_LEVELS", false
+54: 	}
+55: 	return V17LegacyFiniteEntry{
+56: 		ProfileName: "default", Candidate: candidate,
+57: 		RequiredQPrimes:  contract.Deployment.RequiredQPrimes,
+58: 		AvailableQPrimes: len(logQ), StaticStatus: status,
+59: 		EncryptedExecutionRequired: execute,
+60: 	}, nil
+61: }
+62: 
+63: // BuildV17LegacyFiniteSet retains the historical seven Security-V2-admitted
+64: // built-in profiles over the rescale and non-rescale paths. It is diagnostic
+65: // B2 evidence and never replaces the graph-derived B3 finite reference.
+66: func BuildV17LegacyFiniteSet(contract WorkloadContract) ([]V17LegacyFiniteEntry, error) {
+67: 	base, err := BuildJournalMulticlassCatalog(contract)
+68: 	if err != nil {
+69: 		return nil, err
+70: 	}
+71: 	entries := make([]V17LegacyFiniteEntry, 0, 2*len(base))
+72: 	for _, item := range base {
+73: 		for _, path := range []tuner.ExecutionPath{tuner.PathRescale, tuner.PathNonRescale} {
+74: 			candidate := item.Candidate
+75: 			candidate.ID = "legacy_" + item.ProfileName + "__" + string(path)
+76: 			candidate.Path = path
+77: 			candidate.GenerationKind = "security_v2_legacy_finite_reference"
+78: 			candidate.Reason = "exact built-in Security-V2-admitted profile; diagnostic legacy finite set"
+79: 			status, execute := item.StaticStatus, item.EncryptedExecutionRequired
+80: 			if path == tuner.PathNonRescale {
+81: 				status = "PLAN_OK_NON_RESCALE_DIAGNOSTIC"
+82: 				execute = true
+83: 			}
+84: 			entries = append(entries, V17LegacyFiniteEntry{
+85: 				ProfileName: item.ProfileName, Candidate: candidate,
+86: 				RequiredQPrimes:  item.RequiredQPrimes,
+87: 				AvailableQPrimes: item.AvailableQPrimes,
+88: 				StaticStatus:     status, EncryptedExecutionRequired: execute,
+89: 			})
+90: 		}
+91: 	}
+92: 	return entries, nil
+93: }
+94: 
+95: // BuildV17DepthCompleteFiniteSet creates the predeclared B3 comparison set
+96: // from graph facts alone. It is evaluation-only: it does not change the
+97: // bounded direct optimizer, its four-trial budget, or its first-SAFE rule.
+98: //
+99: // The set contains scale offsets 0,+4,+8,+12 and level guards 0,+1 whenever
+100: // those literals are backend-valid and Security-V2-admitted. Candidate
+101: // identity is deduplicated because backend prime feasibility can lift two
+102: // requested scale floors to the same literal.
+103: func BuildV17DepthCompleteFiniteSet(
+104: 	contract WorkloadContract,
+105: ) (SynthesisPlan, []SynthesizedCandidate, error) {
+106: 	plan, err := Synthesize(contract, DefaultPrimarySynthesisPolicy())
+107: 	if err != nil {
+108: 		return SynthesisPlan{}, nil, err
+109: 	}
+110: 	if len(plan.InitialCandidates) != 1 {
+111: 		return SynthesisPlan{}, nil, fmt.Errorf(
+112: 			"V17 finite-set generator expected one initial candidate, got %d",
+113: 			len(plan.InitialCandidates),
+114: 		)
+115: 	}
+116: 
+117: 	base := plan.InitialCandidates[0]
+118: 	scales := []SynthesizedCandidate{base}
+119: 	current := base
+120: 	for ordinal := 1; ordinal <= 3; ordinal++ {
+121: 		current, err = RepairCandidate(
+122: 			plan,
+123: 			current,
+124: 			RepairNumericalReject,
+125: 			ordinal,
+126: 		)
+127: 		if err != nil {
+128: 			if errors.Is(err, ErrRepairExhausted) {
+129: 				break
+130: 			}
+131: 			return SynthesisPlan{}, nil, fmt.Errorf(
+132: 				"V17 scale tier %d: %w",
+133: 				ordinal,
+134: 				err,
+135: 			)
+136: 		}
+137: 		scales = append(scales, current)
+138: 	}
+139: 
+140: 	seen := make(map[string]struct{}, 8)
+141: 	candidates := make([]SynthesizedCandidate, 0, 8)
+142: 	appendCandidate := func(candidate SynthesizedCandidate) {
+143: 		if _, ok := seen[candidate.ID]; ok {
+144: 			return
+145: 		}
+146: 		seen[candidate.ID] = struct{}{}
+147: 		candidates = append(candidates, candidate)
+148: 	}
+149: 	for ordinal, candidate := range scales {
+150: 		appendCandidate(candidate)
+151: 		levelCandidate, levelErr := RepairCandidate(
+152: 			plan,
+153: 			candidate,
+154: 			RepairLevelFailure,
+155: 			ordinal+1,
+156: 		)
+157: 		if levelErr == nil {
+158: 			appendCandidate(levelCandidate)
+159: 		} else if !errors.Is(levelErr, ErrRepairExhausted) {
+160: 			return SynthesisPlan{}, nil, fmt.Errorf(
+161: 				"V17 level tier %d: %w",
+162: 				ordinal,
+163: 				levelErr,
+164: 			)
+165: 		}
+166: 	}
+167: 	if len(candidates) == 0 {
+168: 		return SynthesisPlan{}, nil, fmt.Errorf("V17 finite candidate set is empty")
+169: 	}
+170: 	return plan, candidates, nil
+171: }

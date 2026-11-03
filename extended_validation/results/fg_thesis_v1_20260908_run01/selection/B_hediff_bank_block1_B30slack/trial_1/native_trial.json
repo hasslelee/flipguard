@@ -1,0 +1,1451 @@
+{
+  "decision_evaluation_ms": 0.028543,
+  "trial_index": 1,
+  "candidate": {
+    "id": "independent_S33_Q5_N13_e39416ece8af",
+    "path": "rescale",
+    "parameters": {
+      "log_n": 13,
+      "log_q": [
+        39,
+        33,
+        33,
+        33,
+        33
+      ],
+      "log_p": [
+        39
+      ],
+      "log_default_scale": 33
+    },
+    "security": {
+      "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+      "target_bits": 128,
+      "declared_log_qp": 210,
+      "max_allowed_log_qp": 214,
+      "headroom_bits": 4,
+      "admission_status": "PASS",
+      "log_q": 171,
+      "log_p": 39,
+      "log_qp": 210,
+      "ciphertext_q_admission": "PASS",
+      "evaluation_key_qp_admission": "PASS",
+      "final_admission": "PASS",
+      "ciphertext_headroom_bits": 43,
+      "evaluation_key_headroom_bits": 4,
+      "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+    },
+    "required_rescale_levels": 3,
+    "level_guard": 0,
+    "precision_target_bits": 33,
+    "message_magnitude_bits": 3,
+    "analysis_scale_bits": 33,
+    "backend_scale_lift_bits": 0,
+    "backend_validation_attempts": 1,
+    "same_tier_precision_gain_bits": 3,
+    "same_tier_static_candidates_tried": 0,
+    "generation_kind": "independent_same_N_precision_slack_aux_v1",
+    "reason": "graph scale trace and output magnitude only; fixed scale; no decision or sensitivity input"
+  },
+  "status": "SAFE",
+  "reason": "zero argmax flips and zero reserve-policy violations on V_cert=16",
+  "key_repeats_requested": 3,
+  "key_repeats_completed": 3,
+  "encrypted_sample_evaluations": 48,
+  "aggregation": {
+    "schema_version": "decision_integrity_contract_v2",
+    "status": "SAFE",
+    "reason": "zero argmax flips and zero reserve-policy violations on V_cert=16",
+    "margin_floor": 0.001,
+    "margin_utilization_cap": 0.5,
+    "v_cert": 16,
+    "v_amb": 0,
+    "success_runs": 3,
+    "failed_runs": 0,
+    "total_observations": 48,
+    "certified_observations": 48,
+    "ambiguous_observations": 0,
+    "argmax_flips": 0,
+    "reserve_policy_violations": 0,
+    "max_logit_absolute_error": 0.000009993168216426707,
+    "max_cap_required": 0.000018462919058508707,
+    "observations": [
+      {
+        "sample_id": "bank_test_6174",
+        "key_run": 1,
+        "plain_logits": [
+          -2.0337693014308633,
+          2.014433926092522
+        ],
+        "ckks_logits": [
+          -2.0337693890010513,
+          2.0144343125739255
+        ],
+        "per_logit_absolute_error": [
+          8.75701879898827e-8,
+          3.864814033249786e-7
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 4.048203227523386,
+        "pairwise_decision_budget": 2.024101613761693,
+        "minimum_cap_required": 1.1710172752489926e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6174",
+        "key_run": 2,
+        "plain_logits": [
+          -2.0337693014308633,
+          2.014433926092522
+        ],
+        "ckks_logits": [
+          -2.033768334507031,
+          2.0144328961543367
+        ],
+        "per_logit_absolute_error": [
+          9.669238321130535e-7,
+          0.000001029938185403978
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 4.048203227523386,
+        "pairwise_decision_budget": 2.024101613761693,
+        "minimum_cap_required": 4.93271188546202e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6174",
+        "key_run": 3,
+        "plain_logits": [
+          -2.0337693014308633,
+          2.014433926092522
+        ],
+        "ckks_logits": [
+          -2.033768780628915,
+          2.0144334490854305
+        ],
+        "per_logit_absolute_error": [
+          5.208019482338955e-7,
+          4.770070916038094e-7
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 4.048203227523386,
+        "pairwise_decision_budget": 2.024101613761693,
+        "minimum_cap_required": 2.4648195353772924e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6175",
+        "key_run": 1,
+        "plain_logits": [
+          -0.9586343258273402,
+          0.8754475846824347
+        ],
+        "ckks_logits": [
+          -0.9586329346672442,
+          0.8754461657918844
+        ],
+        "per_logit_absolute_error": [
+          0.0000013911600960092585,
+          0.0000014188905502754423
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 1.834081910509775,
+        "pairwise_decision_budget": 0.9170409552548875,
+        "minimum_cap_required": 0.0000015321293068659401,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6175",
+        "key_run": 2,
+        "plain_logits": [
+          -0.9586343258273402,
+          0.8754475846824347
+        ],
+        "ckks_logits": [
+          -0.9586348452631173,
+          0.8754481209553473
+        ],
+        "per_logit_absolute_error": [
+          5.194357770577085e-7,
+          5.362729126323629e-7
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 1.834081910509775,
+        "pairwise_decision_budget": 0.9170409552548875,
+        "minimum_cap_required": 5.756060749743951e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6175",
+        "key_run": 3,
+        "plain_logits": [
+          -0.9586343258273402,
+          0.8754475846824347
+        ],
+        "ckks_logits": [
+          -0.958634859501166,
+          0.8754481199056339
+        ],
+        "per_logit_absolute_error": [
+          5.336738257977203e-7,
+          5.352231992050704e-7
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 1.834081910509775,
+        "pairwise_decision_budget": 0.9170409552548875,
+        "minimum_cap_required": 5.827967763477344e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6176",
+        "key_run": 1,
+        "plain_logits": [
+          -0.7513593593483741,
+          0.5451428071599284
+        ],
+        "ckks_logits": [
+          -0.7513573710881335,
+          0.5451407607781626
+        ],
+        "per_logit_absolute_error": [
+          0.0000019882602405596472,
+          0.0000020463817657079275
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 1.2965021665083025,
+        "pairwise_decision_budget": 0.6482510832541513,
+        "minimum_cap_required": 0.000003111943898353476,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6176",
+        "key_run": 2,
+        "plain_logits": [
+          -0.7513593593483741,
+          0.5451428071599284
+        ],
+        "ckks_logits": [
+          -0.7513605435807753,
+          0.5451439125026876
+        ],
+        "per_logit_absolute_error": [
+          0.0000011842324012523164,
+          0.0000011053427592111476
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 1.2965021665083025,
+        "pairwise_decision_budget": 0.6482510832541513,
+        "minimum_cap_required": 0.0000017659632352406116,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6176",
+        "key_run": 3,
+        "plain_logits": [
+          -0.7513593593483741,
+          0.5451428071599284
+        ],
+        "ckks_logits": [
+          -0.7513572499023224,
+          0.5451407458546409
+        ],
+        "per_logit_absolute_error": [
+          0.0000021094460516124514,
+          0.000002061305287459625
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 1.2965021665083025,
+        "pairwise_decision_budget": 0.6482510832541513,
+        "minimum_cap_required": 0.000003216925853895492,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6177",
+        "key_run": 1,
+        "plain_logits": [
+          0.8476106026450945,
+          -1.0046331144215785
+        ],
+        "ckks_logits": [
+          0.8476052707010282,
+          -1.0046277182902013
+        ],
+        "per_logit_absolute_error": [
+          0.000005331944066266914,
+          0.000005396131377288782
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 1.852243717066673,
+        "pairwise_decision_budget": 0.9261218585333365,
+        "minimum_cap_required": 0.00000579193512425316,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6177",
+        "key_run": 2,
+        "plain_logits": [
+          0.8476106026450945,
+          -1.0046331144215785
+        ],
+        "ckks_logits": [
+          0.8476115288307646,
+          -1.004634020002662
+        ],
+        "per_logit_absolute_error": [
+          9.261856701581195e-7,
+          9.055810834546207e-7
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 1.852243717066673,
+        "pairwise_decision_budget": 0.9261218585333365,
+        "minimum_cap_required": 9.889447790993933e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6177",
+        "key_run": 3,
+        "plain_logits": [
+          0.8476106026450945,
+          -1.0046331144215785
+        ],
+        "ckks_logits": [
+          0.8476108423411565,
+          -1.0046331571457154
+        ],
+        "per_logit_absolute_error": [
+          2.3969606199880644e-7,
+          4.272413689498933e-8
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 1.852243717066673,
+        "pairwise_decision_budget": 0.9261218585333365,
+        "minimum_cap_required": 1.5247464266800363e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6178",
+        "key_run": 1,
+        "plain_logits": [
+          -3.7972155017930174,
+          3.9518254414046563
+        ],
+        "ckks_logits": [
+          -3.7972159456598162,
+          3.951825996247152
+        ],
+        "per_logit_absolute_error": [
+          4.4386679887153946e-7,
+          5.54842495503749e-7
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 7.749040943197674,
+        "pairwise_decision_budget": 3.874520471598837,
+        "minimum_cap_required": 1.2888166441448263e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6178",
+        "key_run": 2,
+        "plain_logits": [
+          -3.7972155017930174,
+          3.9518254414046563
+        ],
+        "ckks_logits": [
+          -3.7972161314529123,
+          3.951826117317724
+        ],
+        "per_logit_absolute_error": [
+          6.296598948907217e-7,
+          6.759130677380654e-7
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 7.749040943197674,
+        "pairwise_decision_budget": 3.874520471598837,
+        "minimum_cap_required": 1.6848187694437925e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6178",
+        "key_run": 3,
+        "plain_logits": [
+          -3.7972155017930174,
+          3.9518254414046563
+        ],
+        "ckks_logits": [
+          -3.7972157842300707,
+          3.9518257163055743
+        ],
+        "per_logit_absolute_error": [
+          2.824370533005549e-7,
+          2.7490091802917505e-7
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 7.749040943197674,
+        "pairwise_decision_budget": 3.874520471598837,
+        "minimum_cap_required": 7.192347742322577e-8,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6179",
+        "key_run": 1,
+        "plain_logits": [
+          -3.3338537267231785,
+          3.434920847312971
+        ],
+        "ckks_logits": [
+          -3.333854331118002,
+          3.434921806346367
+        ],
+        "per_logit_absolute_error": [
+          6.043948235223695e-7,
+          9.590333962528064e-7
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 6.768774574036149,
+        "pairwise_decision_budget": 3.3843872870180745,
+        "minimum_cap_required": 2.3097655309311328e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6179",
+        "key_run": 2,
+        "plain_logits": [
+          -3.3338537267231785,
+          3.434920847312971
+        ],
+        "ckks_logits": [
+          -3.33385548180404,
+          3.434922541239937
+        ],
+        "per_logit_absolute_error": [
+          0.0000017550808615318658,
+          0.0000016939269662508138
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 6.768774574036149,
+        "pairwise_decision_budget": 3.3843872870180745,
+        "minimum_cap_required": 5.095468596357867e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6179",
+        "key_run": 3,
+        "plain_logits": [
+          -3.3338537267231785,
+          3.434920847312971
+        ],
+        "ckks_logits": [
+          -3.333854137378458,
+          3.434921208151332
+        ],
+        "per_logit_absolute_error": [
+          4.106552795590801e-7,
+          3.6083836096878485e-7
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 6.768774574036149,
+        "pairwise_decision_budget": 3.3843872870180745,
+        "minimum_cap_required": 1.1397833272320538e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6180",
+        "key_run": 1,
+        "plain_logits": [
+          1.2434981673120225,
+          -1.2464413773309202
+        ],
+        "ckks_logits": [
+          1.2434971842720663,
+          -1.24644046767527
+        ],
+        "per_logit_absolute_error": [
+          9.830399561039371e-7,
+          9.096556501386743e-7
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 2.489939544642943,
+        "pairwise_decision_budget": 1.2449697723214714,
+        "minimum_cap_required": 7.601371729344633e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6180",
+        "key_run": 2,
+        "plain_logits": [
+          1.2434981673120225,
+          -1.2464413773309202
+        ],
+        "ckks_logits": [
+          1.2434935863219494,
+          -1.2464366182036748
+        ],
+        "per_logit_absolute_error": [
+          0.0000045809900730553466,
+          0.000004759127245401729
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 2.489939544642943,
+        "pairwise_decision_budget": 1.2449697723214714,
+        "minimum_cap_required": 0.000003751142206866893,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6180",
+        "key_run": 3,
+        "plain_logits": [
+          1.2434981673120225,
+          -1.2464413773309202
+        ],
+        "ckks_logits": [
+          1.2434981017498083,
+          -1.2464413391383633
+        ],
+        "per_logit_absolute_error": [
+          6.556221410214391e-8,
+          3.819255689485601e-8
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 2.489939544642943,
+        "pairwise_decision_budget": 1.2449697723214714,
+        "minimum_cap_required": 4.166959443663053e-8,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6181",
+        "key_run": 1,
+        "plain_logits": [
+          -2.5191922906552513,
+          2.9207381281145324
+        ],
+        "ckks_logits": [
+          -2.51919524821923,
+          2.920741138227731
+        ],
+        "per_logit_absolute_error": [
+          0.000002957563978611688,
+          0.00000301011319869815
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 5.439930418769784,
+        "pairwise_decision_budget": 2.719965209384892,
+        "minimum_cap_required": 0.000001097013512658017,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6181",
+        "key_run": 2,
+        "plain_logits": [
+          -2.5191922906552513,
+          2.9207381281145324
+        ],
+        "ckks_logits": [
+          -2.5191917649979247,
+          2.920737621423225
+        ],
+        "per_logit_absolute_error": [
+          5.256573265555176e-7,
+          5.066913075779667e-7
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 5.439930418769784,
+        "pairwise_decision_budget": 2.719965209384892,
+        "minimum_cap_required": 1.8977239682542582e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6181",
+        "key_run": 3,
+        "plain_logits": [
+          -2.5191922906552513,
+          2.9207381281145324
+        ],
+        "ckks_logits": [
+          -2.5191934971979424,
+          2.920739420933126
+        ],
+        "per_logit_absolute_error": [
+          0.0000012065426910901067,
+          0.0000012928185935123793
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 5.439930418769784,
+        "pairwise_decision_budget": 2.719965209384892,
+        "minimum_cap_required": 4.5944728924817855e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6182",
+        "key_run": 1,
+        "plain_logits": [
+          1.300944027169745,
+          -1.4396077286663254
+        ],
+        "ckks_logits": [
+          1.300946261433213,
+          -1.4396097231717664
+        ],
+        "per_logit_absolute_error": [
+          0.0000022342634680150297,
+          0.0000019945054410275276
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 2.74055175583607,
+        "pairwise_decision_budget": 1.370275877918035,
+        "minimum_cap_required": 0.0000015430355949444462,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6182",
+        "key_run": 2,
+        "plain_logits": [
+          1.300944027169745,
+          -1.4396077286663254
+        ],
+        "ckks_logits": [
+          1.300936363072974,
+          -1.4395997397657925
+        ],
+        "per_logit_absolute_error": [
+          0.000007664096770998441,
+          0.000007988900532884813
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 2.74055175583607,
+        "pairwise_decision_budget": 1.370275877918035,
+        "minimum_cap_required": 0.000005711622584959333,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6182",
+        "key_run": 3,
+        "plain_logits": [
+          1.300944027169745,
+          -1.4396077286663254
+        ],
+        "ckks_logits": [
+          1.3009440163668833,
+          -1.4396076428742697
+        ],
+        "per_logit_absolute_error": [
+          1.0802861716285861e-8,
+          8.579205568182147e-8
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 2.74055175583607,
+        "pairwise_decision_budget": 1.370275877918035,
+        "minimum_cap_required": 3.524652187005998e-8,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6183",
+        "key_run": 1,
+        "plain_logits": [
+          -1.0620590064533144,
+          1.2663530641445169
+        ],
+        "ckks_logits": [
+          -1.062058557471252,
+          1.26635251275978
+        ],
+        "per_logit_absolute_error": [
+          4.489820624176133e-7,
+          5.513847369797986e-7
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 2.3284120705978313,
+        "pairwise_decision_budget": 1.1642060352989156,
+        "minimum_cap_required": 4.296347764339509e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6183",
+        "key_run": 2,
+        "plain_logits": [
+          -1.0620590064533144,
+          1.2663530641445169
+        ],
+        "ckks_logits": [
+          -1.0620592268678783,
+          1.266353070882138
+        ],
+        "per_logit_absolute_error": [
+          2.204145639339572e-7,
+          6.737621127683724e-9
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 2.3284120705978313,
+        "pairwise_decision_budget": 1.1642060352989156,
+        "minimum_cap_required": 9.755669450868225e-8,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6183",
+        "key_run": 3,
+        "plain_logits": [
+          -1.0620590064533144,
+          1.2663530641445169
+        ],
+        "ckks_logits": [
+          -1.0620563644491,
+          1.2663506227354797
+        ],
+        "per_logit_absolute_error": [
+          0.0000026420042145147704,
+          0.0000024414090371571717
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 2.3284120705978313,
+        "pairwise_decision_budget": 1.1642060352989156,
+        "minimum_cap_required": 0.000002183210315675245,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6184",
+        "key_run": 1,
+        "plain_logits": [
+          -4.309134013602686,
+          5.0644396057846235
+        ],
+        "ckks_logits": [
+          -4.3091333868786545,
+          5.0644395252463905
+        ],
+        "per_logit_absolute_error": [
+          6.26724031782544e-7,
+          8.053823297160534e-8
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 9.37357361938731,
+        "pairwise_decision_budget": 4.686786809693655,
+        "minimum_cap_required": 7.545278817582685e-8,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6184",
+        "key_run": 2,
+        "plain_logits": [
+          -4.309134013602686,
+          5.0644396057846235
+        ],
+        "ckks_logits": [
+          -4.309131701341428,
+          5.064436697474464
+        ],
+        "per_logit_absolute_error": [
+          0.0000023122612580195323,
+          0.000002908310159810412
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 9.37357361938731,
+        "pairwise_decision_budget": 4.686786809693655,
+        "minimum_cap_required": 5.569456889987257e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6184",
+        "key_run": 3,
+        "plain_logits": [
+          -4.309134013602686,
+          5.0644396057846235
+        ],
+        "ckks_logits": [
+          -4.309131105329783,
+          5.064436167412881
+        ],
+        "per_logit_absolute_error": [
+          0.000002908272903390241,
+          0.0000034383717428809746
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 9.37357361938731,
+        "pairwise_decision_budget": 4.686786809693655,
+        "minimum_cap_required": 6.770784445693675e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6185",
+        "key_run": 1,
+        "plain_logits": [
+          -1.4500935304069769,
+          1.7122295091192712
+        ],
+        "ckks_logits": [
+          -1.450095088643855,
+          1.7122308199490242
+        ],
+        "per_logit_absolute_error": [
+          0.0000015582368781963396,
+          0.000001310829752965148
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 3.162323039526248,
+        "pairwise_decision_budget": 1.581161519763124,
+        "minimum_cap_required": 9.072655118723439e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6185",
+        "key_run": 2,
+        "plain_logits": [
+          -1.4500935304069769,
+          1.7122295091192712
+        ],
+        "ckks_logits": [
+          -1.4500951796489563,
+          1.7122313639610294
+        ],
+        "per_logit_absolute_error": [
+          0.0000016492419794289503,
+          0.0000018548417581865095
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 3.162323039526248,
+        "pairwise_decision_budget": 1.581161519763124,
+        "minimum_cap_required": 0.0000011080726712032594,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6185",
+        "key_run": 3,
+        "plain_logits": [
+          -1.4500935304069769,
+          1.7122295091192712
+        ],
+        "ckks_logits": [
+          -1.450096155656124,
+          1.7122319149714682
+        ],
+        "per_logit_absolute_error": [
+          0.000002625249147181208,
+          0.0000024058521970182767
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 3.162323039526248,
+        "pairwise_decision_budget": 1.581161519763124,
+        "minimum_cap_required": 0.0000015909511081932986,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6186",
+        "key_run": 1,
+        "plain_logits": [
+          0.39933523011629696,
+          -0.65651077009312
+        ],
+        "ckks_logits": [
+          0.399335767540557,
+          -0.656511217978994
+        ],
+        "per_logit_absolute_error": [
+          5.374242600386658e-7,
+          4.4788587405530933e-7
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 1.055846000209417,
+        "pairwise_decision_budget": 0.5279230001047085,
+        "minimum_cap_required": 9.331949298463491e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6186",
+        "key_run": 2,
+        "plain_logits": [
+          0.39933523011629696,
+          -0.65651077009312
+        ],
+        "ckks_logits": [
+          0.39933532240958003,
+          -0.656511019080409
+        ],
+        "per_logit_absolute_error": [
+          9.229328307158724e-8,
+          2.489872890087952e-7
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 1.055846000209417,
+        "pairwise_decision_budget": 0.5279230001047085,
+        "minimum_cap_required": 3.232294974955559e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6186",
+        "key_run": 3,
+        "plain_logits": [
+          0.39933523011629696,
+          -0.65651077009312
+        ],
+        "ckks_logits": [
+          0.3993452232845134,
+          -0.6565202709241437
+        ],
+        "per_logit_absolute_error": [
+          0.000009993168216426707,
+          0.000009500831023689926
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 1.055846000209417,
+        "pairwise_decision_budget": 0.5279230001047085,
+        "minimum_cap_required": 0.000018462919058508707,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6187",
+        "key_run": 1,
+        "plain_logits": [
+          1.5882147160372369,
+          -1.5802468506283178
+        ],
+        "ckks_logits": [
+          1.5882171126186126,
+          -1.580249370839748
+        ],
+        "per_logit_absolute_error": [
+          0.0000023965813757964582,
+          0.0000025202114302125267
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 3.1684615666655547,
+        "pairwise_decision_budget": 1.5842307833327773,
+        "minimum_cap_required": 0.0000015517918404746029,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6187",
+        "key_run": 2,
+        "plain_logits": [
+          1.5882147160372369,
+          -1.5802468506283178
+        ],
+        "ckks_logits": [
+          1.5882183396483511,
+          -1.580250661998143
+        ],
+        "per_logit_absolute_error": [
+          0.0000036236111142784466,
+          0.00000381136982507968
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 3.1684615666655547,
+        "pairwise_decision_budget": 1.5842307833327773,
+        "minimum_cap_required": 0.000002346558663541751,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6187",
+        "key_run": 3,
+        "plain_logits": [
+          1.5882147160372369,
+          -1.5802468506283178
+        ],
+        "ckks_logits": [
+          1.5882160603857596,
+          -1.580248158860314
+        ],
+        "per_logit_absolute_error": [
+          0.0000013443485227249141,
+          0.0000013082319960666666
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 3.1684615666655547,
+        "pairwise_decision_budget": 1.5842307833327773,
+        "minimum_cap_required": 8.371824820911809e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6188",
+        "key_run": 1,
+        "plain_logits": [
+          -4.5883468558965905,
+          4.679474491414661
+        ],
+        "ckks_logits": [
+          -4.5883467494315875,
+          4.679473888527746
+        ],
+        "per_logit_absolute_error": [
+          1.0646500303579387e-7,
+          6.028869146135207e-7
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 9.267821347311251,
+        "pairwise_decision_budget": 4.633910673655626,
+        "minimum_cap_required": 7.65392308576502e-8,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6188",
+        "key_run": 2,
+        "plain_logits": [
+          -4.5883468558965905,
+          4.679474491414661
+        ],
+        "ckks_logits": [
+          -4.588349099042379,
+          4.679476813652339
+        ],
+        "per_logit_absolute_error": [
+          0.0000022431457882277073,
+          0.000002322237677709893
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 9.267821347311251,
+        "pairwise_decision_budget": 4.633910673655626,
+        "minimum_cap_required": 4.926058989324491e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6188",
+        "key_run": 3,
+        "plain_logits": [
+          -4.5883468558965905,
+          4.679474491414661
+        ],
+        "ckks_logits": [
+          -4.5883417267515965,
+          4.679469466455197
+        ],
+        "per_logit_absolute_error": [
+          0.000005129144994064916,
+          0.000005024959463639789
+        ],
+        "plaintext_top_1": 1,
+        "plaintext_top_2": 0,
+        "ckks_top_1": 1,
+        "top_two_gap": 9.267821347311251,
+        "pairwise_decision_budget": 4.633910673655626,
+        "minimum_cap_required": 0.000001095630146199417,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6189",
+        "key_run": 1,
+        "plain_logits": [
+          2.5401792936295213,
+          -2.3495350612890666
+        ],
+        "ckks_logits": [
+          2.5401789264223,
+          -2.3495346745159322
+        ],
+        "per_logit_absolute_error": [
+          3.6720722151883933e-7,
+          3.867731344087133e-7
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 4.889714354918588,
+        "pairwise_decision_budget": 2.444857177459294,
+        "minimum_cap_required": 1.5419721914207934e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6189",
+        "key_run": 2,
+        "plain_logits": [
+          2.5401792936295213,
+          -2.3495350612890666
+        ],
+        "ckks_logits": [
+          2.5401781258675946,
+          -2.349533880161427
+        ],
+        "per_logit_absolute_error": [
+          0.0000011677619267125294,
+          0.0000011811276396933579
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 4.889714354918588,
+        "pairwise_decision_budget": 2.444857177459294,
+        "minimum_cap_required": 4.803735752054979e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      },
+      {
+        "sample_id": "bank_test_6189",
+        "key_run": 3,
+        "plain_logits": [
+          2.5401792936295213,
+          -2.3495350612890666
+        ],
+        "ckks_logits": [
+          2.5401803808010213,
+          -2.349536149244909
+        ],
+        "per_logit_absolute_error": [
+          0.0000010871714999360904,
+          0.0000010879558423049218
+        ],
+        "plaintext_top_1": 0,
+        "plaintext_top_2": 1,
+        "ckks_top_1": 0,
+        "top_two_gap": 4.889714354918588,
+        "pairwise_decision_budget": 2.444857177459294,
+        "minimum_cap_required": 4.4483730221440046e-7,
+        "certifiable": true,
+        "plaintext_tie": false,
+        "argmax_flip": false,
+        "reserve_policy_pass": true,
+        "reserve_policy_violation": false
+      }
+    ]
+  },
+  "key_run_summaries": [
+    {
+      "execution_adapter": "hediff_bank_exact_two_logit_adapter_v1",
+      "dataset_id": "hediff_bank_additional_public_procedure",
+      "model_id": "hediff_bank_mlp_20_256_2_seed20260906",
+      "model_type": "hediff_bank_exact_two_logit_square_adapter_v1",
+      "role": "configuration_validation",
+      "evaluated_rows": 16,
+      "class_count": 2,
+      "crypto_setup_ms": 18.890735,
+      "encode_encrypt_ms": 118.349572,
+      "evaluation_only_ms": 3079.921143,
+      "adapter_io_ms": 0,
+      "decrypt_decode_ms": 10.612966,
+      "total_ms": 3229.493029,
+      "amortized_total_ms_per_image": 201.8433143125,
+      "input_ciphertexts": 20,
+      "output_ciphertexts": 2,
+      "initial_level": 4,
+      "final_level": 1,
+      "required_slots": 16,
+      "available_slots": 4096,
+      "argmax_flips": 0,
+      "spool_bytes": 0
+    },
+    {
+      "execution_adapter": "hediff_bank_exact_two_logit_adapter_v1",
+      "dataset_id": "hediff_bank_additional_public_procedure",
+      "model_id": "hediff_bank_mlp_20_256_2_seed20260906",
+      "model_type": "hediff_bank_exact_two_logit_square_adapter_v1",
+      "role": "configuration_validation",
+      "evaluated_rows": 16,
+      "class_count": 2,
+      "crypto_setup_ms": 17.910752,
+      "encode_encrypt_ms": 114.541373,
+      "evaluation_only_ms": 3051.822842,
+      "adapter_io_ms": 0,
+      "decrypt_decode_ms": 10.661527,
+      "total_ms": 3197.000995,
+      "amortized_total_ms_per_image": 199.8125621875,
+      "input_ciphertexts": 20,
+      "output_ciphertexts": 2,
+      "initial_level": 4,
+      "final_level": 1,
+      "required_slots": 16,
+      "available_slots": 4096,
+      "argmax_flips": 0,
+      "spool_bytes": 0
+    },
+    {
+      "execution_adapter": "hediff_bank_exact_two_logit_adapter_v1",
+      "dataset_id": "hediff_bank_additional_public_procedure",
+      "model_id": "hediff_bank_mlp_20_256_2_seed20260906",
+      "model_type": "hediff_bank_exact_two_logit_square_adapter_v1",
+      "role": "configuration_validation",
+      "evaluated_rows": 16,
+      "class_count": 2,
+      "crypto_setup_ms": 18.525369,
+      "encode_encrypt_ms": 114.464232,
+      "evaluation_only_ms": 3070.04765,
+      "adapter_io_ms": 0,
+      "decrypt_decode_ms": 9.897345,
+      "total_ms": 3215.37097,
+      "amortized_total_ms_per_image": 200.960685625,
+      "input_ciphertexts": 20,
+      "output_ciphertexts": 2,
+      "initial_level": 4,
+      "final_level": 1,
+      "required_slots": 16,
+      "available_slots": 4096,
+      "argmax_flips": 0,
+      "spool_bytes": 0
+    }
+  ],
+  "mean_total_ms": 3213.9549979999997,
+  "median_total_ms": 3215.37097,
+  "p95_total_ms": 3229.493029,
+  "mean_eval_only_ms": 3067.263878333333,
+  "plaintext_accuracy": 0.9375,
+  "ckks_accuracy": 0.9375
+}

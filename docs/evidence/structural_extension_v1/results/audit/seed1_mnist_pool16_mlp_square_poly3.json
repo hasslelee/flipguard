@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "outcome": "LOCKED_AUDIT_PASS",
+  "reason": "locked candidate synth_repair_scale_1_rescale_N14_Q10_S26_97778e08d5f0 remained SAFE on disjoint audit with 3 fresh key run(s)",
+  "retuning_performed": false,
+  "selection_result": {
+    "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_structural_poly3_inputmodel_floor18_keys3/results/directv1_full_structural_poly3_inputmodel_floor18_keys3_seed1_mnist_pool16_mlp_square_poly3.json",
+    "sha256": "sha256:4eb969a3d3c8644ade5111617e154854008e366f4b644c1f7ba65c37d310746c"
+  },
+  "split_manifest": {
+    "path": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_1/mnist_pool16/mlp_square_poly3/split_manifest.json",
+    "sha256": "sha256:955ba75c5e242c5ab54dbd24c9cb1be899ec23605a8532506b0a2035178700e5"
+  },
+  "selection_contract_digest": "sha256:97778e08d5f06fa956bd348ab5cc1381fd22030783b03daeb5aa251b9dc57bd2",
+  "selection_workload_id": "split_seed_1/mnist_pool16/mlp_square_poly3",
+  "audit_contract": {
+    "schema_version": 2,
+    "workload_id": "split_seed_1/locked_audit/mnist_pool16/mlp_square_poly3",
+    "dataset_id": "mnist_pool16",
+    "model_id": "mlp_square_poly3",
+    "model_type": "mlp_square_poly3",
+    "split_id": "split_seed_1/locked_audit",
+    "model_artifact": {
+      "path": "datasets/tabular_suite/mnist_pool16/mlp_square_poly3/model.json",
+      "sha256": "sha256:3bf1edec1c3a99b737b07d9c39e2d2e8156c1bc7e4e5c87a84ed04f593968bfb"
+    },
+    "validation_data": {
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_structural_poly3_inputmodel_floor18_keys3/locked_audit/full_structural_poly3_inputmodel_floor18_keys3_locked_audit_keys3/materialized/directv1_full_structural_poly3_inputmodel_floor18_keys3_seed1_mnist_pool16_mlp_square_poly3_locked_audit_keys3.csv",
+      "sha256": "sha256:595639ffca1cbde529ffa7661a827fcf56a04868906c7b2e529c87f66a300c96"
+    },
+    "source_data": {
+      "path": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_1/mnist_pool16/mlp_square_poly3/locked_audit_test.csv",
+      "sha256": "sha256:2929892dd9549de5c5b4dcb2b8e30c0dd861272904efe101c87da534203aa1db"
+    },
+    "input_materialization": {
+      "schema_version": "flipguard_tabular_validation_v2",
+      "source_feature_space": "model_input",
+      "preprocessing_method": "identity_model_input_v1",
+      "source_replay_verified": true
+    },
+    "graph": {
+      "multiplicative_depth": 3,
+      "add_ops": 68,
+      "mul_ops": 74,
+      "rot_ops": 0,
+      "rescale_ops": 3,
+      "notes": [
+        "derived from the exact tabular plaintext DAG",
+        "rescale count is the maximum multiplicative path depth"
+      ]
+    },
+    "decision": {
+      "threshold": 0.5,
+      "margin_floor": 0.001,
+      "safety_factor": 0.5,
+      "protected_margin": 0.0010423408222361985,
+      "output_error_budget": 0.0005211704111180993,
+      "validation_digest": "sha256:e5d93a2576218efc317084f2c33490e0b10d7f26d018e8694b697b4fbdaea344",
+      "validation_samples": 251,
+      "certifiable_samples": 247,
+      "ambiguous_samples": 4
+    },
+    "calibration": {
+      "max_input_abs": 9.343528124144,
+      "max_plaintext_output_abs": 0.6231064364285612,
+      "aggregate_sensitivity": 9.39887827883726,
+      "sensitivity_method": "empirical_interval_dag_sum_v1",
+      "calibration_scope": "observed_validation_artifact:sha256:595639ffca1cbde529ffa7661a827fcf56a04868906c7b2e529c87f66a300c96"
+    },
+    "deployment": {
+      "security_bits": 128,
+      "required_slots": 1,
+      "max_encrypted_trials": 1,
+      "validation_key_repeats": 3,
+      "packing_strategy": "scalar_replicated_per_ciphertext_v1",
+      "allowed_paths": [
+        "rescale"
+      ],
+      "scale_trace_method": "lattigo_v6_rescale_scale_trace_v1",
+      "rescale_levels_consumed": 9,
+      "terminal_scale_exponent": 1,
+      "required_q_primes": 10
+    }
+  },
+  "selected_candidate": {
+    "id": "synth_repair_scale_1_rescale_N14_Q10_S26_97778e08d5f0",
+    "path": "rescale",
+    "parameters": {
+      "log_n": 14,
+      "log_q": [
+        29,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26,
+        26
+      ],
+      "log_p": [
+        30
+      ],
+      "log_default_scale": 26
+    },
+    "security": {
+      "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+      "target_bits": 128,
+      "declared_log_qp": 293,
+      "max_allowed_log_qp": 430,
+      "headroom_bits": 137,
+      "admission_status": "PASS",
+      "log_q": 263,
+      "log_p": 30,
+      "log_qp": 293,
+      "ciphertext_q_admission": "PASS",
+      "evaluation_key_qp_admission": "PASS",
+      "final_admission": "PASS",
+      "ciphertext_headroom_bits": 167,
+      "evaluation_key_headroom_bits": 137,
+      "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+    },
+    "required_rescale_levels": 9,
+    "level_guard": 0,
+    "precision_target_bits": 15,
+    "message_magnitude_bits": 0,
+    "analysis_scale_bits": 26,
+    "backend_scale_lift_bits": 0,
+    "backend_validation_attempts": 1,
+    "same_tier_precision_gain_bits": 0,
+    "same_tier_static_candidates_tried": 1,
+    "generation_kind": "repair_scale_1",
+    "reason": "budget=0.000535604 aggregate_sensitivity=9.50322 unit_budget=5.63603e-05 precision_bits=15 rescale_levels=9 terminal_scale_exponent=1 q_primes=10 level_guard=0 declared_logQP=293 analysis_scale_bits=26 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+  },
+  "audit_trial": {
+    "trial_index": 1,
+    "candidate": {
+      "id": "synth_repair_scale_1_rescale_N14_Q10_S26_97778e08d5f0",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          29,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26,
+          26
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 26
+      },
+      "security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 293,
+        "max_allowed_log_qp": 430,
+        "headroom_bits": 137,
+        "admission_status": "PASS",
+        "log_q": 263,
+        "log_p": 30,
+        "log_qp": 293,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 167,
+        "evaluation_key_headroom_bits": 137,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "required_rescale_levels": 9,
+      "level_guard": 0,
+      "precision_target_bits": 15,
+      "message_magnitude_bits": 0,
+      "analysis_scale_bits": 26,
+      "backend_scale_lift_bits": 0,
+      "backend_validation_attempts": 1,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 1,
+      "generation_kind": "repair_scale_1",
+      "reason": "budget=0.000535604 aggregate_sensitivity=9.50322 unit_budget=5.63603e-05 precision_bits=15 rescale_levels=9 terminal_scale_exponent=1 q_primes=10 level_guard=0 declared_logQP=293 analysis_scale_bits=26 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+    },
+    "status": "SAFE",
+    "assurance": "OBSERVED_VALIDATION",
+    "reason": "zero failures, zero decision flips, and zero error violations on V_cert=247",
+    "key_repeats_requested": 3,
+    "key_repeats_completed": 3,
+    "success_runs": 3,
+    "decision_flips": 0,
+    "error_violations": 0,
+    "max_observed_error": 0.006670924751713769,
+    "max_error_budget_usage": 0.27766582084689984,
+    "v_cert": 247,
+    "v_amb": 4,
+    "mean_total_ms": 782.2624680849923,
+    "median_total_ms": 762.4476,
+    "p95_total_ms": 897.259779
+  }
+}

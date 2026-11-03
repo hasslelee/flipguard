@@ -1,0 +1,75 @@
+{
+  "classification": "CLASS_S1_ESTIMATOR_ADAPTER_MISMATCH",
+  "encrypted_replay_required": false,
+  "estimator_results": [
+    {
+      "path": "results/journal_multiclass_security_reconciliation_v1/current-3e48ef4.json",
+      "sha256": "sha256:be8a0b593af0d083d0e5aac242a9a699a5c16c78b16f6800edbcf0b783763916"
+    },
+    {
+      "path": "results/journal_multiclass_security_reconciliation_v1/guidelines-pinned-8f1ff7e.json",
+      "sha256": "sha256:aa5eb1a504bec5ae3e93b599b34b5995dab01873c7e5370008f190d515365afd"
+    }
+  ],
+  "generated_files": {
+    "README.md": {
+      "sha256": "sha256:bb52e863f9b0ed559a419a69d8277044ed622afda536bcb5de0aa2389aea6eab"
+    },
+    "attack_results.csv": {
+      "sha256": "sha256:1aa0d209340f7f5fb718130cc1f85d5ac24ac0b2aa410ccdaa65d01d2040a579"
+    },
+    "candidate_security_summary.csv": {
+      "sha256": "sha256:3449985ed80e3f6eb12bf5aad00c9cad0088a997730aed36f8a5a81fe2cef33f"
+    },
+    "materialized_candidates.json": {
+      "sha256": "sha256:9037be3f8a0c6fb32b6db2faa699530083bbff58ec36230bebe339c1ce4d274e"
+    },
+    "object_security_summary.csv": {
+      "sha256": "sha256:2d1a424b0db54a58123c39dc299237919ac7837eabf0b4c8dda6052f53336eb4"
+    },
+    "reconciliation.json": {
+      "sha256": "sha256:78efcc9636a0640603ab30b2957ad0e26fcdda852f1aa50bfcaa10ff820cf531"
+    },
+    "verify_journal_multiclass_security_reconciliation_v1.py": {
+      "sha256": "sha256:b99b3db34d4d1ee7b507589a06924b44decb4ea410027bf25d3de0e50ec81171"
+    }
+  },
+  "input_bindings": [
+    {
+      "path": "results/journal_multiclass_security_reconciliation_v1/materialization.json",
+      "sha256": "sha256:2b6f11a097eb960e0c941e0d4f1abc63239fc76813151d592820b4e38bfc0e88"
+    },
+    {
+      "path": "results/journal_multiclass_security_reconciliation_v1/current-3e48ef4.json",
+      "sha256": "sha256:be8a0b593af0d083d0e5aac242a9a699a5c16c78b16f6800edbcf0b783763916"
+    },
+    {
+      "path": "results/journal_multiclass_security_reconciliation_v1/guidelines-pinned-8f1ff7e.json",
+      "sha256": "sha256:aa5eb1a504bec5ae3e93b599b34b5995dab01873c7e5370008f190d515365afd"
+    },
+    {
+      "path": "docs/evidence/exact_security_estimator_v1/manifest.json",
+      "sha256": "sha256:a445fce77883bf6ce9d5946733790e8f630e9cf277c3d76316e89f643687ccc4"
+    },
+    {
+      "path": "docs/evidence/exact_security_estimator_v1/summary.json",
+      "sha256": "sha256:6029a13b7782b8f4f111f07f64e93cedc2221fbfa3ce97dc5dcb48cac228c9e8"
+    },
+    {
+      "path": "docs/evidence/exact_security_estimator_v1/joined_results.csv",
+      "sha256": "sha256:06d8bdc84380805e9c73b757ef2180d65b65ceeca7cb29146982bb1c6e88d91e"
+    },
+    {
+      "path": "docs/evidence/journal_multiclass_extension_checkpoint_v1/manifest.json",
+      "sha256": "sha256:6a20c76fee50e58fd688a7c19d5cebf7a55d2a1660036ddb03126bd91a9da32b"
+    }
+  ],
+  "materialization": {
+    "path": "results/journal_multiclass_security_reconciliation_v1/materialization.json",
+    "sha256": "sha256:2b6f11a097eb960e0c941e0d4f1abc63239fc76813151d592820b4e38bfc0e88"
+  },
+  "policy_retuning": 0,
+  "schema_version": "flipguard_journal_multiclass_security_reconciliation_v1",
+  "security_amendment_required": false,
+  "source_commit": "26d9c3facf16788ad5eeff3f76114d094bd20e8c"
+}

@@ -1,0 +1,52 @@
+{
+  "candidate_identity": "provider_external_autotuner_d1df08d8015ba99d",
+  "claim_states": {
+    "encrypted_external_candidate_certification": "BLOCKED",
+    "general_external_autotuner_integration": "NOT_EVALUATED",
+    "hit_candidate_quality": "NOT_EVALUATED",
+    "lossless_cross_version_literal_import": "SUPPORTED",
+    "no_retuning_locked_audit": "NOT_EVALUATED",
+    "source_replayed_public_parameter_selector": "PARTIALLY_SUPPORTED"
+  },
+  "classification": "SOURCE_REPLAYED_PUBLIC_PARAMETER_SELECTOR",
+  "evaluation_role": "seed0_development_interoperability_control",
+  "implementation_failure": null,
+  "locked_audit": {
+    "flips": null,
+    "key_runs": 0,
+    "outcome": null,
+    "retuning": 0,
+    "status": null,
+    "violations": null
+  },
+  "paper_claim_allowed": false,
+  "schema_version": "flipguard_hit_external_adapter_run_v1",
+  "security": {
+    "admission_reason": "concrete ciphertext Q and evaluation-key QP products are within the conservative Table 5.2 cap",
+    "admission_status": "PASS",
+    "ciphertext_headroom_bits": 249,
+    "ciphertext_q_admission": "PASS",
+    "declared_log_qp": 242,
+    "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "evaluation_key_headroom_bits": 188,
+    "evaluation_key_qp_admission": "PASS",
+    "final_admission": "PASS",
+    "headroom_bits": 188,
+    "log_p": 61,
+    "log_q": 181,
+    "log_qp": 242,
+    "max_allowed_log_qp": 430,
+    "measurement": "ceil_log2_concrete_modulus_product",
+    "target_bits": 128
+  },
+  "selection": {
+    "candidate_trials": 1,
+    "flips": 0,
+    "key_runs": 3,
+    "outcome": "NO_SAFE",
+    "status": "REJECTED",
+    "violations": 6
+  },
+  "selection_audit_candidate_identical": null,
+  "status": "PASS"
+}

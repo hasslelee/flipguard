@@ -1,0 +1,76 @@
+{
+  "concrete_import_p_identical": true,
+  "concrete_import_q_identical": true,
+  "derived": {
+    "log_n": 14,
+    "log_p": [
+      61
+    ],
+    "log_q": [
+      60,
+      20,
+      20,
+      20,
+      20,
+      20,
+      20
+    ]
+  },
+  "exact_concrete_translation": true,
+  "input": {
+    "log_scale": 20,
+    "max_ct_level": 6,
+    "num_ks_primes": 1,
+    "num_slots": 8192
+  },
+  "lattigo_v2_2_0": {
+    "log_default_scale": 20,
+    "log_n": 14,
+    "max_slots": 8192,
+    "module": "github.com/ldsec/lattigo/v2",
+    "p": [
+      2305843009211662337
+    ],
+    "q": [
+      1152921504606748673,
+      1146881,
+      1179649,
+      786433,
+      1376257,
+      557057,
+      1769473
+    ],
+    "ring_type": "standard",
+    "version": "v2.2.0",
+    "xe": "discrete_gaussian_sigma_3.2_bound_19.2",
+    "xs": "uniform_ternary_[1/3,1/3,1/3]"
+  },
+  "lattigo_v6_2_0_concrete_import": {
+    "log_default_scale": 20,
+    "log_n": 14,
+    "max_slots": 8192,
+    "module": "github.com/tuneinsight/lattigo/v6",
+    "p": [
+      2305843009211662337
+    ],
+    "q": [
+      1152921504606748673,
+      1146881,
+      1179649,
+      786433,
+      1376257,
+      557057,
+      1769473
+    ],
+    "ring_type": "standard",
+    "version": "v6.2.0",
+    "xe": "discrete_gaussian_sigma_3.2_bound_19.2",
+    "xs": "uniform_ternary_[1/3,1/3,1/3]"
+  },
+  "lattigo_v6_2_0_native_log_literal_error": "cannot NewParametersFromLiteral: rlwe.NewParametersFromLiteral: unable to generate standard ring moduli: cannot GenModuli: failed to generate 6 primes of bit-size=20 for LogNthRoot=15: cannot NextAlternatingPrime: prime list for both upstream and downstream primes is exhausted (overlap with previous/next bit-size or NthRoot > prime > 2^{64} ",
+  "ring_identical": true,
+  "scale_identical": true,
+  "schema_version": "flipguard_lattigo_cross_version_materialization_v1",
+  "xe_identical": true,
+  "xs_identical": true
+}

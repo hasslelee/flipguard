@@ -1,0 +1,25 @@
+{
+  "audit_retuning_allowed": false,
+  "hard_fail": [
+    "source/model/split/policy/candidate digest mismatch",
+    "validation and audit row overlap",
+    "Security-V2 inadmissible candidate enters a formal run",
+    "test data used for model or hyperparameter selection",
+    "audit result changes model, literal, repair, alpha, floor, or trial budget",
+    "existing frozen evidence would be overwritten"
+  ],
+  "natural_activation_outcomes": {
+    "A_LITERAL_EFFECT_SUPPORTED": "decision-aware and graph-only choose different admitted literals and the top-two-gap budget explains the difference",
+    "B_ADMISSION_EFFECT_ONLY": "literal is equal but gate changes admission, coverage, or NO_SAFE",
+    "C_NO_OBSERVED_ACTIVATION": "literal and admission are equal"
+  },
+  "schema_version": "flipguard_journal_multiclass_extension_protocol_v1",
+  "scientific_negative_results_preserved": [
+    "PLAN_UNSUPPORTED",
+    "SECURITY_INADMISSIBLE",
+    "NO_SAFE",
+    "candidate-trial budget exhaustion",
+    "locked-audit argmax flip",
+    "reserve-policy rejection"
+  ]
+}

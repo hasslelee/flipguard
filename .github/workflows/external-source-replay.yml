@@ -1,0 +1,109 @@
+name: External Source Replay
+
+on:
+  push:
+    branches:
+      - feature/flipguard-auto-tuner
+    paths:
+      - .github/workflows/external-source-replay.yml
+      - scripts/fetch_external_source_inputs.py
+      - scripts/run_external_source_replay.py
+      - scripts/verify_external_source_replay.py
+      - scripts/export_mnist_cnn_lite_holdout.py
+      - scripts/export_bsds500_sobel_holdout.py
+      - scripts/export_bsds500_harris_holdout.py
+      - internal/ckksplanner/cnn_lite_contract.go
+      - internal/ckksplanner/cnn_lite_contract_test.go
+      - internal/ckksplanner/harris_contract.go
+      - internal/ckksplanner/harris_contract_test.go
+      - datasets/vision_suite/mnist/cnn_lite_square_binary01/**
+      - datasets/vision_suite/bsds500/sobel_edge/**
+      - datasets/vision_suite/bsds500/harris_corner_response/**
+  workflow_dispatch:
+    inputs:
+      source_commit:
+        description: Exact FlipGuard source commit to replay
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    name: official-source-replay
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Check out exact source commit
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          ref: ${{ inputs.source_commit || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Go from go.mod
+        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+
+      - name: Install pinned Python dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --requirement requirements-ci.txt
+
+      - name: Fetch byte-pinned official sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/flipguard-external-source
+          python3 scripts/fetch_external_source_inputs.py \
+            --output /tmp/flipguard-external-source/fetch.json
+
+      - name: Run external source replay
+        id: replay
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/run_external_source_replay.py \
+            --source-commit "${{ inputs.source_commit || github.sha }}" \
+            --fetch-manifest /tmp/flipguard-external-source/fetch.json \
+            --output /tmp/flipguard-external-source/replay
+
+      - name: Verify external source replay
+        id: verify
+        if: always()
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/verify_external_source_replay.py \
+            --source-commit "${{ inputs.source_commit || github.sha }}" \
+            --result-dir /tmp/flipguard-external-source/replay
+
+      - name: Upload source replay artifact
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: flipguard-external-source-replay
+          path: /tmp/flipguard-external-source/replay
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Enforce source replay result
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${{ steps.replay.outcome }}" = "success"
+          test "${{ steps.verify.outcome }}" = "success"

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc" >
+<title id="title">FlipGuard evaluation hierarchy</title>
+<desc id="desc">Core RC2 evidence remains immutable; the journal overlay adds two standard multiclass models.</desc>
+<rect width="1200" height="700" fill="#ffffff"/>
+<text x="55" y="58" font-family="sans-serif" font-size="30" font-weight="700" fill="#111827">FlipGuard evaluation hierarchy</text>
+<rect x="180.0" y="95.0" width="840.0" height="100.0" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+<text x="600.0" y="129.0" font-family="sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#111827">Controlled primary</text>
+<text x="600.0" y="159.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">5 datasets x 2 graphs</text>
+<text x="600.0" y="184.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">50 repeated-partition instances</text>
+<line x1="600" y1="195" x2="600" y2="225" stroke="#6b7280" stroke-width="2"/>
+<polygon points="594,217 606,217 600,227" fill="#6b7280"/>
+<rect x="180.0" y="230.0" width="840.0" height="100.0" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+<text x="600.0" y="264.0" font-family="sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#111827">Structural holdouts</text>
+<text x="600.0" y="294.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">poly3; Sobel; Harris; CNN-lite</text>
+<text x="600.0" y="319.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">finite adapter scopes</text>
+<line x1="600" y1="330" x2="600" y2="360" stroke="#6b7280" stroke-width="2"/>
+<polygon points="594,352 606,352 600,362" fill="#6b7280"/>
+<rect x="180.0" y="365.0" width="840.0" height="100.0" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="2"/>
+<text x="600.0" y="399.0" font-family="sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#111827">Robustness</text>
+<text x="600.0" y="429.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">3 datasets x 3 training seeds</text>
+<text x="600.0" y="454.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">9 independent trained models</text>
+<line x1="600" y1="465" x2="600" y2="495" stroke="#6b7280" stroke-width="2"/>
+<polygon points="594,487 606,487 600,497" fill="#6b7280"/>
+<rect x="180.0" y="500.0" width="840.0" height="100.0" rx="6" fill="#f3e8ff" stroke="#7c3aed" stroke-width="2"/>
+<text x="600.0" y="534.0" font-family="sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#111827">Journal extension</text>
+<text x="600.0" y="564.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">MLP-100 and LeNet-5-small</text>
+<text x="600.0" y="589.0" font-family="sans-serif" font-size="15" font-weight="400" text-anchor="middle" fill="#374151">10-class; 1,000 shared test rows</text>
+</svg>

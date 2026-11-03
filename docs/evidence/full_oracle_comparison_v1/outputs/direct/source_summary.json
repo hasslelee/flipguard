@@ -1,0 +1,36 @@
+{
+  "by_model": {
+    "linear_poly3": {
+      "mean_encrypted_trials": 1.8,
+      "mean_of_workload_mean_latency_ms": 131.76914945208858,
+      "selected_runs": 25
+    },
+    "mlp_square_linear_score": {
+      "mean_encrypted_trials": 1.0,
+      "mean_of_workload_mean_latency_ms": 175.1139538063882,
+      "selected_runs": 25
+    }
+  },
+  "complete": true,
+  "encrypted_trial_status_counts": {
+    "REJECTED": 20,
+    "SAFE": 50
+  },
+  "expected_runs": 50,
+  "failed_runs": 0,
+  "failed_tags": [],
+  "initial_rejected_runs": 20,
+  "max_encrypted_trials": 2,
+  "mean_encrypted_trials_per_successful_run": 1.4,
+  "no_safe_runs": 0,
+  "recorded_runs": 50,
+  "repaired_runs": 20,
+  "run_status_path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/run_status.csv",
+  "schema_version": 1,
+  "selected_runs": 50,
+  "successful_runs": 50,
+  "total_encrypted_key_runs": 210,
+  "total_encrypted_trials": 70,
+  "zero_flip_selected_runs": 50,
+  "zero_violation_selected_runs": 50
+}

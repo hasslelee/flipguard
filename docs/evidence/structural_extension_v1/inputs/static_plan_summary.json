@@ -1,0 +1,89 @@
+{
+  "claim_boundary": "Static feasibility for the five-dataset mlp_square_poly3 extension does not establish encrypted safety.",
+  "diagnostics": {
+    "candidate_signatures": {
+      "N14_Q10_S22": 50
+    },
+    "graph_shapes": {
+      "depth3_rescale3_q10": 50
+    },
+    "statuses": {
+      "PLAN_OK": 50
+    },
+    "total_v_amb": 240,
+    "total_v_cert": 8025
+  },
+  "inputs": {
+    "split_summary": {
+      "path": "results/thesis_grade_protocol/structural_extension_splits_v1/summary.json",
+      "sha256": "sha256:8e1ac4e74e086a86944510023c0312f5ee77b0dedeaaa4dc3d1b5332607fa609"
+    }
+  },
+  "outputs": {
+    "plans": {
+      "path": "results/thesis_grade_protocol/structural_extension_v1/static_plans/plans.csv",
+      "sha256": "sha256:31065e116f1f651825bbaa1c98e26f3600b74f6e2878034e5a895d919726c499"
+    }
+  },
+  "protocol": {
+    "datasets": [
+      "banknote",
+      "digits_binary",
+      "iris_binary",
+      "mnist_pool16",
+      "wdbc"
+    ],
+    "key_repeats_contract": 3,
+    "margin_floor": 0.001,
+    "max_encrypted_trials": 4,
+    "model_id": "mlp_square_poly3",
+    "partitions": [
+      "configuration_validation",
+      "locked_audit_test"
+    ],
+    "safety_factor": 0.5,
+    "split_seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "schema_version": 1,
+  "source": {
+    "commit": "c704fad9413483a337dbaa344ff5cc09e2add569",
+    "digest": "sha256:8cd939523075e56d64011fecd54ead6056dfb876bc988a700db830bad3f80d1b",
+    "files": {
+      "cmd/flipguard-synthesize/main.go": {
+        "bytes": 5073,
+        "sha256": "sha256:6f727d0280139dfc283c06c878c108b75c7c8de4233adc091dfaf082f289c10a"
+      },
+      "go.mod": {
+        "bytes": 570,
+        "sha256": "sha256:002398be2c55fc464db27c92805c96abc7aae8e6e8106dd083d9b0b76cf8a179"
+      },
+      "go.sum": {
+        "bytes": 2614,
+        "sha256": "sha256:ba0b56d4f4d13fd01648402ad271b0c27a6722830ca2f652fcd94e4cfdcb508d"
+      },
+      "internal/ckksplanner/contract.go": {
+        "bytes": 11394,
+        "sha256": "sha256:5c32d647aaba918e10c2a43ea9f78ac38374f3db2e6a7ac26358a1f87ff9a6af"
+      },
+      "internal/ckksplanner/synthesis.go": {
+        "bytes": 23393,
+        "sha256": "sha256:99c026a888e2f4561ff60eb855943075fdfcf6b9628030db648a275d3f296340"
+      },
+      "internal/ckksplanner/tabular_contract.go": {
+        "bytes": 25187,
+        "sha256": "sha256:05cd626c9d3dfd9ef061a943d08069a1712f749881bc13d3921b27c47178c940"
+      },
+      "scripts/analyze_structural_extension_plans.py": {
+        "bytes": 12278,
+        "sha256": "sha256:d7aeecc4fff6810de67c06f5dfaee1d2a664712c331a950be4f998766d263892"
+      }
+    }
+  },
+  "status": "STATIC_PLAN_COMPLETE"
+}

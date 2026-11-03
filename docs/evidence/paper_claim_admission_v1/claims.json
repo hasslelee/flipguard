@@ -1,0 +1,466 @@
+{
+  "claim_vocabulary": [
+    "BLOCKED",
+    "NOT_EVALUATED",
+    "PARTIALLY_SUPPORTED",
+    "PILOT_ONLY",
+    "SUPERSEDED",
+    "SUPPORTED"
+  ],
+  "claims": [
+    {
+      "claim_id": "scoped_direct_synthesis",
+      "evidence_dependencies": [
+        "direct_confirmatory",
+        "direct_development",
+        "final_suite"
+      ],
+      "exact_allowed_wording_en": "Within the declared graph adapters and frozen policies, FlipGuard directly synthesized CKKS literals from computation graphs and threshold decision-integrity contracts.",
+      "exact_allowed_wording_ko": "FlipGuard\ub294 \uc120\uc5b8\ub41c graph adapter\uc640 \ub3d9\uacb0 \uc815\ucc45 \ubc94\uc704\uc5d0\uc11c computation graph\uc640 threshold decision-integrity contract\ub85c\ubd80\ud130 CKKS literal\uc744 \uc9c1\uc811 \ud569\uc131\ud588\ub2e4.",
+      "limitations": [
+        "finite adapter set",
+        "scalar-replicated packing scope"
+      ],
+      "paper_admitted": true,
+      "prohibited_overclaim": [
+        "universal graph support",
+        "first direct CKKS synthesizer"
+      ],
+      "reviewer_rationale": "All declared primary instances produced admitted literals under the frozen policy; breadth beyond the adapters was not evaluated.",
+      "scope": "declared tabular, polynomial, Sobel, Harris, and scalar-replicated CNN-lite adapters",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "SUPPORTED",
+      "statistical_unit": "workload-partition instance, with seed roles reported separately",
+      "title": "Scoped direct CKKS configuration synthesis"
+    },
+    {
+      "claim_id": "adaptive_repair",
+      "evidence_dependencies": [
+        "direct_ablation",
+        "direct_confirmatory"
+      ],
+      "exact_allowed_wording_en": "In the declared development ablation, FlipGuard's frozen bounded repair converted four one-shot failures into SAFE selections; this does not imply universal repair success.",
+      "exact_allowed_wording_ko": "FlipGuard\uc758 \ub3d9\uacb0\ub41c bounded repair\ub294 \uc120\uc5b8\ub41c \uac1c\ubc1c ablation\uc5d0\uc11c one-shot \uc2e4\ud328 \ub124 \uac74\uc744 SAFE \uc120\ud0dd\uc73c\ub85c \uc804\ud658\ud588\uc73c\uba70, \uc774\ub294 \ubcf4\ud3b8\uc801 repair \uc131\uacf5\uc744 \ub73b\ud558\uc9c0 \uc54a\ub294\ub2e4.",
+      "limitations": [
+        "four causal ablation cases",
+        "bounded repair budget"
+      ],
+      "paper_admitted": true,
+      "prohibited_overclaim": [
+        "universal repair success",
+        "first repair-based selector"
+      ],
+      "reviewer_rationale": "The one-shot/full contrast isolates empirical repair value while retaining failures and bounded termination.",
+      "scope": "predeclared development ablation and observed repair causes",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "SUPPORTED",
+      "statistical_unit": "development workload",
+      "title": "Bounded failure-aware repair"
+    },
+    {
+      "claim_id": "formal_trial_reduction",
+      "evidence_dependencies": [
+        "final_suite",
+        "bounded_oracle"
+      ],
+      "exact_allowed_wording_en": "FlipGuard used 70 encrypted candidate trials versus 700 Security-V2 bounded-catalog candidates overall and 56 versus 560 in the confirmatory partitions, a 90% reduction in both cases.",
+      "exact_allowed_wording_ko": "FlipGuard\ub294 Security-V2 bounded catalog\uc758 700\uac1c \ud6c4\ubcf4 \ub300\ube44 \uc804\uccb4 70\ud68c, confirmatory 560\uac1c \ud6c4\ubcf4 \ub300\ube44 56\ud68c\uc758 encrypted candidate trial\uc744 \uc0ac\uc6a9\ud574 \ub450 \uacbd\uc6b0 \ubaa8\ub450 90% \uac10\uc18c\ub97c \uae30\ub85d\ud588\ub2e4.",
+      "limitations": [
+        "1,100 executions are historical pre-security accounting only"
+      ],
+      "paper_admitted": true,
+      "prohibited_overclaim": [
+        "trial reduction against 1,100",
+        "global search-space reduction"
+      ],
+      "reviewer_rationale": "The denominator excludes 400 Security-V2-inadmissible candidates and separates seed 0 from seeds 1-4.",
+      "scope": "Security-V2-admitted 7 profiles x 2 paths over the declared instances",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "SUPPORTED",
+      "statistical_unit": "candidate trial",
+      "title": "Formal Security-V2 trial reduction"
+    },
+    {
+      "claim_id": "primary_no_retuning_locked_audit",
+      "evidence_dependencies": [
+        "direct_confirmatory",
+        "direct_development"
+      ],
+      "exact_allowed_wording_en": "Byte-identical frozen literals passed no-retuning locked audit in 40/40 confirmatory seed-1-4 instances and 10/10 development seed-0 instances.",
+      "exact_allowed_wording_ko": "\ub3d9\uacb0 literal\uc758 no-retuning locked audit\uc740 confirmatory seeds 1-4\uc5d0\uc11c 40/40, development seed 0\uc5d0\uc11c 10/10 \ud1b5\uacfc\ud588\ub2e4.",
+      "limitations": [
+        "fixed held-out artifacts",
+        "not independent model seeds"
+      ],
+      "paper_admitted": true,
+      "prohibited_overclaim": [
+        "50 independent samples",
+        "distribution-wide locked-audit guarantee"
+      ],
+      "reviewer_rationale": "The audit replays the selected literal without synthesis or repair and preserves the seed-role distinction.",
+      "scope": "10 dataset-model workloads and five deterministic repeated partitions",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "SUPPORTED",
+      "statistical_unit": "10 dataset-model workloads with repeated partitions; seed 0 is descriptive",
+      "title": "Primary no-retuning locked audit"
+    },
+    {
+      "claim_id": "no_safe_behavior",
+      "evidence_dependencies": [
+        "no_safe"
+      ],
+      "exact_allowed_wording_en": "The predeclared budget control returned NO_SAFE in 16/40 instances, and the declared finite-domain control returned NO_SAFE in 50/50 instances.",
+      "exact_allowed_wording_ko": "\uc0ac\uc804\ub3d9\uacb0 budget control\uc740 40\uac74 \uc911 16\uac74\uc5d0\uc11c NO_SAFE\ub97c, \uc120\uc5b8\ub41c finite-domain control\uc740 50/50\uc5d0\uc11c NO_SAFE\ub97c \ubc18\ud658\ud588\ub2e4.",
+      "limitations": [
+        "finite candidate budgets and domains"
+      ],
+      "paper_admitted": true,
+      "prohibited_overclaim": [
+        "global CKKS infeasibility",
+        "NO_SAFE proves no possible configuration"
+      ],
+      "reviewer_rationale": "The controls demonstrate fail-closed abstention only within their predeclared candidate budgets.",
+      "scope": "one-candidate budget control and declared two-candidate finite domain",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "SUPPORTED",
+      "statistical_unit": "control workload-partition instance",
+      "title": "Scoped NO_SAFE abstention"
+    },
+    {
+      "claim_id": "paired_latency",
+      "evidence_dependencies": [
+        "paired_latency_admission",
+        "bounded_oracle"
+      ],
+      "exact_allowed_wording_en": "Across the declared post-freeze workload partitions, FlipGuard's directly synthesized configurations reduced paired total inference latency relative to the Security-V2-compliant bounded-catalog fastest-safe configurations; the exact clustered geometric-mean ratio and confidence interval are reported.",
+      "exact_allowed_wording_ko": "\uc120\uc5b8\ub41c post-freeze workload partition\uc5d0\uc11c direct configuration\uc740 Security-V2 bounded-catalog fastest-safe configuration\ubcf4\ub2e4 paired total inference latency\ub97c \uc904\uc600\uc73c\uba70, \uc815\ud655\ud55c clustered geometric-mean ratio\uc640 confidence interval\uc744 \ud568\uaed8 \ubcf4\uace0\ud55c\ub2e4.",
+      "limitations": [
+        "one measured host",
+        "declared workloads"
+      ],
+      "paper_admitted": true,
+      "prohibited_overclaim": [
+        "production speedup",
+        "universal speedup",
+        "raw pair-level p-value",
+        "global-optimal baseline"
+      ],
+      "reviewer_rationale": "All 40 confirmatory instances are complete and the cluster-bootstrap lower bound exceeds one, but hardware and workload generality are limited.",
+      "scope": "one host, frozen direct and Security-V2 bounded-catalog arms",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "PARTIALLY_SUPPORTED",
+      "statistical_unit": "10 dataset-model clusters; seeds 1-4 repeat within cluster",
+      "title": "Confirmatory paired latency"
+    },
+    {
+      "claim_id": "structural_extension",
+      "evidence_dependencies": [
+        "structural",
+        "structural_failure",
+        "margin_interpretation"
+      ],
+      "exact_allowed_wording_en": "For mlp_square_poly3, 25/25 instances were selected and no-retuning audit produced 24 PASS results and one reserve-policy REJECT without a decision flip.",
+      "exact_allowed_wording_ko": "mlp_square_poly3\ub294 25/25 \uc120\ud0dd\ub410\uace0 no-retuning audit\uc5d0\uc11c 24\uac74 PASS\uc640 decision flip \uc5c6\ub294 reserve-policy REJECT 1\uac74\uc744 \uae30\ub85d\ud588\ub2e4.",
+      "limitations": [
+        "one disclosed audit policy rejection",
+        "single deeper polynomial graph family"
+      ],
+      "paper_admitted": true,
+      "prohibited_overclaim": [
+        "25/25 audit PASS",
+        "unseen audits always preserve the reserve policy",
+        "arbitrary graph support"
+      ],
+      "reviewer_rationale": "The valid negative result lowers the claim and demonstrates that selection success is not audit success.",
+      "scope": "five datasets x five deterministic partitions for mlp_square_poly3",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "PARTIALLY_SUPPORTED",
+      "statistical_unit": "workload-partition instance",
+      "title": "Deeper polynomial structural extension"
+    },
+    {
+      "claim_id": "scoped_non_tabular_extension",
+      "evidence_dependencies": [
+        "sobel",
+        "harris",
+        "cnn_lite"
+      ],
+      "exact_allowed_wording_en": "The Sobel, Harris, and CNN-lite adapters provide selection and no-retuning audit evidence only for their declared finite inputs and scalar-replicated execution scopes.",
+      "exact_allowed_wording_ko": "Sobel, Harris, CNN-lite adapter\ub294 \uac01 \uc120\uc5b8\ub41c finite input\uacfc scalar-replicated execution \ubc94\uc704\uc5d0\uc11c selection\uacfc no-retuning audit evidence\ub97c \uc81c\uacf5\ud55c\ub2e4.",
+      "limitations": [
+        "no packed CNN",
+        "no full-image operator accuracy claim"
+      ],
+      "paper_admitted": true,
+      "prohibited_overclaim": [
+        "general CNN support",
+        "image-processing generalization",
+        "universal graph support"
+      ],
+      "reviewer_rationale": "Multiple non-tabular adapters broaden finite scope but do not establish arbitrary packed graph support.",
+      "scope": "BSDS500 Sobel/Harris patches and MNIST CNN-lite scalar-replicated adapter",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "PARTIALLY_SUPPORTED",
+      "statistical_unit": "declared image cluster or image input, as specified by each pack",
+      "title": "Scoped non-tabular adapters"
+    },
+    {
+      "claim_id": "training_model_seed_extension",
+      "evidence_dependencies": [
+        "training_seed"
+      ],
+      "exact_allowed_wording_en": "Nine model instances from three datasets and three independent training/data seeds achieved 9/9 selection and no-retuning audit PASS.",
+      "exact_allowed_wording_ko": "\uc138 dataset\uacfc \uc138 independent training/data seed\ub85c \uc0dd\uc131\ud55c 9\uac1c model instance\uac00 9/9 selection\uacfc no-retuning audit PASS\ub97c \uae30\ub85d\ud588\ub2e4.",
+      "limitations": [
+        "three datasets",
+        "three seeds"
+      ],
+      "paper_admitted": true,
+      "prohibited_overclaim": [
+        "universal model-seed generalization",
+        "nine independent datasets"
+      ],
+      "reviewer_rationale": "The extension addresses fixed-model reuse but remains too small for universal training generalization.",
+      "scope": "3 datasets x 3 predeclared independent training/data seeds",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "PARTIALLY_SUPPORTED",
+      "statistical_unit": "trained model instance, grouped by dataset",
+      "title": "Independent training/data-seed extension"
+    },
+    {
+      "claim_id": "security_attestation",
+      "evidence_dependencies": [
+        "security_attestation",
+        "exact_estimator"
+      ],
+      "exact_allowed_wording_en": "Selected exact Q/P literals were re-attested under Security Policy V2 and two estimator models; exact equivalence to Lattigo's truncated Xe distribution is not claimed.",
+      "exact_allowed_wording_ko": "\uc120\ud0dd \ud6c4\ubcf4\uc758 exact Q/P\ub97c Security Policy V2\uc640 \ub450 estimator model\uc5d0\uc11c \uc7ac\uac10\uc0ac\ud588\uc73c\uba70, \uc2e4\uc81c Lattigo Xe truncation\uacfc estimator \ubd84\ud3ec\uc758 exact equivalence\ub294 \uc8fc\uc7a5\ud558\uc9c0 \uc54a\ub294\ub2e4.",
+      "limitations": [
+        "conservative table admission",
+        "explicit Gaussian truncation caveat"
+      ],
+      "paper_admitted": true,
+      "prohibited_overclaim": [
+        "exact distribution equivalence",
+        "universal 128-bit security for arbitrary runtimes"
+      ],
+      "reviewer_rationale": "Q and QP are checked separately and estimator sensitivity is complete for the declared objects, with an explicit distribution caveat.",
+      "scope": "attested direct, catalog, reference, and latency-arm literals",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "PARTIALLY_SUPPORTED",
+      "statistical_unit": "distinct cryptographic object and estimator model",
+      "title": "Security-V2 and exact-Q/P attestation"
+    },
+    {
+      "claim_id": "finite_scope_decision_integrity",
+      "evidence_dependencies": [
+        "direct_confirmatory",
+        "direct_development",
+        "margin_interpretation",
+        "no_safe"
+      ],
+      "exact_allowed_wording_en": "FlipGuard combines observed error and decision margin to certify or reject candidates on declared finite validation artifacts and replays the frozen literal on disjoint audits.",
+      "exact_allowed_wording_ko": "FlipGuard\ub294 \uc120\uc5b8\ub41c finite validation\uc5d0\uc11c \uad00\uce21 error\uc640 decision margin\uc744 \uacb0\ud569\ud574 \ud6c4\ubcf4\ub97c certify-or-reject\ud558\uace0, disjoint audit\uc5d0\uc11c \ub3d9\uacb0 literal\uc744 \uc7ac\uc0dd\ud55c\ub2e4.",
+      "limitations": [
+        "empirical finite-set certificate",
+        "rho=0.5 is operational"
+      ],
+      "paper_admitted": true,
+      "prohibited_overclaim": [
+        "distribution-wide safety",
+        "instantiated analytical CKKS certificate"
+      ],
+      "reviewer_rationale": "The evidence supports the gate behavior and observed finite-set outcomes, not a domain-wide approximation theorem.",
+      "scope": "declared finite validation and locked-audit artifacts",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "PARTIALLY_SUPPORTED",
+      "statistical_unit": "certifiable sample-key observation within each declared artifact",
+      "title": "Finite-scope decision-integrity admission"
+    },
+    {
+      "claim_id": "natural_data_margin_literal_effect",
+      "evidence_dependencies": [
+        "direct_ablation",
+        "policy_sensitivity"
+      ],
+      "exact_allowed_wording_en": "",
+      "exact_allowed_wording_ko": "",
+      "limitations": [
+        "The primary natural range showed zero literal changes because the minimum synthesis floor dominated."
+      ],
+      "paper_admitted": false,
+      "prohibited_overclaim": [
+        "Natural-data decision margin changes the synthesized literal"
+      ],
+      "reviewer_rationale": "The primary natural range showed zero literal changes because the minimum synthesis floor dominated.",
+      "scope": "not admitted",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "BLOCKED",
+      "statistical_unit": "not applicable",
+      "title": "Natural-data decision margin changes the synthesized literal"
+    },
+    {
+      "claim_id": "instantiated_analytical_ckks_certificate",
+      "evidence_dependencies": [],
+      "exact_allowed_wording_en": "",
+      "exact_allowed_wording_ko": "",
+      "limitations": [
+        "Primitive CKKS residual bounds are not instantiated."
+      ],
+      "paper_admitted": false,
+      "prohibited_overclaim": [
+        "Instantiated analytical CKKS certificate"
+      ],
+      "reviewer_rationale": "Primitive CKKS residual bounds are not instantiated.",
+      "scope": "not admitted",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "BLOCKED",
+      "statistical_unit": "not applicable",
+      "title": "Instantiated analytical CKKS certificate"
+    },
+    {
+      "claim_id": "distribution_wide_safety",
+      "evidence_dependencies": [],
+      "exact_allowed_wording_en": "",
+      "exact_allowed_wording_ko": "",
+      "limitations": [
+        "Finite observed artifacts do not establish distribution-wide safety."
+      ],
+      "paper_admitted": false,
+      "prohibited_overclaim": [
+        "Distribution-wide decision safety"
+      ],
+      "reviewer_rationale": "Finite observed artifacts do not establish distribution-wide safety.",
+      "scope": "not admitted",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "BLOCKED",
+      "statistical_unit": "not applicable",
+      "title": "Distribution-wide decision safety"
+    },
+    {
+      "claim_id": "arbitrary_graph_support",
+      "evidence_dependencies": [],
+      "exact_allowed_wording_en": "",
+      "exact_allowed_wording_ko": "",
+      "limitations": [
+        "Only declared adapters were evaluated."
+      ],
+      "paper_admitted": false,
+      "prohibited_overclaim": [
+        "Arbitrary graph support"
+      ],
+      "reviewer_rationale": "Only declared adapters were evaluated.",
+      "scope": "not admitted",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "NOT_EVALUATED",
+      "statistical_unit": "not applicable",
+      "title": "Arbitrary graph support"
+    },
+    {
+      "claim_id": "global_optimum",
+      "evidence_dependencies": [
+        "bounded_oracle"
+      ],
+      "exact_allowed_wording_en": "",
+      "exact_allowed_wording_ko": "",
+      "limitations": [
+        "The comparator is a finite Security-V2 bounded catalog."
+      ],
+      "paper_admitted": false,
+      "prohibited_overclaim": [
+        "Global optimality"
+      ],
+      "reviewer_rationale": "The comparator is a finite Security-V2 bounded catalog.",
+      "scope": "not admitted",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "BLOCKED",
+      "statistical_unit": "not applicable",
+      "title": "Global optimality"
+    },
+    {
+      "claim_id": "cross_runtime_numerical_equivalence",
+      "evidence_dependencies": [],
+      "exact_allowed_wording_en": "",
+      "exact_allowed_wording_ko": "",
+      "limitations": [
+        "Matched Lattigo-SEAL execution was intentionally stopped."
+      ],
+      "paper_admitted": false,
+      "prohibited_overclaim": [
+        "Cross-runtime numerical equivalence"
+      ],
+      "reviewer_rationale": "Matched Lattigo-SEAL execution was intentionally stopped.",
+      "scope": "not admitted",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "NOT_EVALUATED",
+      "statistical_unit": "not applicable",
+      "title": "Cross-runtime numerical equivalence"
+    },
+    {
+      "claim_id": "general_external_autotuner_integration",
+      "evidence_dependencies": [],
+      "exact_allowed_wording_en": "",
+      "exact_allowed_wording_ko": "",
+      "limitations": [
+        "Provider artifacts are scoped appendix evidence."
+      ],
+      "paper_admitted": false,
+      "prohibited_overclaim": [
+        "General external-autotuner integration"
+      ],
+      "reviewer_rationale": "Provider artifacts are scoped appendix evidence.",
+      "scope": "not admitted",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "NOT_EVALUATED",
+      "statistical_unit": "not applicable",
+      "title": "General external-autotuner integration"
+    },
+    {
+      "claim_id": "production_latency",
+      "evidence_dependencies": [
+        "paired_latency_admission"
+      ],
+      "exact_allowed_wording_en": "",
+      "exact_allowed_wording_ko": "",
+      "limitations": [
+        "One research host does not establish production performance."
+      ],
+      "paper_admitted": false,
+      "prohibited_overclaim": [
+        "Production latency"
+      ],
+      "reviewer_rationale": "One research host does not establish production performance.",
+      "scope": "not admitted",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "NOT_EVALUATED",
+      "statistical_unit": "not applicable",
+      "title": "Production latency"
+    },
+    {
+      "claim_id": "universal_runtime_security",
+      "evidence_dependencies": [
+        "security_attestation",
+        "exact_estimator"
+      ],
+      "exact_allowed_wording_en": "",
+      "exact_allowed_wording_ko": "",
+      "limitations": [
+        "Runtime distributions and implementations are not universally covered."
+      ],
+      "paper_admitted": false,
+      "prohibited_overclaim": [
+        "Universal 128-bit runtime security"
+      ],
+      "reviewer_rationale": "Runtime distributions and implementations are not universally covered.",
+      "scope": "not admitted",
+      "source_commit": "0285f2320bac5795fc5a54260e77f3832ae71297",
+      "state": "NOT_EVALUATED",
+      "statistical_unit": "not applicable",
+      "title": "Universal 128-bit runtime security"
+    }
+  ],
+  "paper_claim_allowed": true,
+  "registry_id": "paper_claim_admission_v1",
+  "schema_version": 1,
+  "semantics": "paper_claim_allowed means that the paper may use only claims whose paper_admitted field is true"
+}

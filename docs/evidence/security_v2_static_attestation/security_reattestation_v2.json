@@ -1,0 +1,99 @@
+{
+  "catalog_profiles": {
+    "admitted": [
+      "deep_chain_8_scale45",
+      "deep_chain_9_scale45",
+      "short_chain_3",
+      "short_chain_5",
+      "short_chain_6_scale38",
+      "short_chain_6_scale40",
+      "short_chain_6_scale42"
+    ],
+    "excluded": [
+      "default",
+      "scale38",
+      "scale40",
+      "scale42"
+    ]
+  },
+  "classification": "PRELIMINARY",
+  "counts": {
+    "catalog_profile_path_mappings": 22,
+    "catalog_profiles": 11,
+    "direct_literal_signatures": 3,
+    "direct_selected_rows": 50,
+    "paired_latency_arms": 30,
+    "reference_candidates": 1
+  },
+  "direct_selected": {
+    "encrypted_rerun_required": false,
+    "fail": 0,
+    "identity_changes": 0,
+    "minimum_headroom_bits": 13,
+    "pass": 50
+  },
+  "exact_estimator_status": "NOT_RUN_INPUT_EXPORTED",
+  "modulus_interpretation": {
+    "ciphertext": "Q",
+    "decisive_check": "QP is decisive when P is nonempty because Q is a strict subset of QP; both object checks remain explicitly recorded",
+    "evaluation_relinearization_key_switching": "QP",
+    "final": "all required objects must pass"
+  },
+  "schema_version": 2,
+  "security_policy": {
+    "admission_caveat": "Table 5.2 assumes Gaussian error sigma=3.19; the Lattigo v6.2.0 runtime uses discrete Gaussian sigma=3.2, bound=19.2. The table is used as a conservative admission reference, not as an exact-distribution proof.",
+    "cost_model": "classical lattice reduction; ring operations",
+    "doi": "10.62056/anxra69p1",
+    "error_sigma": 3.2,
+    "estimator_commit": "8f1ff7e",
+    "id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "lattigo_module": "github.com/tuneinsight/lattigo/v6",
+    "lattigo_version": "v6.2.0",
+    "limits": [
+      {
+        "log_n": 12,
+        "max_log_qp_bits": 106
+      },
+      {
+        "log_n": 13,
+        "max_log_qp_bits": 214
+      },
+      {
+        "log_n": 14,
+        "max_log_qp_bits": 430
+      },
+      {
+        "log_n": 15,
+        "max_log_qp_bits": 868
+      }
+    ],
+    "modulus_semantics": {
+      "ciphertext_object": "check Q against the Table 5.2 q cap",
+      "evaluation_key_object": "check QP against the Table 5.2 q cap because hybrid key-switching objects use the extended modulus",
+      "final_admission": "PASS only when every required object passes"
+    },
+    "paper_title": "Security Guidelines for Implementing Homomorphic Encryption",
+    "policy_version": "2.0.0",
+    "publication_date": "2025-01-13",
+    "runtime_xe": {
+      "bound": 19.2,
+      "concrete_type": "ring.DiscreteGaussian",
+      "sigma": 3.2
+    },
+    "runtime_xs": {
+      "concrete_type": "ring.Ternary",
+      "p": 0.6666666666666666
+    },
+    "schema_version": 2,
+    "secret_distribution": "uniform_ternary",
+    "security_bits": 128,
+    "source": "https://doi.org/10.62056/anxra69p1",
+    "table_error_sigma": 3.19,
+    "table_number": "Table 5.2",
+    "target_security_category": "Category 128"
+  },
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "source_commit": "9f4a9d0809df06fdb9610adb01450a338eab72a4",
+  "table_runtime_distribution_relation": "Table 5.2 uses sigma=3.19. Lattigo v6.2.0 uses ring.Ternary{P:2/3} and ring.DiscreteGaussian{Sigma:3.2, Bound:19.2}; this is a conservative admission reference, not an identical-distribution claim.",
+  "working_tree_source_digest": "sha256:b16902ebbe4c175095a675c69953767358a733373ce369d6cda7addacf84b13e"
+}

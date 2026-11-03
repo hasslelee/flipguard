@@ -1,0 +1,50 @@
+name: Verify DeciProtect
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  research-integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: '1.25.9'
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements-lock.txt
+      - run: go test ./cmd/deciprotect-ckks
+      - run: PYTHONPATH=src python -m unittest discover -s tests -v
+      - run: python scripts/verify_research.py --check
+      - run: python scripts/check_cost_report.py
+      - run: python scripts/analyze_fg_expand_v1.py --check
+      - run: python scripts/analyze_external_fg_expand_v2.py --check
+      - run: python scripts/analyze_fg_expand_v2.py --check
+      - name: Check copied selection implementation and wrapper
+        working-directory: research/selection_extension
+        run: go test ./cmd/fg-expand-case ./internal/ckksplanner -run 'Test(TabularSampleLedger|CountTabularRepeated|MaterializeTabular|BuildContractRejects|Synthesize|DirectPolicy)' -count=1
+      - name: Check reused multiclass implementation and Fashion identity
+        working-directory: research/fashion_extension
+        run: go test ./cmd/fashion-case ./cmd/fashion-train ./cmd/external-one ./internal/ckksplanner ./internal/certify -run 'Test(Fashion|Multiclass|Synthesize|DirectPolicy)' -count=1
+      - name: Check independent candidate generation and compiled contribution wrapper
+        working-directory: research/contribution_validation
+        run: go test ./cmd/contribution-case ./internal/ckksplanner -run 'TestIndependent' -count=1
+      - name: Check exact two-logit external adapter
+        working-directory: research/hediff_bank_validation
+        run: go test ./cmd/contribution-case ./internal/bankadapter -run 'TestExactTwoLogit' -count=1
+      - name: Check disagreement and conservative-condition accounting
+        run: python scripts/test_contrib_analysis.py
+      - name: Reconstruct the completed contribution evidence without CKKS execution
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          if [ -f docs/research/fg_contrib_v1_20260906/RESULTS.json ]; then
+            python scripts/analyze_fg_contrib_v1.py --check
+            python scripts/analyze_external_contrib_v1.py --check
+          fi

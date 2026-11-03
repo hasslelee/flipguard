@@ -1,0 +1,8 @@
+{
+  "path": "scripts/run_external_contrib_v1.py",
+  "old_sha256": "237fd9994a25d22cc2c209cc1879f24ccc1826b968f4b5891473afa0a14722eb",
+  "new_sha256": "5d09cbc3fb39cd610ca725d9a1137b078f5630207ead2c68715c9d9fbdd361e0",
+  "utc": "2026-09-05T18:25:35.039312+00:00",
+  "reason": "Before any external training or CKKS: remove scalar output projection; preserve both original logits using exact square identity and separately bound graph adapter; no C core rule or existing internal source changed",
+  "external_commands_started": 0
+}

@@ -1,0 +1,14 @@
+{
+  "affected_provider": "corelab",
+  "amendment_class": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+  "completed_plan_records_before_stop": 42,
+  "failure_run": "external/v7/status/corelab/0005-elasm-grid",
+  "observed_error": "ModuleNotFoundError: No module named numpy in the fresh ELASM runtime container",
+  "original_result_preserved": true,
+  "original_run_exit_code": 137,
+  "policy_change": false,
+  "result_dependent_threshold_or_sample_change": false,
+  "schema_version": "flipguard_external_v7_orchestration_amendment_v1",
+  "semantic_impact": "none; install the declared Python numerical dependency before rerunning the same frozen 72-plan grid",
+  "status": "PREDECLARED_RECOVERY_BEFORE_RETRY"
+}

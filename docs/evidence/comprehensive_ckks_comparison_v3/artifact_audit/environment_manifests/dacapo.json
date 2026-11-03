@@ -1,0 +1,7 @@
+{
+  "dependency": "MLIR/LLVM; SEAL 4.0.0; CMake; Ninja",
+  "environment": "Ubuntu 22.04; MLIR/LLVM 18.1.8; Microsoft SEAL 4.0.0",
+  "official_environment_difference": "Repository versions.txt still names LLVM 16, while current pinned source uses MLIR OpaqueProperties and builds with LLVM 18.",
+  "revision": "main@4616402710f39df3e5f5bd7930a6c036025aaac3",
+  "system": "DaCapo"
+}

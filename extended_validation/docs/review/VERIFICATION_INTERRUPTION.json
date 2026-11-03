@@ -1,0 +1,9 @@
+{
+  "status": "VERIFICATION_INTERRUPTED_NOT_ADMITTED",
+  "last_durable_progress_entries": 1000000,
+  "expected_entries": 1274177,
+  "completion_manifest_written": false,
+  "observation": "Tool session aborted and the former process disappeared; host uptime restarted. No successful verification is inferred. Exact cause not established.",
+  "recovery": "Preserve the partial log; retry streaming verification with bounded TarInfo retention and durable progress output.",
+  "retry_budget": 2
+}

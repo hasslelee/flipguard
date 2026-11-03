@@ -1,0 +1,79 @@
+{
+  "blocked_claims_must_not_appear_as_headlines": true,
+  "claims": [
+    {
+      "claim_id": "multiclass_argmax_contract",
+      "limitation": "finite empirical evidence is not an analytical CKKS error certificate",
+      "paper_admitted": true,
+      "scope": "per-class strict sufficient condition and uniform-bound corollary",
+      "source_commit": "7cff3fd35547e29d2a33c31c2780c195640612ad",
+      "state": "SUPPORTED"
+    },
+    {
+      "claim_id": "mnist_mlp_100",
+      "limitation": "one model and finite 1,000-image scope",
+      "paper_admitted": true,
+      "scope": "frozen 784-100-square-10 adapter",
+      "source_commit": "7cff3fd35547e29d2a33c31c2780c195640612ad",
+      "state": "SUPPORTED"
+    },
+    {
+      "claim_id": "mnist_lenet5_small",
+      "limitation": "not original/packed/full LeNet",
+      "paper_admitted": true,
+      "scope": "disclosed FHE-compatible LeNet-5-small adapter",
+      "source_commit": "7cff3fd35547e29d2a33c31c2780c195640612ad",
+      "state": "SUPPORTED"
+    },
+    {
+      "claim_id": "natural_data_margin_literal_effect",
+      "limitation": "no universal activation claim",
+      "paper_admitted": true,
+      "scope": "MNIST MLP 784-100-square-10 configuration-validation rows only",
+      "source_commit": "7cff3fd35547e29d2a33c31c2780c195640612ad",
+      "state": "SUPPORTED"
+    },
+    {
+      "claim_id": "bounded_catalog_multiclass",
+      "limitation": "LeNet has no executable admitted catalog profile",
+      "paper_admitted": true,
+      "scope": "formal denominator 14; executable coverage 6/14",
+      "source_commit": "7cff3fd35547e29d2a33c31c2780c195640612ad",
+      "state": "PARTIALLY_SUPPORTED"
+    },
+    {
+      "claim_id": "journal_extension_latency",
+      "limitation": "no paired standard-model latency claim",
+      "paper_admitted": false,
+      "scope": "descriptive unpaired timing only",
+      "source_commit": "7cff3fd35547e29d2a33c31c2780c195640612ad",
+      "state": "BLOCKED"
+    },
+    {
+      "claim_id": "arbitrary_packed_cnn",
+      "limitation": "feature-ciphertext sample-slot adapter only",
+      "paper_admitted": false,
+      "scope": "not evaluated",
+      "source_commit": "7cff3fd35547e29d2a33c31c2780c195640612ad",
+      "state": "BLOCKED"
+    },
+    {
+      "claim_id": "core_rc2_claims",
+      "limitation": "journal overlay cannot alter core claims",
+      "paper_admitted": true,
+      "scope": "unchanged V3/RC2 admission",
+      "source_commit": "7cff3fd35547e29d2a33c31c2780c195640612ad",
+      "state": "SUPPORTED"
+    }
+  ],
+  "core_claim_registry_modified": false,
+  "schema_version": "flipguard_journal_extension_claim_registry_v1",
+  "vocabulary": [
+    "SUPPORTED",
+    "PARTIALLY_SUPPORTED",
+    "BLOCKED",
+    "NOT_EVALUATED",
+    "SUPERSEDED",
+    "PILOT_ONLY"
+  ]
+}

@@ -1,0 +1,11 @@
+evidence_group,paper_or_followup_location,implementation_level,observed_result,conditions_and_limits,supported_and_unsupported_use,source_in_bundle
+PDF-internal,§3.2·§5.3,동일 초기 합성에서 판정/오차 수용 검사 제거,"초기20사례 flip+error,1사례 error only; 최종0/0",초기 합성 자체에는 마진 정보가 남음,내부 수용검사와 조정의 영향; 모든 수치 기준/외부방법 대비 우월성 아님,최종 PDF; 후보 direct89 명세
+PDF-finite,§3.2·§5.5,제안 초기 생성 규칙에 의존하는 유한집합537 실제 CKKS,89회로68사례 선택; finite477SAFE/60REJECTED; 최속 실행18사례 위반,"67×8,LeNet1; literal/path65사례 동일 최속수용",고정 범위의 평가 효율과 선택 적합성; 전역최적 아님,CANDIDATE_SPECIFICATIONS.csv; CANDIDATE_ID_LITERAL_RECONCILIATION.csv
+PDF-EVA,§5.7,공식 EVA/SEAL 실제 S20 암호화,"500입력×3키 중133flip,114고유 입력",선택용 입력의 지정S20 관측; 원래 최적화 선택 실패로 일반화 불가,외부 경로에서도 판정 관측의 필요; 모든 EVA 기준의 실패 아님,EXISTING_RELATED_WORK_CRITERIA_KO.md; PDF p10
+PDF-HEIR,§5.7,외부 설정/산출의 공통 Lattigo 이식,"500입력×3키에서0flip/error,maxabs5.0791e-8",N14/S45; 공식 native NN 실행 아님; 시간주장 차단 보존,해당 다항식 이식 관측; 같은 실행 일정/속도우위 아님,EXISTING_RELATED_WORK_CRITERIA_KO.md; PDF p10
+Completed-EVA-native,후속 fg_expand_v2,공식 compiler/native SEAL S30/range20 대 독립 C,별도500/적용498에서 양쪽0flip/error; 경계EVA1/C2; EVA수치오차 더 작음,"같은 출력 의미, backend/packing/security assessment 다름","실제 외부 비교 완료; 판정 개선 미관측, 선택조건만의 인과적 속도효과 불가",EXISTING_EXPANSION_EXTERNAL_EXCERPT.txt
+Completed-A-B,후속 fg_contrib_v1,독립 동일 후보 생성 A30/B30; 수용기준 비교,7모델×2선택블록14/14 동일; 판정 개선 미관측,표형4 주 maxabs 조건의 포함관계; MC/RMSE는 별도 해석,실행한 비교를 없는 것으로 보지 않음; 무차이 유지,EXISTING_CONTRIBUTION_REPORT_EXCERPT.txt
+Completed-B-C,후속 fg_contrib_v1,단순 판정선택 대 최종PDF 대응 C,C 후보 수 감소0/동일10/증가4; 선택비용 유리5모델/불리2; Fashionseed0 N14 증가,"요구수치조건·적용범위 차이,2블록 탐색적 비용",비용 이득/손해 증거; 추가 판정 개선으로 대체 불가,EXISTING_CONTRIBUTION_REPORT_EXCERPT.txt
+Completed-HEDiff-Bank,후속 fg_contrib_v1,공식 Bank 절차/forward 실제 native + 공통 정확한2logit C 연결,native 이탈0; C 합성 적용영역 flip1/error6키 사건,공개절차 재학습; 원래 가중치/corpus 아님; native와C보안기준차이; 합성정답·고객타당성 미확정,"외부 원래문제 해결 판단불가, C 불리한 관측 보존",EXISTING_EXTERNAL_DESIGN_KO.md; EXISTING_CONTRIBUTION_REPORT_EXCERPT.txt
+Existing-CoreLab,관련 자료,공식 연결 수치 실행,"70/72계획,14000수치관측,2실패",같은 분류 출력 계약/가중치/입력 미확립,수치 실행 자산; 판정 선택 직접 비교로 세지 않음,EXISTING_RELATED_WORK_CRITERIA_KO.md
+Existing-literature,§2.4 보강자료,기존 원문·제한적 구현 확인,FHE-Agent 활성화 고정 정정; 정확성 제약을 쓰는 선행방법 존재,일부 전문/공식구현 미확인; 본문 부재≠구현 부재,정확성을 처음 고려했다는 주장 금지,EXISTING_FHE_AGENT_CORRECTION_KO.md; EXISTING_RELATED_WORK_CRITERIA_KO.md

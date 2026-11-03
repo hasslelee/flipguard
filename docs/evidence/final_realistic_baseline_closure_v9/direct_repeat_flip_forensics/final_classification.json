@@ -1,0 +1,27 @@
+{
+  "affected_input_ids": [
+    711
+  ],
+  "affected_keysets": [
+    1,
+    2,
+    3
+  ],
+  "affected_observations": 8,
+  "affected_passes": [
+    2,
+    3,
+    5,
+    6
+  ],
+  "affected_unique_inputs": 1,
+  "all_row_711_measurement_observations": 18,
+  "claim_effect": "Direct repeated-stability is not admitted for V_amb; P1/P2 remain blocked when they include the direct arm. The original finite V_cert locked-audit claim is preserved with explicit scope.",
+  "classification": "F4_NEAR_BOUNDARY_AMBIGUITY",
+  "classification_complete": true,
+  "declared_ambiguity_margin_floor": 0.001,
+  "plaintext_margin": 1.4635453265854359e-05,
+  "reason": "The sole affected input has plaintext margin below the predeclared margin floor and belongs to V_amb. The prior locked-audit SAFE claim applies to V_cert; raw repeated measurements expose decision variability inside the explicitly ambiguous scope.",
+  "targeted_encrypted_replay_performed": false,
+  "targeted_replay_reason": "PROHIBITED_AND_UNNECESSARY_FOR_F4"
+}

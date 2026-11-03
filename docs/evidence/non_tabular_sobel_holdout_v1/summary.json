@@ -1,0 +1,55 @@
+{
+  "accounting": {
+    "total_candidate_trials": 3,
+    "total_encrypted_sample_evaluations": 3600,
+    "total_fresh_key_runs": 9
+  },
+  "block_reason": "manual post-extension claim admission and paper review are pending",
+  "claim_boundary": {
+    "arbitrary_graph_generalization": "NOT_EVALUATED",
+    "cnn_generalization": "NOT_EVALUATED",
+    "full_image_edge_accuracy": "NOT_EVALUATED",
+    "non_tabular_sobel_holdout": "SUPPORTED",
+    "structural_generalization": "PARTIALLY_SUPPORTED"
+  },
+  "locked_audit": {
+    "candidate_identity_equal": true,
+    "encrypted_sample_evaluations": 1200,
+    "flips": 0,
+    "fresh_key_runs": 3,
+    "max_budget_usage": 0.43881043175693457,
+    "outcome": "LOCKED_AUDIT_PASS",
+    "retuning": 0,
+    "status": "SAFE",
+    "v_amb": 1,
+    "v_cert": 399,
+    "violations": 0
+  },
+  "paper_claim_allowed": false,
+  "schema_version": "flipguard_non_tabular_sobel_evidence_v1",
+  "scope": "BSDS500 single-patch Sobel gradient-energy threshold under scalar-replicated packing",
+  "selection": {
+    "encrypted_sample_evaluations": 2400,
+    "fresh_key_runs": 6,
+    "initial_flips": 0,
+    "initial_max_budget_usage": 1.9144481027212057,
+    "initial_status": "REJECTED",
+    "initial_violations": 4,
+    "outcome": "SELECTED",
+    "repairs": 1,
+    "selected_candidate": "synth_repair_scale_1_rescale_N13_Q4_S23_dae5ac48e826",
+    "selected_flips": 0,
+    "selected_max_budget_usage": 0.1175063729356463,
+    "selected_violations": 0,
+    "trials": 2
+  },
+  "source": {
+    "audit_images": 50,
+    "dataset": "BSDS500",
+    "patches_per_image": 8,
+    "train_threshold_images": 100,
+    "validation_audit_image_overlap": 0,
+    "validation_images": 50
+  },
+  "status": "SUPPORTED"
+}

@@ -1,0 +1,65 @@
+{
+  "cost_rows": 8,
+  "existing_timing_jobs": 24,
+  "checks": [
+    {
+      "check": "external preflight versus actual C selection synthesis",
+      "result": "same numerical contract and initial parameters; actual contract role/digest differs",
+      "actual_source": "results/fg_contrib_v1_20260906_run01/external/hediff_bank/selection/C/analysis.json",
+      "actual_contract_digest": "sha256:a833ddef14d50572a94fb3754ceebfd45c8667a6ffa640ab7d8445d7588b71ac"
+    },
+    {
+      "check": "uniform versus quartile plaintext choices",
+      "common_inputs": 14,
+      "different_each": 2,
+      "same_min_margin": true,
+      "same_initial_plain_estimate": true
+    }
+  ],
+  "bank_output_weight_cosine": -0.9626788930795034,
+  "bank_output_weight_sum_l1": 10.183924825076247,
+  "bank_output_weight_difference_l1": 64.25299343545339,
+  "interpretation": "opposing output weights are compatible with opposing final errors; encrypted intermediate errors were not recorded, so causal layer attribution is unknown",
+  "proposal": "review existing inactive same-tier precision policy; not implemented/activated",
+  "policy_estimates": [
+    {
+      "policy": "original_first16",
+      "protected_min_margin": 1.0558460002094172,
+      "per_output_initial_budget": 0.2639615000523543,
+      "max_shifted_hidden": 1.5709784026260158,
+      "aggregate_sensitivity_formula": 4748.064647501094,
+      "unit_budget": 5.559349327547113e-05,
+      "analysis_precision_bits": 15,
+      "analysis_scale_floor_guard": 18,
+      "backend_validated": false,
+      "encrypted_evaluated": false,
+      "scope": "plaintext arithmetic prediction only, no candidate synthesis/prime generation/C invocation"
+    },
+    {
+      "policy": "uniform_hash16",
+      "protected_min_margin": 0.1279571776304232,
+      "per_output_initial_budget": 0.0319892944076058,
+      "max_shifted_hidden": 1.641751616795963,
+      "aggregate_sensitivity_formula": 4937.394612493451,
+      "unit_budget": 6.478982726367657e-06,
+      "analysis_precision_bits": 18,
+      "analysis_scale_floor_guard": 21,
+      "backend_validated": false,
+      "encrypted_evaluated": false,
+      "scope": "plaintext arithmetic prediction only, no candidate synthesis/prime generation/C invocation"
+    },
+    {
+      "policy": "development_quartile4x4",
+      "protected_min_margin": 0.1279571776304232,
+      "per_output_initial_budget": 0.0319892944076058,
+      "max_shifted_hidden": 1.641751616795963,
+      "aggregate_sensitivity_formula": 4937.394612493451,
+      "unit_budget": 6.478982726367657e-06,
+      "analysis_precision_bits": 18,
+      "analysis_scale_floor_guard": 21,
+      "backend_validated": false,
+      "encrypted_evaluated": false,
+      "scope": "plaintext arithmetic prediction only, no candidate synthesis/prime generation/C invocation"
+    }
+  ]
+}

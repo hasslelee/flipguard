@@ -1,0 +1,36 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/bin/bank-case",
+    "--mode",
+    "plan",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/planning/plan.json",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/static/hediff_bank/C"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 0.035245308999947156,
+  "charged_native": false,
+  "result_exists": true,
+  "before": {
+    "utc": "2026-09-08T09:32:26.151982+00:00",
+    "available_memory_bytes": 11614396416,
+    "free_disk_bytes": 21453537280,
+    "load": [
+      0.28466796875,
+      0.6103515625,
+      0.72509765625
+    ]
+  },
+  "after": {
+    "utc": "2026-09-08T09:32:26.189107+00:00",
+    "available_memory_bytes": 11616677888,
+    "free_disk_bytes": 21453500416,
+    "load": [
+      0.28466796875,
+      0.6103515625,
+      0.72509765625
+    ]
+  },
+  "status": "COMPLETED"
+}

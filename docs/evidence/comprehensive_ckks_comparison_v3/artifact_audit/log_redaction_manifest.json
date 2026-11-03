@@ -1,0 +1,13 @@
+{
+  "redactions": [
+    {
+      "execution_output_changed": false,
+      "path": "build_logs/resbm_attempt1_build_and_mode_smoke.log",
+      "public_copy_sha256": "sha256:3208727f34f702d85b5d98cd13aa668372798a5756088b950b366a2426b44d28",
+      "reason": "remove local researcher home path from the public evidence copy",
+      "replacement": "${FLIPGUARD_ARTIFACT_CACHE}",
+      "source_raw_sha256": "sha256:530a24139e75a91195e125a1aeceaeadf737298ecd15b3e1b6f34ff368c7ade6"
+    }
+  ],
+  "schema_version": "flipguard_build_log_redaction_v1"
+}

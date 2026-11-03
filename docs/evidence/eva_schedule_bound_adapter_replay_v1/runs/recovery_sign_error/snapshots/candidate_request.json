@@ -1,0 +1,26 @@
+{
+  "schema_version": 3,
+  "provider_kind": "external_autotuner",
+  "provider_id": "microsoft_eva_v1.0.1_seal3.6.4_schedule_replay_v1",
+  "path": "rescale",
+  "parameters": {
+    "log_n": 14,
+    "q": [
+      1152921504605962241,
+      1152921504606584833,
+      1152921504606683137
+    ],
+    "p": [
+      1152921504606748673
+    ],
+    "log_default_scale": 20
+  },
+  "execution_schedule": {
+    "schema_version": 1,
+    "schedule_id": "microsoft_eva_v1.0.1_iris_linear_poly3_scalar_v1",
+    "contract_artifact": {
+      "path": "experiments/eva_schedule_bound_adapter_v1/execution_schedule.json",
+      "sha256": "sha256:e69ec06e57e7a2833eedea2d455a8192d03cf2884e1b4090284d43c03326cc6b"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "affected_provider": "eva",
+  "amendment_class": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+  "failure_run": "external/v7/status/eva/0003-clean-build",
+  "observed_error": "EVA third_party/pybind11 lacked CMakeLists.txt after a non-recursive fresh clone",
+  "original_result_preserved": true,
+  "policy_change": false,
+  "result_dependent_threshold_or_sample_change": false,
+  "schema_version": "flipguard_external_v7_orchestration_amendment_v1",
+  "semantic_impact": "none; initialize the official pinned submodule and rebuild from an empty V7 build directory",
+  "source_commit_unchanged": "4cd3254c9c51340ae30c451495ce5378135758c0",
+  "status": "PREDECLARED_RECOVERY_BEFORE_RETRY"
+}

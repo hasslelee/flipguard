@@ -1,0 +1,116 @@
+{
+  "schema_version": "flipguard_provider_candidate_gate_interoperability_contract_v2",
+  "status": "PREDECLARED_BEFORE_ENCRYPTED_EXECUTION",
+  "paper_claim_allowed": false,
+  "recovery_from": {
+    "superseded_contract_sha256": "sha256:429dcf909626a4eaaa36e730b134b9d3be9ef71132de0f708e96897a888dd3a7",
+    "failed_run_path": "results/thesis_grade_protocol/provider_candidate_gate_v1/run_f84ecff",
+    "reason_code": "SELECTION_SPLIT_ID_MANIFEST_MISMATCH",
+    "execution_semantics_changed": false,
+    "candidate_literals_changed": false,
+    "policy_changed": false,
+    "corrected_field": "workload.split_id"
+  },
+  "scope": {
+    "evaluation_role": "development_interoperability_control",
+    "provider_agnostic_binding_claim": "one literal from each declared provider class is admitted or rejected by the same fail-closed gate",
+    "locked_audit_claim": "a SAFE selected literal is replayed byte-identically without synthesis or repair on the declared disjoint audit split",
+    "external_autotuner_claim": "schema compatibility fixture only; no third-party autotuner quality or end-to-end integration claim"
+  },
+  "workload": {
+    "split_seed": 0,
+    "seed_role": "development",
+    "dataset_id": "iris_binary",
+    "model_id": "linear_poly3",
+    "split_id": "split_seed_0",
+    "model_path": "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+    "model_sha256": "sha256:9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1",
+    "validation_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/configuration_validation.csv",
+    "validation_sha256": "sha256:29cf99a47cd25520a15aa36d8e7fdf58328fc3a91ad54067266d443b4c04e5ea",
+    "validation_rows": 14,
+    "audit_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/locked_audit_test.csv",
+    "audit_sha256": "sha256:72a182968acd60e8c0bd5acc830627d698a9f1d2e1760dd492dbb07129a26327",
+    "audit_rows": 16,
+    "split_manifest_path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/split_manifest.json",
+    "split_manifest_sha256": "sha256:c76e7b0478fffbbac4d24ff41a86fa7694cf3f5719e462270eb780b2531760d1"
+  },
+  "policy": {
+    "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+    "direct_policy_id": "flipguard_direct_synthesis_v2",
+    "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "margin_floor": 0.001,
+    "safety_factor": 0.5,
+    "validation_key_repeats": 3,
+    "audit_key_repeats": 3,
+    "candidate_trials_per_arm": 1,
+    "synthesis_calls_per_arm": 0,
+    "repair_calls_per_arm": 0,
+    "retuning_after_audit": 0
+  },
+  "source_lineage": {
+    "direct_selection_path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_final_baseline_inputmodel_floor18_keys3/results/directv1_full_final_baseline_inputmodel_floor18_keys3_seed0_iris_binary_linear_poly3.json",
+    "direct_selection_sha256": "sha256:df20396b04f3fae71c518e75a26ad9e18cd0007fd64d3d32175ed6a8561d9842",
+    "direct_selected_candidate_id": "synth_analysis_minimum_rescale_N13_Q7_S20_486a1fc2f0d5",
+    "catalog_oracle_path": "results/thesis_grade_protocol/security_v2_static_attestation/bounded_oracle_security_v2/oracle_selection_security_v2.csv",
+    "catalog_oracle_sha256": "sha256:dc08523ec449d123d0b7aab2df8449bb450dc97236d70ad5f122bd0f99a333c6",
+    "catalog_alpha": 0.5,
+    "catalog_selected_candidate_id": "deep_chain_8_scale45__rescale_aware",
+    "catalog_inventory_path": "docs/evidence/security_v2_static_attestation_formal_v2/parameter_inventory_v2.json"
+  },
+  "arms": [
+    {
+      "arm_id": "manual_literal",
+      "candidate_path": "experiments/provider_candidate_gate_v1/candidates/manual.json",
+      "provider_kind": "manual",
+      "literal_lineage": "the frozen direct literal is entered through the manual provider contract",
+      "expected_validation_outcome": "SELECTED",
+      "locked_audit_required_if_selected": true
+    },
+    {
+      "arm_id": "bounded_catalog_literal",
+      "candidate_path": "experiments/provider_candidate_gate_v1/candidates/bounded_catalog.json",
+      "provider_kind": "bounded_catalog",
+      "literal_lineage": "Security-V2 bounded catalog fastest-SAFE for the declared development workload at alpha 0.5",
+      "expected_validation_outcome": "SELECTED",
+      "locked_audit_required_if_selected": true
+    },
+    {
+      "arm_id": "external_autotuner_format_fixture",
+      "candidate_path": "experiments/provider_candidate_gate_v1/candidates/external_autotuner_format.json",
+      "provider_kind": "external_autotuner",
+      "literal_lineage": "the frozen direct literal is serialized as a synthetic external-provider schema fixture",
+      "expected_validation_outcome": "SELECTED",
+      "locked_audit_required_if_selected": true
+    },
+    {
+      "arm_id": "direct_synthesizer_literal",
+      "candidate_path": "experiments/provider_candidate_gate_v1/candidates/direct_synthesizer.json",
+      "provider_kind": "direct_synthesizer",
+      "literal_lineage": "byte-identical parameter literal from the frozen direct seed-0 selection",
+      "expected_validation_outcome": "SELECTED",
+      "locked_audit_required_if_selected": true
+    }
+  ],
+  "execution_rules": {
+    "arm_order": [
+      "manual_literal",
+      "bounded_catalog_literal",
+      "external_autotuner_format_fixture",
+      "direct_synthesizer_literal"
+    ],
+    "no_concurrent_ckks_process": true,
+    "continue_after_scientific_negative": true,
+    "stop_on_integrity_block": true,
+    "overwrite_existing_run": false,
+    "result_driven_policy_change": false,
+    "result_driven_candidate_change": false
+  },
+  "claim_rules": {
+    "all_four_bind_and_execute": "PARTIALLY_SUPPORTED provider-class interoperability on one development workload",
+    "one_or_more_scientific_negative": "PARTIALLY_SUPPORTED with the negative result disclosed",
+    "binding_or_provenance_failure": "BLOCKED",
+    "external_fixture_success": "does not support third-party autotuner quality or broad external-tool compatibility",
+    "paper_claim_allowed_after_success": false
+  }
+}

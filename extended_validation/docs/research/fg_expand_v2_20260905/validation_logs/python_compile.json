@@ -1,0 +1,12 @@
+{
+  "utc": "2026-09-05T14:07:59.068843+00:00",
+  "command": [
+    "/home/ckks2/deciprotect/.venv/bin/python",
+    "-c",
+    "from pathlib import Path; ps=list(Path('scripts').glob('*fg_expand_v2*.py'))+[Path('scripts/reanalyze_fg_expand_v1_for_v2.py'),Path('scripts/build_handoff.py'),Path('scripts/build_handoff_v2.py'),Path('tests/test_fg_expand_v2_analysis.py')]; [compile(p.read_text(),str(p),'exec') for p in ps]; print('COMPILE_PASS',len(ps))"
+  ],
+  "cwd": "/home/ckks2/deciprotect",
+  "exit_code": 0,
+  "wall_seconds": 0.04794111699811765,
+  "log_sha256": "395ea21b836be21e3d9f22a6652916a700254ff55ccda28ce55dd3bd52389f8b"
+}

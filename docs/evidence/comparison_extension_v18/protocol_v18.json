@@ -1,0 +1,152 @@
+{
+  "schema_version": "flipguard_comparison_extension_protocol_v18",
+  "protocol_id": "comparison_extension_v18_offline_replay_v1",
+  "status": "PROTOCOL_FROZEN",
+  "frozen_at_utc": "2026-08-23T20:25:12Z",
+  "branch": "research/comparison-extension-v18",
+  "current_tooling_commit": "86b0403208abbc741a65934358a5dea4a66e4d88",
+  "scientific_execution_source_commit": "cefc44b0d7e351db2a34886dd758a2d31a3e4c12",
+  "immutable_inputs": {
+    "v17_r3_manifest_sha256": "f43e3a7ca075086dcc3e730a323b334ee9c81d5f906a46a89e22dfe273a59397",
+    "v17_final_manifest_sha256": "2c6671debb4f885ed3b8003a8bd93e24a8c4fcca6e4f8178ef999f8ded6eddde",
+    "v17_protocol_sha256": "09aac669e2a970edfadf99486a3c977f92e0a5ddc96f20432ed9221cc070d6c6",
+    "candidate_space_sha256": "174b9c0ebc553a14ebf6f61df5ffc890ab448103677a890d9f159fc4429bc3b7",
+    "selected_configuration_table_sha256": "5c9757d4dd2b8d48e113b633b65ed99b5e21e153d4819cae28b02a26bc38c0cb",
+    "direct_vs_exhaustive_table_sha256": "8c73d884ebb322943989f03130f7c28bc6c05e7641447df425151902718ed8e7",
+    "formal_latency_table_sha256": "a3558bc912ee9f228a46c1243e8270f9fbbcb5a5a44aa67a5a19925eca63ec12"
+  },
+  "populations": {
+    "primary": {
+      "case_count": 68,
+      "role": "primary causal comparisons C1-C6 and formal latency quality"
+    },
+    "all_scope": {
+      "case_count": 131,
+      "role": "secondary stability and negative-result context"
+    },
+    "external_exact_subset": {
+      "role": "separate frozen V8 evidence; never pooled with V17 cases"
+    }
+  },
+  "statistical_unit": "protocol-defined workload/split case",
+  "non_independent_units": [
+    "candidate row",
+    "fresh-key repeat",
+    "latency measurement pass"
+  ],
+  "comparators": {
+    "C1_PROPOSED_FULL": {
+      "source": "V17 selected candidate and recorded direct sequence",
+      "selection_rule": "graph-and-margin-derived initial candidate; security admission; encrypted decision agreement and reserve policy; bounded monotone adjustment; first acceptable candidate; otherwise abstain",
+      "candidate_evaluation_budget": 4,
+      "repair_count_interpretation": "at most four candidate evaluations with bounded adjustments between evaluations"
+    },
+    "C2_DECISION_GATE_OFF": {
+      "source": "same recorded V17 direct sequence; no new execution",
+      "selection_rule": "select the first candidate in recorded direct order that passes materialization, Security-V2 admission, encrypted execution, and finite-output validation; ignore decision agreement and rho-times-margin reserve tests",
+      "numerical_rule": "retain only a preexisting pre-gate numerical rule if present; do not invent a threshold",
+      "label": "decision-stability gate removed ablation"
+    },
+    "C3_INITIAL_ONLY": {
+      "source": "first recorded V17 direct candidate only",
+      "selection_rule": "apply the full C1 decision-stability gate to the initial candidate and stop; no adjustment candidate may be considered"
+    },
+    "C4_PREEXISTING_DEFAULT_OR_LATENCY_ONLY": {
+      "source": "V17 artifacts created before result inspection",
+      "selection_rule": "include FIXED_DEFAULT and LATENCY_ONLY_AGGRESSIVE as distinct diagnostic arms only where candidate identity, hash, predeclared rule, exact graph/input, and security result are present",
+      "missing_rule": "record NO_PREEXISTING_BASELINE_AVAILABLE; never construct a replacement"
+    },
+    "C5_TRADITIONAL_OBJECTIVE_DIAGNOSTICS": {
+      "source": "security-admitted and execution-valid V17 finite-reference candidates",
+      "selection_rules": [
+        "minimum observed selection-stage evaluation latency",
+        "minimum maximum-absolute error",
+        "minimum RMS error only if the same RMS definition is present for every eligible candidate in every included case",
+        "non-dominated error-latency Pareto frontier"
+      ],
+      "tie_break": "candidate order then candidate_id",
+      "purpose": "diagnostic only; not named as an external system"
+    },
+    "C6_FINITE_REFERENCE": {
+      "source": "predeclared V17 depth-complete finite candidate set",
+      "selection_rule": "fastest decision-stability-acceptable candidate within the finite set",
+      "role": "offline existence, false-NO_SAFE, selected-rank, and selection-quality reference",
+      "prohibited_labels": [
+        "practical baseline",
+        "existing user method",
+        "global exhaustive CKKS search",
+        "global optimum"
+      ]
+    },
+    "C7_EXTERNAL_NATIVE_BASELINES": {
+      "source": "immutable V7/V8/V9 external evidence only",
+      "priority": [
+        "EVA shared-polynomial decision-bearing native evidence",
+        "HEIR portable-exact shared-polynomial common-Lattigo evidence",
+        "CoreLab EVA/ELASM numerical-only grid"
+      ],
+      "latency_rule": "only portable-exact same-runtime arms may enter direct latency comparison; unsafe arms remain blocked diagnostics",
+      "missing_artifact_rule": "RELATED_WORK_ONLY; no imitation implementation"
+    }
+  },
+  "outcome_definitions": {
+    "decision_stability_acceptable": "security and execution pass; selection-input decision flips equal zero; selection-input reserve-policy violations equal zero",
+    "separate_input_failure": "separate-input decision flip or reserve-policy violation, or explicit REJECTED/FAILED result",
+    "false_no_safe": "C1 abstains while C6 contains at least one acceptable candidate",
+    "latency_regret": "(C1 formal total latency - C6 fastest-acceptable formal total latency) / C6 fastest-acceptable formal total latency",
+    "candidate_evaluation_reduction": "1 - sum(C1 candidate evaluations) / sum(C6 finite candidate evaluations)",
+    "selection_wall_clock_ratio": "sum(finite-reference selection wall-clock) / sum(direct selection wall-clock) over rows with both boundaries measured",
+    "formal_latency_use": "only existing exact candidate bindings measured under the V17 formal protocol",
+    "selection_stage_latency_use": "diagnostic candidate ordering only; never relabeled as formal paired inference latency"
+  },
+  "analysis": {
+    "primary_questions": [
+      "C1 versus C2 decision-gate effect",
+      "C1 versus C3 bounded-adjustment effect",
+      "C1 versus C6 finite-reference selection quality"
+    ],
+    "exploratory_questions": [
+      "C5 numerical objective outcomes",
+      "model-family breakdown",
+      "C7 external exact/output/numerical subsets"
+    ],
+    "summaries": [
+      "count",
+      "rate",
+      "median",
+      "IQR",
+      "p90",
+      "maximum",
+      "paired difference"
+    ],
+    "bootstrap": {
+      "allowed": true,
+      "unit": "workload/model cluster when a repeated-split structure exists",
+      "replications": 10000,
+      "seed": 20260824
+    }
+  },
+  "targeted_execution_gate": {
+    "default": "NO_NEW_ENCRYPTED_RUN",
+    "maximum_atomic_cases": 12,
+    "maximum_candidate_evaluations": 36,
+    "required_conditions": [
+      "official executable artifact",
+      "exact-compatible workload",
+      "missing encrypted comparator result",
+      "cell required for a core V18 claim",
+      "not reconstructable from immutable evidence"
+    ]
+  },
+  "prohibited": [
+    "V17 matrix rerun",
+    "V17 formal latency rerun",
+    "outcome-dependent baseline definition",
+    "new numerical acceptance threshold",
+    "raw cross-runtime speed ranking",
+    "candidate rows or passes as independent samples",
+    "policy retuning",
+    "V17 evidence modification",
+    "commit push or tag"
+  ]
+}

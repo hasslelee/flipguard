@@ -1,0 +1,14 @@
+selection SELECTED trials=2
+finite 1/8 REJECTED
+finite 2/8 REJECTED
+finite 3/8 SAFE
+finite 4/8 SAFE
+finite 5/8 REJECTED
+finite 6/8 SAFE
+finite 7/8 SAFE
+finite 8/8 SAFE
+audit direct SAFE flips=0 violations=0
+audit initial_criteria_off REJECTED flips=192 violations=639
+paired keyset=1 completed
+paired keyset=2 completed
+paired keyset=3 completed

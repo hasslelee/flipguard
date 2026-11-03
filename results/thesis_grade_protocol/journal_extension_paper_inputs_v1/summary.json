@@ -1,0 +1,37 @@
+{
+  "catalog_executable_candidates": 6,
+  "core_rc2_v3_v10_modified": false,
+  "extension_latency_claim": "BLOCKED_FORMAL; DESCRIPTIVE_UNPAIRED_ONLY",
+  "figures": 8,
+  "formal_catalog_denominator": 14,
+  "fresh_key_repeats_per_role": 3,
+  "multiclass_locked_audit": {
+    "lenet5_small": {
+      "argmax_flips": 0,
+      "candidate_identity_match": true,
+      "encrypted_sample_evaluations": 1500,
+      "fresh_key_runs": 3,
+      "reserve_policy_rejections": 0,
+      "retuning_count": 0,
+      "status": "SAFE"
+    },
+    "mlp_100": {
+      "argmax_flips": 0,
+      "candidate_identity_match": true,
+      "encrypted_sample_evaluations": 1500,
+      "fresh_key_runs": 3,
+      "reserve_policy_rejections": 0,
+      "retuning_count": 0,
+      "status": "SAFE"
+    }
+  },
+  "natural_activation": "A_LITERAL_EFFECT_SUPPORTED",
+  "new_paired_latency_execution": 0,
+  "policy_retuning": 0,
+  "schema_version": "flipguard_journal_extension_paper_inputs_v1",
+  "source_commit": "7cff3fd35547e29d2a33c31c2780c195640612ad",
+  "standard_models": 2,
+  "status": "JOURNAL_EXTENSION_V1_COMPLETE",
+  "tables": 8,
+  "unique_encrypted_images_per_model": 1000
+}

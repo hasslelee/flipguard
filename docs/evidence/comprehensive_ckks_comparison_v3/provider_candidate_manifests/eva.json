@@ -1,0 +1,32 @@
+{
+  "bootstrapping_placement": "NOT_APPLICABLE",
+  "log_n": 14,
+  "p": [
+    60
+  ],
+  "packing": "EVA/SEAL vector packing",
+  "plans_executed": 1,
+  "plans_generated": 1,
+  "provider": "EVA",
+  "provider_objective": "vector compilation and automatic parameter generation",
+  "q": [
+    60,
+    60,
+    60
+  ],
+  "raw_artifact_digest": "sha256:a8a0ad63c50c6f806fa50adce43686d59c67f5817c8f01fab63aa8f41c1f4581",
+  "rescale_modswitch_relinearization_placement": "EVA generated",
+  "runtime_assumptions": "EVA v1.0.1 / Microsoft SEAL 3.6.4",
+  "scale": 20,
+  "scale_schedule": "EVA-generated native schedule",
+  "schema_version": "flipguard_provider_candidate_manifest_v3",
+  "security_assumptions": "SEAL sec_level_type::none in source replay; separately qualified",
+  "selected_plan": "native_v1.0.1_N16384_Q3x60_P60_scale20",
+  "source_commit": "v1.0.1@4cd3254c9c51340ae30c451495ce5378135758c0",
+  "tuning_parameters": "NOT_SEPARATELY_RECORDED",
+  "unsupported_or_missing_fields": [
+    "exact operation-order equivalence to frozen current workloads",
+    "portable packing identity"
+  ],
+  "workload": "seed0 development linear_poly3 native replay"
+}

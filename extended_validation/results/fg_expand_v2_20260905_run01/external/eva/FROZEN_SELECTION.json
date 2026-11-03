@@ -1,0 +1,31 @@
+{
+  "candidate_id": "eva_official_s30_d79df42efa072f3c",
+  "input_scale_bits": 30,
+  "output_range_bits": 20,
+  "precision_origin": "pre-existing V8 predeclared scale30; official EVA README demonstrates scale30. V8 range20 preserved. No search based on these outputs.",
+  "provider_commit": "4cd3254c9c51340ae30c451495ce5378135758c0",
+  "compiler_config": {
+    "balance_reductions": "true",
+    "rescaler": "always",
+    "lazy_relinearize": "true",
+    "security_level": "128",
+    "quantum_safe": "false",
+    "warn_vec_size": "false"
+  },
+  "poly_modulus_degree": 8192,
+  "prime_bits": [
+    50,
+    30,
+    30,
+    30,
+    50
+  ],
+  "compile_seconds": 0.006076947000110522,
+  "compiled_sha256": "d79df42efa072f3c2fec52431e3395b50f2d9fbaea45841aa5849f0691cee130",
+  "own_condition": "native compiler/backend feasibility with declared scale/range and SEAL security_level128; no extra empirical decision/MAE cutoff invented",
+  "comparison_type": "official implementation native encrypted execution on shared fixed polynomial; not reproduction of full paper benchmarks",
+  "security_alignment": "same128bit target; native SEAL distribution/estimator and Lattigo SecurityV2 not established identical",
+  "latency_causal_comparison": false,
+  "python": "3.10.12",
+  "eva_module": "/work/work/fg_expand_v2_20260905/eva_python"
+}

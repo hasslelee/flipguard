@@ -1,0 +1,72 @@
+[
+  {
+    "schema_version": "flipguard_v17_multiclass_plaintext_quality_v1",
+    "model_id": "mnist_mlp_square_784_100_10_v1",
+    "model_type": "mlp_square_multiclass",
+    "model_sha256": "sha256:c4228a2afa1d3c8f8d43d6bc991c1ad3f5b1eec272dc0da39d070f051713f3ac",
+    "source_sha256": "7d17e6a8b7d55a2e2bdb651e0f7898d2cd6dcda8d24daae0bae1417b7239e2ec",
+    "population": "official_MNIST_test_10000",
+    "samples": 10000,
+    "class_counts": [
+      980,
+      1135,
+      1032,
+      1010,
+      982,
+      892,
+      958,
+      1028,
+      974,
+      1009
+    ],
+    "accuracy": 0.9776,
+    "balanced_accuracy": 0.9774123089233575,
+    "macro_f1": 0.9774991428126858,
+    "top_two_gap_quantiles": {
+      "max": 81.66076221248784,
+      "median": 13.025182838756724,
+      "min": 0.012545230086129955,
+      "p05": 3.023247068617306,
+      "p25": 8.591717518261621,
+      "p75": 19.535475153464443,
+      "p95": 33.13474194392441
+    },
+    "source": "/home/ckks2/flipguard/results/model_family_expansion_v17/plaintext/multiclass_quality/base_mlp100/quality.json",
+    "measurement": "existing plaintext-only official-test record; not 10000 encrypted inputs"
+  },
+  {
+    "schema_version": "flipguard_v17_multiclass_plaintext_quality_v1",
+    "model_id": "mnist_lenet5_small_square_v1",
+    "model_type": "lenet5_small_square_multiclass",
+    "model_sha256": "sha256:25db361b428ea6640f80478f3608fe6b81b45e984702c4a0d616c735f7d4bba6",
+    "source_sha256": "ac4a3a606c52750b7c438091a13691c740553a3e945c60f64103cb73f9cf3b41",
+    "population": "official_MNIST_test_10000",
+    "samples": 10000,
+    "class_counts": [
+      980,
+      1135,
+      1032,
+      1010,
+      982,
+      892,
+      958,
+      1028,
+      974,
+      1009
+    ],
+    "accuracy": 0.9891,
+    "balanced_accuracy": 0.9888295109137069,
+    "macro_f1": 0.9889637861165234,
+    "top_two_gap_quantiles": {
+      "max": 120.7630802554875,
+      "median": 16.500665240648495,
+      "min": 0.019203927749238403,
+      "p05": 3.9326908933189246,
+      "p25": 10.67767993558947,
+      "p75": 25.34740610580797,
+      "p95": 43.08678832219971
+    },
+    "source": "/home/ckks2/flipguard/results/model_family_expansion_v17/plaintext/multiclass_quality/base_lenet5_small/quality.json",
+    "measurement": "existing plaintext-only official-test record; not 10000 encrypted inputs"
+  }
+]

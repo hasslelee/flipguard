@@ -1,0 +1,168 @@
+{
+  "models": {
+    "lenet5_small": {
+      "plaintext_accuracy": {
+        "model_validation_5000": 0.9892,
+        "official_test_10000": 0.9891
+      },
+      "training": {
+        "batch_size": 64,
+        "beta1": 0.9,
+        "beta2": 0.999,
+        "early_stopping": false,
+        "epoch_decay": 0.9,
+        "epochs": 8,
+        "epsilon": 1e-08,
+        "gradient_global_norm_cap": 5,
+        "initial_learning_rate": 0.0005,
+        "l2": 1e-05,
+        "optimizer": "deterministic_adam_v1",
+        "test_used_for_model_selection": false,
+        "training_seed": 5354592293955390513
+      },
+      "training_history": [
+        {
+          "epoch": 1,
+          "learning_rate": 0.0005,
+          "mean_training_loss": 0.9342134896204436,
+          "training_accuracy": 0.8188545454545455,
+          "validation_accuracy": 0.9596
+        },
+        {
+          "epoch": 2,
+          "learning_rate": 0.00045000000000000004,
+          "mean_training_loss": 0.13195383185084253,
+          "training_accuracy": 0.9693272727272727,
+          "validation_accuracy": 0.9776
+        },
+        {
+          "epoch": 3,
+          "learning_rate": 0.00040500000000000003,
+          "mean_training_loss": 0.07875863689819915,
+          "training_accuracy": 0.9793272727272727,
+          "validation_accuracy": 0.9808
+        },
+        {
+          "epoch": 4,
+          "learning_rate": 0.0003645000000000001,
+          "mean_training_loss": 0.0599496720638038,
+          "training_accuracy": 0.9832363636363637,
+          "validation_accuracy": 0.985
+        },
+        {
+          "epoch": 5,
+          "learning_rate": 0.0003280500000000001,
+          "mean_training_loss": 0.0462082018584056,
+          "training_accuracy": 0.9865272727272727,
+          "validation_accuracy": 0.9834
+        },
+        {
+          "epoch": 6,
+          "learning_rate": 0.0002952450000000001,
+          "mean_training_loss": 0.03867448533469084,
+          "training_accuracy": 0.9886363636363636,
+          "validation_accuracy": 0.9852
+        },
+        {
+          "epoch": 7,
+          "learning_rate": 0.0002657205000000001,
+          "mean_training_loss": 0.031879050159114644,
+          "training_accuracy": 0.9903454545454545,
+          "validation_accuracy": 0.9888
+        },
+        {
+          "epoch": 8,
+          "learning_rate": 0.00023914845000000008,
+          "mean_training_loss": 0.0256372459782123,
+          "training_accuracy": 0.9918363636363636,
+          "validation_accuracy": 0.9892
+        }
+      ]
+    },
+    "mlp_100": {
+      "plaintext_accuracy": {
+        "model_validation_5000": 0.9762,
+        "official_test_10000": 0.9776
+      },
+      "training": {
+        "batch_size": 64,
+        "beta1": 0.9,
+        "beta2": 0.999,
+        "early_stopping": false,
+        "epoch_decay": 0.9,
+        "epochs": 8,
+        "epsilon": 1e-08,
+        "gradient_global_norm_cap": 5,
+        "initial_learning_rate": 0.001,
+        "l2": 1e-05,
+        "optimizer": "deterministic_adam_v1",
+        "test_used_for_model_selection": false,
+        "training_seed": 5354592293955390513
+      },
+      "training_history": [
+        {
+          "epoch": 1,
+          "learning_rate": 0.001,
+          "mean_training_loss": 0.255708193989145,
+          "training_accuracy": 0.9294909090909091,
+          "validation_accuracy": 0.9656
+        },
+        {
+          "epoch": 2,
+          "learning_rate": 0.0009000000000000001,
+          "mean_training_loss": 0.10570413968560279,
+          "training_accuracy": 0.9704,
+          "validation_accuracy": 0.9668
+        },
+        {
+          "epoch": 3,
+          "learning_rate": 0.0008100000000000001,
+          "mean_training_loss": 0.07208548347660061,
+          "training_accuracy": 0.9787818181818182,
+          "validation_accuracy": 0.9708
+        },
+        {
+          "epoch": 4,
+          "learning_rate": 0.0007290000000000002,
+          "mean_training_loss": 0.05388332820460773,
+          "training_accuracy": 0.9843636363636363,
+          "validation_accuracy": 0.9752
+        },
+        {
+          "epoch": 5,
+          "learning_rate": 0.0006561000000000002,
+          "mean_training_loss": 0.04060748193028202,
+          "training_accuracy": 0.9882363636363637,
+          "validation_accuracy": 0.9746
+        },
+        {
+          "epoch": 6,
+          "learning_rate": 0.0005904900000000002,
+          "mean_training_loss": 0.03074903653609443,
+          "training_accuracy": 0.9910545454545454,
+          "validation_accuracy": 0.9776
+        },
+        {
+          "epoch": 7,
+          "learning_rate": 0.0005314410000000002,
+          "mean_training_loss": 0.02473626712929669,
+          "training_accuracy": 0.9931272727272727,
+          "validation_accuracy": 0.976
+        },
+        {
+          "epoch": 8,
+          "learning_rate": 0.00047829690000000016,
+          "mean_training_loss": 0.019734166893666732,
+          "training_accuracy": 0.9944727272727273,
+          "validation_accuracy": 0.9762
+        }
+      ]
+    }
+  },
+  "official_dataset": {
+    "path": "results/source_datasets/mnist/mnist_784.arff.gz",
+    "sha256": "sha256:fe4410d8dbb50f6db6482b187557c5cb8bccfbcec74eeb6abc47c858f4ffab78"
+  },
+  "schema_version": "flipguard_journal_multiclass_extension_protocol_v1",
+  "test_used_for_model_selection": false
+}

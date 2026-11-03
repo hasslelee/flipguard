@@ -1,0 +1,171 @@
+{
+  "dataset_id": "iris_binary",
+  "dataset_name": "Iris binary classification",
+  "input_dim": 4,
+  "label_mapping": {
+    "0": "negative",
+    "1": "positive"
+  },
+  "max_scaled_logit_target": 1.0,
+  "metrics": {
+    "configuration_validation": {
+      "accuracy": 1.0,
+      "ambiguous_at_margin_floor_0_001": 0,
+      "certifiable_at_margin_floor_0_001": 20,
+      "correct": 20,
+      "minimum_margin": 0.07204385474022035,
+      "rows": 20
+    },
+    "locked_audit_descriptive_only": {
+      "accuracy": 1.0,
+      "ambiguous_at_margin_floor_0_001": 0,
+      "certifiable_at_margin_floor_0_001": 20,
+      "correct": 20,
+      "minimum_margin": 0.06921505362992597,
+      "rows": 20
+    },
+    "training": {
+      "accuracy": 1.0,
+      "ambiguous_at_margin_floor_0_001": 0,
+      "certifiable_at_margin_floor_0_001": 60,
+      "correct": 60,
+      "minimum_margin": 0.08004813676715805,
+      "rows": 60
+    }
+  },
+  "model_id": "mlp_square_linear_score",
+  "model_type": "mlp_square_linear_score",
+  "polynomial_score": {
+    "decision_threshold": 0.5,
+    "formula": "0.5 + 0.197*z"
+  },
+  "random_state": 3141,
+  "raw_model": {
+    "hidden_bias": [
+      -1.0614904745239864,
+      -1.0245186015943004,
+      0.8067325347966319,
+      0.8400995980463212
+    ],
+    "hidden_weights": [
+      [
+        0.4323360555118476,
+        -0.29611718894952016,
+        0.6281109526667553,
+        0.5536604198598405
+      ],
+      [
+        -0.2749813405180494,
+        0.5306293875580428,
+        -0.5655680849782001,
+        -0.633010542055068
+      ],
+      [
+        -0.5063284232725883,
+        0.36254413818082515,
+        -0.6379935412922406,
+        -0.6610407838777977
+      ],
+      [
+        0.2292470345894673,
+        -0.49176913286636115,
+        0.6464178149128399,
+        0.6045989202539748
+      ]
+    ],
+    "output_bias": 0.9341074176252228,
+    "output_weights": [
+      -0.8516792143416222,
+      0.9190204995506204,
+      -1.071026964984303,
+      0.912529273691411
+    ]
+  },
+  "scaled_model_for_ckks": {
+    "hidden_bias": [
+      -1.0614904745239864,
+      -1.0245186015943004,
+      0.8067325347966319,
+      0.8400995980463212
+    ],
+    "hidden_weights": [
+      [
+        0.4323360555118476,
+        -0.29611718894952016,
+        0.6281109526667553,
+        0.5536604198598405
+      ],
+      [
+        -0.2749813405180494,
+        0.5306293875580428,
+        -0.5655680849782001,
+        -0.633010542055068
+      ],
+      [
+        -0.5063284232725883,
+        0.36254413818082515,
+        -0.6379935412922406,
+        -0.6610407838777977
+      ],
+      [
+        0.2292470345894673,
+        -0.49176913286636115,
+        0.6464178149128399,
+        0.6045989202539748
+      ]
+    ],
+    "output_bias": 0.04857290544073032,
+    "output_weights": [
+      -0.04428669889938584,
+      0.04778839668809378,
+      -0.05569262218997522,
+      0.04745085767073389
+    ]
+  },
+  "selected_feature_indices": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "selected_feature_names": [
+    "source_feature_0",
+    "source_feature_1",
+    "source_feature_2",
+    "source_feature_3"
+  ],
+  "standardization": {
+    "mean": [
+      5.448333333333334,
+      3.0566666666666666,
+      2.8583333333333334,
+      0.7849999999999999
+    ],
+    "std": [
+      0.681295742602938,
+      0.46201250584324627,
+      1.4666619318105392,
+      0.5611966381462622
+    ]
+  },
+  "task": "binary classification",
+  "test_samples": 40,
+  "test_size": 0.4,
+  "train_samples": 60,
+  "training_protocol": {
+    "epochs": 3000,
+    "feature_rank_scores": [
+      0.7559125469247854,
+      0.6565478845203591,
+      0.9715940456986503,
+      0.9651994146933834
+    ],
+    "hidden_units": 4,
+    "locked_audit_used": false,
+    "optimizer": "full_batch_adam",
+    "output_scale": 0.0519992717370953,
+    "policy_digest": "sha256:e9353654e5ec899fc91ce70e8dd501905b95973bcb8493cc1d27f3ffc77af1cb",
+    "policy_id": "flipguard_independent_training_seed_v1"
+  },
+  "training_seed": 3141
+}

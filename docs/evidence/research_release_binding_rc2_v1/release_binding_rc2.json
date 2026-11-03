@@ -1,0 +1,30 @@
+{
+  "archive": {
+    "bytes": 10922046,
+    "path": "dist/flipguard-thesis-artifact-v1.0.0-rc2.tar.zst",
+    "sha256": "sha256:05ef70306a11ab577243b0c708489864f19ccd104e6036e28fc6bd1dab45c0be"
+  },
+  "claim_admission": {
+    "manifest_path": "docs/evidence/paper_claim_admission_v1/manifest.json",
+    "manifest_sha256": "sha256:d982f0f81915b760c537244fc71aa992bf521eaf65d57a67c2d96dbae0607b8d"
+  },
+  "claims_changed_from_rc1": false,
+  "encrypted_results_changed_from_rc1": false,
+  "new_encrypted_executions": 0,
+  "paper_artifacts_v3": {
+    "manifest_path": "results/thesis_grade_protocol/paper_artifacts_v3/final/manifest.json",
+    "manifest_sha256": "sha256:32d378b371b75d31b8e39ef2acce4c3c7353581ccfbd5e6c7d22b30ffaf4743b"
+  },
+  "policy_retuning": 0,
+  "policies_changed_from_rc1": false,
+  "rc2_change_class": "REPRODUCIBILITY_RELEASE_REPAIR_ONLY",
+  "rc2_change_summary": "Preserve OpenML server-gzip byte-for-byte and support versioned deterministic release identifiers; do not locally recompress the MNIST transport.",
+  "schema_version": "flipguard_research_release_binding_rc2_record_v1",
+  "source_commit": "6c5f8b234f9f9da91a189fa0f2dc180bb996abf5",
+  "tag": "flipguard-thesis-v1.0.0-rc2",
+  "thesis_release_baseline": true,
+  "v10": {
+    "manifest_path": "docs/evidence/research_completion_checkpoint_v10/manifest.json",
+    "manifest_sha256": "sha256:f7123b0a6ed4846dd7b62848471d9e8aadc679d222bfa451f1503951a49d8d9f"
+  }
+}

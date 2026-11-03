@@ -1,0 +1,12 @@
+{
+  "decision_rule": "NOT_DECLARED_FOR_SINGLE_OFFICIAL_OUTPUT",
+  "frozen_before_execution": true,
+  "input": [0.1753, -0.9315, -1.5055, -0.6610, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0],
+  "model": "HELRM(num_dense=4, vocab_sizes=[4,3,2], hidden_dim=2)",
+  "provider": "Orion",
+  "schema_version": "flipguard_external_v7_workload_contract_v1",
+  "source_commit": "be8a827350a147d610fe3bb998b5bea8de814ff8",
+  "status": "FROZEN_SINGLE_EXAMPLE_ONLY",
+  "torch_seed": 42,
+  "workload_id": "orion_official_helrm_single_v1"
+}

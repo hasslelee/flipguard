@@ -1,0 +1,61 @@
+{
+  "branch": "research/comparison-extension-v18",
+  "expected_digests": {
+    "direct_vs_exhaustive_table_sha256": "8c73d884ebb322943989f03130f7c28bc6c05e7641447df425151902718ed8e7",
+    "formal_latency_table_sha256": "a3558bc912ee9f228a46c1243e8270f9fbbcb5a5a44aa67a5a19925eca63ec12",
+    "selected_configuration_table_sha256": "5c9757d4dd2b8d48e113b633b65ed99b5e21e153d4819cae28b02a26bc38c0cb",
+    "source_commit": "cefc44b0d7e351db2a34886dd758a2d31a3e4c12",
+    "tooling_commit": "86b0403208abbc741a65934358a5dea4a66e4d88",
+    "v17_candidate_space_sha256": "174b9c0ebc553a14ebf6f61df5ffc890ab448103677a890d9f159fc4429bc3b7",
+    "v17_final_manifest_sha256": "2c6671debb4f885ed3b8003a8bd93e24a8c4fcca6e4f8178ef999f8ded6eddde",
+    "v17_protocol_sha256": "09aac669e2a970edfadf99486a3c977f92e0a5ddc96f20432ed9221cc070d6c6",
+    "v17_r3_manifest_sha256": "f43e3a7ca075086dcc3e730a323b334ee9c81d5f906a46a89e22dfe273a59397"
+  },
+  "generated_at_utc": "2026-08-23T20:24:20.449749+00:00",
+  "head": "86b0403208abbc741a65934358a5dea4a66e4d88",
+  "inventory_file_count": 4201,
+  "inventory_total_bytes": 1924200265,
+  "missing_inputs": [],
+  "new_encrypted_evaluations": 0,
+  "post_run_aggregation_tooling_commit": "86b0403208abbc741a65934358a5dea4a66e4d88",
+  "read_only": true,
+  "schema_version": "flipguard_comparison_extension_v18_input_binding_v1",
+  "scientific_execution_source_commit": "cefc44b0d7e351db2a34886dd758a2d31a3e4c12",
+  "selected_inputs": {
+    "candidate_space": {
+      "path": "docs/protocols/model_family_expansion_v17/candidate_space.json",
+      "sha256": "174b9c0ebc553a14ebf6f61df5ffc890ab448103677a890d9f159fc4429bc3b7",
+      "size_bytes": 2235
+    },
+    "direct_vs_exhaustive_table": {
+      "path": "results/model_family_expansion_v17/final_vm1x6/table_04_direct_vs_exhaustive.csv",
+      "sha256": "8c73d884ebb322943989f03130f7c28bc6c05e7641447df425151902718ed8e7",
+      "size_bytes": 115542
+    },
+    "final_manifest": {
+      "path": "docs/evidence/model_family_expansion_v17/final_vm1x6/manifest.json",
+      "sha256": "2c6671debb4f885ed3b8003a8bd93e24a8c4fcca6e4f8178ef999f8ded6eddde",
+      "size_bytes": 10716
+    },
+    "formal_latency_table": {
+      "path": "results/model_family_expansion_v17/final_vm1x6/table_05_formal_paired_latency.csv",
+      "sha256": "a3558bc912ee9f228a46c1243e8270f9fbbcb5a5a44aa67a5a19925eca63ec12",
+      "size_bytes": 26301
+    },
+    "protocol": {
+      "path": "docs/protocols/model_family_expansion_v17/protocol.json",
+      "sha256": "09aac669e2a970edfadf99486a3c977f92e0a5ddc96f20432ed9221cc070d6c6",
+      "size_bytes": 77629
+    },
+    "r3_manifest": {
+      "path": "docs/audit/model_family_expansion_v17/final_vm1x6_release_r3/manifest.json",
+      "sha256": "f43e3a7ca075086dcc3e730a323b334ee9c81d5f906a46a89e22dfe273a59397",
+      "size_bytes": 4447
+    },
+    "selected_configuration_table": {
+      "path": "results/model_family_expansion_v17/final_vm1x6/table_07_selected_configurations.csv",
+      "sha256": "5c9757d4dd2b8d48e113b633b65ed99b5e21e153d4819cae28b02a26bc38c0cb",
+      "size_bytes": 29131
+    }
+  }
+}

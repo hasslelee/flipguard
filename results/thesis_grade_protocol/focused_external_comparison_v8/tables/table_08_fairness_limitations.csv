@@ -1,0 +1,7 @@
+dimension,limitation,state
+cross_runtime_latency,Native runtime timings are not used for cross-runtime ratios.,BLOCKED
+common_executor_latency,Eight direct-arm flips on one near-threshold input block a stable-candidate latency claim.,BLOCKED_DIAGNOSTIC
+corelab_decision,The official LinearRegression workload has no frozen natural decision output.,NOT_EVALUATED
+corelab_plan_grid,70/72 plans completed; elasm_36 and elasm_41 failed before output.,PARTIALLY_SUPPORTED
+portability,PORTABLE_EXACT applies only to the frozen HEIR-generated Lattigo arm.,SCOPED
+assurance,Observed validation and locked audit are not distribution-wide analytical guarantees.,FINITE_SCOPE

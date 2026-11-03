@@ -1,0 +1,40 @@
+{
+  "artifact_id": "comprehensive_ckks_comparison_v3_protocol",
+  "schema_version": "flipguard_comprehensive_ckks_comparison_protocol_v3",
+  "autonomous_start_timestamp": "2026-08-05T16:56:44+09:00",
+  "earliest_normal_pause_timestamp": "2026-08-06T16:56:44+09:00",
+  "source_commit": "494c660425ebadf08bed0bb669225cabc9f07143",
+  "branch": "experiments/comprehensive-ckks-comparison-v3",
+  "result_independent_freeze": true,
+  "external_system_count": 20,
+  "landscape_row_count_including_flipguard": 21,
+  "predecessor": {
+    "artifact_id": "external_autotuner_comparison_v2",
+    "manifest_path": "docs/evidence/external_autotuner_comparison_v2/manifest.json",
+    "manifest_sha256": "sha256:6794150dc62ddb4053be8c6a32c1012dec422ff00ef7fea3c53ad25775cc7e11",
+    "immutable": true,
+    "correct_smoke_wording": "Eight public artifacts passed a documented build or runtime smoke gate."
+  },
+  "frozen_policies": {
+    "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "security_policy_sha256": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+    "direct_policy_id": "flipguard_direct_synthesis_policy_v2",
+    "direct_policy_sha256": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "retuning_allowed": false
+  },
+  "evidence_tiers": "evidence_tiers.json",
+  "comparison_objective": "comparison_objective.json",
+  "state_vocabulary": "state_vocabulary.json",
+  "falsification_rules": "falsification_rules.json",
+  "artifact_attempt_policy": "artifact_attempt_policy.json",
+  "frozen_workload_inventory": "frozen_workload_inventory.json",
+  "provider_execution_schema": "schemas/provider_execution_record.schema.json",
+  "provider_candidate_schema": "schemas/provider_candidate_manifest.schema.json",
+  "maximum_build_recovery_attempts": 3,
+  "native_absolute_cross_runtime_ranking_allowed": false,
+  "missing_value_as_zero_allowed": false,
+  "build_smoke_as_benchmark_reproduction_allowed": false,
+  "bootstrap_workload_manufacture_allowed": false,
+  "new_core_model_without_amendment_allowed": false,
+  "normal_stop": "MANDATORY_EVIDENCE_FREEZE_COMPLETE_OR_24_HOUR_ATOMIC_CHECKPOINT"
+}

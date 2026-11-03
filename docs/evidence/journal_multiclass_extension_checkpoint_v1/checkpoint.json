@@ -1,0 +1,115 @@
+{
+  "blocked_claims": [
+    "exact 128-bit security for journal multiclass candidates",
+    "journal extension paired latency",
+    "arbitrary packed CNN support",
+    "LeNet direct-versus-catalog latency superiority"
+  ],
+  "checkpoint_id": "JOURNAL_EXTENSION_V1_PRE_SECURITY_RECONCILIATION",
+  "extension_paired_latency": "BLOCKED_NOT_EVALUATED",
+  "frozen_core_modified": false,
+  "models": {
+    "lenet5_small": {
+      "argmax_flips": 0,
+      "catalog_status": "PLAN_UNSUPPORTED_WITHIN_FROZEN_CATALOG",
+      "direct_literal": {
+        "candidate_id": "synth_analysis_minimum_rescale_N15_Q18_S44_3d9a3ac648cc",
+        "log_default_scale": 44,
+        "log_n": 15,
+        "log_p": [
+          54
+        ],
+        "log_q": [
+          54,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44,
+          44
+        ],
+        "path": "rescale"
+      },
+      "locked_audit": "SAFE",
+      "model_artifact": {
+        "path": "datasets/journal_multiclass_extension_v1/mnist/mnist_lenet5_small_square_v1.json",
+        "sha256": "sha256:25db361b428ea6640f80478f3608fe6b81b45e984702c4a0d616c735f7d4bba6"
+      },
+      "security_policy_v2": "PASS",
+      "validation": "SAFE"
+    },
+    "mlp_100": {
+      "argmax_flips": 0,
+      "catalog_status": "6_SAFE_1_PLAN_UNSUPPORTED_WITHIN_FROZEN_CATALOG",
+      "direct_literal": {
+        "candidate_id": "synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140",
+        "log_default_scale": 29,
+        "log_n": 13,
+        "log_p": [
+          39
+        ],
+        "log_q": [
+          39,
+          29,
+          29,
+          29,
+          29
+        ],
+        "path": "rescale"
+      },
+      "graph_only_literal": {
+        "candidate_id": "synth_analysis_minimum_rescale_N13_Q5_S32_cd07c4b74140",
+        "log_default_scale": 32,
+        "log_n": 13,
+        "log_p": [
+          42
+        ],
+        "log_q": [
+          42,
+          32,
+          32,
+          32,
+          32
+        ],
+        "path": "rescale"
+      },
+      "locked_audit": "SAFE",
+      "model_artifact": {
+        "path": "datasets/journal_multiclass_extension_v1/mnist/mnist_mlp_square_784_100_10_v1.json",
+        "sha256": "sha256:c4228a2afa1d3c8f8d43d6bc991c1ad3f5b1eec272dc0da39d070f051713f3ac"
+      },
+      "security_policy_v2": "PASS",
+      "validation": "SAFE"
+    }
+  },
+  "natural_gap_activation": "A_LITERAL_EFFECT_SUPPORTED",
+  "policy_retuning": 0,
+  "schema_version": "flipguard_journal_multiclass_extension_checkpoint_v1",
+  "security_state": {
+    "global_exact_estimator_run_status": "FALSIFIED_UNDER_ESTIMATOR_MODEL",
+    "journal_candidate_attribution": "NOT_ESTABLISHED_AT_CHECKPOINT",
+    "preserved_interpretation": "The pre-existing exact-estimator pack reports a global falsification; candidate-specific journal attribution is unresolved in this checkpoint.",
+    "reconciliation_required": true,
+    "security_policy_v2": "PASS"
+  },
+  "source_commit": "affc38b54f5abed8b491442fbed4b74949c2a05b",
+  "split_manifest": {
+    "configuration_validation": 500,
+    "encrypted_images": 1000,
+    "locked_audit": 500,
+    "overlap": 0,
+    "path": "datasets/journal_multiclass_extension_v1/mnist/input_split_manifest.json",
+    "sha256": "sha256:9e61ebee1855b529134442a4d55ee55a6488daa8d2a34146335db2b7de3cc615"
+  }
+}

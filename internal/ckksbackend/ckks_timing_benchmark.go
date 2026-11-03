@@ -16,6 +16,11 @@ const (
 
 	// CKKSEvaluationModeRescale uses a rescale-aware polynomial evaluation path.
 	CKKSEvaluationModeRescale = "rescale"
+
+	// CKKSEvaluationModeEVAV101LinearPoly3 replays the exact scale and level
+	// schedule emitted by Microsoft EVA v1.0.1 for the pinned scalar
+	// linear_poly3 program.
+	CKKSEvaluationModeEVAV101LinearPoly3 = "external_schedule:microsoft_eva_v1.0.1_linear_poly3_scalar_v1"
 )
 
 // CKKSTimingBenchmarkConfig controls CKKS timing benchmark repetitions.
@@ -197,15 +202,35 @@ func validateCKKSEvaluationMode(mode string) error {
 }
 
 func (c Context) newCKKSTimingRuntime() (ckksTimingRuntime, error) {
+	return c.newCKKSTimingRuntimeWithRotations(nil)
+}
+
+func (c Context) newCKKSTimingRuntimeWithRotations(
+	rotations []int,
+) (ckksTimingRuntime, error) {
 	encoder := ckks.NewEncoder(c.Params)
 
 	kgen := ckks.NewKeyGenerator(c.Params)
 	sk, pk := kgen.GenKeyPairNew()
 	rlk := kgen.GenRelinearizationKeyNew(sk)
+	galEls := make([]uint64, 0, len(rotations))
+	seen := make(map[uint64]struct{}, len(rotations))
+	for _, rotation := range rotations {
+		galEl := c.Params.GaloisElementForRotation(rotation)
+		if _, ok := seen[galEl]; ok {
+			continue
+		}
+		seen[galEl] = struct{}{}
+		galEls = append(galEls, galEl)
+	}
+	galoisKeys := kgen.GenGaloisKeysNew(galEls, sk)
 
 	encryptor := ckks.NewEncryptor(c.Params, pk)
 	decryptor := ckks.NewDecryptor(c.Params, sk)
-	evaluator := ckks.NewEvaluator(c.Params, rlwe.NewMemEvaluationKeySet(rlk))
+	evaluator := ckks.NewEvaluator(
+		c.Params,
+		rlwe.NewMemEvaluationKeySet(rlk, galoisKeys...),
+	)
 
 	return ckksTimingRuntime{
 		encoder:   encoder,

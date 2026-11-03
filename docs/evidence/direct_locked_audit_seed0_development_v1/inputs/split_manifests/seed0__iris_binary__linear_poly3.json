@@ -1,0 +1,71 @@
+{
+  "algorithm": "sha256_stratified_rank_v1",
+  "configuration_validation": {
+    "csv_digest": "sha256:29cf99a47cd25520a15aa36d8e7fdf58328fc3a91ad54067266d443b4c04e5ea",
+    "label_counts": {
+      "0": 7,
+      "1": 7
+    },
+    "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/configuration_validation.csv",
+    "row_count": 14,
+    "row_ids": [
+      "1",
+      "2",
+      "4",
+      "7",
+      "12",
+      "13",
+      "16",
+      "18",
+      "22",
+      "23",
+      "24",
+      "27",
+      "28",
+      "29"
+    ]
+  },
+  "dataset_id": "iris_binary",
+  "feature_fields": [
+    "x_0",
+    "x_1",
+    "x_2",
+    "x_3"
+  ],
+  "locked_audit_test": {
+    "csv_digest": "sha256:72a182968acd60e8c0bd5acc830627d698a9f1d2e1760dd492dbb07129a26327",
+    "label_counts": {
+      "0": 8,
+      "1": 8
+    },
+    "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/locked_audit_test.csv",
+    "row_count": 16,
+    "row_ids": [
+      "0",
+      "3",
+      "5",
+      "6",
+      "8",
+      "9",
+      "10",
+      "11",
+      "14",
+      "15",
+      "17",
+      "19",
+      "20",
+      "21",
+      "25",
+      "26"
+    ]
+  },
+  "model_artifact": "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+  "model_artifact_digest": "sha256:9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1",
+  "model_id": "linear_poly3",
+  "schema_version": 1,
+  "source_row_count": 30,
+  "source_test_csv": "datasets/tabular_suite/iris_binary/linear_poly3/test.csv",
+  "source_test_csv_digest": "sha256:638d5eee22bd86a43fbb5295bfba0c05c2c45a0046be68959d5fe9556d9929dc",
+  "split_seed": 0,
+  "validation_ratio": 0.5
+}

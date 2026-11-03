@@ -1,0 +1,10 @@
+scope,case,stage,unique_case_inputs,unique_source_rows,synthetic_is_original_population
+"per model and stage, union across literal/method/key",fashion_seed0,existing_audit,1000,1000,False
+"per model and stage, union across literal/method/key",hediff_bank,existing_audit,32,32,False
+"per model and stage, union across literal/method/key",hediff_bank,exposed_synthetic,16,not counted; synthetic point IDs are not original rows,False
+"per model and stage, union across literal/method/key",hediff_bank,reserved684,684,684,False
+"per model and stage, union across literal/method/key",htru2__mlp_square_linear_score__split0_seed0,existing_audit,256,256,False
+"per model and stage, union across literal/method/key",spambase__linear_poly3__split0_seed0,existing_audit,256,256,False
+"per model and stage, union across literal/method/key",spambase__mlp_square_linear_score__split0_seed0,existing_audit,256,256,False
+"all normal audits, union across methods/literals/keys",ALL,existing + reserved,2484,2228,False
+"exposed synthetic regression, kept separate",ALL,exposed_synthetic,16,not counted; synthetic points are not original source rows,False

@@ -1,0 +1,131 @@
+{
+  "artifact_id": "security_v2_static_attestation",
+  "classification": "PRELIMINARY",
+  "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+  "direct_policy_id": "flipguard_direct_synthesis_policy_v2",
+  "encrypted_execution_performed": false,
+  "files": {
+    "bounded_oracle_security_v2/candidate_certificates.csv": {
+      "bytes": 1070831,
+      "sha256": "sha256:a634965ff97fcd13c6242f266f1432870a362b7e2cfcbb4218884f84fc69a065"
+    },
+    "bounded_oracle_security_v2/candidate_certificates_security_v2.csv": {
+      "bytes": 1070831,
+      "sha256": "sha256:a634965ff97fcd13c6242f266f1432870a362b7e2cfcbb4218884f84fc69a065"
+    },
+    "bounded_oracle_security_v2/oracle_selection.csv": {
+      "bytes": 96012,
+      "sha256": "sha256:dc08523ec449d123d0b7aab2df8449bb450dc97236d70ad5f122bd0f99a333c6"
+    },
+    "bounded_oracle_security_v2/oracle_selection_security_v2.csv": {
+      "bytes": 96012,
+      "sha256": "sha256:dc08523ec449d123d0b7aab2df8449bb450dc97236d70ad5f122bd0f99a333c6"
+    },
+    "bounded_oracle_security_v2/selection_changes_security_v2.csv": {
+      "bytes": 11189,
+      "sha256": "sha256:8e503a99d3717a8ea27b3b9402c56d34a18b4ff1c3aa436d564be940c5c27848"
+    },
+    "bounded_oracle_security_v2/summary.json": {
+      "bytes": 2178,
+      "sha256": "sha256:5bc04e60f5bf9945c76038bc5e1ca2aa3370ac72806fa9dbfb264ea3e737bbdd"
+    },
+    "bounded_oracle_security_v2/validation_coverage.csv": {
+      "bytes": 25169,
+      "sha256": "sha256:adfec8988bb68e2e5af190b1f70b429b1f82d95df7d5fdb04de8f2b4a5d42210"
+    },
+    "direct_synthesis_policy_v2.json": {
+      "bytes": 2247,
+      "sha256": "sha256:694a721212b3f4d1a4d01d8e8ef64293af57f842e1a3fc7c77ca23b28271eec4"
+    },
+    "lattice_estimator_inputs_v2.json": {
+      "bytes": 13003,
+      "sha256": "sha256:3ab4bae2154092c65bc546bfd405ad0e03c2b006fd1741d164a8e80454728f14"
+    },
+    "parameter_inventory_v2.json": {
+      "bytes": 122952,
+      "sha256": "sha256:56179ebd281cb8dd01dd3feaec718d16f68661b173c7814e727403eb0a18e6ed"
+    },
+    "security_policy_v2.json": {
+      "bytes": 1622,
+      "sha256": "sha256:238e7a9a119a0940d88da384d69e97e81fe6a205407cfee597a4c484ea2cbcfb"
+    },
+    "security_reattestation_v2.csv": {
+      "bytes": 72042,
+      "sha256": "sha256:a67a399ad4056622440388647b3a14a7e76647540054ef81dc2d5af6c01526a5"
+    },
+    "security_reattestation_v2.json": {
+      "bytes": 3451,
+      "sha256": "sha256:d22cb6fe1776f6aa5b30b2fe2ebd3a1c7698bde64b4c3b5a39037c7d441ea21e"
+    }
+  },
+  "inputs": {
+    "docs/evidence/paired_latency_pilot_v1/summary/arm_summaries.csv": "sha256:e6cb792f152f6b9aea2c9240890ed57ffc0defaf332a24d38d5e8a872c6f2200",
+    "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/summary/summary.json": "sha256:973bed2bc5c79234d1e6862f0671336bdc8d13b7040a7c9fb21f1aab35eabc29",
+    "results/thesis_grade_protocol/tabular_validation_oracle_v1/full/summary/candidate_certificates.csv": "sha256:57331837635fadbe019e98cdefc364923c58249cdb5cd56b122d66d03ea4c48b",
+    "results/thesis_grade_protocol/tabular_validation_oracle_v1/full/summary/oracle_selection.csv": "sha256:0b82dbf3b5bae8e54433c3ea15a22bd0fc5cd85a78eb6a0f9ab7ba9ac1184942"
+  },
+  "oracle_summary": {
+    "actual_run_count": 1100,
+    "admitted_profiles": [
+      "deep_chain_8_scale45",
+      "deep_chain_9_scale45",
+      "short_chain_3",
+      "short_chain_5",
+      "short_chain_6_scale38",
+      "short_chain_6_scale40",
+      "short_chain_6_scale42"
+    ],
+    "allow_incomplete": false,
+    "alpha_rows": 250,
+    "candidate_identities_per_workload_after": 14,
+    "candidate_identities_per_workload_before": 22,
+    "confirmatory_catalog_candidates": 560,
+    "development_catalog_candidates": 140,
+    "direct_trials_all": null,
+    "direct_trials_confirmatory": null,
+    "direct_trials_development": null,
+    "excluded_profiles": [
+      "default",
+      "scale38",
+      "scale40",
+      "scale42"
+    ],
+    "expected_full_run_count": 1100,
+    "formal_trial_fields_pending": "clean-source direct confirmatory execution",
+    "formal_trial_reduction_all": null,
+    "formal_trial_reduction_confirmatory": null,
+    "latency_claim_allowed": false,
+    "latency_evidence_status": "BLOCKED",
+    "new_encrypted_executions": 0,
+    "outcome_counts": {
+      "SELECTED": 250
+    },
+    "raw_catalog_executions": 1100,
+    "reference_candidate_pre_security_v2": "default__rescale_aware",
+    "reference_candidate_pre_security_v2_admission": "FAIL",
+    "reference_candidate_v2": "deep_chain_8_scale45__rescale_aware",
+    "reference_candidate_v2_admission": "PASS",
+    "reference_failed_count": 0,
+    "reference_rejected_count": 0,
+    "reference_safe_count": 50,
+    "reference_security_pass_count": 50,
+    "reference_selection_rule": "predeclared smallest admitted built-in Q-chain profile/path that is SAFE for all 50 existing workload-partition records at alpha=0.5",
+    "schema_version": 2,
+    "security_admitted_catalog_candidates": 700,
+    "security_excluded_catalog_candidates": 400,
+    "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+    "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "selection_changes_all_alphas": 125,
+    "selection_changes_by_model": {
+      "linear_poly3": 125
+    },
+    "selection_changes_primary_alpha_0_5": 25,
+    "source_encrypted_executions_reused": 1100,
+    "source_oracle_classification": "PRE_SECURITY_V2",
+    "workload_partition_instances": 50
+  },
+  "schema_version": 1,
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+  "source_commit": "62ce434bdae94dc640e7d822448381514b71cd0a"
+}

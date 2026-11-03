@@ -1,0 +1,98 @@
+{
+  "dataset_id": "digits_binary",
+  "dataset_name": "Digits even-vs-odd binary classification",
+  "model_id": "linear_poly3",
+  "model_type": "linear_poly3",
+  "task": "binary classification",
+  "label_mapping": {
+    "0": "negative",
+    "1": "positive"
+  },
+  "random_state": 42,
+  "test_size": 0.3,
+  "train_samples": 1257,
+  "test_samples": 540,
+  "selected_feature_indices": [
+    3,
+    5,
+    6,
+    18,
+    33,
+    42,
+    43,
+    47
+  ],
+  "selected_feature_names": [
+    "pixel_3",
+    "pixel_5",
+    "pixel_6",
+    "pixel_18",
+    "pixel_33",
+    "pixel_42",
+    "pixel_43",
+    "pixel_47"
+  ],
+  "input_dim": 8,
+  "standardization": {
+    "mean": [
+      11.899761336515514,
+      5.748607796340493,
+      1.2768496420047732,
+      9.805887032617344,
+      2.367541766109785,
+      6.827366746221162,
+      7.344470962609387,
+      0.027048528241845664
+    ],
+    "std": [
+      4.210961368511564,
+      5.657456134641137,
+      3.173535195346589,
+      5.705350420230847,
+      3.5072598537643933,
+      6.46116472698385,
+      6.421042628987144,
+      0.32537885639782105
+    ]
+  },
+  "raw_model": {
+    "weights": [
+      -0.4361618672740998,
+      -0.9660551075820546,
+      -0.6830143066743315,
+      0.8074962306341904,
+      0.3911731610307628,
+      1.2409649774297367,
+      0.3716519727260034,
+      1.0547313418266142
+    ],
+    "bias": -0.02898307888675173
+  },
+  "scaled_model_for_ckks": {
+    "weights": [
+      -0.020186173036036606,
+      -0.04471036334715436,
+      -0.031610844539860024,
+      0.037372039741579294,
+      0.018104033635425714,
+      0.057433571445885706,
+      0.01720056610523632,
+      0.048814421823958044
+    ],
+    "bias": -0.001341376881893709
+  },
+  "max_scaled_logit_target": 1.0,
+  "polynomial_score": {
+    "formula": "0.5 + 0.197*z - 0.004*z^3",
+    "decision_threshold": 0.5
+  },
+  "metrics": {
+    "raw_accuracy": 0.8685185185185185,
+    "raw_f1": 0.8647619047619047,
+    "raw_auc": 0.9373765364354697,
+    "polynomial_decision_match_rate": 1.0,
+    "test_scaled_logit_min": -0.35535846179226144,
+    "test_scaled_logit_max": 0.5929669508053156,
+    "test_scaled_logit_max_abs": 0.5929669508053156
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "points": [
+    {
+      "case": "hediff_bank",
+      "stage": "reserved684",
+      "literal_id": "24122c3ebccc694f",
+      "roles": [
+        "B30"
+      ],
+      "relative_paired_time": 1.0033578462800887,
+      "key_min": 0.9978545751219922,
+      "key_max": 1.0137169747991657,
+      "max_budget_usage": 0.04869877164346191,
+      "unique_inputs": 684,
+      "applicable_inputs": 683
+    },
+    {
+      "case": "hediff_bank",
+      "stage": "reserved684",
+      "literal_id": "9e928b7f38b1fa2c",
+      "roles": [
+        "C"
+      ],
+      "relative_paired_time": 1.0,
+      "key_min": 1.0,
+      "key_max": 1.0,
+      "max_budget_usage": 33.58025837635729,
+      "unique_inputs": 684,
+      "applicable_inputs": 683
+    },
+    {
+      "case": "hediff_bank",
+      "stage": "reserved684",
+      "literal_id": "d5466aa2bec02013",
+      "roles": [
+        "B30slack",
+        "Cprime"
+      ],
+      "relative_paired_time": 0.9990845669903715,
+      "key_min": 0.9933539727158376,
+      "key_max": 1.004201895282688,
+      "max_budget_usage": 0.0026456361963514675,
+      "unique_inputs": 684,
+      "applicable_inputs": 683
+    },
+    {
+      "case": "spambase__mlp_square_linear_score__split0_seed0",
+      "stage": "existing_audit",
+      "literal_id": "37e9cc4c3c697d4a",
+      "roles": [
+        "B30slack"
+      ],
+      "relative_paired_time": 2.1423208399223928,
+      "key_min": 2.1328717271101216,
+      "key_max": 2.153257213475165,
+      "max_budget_usage": 9.669991154165811e-11,
+      "unique_inputs": 256,
+      "applicable_inputs": 75
+    },
+    {
+      "case": "spambase__mlp_square_linear_score__split0_seed0",
+      "stage": "existing_audit",
+      "literal_id": "b110f0046da67946",
+      "roles": [
+        "B30"
+      ],
+      "relative_paired_time": 2.1285224686312314,
+      "key_min": 2.1212020228345487,
+      "key_max": 2.1334967754864187,
+      "max_budget_usage": 6.904584144576003e-05,
+      "unique_inputs": 256,
+      "applicable_inputs": 75
+    },
+    {
+      "case": "spambase__mlp_square_linear_score__split0_seed0",
+      "stage": "existing_audit",
+      "literal_id": "b5cf2789d4533729",
+      "roles": [
+        "C"
+      ],
+      "relative_paired_time": 1.0,
+      "key_min": 1.0,
+      "key_max": 1.0,
+      "max_budget_usage": 0.06436882523672689,
+      "unique_inputs": 256,
+      "applicable_inputs": 75
+    },
+    {
+      "case": "spambase__mlp_square_linear_score__split0_seed0",
+      "stage": "existing_audit",
+      "literal_id": "f6e933e8aef5cdc0",
+      "roles": [
+        "Cprime"
+      ],
+      "relative_paired_time": 1.0103208452133188,
+      "key_min": 1.0088013994939293,
+      "key_max": 1.0116361871422024,
+      "max_budget_usage": 6.335251791688325e-05,
+      "unique_inputs": 256,
+      "applicable_inputs": 75
+    },
+    {
+      "case": "fashion_seed0",
+      "stage": "existing_audit",
+      "literal_id": "235594860e323a1f",
+      "roles": [
+        "B30slack"
+      ],
+      "relative_paired_time": 0.49893177848413517,
+      "key_min": 0.4983052969994586,
+      "key_max": 0.5000632012453637,
+      "max_budget_usage": 0.010227616797585335,
+      "unique_inputs": 1000,
+      "applicable_inputs": 1000
+    },
+    {
+      "case": "fashion_seed0",
+      "stage": "existing_audit",
+      "literal_id": "570a63e890a5423f",
+      "roles": [
+        "Cprime"
+      ],
+      "relative_paired_time": 1.001518656803679,
+      "key_min": 1.0006342704972904,
+      "key_max": 1.0028346184506225,
+      "max_budget_usage": 5.4967117009307806e-08,
+      "unique_inputs": 1000,
+      "applicable_inputs": 1000
+    },
+    {
+      "case": "fashion_seed0",
+      "stage": "existing_audit",
+      "literal_id": "a77de9e2fea546be",
+      "roles": [
+        "C"
+      ],
+      "relative_paired_time": 1.0,
+      "key_min": 1.0,
+      "key_max": 1.0,
+      "max_budget_usage": 0.0028268845508746558,
+      "unique_inputs": 1000,
+      "applicable_inputs": 1000
+    },
+    {
+      "case": "fashion_seed0",
+      "stage": "existing_audit",
+      "literal_id": "db4fa30f92923b80",
+      "roles": [
+        "B30"
+      ],
+      "relative_paired_time": 0.4981972650159014,
+      "key_min": 0.4962535885947981,
+      "key_max": 0.4992478240507937,
+      "max_budget_usage": 0.05341865805705631,
+      "unique_inputs": 1000,
+      "applicable_inputs": 1000
+    }
+  ],
+  "caption": "Descriptive local comparison. X is equal-key-block geometric paired time ratio; horizontal bars are range of three key-block ratios, not confidence intervals. Y is worst observed budget usage within base rho0.5/delta0.001 applicable inputs only; titles show applicable/total; Bank684/Spambase256/Fashion1000. C normalized to1 does not imply zero timing variance. Aliases share audit. No risk guarantee."
+}

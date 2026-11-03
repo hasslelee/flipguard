@@ -1,0 +1,23 @@
+Waiting for isolated native execution; active PIDs [25806]
+{"job": "seed0_direct", "exit_code": 0, "wall_seconds": 110.66059336000035}
+{"job": "seed0_finite0", "exit_code": 0, "wall_seconds": 108.45168892000038}
+{"job": "seed0_finite1", "exit_code": 0, "wall_seconds": 128.14024342999983}
+{"job": "seed0_finite2", "exit_code": 0, "wall_seconds": 110.31678559400098}
+{"job": "seed0_finite3", "exit_code": 0, "wall_seconds": 130.76961822900012}
+{"job": "seed0_finite4", "exit_code": 0, "wall_seconds": 110.22318199800065}
+{"job": "seed0_finite5", "exit_code": 0, "wall_seconds": 130.94741366400012}
+{"job": "seed0_finite6", "exit_code": 0, "wall_seconds": 110.14124676400024}
+{"job": "seed0_finite7", "exit_code": 0, "wall_seconds": 131.70612086599976}
+Traceback (most recent call last):
+  File "/home/ckks2/deciprotect/scripts/run_fg_expand_v2.py", line 136, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_fg_expand_v2.py", line 109, in main
+    pick_roles(seed)
+  File "/home/ckks2/deciprotect/scripts/run_fg_expand_v2.py", line 67, in pick_roles
+    p=root/f'finite/candidate_{i:02d}';t=read(p/'result.json');m=numeric(p);eligible=t['key_repeats_completed']==3 and len(m)==3 and not t.get('failure')
+                                                                 ^^^^^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_fg_expand_v2.py", line 59, in numeric
+    ev=read(p);e=np.array([np.array(r['ckks_logits'])-np.array(r['plaintext_logits']) for r in ev['records']]);values.append(dict(key=ev['key_run'],rmse=float(np.sqrt(np.mean(e**2))),max_abs=float(abs(e).max())))
+                                                               ^^^^^^^^^^^^^^^^^
+KeyError: 'plain_logits'

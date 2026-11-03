@@ -1,0 +1,49 @@
+{
+  "failure_count": 3,
+  "policy": "implementation-only recovery; no contract, candidate, cryptographic source, or policy change",
+  "runs": [
+    {
+      "classification": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+      "conclusion": "FAILURE",
+      "contract_changed": false,
+      "cryptographic_source_changed": false,
+      "reason_code": "COMPILER_PREFLIGHT_REQUIRED_GITIGNORED_RUNTIME_ARTIFACTS",
+      "run_id": "30552296617",
+      "source_commit": "0dc7da0a10801c165616093d3584cb7d0682b9de",
+      "stage": "VERIFY_SOURCE_IDENTITY_AND_CONTRACT"
+    },
+    {
+      "classification": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+      "conclusion": "FAILURE",
+      "contract_changed": false,
+      "cryptographic_source_changed": false,
+      "reason_code": "SEAL_3_6_4_MISSING_MUTEX_TRANSITIVE_INCLUDE",
+      "run_id": "30552734306",
+      "source_commit": "91e74d61cb50df322f5d12fe8a1d99f1599b000e",
+      "stage": "BUILD_PINNED_MICROSOFT_SEAL"
+    },
+    {
+      "classification": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+      "conclusion": "FAILURE",
+      "contract_changed": false,
+      "cryptographic_source_changed": false,
+      "reason_code": "SEAL_CONSUMER_MISSING_MUTEX_INCLUDE",
+      "run_id": "30553222153",
+      "source_commit": "6981b9831643b835534dc1f4b66c277bf0abd580",
+      "stage": "BUILD_EXACT_SEAL_PRIME_EXPORTER"
+    },
+    {
+      "classification": "PASS",
+      "conclusion": "SUCCESS",
+      "contract_changed": false,
+      "cryptographic_source_changed": false,
+      "reason_code": "COMPLETE",
+      "run_id": "30553813485",
+      "source_commit": "04938d9d330c4994baaf45048704dbd17e4ab7d0",
+      "stage": "COMPILER_REPLAY_AND_ARTIFACT_UPLOAD"
+    }
+  ],
+  "schema_version": "flipguard_eva_external_adapter_recovery_log_v1",
+  "successful_run_count": 1,
+  "systemic_failure_repeated_three_times": false
+}

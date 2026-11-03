@@ -1,0 +1,84 @@
+{
+  "arms": [
+    {
+      "arm_id": "manual_literal",
+      "audit_key_runs": 0,
+      "audit_state": "IMPLEMENTATION_FAILURE",
+      "candidate_id": "provider_manual_5f9e23c68a708292",
+      "candidate_trials": 1,
+      "provider_kind": "manual",
+      "retuning": 0,
+      "selection_flips": 0,
+      "selection_key_runs": 3,
+      "selection_state": "SELECTED",
+      "selection_status": "SAFE",
+      "selection_violations": 0
+    },
+    {
+      "arm_id": "bounded_catalog_literal",
+      "audit_key_runs": 0,
+      "audit_state": "IMPLEMENTATION_FAILURE",
+      "candidate_id": "provider_bounded_catalog_6919dccc14a2a65a",
+      "candidate_trials": 1,
+      "provider_kind": "bounded_catalog",
+      "retuning": 0,
+      "selection_flips": 0,
+      "selection_key_runs": 3,
+      "selection_state": "SELECTED",
+      "selection_status": "SAFE",
+      "selection_violations": 0
+    },
+    {
+      "arm_id": "external_autotuner_format_fixture",
+      "audit_key_runs": 0,
+      "audit_state": "IMPLEMENTATION_FAILURE",
+      "candidate_id": "provider_external_autotuner_59cc519a0ef86330",
+      "candidate_trials": 1,
+      "provider_kind": "external_autotuner",
+      "retuning": 0,
+      "selection_flips": 0,
+      "selection_key_runs": 3,
+      "selection_state": "SELECTED",
+      "selection_status": "SAFE",
+      "selection_violations": 0
+    },
+    {
+      "arm_id": "direct_synthesizer_literal",
+      "audit_key_runs": 0,
+      "audit_state": "IMPLEMENTATION_FAILURE",
+      "candidate_id": "provider_direct_synthesizer_6d7285dcec411cca",
+      "candidate_trials": 1,
+      "provider_kind": "direct_synthesizer",
+      "retuning": 0,
+      "selection_flips": 0,
+      "selection_key_runs": 3,
+      "selection_state": "SELECTED",
+      "selection_status": "SAFE",
+      "selection_violations": 0
+    }
+  ],
+  "block_reason": "single development workload and synthetic external-format fixture do not support a paper-level external-autotuner claim",
+  "claim_states": {
+    "provider_class_interoperability": "BLOCKED",
+    "provider_locked_literal_replay": "BLOCKED",
+    "third_party_autotuner_integration": "NOT_EVALUATED",
+    "third_party_autotuner_quality": "NOT_EVALUATED"
+  },
+  "counts": {
+    "arms": 4,
+    "audit_key_runs": 0,
+    "candidate_trials": 4,
+    "implementation_failures": 4,
+    "locked_audit_fail": 0,
+    "locked_audit_pass": 0,
+    "no_safe": 0,
+    "retuning": 0,
+    "scientific_negatives": 0,
+    "selected": 4,
+    "selection_key_runs": 12
+  },
+  "evaluation_role": "development_interoperability_control",
+  "paper_claim_allowed": false,
+  "schema_version": "flipguard_provider_candidate_gate_run_v1",
+  "status": "PARTIAL_IMPLEMENTATION_FAILURE"
+}

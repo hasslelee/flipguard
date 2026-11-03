@@ -1,0 +1,2 @@
+PASS (exit 0): git -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --cached --check
+CRLF evidence is preserved; CR at line end is accepted by this check.

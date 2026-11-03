@@ -1,0 +1,35 @@
+[
+  {
+    "path": "research/fashion_extension/bin/fashion-train",
+    "sha256": "f75b566d917abb7f96c72d1484387858c3e8f9114999c78f100cedf6cb0ee583",
+    "command": [
+      "go",
+      "version",
+      "-m",
+      "research/fashion_extension/bin/fashion-train"
+    ],
+    "build_info": "research/fashion_extension/bin/fashion-train: go1.25.9\n\tpath\tgithub.com/hasslelee/flipguard/cmd/fashion-train\n\tmod\tgithub.com/hasslelee/flipguard\t(devel)\t\n\tbuild\t-buildmode=exe\n\tbuild\t-compiler=gc\n\tbuild\tCGO_ENABLED=1\n\tbuild\tCGO_CFLAGS=\n\tbuild\tCGO_CPPFLAGS=\n\tbuild\tCGO_CXXFLAGS=\n\tbuild\tCGO_LDFLAGS=\n\tbuild\tGOARCH=amd64\n\tbuild\tGOOS=linux\n\tbuild\tGOAMD64=v1\n\tbuild\tvcs=git\n\tbuild\tvcs.revision=b64fa9c100f4f13789e3012a8e2258a48034f5d0\n\tbuild\tvcs.time=2026-09-05T10:23:03Z\n\tbuild\tvcs.modified=true\n"
+  },
+  {
+    "path": "research/fashion_extension/bin/fashion-case",
+    "sha256": "c358a601f15bc3713c8879a9cc3867292b83917f83356e99185e9b635d2203a2",
+    "command": [
+      "go",
+      "version",
+      "-m",
+      "research/fashion_extension/bin/fashion-case"
+    ],
+    "build_info": "research/fashion_extension/bin/fashion-case: go1.25.9\n\tpath\tgithub.com/hasslelee/flipguard/cmd/fashion-case\n\tmod\tgithub.com/hasslelee/flipguard\t(devel)\t\n\tdep\tgithub.com/ALTree/bigfloat\tv0.2.0\th1:AwNzawrpFuw55/YDVlcPw0F0cmmXrmngBHhVrvdXPvM=\n\tdep\tgithub.com/davecgh/go-spew\tv1.1.1\th1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=\n\tdep\tgithub.com/google/go-cmp\tv0.7.0\th1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=\n\tdep\tgithub.com/pmezard/go-difflib\tv1.0.0\th1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=\n\tdep\tgithub.com/stretchr/testify\tv1.10.0\th1:Xv5erBjTwe/5IxqUQTdXv5kgmIvbHo3QQyRwhJsOfJA=\n\tdep\tgithub.com/tuneinsight/lattigo/v6\tv6.2.0\th1:HZrksD5u87bOr/4hWHI1Jhps14Tafdvb84Fxmi3dou0=\n\tdep\tgolang.org/x/crypto\tv0.45.0\th1:jMBrvKuj23MTlT0bQEOBcAE0mjg8mK9RXFhRH6nyF3Q=\n\tdep\tgolang.org/x/exp\tv0.0.0-20250506013437-ce4c2cf36ca6\th1:y5zboxd6LQAqYIhHnB48p0ByQ/GnQx2BE33L8BOHQkI=\n\tdep\tgolang.org/x/sys\tv0.38.0\th1:3yZWxaJjBmCWXqhN1qh02AkOnCQ1poK6oF+a7xWL6Gc=\n\tdep\tgopkg.in/yaml.v3\tv3.0.1\th1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=\n\tbuild\t-buildmode=exe\n\tbuild\t-compiler=gc\n\tbuild\tCGO_ENABLED=1\n\tbuild\tCGO_CFLAGS=\n\tbuild\tCGO_CPPFLAGS=\n\tbuild\tCGO_CXXFLAGS=\n\tbuild\tCGO_LDFLAGS=\n\tbuild\tGOARCH=amd64\n\tbuild\tGOOS=linux\n\tbuild\tGOAMD64=v1\n\tbuild\tvcs=git\n\tbuild\tvcs.revision=b64fa9c100f4f13789e3012a8e2258a48034f5d0\n\tbuild\tvcs.time=2026-09-05T10:23:03Z\n\tbuild\tvcs.modified=true\n"
+  },
+  {
+    "path": "research/fashion_extension/bin/external-one",
+    "sha256": "7fb0e73be2fb4961ccc0ec85eec7f6e1fcfb2c2afef8c77006ac5e12955746a4",
+    "command": [
+      "go",
+      "version",
+      "-m",
+      "research/fashion_extension/bin/external-one"
+    ],
+    "build_info": "research/fashion_extension/bin/external-one: go1.25.9\n\tpath\tgithub.com/hasslelee/flipguard/cmd/external-one\n\tmod\tgithub.com/hasslelee/flipguard\t(devel)\t\n\tdep\tgithub.com/ALTree/bigfloat\tv0.2.0\th1:AwNzawrpFuw55/YDVlcPw0F0cmmXrmngBHhVrvdXPvM=\n\tdep\tgithub.com/davecgh/go-spew\tv1.1.1\th1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=\n\tdep\tgithub.com/google/go-cmp\tv0.7.0\th1:wk8382ETsv4JYUZwIsn6YpYiWiBsYLSJiTsyBybVuN8=\n\tdep\tgithub.com/pmezard/go-difflib\tv1.0.0\th1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=\n\tdep\tgithub.com/stretchr/testify\tv1.10.0\th1:Xv5erBjTwe/5IxqUQTdXv5kgmIvbHo3QQyRwhJsOfJA=\n\tdep\tgithub.com/tuneinsight/lattigo/v6\tv6.2.0\th1:HZrksD5u87bOr/4hWHI1Jhps14Tafdvb84Fxmi3dou0=\n\tdep\tgolang.org/x/crypto\tv0.45.0\th1:jMBrvKuj23MTlT0bQEOBcAE0mjg8mK9RXFhRH6nyF3Q=\n\tdep\tgolang.org/x/exp\tv0.0.0-20250506013437-ce4c2cf36ca6\th1:y5zboxd6LQAqYIhHnB48p0ByQ/GnQx2BE33L8BOHQkI=\n\tdep\tgolang.org/x/sys\tv0.38.0\th1:3yZWxaJjBmCWXqhN1qh02AkOnCQ1poK6oF+a7xWL6Gc=\n\tdep\tgopkg.in/yaml.v3\tv3.0.1\th1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=\n\tbuild\t-buildmode=exe\n\tbuild\t-compiler=gc\n\tbuild\tCGO_ENABLED=1\n\tbuild\tCGO_CFLAGS=\n\tbuild\tCGO_CPPFLAGS=\n\tbuild\tCGO_CXXFLAGS=\n\tbuild\tCGO_LDFLAGS=\n\tbuild\tGOARCH=amd64\n\tbuild\tGOOS=linux\n\tbuild\tGOAMD64=v1\n\tbuild\tvcs=git\n\tbuild\tvcs.revision=b64fa9c100f4f13789e3012a8e2258a48034f5d0\n\tbuild\tvcs.time=2026-09-05T10:23:03Z\n\tbuild\tvcs.modified=true\n"
+  }
+]

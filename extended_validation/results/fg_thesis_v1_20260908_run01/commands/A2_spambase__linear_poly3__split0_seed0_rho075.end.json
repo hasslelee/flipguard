@@ -1,0 +1,44 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/bin/contribution-case",
+    "--mode",
+    "select",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__linear_poly3__split0_seed0/initial_plan.json",
+    "--role",
+    "C",
+    "--keyset",
+    "0",
+    "--rho",
+    "0.75",
+    "--delta",
+    "0.001",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/selection/A2_spambase__linear_poly3__split0_seed0_rho075"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 29.294354531999943,
+  "charged_native": true,
+  "result_exists": true,
+  "before": {
+    "utc": "2026-09-08T09:35:08.963901+00:00",
+    "available_memory_bytes": 11533684736,
+    "free_disk_bytes": 21451763712,
+    "load": [
+      1.92919921875,
+      0.935546875,
+      0.8173828125
+    ]
+  },
+  "after": {
+    "utc": "2026-09-08T09:35:38.261835+00:00",
+    "available_memory_bytes": 11700727808,
+    "free_disk_bytes": 21450702848,
+    "load": [
+      2.66064453125,
+      1.19921875,
+      0.9091796875
+    ]
+  },
+  "status": "COMPLETED"
+}

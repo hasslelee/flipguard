@@ -1,0 +1,9 @@
+[
+  {
+    "stage": "data_loading_before_training_or_ckks",
+    "error": "NumPy loadtxt BytesIO embedded-newline error",
+    "cause": "Public source line-ending compatibility",
+    "remedy": "Decode ASCII and splitlines before loadtxt; no numeric value, row, model or policy change",
+    "scientific_failure": false
+  }
+]

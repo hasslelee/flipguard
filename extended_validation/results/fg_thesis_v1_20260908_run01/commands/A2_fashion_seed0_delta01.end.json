@@ -1,0 +1,44 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/bin/contribution-case",
+    "--mode",
+    "select",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_0/planning/plan.json",
+    "--role",
+    "C",
+    "--keyset",
+    "0",
+    "--rho",
+    "0.5",
+    "--delta",
+    "0.01",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/selection/A2_fashion_seed0_delta01"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 55.81063267199988,
+  "charged_native": true,
+  "result_exists": true,
+  "before": {
+    "utc": "2026-09-08T09:43:58.889416+00:00",
+    "available_memory_bytes": 11080581120,
+    "free_disk_bytes": 21501218816,
+    "load": [
+      1.19873046875,
+      1.3359375,
+      1.12890625
+    ]
+  },
+  "after": {
+    "utc": "2026-09-08T09:44:54.704163+00:00",
+    "available_memory_bytes": 11200851968,
+    "free_disk_bytes": 21485772800,
+    "load": [
+      1.3720703125,
+      1.35546875,
+      1.14599609375
+    ]
+  },
+  "status": "COMPLETED"
+}

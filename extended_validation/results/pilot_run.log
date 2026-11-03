@@ -1,0 +1,79 @@
+CASE_START spambase logistic_linear 20260905
+CASE_DONE spambase__logistic_linear__20260905 coverage=1.0000 disagreements=0 training_converged=None
+CASE_START spambase logistic_linear 20260906
+CASE_DONE spambase__logistic_linear__20260906 coverage=1.0000 disagreements=0 training_converged=None
+CASE_START spambase logistic_linear 20260907
+CASE_DONE spambase__logistic_linear__20260907 coverage=1.0000 disagreements=0 training_converged=None
+CASE_START spambase square_mlp12 20260905
+Traceback (most recent call last):
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 201, in main
+    try: completed.append(run_case(run,dataset,family,seed,protocol))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 143, in run_case
+    obj=encrypted(case,f'development_s{s}',layers,z[dev_idx],s)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 120, in encrypted
+    raise RuntimeError(f'CKKS command failed: {name}; see {case/name}.log')
+RuntimeError: CKKS command failed: development_s18; see /home/ckks2/deciprotect/results/dp_pilot_v1_20260905/spambase__square_mlp12__20260905/development_s18.log
+CASE_START spambase square_mlp12 20260906
+Traceback (most recent call last):
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 201, in main
+    try: completed.append(run_case(run,dataset,family,seed,protocol))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 143, in run_case
+    obj=encrypted(case,f'development_s{s}',layers,z[dev_idx],s)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 120, in encrypted
+    raise RuntimeError(f'CKKS command failed: {name}; see {case/name}.log')
+RuntimeError: CKKS command failed: development_s18; see /home/ckks2/deciprotect/results/dp_pilot_v1_20260905/spambase__square_mlp12__20260906/development_s18.log
+CASE_START spambase square_mlp12 20260907
+Traceback (most recent call last):
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 201, in main
+    try: completed.append(run_case(run,dataset,family,seed,protocol))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 143, in run_case
+    obj=encrypted(case,f'development_s{s}',layers,z[dev_idx],s)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 120, in encrypted
+    raise RuntimeError(f'CKKS command failed: {name}; see {case/name}.log')
+RuntimeError: CKKS command failed: development_s18; see /home/ckks2/deciprotect/results/dp_pilot_v1_20260905/spambase__square_mlp12__20260907/development_s18.log
+CASE_START wine logistic_linear 20260905
+CASE_DONE wine__logistic_linear__20260905 coverage=0.0000 disagreements=0 training_converged=None
+CASE_START wine logistic_linear 20260906
+CASE_DONE wine__logistic_linear__20260906 coverage=0.0000 disagreements=0 training_converged=None
+CASE_START wine logistic_linear 20260907
+CASE_DONE wine__logistic_linear__20260907 coverage=0.0000 disagreements=0 training_converged=None
+CASE_START wine square_mlp12 20260905
+Traceback (most recent call last):
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 201, in main
+    try: completed.append(run_case(run,dataset,family,seed,protocol))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 143, in run_case
+    obj=encrypted(case,f'development_s{s}',layers,z[dev_idx],s)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 120, in encrypted
+    raise RuntimeError(f'CKKS command failed: {name}; see {case/name}.log')
+RuntimeError: CKKS command failed: development_s18; see /home/ckks2/deciprotect/results/dp_pilot_v1_20260905/wine__square_mlp12__20260905/development_s18.log
+CASE_START wine square_mlp12 20260906
+Traceback (most recent call last):
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 201, in main
+    try: completed.append(run_case(run,dataset,family,seed,protocol))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 143, in run_case
+    obj=encrypted(case,f'development_s{s}',layers,z[dev_idx],s)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 120, in encrypted
+    raise RuntimeError(f'CKKS command failed: {name}; see {case/name}.log')
+RuntimeError: CKKS command failed: development_s18; see /home/ckks2/deciprotect/results/dp_pilot_v1_20260905/wine__square_mlp12__20260906/development_s18.log
+CASE_START wine square_mlp12 20260907
+Traceback (most recent call last):
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 201, in main
+    try: completed.append(run_case(run,dataset,family,seed,protocol))
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 143, in run_case
+    obj=encrypted(case,f'development_s{s}',layers,z[dev_idx],s)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_pilot.py", line 120, in encrypted
+    raise RuntimeError(f'CKKS command failed: {name}; see {case/name}.log')
+RuntimeError: CKKS command failed: development_s18; see /home/ckks2/deciprotect/results/dp_pilot_v1_20260905/wine__square_mlp12__20260907/development_s18.log
+PILOT_FINISHED 6 completed 6 failed

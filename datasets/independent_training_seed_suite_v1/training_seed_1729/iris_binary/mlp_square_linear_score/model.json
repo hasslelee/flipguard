@@ -1,0 +1,171 @@
+{
+  "dataset_id": "iris_binary",
+  "dataset_name": "Iris binary classification",
+  "input_dim": 4,
+  "label_mapping": {
+    "0": "negative",
+    "1": "positive"
+  },
+  "max_scaled_logit_target": 1.0,
+  "metrics": {
+    "configuration_validation": {
+      "accuracy": 1.0,
+      "ambiguous_at_margin_floor_0_001": 0,
+      "certifiable_at_margin_floor_0_001": 20,
+      "correct": 20,
+      "minimum_margin": 0.05913349252987332,
+      "rows": 20
+    },
+    "locked_audit_descriptive_only": {
+      "accuracy": 1.0,
+      "ambiguous_at_margin_floor_0_001": 0,
+      "certifiable_at_margin_floor_0_001": 20,
+      "correct": 20,
+      "minimum_margin": 0.059427303983894286,
+      "rows": 20
+    },
+    "training": {
+      "accuracy": 1.0,
+      "ambiguous_at_margin_floor_0_001": 0,
+      "certifiable_at_margin_floor_0_001": 60,
+      "correct": 60,
+      "minimum_margin": 0.08283736420729793,
+      "rows": 60
+    }
+  },
+  "model_id": "mlp_square_linear_score",
+  "model_type": "mlp_square_linear_score",
+  "polynomial_score": {
+    "decision_threshold": 0.5,
+    "formula": "0.5 + 0.197*z"
+  },
+  "random_state": 1729,
+  "raw_model": {
+    "hidden_bias": [
+      -1.0946717246636721,
+      -0.766826597321494,
+      -0.8656852468051247,
+      -1.0090481677745002
+    ],
+    "hidden_weights": [
+      [
+        0.6906907330857479,
+        -0.46979082918996745,
+        0.8914446149110118,
+        0.7978608050415659
+      ],
+      [
+        -0.21314939511297495,
+        0.3126216740601187,
+        -0.4048035931637977,
+        -0.40975976255532165
+      ],
+      [
+        -0.20756093925442076,
+        0.33408334118744226,
+        -0.42288625905513844,
+        -0.4577680064258991
+      ],
+      [
+        -0.2726276975815867,
+        0.46924127356049805,
+        -0.5838291040338152,
+        -0.7048957933859958
+      ]
+    ],
+    "output_bias": -0.5545864147917277,
+    "output_weights": [
+      -0.9363754087900344,
+      0.7910372414561133,
+      0.800183841131336,
+      1.0311446889025024
+    ]
+  },
+  "scaled_model_for_ckks": {
+    "hidden_bias": [
+      -1.0946717246636721,
+      -0.766826597321494,
+      -0.8656852468051247,
+      -1.0090481677745002
+    ],
+    "hidden_weights": [
+      [
+        0.6906907330857479,
+        -0.46979082918996745,
+        0.8914446149110118,
+        0.7978608050415659
+      ],
+      [
+        -0.21314939511297495,
+        0.3126216740601187,
+        -0.4048035931637977,
+        -0.40975976255532165
+      ],
+      [
+        -0.20756093925442076,
+        0.33408334118744226,
+        -0.42288625905513844,
+        -0.4577680064258991
+      ],
+      [
+        -0.2726276975815867,
+        0.46924127356049805,
+        -0.5838291040338152,
+        -0.7048957933859958
+      ]
+    ],
+    "output_bias": -0.029649404855046774,
+    "output_weights": [
+      -0.05006068098864613,
+      0.042290584121429754,
+      0.042779581380620754,
+      0.05512725434661618
+    ]
+  },
+  "selected_feature_indices": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "selected_feature_names": [
+    "source_feature_0",
+    "source_feature_1",
+    "source_feature_2",
+    "source_feature_3"
+  ],
+  "standardization": {
+    "mean": [
+      5.504999999999999,
+      3.1499999999999995,
+      2.953333333333333,
+      0.8216666666666667
+    ],
+    "std": [
+      0.6448320194696704,
+      0.472405193310432,
+      1.495378064422357,
+      0.5859726008004887
+    ]
+  },
+  "task": "binary classification",
+  "test_samples": 40,
+  "test_size": 0.4,
+  "train_samples": 60,
+  "training_protocol": {
+    "epochs": 3000,
+    "feature_rank_scores": [
+      0.7934883058187416,
+      0.6421041462471893,
+      0.9830289977991881,
+      0.9642089053791282
+    ],
+    "hidden_units": 4,
+    "locked_audit_used": false,
+    "optimizer": "full_batch_adam",
+    "output_scale": 0.05346219103867063,
+    "policy_digest": "sha256:e9353654e5ec899fc91ce70e8dd501905b95973bcb8493cc1d27f3ffc77af1cb",
+    "policy_id": "flipguard_independent_training_seed_v1"
+  },
+  "training_seed": 1729
+}

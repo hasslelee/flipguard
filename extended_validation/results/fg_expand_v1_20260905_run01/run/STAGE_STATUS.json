@@ -1,0 +1,182 @@
+[
+  {
+    "case_id": "spambase__linear_poly3__split0_seed0",
+    "environment_after": {
+      "cpu_count": 6,
+      "gomaxprocs": "4",
+      "loadavg": [
+        1.77001953125,
+        1.642578125,
+        1.13916015625
+      ],
+      "meminfo": "MemTotal:       16324036 kB\nMemFree:          486036 kB\nMemAvailable:   11032988 kB\nBuffers:         1396320 kB\nCached:          9073000 kB\nSwapCached:        25748 kB\nActive:          4151212 kB\nInactive:       10121712 kB\nActive(anon):    2746528 kB\nInactive(anon):  1380256 kB\nActive(file):    1404684 kB\nInactive(file):  8741456 kB\nUnevictable:          32 kB\nMlocked:              32 kB\nSwapTotal:       4194300 kB\nSwapFree:        3828236 kB\nZswap:                 0 kB\nZswapped:              0 kB\nDirty:              6404 kB\nWriteback:             0 kB\nAnonPages:       3799420 kB\nMapped:          1598132 kB\nShmem:            323200 kB\nKReclaimable:     738340 kB\nSlab:            1064204 kB\nSReclaimable:     738340 kB\nSUnreclaim:       325864 kB\nKernelStack:       24928 kB\nPageTables:        78920 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:    12356316 kB\nCommitted_AS:   28172400 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       51540 kB\nVmallocChunk:          0 kB\nPercpu:           111104 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:   4268032 kB\nFilePmdMapped:         0 kB\nCmaTotal:              0 kB\nCmaFree:            5316 kB\nUnaccepted:            0 kB\nBalloon:               0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:      196416 kB\nDirectMap2M:     5046272 kB\nDirectMap1G:    13631488 kB\n",
+      "omp_num_threads": "1",
+      "openblas_num_threads": "1",
+      "process_snapshot": [
+        "    PID COMMAND         %CPU %MEM ELAPSED",
+        "   2179 gnome-shell     14.7  3.1   10249",
+        "   3400 code             4.4  1.0   10239",
+        "   3696 code             3.5  2.3   10234",
+        "   6229 ChatGPT          2.4  3.4    9804",
+        "  15839 kworker/u512:0-  2.3  0.0    1646",
+        "  17668 kworker/u512:4-  2.3  0.0     778",
+        "  16058 kworker/u512:2-  2.0  0.0    1583",
+        "   5925 ChatGPT          1.4  1.2    9805",
+        "   3353 code             1.3  1.7   10239",
+        "  15545 kworker/u512:1-  1.2  0.0    2654",
+        "   3430 code             1.1  2.2   10238",
+        "   5875 ChatGPT          0.9  2.8    9805",
+        "   3673 code             0.7  1.1   10235",
+        "   3796 codex            0.4  1.1   10231",
+        "   3703 code             0.4  0.5   10234"
+      ],
+      "uname": {
+        "machine": "x86_64",
+        "node": "ckks2-VMware-Virtual-Platform",
+        "processor": "x86_64",
+        "release": "7.0.0-31-generic",
+        "system": "Linux",
+        "version": "#31~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon Aug 10 09:38:02 UTC 2"
+      },
+      "unix": 1788601905.9696605
+    },
+    "exit_code": 0,
+    "log": "results/fg_expand_v1_20260905_run01/run/spambase__linear_poly3__split0_seed0.log",
+    "status": "COMPLETED"
+  },
+  {
+    "case_id": "htru2__linear_poly3__split0_seed0",
+    "environment_after": {
+      "cpu_count": 6,
+      "gomaxprocs": "4",
+      "loadavg": [
+        1.54638671875,
+        1.57568359375,
+        1.294921875
+      ],
+      "meminfo": "MemTotal:       16324036 kB\nMemFree:          604856 kB\nMemAvailable:   11160096 kB\nBuffers:         1397404 kB\nCached:          9077716 kB\nSwapCached:        25820 kB\nActive:          4183024 kB\nInactive:       10128588 kB\nActive(anon):    2778344 kB\nInactive(anon):  1378856 kB\nActive(file):    1404680 kB\nInactive(file):  8749732 kB\nUnevictable:          32 kB\nMlocked:              32 kB\nSwapTotal:       4194300 kB\nSwapFree:        3828236 kB\nZswap:                 0 kB\nZswapped:              0 kB\nDirty:               792 kB\nWriteback:             0 kB\nAnonPages:       3832588 kB\nMapped:          1596844 kB\nShmem:            320728 kB\nKReclaimable:     738356 kB\nSlab:            1064280 kB\nSReclaimable:     738356 kB\nSUnreclaim:       325924 kB\nKernelStack:       24912 kB\nPageTables:        79008 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:    12356316 kB\nCommitted_AS:   28223216 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       51412 kB\nVmallocChunk:          0 kB\nPercpu:           111104 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:   4268032 kB\nFilePmdMapped:         0 kB\nCmaTotal:              0 kB\nCmaFree:             760 kB\nUnaccepted:            0 kB\nBalloon:               0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:      196416 kB\nDirectMap2M:     5046272 kB\nDirectMap1G:    13631488 kB\n",
+      "omp_num_threads": "1",
+      "openblas_num_threads": "1",
+      "process_snapshot": [
+        "    PID COMMAND         %CPU %MEM ELAPSED",
+        "  19326 ps               100  0.0       0",
+        "   2179 gnome-shell     15.2  3.1   10697",
+        "   3400 code             4.5  1.0   10686",
+        "   3696 code             3.6  2.4   10682",
+        "  15839 kworker/u512:0-  2.3  0.0    2094",
+        "   6229 ChatGPT          2.3  3.5   10252",
+        "  17668 kworker/u512:4-  2.1  0.0    1226",
+        "  16058 kworker/u512:2-  2.0  0.0    2031",
+        "   3353 code             1.4  1.7   10687",
+        "   5925 ChatGPT          1.3  1.2   10253",
+        "  15545 kworker/u512:1-  1.3  0.0    3102",
+        "   3430 code             1.1  2.2   10686",
+        "   5875 ChatGPT          0.9  2.7   10253",
+        "   3673 code             0.7  1.2   10682",
+        "   3796 codex            0.4  1.1   10679"
+      ],
+      "uname": {
+        "machine": "x86_64",
+        "node": "ckks2-VMware-Virtual-Platform",
+        "processor": "x86_64",
+        "release": "7.0.0-31-generic",
+        "system": "Linux",
+        "version": "#31~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon Aug 10 09:38:02 UTC 2"
+      },
+      "unix": 1788602353.7575166
+    },
+    "exit_code": 0,
+    "log": "results/fg_expand_v1_20260905_run01/run/htru2__linear_poly3__split0_seed0.log",
+    "status": "COMPLETED"
+  },
+  {
+    "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+    "environment_after": {
+      "cpu_count": 6,
+      "gomaxprocs": "4",
+      "loadavg": [
+        1.77490234375,
+        1.58544921875,
+        1.4072265625
+      ],
+      "meminfo": "MemTotal:       16324036 kB\nMemFree:          559320 kB\nMemAvailable:   11127128 kB\nBuffers:         1398932 kB\nCached:          9090156 kB\nSwapCached:        26016 kB\nActive:          4186664 kB\nInactive:       10140912 kB\nActive(anon):    2781984 kB\nInactive(anon):  1378692 kB\nActive(file):    1404680 kB\nInactive(file):  8762220 kB\nUnevictable:          32 kB\nMlocked:              32 kB\nSwapTotal:       4194300 kB\nSwapFree:        3828252 kB\nZswap:                 0 kB\nZswapped:              0 kB\nDirty:               632 kB\nWriteback:             0 kB\nAnonPages:       3834388 kB\nMapped:          1598440 kB\nShmem:            322200 kB\nKReclaimable:     738436 kB\nSlab:            1064420 kB\nSReclaimable:     738436 kB\nSUnreclaim:       325984 kB\nKernelStack:       24924 kB\nPageTables:        78908 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:    12356316 kB\nCommitted_AS:   28228564 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       51540 kB\nVmallocChunk:          0 kB\nPercpu:           111104 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:   4268032 kB\nFilePmdMapped:         0 kB\nCmaTotal:              0 kB\nCmaFree:            3496 kB\nUnaccepted:            0 kB\nBalloon:               0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:      196416 kB\nDirectMap2M:     5046272 kB\nDirectMap1G:    13631488 kB\n",
+      "omp_num_threads": "1",
+      "openblas_num_threads": "1",
+      "process_snapshot": [
+        "    PID COMMAND         %CPU %MEM ELAPSED",
+        "   2179 gnome-shell     15.7  3.1   11355",
+        "   3400 code             4.7  1.0   11344",
+        "   3696 code             3.8  2.6   11339",
+        "  17668 kworker/u512:4-  2.3  0.0    1883",
+        "   6229 ChatGPT          2.1  3.4   10909",
+        "  15839 kworker/u512:0-  2.1  0.0    2751",
+        "  16058 kworker/u512:2+  2.0  0.0    2689",
+        "   3353 code             1.5  1.7   11345",
+        "  15545 kworker/u512:1-  1.4  0.0    3760",
+        "   5925 ChatGPT          1.3  1.2   10910",
+        "   3430 code             1.0  2.2   11343",
+        "   5875 ChatGPT          0.9  2.8   10911",
+        "   3673 code             0.7  1.1   11340",
+        "   3796 codex            0.5  1.1   11336",
+        "   3703 code             0.4  0.5   11339"
+      ],
+      "uname": {
+        "machine": "x86_64",
+        "node": "ckks2-VMware-Virtual-Platform",
+        "processor": "x86_64",
+        "release": "7.0.0-31-generic",
+        "system": "Linux",
+        "version": "#31~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon Aug 10 09:38:02 UTC 2"
+      },
+      "unix": 1788603011.3289912
+    },
+    "exit_code": 0,
+    "log": "results/fg_expand_v1_20260905_run01/run/spambase__mlp_square_linear_score__split0_seed0.log",
+    "status": "COMPLETED"
+  },
+  {
+    "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+    "environment_after": {
+      "cpu_count": 6,
+      "gomaxprocs": "4",
+      "loadavg": [
+        1.5576171875,
+        1.58349609375,
+        1.45166015625
+      ],
+      "meminfo": "MemTotal:       16324036 kB\nMemFree:          594048 kB\nMemAvailable:   11161996 kB\nBuffers:         1399868 kB\nCached:          9088024 kB\nSwapCached:        26108 kB\nActive:          4163952 kB\nInactive:       10141036 kB\nActive(anon):    2759272 kB\nInactive(anon):  1378692 kB\nActive(file):    1404680 kB\nInactive(file):  8762344 kB\nUnevictable:          32 kB\nMlocked:              32 kB\nSwapTotal:       4194300 kB\nSwapFree:        3828252 kB\nZswap:                 0 kB\nZswapped:              0 kB\nDirty:              1088 kB\nWriteback:             0 kB\nAnonPages:       3812516 kB\nMapped:          1597476 kB\nShmem:            320888 kB\nKReclaimable:     738452 kB\nSlab:            1064432 kB\nSReclaimable:     738452 kB\nSUnreclaim:       325980 kB\nKernelStack:       24960 kB\nPageTables:        79076 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:    12356316 kB\nCommitted_AS:   28191528 kB\nVmallocTotal:   34359738367 kB\nVmallocUsed:       51524 kB\nVmallocChunk:          0 kB\nPercpu:           111104 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:         0 kB\nShmemHugePages:        0 kB\nShmemPmdMapped:        0 kB\nFileHugePages:   4268032 kB\nFilePmdMapped:         0 kB\nCmaTotal:              0 kB\nCmaFree:            4232 kB\nUnaccepted:            0 kB\nBalloon:               0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB\nDirectMap4k:      196416 kB\nDirectMap2M:     5046272 kB\nDirectMap1G:    13631488 kB\n",
+      "omp_num_threads": "1",
+      "openblas_num_threads": "1",
+      "process_snapshot": [
+        "    PID COMMAND         %CPU %MEM ELAPSED",
+        "   2179 gnome-shell     16.0  3.1   11801",
+        "   3400 code             4.8  1.0   11791",
+        "   3696 code             3.9  2.5   11786",
+        "  17668 kworker/u512:4-  2.2  0.0    2330",
+        "   6229 ChatGPT          2.0  3.4   11356",
+        "  16058 kworker/u512:2-  2.0  0.0    3135",
+        "  15545 kworker/u512:1-  1.6  0.0    4206",
+        "  20521 kworker/u512:3-  1.5  0.0     417",
+        "   3353 code             1.5  1.7   11791",
+        "   5925 ChatGPT          1.3  1.2   11357",
+        "   3430 code             1.0  2.2   11790",
+        "   5875 ChatGPT          0.8  2.8   11357",
+        "   3673 code             0.7  1.1   11787",
+        "   3796 codex            0.5  1.1   11783",
+        "   3703 code             0.3  0.5   11786"
+      ],
+      "uname": {
+        "machine": "x86_64",
+        "node": "ckks2-VMware-Virtual-Platform",
+        "processor": "x86_64",
+        "release": "7.0.0-31-generic",
+        "system": "Linux",
+        "version": "#31~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Mon Aug 10 09:38:02 UTC 2"
+      },
+      "unix": 1788603458.030397
+    },
+    "exit_code": 0,
+    "log": "results/fg_expand_v1_20260905_run01/run/htru2__mlp_square_linear_score__split0_seed0.log",
+    "status": "COMPLETED"
+  }
+]

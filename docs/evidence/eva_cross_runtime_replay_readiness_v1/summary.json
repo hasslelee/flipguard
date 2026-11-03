@@ -1,0 +1,107 @@
+{
+  "claim_boundary": {
+    "cross_runtime_numerical_equivalence": "NOT_EVALUATED",
+    "general_external_autotuner_integration": "NOT_EVALUATED",
+    "native_eva_candidate_certification": "PARTIALLY_SUPPORTED",
+    "native_eva_locked_audit": "PARTIALLY_SUPPORTED",
+    "runtime_specific_native_security": "NOT_EVALUATED"
+  },
+  "cross_runtime_numerical_equivalence": "NOT_EVALUATED",
+  "encrypted_execution_allowed": false,
+  "encrypted_executions_added": 0,
+  "paper_claim_allowed": false,
+  "policy_modifications": 0,
+  "required_resolution_order": [
+    {
+      "action": "materialize and bind exact Q/P for the selected scale-30 compiler run using the pinned SEAL helper",
+      "encrypted_execution": false,
+      "step": 1
+    },
+    {
+      "action": "export a structured scale-30 operation/state trace and bind its semantic and raw digests",
+      "encrypted_execution": false,
+      "step": 2
+    },
+    {
+      "action": "implement a digest-bound scale-30 Lattigo adapter and verify every expected level and scale transition",
+      "encrypted_execution": false,
+      "step": 3
+    },
+    {
+      "action": "predeclare paired row/key roles and the decision-space equivalence or non-inferiority tolerance",
+      "encrypted_execution": false,
+      "step": 4
+    },
+    {
+      "action": "run matched Lattigo validation and conditional locked audit without policy retuning",
+      "encrypted_execution": true,
+      "step": 5
+    },
+    {
+      "action": "keep Lattigo and native SEAL security interpretations separate even if numerical outcomes agree",
+      "encrypted_execution": false,
+      "step": 6
+    }
+  ],
+  "schema_version": "flipguard_eva_cross_runtime_replay_readiness_summary_v1",
+  "state": {
+    "blockers": [
+      "SELECTED_NATIVE_EXACT_QP_NOT_CAPTURED",
+      "LATTIGO_ADAPTER_BINDS_SCALE20_NOT_SELECTED_SCALE30",
+      "PROVIDER_GATE_BINDS_SCALE20_SOURCE_DIGEST",
+      "LATTIGO_NATIVE_PAIRED_POPULATION_MISSING",
+      "RUNTIME_SPECIFIC_SECURITY_DISTRIBUTIONS_DIFFER"
+    ],
+    "deterministic_materialization_bridge": {
+      "derived_p": [
+        1152921504606748673
+      ],
+      "derived_q": [
+        1152921504605962241,
+        1152921504606584833,
+        1152921504606683137
+      ],
+      "formal_identity_usable": false,
+      "same_degree_and_ordered_prime_bits_as_scale20": true,
+      "status": "DERIVABLE_FROM_PINNED_SEAL_MATERIALIZER_BUT_NOT_BOUND_TO_SELECTED_RUN"
+    },
+    "lattigo_adapter": {
+      "implemented_input_scale_bits": 20,
+      "provider_gate_binds_scale20_source_digest": true,
+      "smoke_observations": 1,
+      "smoke_status": "REJECTED",
+      "supports_selected_scale30": false
+    },
+    "pairing": {
+      "lattigo_observations": 1,
+      "matched_row_key_population_available": false,
+      "native_locked_audit_observations": 48,
+      "native_validation_observations": 42
+    },
+    "security": {
+      "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+      "distribution_identity": false,
+      "native_runtime_security": "NOT_EVALUATED_DIFFERENT_RUNTIME_DISTRIBUTION",
+      "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055"
+    },
+    "selected_native_candidate": {
+      "candidate_id": "eva_native_scale30_N14_QP240_ef28317b2a3d",
+      "compiled_program_semantic_sha256": "sha256:ef28317b2a3db3141e6d2ce3036709aacbcb8738f3047c2b2ff4126968997088",
+      "compiled_program_sha256": "sha256:0a3ee52b1fa73107143c6739eddc05803b26ea9cf3fef0d1f447ab6f6d3346a3",
+      "exact_qp_captured_in_selected_run": false,
+      "input_scale_bits": 30,
+      "locked_audit_observations": 48,
+      "locked_audit_status": "SAFE",
+      "poly_modulus_degree": 16384,
+      "prime_bits": [
+        60,
+        60,
+        60,
+        60
+      ],
+      "validation_observations": 42,
+      "validation_status": "SAFE"
+    }
+  },
+  "status": "NOT_READY_INTEGRITY_PRESERVING_REPLAY"
+}

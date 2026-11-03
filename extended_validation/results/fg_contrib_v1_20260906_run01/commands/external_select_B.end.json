@@ -1,0 +1,45 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/bin/bank-contribution-case",
+    "--mode",
+    "select",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/planning/plan.json",
+    "--role",
+    "B",
+    "--start-scale",
+    "30",
+    "--threshold",
+    "0.0029443942724647343",
+    "--keyset",
+    "0",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/selection/B"
+  ],
+  "exit_code": 0,
+  "status": "PROCESS_COMPLETED",
+  "wall_seconds": 9.756209568004124,
+  "before": {
+    "utc": "2026-09-06T02:18:28.565029+00:00",
+    "load": [
+      3.77294921875,
+      2.41064453125,
+      1.93359375
+    ],
+    "mem_available": "10057028 kB",
+    "swap_free": "3839616 kB",
+    "free_disk": 21412327424
+  },
+  "after": {
+    "utc": "2026-09-06T02:18:38.332534+00:00",
+    "load": [
+      3.42626953125,
+      2.38037109375,
+      1.9287109375
+    ],
+    "mem_available": "10129228 kB",
+    "swap_free": "3839616 kB",
+    "free_disk": 21412192256
+  },
+  "result_exists": true
+}

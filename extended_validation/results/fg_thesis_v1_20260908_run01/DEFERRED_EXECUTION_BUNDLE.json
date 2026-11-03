@@ -1,0 +1,60 @@
+{
+  "protocol": "FG_THESIS_V1_20260908",
+  "execute_automatically": false,
+  "IDS": {
+    "status": "DEFERRED_SOURCE_ACCESS",
+    "required_source": "official UNSW-NB15 training175341 and testing82332 feature CSVs",
+    "source_access_record": "IDS_SOURCE_DECISION.json",
+    "new_models_executed": 0,
+    "maximum_models": 6,
+    "families": [
+      "existing linear+poly3",
+      "existing square MLP, hidden32"
+    ],
+    "training_seeds": [
+      0,
+      1,
+      2
+    ],
+    "preprocessing_rule": "fit only inside official training partition; disjoint training/development/selection; exclude ID, label and attack_cat from predictors; document duplicates and category/invalid handling",
+    "selection_inputs": "64 or128, freeze before test output access based on development cost",
+    "audit_inputs": "fixed2048 from official test, input IDs sampled without scores or margins",
+    "methods": [
+      "C",
+      "independent A30",
+      "independent B30"
+    ],
+    "stop": "no unofficial substitute, no PCAP processing, no automatic source retry after this bundle"
+  },
+  "independent_device": {
+    "status": "NOT_EXECUTED_NO_AUTHORIZED_DISTINCT_HOST",
+    "same_host_container_is_independent": false,
+    "representatives": [
+      {
+        "kind": "tabular",
+        "case": "spambase__linear_poly3__split0_seed0",
+        "existing_entry": "cmd/contribution-case: select, audit, timing",
+        "inputs": "original selection32 and audit256"
+      },
+      {
+        "kind": "multiclass",
+        "case": "fashion_seed0",
+        "existing_entry": "cmd/contribution-case: select, audit, timing",
+        "inputs": "original selection500, first two audit500 batches"
+      },
+      {
+        "kind": "rotation",
+        "case": "packed_cnn_lite_binary01_v17",
+        "existing_entry": "ckksplanner.RunAdaptivePackedCNNLiteAutotune / RunLockedCNNLiteAudit; backend RunCKKSPackedCNNLiteInference",
+        "inputs": "historical selection250 and separate inputs, bind exact existing model and partition before transfer",
+        "staging_status": "Small exact-hash historical model and selection250/audit250 copies staged; original source-archive dependency remains unstaged and is explicitly required by unchanged verifier. No native execution.",
+        "staging_record": "INDEPENDENT_DEVICE_PREPARATION.json"
+      }
+    ],
+    "procedure": "on a separately authorized physical host, rebuild the bound unchanged core, freeze model/input/code manifests and fresh run ID, reselect C with cap4 and3keys, freeze before separate audit, run paired timing warmup1/measure6/keyblocks3; record CPU/RAM/software; preserve failures",
+    "host_provisioning": false,
+    "credential_search_or_request": false,
+    "remote_upload_or_execution": false,
+    "completeness": "bounded procedure, existing call paths, bound Spambase/Fashion dependencies and staged small rotation-case assets; physical host, source archive and rotation CLI connection remain unverified. Not a completed independent-device replication or self-contained executable environment."
+  }
+}

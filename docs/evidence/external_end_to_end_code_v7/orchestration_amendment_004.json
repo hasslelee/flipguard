@@ -1,0 +1,14 @@
+{
+  "amendment_id": "external_v7_orchestration_amendment_004",
+  "affected_provider": "HECO",
+  "classification": "RECOVERABLE_OUTPUT_NORMALIZATION_FAILURE",
+  "encrypted_execution_semantics_changed": false,
+  "frozen_policy_changed": false,
+  "original_encrypted_run_id": "0004-official-encrypted-benchmark",
+  "original_encrypted_run_state": "PASS",
+  "original_failure_run_id": "0005-output-freeze",
+  "original_failure_reason": "DOCKER_CREATED_OUTPUT_ROOT_ROOT_OWNED_0755",
+  "recovery": "Freeze the 24 official HECO benchmark CSV files and the already-passing execution log without benchmark rerun.",
+  "recovery_encrypted_execution_count": 0,
+  "source_commit_at_failure": "12150901280ddf2c59eb2e053747227fa8e54bee"
+}

@@ -1,0 +1,41 @@
+{
+  "binary_digests": {
+    "audit_candidate": "sha256:de46f4a65e55a67b187e5961416c6549da22ca1b80686f340d5abba5c238bbb2",
+    "certify_candidate": "sha256:a4d7bea0f494c19ccbc8b8e7cc63cb2eb99488348452536bf0852245918ed12f"
+  },
+  "block_reason": "One seed-0 development candidate cannot establish general third-party autotuner integration or HIT candidate quality.",
+  "claim_states": {
+    "encrypted_external_candidate_certification": "BLOCKED",
+    "general_external_autotuner_integration": "NOT_EVALUATED",
+    "hit_candidate_quality": "NOT_EVALUATED",
+    "lossless_cross_version_literal_import": "SUPPORTED",
+    "no_retuning_locked_audit": "NOT_EVALUATED",
+    "source_replayed_public_parameter_selector": "PARTIALLY_SUPPORTED"
+  },
+  "classification": "SOURCE_REPLAYED_PUBLIC_PARAMETER_SELECTOR",
+  "contract_sha256": "sha256:088375904c250c23f7fc9d5003f2db74ed3d9f35c493131b644239a5a3ff70bb",
+  "evidence_id": "hit_external_adapter_replay_v1",
+  "execution_commit": "653f1ba846c3817add6bfbda7f4d2b7b5f412839",
+  "execution_critical_source_digest": "sha256:375380c7adb54cb093a4bb6d66af5f25c89575e1bc6c203f022f11635bcc9c26",
+  "freezer_commit": "653f1ba846c3817add6bfbda7f4d2b7b5f412839",
+  "locked_audit": {
+    "flips": null,
+    "key_runs": 0,
+    "outcome": null,
+    "retuning": 0,
+    "status": null,
+    "violations": null
+  },
+  "paper_claim_allowed": false,
+  "run_manifest_sha256": "sha256:482e852770a49768d8e695fb1dc6ae04cb15e58ac509db9772d67e66e45b3a0a",
+  "schema_version": "flipguard_hit_external_adapter_evidence_v1",
+  "selection": {
+    "candidate_trials": 1,
+    "flips": 0,
+    "key_runs": 3,
+    "outcome": "NO_SAFE",
+    "status": "REJECTED",
+    "violations": 6
+  },
+  "summary_sha256": "sha256:4c5705a9f0653937018ea5946fe991406198578ea4adfb0789e6b7ce5fdd56fd"
+}

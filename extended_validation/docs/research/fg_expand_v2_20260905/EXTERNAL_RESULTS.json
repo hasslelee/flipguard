@@ -1,0 +1,224 @@
+{
+  "rows": [
+    {
+      "provider": "eva",
+      "role": "configuration_validation",
+      "unique_inputs": 500,
+      "applicable": 496,
+      "boundary": 4,
+      "key_observations": 1500,
+      "applicable_flip_events": 0,
+      "applicable_flip_inputs": 0,
+      "boundary_flip_events": 0,
+      "boundary_flip_inputs": 0,
+      "applicable_error_events": 0,
+      "applicable_error_inputs": 0,
+      "max_abs_all": 0.0011750996436160621,
+      "max_abs_applicable": 0.0011750996436160621,
+      "rmse_all": 0.00014341903186316672,
+      "configuration": {
+        "candidate_id": "eva_official_s30_d79df42efa072f3c",
+        "input_scale_bits": 30,
+        "output_range_bits": 20,
+        "precision_origin": "pre-existing V8 predeclared scale30; official EVA README demonstrates scale30. V8 range20 preserved. No search based on these outputs.",
+        "provider_commit": "4cd3254c9c51340ae30c451495ce5378135758c0",
+        "compiler_config": {
+          "balance_reductions": "true",
+          "rescaler": "always",
+          "lazy_relinearize": "true",
+          "security_level": "128",
+          "quantum_safe": "false",
+          "warn_vec_size": "false"
+        },
+        "poly_modulus_degree": 8192,
+        "prime_bits": [
+          50,
+          30,
+          30,
+          30,
+          50
+        ],
+        "compile_seconds": 0.006076947000110522,
+        "compiled_sha256": "d79df42efa072f3c2fec52431e3395b50f2d9fbaea45841aa5849f0691cee130",
+        "own_condition": "native compiler/backend feasibility with declared scale/range and SEAL security_level128; no extra empirical decision/MAE cutoff invented",
+        "comparison_type": "official implementation native encrypted execution on shared fixed polynomial; not reproduction of full paper benchmarks",
+        "security_alignment": "same128bit target; native SEAL distribution/estimator and Lattigo SecurityV2 not established identical",
+        "latency_causal_comparison": false,
+        "python": "3.10.12",
+        "eva_module": "/work/work/fg_expand_v2_20260905/eva_python"
+      },
+      "native_batch_cost_sums_ms": {
+        "keygen_ms": 68.007086,
+        "encrypt_ms": 40.496417,
+        "evaluate_ms": 40.356462,
+        "decrypt_ms": 1.193347,
+        "total_ms": 150.106574
+      }
+    },
+    {
+      "provider": "eva",
+      "role": "locked_audit",
+      "unique_inputs": 500,
+      "applicable": 498,
+      "boundary": 2,
+      "key_observations": 1500,
+      "applicable_flip_events": 0,
+      "applicable_flip_inputs": 0,
+      "boundary_flip_events": 1,
+      "boundary_flip_inputs": 1,
+      "applicable_error_events": 0,
+      "applicable_error_inputs": 0,
+      "max_abs_all": 0.0011041242592015887,
+      "max_abs_applicable": 0.0011041242592015887,
+      "rmse_all": 0.00014022008086002336,
+      "configuration": {
+        "candidate_id": "eva_official_s30_d79df42efa072f3c",
+        "input_scale_bits": 30,
+        "output_range_bits": 20,
+        "precision_origin": "pre-existing V8 predeclared scale30; official EVA README demonstrates scale30. V8 range20 preserved. No search based on these outputs.",
+        "provider_commit": "4cd3254c9c51340ae30c451495ce5378135758c0",
+        "compiler_config": {
+          "balance_reductions": "true",
+          "rescaler": "always",
+          "lazy_relinearize": "true",
+          "security_level": "128",
+          "quantum_safe": "false",
+          "warn_vec_size": "false"
+        },
+        "poly_modulus_degree": 8192,
+        "prime_bits": [
+          50,
+          30,
+          30,
+          30,
+          50
+        ],
+        "compile_seconds": 0.006076947000110522,
+        "compiled_sha256": "d79df42efa072f3c2fec52431e3395b50f2d9fbaea45841aa5849f0691cee130",
+        "own_condition": "native compiler/backend feasibility with declared scale/range and SEAL security_level128; no extra empirical decision/MAE cutoff invented",
+        "comparison_type": "official implementation native encrypted execution on shared fixed polynomial; not reproduction of full paper benchmarks",
+        "security_alignment": "same128bit target; native SEAL distribution/estimator and Lattigo SecurityV2 not established identical",
+        "latency_causal_comparison": false,
+        "python": "3.10.12",
+        "eva_module": "/work/work/fg_expand_v2_20260905/eva_python"
+      },
+      "native_batch_cost_sums_ms": {
+        "keygen_ms": 46.510514,
+        "encrypt_ms": 40.779271,
+        "evaluate_ms": 38.830877,
+        "decrypt_ms": 1.299097,
+        "total_ms": 127.47050200000001
+      }
+    },
+    {
+      "provider": "proposed",
+      "role": "configuration_validation",
+      "unique_inputs": 500,
+      "applicable": 496,
+      "boundary": 4,
+      "key_observations": 1500,
+      "applicable_flip_events": 0,
+      "applicable_flip_inputs": 0,
+      "boundary_flip_events": 1,
+      "boundary_flip_inputs": 1,
+      "applicable_error_events": 0,
+      "applicable_error_inputs": 0,
+      "max_abs_all": 0.018487657488753556,
+      "max_abs_applicable": 0.018487657488753556,
+      "rmse_all": 0.0076995769255351594,
+      "configuration": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "native_batch_cost_sums_ms": {}
+    },
+    {
+      "provider": "proposed",
+      "role": "locked_audit",
+      "unique_inputs": 500,
+      "applicable": 498,
+      "boundary": 2,
+      "key_observations": 1500,
+      "applicable_flip_events": 0,
+      "applicable_flip_inputs": 0,
+      "boundary_flip_events": 2,
+      "boundary_flip_inputs": 1,
+      "applicable_error_events": 0,
+      "applicable_error_inputs": 0,
+      "max_abs_all": 0.01925624250205546,
+      "max_abs_applicable": 0.01925624250205546,
+      "rmse_all": 0.007329243657926288,
+      "configuration": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "native_batch_cost_sums_ms": {}
+    }
+  ],
+  "events": [
+    {
+      "provider": "eva",
+      "role": "locked_audit",
+      "id": "711",
+      "key": 3,
+      "p": 0.5000146354532659,
+      "y": 0.4999150403881593
+    },
+    {
+      "provider": "proposed",
+      "role": "configuration_validation",
+      "id": "14",
+      "key": 3,
+      "p": 0.499945929044147,
+      "y": 0.5001348335650201
+    },
+    {
+      "provider": "proposed",
+      "role": "locked_audit",
+      "id": "711",
+      "key": 2,
+      "p": 0.5000146354532659,
+      "y": 0.4999755243477438
+    },
+    {
+      "provider": "proposed",
+      "role": "locked_audit",
+      "id": "711",
+      "key": 3,
+      "p": 0.5000146354532659,
+      "y": 0.4999988787393606
+    }
+  ],
+  "statistical_claim": false,
+  "same_plaintext_graph": "z=.8*x0-.5*x1+1.2*x2-.3; score=.5+.197*z-.004*z^3",
+  "same128bit_target_but_identical_security_assumptions_unverified": true,
+  "speed_comparison_claim": false,
+  "A_selection": "official EVA compile scale30range20,no decision gate added",
+  "B_selection": "original DirectPolicyV2 independent selection",
+  "prior_inputs_exposed": true,
+  "execution_incident": "external selection timing overlaps aborted Fashion attempt; counts/errors retained; timing only diagnostic"
+}

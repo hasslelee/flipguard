@@ -113,6 +113,11 @@ func main() {
 			Description: "CKKS encrypted inference over generic exported tabular workloads",
 			Run:         experiment.RunCKKSTabularInference,
 		},
+		"ckks_tabular_certification": {
+			Name:        "ckks_tabular_certification",
+			Description: "Reconstruct repeated tabular runs and select the fastest observed-validation SAFE configuration",
+			Run:         experiment.RunCKKSTabularCertification,
+		},
 		"ckks_policy_comparison": {
 			Name:        "ckks_policy_comparison",
 			Description: "Combined CKKS observed certificate and simulation policy comparison",
@@ -122,6 +127,56 @@ func main() {
 			Name:        "ckks_paper_table",
 			Description: "Compact paper-ready CKKS and simulation policy comparison table export",
 			Run:         experiment.RunCKKSPaperTable,
+		},
+		"tuner_planner_demo": {
+			Name:        "tuner_planner_demo",
+			Description: "Demonstrate analysis-driven CKKS tuner candidate planning",
+			Run:         experiment.RunTunerPlannerDemo,
+		},
+		"ckks_polynomial_regression_tuner": {
+			Name:        "ckks_polynomial_regression_tuner",
+			Description: "Evaluate CKKS polynomial regression profile candidates and select the fastest safe configuration",
+			Run:         experiment.RunCKKSPolynomialRegressionTuner,
+		},
+
+		"ckks_linear_regression_tuner": {
+			Description: "Evaluate CKKS linear regression profile candidates and select the fastest safe configuration",
+			Run:         experiment.RunCKKSLinearRegressionTuner,
+		},
+
+		"ckks_sobel_edge_tuner": {
+			Description: "Evaluate CKKS Sobel edge profile candidates and select the fastest safe configuration",
+			Run:         experiment.RunCKKSSobelEdgeTuner,
+		},
+		"ckks_harris_corner_tuner": {
+			Name:        "ckks_harris_corner_tuner",
+			Description: "Evaluate CKKS Harris corner response profile candidates and select the fastest safe configuration",
+			Run:         experiment.RunCKKSHarrisCornerTuner,
+		},
+		"ckks_mlp_square_tuner": {
+			Name:        "ckks_mlp_square_tuner",
+			Description: "Evaluate CKKS MLP-square profile candidates and select the fastest safe configuration",
+			Run:         experiment.RunCKKSMLPSquareTuner,
+		},
+		"ckks_polynomial_regression": {
+			Name:        "ckks_polynomial_regression",
+			Description: "CKKS encrypted standalone polynomial regression benchmark",
+			Run:         experiment.RunCKKSPolynomialRegression,
+		},
+		"ckks_auto_tuner_eval": {
+			Name:        "ckks_auto_tuner_eval",
+			Description: "Evaluate real CKKS profile candidates and select the fastest safe configuration",
+			Run:         experiment.RunCKKSAutoTunerEval,
+		},
+		"ckks_auto_tuner_from_csv": {
+			Name:        "ckks_auto_tuner_from_csv",
+			Description: "Adapt existing CKKS result CSVs into FlipGuard auto-tuner candidate and selection artifacts",
+			Run:         experiment.RunCKKSAutoTunerFromCSV,
+		},
+		"ckks_auto_tuner_smoke": {
+			Name:        "ckks_auto_tuner_smoke",
+			Description: "Synthetic smoke test for FlipGuard auto-tuner candidate generation, selection, and CSV export",
+			Run:         experiment.RunCKKSAutoTunerSmoke,
 		},
 		"ckks_final_check": {
 			Name:        "ckks_final_check",

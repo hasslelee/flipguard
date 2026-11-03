@@ -1,0 +1,18 @@
+{
+  "dataset_id": "decision_activation_control",
+  "dataset_name": "Finite-domain decision-contract activation control",
+  "input_dim": 1,
+  "model_id": "decision_activation_linear_poly3",
+  "model_type": "linear_poly3",
+  "polynomial_score": {
+    "decision_threshold": 0.5,
+    "formula": "0.5 + 0.197*z - 0.004*z^3"
+  },
+  "scaled_model_for_ckks": {
+    "bias": 0,
+    "weights": [
+      512
+    ]
+  },
+  "task": "binary threshold control"
+}

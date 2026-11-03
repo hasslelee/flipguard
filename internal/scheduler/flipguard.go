@@ -19,9 +19,10 @@ type FlipGuardOptions struct {
 	// If > 0, the final schedule must satisfy this tolerance.
 	GlobalTolerance float64
 
-	// SafetyFactor scales the protected decision margin.
-	// For example, SafetyFactor=0.5 means the scheduler uses half of the
-	// protected margin as its error budget.
+	// SafetyFactor is the backward-compatible API name for the operational
+	// margin utilization cap. For example, 0.5 accepts an error budget equal
+	// to half of the protected margin and reserves the other half. It is not a
+	// theorem-derived or cryptographic safety constant.
 	SafetyFactor float64
 
 	// UseProtectedMargin enables the decision-stability budget:

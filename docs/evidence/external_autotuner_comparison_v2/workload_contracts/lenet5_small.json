@@ -1,0 +1,35 @@
+{
+  "schema_version": "flipguard_external_common_workload_contract_v2",
+  "workload_id": "mnist_lenet5_small_square_v1",
+  "graph": {
+    "formula": "conv5x5_6 -> square -> avgpool2 -> conv5x5_16 -> square -> avgpool2 -> fc120 -> square -> fc64 -> square -> 10_logits",
+    "input_shape": [1, 28, 28],
+    "zero_padding": [1, 32, 32],
+    "conv1": {"kernel": [5, 5], "channels": 6, "stride": 1},
+    "pool1": {"kind": "average", "kernel": [2, 2], "stride": 2},
+    "conv2": {"kernel": [5, 5], "channels": 16, "stride": 1},
+    "pool2": {"kind": "average", "kernel": [2, 2], "stride": 2},
+    "fully_connected": [400, 120, 64, 10],
+    "activation": "square after both convolutions and both hidden affine layers",
+    "multiplicative_depth": 4,
+    "operation_counts": {"mul": 421984, "add": 418648, "rescale": 4, "rotate": 0}
+  },
+  "model": {
+    "path": "datasets/journal_multiclass_extension_v1/mnist/mnist_lenet5_small_square_v1.json",
+    "sha256": "sha256:25db361b428ea6640f80478f3608fe6b81b45e984702c4a0d616c735f7d4bba6"
+  },
+  "preprocessing": "frozen MNIST preprocessing and zero-padding; max pooling and ReLU substitutions are forbidden",
+  "inputs": {
+    "configuration_validation": "datasets/journal_multiclass_extension_v1/mnist/configuration_validation.csv",
+    "configuration_validation_sha256": "sha256:cf7e9f749546104a15552b8bb679b093776b5bf3f91119d8e4f40c5dcedb11c4",
+    "locked_audit": "datasets/journal_multiclass_extension_v1/mnist/locked_audit.csv",
+    "locked_audit_sha256": "sha256:ce2e0d2fbf0a2d69cd4a4a4c9603d3624a9b82602236fea7fe47d12f4f7b2d35",
+    "validation_count": 500,
+    "audit_count": 500,
+    "overlap": 0
+  },
+  "packing": "feature-ciphertext sample slots; no rotations; not a general packed-CNN claim",
+  "output_semantics": "ten logits and deterministic argmax",
+  "decision_contract": "multiclass pairwise argmax decision-integrity contract",
+  "security_target": "Security Policy V2"
+}

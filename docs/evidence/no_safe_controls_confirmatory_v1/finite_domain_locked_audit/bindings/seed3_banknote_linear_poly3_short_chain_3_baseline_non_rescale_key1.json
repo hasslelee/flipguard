@@ -1,0 +1,59 @@
+{
+  "command": [
+    "/home/ckks2/flipguard/results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/bin/flipguard",
+    "-experiment",
+    "ckks_tabular_inference",
+    "-ckks-profile-name",
+    "short_chain_3",
+    "-ckks-evaluation-mode",
+    "naive",
+    "-ckks-output-tag",
+    "finiteauditv1_confirm_seed3_banknote_linear_poly3_short_chain_3_baseline_non_rescale_key1"
+  ],
+  "environment": {
+    "TABULAR_DATASET_ID": "banknote",
+    "TABULAR_DATA_ROOT": "/home/ckks2/flipguard/results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/materialized/split_seed_3",
+    "TABULAR_MODEL_ID": "linear_poly3"
+  },
+  "exit_code": 0,
+  "failure_class": "",
+  "inputs": {
+    "audit": {
+      "bytes": 24779,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_3/banknote/linear_poly3/locked_audit_test.csv",
+      "sha256": "sha256:0e6bb60765fa2ccf23278e3c636618a1a4308e3f9b97beca2706fd9306d1874e"
+    },
+    "manifest": {
+      "bytes": 6585,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_3/banknote/linear_poly3/split_manifest.json",
+      "sha256": "sha256:0d6525edfef66c708ca4ad25697527ee41a7ddc4df55eeb0cce92f3ccaec2850"
+    },
+    "model": {
+      "bytes": 1639,
+      "path": "datasets/tabular_suite/banknote/linear_poly3/model.json",
+      "sha256": "sha256:d14e8e810a9b5b2b945f57cf8f53e4e12ee3b87a118262ba9cb796410c0083a4"
+    }
+  },
+  "log": {
+    "bytes": 1801,
+    "path": "results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/logs/seed3_banknote_linear_poly3_short_chain_3_baseline_non_rescale_key1.log",
+    "sha256": "sha256:4a18167509784e665da91c57ca4dd18ac8a43df637c09b08e089aae30ccca791"
+  },
+  "raw": {
+    "records": {
+      "bytes": 49809,
+      "path": "results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/raw/seed3_banknote_linear_poly3_short_chain_3_baseline_non_rescale_key1/records.csv",
+      "sha256": "sha256:8c119faa8c2b3f3916137d1542cae614cca271e0121c71acf482e429aa2d7804"
+    },
+    "summary": {
+      "bytes": 844,
+      "path": "results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/raw/seed3_banknote_linear_poly3_short_chain_3_baseline_non_rescale_key1/summary.csv",
+      "sha256": "sha256:db55492b7a665ec936c5d361076ef5cef47c86c24639fd6482b6664b321e0185"
+    }
+  },
+  "schema_version": 1,
+  "source_commit": "7c0ad0c43fa80d53cf5e951a1c006d920ea9878c",
+  "source_digest": "sha256:4957147f1a5486fd957185f15ae7601bd71090571c9a687d7ca9fdc5e30dd9c4",
+  "status": "SUCCESS",
+  "tag": "finiteauditv1_confirm_seed3_banknote_linear_poly3_short_chain_3_baseline_non_rescale_key1"
+}

@@ -1,0 +1,37 @@
+{
+  "candidate_grid": {
+    "loop_count": 2,
+    "modes": [
+      "eva",
+      "elasm"
+    ],
+    "waterline": 40
+  },
+  "decision_rule": "NOT_AVAILABLE_IN_OFFICIAL_WORKLOAD",
+  "frozen_before_execution": true,
+  "graph": {
+    "gradient_denominator": 2048,
+    "input_slots": 4096,
+    "learning_rate": -0.01,
+    "outputs": [
+      "weight",
+      "bias"
+    ],
+    "source_path": "examples/benchmarks/2_ML/LinearRegression.py"
+  },
+  "hecate_mode_flag_present": false,
+  "input": {
+    "distribution": "Python random.Random uniform(-1,1) with generated affine labels and uniform(-0.01,0.01) noise",
+    "seed": 20260806
+  },
+  "policy": {
+    "backend": "Microsoft SEAL 4.0.0",
+    "device": "CPU",
+    "profile": "profiled_SEAL_CPU.json"
+  },
+  "provider": "CoreLab HECATE current source",
+  "schema_version": "flipguard_external_v6_workload_contract_v1",
+  "source_commit": "aedca73dac27b86044721781b9fca8d12e665876",
+  "status": "FROZEN",
+  "workload_id": "hecate_official_linear_regression_v1"
+}

@@ -1,0 +1,267 @@
+{
+  "model": {
+    "schema_version": "flipguard_journal_multiclass_model_v1",
+    "source_commit": "965ee36f102d8359958918837912a725d96edd51",
+    "dataset_id": "mnist_10class",
+    "model_id": "mnist_lenet5_small_square_v1",
+    "model_type": "lenet5_small_square_multiclass",
+    "graph_adapter_id": "mnist_multiclass_feature_ciphertext_batch_adapter_v1",
+    "graph_formula": "conv5x5_6->square->avgpool2->conv5x5_16->square->avgpool2->fc120->square->fc64->square->10_logits",
+    "architecture": {
+      "activation": "square_after_conv_and_hidden_affine",
+      "conv1": {
+        "channels": 6,
+        "kernel": [
+          5,
+          5
+        ],
+        "output": [
+          6,
+          28,
+          28
+        ]
+      },
+      "conv2": {
+        "channels": 16,
+        "kernel": [
+          5,
+          5
+        ],
+        "output": [
+          16,
+          10,
+          10
+        ]
+      },
+      "fully_connected": [
+        400,
+        120,
+        64,
+        10
+      ],
+      "output_logits": 10,
+      "pool1": {
+        "kernel": [
+          2,
+          2
+        ],
+        "stride": 2,
+        "type": "average"
+      },
+      "pool2": {
+        "kernel": [
+          2,
+          2
+        ],
+        "stride": 2,
+        "type": "average"
+      },
+      "source_input_shape": [
+        1,
+        28,
+        28
+      ],
+      "zero_padded_shape": [
+        1,
+        32,
+        32
+      ]
+    },
+    "preprocessing": {
+      "pixel_normalization": "pixel/255",
+      "test_selection": "mnist_multiclass_sha256_stratified_rank_v1",
+      "validation_audit_overlap": 0
+    },
+    "source": {
+      "path": "results/source_datasets/mnist/mnist_784.arff.gz",
+      "sha256": "sha256:fe4410d8dbb50f6db6482b187557c5cb8bccfbcec74eeb6abc47c858f4ffab78"
+    },
+    "split_manifest": {
+      "path": "datasets/journal_multiclass_extension_v1/mnist/input_split_manifest.json",
+      "sha256": "sha256:9e61ebee1855b529134442a4d55ee55a6488daa8d2a34146335db2b7de3cc615"
+    },
+    "training": {
+      "batch_size": 64,
+      "beta1": 0.9,
+      "beta2": 0.999,
+      "early_stopping": false,
+      "epoch_decay": 0.9,
+      "epochs": 8,
+      "epsilon": 1e-08,
+      "gradient_global_norm_cap": 5,
+      "initial_learning_rate": 0.0005,
+      "l2": 1e-05,
+      "optimizer": "deterministic_adam_v1",
+      "test_used_for_model_selection": false,
+      "training_seed": 5354592293955390513
+    },
+    "policy_binding": {
+      "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+      "direct_policy_id": "flipguard_direct_synthesis_policy_v2",
+      "packing_adapter": "feature_ciphertext_sample_slots_v1",
+      "policy_retuning": 0,
+      "relationship": "frozen_constants_reused;model_and_packing_extension_not_added_to_direct_policy_v2_supported_models",
+      "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+      "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2"
+    },
+    "plaintext_accuracy": {
+      "model_validation_5000": 0.9892,
+      "official_test_10000": 0.9891
+    },
+    "training_history": [
+      {
+        "epoch": 1,
+        "learning_rate": 0.0005,
+        "mean_training_loss": 0.9342134896204436,
+        "training_accuracy": 0.8188545454545455,
+        "validation_accuracy": 0.9596
+      },
+      {
+        "epoch": 2,
+        "learning_rate": 0.00045000000000000004,
+        "mean_training_loss": 0.13195383185084253,
+        "training_accuracy": 0.9693272727272727,
+        "validation_accuracy": 0.9776
+      },
+      {
+        "epoch": 3,
+        "learning_rate": 0.00040500000000000003,
+        "mean_training_loss": 0.07875863689819915,
+        "training_accuracy": 0.9793272727272727,
+        "validation_accuracy": 0.9808
+      },
+      {
+        "epoch": 4,
+        "learning_rate": 0.0003645000000000001,
+        "mean_training_loss": 0.0599496720638038,
+        "training_accuracy": 0.9832363636363637,
+        "validation_accuracy": 0.985
+      },
+      {
+        "epoch": 5,
+        "learning_rate": 0.0003280500000000001,
+        "mean_training_loss": 0.0462082018584056,
+        "training_accuracy": 0.9865272727272727,
+        "validation_accuracy": 0.9834
+      },
+      {
+        "epoch": 6,
+        "learning_rate": 0.0002952450000000001,
+        "mean_training_loss": 0.03867448533469084,
+        "training_accuracy": 0.9886363636363636,
+        "validation_accuracy": 0.9852
+      },
+      {
+        "epoch": 7,
+        "learning_rate": 0.0002657205000000001,
+        "mean_training_loss": 0.031879050159114644,
+        "training_accuracy": 0.9903454545454545,
+        "validation_accuracy": 0.9888
+      },
+      {
+        "epoch": 8,
+        "learning_rate": 0.00023914845000000008,
+        "mean_training_loss": 0.0256372459782123,
+        "training_accuracy": 0.9918363636363636,
+        "validation_accuracy": 0.9892
+      }
+    ]
+  },
+  "split_record": {
+    "schema_version": "flipguard_journal_mnist_dataset_v1",
+    "policy_id": "mnist_multiclass_sha256_stratified_rank_v1",
+    "source_commit": "965ee36f102d8359958918837912a725d96edd51",
+    "source": {
+      "path": "results/source_datasets/mnist/mnist_784.arff.gz",
+      "sha256": "sha256:fe4410d8dbb50f6db6482b187557c5cb8bccfbcec74eeb6abc47c858f4ffab78"
+    },
+    "official_rows": {
+      "test": 10000,
+      "train": 60000
+    },
+    "selection": {
+      "configuration_rank_interval": [
+        0,
+        50
+      ],
+      "configuration_validation_per_class": 50,
+      "locked_audit_per_class": 50,
+      "locked_audit_rank_interval": [
+        50,
+        100
+      ],
+      "model_validation_per_class": 500
+    },
+    "partitions": {
+      "configuration_validation": {
+        "path": "datasets/journal_multiclass_extension_v1/mnist/configuration_validation.csv",
+        "sha256": "sha256:cf7e9f749546104a15552b8bb679b093776b5bf3f91119d8e4f40c5dcedb11c4"
+      },
+      "locked_audit": {
+        "path": "datasets/journal_multiclass_extension_v1/mnist/locked_audit.csv",
+        "sha256": "sha256:ce2e0d2fbf0a2d69cd4a4a4c9603d3624a9b82602236fea7fe47d12f4f7b2d35"
+      },
+      "model_training": {
+        "path": "datasets/journal_multiclass_extension_v1/mnist/model_training.csv",
+        "sha256": "sha256:b59a8d7db4975457c3f1cae0c7dbb8de8619e7f1c087c2cd82550ec07dbd24ce"
+      },
+      "model_validation": {
+        "path": "datasets/journal_multiclass_extension_v1/mnist/model_validation.csv",
+        "sha256": "sha256:bbe96d961ddff33a3219e09420709a2a61e5785b2c9bcf6b086dba798887a83c"
+      }
+    },
+    "validation_audit_overlap_count": 0,
+    "class_counts": {
+      "configuration_validation": [
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "locked_audit": [
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50,
+        50
+      ],
+      "model_training": [
+        5423,
+        6242,
+        5458,
+        5631,
+        5342,
+        4921,
+        5418,
+        5765,
+        5351,
+        5449
+      ],
+      "model_validation": [
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        500,
+        500
+      ]
+    }
+  },
+  "original_model_sha256": "25db361b428ea6640f80478f3608fe6b81b45e984702c4a0d616c735f7d4bba6",
+  "original_model_path": "/home/ckks2/flipguard/datasets/journal_multiclass_extension_v1/mnist/mnist_lenet5_small_square_v1.json"
+}

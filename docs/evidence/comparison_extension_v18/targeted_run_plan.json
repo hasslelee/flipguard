@@ -1,0 +1,37 @@
+{
+  "schema_version": "flipguard_comparison_extension_v18_targeted_run_plan_v1",
+  "protocol_sha256": "4adf230d43d6120cd805f51e970d1dfcd452c229ae7d8a03ea85c1adc971db44",
+  "decision": "NO_NEW_ENCRYPTED_EXECUTION",
+  "state": "OFFLINE_COMPARISON_COMPLETE_NO_NEW_ENCRYPTED_RUN_REQUIRED",
+  "exact_external_missing_cases": [],
+  "exact_external_missing_case_count": 0,
+  "planned_atomic_workload_cases": 0,
+  "planned_encrypted_candidate_evaluations": 0,
+  "maximum_atomic_workload_cases": 12,
+  "maximum_encrypted_candidate_evaluations": 36,
+  "existing_exact_external_subset": {
+    "system": "HEIR",
+    "workload": "shared_polynomial_threshold_v8",
+    "portability": "PORTABLE_EXACT",
+    "source": "docs/evidence/focused_external_comparison_v8"
+  },
+  "counterfactual_separate_input_gap": {
+    "case_count": 21,
+    "state": "NOT_EVALUATED",
+    "reason": "The gate-off initial literals were rejected during selection and therefore were not promoted to candidate-specific separate-input evaluation in V17.",
+    "execution_decision": "NOT_SCHEDULED",
+    "qualification": "V18 reports the 47/68 observed intersection and does not impute the remaining 21 outcomes. Internal counterfactual expansion is not an exact external comparator run and would exceed the 12-case fast-extension budget."
+  },
+  "reused_encrypted_candidate_evaluations": {
+    "v17_direct": 89,
+    "v17_finite_reference": 537,
+    "v17_formal_latency_case_rows": 68,
+    "v8_external_audit_rows": 6
+  },
+  "prohibited_actions": [
+    "rerun_v17_204_matrix",
+    "rerun_v17_68_formal_latency",
+    "invent_external_baseline",
+    "impute_missing_separate_input_outcome"
+  ]
+}

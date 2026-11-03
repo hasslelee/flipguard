@@ -1,0 +1,212 @@
+..............EE.........EE........E......EE....E.EE....................................EE.........
+======================================================================
+ERROR: setUpClass (test_build_flipguard_v2_paper_artifacts.ManuscriptPublicationGateTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/flipguard/flipguard/scripts/tests/test_build_flipguard_v2_paper_artifacts.py", line 287, in setUpClass
+    ).read_text(encoding="utf-8")
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/flipguard/flipguard/results/thesis_grade_protocol/paper_artifacts_v2/current/appendix/evidence_manifest.json'
+
+======================================================================
+ERROR: test_preserved_checkpoint_is_partial_scientific_result (test_build_structural_extension_status.StructuralExtensionStatusTest.test_preserved_checkpoint_is_partial_scientific_result)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/flipguard/flipguard/scripts/tests/test_build_structural_extension_status.py", line 18, in test_preserved_checkpoint_is_partial_scientific_result
+    document = MODULE.expected_document()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/flipguard/flipguard/scripts/build_structural_extension_status.py", line 82, in expected_document
+    selection_summary = read_json(selection_summary_path)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/flipguard/flipguard/scripts/build_structural_extension_status.py", line 58, in read_json
+    return json.loads(path.read_text(encoding="utf-8"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'results/thesis_grade_protocol/direct_tabular_autotune_v1/full_structural_poly3_inputmodel_floor18_keys3/summary/summary.json'
+
+======================================================================
+ERROR: test_export_bsds500_harris_holdout (unittest.loader._FailedTest.test_export_bsds500_harris_holdout)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_export_bsds500_harris_holdout
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/home/runner/work/flipguard/flipguard/scripts/tests/test_export_bsds500_harris_holdout.py", line 21, in <module>
+    SPEC.loader.exec_module(MODULE)
+  File "/home/runner/work/flipguard/flipguard/scripts/export_bsds500_harris_holdout.py", line 16, in <module>
+    from PIL import Image
+ModuleNotFoundError: No module named 'PIL'
+
+
+======================================================================
+ERROR: test_export_bsds500_sobel_holdout (unittest.loader._FailedTest.test_export_bsds500_sobel_holdout)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_export_bsds500_sobel_holdout
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/home/runner/work/flipguard/flipguard/scripts/tests/test_export_bsds500_sobel_holdout.py", line 21, in <module>
+    SPEC.loader.exec_module(MODULE)
+  File "/home/runner/work/flipguard/flipguard/scripts/export_bsds500_sobel_holdout.py", line 16, in <module>
+    from PIL import Image
+ModuleNotFoundError: No module named 'PIL'
+
+
+======================================================================
+ERROR: test_raw_run_passes_deep_validation (test_freeze_bsds500_harris_evidence.FreezeBSDS500HarrisEvidenceTest.test_raw_run_passes_deep_validation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/flipguard/flipguard/scripts/tests/test_freeze_bsds500_harris_evidence.py", line 29, in test_raw_run_passes_deep_validation
+    run_manifest, selection, audit, derived = MODULE.validate_run(
+                                              ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/flipguard/flipguard/scripts/freeze_bsds500_harris_evidence.py", line 93, in validate_run
+    (run_root / "run_manifest.json").read_text(encoding="ascii")
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/flipguard/flipguard/results/thesis_grade_protocol/non_tabular_harris_holdout_v1/run_a4ccd0b/run_manifest.json'
+
+======================================================================
+ERROR: test_completed_run_passes_deep_validation (test_freeze_direct_synthesis_ablation_evidence.FreezeDirectSynthesisAblationEvidenceTest.test_completed_run_passes_deep_validation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/flipguard/flipguard/scripts/tests/test_freeze_direct_synthesis_ablation_evidence.py", line 29, in test_completed_run_passes_deep_validation
+    manifest, summary, derived = MODULE.validate_run(run_root)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/flipguard/flipguard/scripts/freeze_direct_synthesis_ablation_evidence.py", line 193, in validate_run
+    (run_root / "run_manifest.json").read_text(encoding="ascii")
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/flipguard/flipguard/results/thesis_grade_protocol/direct_synthesis_ablation_v1/run_062e1a9/run_manifest.json'
+
+======================================================================
+ERROR: test_latency_only_unevaluated_audit_is_null (test_freeze_direct_synthesis_ablation_evidence.FreezeDirectSynthesisAblationEvidenceTest.test_latency_only_unevaluated_audit_is_null)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/flipguard/flipguard/scripts/tests/test_freeze_direct_synthesis_ablation_evidence.py", line 47, in test_latency_only_unevaluated_audit_is_null
+    (run_root / "summary.json").read_text(encoding="ascii")
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/flipguard/flipguard/results/thesis_grade_protocol/direct_synthesis_ablation_v1/run_062e1a9/summary.json'
+
+======================================================================
+ERROR: test_completed_run_passes_deep_validation (test_freeze_independent_training_seed_evidence.FreezeIndependentTrainingSeedEvidenceTest.test_completed_run_passes_deep_validation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/flipguard/flipguard/scripts/tests/test_freeze_independent_training_seed_evidence.py", line 29, in test_completed_run_passes_deep_validation
+    run_manifest, state, derived = MODULE.validate_run(run_root)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/flipguard/flipguard/scripts/freeze_independent_training_seed_evidence.py", line 127, in validate_run
+    (run_root / "run_manifest.json").read_text(encoding="ascii")
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/flipguard/flipguard/results/thesis_grade_protocol/independent_training_seed_extension_v1/run_f3cfd7f/run_manifest.json'
+
+======================================================================
+ERROR: test_raw_run_passes_deep_validation (test_freeze_mnist_cnn_lite_evidence.FreezeMNISTCNNLiteEvidenceTest.test_raw_run_passes_deep_validation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/flipguard/flipguard/scripts/tests/test_freeze_mnist_cnn_lite_evidence.py", line 30, in test_raw_run_passes_deep_validation
+    run_manifest, selection, audit, summary = MODULE.validate_run(
+                                              ^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/flipguard/flipguard/scripts/freeze_mnist_cnn_lite_evidence.py", line 282, in validate_run
+    (run_root / "run_manifest.json").read_text(encoding="ascii")
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/flipguard/flipguard/results/thesis_grade_protocol/non_tabular_mnist_cnn_lite_holdout_v1/run_515d5dd/run_manifest.json'
+
+======================================================================
+ERROR: test_sample_mutation_fails_closed (test_freeze_mnist_cnn_lite_evidence.FreezeMNISTCNNLiteEvidenceTest.test_sample_mutation_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/flipguard/flipguard/scripts/tests/test_freeze_mnist_cnn_lite_evidence.py", line 53, in test_sample_mutation_fails_closed
+    _, selection, _, _ = MODULE.validate_run(run_root)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/flipguard/flipguard/scripts/freeze_mnist_cnn_lite_evidence.py", line 282, in validate_run
+    (run_root / "run_manifest.json").read_text(encoding="ascii")
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/flipguard/flipguard/results/thesis_grade_protocol/non_tabular_mnist_cnn_lite_holdout_v1/run_515d5dd/run_manifest.json'
+
+======================================================================
+ERROR: test_verify_bsds500_harris_holdout (unittest.loader._FailedTest.test_verify_bsds500_harris_holdout)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_verify_bsds500_harris_holdout
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/home/runner/work/flipguard/flipguard/scripts/tests/test_verify_bsds500_harris_holdout.py", line 20, in <module>
+    SPEC.loader.exec_module(MODULE)
+  File "/home/runner/work/flipguard/flipguard/scripts/verify_bsds500_harris_holdout.py", line 27, in <module>
+    SPEC.loader.exec_module(EXPORTER)
+  File "/home/runner/work/flipguard/flipguard/scripts/export_bsds500_harris_holdout.py", line 16, in <module>
+    from PIL import Image
+ModuleNotFoundError: No module named 'PIL'
+
+
+======================================================================
+ERROR: test_verify_bsds500_sobel_holdout (unittest.loader._FailedTest.test_verify_bsds500_sobel_holdout)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_verify_bsds500_sobel_holdout
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/home/runner/work/flipguard/flipguard/scripts/tests/test_verify_bsds500_sobel_holdout.py", line 20, in <module>
+    SPEC.loader.exec_module(MODULE)
+  File "/home/runner/work/flipguard/flipguard/scripts/verify_bsds500_sobel_holdout.py", line 27, in <module>
+    SPEC.loader.exec_module(EXPORTER)
+  File "/home/runner/work/flipguard/flipguard/scripts/export_bsds500_sobel_holdout.py", line 16, in <module>
+    from PIL import Image
+ModuleNotFoundError: No module named 'PIL'
+
+
+----------------------------------------------------------------------
+Ran 98 tests in 7.789s
+
+FAILED (errors=12)

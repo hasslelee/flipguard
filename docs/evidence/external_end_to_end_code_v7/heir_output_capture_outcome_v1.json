@@ -1,0 +1,23 @@
+{
+  "decision_rule": "NOT_AVAILABLE_IN_OFFICIAL_WORKLOAD",
+  "encrypted_execution_return_code": 0,
+  "encrypted_execution_state": "PASS",
+  "encrypted_rerun_after_capture": false,
+  "evidence_levels": {
+    "Lattigo": 2,
+    "OpenFHE": 3
+  },
+  "lattigo_actual_output": "OUTPUT_UNAVAILABLE",
+  "lattigo_reason": "testing.T.Logf was suppressed by the successful non-verbose Go test; the official absolute-error assertion passed",
+  "normalization_semantic_change": false,
+  "openfhe_actual_output": 2.5,
+  "openfhe_expected_output": 2.5,
+  "output_manifest_sha256": "sha256:715be4a729205e10b3cc66e12552cc34b1236802d0870a9ecc8a658b4346f101",
+  "output_sha256sums_sha256": "sha256:2b5199389626ed65331389c4314effc9fce695d72985742db1cb6495618aad1e",
+  "provider": "HEIR",
+  "run_id": "0005-output-capture-e2e-v1",
+  "schema_version": "flipguard_external_v7_heir_output_capture_outcome_v1",
+  "service_exit_reason": "The encrypted stage passed; the wrapper exited 1 because its post-stage grep required a Lattigo raw marker that a successful non-verbose test did not emit.",
+  "stage_manifest_sha256": "sha256:04b8cfd4fd17c55598dda218c9047220fbd46f74860221330ff5ea50a4684435",
+  "workload": "official_dot_product_8f"
+}

@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/bin/contribution-case",
+    "--mode",
+    "generate",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__linear_poly3__split0_seed0/initial_plan.json",
+    "--scale",
+    "30",
+    "--q-guard",
+    "0",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/cases/htru2__linear_poly3__split0_seed0/preflight/S30_Qguard0/generation"
+  ],
+  "cwd": "/home/ckks2/deciprotect",
+  "environment": {
+    "utc": "2026-09-05T17:54:09.224759+00:00",
+    "load": [
+      0.873046875,
+      0.68896484375,
+      0.46044921875
+    ],
+    "mem_available": "10510988 kB",
+    "swap_free": "3837468 kB",
+    "free_disk": 23547469824
+  },
+  "binary_sha256": "ac08fd249d4b42c18a2a951272cff7dd4fc63b4f8a98c123331837be37d67195",
+  "source_lock_sha256": "75f29969b3cec4c49537f5100ca990eea3b57707a5e7049d95dad06a9ba24b91"
+}

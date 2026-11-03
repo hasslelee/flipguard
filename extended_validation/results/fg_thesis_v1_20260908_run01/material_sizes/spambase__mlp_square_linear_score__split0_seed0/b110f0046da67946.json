@@ -1,0 +1,58 @@
+{
+  "P": [
+    8589475841
+  ],
+  "Q": [
+    8590163969,
+    1073643521,
+    1073872897,
+    1073971201,
+    1073479681,
+    1074266113
+  ],
+  "ciphertext_by_level": [
+    {
+      "bytes": 1573262,
+      "level": 5,
+      "serialize_ms": 0.768721
+    },
+    {
+      "bytes": 1311102,
+      "level": 4,
+      "serialize_ms": 0.996408
+    },
+    {
+      "bytes": 1048942,
+      "level": 3,
+      "serialize_ms": 0.687228
+    },
+    {
+      "bytes": 786782,
+      "level": 2,
+      "serialize_ms": 0.360316
+    },
+    {
+      "bytes": 524622,
+      "level": 1,
+      "serialize_ms": 0.211186
+    },
+    {
+      "bytes": 262462,
+      "level": 0,
+      "serialize_ms": 0.105698
+    }
+  ],
+  "ciphertext_degree": 1,
+  "input_value": "zeros, independent of all evaluation datasets",
+  "key_serialization_ms": 6.430645,
+  "kind": "fresh generated material size probe, not inference or network",
+  "log_n": 14,
+  "public_key_bytes": 1835160,
+  "relinearization_key_bytes": 11011024,
+  "rotation_key_bytes": 0,
+  "rotation_key_count": 0,
+  "secret_key_serialized": false,
+  "setup_ms": 54.995577,
+  "size_interpretation": "measured one ciphertext at each representation level; aggregate sizes require actual ciphertext counts; no transport timing",
+  "valid_slots": 8192
+}

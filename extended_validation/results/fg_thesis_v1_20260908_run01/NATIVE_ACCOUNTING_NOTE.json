@@ -1,0 +1,9 @@
+{
+  "utc": "2026-09-08T10:51:39.354478+00:00",
+  "issue": "Runner charged_native meter excludes static plan/materialize calls although they are Go native processes. No results or bound runner changed.",
+  "resolution": "Final total and 24-hour conformance include every recorded command end wall time, retaining the charged subset separately. Build and general document/Python wall time are not inferred.",
+  "unmetered_static_commands_so_far": 34,
+  "static_seconds_so_far": 2.7861909099988225,
+  "effect_on_budget_or_sampling": "No approach to the 86400-second cap; no repetition, input, parameter or method changed. Existing records retained.",
+  "storage_check": "Verify actual new-run byte total at completion against declared8GiB; never scan archive."
+}

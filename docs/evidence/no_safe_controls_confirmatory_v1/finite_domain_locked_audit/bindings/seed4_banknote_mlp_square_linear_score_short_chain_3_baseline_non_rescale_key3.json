@@ -1,0 +1,59 @@
+{
+  "command": [
+    "/home/ckks2/flipguard/results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/bin/flipguard",
+    "-experiment",
+    "ckks_tabular_inference",
+    "-ckks-profile-name",
+    "short_chain_3",
+    "-ckks-evaluation-mode",
+    "naive",
+    "-ckks-output-tag",
+    "finiteauditv1_confirm_seed4_banknote_mlp_square_linear_score_short_chain_3_baseline_non_rescale_key3"
+  ],
+  "environment": {
+    "TABULAR_DATASET_ID": "banknote",
+    "TABULAR_DATA_ROOT": "/home/ckks2/flipguard/results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/materialized/split_seed_4",
+    "TABULAR_MODEL_ID": "mlp_square_linear_score"
+  },
+  "exit_code": 0,
+  "failure_class": "",
+  "inputs": {
+    "audit": {
+      "bytes": 24981,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_4/banknote/mlp_square_linear_score/locked_audit_test.csv",
+      "sha256": "sha256:bbd803d18f47dd566c13b73435667739639688e4bcd7cedf444d3eaff97055e1"
+    },
+    "manifest": {
+      "bytes": 6640,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_4/banknote/mlp_square_linear_score/split_manifest.json",
+      "sha256": "sha256:3b5ada00005d02f55af5f46939007f3d47256a361a3c308ca2d7e2d4fec8a15b"
+    },
+    "model": {
+      "bytes": 3029,
+      "path": "datasets/tabular_suite/banknote/mlp_square_linear_score/model.json",
+      "sha256": "sha256:4f8ce6d8ca23d87fc4d3623b97f235f3836ca4c0964286f4a1c634427e1d8e31"
+    }
+  },
+  "log": {
+    "bytes": 1857,
+    "path": "results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/logs/seed4_banknote_mlp_square_linear_score_short_chain_3_baseline_non_rescale_key3.log",
+    "sha256": "sha256:97772aca3b188d074b887ee5031c757af88a70323f0aa307351b52911ef8e1ff"
+  },
+  "raw": {
+    "records": {
+      "bytes": 49960,
+      "path": "results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/raw/seed4_banknote_mlp_square_linear_score_short_chain_3_baseline_non_rescale_key3/records.csv",
+      "sha256": "sha256:8ed66f840893f5ef8f81c3d94426e42c910c2ec42116f1d2af01df12df0a89d3"
+    },
+    "summary": {
+      "bytes": 868,
+      "path": "results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/raw/seed4_banknote_mlp_square_linear_score_short_chain_3_baseline_non_rescale_key3/summary.csv",
+      "sha256": "sha256:8d08352717a8f46b21b2678b33d4faa6fd636d87fd7e3e4d4415bb72ebed2e64"
+    }
+  },
+  "schema_version": 1,
+  "source_commit": "7c0ad0c43fa80d53cf5e951a1c006d920ea9878c",
+  "source_digest": "sha256:4957147f1a5486fd957185f15ae7601bd71090571c9a687d7ca9fdc5e30dd9c4",
+  "status": "SUCCESS",
+  "tag": "finiteauditv1_confirm_seed4_banknote_mlp_square_linear_score_short_chain_3_baseline_non_rescale_key3"
+}

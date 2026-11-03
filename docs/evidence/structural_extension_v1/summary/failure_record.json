@@ -1,0 +1,25 @@
+{
+  "candidate_reselection_after_audit": 0,
+  "claim_state": "PARTIALLY_SUPPORTED",
+  "failures": [
+    {
+      "audit_failure_signal": "NUMERICAL_REJECT",
+      "audit_flips": 0,
+      "audit_max_usage": 1.122737288611133,
+      "audit_status": "REJECTED",
+      "audit_violations": 1,
+      "candidate_literal": "synth_analysis_minimum_rescale_N14_Q10_S22_01ae407b2f60",
+      "dataset": "banknote",
+      "failure_class": "VALIDATION_NEAR_BUDGET_LIMIT_AUDIT_OVERRUN",
+      "model": "mlp_square_poly3",
+      "result_path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_structural_poly3_inputmodel_floor18_keys3/locked_audit/full_structural_poly3_inputmodel_floor18_keys3_locked_audit_keys3/results/directv1_full_structural_poly3_inputmodel_floor18_keys3_seed4_banknote_mlp_square_poly3_locked_audit_keys3.json",
+      "result_sha256": "sha256:3ad4d089cc6ade9bb21cf4195b7f1fd491a7d10872d320ff17696ace2be6b91c",
+      "retuning": false,
+      "seed": 4,
+      "selection_status": "SAFE"
+    }
+  ],
+  "policy_modification_after_audit": 0,
+  "schema_version": 1,
+  "stage_status": "PARTIAL_SCIENTIFIC_RESULT"
+}

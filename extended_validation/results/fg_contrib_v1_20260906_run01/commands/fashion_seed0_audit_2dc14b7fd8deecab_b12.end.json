@@ -1,0 +1,41 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/bin/contribution-case",
+    "--mode",
+    "audit",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_0/planning/plan.json",
+    "--candidate",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/cases/fashion_seed0/frozen_candidates/2dc14b7fd8deecab.json",
+    "--data",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_12.csv",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/cases/fashion_seed0/audit/2dc14b7fd8deecab/batch_12"
+  ],
+  "exit_code": 0,
+  "status": "PROCESS_COMPLETED",
+  "wall_seconds": 108.92981779199908,
+  "before": {
+    "utc": "2026-09-05T22:30:17.055569+00:00",
+    "load": [
+      1.5,
+      1.49951171875,
+      1.52392578125
+    ],
+    "mem_available": "10065696 kB",
+    "swap_free": "3838832 kB",
+    "free_disk": 22873743360
+  },
+  "after": {
+    "utc": "2026-09-05T22:32:05.997327+00:00",
+    "load": [
+      1.40283203125,
+      1.45654296875,
+      1.505859375
+    ],
+    "mem_available": "10201100 kB",
+    "swap_free": "3838832 kB",
+    "free_disk": 22864629760
+  },
+  "result_exists": true
+}

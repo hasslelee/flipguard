@@ -1,0 +1,57 @@
+{
+  "case_id": "spambase__square_mlp12__20260905__boundary",
+  "role": "SYNTHETIC_STRESS_NOT_POPULATION_EVIDENCE",
+  "metrics": [
+    {
+      "key_repeat": 0,
+      "inputs": 224,
+      "fixed_low_flips": 67,
+      "fixed_high_flips": 25,
+      "low_accepted": 61,
+      "low_accepted_flips": 0,
+      "low_envelope_exceedances": 3,
+      "high_envelope_exceedances": 1,
+      "cascade_accepted": 128,
+      "cascade_flips": 0,
+      "cascade_abstained": 96,
+      "fallback_rows": 163,
+      "fallback_ms": 956.863768,
+      "low_ms": 1191.679736,
+      "high_all_ms": 960.650764
+    },
+    {
+      "key_repeat": 1,
+      "inputs": 224,
+      "fixed_low_flips": 67,
+      "fixed_high_flips": 25,
+      "low_accepted": 62,
+      "low_accepted_flips": 0,
+      "low_envelope_exceedances": 1,
+      "high_envelope_exceedances": 1,
+      "cascade_accepted": 129,
+      "cascade_flips": 0,
+      "cascade_abstained": 95,
+      "fallback_rows": 162,
+      "fallback_ms": 1127.83014,
+      "low_ms": 929.749493,
+      "high_all_ms": 921.760366
+    },
+    {
+      "key_repeat": 2,
+      "inputs": 224,
+      "fixed_low_flips": 70,
+      "fixed_high_flips": 24,
+      "low_accepted": 62,
+      "low_accepted_flips": 0,
+      "low_envelope_exceedances": 0,
+      "high_envelope_exceedances": 0,
+      "cascade_accepted": 128,
+      "cascade_flips": 0,
+      "cascade_abstained": 96,
+      "fallback_rows": 162,
+      "fallback_ms": 1045.978143,
+      "low_ms": 1087.035766,
+      "high_all_ms": 1159.416341
+    }
+  ]
+}

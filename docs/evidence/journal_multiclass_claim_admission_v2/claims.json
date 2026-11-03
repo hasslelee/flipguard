@@ -1,0 +1,175 @@
+{
+  "claim_vocabulary": [
+    "BLOCKED",
+    "NOT_EVALUATED",
+    "PARTIALLY_SUPPORTED",
+    "SUPPORTED"
+  ],
+  "claims": [
+    {
+      "claim_id": "multiclass_argmax_proposition",
+      "title": "Multiclass argmax decision-preservation proposition",
+      "state": "SUPPORTED",
+      "paper_admitted": true,
+      "exact_allowed_wording_ko": "각 경쟁 클래스 j에 대해 평문 logit 차이 z_c*-z_j가 두 logit 오차 상한 B_c*+B_j보다 엄격히 크면 CKKS argmax는 평문 argmax c*를 보존한다.",
+      "exact_allowed_wording_en": "For every competing class j, if the plaintext logit difference z_c*-z_j is strictly greater than the sum of the two logit error bounds B_c*+B_j, the CKKS argmax preserves the plaintext argmax c*.",
+      "scope": "finite logits with finite class-wise error bounds, strict inequalities, and no plaintext tie",
+      "evidence": [
+        "docs/evidence/journal_multiclass_extension_v1/multiclass_contract.json",
+        "internal/certify/multiclass_decision_contract.go",
+        "internal/certify/multiclass_decision_contract_test.go"
+      ],
+      "security_qualification": "This mathematical proposition is independent of the cryptographic security estimate.",
+      "limitation": "It is a sufficient finite-observation decision condition, not an instantiated analytical CKKS error certificate or a distribution-wide guarantee.",
+      "prohibited_wording": [
+        "complete analytical CKKS certificate",
+        "distribution-wide argmax safety",
+        "non-strict boundary is sufficient"
+      ]
+    },
+    {
+      "claim_id": "mlp100_finite_validation_audit",
+      "title": "MNIST MLP-100 finite-scope validation and locked audit",
+      "state": "SUPPORTED",
+      "paper_admitted": true,
+      "exact_allowed_wording_ko": "MNIST 784-100-square-10 MLP에서 동결된 S29 direct literal은 서로 겹치지 않는 500개 configuration-validation 영상과 500개 locked-audit 영상에서 세 fresh key 반복 동안 SAFE였고 argmax flip은 0건이었다.",
+      "exact_allowed_wording_en": "For the MNIST 784-100-square-10 MLP, the frozen S29 direct literal was SAFE with zero argmax flips across three fresh-key repeats on disjoint 500-image configuration-validation and 500-image locked-audit sets.",
+      "scope": "one frozen MNIST MLP-100 model, 1,000 predeclared encrypted test images, scalar-replicated execution",
+      "evidence": [
+        "docs/evidence/journal_multiclass_extension_results_v1/summary.json",
+        "datasets/journal_multiclass_extension_v1/mnist/input_split_manifest.json"
+      ],
+      "security_qualification": "The literal passes Security Policy V2 and both declared classical estimator adapters; exact equivalence to Lattigo's truncated error distribution and quantum security are not claimed.",
+      "limitation": "The result is finite-scope evidence for one trained model, not a guarantee for arbitrary MNIST models or unseen distributions.",
+      "prohibited_wording": [
+        "all MNIST MLPs",
+        "distribution-wide safety",
+        "packed MLP inference"
+      ]
+    },
+    {
+      "claim_id": "lenet5_small_finite_validation_audit",
+      "title": "MNIST LeNet-5-small finite-scope validation and locked audit",
+      "state": "SUPPORTED",
+      "paper_admitted": true,
+      "exact_allowed_wording_ko": "FHE-compatible square-activation LeNet-5-small에서 동결된 S44 direct literal은 서로 겹치지 않는 500개 configuration-validation 영상과 500개 locked-audit 영상에서 세 fresh key 반복 동안 SAFE였고 argmax flip은 0건이었다.",
+      "exact_allowed_wording_en": "For the FHE-compatible square-activation LeNet-5-small, the frozen S44 direct literal was SAFE with zero argmax flips across three fresh-key repeats on disjoint 500-image configuration-validation and 500-image locked-audit sets.",
+      "scope": "one frozen MNIST LeNet-5-small model, 1,000 predeclared encrypted test images, declared scalar-replicated adapter",
+      "evidence": [
+        "docs/evidence/journal_multiclass_extension_results_v1/summary.json",
+        "datasets/journal_multiclass_extension_v1/mnist/input_split_manifest.json"
+      ],
+      "security_qualification": "The literal passes Security Policy V2 and both declared classical estimator adapters; exact runtime-distribution equivalence and quantum security are not claimed.",
+      "limitation": "This adapter is not a claim of arbitrary packed CNN or full general LeNet support.",
+      "prohibited_wording": [
+        "arbitrary CNN support",
+        "packed LeNet",
+        "universal LeNet security"
+      ]
+    },
+    {
+      "claim_id": "natural_top_two_gap_literal_effect",
+      "title": "Natural top-two-gap literal activation for MLP-100",
+      "state": "SUPPORTED",
+      "paper_admitted": true,
+      "exact_allowed_wording_ko": "동결된 MLP-100 validation 범위에서 natural top-two-gap contract는 graph-only fixed-tolerance 기준의 S32와 다른 Security-V2-admitted S29 literal을 합성했으며, 이는 natural decision gap에 의한 literal effect이다.",
+      "exact_allowed_wording_en": "Within the frozen MLP-100 validation scope, the natural top-two-gap contract synthesized a Security-V2-admitted S29 literal distinct from the graph-only fixed-tolerance S32 literal, establishing a natural decision-gap literal effect.",
+      "scope": "one MNIST MLP-100 graph and its frozen configuration-validation gap contract",
+      "evidence": [
+        "docs/evidence/journal_multiclass_activation_v1/activation_summary.json",
+        "docs/evidence/journal_mlp_paired_latency_v1/analysis/claim_admission.json"
+      ],
+      "security_qualification": "Both literals pass Security Policy V2 and the declared classical estimator adapters.",
+      "limitation": "The paired total-latency ratio for graph-only over gap-aware was 0.999780 with a 95% interval [0.998648, 1.000920]; no gap-aware latency superiority is admitted.",
+      "prohibited_wording": [
+        "natural gaps always change the literal",
+        "S29 is faster than S32",
+        "latency effect supported"
+      ]
+    },
+    {
+      "claim_id": "frozen_catalog_coverage",
+      "title": "Frozen bounded-catalog coverage on the standard models",
+      "state": "PARTIALLY_SUPPORTED",
+      "paper_admitted": true,
+      "exact_allowed_wording_ko": "Frozen Security-V2 catalog의 MLP-100 profile 7개 중 6개는 실행 가능한 SAFE 후보였고 1개는 PLAN_UNSUPPORTED였으며, LeNet-5-small에서는 7개 profile 모두 required depth를 지원하지 못했지만 FlipGuard direct synthesis는 선언된 security gate를 통과하는 literal을 생성하였다.",
+      "exact_allowed_wording_en": "Six of seven frozen Security-V2 catalog profiles were executable SAFE candidates for MLP-100 and one was PLAN_UNSUPPORTED; for LeNet-5-small, all seven profiles lacked the required depth, whereas FlipGuard direct synthesis generated a literal that passed the declared security gate.",
+      "scope": "the seven frozen Security-V2-admitted catalog profiles only",
+      "evidence": [
+        "docs/evidence/journal_multiclass_extension_results_v1/summary.json",
+        "docs/evidence/journal_multiclass_extension_results_v1/negative_results.json"
+      ],
+      "security_qualification": "Catalog coverage is evaluated only after Security-V2 filtering.",
+      "limitation": "The LeNet outcome is PLAN_UNSUPPORTED_WITHIN_FROZEN_CATALOG, not evidence that no CKKS catalog can contain a SAFE candidate.",
+      "prohibited_wording": [
+        "no SAFE LeNet configuration exists",
+        "all CKKS catalogs fail LeNet",
+        "global optimum",
+        "LeNet catalog latency superiority"
+      ]
+    },
+    {
+      "claim_id": "mlp100_paired_latency_amendment",
+      "title": "Focused MLP-100 paired latency",
+      "state": "PARTIALLY_SUPPORTED",
+      "paper_admitted": true,
+      "exact_allowed_wording_ko": "동결된 100-image latency subset에서 catalog S40 total latency를 gap-aware S29 total latency로 나눈 image-cluster geometric-mean ratio는 1.981795였고 95% class-stratified bootstrap 구간은 [1.979758, 1.983842]였다. 반면 graph-only S32/S29 ratio는 0.999780, 95% 구간 [0.998648, 1.000920]로 latency superiority를 보이지 않았다.",
+      "exact_allowed_wording_en": "On the frozen 100-image latency subset, the image-cluster geometric-mean ratio of catalog S40 total latency to gap-aware S29 total latency was 1.981795 with a 95% class-stratified bootstrap interval of [1.979758, 1.983842]. The graph-only S32/S29 ratio was 0.999780 with a 95% interval of [0.998648, 1.000920], providing no latency-superiority evidence.",
+      "scope": "one host, 100 frozen locked-audit images, three fresh keysets, six measured passes, and three frozen arms",
+      "evidence": [
+        "docs/evidence/journal_mlp_paired_latency_v1/analysis/summary.json",
+        "docs/evidence/journal_mlp_paired_latency_v1/analysis/claim_admission.json"
+      ],
+      "security_qualification": "All three paired arms pass Security Policy V2 and the declared classical estimator adapters.",
+      "limitation": "The graph-only S32 comparator has no separate full 500-image locked audit; its decision checks are limited to the frozen 100-image latency subset. LeNet paired latency was not evaluated.",
+      "prohibited_wording": [
+        "S29 is faster than S32",
+        "LeNet direct is faster than catalog",
+        "production speedup",
+        "universal speedup"
+      ]
+    },
+    {
+      "claim_id": "standard_model_security_qualification",
+      "title": "Qualified security admission for the multiclass literals",
+      "state": "PARTIALLY_SUPPORTED",
+      "paper_admitted": true,
+      "exact_allowed_wording_ko": "MLP-100과 LeNet-5-small direct literal 및 MLP paired arm은 exact Q/P materialization에 대해 Security Policy V2와 두 개의 선언된 classical estimator adapter를 통과했으며, Lattigo Xe truncation의 exact estimator equivalence와 quantum 128-bit security는 주장하지 않는다.",
+      "exact_allowed_wording_en": "The MLP-100 and LeNet-5-small direct literals and the MLP paired arms passed Security Policy V2 and two declared classical estimator adapters over exact Q/P materializations; exact estimator equivalence for Lattigo's truncated Xe distribution and quantum 128-bit security are not claimed.",
+      "scope": "four materialized multiclass literals and the two declared classical estimator adapters",
+      "evidence": [
+        "docs/evidence/journal_multiclass_security_reconciliation_v1/reconciliation.json",
+        "docs/evidence/journal_multiclass_security_reconciliation_v1/attack_results.csv"
+      ],
+      "security_qualification": "SECURITY_CORRECTED_AND_REPLAYED; CLASS_S1 result-scope and aggregation mismatch; no policy or literal amendment.",
+      "limitation": "The estimator uses an untruncated Gaussian proxy for runtime Xe and does not evaluate a quantum cost model.",
+      "prohibited_wording": [
+        "exact runtime-distribution equivalence",
+        "quantum 128-bit security",
+        "universal 128-bit security"
+      ]
+    },
+    {
+      "claim_id": "arbitrary_packed_cnn",
+      "title": "Arbitrary packed-CNN support",
+      "state": "BLOCKED",
+      "paper_admitted": false,
+      "exact_allowed_wording_ko": "FlipGuard는 본 연구에서 arbitrary packed-CNN support를 입증하지 않았다.",
+      "exact_allowed_wording_en": "FlipGuard does not establish arbitrary packed-CNN support in this study.",
+      "scope": "not evaluated",
+      "evidence": [
+        "docs/evidence/journal_multiclass_extension_results_v1/summary.json"
+      ],
+      "security_qualification": "No security claim is made outside the declared scalar-replicated adapters.",
+      "limitation": "A general packing compiler and broad CNN architecture study are outside the frozen extension.",
+      "prohibited_wording": [
+        "arbitrary CNN support",
+        "general packed inference",
+        "universal graph support"
+      ]
+    }
+  ],
+  "paper_claim_allowed": true,
+  "paper_claim_allowed_definition": "Only exact wording or scoped paraphrases of claims with paper_admitted=true may appear as journal claims.",
+  "schema_version": "flipguard_journal_multiclass_claim_admission_v2"
+}

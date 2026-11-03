@@ -1,0 +1,30 @@
+{
+  "status": "DEFERRED_SOURCE_ACCESS",
+  "utc": "2026-09-08T09:34:12.793677+00:00",
+  "official_page": "https://research.unsw.edu.au/projects/unsw-nb15-dataset",
+  "advertised_rows": {
+    "train": 175341,
+    "test": 82332
+  },
+  "checks": [
+    {
+      "method": "web official shared-folder link",
+      "result": "redirect to organization login"
+    },
+    {
+      "method": "anonymous HTTP shared-folder page",
+      "status": 200,
+      "result": "OneDrive application shell, no feature CSV listing"
+    },
+    {
+      "method": "anonymous official driveItem API",
+      "status": 403,
+      "result": "accessDenied"
+    }
+  ],
+  "actual_feature_csv_received": false,
+  "new_IDS_models": 0,
+  "new_IDS_CKKS": 0,
+  "third_party_substitution": false,
+  "conclusion": "Authorized instruction section5 requires official CSV; no silent substitute. Application evidence remains unverified; A/B and thesis writing continue."
+}

@@ -1,0 +1,9 @@
+{
+  "binaries_byte_identical": false,
+  "common_executor_binary": "external/v8/binaries/flipguard-external-v8-common",
+  "common_executor_binary_sha256": "sha256:eab448f1d41f9a0c6a0b40f1a0525b509e9ad330de8800c376d8adcd7e1171e9",
+  "original_locked_audit_binary": "external/v8/binaries/flipguard-audit-candidate-v8-split-identity-v2",
+  "original_locked_audit_binary_sha256": "sha256:ce1931cf2a0272ff213d6c542d3e98cf7af13a48ef58bd7102519eaa81a94383",
+  "reason": "Purpose-specific binaries share the frozen V8 execution closure but emit different evidence granularity; no binary equivalence is asserted.",
+  "v8_execution_critical_source_digest": "sha256:c4e29067a997ab04c53acbe8100a25d0124a7f0a23d7fda070826ced264d9d1b"
+}

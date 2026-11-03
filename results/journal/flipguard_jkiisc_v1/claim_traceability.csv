@@ -1,0 +1,18 @@
+section,claim_id,paper_admitted,evidence,limitation_sentence,status
+I,scoped_direct_synthesis,true,docs/evidence/paper_claim_admission_v1/claims.json,No firstness or universal graph claim,BOUND
+III,multiclass_argmax_proposition,true,docs/evidence/journal_multiclass_claim_admission_v2/claims.json,Sufficient finite-observation condition only,BOUND
+IV,adaptive_repair,true,docs/evidence/paper_claim_admission_v1/claims.json,Bounded empirical repair policy only,BOUND
+VI.1,formal_trial_reduction,true,docs/evidence/paper_claim_admission_v1/claims.json,Security-V2 bounded denominator 700/560,BOUND
+VI.1,primary_no_retuning_locked_audit,true,docs/evidence/paper_claim_admission_v1/claims.json,Repeated partitions not independent workloads,BOUND
+VI.1,paired_latency,true,docs/evidence/paired_latency_claim_admission_v1/claim_admission.json,One host and ten cluster units,BOUND
+VI.2,mlp100_finite_validation_audit,true,docs/evidence/journal_multiclass_claim_admission_v2/claims.json,One frozen MLP model and finite split,BOUND
+VI.2,lenet5_small_finite_validation_audit,true,docs/evidence/journal_multiclass_claim_admission_v2/claims.json,Square-activation scalar-replicated adapter only,BOUND
+VI.2,frozen_catalog_coverage,true,docs/evidence/journal_multiclass_claim_admission_v2/claims.json,Seven frozen profiles only,BOUND
+VI.3,natural_top_two_gap_literal_effect,true,docs/evidence/journal_multiclass_claim_admission_v2/claims.json,One MLP validation scope and no latency superiority,BOUND
+VI.3,mlp100_paired_latency_amendment,true,docs/evidence/journal_multiclass_claim_admission_v2/claims.json,One host and graph-only subset caveat,BOUND
+VI.4,no_safe_behavior,true,docs/evidence/paper_claim_admission_v1/claims.json,No global infeasibility claim,BOUND
+VI.4,structural_extension,true,docs/evidence/paper_claim_admission_v1/claims.json,One policy rejection preserved,BOUND
+VI.4,scoped_non_tabular_extension,true,docs/evidence/paper_claim_admission_v1/claims.json,Finite scalar-replicated adapters only,BOUND
+VI.4,training_model_seed_extension,true,docs/evidence/paper_claim_admission_v1/claims.json,Nine trained tabular models only,BOUND
+VI.5,standard_model_security_qualification,true,docs/evidence/journal_multiclass_claim_admission_v2/claims.json,No exact Xe or quantum equivalence,BOUND
+VII,arbitrary_packed_cnn,false,docs/evidence/journal_multiclass_claim_admission_v2/claims.json,Explicitly blocked,BOUND_AS_LIMITATION

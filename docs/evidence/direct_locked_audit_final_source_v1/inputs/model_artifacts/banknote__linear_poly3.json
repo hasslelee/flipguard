@@ -1,0 +1,74 @@
+{
+  "dataset_id": "banknote",
+  "dataset_name": "Banknote Authentication",
+  "model_id": "linear_poly3",
+  "model_type": "linear_poly3",
+  "task": "binary classification",
+  "label_mapping": {
+    "0": "negative",
+    "1": "positive"
+  },
+  "random_state": 42,
+  "test_size": 0.3,
+  "train_samples": 960,
+  "test_samples": 412,
+  "selected_feature_indices": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "selected_feature_names": [
+    "variance_wavelet",
+    "skewness_wavelet",
+    "curtosis_wavelet",
+    "entropy_image"
+  ],
+  "input_dim": 4,
+  "standardization": {
+    "mean": [
+      0.5058116920833335,
+      1.8869292425000004,
+      1.3677032547812533,
+      -1.2005509769791665
+    ],
+    "std": [
+      2.8448098169173095,
+      5.855799295683532,
+      4.364960993440168,
+      2.0954558517137074
+    ]
+  },
+  "raw_model": {
+    "weights": [
+      -4.502721581072245,
+      -4.490512983157384,
+      -4.1812804318341446,
+      0.18614910028995563
+    ],
+    "bias": -1.2865638682957814
+  },
+  "scaled_model_for_ckks": {
+    "weights": [
+      -0.38813799014929934,
+      -0.3870855998178308,
+      -0.36042952108893894,
+      0.016046192586803974
+    ],
+    "bias": -0.11090277403296997
+  },
+  "max_scaled_logit_target": 1.0,
+  "polynomial_score": {
+    "formula": "0.5 + 0.197*z - 0.004*z^3",
+    "decision_threshold": 0.5
+  },
+  "metrics": {
+    "raw_accuracy": 0.9781553398058253,
+    "raw_f1": 0.976,
+    "raw_auc": 0.9998568258286205,
+    "polynomial_decision_match_rate": 1.0,
+    "test_scaled_logit_min": -0.899637596963323,
+    "test_scaled_logit_max": 0.6107846702683561,
+    "test_scaled_logit_max_abs": 0.899637596963323
+  }
+}

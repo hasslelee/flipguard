@@ -1,0 +1,10 @@
+audit_inputs,candidate_trials,decision_bearing_rows,encrypted_candidate_executions,execution_state,fresh_contexts_or_keysets,key_runs,measurement_passes,phase,plans_or_arms,provider,raw_output_rows,recorded_encrypted_sample_evaluations,total_encrypted_sample_evaluations,unique_inputs,validation_audit_overlap,validation_inputs,warmup_encrypted_sample_evaluations,workload
+500,5,7500,5,PASS,15,15,1,native_validation_and_locked_audit,5,Microsoft EVA,7500,7500,7500,1000,0,500,0,shared_polynomial_threshold_v8
+500,4,6000,4,PASS,12,12,1,native_and_translated_validation_and_locked_audit,4,Google HEIR,6000,6000,6000,1000,0,500,0,shared_polynomial_threshold_v8
+NOT_APPLICABLE_NUMERICAL_ONLY,72,0,70,PARTIAL_SCIENTIFIC_RESULT,72,70,1,native_numerical_plan_grid,72,CoreLab EVA/ELASM,14000,14000,14000,200,NOT_APPLICABLE,200,0,official_LinearRegression_multi_input_v8
+0,2,3000,2,PASS,6,6,1,direct_synthesis_trials,2,FlipGuard direct,SUMMARY_ONLY_NO_PER_SAMPLE_LEDGER,3000,3000,500,0,500,0,shared_polynomial_threshold_v8
+0,1,1500,1,PASS,3,3,1,provider_literal_validation,1,FlipGuard direct,SUMMARY_ONLY_NO_PER_SAMPLE_LEDGER,1500,1500,500,0,500,0,shared_polynomial_threshold_v8
+500,1,1500,1,PASS,3,3,1,locked_audit,1,FlipGuard direct,SUMMARY_ONLY_NO_PER_SAMPLE_LEDGER,1500,1500,500,0,0,0,shared_polynomial_threshold_v8
+0,7,3000,2,PARTIAL_PLAN_SUPPORT_2_OF_7,6,6,1,catalog_validation,7,Security-V2 bounded catalog,SUMMARY_ONLY_NO_PER_SAMPLE_LEDGER,3000,3000,500,0,500,0,shared_polynomial_threshold_v8
+500,1,1500,1,PASS,3,3,1,fastest_safe_locked_audit,1,Security-V2 bounded catalog,SUMMARY_ONLY_NO_PER_SAMPLE_LEDGER,1500,1500,500,0,0,0,shared_polynomial_threshold_v8
+100,3,5400,3,BLOCKED_DIAGNOSTIC_UNSAFE_ARM,9,9,6,paired_latency,3,Common Lattigo harness,5400,5400,6300,100,0,0,900,shared_polynomial_threshold_v8

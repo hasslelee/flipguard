@@ -1,0 +1,140 @@
+{
+  "protocol_id": "FG_CONTRIB_V1_EXTERNAL_HEDIFF_BANK_20260906",
+  "parent_protocol_sha256": "51f48c4d6d500a0deb74d19cee4dcaf3e24d8a3330fb5402efa4b9c0ea5ee44d",
+  "locked_utc": "2026-09-05T18:12:03.296507+00:00",
+  "implementation": "official reviewed class and train/test methods extracted without top-level side effects; original pretrained weights and .npy are absent",
+  "model": "20->256, t*t+t, ->2; public100epoch Adam, batch64, shuffleFalse, seed20260906",
+  "why": "same polynomial in original plaintext and official CKKS; public small trainer; no sigmoid approximation, convolution compiler or bootstrapping development",
+  "official_commit": "ffeed7f131d4b55698a08798927777b44f508099",
+  "elasm_review_commit": "3c37c11b29ca480525bb6681e0254bdf90029425",
+  "image_id": "sha256:1a8881917d4262312b7263d66139dbb4550a5d43f796a04dcecaa55c99f9c1ff",
+  "image_python": "3.10.12",
+  "package_plan": {
+    "torch": "1.13.1+cpu",
+    "tenseal": "0.3.14",
+    "numpy": "1.23.5",
+    "scikit-learn": "1.1.3",
+    "imbalanced-learn": "0.12.3",
+    "pandas": "2.1.1"
+  },
+  "connection_attempts": 3,
+  "connection_seconds": 1200,
+  "native_seconds": 7200,
+  "source_bindings": {
+    "work/fg_contrib_v1_20260906/hediff_source/tools.py": "bad5a0fb109c4a2d3640dcf16251757e7274c24741bdf59437e578ad777887e0",
+    "work/fg_contrib_v1_20260906/hediff_source/diff_tenseal.py": "06504461472096e032a5bad37c908fe379d71d58ba7cb520d4ef6568ee4a40ae",
+    "work/fg_contrib_v1_20260906/hediff_source/handle_data.py": "e9b9d120d079d8f978ba76fca477d77c1b040e84161ea1ec0f0ddb9f19da1853",
+    "work/fg_contrib_v1_20260906/hediff_source/base_ts.py": "08fc82d6d1135811a1f9b8f4215b862c6930e443a133f55f5fecdcc9bf7c5f05",
+    "work/fg_contrib_v1_20260906/hediff_source/plain_models.py": "cd7b9d4ce8437798ef296882074bcfba41cd1b1d40c83f734820282dd0872a09",
+    "work/fg_contrib_v1_20260906/hediff_source/base_margin.py": "fc0e13ca334afdab0f66a97db11a47e1f1989336e82aab994ffc4d94144d73e8",
+    "work/fg_contrib_v1_20260906/HEDiff_tree.json": "86aebd309e9718c20a26ceeb4798de1b30a166bebb4cf52af57c2918957d47c8",
+    "work/fg_contrib_v1_20260906/elasm_tree.json": "b4f2a3f019d7b91cc2b4bd4add4ce040211c1e2e2861469feabb0baa51f716a9",
+    "work/fg_contrib_v1_20260906/external_data/SOURCE.json": "380d1f3cc8939710286cdb9a517a3aab40a846e1b5d069c842963c39ab6c448d",
+    "work/fg_contrib_v1_20260906/external_data/bank-additional-full.csv": "74adfc578bf77a7ff4bb1ba4a9f8709d9e3c6907342959c2c8416847e0afb4d8",
+    "scripts/hediff_bank_contrib_v1.py": "cbc8d0dfc2af154b89954748e1e9e65e1f819fb242427364f3e496bc0f858b2c",
+    "scripts/run_external_contrib_v1.py": "e6d506477b9aa4b03d365274fb199e186f7d897d8af39bcec019fbfa4715b650"
+  },
+  "input_rule": "official normalization/NearMiss/shuffle42 then final20percent test; selection positions0..15, audit16..47, development48..175; training original80percent, no checkpoint/seed selection",
+  "test_exposure": "official full-source preprocessing and NearMiss precede split; accuracy descriptive, not leakage-free independent prediction confirmation",
+  "threshold": "development-only maxabs FP16 roundtrip of common scalar score; RMSE secondary; no CKKS/audit-based adjustment",
+  "projection": {
+    "z": "original_logit0-original_logit1",
+    "score": ".5+.197*z",
+    "binary_label": "1-original_label",
+    "tie": "binary>=.5 maps to original0, same lowest-index tie",
+    "hidden_identity": "t*t+t=(t+.5)^2-.25",
+    "numeric_meaning": "same real polynomial score; original float32 rounding vs common float64 and algebraic execution differences recorded separately"
+  },
+  "original_ckks": {
+    "log_n": 13,
+    "prime_bits": [
+      31,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      31
+    ],
+    "scale": 26,
+    "galois_keys": true,
+    "own_condition": "SEAL default128; original settings preserved",
+    "common_security_alignment": "NOT_IDENTICAL: QP218 exceeds frozen V2N13 limit214; do not apply a cross-backend performance or identical-security claim"
+  },
+  "common_selection": {
+    "roles": [
+      "B",
+      "C",
+      "A"
+    ],
+    "start_scale_AB": 30,
+    "blocks": 1,
+    "keys": 3,
+    "max_candidates": 4,
+    "meaning": "same independent A/B and unchanged C on exact scalar projection; one external exploratory block, no two-block stability claim"
+  },
+  "audit": {
+    "keys": 3,
+    "inputs": 32,
+    "aliases": "one per parameter-distinct selected config",
+    "native_original_first_selection": true,
+    "all_method_selection_frozen_before_audit": true
+  },
+  "stress": {
+    "inputs": 16,
+    "first_audit_positions": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "keys": 3,
+    "steps": 20,
+    "radius": 0.05,
+    "step": 0.0025,
+    "categorical_columns_frozen": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      14
+    ],
+    "validity": "normalized coordinate-box diagnostic only; no assertion of real customer feasibility or synthetic labels",
+    "HE_feedback": false
+  },
+  "timing": {
+    "common_backend_only": true,
+    "inputs": 2,
+    "input_rule": "first2 fixed audit inputs",
+    "warmup": 1,
+    "measure": 6,
+    "key_blocks": 3,
+    "reason_for_two_inputs": "256-hidden-unit scalar backend is much more expensive; predeclared external diagnostic reduction applied equally to all arms; original timing scheduler otherwise unchanged",
+    "original_vs_common_timing_causal_claim": false
+  },
+  "new_compiler": false,
+  "new_bootstrap": false,
+  "expected_native_seconds": [
+    3600,
+    7200
+  ],
+  "resource_stop": "preserve remaining jobs as incomplete; no favourable-result extension"
+}

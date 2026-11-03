@@ -1,0 +1,29 @@
+{
+  "dataset_id": "bsds500",
+  "dataset_name": "Berkeley Segmentation Data Set 500",
+  "decision_threshold": 0.13363183503481268,
+  "direct_policy_reference": {
+    "policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "policy_id": "flipguard_direct_synthesis_policy_v2",
+    "relationship": "frozen_constants_reused_by_predeclared_graph_adapter;model_type_not_added_to_policy_supported_models"
+  },
+  "extraction_policy_digest": "sha256:90befad9bdf9c58b817a54664348b421233e5834995a2648793024892b5cb291",
+  "extraction_policy_id": "bsds500_harris_patch_extraction_v1",
+  "graph_formula": "det(M)-0.04*trace(M)^2",
+  "input_dim": 25,
+  "model_id": "harris_corner_response",
+  "model_type": "harris_corner_response",
+  "packing_scope": "scalar_replicated_per_ciphertext_v1",
+  "schema_version": "flipguard_bsds500_harris_holdout_v1",
+  "source_archive": {
+    "sha256": "sha256:97e49d31764f3912f0c4122707d53062ac9e783ba0f095e447a4d53c1a41af8e",
+    "url": "https://www2.eecs.berkeley.edu/Research/Projects/CS/vision/grouping/BSR/BSR_bsds500.tgz"
+  },
+  "threshold_source": {
+    "images": 100,
+    "method": "nearest_rank_ceil_v1",
+    "partition": "train",
+    "patches": 400,
+    "quantile": 0.8
+  }
+}

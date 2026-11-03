@@ -1,0 +1,144 @@
+{
+  "actual_encrypted_candidates": 1,
+  "analysis_ms": 140.948109,
+  "candidate_cap": 4,
+  "decision_posthoc_for_A": true,
+  "evidence_write_ms": 46.26769900000001,
+  "generation_attempts": [
+    {
+      "failure": "",
+      "ms": 7.316191,
+      "ordinal": 1,
+      "requested_scale": 40
+    }
+  ],
+  "key_block": 0,
+  "numeric_posthoc_for_B_C": true,
+  "outcome": "SELECTED",
+  "protocol": "FG_CONTRIB_V1_20260906",
+  "role": "A",
+  "selected": {
+    "id": "independent_S40_Q5_N14_69b8c02789f6",
+    "path": "rescale",
+    "parameters": {
+      "log_n": 14,
+      "log_q": [
+        50,
+        40,
+        40,
+        40,
+        40
+      ],
+      "log_p": [
+        50
+      ],
+      "log_default_scale": 40
+    },
+    "security": {
+      "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+      "target_bits": 128,
+      "declared_log_qp": 260,
+      "max_allowed_log_qp": 430,
+      "headroom_bits": 170,
+      "admission_status": "PASS",
+      "log_q": 210,
+      "log_p": 50,
+      "log_qp": 260,
+      "ciphertext_q_admission": "PASS",
+      "evaluation_key_qp_admission": "PASS",
+      "final_admission": "PASS",
+      "ciphertext_headroom_bits": 220,
+      "evaluation_key_headroom_bits": 170,
+      "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+    },
+    "required_rescale_levels": 3,
+    "level_guard": 0,
+    "precision_target_bits": 40,
+    "message_magnitude_bits": 7,
+    "analysis_scale_bits": 40,
+    "backend_scale_lift_bits": 0,
+    "backend_validation_attempts": 1,
+    "same_tier_precision_gain_bits": 0,
+    "same_tier_static_candidates_tried": 0,
+    "generation_kind": "independent_explicit_scale_v1",
+    "reason": "graph scale trace and output magnitude only; fixed scale; no decision or sensitivity input"
+  },
+  "start_scale": 40,
+  "threshold": 0.029613854530992967,
+  "trials": [
+    {
+      "candidate": {
+        "id": "independent_S40_Q5_N14_69b8c02789f6",
+        "path": "rescale",
+        "parameters": {
+          "log_n": 14,
+          "log_q": [
+            50,
+            40,
+            40,
+            40,
+            40
+          ],
+          "log_p": [
+            50
+          ],
+          "log_default_scale": 40
+        },
+        "security": {
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "target_bits": 128,
+          "declared_log_qp": 260,
+          "max_allowed_log_qp": 430,
+          "headroom_bits": 170,
+          "admission_status": "PASS",
+          "log_q": 210,
+          "log_p": 50,
+          "log_qp": 260,
+          "ciphertext_q_admission": "PASS",
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "ciphertext_headroom_bits": 220,
+          "evaluation_key_headroom_bits": 170,
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+        },
+        "required_rescale_levels": 3,
+        "level_guard": 0,
+        "precision_target_bits": 40,
+        "message_magnitude_bits": 7,
+        "analysis_scale_bits": 40,
+        "backend_scale_lift_bits": 0,
+        "backend_validation_attempts": 1,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 0,
+        "generation_kind": "independent_explicit_scale_v1",
+        "reason": "graph scale trace and output magnitude only; fixed scale; no decision or sensitivity input"
+      },
+      "status": "SAFE",
+      "keys": 3,
+      "numeric": [
+        {
+          "key": 1,
+          "count": 5000,
+          "max_abs": 2.352333297039877e-7,
+          "rmse": 2.7221462901357992e-8
+        },
+        {
+          "key": 2,
+          "count": 5000,
+          "max_abs": 1.955134187880958e-7,
+          "rmse": 2.7831189159189433e-8
+        },
+        {
+          "key": 3,
+          "count": 5000,
+          "max_abs": 2.1523175064430689e-7,
+          "rmse": 2.7975048772639065e-8
+        }
+      ],
+      "decision_ms": 1.243692,
+      "numeric_ms": 0.113583,
+      "native_wall_ms": 112170.951589
+    }
+  ],
+  "wall_ms": 112321.444877
+}

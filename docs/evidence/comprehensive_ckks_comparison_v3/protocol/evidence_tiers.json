@@ -1,0 +1,32 @@
+{
+  "schema_version": "flipguard_comparative_evidence_tiers_v3",
+  "tiers": [
+    {
+      "id": "TIER_1_LANDSCAPE_AND_CAPABILITY",
+      "execution_required": false,
+      "latency_headline_allowed": false,
+      "scope": "publication, capability, objective, artifact, security, and assurance metadata"
+    },
+    {
+      "id": "TIER_2_ORIGINAL_PAPER_REPORTED_RESULTS",
+      "execution_required": false,
+      "latency_headline_allowed": false,
+      "scope": "within-paper normalized results with exact source locator",
+      "cross_paper_absolute_ranking_allowed": false
+    },
+    {
+      "id": "TIER_3_NATIVE_END_TO_END_AND_PROVIDER_GATE",
+      "execution_required": true,
+      "latency_headline_allowed": false,
+      "scope": "official-runtime output, numerical error, native metadata, and FlipGuard gate state",
+      "native_cross_runtime_ranking_allowed": false
+    },
+    {
+      "id": "TIER_4_COMMON_EXECUTOR_COMPARISON",
+      "execution_required": true,
+      "latency_headline_allowed": true,
+      "scope": "PORTABLE_EXACT or explicitly graph-equivalent common-executor arms",
+      "portable_parameter_only_allowed": false
+    }
+  ]
+}

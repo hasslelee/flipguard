@@ -1,0 +1,44 @@
+{
+  "command": [
+    "/usr/bin/time",
+    "-v",
+    "/home/ckks2/deciprotect/research/fashion_extension/bin/fashion-case",
+    "--mode",
+    "audit",
+    "--plan",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_1/planning/plan.json",
+    "--candidate",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_1/role_candidates/initial.json",
+    "--data",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_05.csv",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_1/audit/synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d/batch_05"
+  ],
+  "cwd": "/home/ckks2/deciprotect",
+  "started": {
+    "utc": "2026-09-05T12:22:07.002490+00:00",
+    "load_average": [
+      1.75927734375,
+      1.5302734375,
+      1.45166015625
+    ],
+    "mem_available": "11006776 kB",
+    "swap_free": "3830636 kB",
+    "disk_free": 23860727808
+  },
+  "finished": {
+    "utc": "2026-09-05T12:23:03.576247+00:00",
+    "load_average": [
+      1.54150390625,
+      1.51416015625,
+      1.4501953125
+    ],
+    "mem_available": "10976372 kB",
+    "swap_free": "3830636 kB",
+    "disk_free": 23856943104
+  },
+  "wall_seconds": 56.57388313199772,
+  "exit_code": 0,
+  "status": "COMPLETED",
+  "binary_sha256": "c358a601f15bc3713c8879a9cc3867292b83917f83356e99185e9b635d2203a2"
+}

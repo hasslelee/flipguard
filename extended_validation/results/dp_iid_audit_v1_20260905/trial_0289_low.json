@@ -1,0 +1,35 @@
+{
+  "request_sha256": "bd4dd8b43ccddb35952c5b3bed541541a13c2a8c48902425e25ba3f1e509c1bd",
+  "backend": "Lattigo v6.2.0",
+  "log_n": 12,
+  "scale": 18,
+  "q": [
+    268460033,
+    270337
+  ],
+  "p": [
+    1099511480321
+  ],
+  "log_qp": 86.04453134454711,
+  "slots": 2048,
+  "measurements": [
+    {
+      "repeat": 0,
+      "logits": [
+        [
+          2.1049297674460385
+        ]
+      ],
+      "setup_ms": 3.264963,
+      "encode_encrypt_ms": 169.362175,
+      "evaluate_ms": 63.085913,
+      "decrypt_decode_ms": 0.156994,
+      "total_ms": 235.870757,
+      "input_ciphertext_bytes": 7490142,
+      "output_ciphertext_bytes": 65854,
+      "evaluation_key_bytes": 393430,
+      "public_key_bytes": 196696,
+      "final_level": 0
+    }
+  ]
+}

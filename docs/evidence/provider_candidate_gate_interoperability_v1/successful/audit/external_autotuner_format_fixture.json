@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "outcome": "LOCKED_AUDIT_PASS",
+  "reason": "locked candidate provider_external_autotuner_3d2f20db0ccc54eb remained SAFE on disjoint audit with 3 fresh key run(s)",
+  "retuning_performed": false,
+  "selection_result": {
+    "path": "/home/ckks2/flipguard/results/thesis_grade_protocol/provider_candidate_gate_v1/run_707441b/selection/external_autotuner_format_fixture.json",
+    "sha256": "sha256:97c649fdceff3ee36d400d85c1bd15110f92d8a7ae7505e90537ef659f0e9bbb"
+  },
+  "split_manifest": {
+    "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/split_manifest.json",
+    "sha256": "sha256:c76e7b0478fffbbac4d24ff41a86fa7694cf3f5719e462270eb780b2531760d1"
+  },
+  "selection_contract_digest": "sha256:6cfedb1337de8c0fdfc7d08bb52b6247cde902ec04d839b96f280fed477d8113",
+  "selection_workload_id": "split_seed_0/iris_binary/linear_poly3",
+  "audit_contract": {
+    "schema_version": 2,
+    "workload_id": "split_seed_0/locked_audit/iris_binary/linear_poly3",
+    "dataset_id": "iris_binary",
+    "model_id": "linear_poly3",
+    "model_type": "linear_poly3",
+    "split_id": "split_seed_0/locked_audit",
+    "model_artifact": {
+      "path": "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+      "sha256": "sha256:9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1"
+    },
+    "validation_data": {
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/linear_poly3/locked_audit_test.csv",
+      "sha256": "sha256:72a182968acd60e8c0bd5acc830627d698a9f1d2e1760dd492dbb07129a26327"
+    },
+    "graph": {
+      "multiplicative_depth": 2,
+      "add_ops": 4,
+      "mul_ops": 6,
+      "rot_ops": 0,
+      "rescale_ops": 2,
+      "notes": [
+        "derived from the exact tabular plaintext DAG",
+        "rescale count is the maximum multiplicative path depth"
+      ]
+    },
+    "decision": {
+      "threshold": 0.5,
+      "margin_floor": 0.001,
+      "safety_factor": 0.5,
+      "protected_margin": 0.065146843018,
+      "output_error_budget": 0.032573421509,
+      "validation_digest": "sha256:0111ff5994e36621e4a826d31ef7a6b9011cae19db9b1a30683046e28bb48b48",
+      "validation_samples": 16,
+      "certifiable_samples": 16,
+      "ambiguous_samples": 0
+    },
+    "calibration": {
+      "max_input_abs": 1.841917628576,
+      "max_plaintext_output_abs": 0.65403861652,
+      "aggregate_sensitivity": 2.5760000000000005,
+      "sensitivity_method": "empirical_interval_dag_sum_v1",
+      "calibration_scope": "observed_validation_artifact:sha256:72a182968acd60e8c0bd5acc830627d698a9f1d2e1760dd492dbb07129a26327"
+    },
+    "deployment": {
+      "security_bits": 128,
+      "required_slots": 1,
+      "max_encrypted_trials": 1,
+      "validation_key_repeats": 3,
+      "packing_strategy": "scalar_replicated_per_ciphertext_v1",
+      "allowed_paths": [
+        "rescale"
+      ],
+      "scale_trace_method": "lattigo_v6_rescale_scale_trace_v1",
+      "rescale_levels_consumed": 6,
+      "terminal_scale_exponent": 1,
+      "required_q_primes": 7
+    }
+  },
+  "selected_candidate": {
+    "id": "provider_external_autotuner_3d2f20db0ccc54eb",
+    "path": "rescale",
+    "parameters": {
+      "log_n": 13,
+      "log_q": [
+        23,
+        20,
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "log_p": [
+        30
+      ],
+      "log_default_scale": 20
+    },
+    "security": {
+      "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+      "target_bits": 128,
+      "declared_log_qp": 173,
+      "max_allowed_log_qp": 214,
+      "headroom_bits": 41,
+      "admission_status": "PASS",
+      "log_q": 143,
+      "log_p": 30,
+      "log_qp": 173,
+      "ciphertext_q_admission": "PASS",
+      "evaluation_key_qp_admission": "PASS",
+      "final_admission": "PASS",
+      "ciphertext_headroom_bits": 71,
+      "evaluation_key_headroom_bits": 41,
+      "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+    },
+    "required_rescale_levels": 6,
+    "level_guard": 0,
+    "precision_target_bits": 20,
+    "message_magnitude_bits": 0,
+    "analysis_scale_bits": 0,
+    "backend_scale_lift_bits": 0,
+    "backend_validation_attempts": 0,
+    "same_tier_precision_gain_bits": 0,
+    "same_tier_static_candidates_tried": 0,
+    "generation_kind": "provider_import_external_autotuner",
+    "reason": "exact literal imported from external_autotuner provider schema_compatibility_fixture_v1; SAFE requires encrypted validation"
+  },
+  "audit_trial": {
+    "trial_index": 1,
+    "candidate": {
+      "id": "provider_external_autotuner_3d2f20db0ccc54eb",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 173,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 41,
+        "admission_status": "PASS",
+        "log_q": 143,
+        "log_p": 30,
+        "log_qp": 173,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 71,
+        "evaluation_key_headroom_bits": 41,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "required_rescale_levels": 6,
+      "level_guard": 0,
+      "precision_target_bits": 20,
+      "message_magnitude_bits": 0,
+      "analysis_scale_bits": 0,
+      "backend_scale_lift_bits": 0,
+      "backend_validation_attempts": 0,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 0,
+      "generation_kind": "provider_import_external_autotuner",
+      "reason": "exact literal imported from external_autotuner provider schema_compatibility_fixture_v1; SAFE requires encrypted validation"
+    },
+    "status": "SAFE",
+    "assurance": "OBSERVED_VALIDATION",
+    "reason": "zero failures, zero decision flips, and zero error violations on V_cert=16",
+    "key_repeats_requested": 3,
+    "key_repeats_completed": 3,
+    "success_runs": 3,
+    "decision_flips": 0,
+    "error_violations": 0,
+    "max_observed_error": 0.01577856611301298,
+    "max_error_budget_usage": 0.4316820910230677,
+    "v_cert": 16,
+    "v_amb": 0,
+    "mean_total_ms": 90.49310802083335,
+    "median_total_ms": 83.662318,
+    "p95_total_ms": 137.702979
+  }
+}

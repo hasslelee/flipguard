@@ -1,0 +1,6 @@
+$ /home/ckks2/flipguard/results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/bin/flipguard -experiment ckks_tabular_inference -ckks-profile-name short_chain_3 -ckks-evaluation-mode rescale -ckks-output-tag finiteauditv1_confirm_seed0_mnist_pool16_linear_poly3_short_chain_3_rescale_aware_key2
+Running experiment: ckks_tabular_inference
+Description: CKKS encrypted inference over generic exported tabular workloads
+Runtime options: ckks_min_z=-0.050000 ckks_max_z=0.050000 ckks_points=101 ckks_repetitions=3 ckks_safety_factor=0.5000 ckks_output_tag=finiteauditv1_confirm_seed0_mnist_pool16_linear_poly3_short_chain_3_rescale_aware_key2 ckks_score_abs_error_cap=0.0010000000 ckks_score_rel_error_cap=0.0100000000 ckks_timing_warmup_runs=3 ckks_timing_measurement_runs=30 ckks_profile_names=default,scale42,scale40,scale38,deep_chain_8_scale45,deep_chain_9_scale45,short_chain_6_scale42,short_chain_6_scale40,short_chain_6_scale38,short_chain_5,short_chain_3 ckks_profile_name=short_chain_3 ckks_evaluation_mode=rescale ckks_naive_profile_tag=profile_naive_default ckks_rescale_profile_tag=profile_rescale_default ckks_profile_mode_tag=profile_mode_default
+
+2026/07/29 23:07:17 flipguard experiment ckks_tabular_inference failed: run CKKS tabular inference: tabular row 1: evaluate output score: rescale Horner output: cannot rescale ciphertext at level 0

@@ -1,0 +1,79 @@
+{
+  "clean_build": {
+    "binary_sha256": "sha256:c854c3f89290443937a5bcd77268e4d14b09ab1611905db684ea877ee290b283",
+    "elapsed_seconds": 124.17286817100012,
+    "status": "PASS"
+  },
+  "failed_attempts_preserved": 2,
+  "maximum_evidence_level": 6,
+  "official_image": {
+    "contexts_keysets": 6,
+    "decision_gate": "NOT_EVALUATED_NO_OFFICIAL_DECISION_RULE",
+    "evidence_level": 3,
+    "raw_output_rows": 24576,
+    "run_elapsed_seconds": 19.089761078000265,
+    "unique_inputs": 1
+  },
+  "predecessor_agreement": {
+    "locked_audit_state": "AGREES_SAFE",
+    "prior_storage_pressure_may_have_affected_result": "NO",
+    "selected_scale": "AGREES_SCALE_30"
+  },
+  "provider": "Microsoft EVA",
+  "schema_version": "flipguard_external_end_to_end_clean_v6_eva_evidence_v1",
+  "shared_polynomial": {
+    "audit_flips": 0,
+    "audit_key_runs": 3,
+    "audit_unique_inputs": 16,
+    "audit_violations": 0,
+    "evidence_level": 6,
+    "gate_state": "SAFE",
+    "raw_output_rows": 174,
+    "retuning": 0,
+    "run_elapsed_seconds": 20.52551510400008,
+    "security_state": "SECURITY_TARGET_MATCH_ASSUMPTIONS_DIFFER",
+    "selected_candidate": "eva_native_scale30_N14_QP240_ef28317b2a3d",
+    "selected_validation_flips": 0,
+    "timing": {
+      "decrypt_ms": {
+        "count": 174,
+        "maximum": 2.548191,
+        "mean": 1.0248560632183907,
+        "minimum": 0.720712
+      },
+      "encrypt_ms": {
+        "count": 174,
+        "maximum": 66.94659,
+        "mean": 31.11644974712644,
+        "minimum": 26.268191
+      },
+      "execute_ms": {
+        "count": 174,
+        "maximum": 50.037351,
+        "mean": 27.088180229885058,
+        "minimum": 21.270672
+      },
+      "keygen_ms": {
+        "count": 174,
+        "maximum": 84.238117,
+        "mean": 36.64622656321839,
+        "minimum": 22.838735
+      },
+      "total_sample_ms": {
+        "count": 174,
+        "maximum": 113.448738,
+        "mean": 59.303695965517235,
+        "minimum": 48.657592
+      }
+    },
+    "validation_audit_overlap": 0,
+    "validation_key_runs": 9,
+    "validation_states": [
+      "REJECTED",
+      "SAFE",
+      "SAFE"
+    ],
+    "validation_unique_inputs": 14
+  },
+  "status": "PASS"
+}

@@ -1,0 +1,349 @@
+--- research/contribution_validation/cmd/contribution-case/main.go
++++ research/thesis_validation_v1/cmd/contribution-case/main.go
+@@ -24,6 +24,10 @@
+ func load(p string, v any) { b, e := os.ReadFile(p); must(e); must(json.Unmarshal(b, v)) }
+ 
+ var ioMS float64
++var thesisDelta = .001
++var thesisRho = .5
++var thesisSlack bool
++var thesisBSlack bool
+ 
+ func ms(t time.Time) float64 { return float64(time.Since(t).Nanoseconds()) / 1e6 }
+ func save(p string, v any) {
+@@ -132,6 +136,8 @@
+ func freshContract(old ckksplanner.WorkloadContract, data, role string) ckksplanner.WorkloadContract {
+ 	if old.MulticlassDecision != nil {
+ 		o := ckksplanner.DefaultJournalMNISTMulticlassContractOptions()
++		o.MarginFloor = thesisDelta
++		o.MarginUtilizationCap = thesisRho
+ 		o.ModelPath = old.ModelArtifact.Path
+ 		o.ValidationPath = data
+ 		o.SourcePath = old.SourceData.Path
+@@ -145,6 +151,8 @@
+ 		return c
+ 	}
+ 	o := ckksplanner.DefaultPrimaryTabularContractOptions()
++	o.MarginFloor = thesisDelta
++	o.SafetyFactor = thesisRho
+ 	o.ModelPath = old.ModelArtifact.Path
+ 	o.ValidationPath = data
+ 	o.SplitID = old.SplitID
+@@ -173,7 +181,20 @@
+ 	data := flag.String("data", "", "prepared evaluation CSV")
+ 	modelPath := flag.String("model", "", "model for materialization/new-plan")
+ 	keyset := flag.Int("keyset", 1, "fresh key block ordinal")
++	flag.Float64Var(&thesisDelta, "delta", .001, "sensitivity margin floor")
++	flag.Float64Var(&thesisRho, "rho", .5, "sensitivity error fraction")
++	flag.BoolVar(&thesisSlack, "cprime", false, "isolated existing optional precision slack")
++	flag.BoolVar(&thesisBSlack, "b-slack", false, "independent auxiliary slack")
+ 	flag.Parse()
++	if thesisSlack && *role != "C" {
++		panic("Cprime only for C")
++	}
++	if thesisBSlack && *role != "B" {
++		panic("B slack only for B")
++	}
++	if (thesisSlack || thesisBSlack) && (thesisDelta != .001 || thesisRho != .5) {
++		panic("no compound policy variants")
++	}
+ 	must(os.MkdirAll(*out, 0755))
+ 	if _, e := os.Stat(filepath.Join(*out, "result.json")); e == nil {
+ 		panic("completed output exists")
+@@ -194,6 +215,8 @@
+ 	}
+ 	if *mode == "new-plan" {
+ 		o := ckksplanner.DefaultPrimaryTabularContractOptions()
++		o.MarginFloor = thesisDelta
++		o.SafetyFactor = thesisRho
+ 		o.ModelPath = *modelPath
+ 		o.ValidationPath = *data
+ 		o.SplitID = "external/configuration_selection"
+@@ -208,6 +231,9 @@
+ 	var old ckksplanner.SynthesisPlan
+ 	load(*legacy, &old)
+ 	c := old.Contract
++	if *data != "" && (*mode == "select" || *mode == "plan") {
++		c = freshContract(c, *data, "configuration_validation")
++	}
+ 	if *mode == "generate" {
+ 		s := time.Now()
+ 		f, e := ckksplanner.BuildIndependentFacts(c.ModelArtifact.Path, c.ValidationData.Path, c.MulticlassDecision != nil)
+@@ -219,6 +245,16 @@
+ 			errText = e.Error()
+ 		}
+ 		save(filepath.Join(*out, "result.json"), map[string]any{"facts": f, "candidate": cand, "failure": errText, "analysis_ms": analysisMS, "wall_ms": ms(start)})
++		return
++	}
++	if *mode == "plan" {
++		c = freshContract(c, c.ValidationData.Path, "configuration_validation")
++		p, e := ckksplanner.ThesisInitialPlan(c, thesisSlack)
++		must(e)
++		cr, e := ckksplanner.ThesisConcreteRecord(p.InitialCandidates[0])
++		must(e)
++		save(filepath.Join(*out, "plan.json"), p)
++		save(filepath.Join(*out, "result.json"), map[string]any{"plan": p, "concrete": cr, "wall_ms": ms(start), "new_encrypted_calls": 0})
+ 		return
+ 	}
+ 	if *mode == "select" {
+@@ -234,7 +270,7 @@
+ 		var e error
+ 		if *role == "C" {
+ 			c = freshContract(c, c.ValidationData.Path, "configuration_validation")
+-			plan, e = ckksplanner.Synthesize(c, ckksplanner.DefaultPrimarySynthesisPolicy())
++			plan, e = ckksplanner.ThesisInitialPlan(c, thesisSlack)
+ 			must(e)
+ 		} else {
+ 			facts, e = ckksplanner.BuildIndependentFacts(c.ModelArtifact.Path, c.ValidationData.Path, c.MulticlassDecision != nil)
+@@ -262,6 +298,15 @@
+ 					continue
+ 				}
+ 			}
++			if thesisBSlack {
++				var at []map[string]any
++				cand, at, e = ckksplanner.ThesisIndependentSlack(facts, cand)
++				must(e)
++				save(filepath.Join(*out, fmt.Sprintf("slack_static_%d.json", idx)), at)
++			}
++			concrete, e := ckksplanner.ThesisConcreteRecord(cand)
++			must(e)
++			save(filepath.Join(*out, fmt.Sprintf("concrete_%d.json", idx)), concrete)
+ 			t := execute(c, cand, idx, filepath.Join(*out, fmt.Sprintf("trial_%d", idx)))
+ 			trials = append(trials, t)
+ 			accept := t.Keys == 3 && t.Failure == "" && t.Status == certify.StatusSafe
+@@ -291,7 +336,7 @@
+ 		if selected != nil {
+ 			outcome = "SELECTED"
+ 		}
+-		save(filepath.Join(*out, "result.json"), map[string]any{"role": *role, "outcome": outcome, "selected": selected, "trials": trials, "generation_attempts": generations, "analysis_ms": analysisMS, "wall_ms": ms(start), "evidence_write_ms": ioMS, "threshold": *threshold, "start_scale": *startScale, "candidate_cap": 4, "actual_encrypted_candidates": len(trials), "key_block": *keyset, "protocol": "FG_CONTRIB_V1_20260906", "numeric_posthoc_for_B_C": true, "decision_posthoc_for_A": true})
++		save(filepath.Join(*out, "result.json"), map[string]any{"role": *role, "outcome": outcome, "selected": selected, "trials": trials, "generation_attempts": generations, "analysis_ms": analysisMS, "wall_ms": ms(start), "evidence_write_ms": ioMS, "threshold": *threshold, "start_scale": *startScale, "candidate_cap": 4, "actual_encrypted_candidates": len(trials), "key_block": *keyset, "protocol": "FG_THESIS_V1_20260908", "cprime": thesisSlack, "b_slack": thesisBSlack, "rho": thesisRho, "delta": thesisDelta, "numeric_posthoc_for_B_C": true, "decision_posthoc_for_A": true})
+ 		return
+ 	}
+ 	var cand ckksplanner.SynthesizedCandidate
+@@ -337,6 +382,9 @@
+ 			c.Calibration = old.Contract.Calibration
+ 			save(filepath.Join(*out, "audit_contract.json"), c)
+ 		}
++		cr, e := ckksplanner.ThesisConcreteRecord(cand)
++		must(e)
++		save(filepath.Join(*out, "concrete.json"), cr)
+ 		t := execute(c, cand, 1, *out)
+ 		save(filepath.Join(*out, "result.json"), t)
+ 		return
+--- research/hediff_bank_validation/cmd/contribution-case/main.go
++++ research/thesis_validation_v1/cmd/bank-case/main.go
+@@ -25,6 +25,10 @@
+ func load(p string, v any) { b, e := os.ReadFile(p); must(e); must(json.Unmarshal(b, v)) }
+ 
+ var ioMS float64
++var thesisDelta = .001
++var thesisRho = .5
++var thesisSlack bool
++var thesisBSlack bool
+ 
+ func ms(t time.Time) float64 { return float64(time.Since(t).Nanoseconds()) / 1e6 }
+ func save(p string, v any) {
+@@ -150,7 +154,20 @@
+ 	data := flag.String("data", "", "prepared evaluation CSV")
+ 	modelPath := flag.String("model", "", "model for materialization/new-plan")
+ 	keyset := flag.Int("keyset", 1, "fresh key block ordinal")
++	flag.Float64Var(&thesisDelta, "delta", .001, "sensitivity margin floor")
++	flag.Float64Var(&thesisRho, "rho", .5, "sensitivity error fraction")
++	flag.BoolVar(&thesisSlack, "cprime", false, "isolated existing optional precision slack")
++	flag.BoolVar(&thesisBSlack, "b-slack", false, "independent auxiliary slack")
+ 	flag.Parse()
++	if thesisSlack && *role != "C" {
++		panic("Cprime only for C")
++	}
++	if thesisBSlack && *role != "B" {
++		panic("B slack only for B")
++	}
++	if (thesisSlack || thesisBSlack) && (thesisDelta != .001 || thesisRho != .5) {
++		panic("no compound policy variants")
++	}
+ 	must(os.MkdirAll(*out, 0755))
+ 	if _, e := os.Stat(filepath.Join(*out, "result.json")); e == nil {
+ 		panic("completed output exists")
+@@ -181,6 +198,12 @@
+ 	var old ckksplanner.SynthesisPlan
+ 	load(*legacy, &old)
+ 	c := old.Contract
++	if *data != "" && (*mode == "select" || *mode == "plan") {
++		c = freshContract(c, *data, "configuration_validation")
++	}
++	if thesisDelta != .001 || thesisRho != .5 {
++		panic("Bank sensitivity is offline-only")
++	}
+ 	if *mode == "generate" {
+ 		s := time.Now()
+ 		f, e := ckksplanner.BankIndependentFacts(c.ModelArtifact.Path, c.ValidationData.Path)
+@@ -192,6 +215,16 @@
+ 			errText = e.Error()
+ 		}
+ 		save(filepath.Join(*out, "result.json"), map[string]any{"facts": f, "candidate": cand, "failure": errText, "analysis_ms": analysisMS, "wall_ms": ms(start)})
++		return
++	}
++	if *mode == "plan" {
++		c = freshContract(c, c.ValidationData.Path, "configuration_validation")
++		p, e := ckksplanner.ThesisInitialPlan(c, thesisSlack)
++		must(e)
++		cr, e := ckksplanner.ThesisConcreteRecord(p.InitialCandidates[0])
++		must(e)
++		save(filepath.Join(*out, "plan.json"), p)
++		save(filepath.Join(*out, "result.json"), map[string]any{"plan": p, "concrete": cr, "wall_ms": ms(start), "new_encrypted_calls": 0})
+ 		return
+ 	}
+ 	if *mode == "select" {
+@@ -207,7 +240,7 @@
+ 		var e error
+ 		if *role == "C" {
+ 			c = freshContract(c, c.ValidationData.Path, "configuration_validation")
+-			plan, e = ckksplanner.Synthesize(c, ckksplanner.DefaultPrimarySynthesisPolicy())
++			plan, e = ckksplanner.ThesisInitialPlan(c, thesisSlack)
+ 			must(e)
+ 		} else {
+ 			facts, e = ckksplanner.BankIndependentFacts(c.ModelArtifact.Path, c.ValidationData.Path)
+@@ -235,6 +268,15 @@
+ 					continue
+ 				}
+ 			}
++			if thesisBSlack {
++				var at []map[string]any
++				cand, at, e = ckksplanner.ThesisIndependentSlack(facts, cand)
++				must(e)
++				save(filepath.Join(*out, fmt.Sprintf("slack_static_%d.json", idx)), at)
++			}
++			concrete, e := ckksplanner.ThesisConcreteRecord(cand)
++			must(e)
++			save(filepath.Join(*out, fmt.Sprintf("concrete_%d.json", idx)), concrete)
+ 			t := execute(c, cand, idx, filepath.Join(*out, fmt.Sprintf("trial_%d", idx)))
+ 			trials = append(trials, t)
+ 			accept := t.Keys == 3 && t.Failure == "" && t.Status == certify.StatusSafe
+@@ -264,7 +306,7 @@
+ 		if selected != nil {
+ 			outcome = "SELECTED"
+ 		}
+-		save(filepath.Join(*out, "result.json"), map[string]any{"role": *role, "outcome": outcome, "selected": selected, "trials": trials, "generation_attempts": generations, "analysis_ms": analysisMS, "wall_ms": ms(start), "evidence_write_ms": ioMS, "threshold": *threshold, "start_scale": *startScale, "candidate_cap": 4, "actual_encrypted_candidates": len(trials), "key_block": *keyset, "protocol": "FG_CONTRIB_V1_20260906", "numeric_posthoc_for_B_C": true, "decision_posthoc_for_A": true})
++		save(filepath.Join(*out, "result.json"), map[string]any{"role": *role, "outcome": outcome, "selected": selected, "trials": trials, "generation_attempts": generations, "analysis_ms": analysisMS, "wall_ms": ms(start), "evidence_write_ms": ioMS, "threshold": *threshold, "start_scale": *startScale, "candidate_cap": 4, "actual_encrypted_candidates": len(trials), "key_block": *keyset, "protocol": "FG_THESIS_V1_20260908", "cprime": thesisSlack, "b_slack": thesisBSlack, "rho": thesisRho, "delta": thesisDelta, "numeric_posthoc_for_B_C": true, "decision_posthoc_for_A": true})
+ 		return
+ 	}
+ 	var cand ckksplanner.SynthesizedCandidate
+@@ -310,6 +352,9 @@
+ 			c.Calibration = old.Contract.Calibration
+ 			save(filepath.Join(*out, "audit_contract.json"), c)
+ 		}
++		cr, e := ckksplanner.ThesisConcreteRecord(cand)
++		must(e)
++		save(filepath.Join(*out, "concrete.json"), cr)
+ 		t := execute(c, cand, 1, *out)
+ 		save(filepath.Join(*out, "result.json"), t)
+ 		return
+--- /dev/null
++++ research/thesis_validation_v1/internal/ckksplanner/thesis_variant.go
+@@ -0,0 +1,83 @@
++package ckksplanner
++
++// These wrappers expose the already implemented optional policy. The original
++// Synthesize, RepairCandidate, admission policy and acceptance code are unchanged.
++import (
++	"fmt"
++	"github.com/tuneinsight/lattigo/v6/schemes/ckks"
++	"time"
++)
++
++func ThesisInitialPlan(c WorkloadContract, slack bool) (SynthesisPlan, error) {
++	p := DefaultPrimarySynthesisPolicy()
++	if slack {
++		p.PrecisionSlackMode = PrecisionSlackMaximizeWithinMinLogN
++	}
++	plan, e := Synthesize(c, p)
++	if e != nil || !slack {
++		return plan, e
++	}
++	base, e := Synthesize(c, DefaultPrimarySynthesisPolicy())
++	if e != nil {
++		return plan, e
++	}
++	if len(plan.InitialCandidates) != 1 || len(base.InitialCandidates) != 1 {
++		return plan, fmt.Errorf("STRUCTURE_INELIGIBLE: expected one initial candidate")
++	}
++	if !ThesisSameStructure(base.InitialCandidates[0], plan.InitialCandidates[0]) {
++		return plan, fmt.Errorf("STRUCTURE_INELIGIBLE: Cprime changed N/Q/P/path/levels")
++	}
++	return plan, nil
++}
++
++func ThesisSameStructure(a, b SynthesizedCandidate) bool {
++	return a.Parameters.LogN == b.Parameters.LogN && len(a.Parameters.LogQ) == len(b.Parameters.LogQ) && len(a.Parameters.LogP) == len(b.Parameters.LogP) && a.Path == b.Path && a.RequiredRescaleLevels == b.RequiredRescaleLevels && a.LevelGuard == b.LevelGuard
++}
++
++// B+slack receives IndependentFacts only. It does not call a margin contract or
++// the C-specific helper. This is a separately labelled, one-bit static analogue.
++func ThesisIndependentSlack(f IndependentFacts, base SynthesizedCandidate) (SynthesizedCandidate, []map[string]any, error) {
++	best := base
++	attempts := []map[string]any{}
++	for scale := base.Parameters.LogDefaultScale + 1; scale <= 50; scale++ {
++		start := time.Now()
++		c, e := GenerateIndependentCandidate(f, scale, base.LevelGuard)
++		rec := map[string]any{"scale": scale, "ms": float64(time.Since(start).Nanoseconds()) / 1e6, "encrypted": false}
++		if e != nil {
++			rec["failure"] = e.Error()
++			attempts = append(attempts, rec)
++			continue
++		}
++		rec["same_structure"] = ThesisSameStructure(base, c)
++		attempts = append(attempts, rec)
++		if !ThesisSameStructure(base, c) {
++			break
++		}
++		best = c
++	}
++	best.GenerationKind = "independent_same_N_precision_slack_aux_v1"
++	best.SameTierPrecisionGainBits = best.Parameters.LogDefaultScale - base.Parameters.LogDefaultScale
++	return best, attempts, nil
++}
++
++// Public primes/distributions only. No key material is generated or recorded.
++func ThesisConcreteRecord(c SynthesizedCandidate) (map[string]any, error) {
++	start := time.Now()
++	profile, e := c.Profile()
++	if e != nil {
++		return nil, e
++	}
++	params, e := ckks.NewParametersFromLiteral(profile.Literal)
++	if e != nil {
++		return nil, e
++	}
++	concrete := CKKSParameterLiteralSpec{LogN: c.Parameters.LogN, Q: params.Q(), P: params.P(), LogDefaultScale: c.Parameters.LogDefaultScale}
++	sec, e := AssessConcreteSecurity(concrete, 128, DefaultSecurityEnvelope())
++	if e != nil {
++		return nil, e
++	}
++	if sec.FinalAdmission != SecurityAdmissionPass {
++		return nil, fmt.Errorf("CONCRETE_SECURITY_REJECT: %+v", sec)
++	}
++	return map[string]any{"candidate_id": c.ID, "declared": c.Parameters, "concrete": concrete, "actual_security": sec, "Xs": fmt.Sprintf("%+v", params.Xs()), "Xe": fmt.Sprintf("%+v", params.Xe()), "static_parameter_ms": float64(time.Since(start).Nanoseconds()) / 1e6, "backend_valid": true, "interpretation": "frozen 128-bit policy admission and Lattigo validity; not a per-instance attack-cost estimate"}, nil
++}
+--- /dev/null
++++ research/thesis_validation_v1/internal/ckksplanner/thesis_variant_test.go
+@@ -0,0 +1,20 @@
++package ckksplanner
++import "testing"
++func TestThesisVariantDefaultAndStructure(t *testing.T) {
++ c:=validContractFixture()
++ a,e:=Synthesize(c,DefaultPrimarySynthesisPolicy());if e!=nil{t.Fatal(e)}
++ b,e:=ThesisInitialPlan(c,false);if e!=nil{t.Fatal(e)}
++ if a.InitialCandidates[0].ID!=b.InitialCandidates[0].ID {t.Fatal("default C changed")}
++ if DefaultPrimarySynthesisPolicy().PrecisionSlackMode!=PrecisionSlackNone {t.Fatal("global default changed")}
++ d,e:=ThesisInitialPlan(c,true);if e!=nil{t.Fatal(e)}
++ if !ThesisSameStructure(a.InitialCandidates[0],d.InitialCandidates[0]){t.Fatal("structure changed")}
++ if d.InitialCandidates[0].Parameters.LogDefaultScale<a.InitialCandidates[0].Parameters.LogDefaultScale{t.Fatal("precision decreased")}
++}
++func TestThesisIndependentSlackBoundary(t *testing.T){
++ f:=IndependentFacts{RequiredQPrimes:5,RescaleLevels:3,RequiredSlots:16,MaxOutputAbs:5}
++ b,e:=GenerateIndependentCandidate(f,30,0);if e!=nil{t.Fatal(e)}
++ c,a,e:=ThesisIndependentSlack(f,b);if e!=nil{t.Fatal(e)}
++ if len(a)==0 || !ThesisSameStructure(b,c){t.Fatal("missing bounded static exploration")}
++ if c.Parameters.LogDefaultScale<30||c.Parameters.LogDefaultScale>50{t.Fatal("scale range")}
++ if _,e=ThesisConcreteRecord(c);e!=nil{t.Fatal(e)}
++}

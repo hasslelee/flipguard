@@ -1,0 +1,23 @@
+{
+  "protocol_id": "FG_CONTRIB_V1_EXTERNAL_PUBLIC_CONTEXT_INSTRUMENTATION_20260906",
+  "locked_utc": "2026-09-05T20:52:41.401287+00:00",
+  "affected_scope": "external native public metadata only, before external training/CKKS",
+  "pre_execution": true,
+  "script_sha256": "d961b1d81a8259b2bd09d69172c612b61a1cd6c3778b9a509d33a106447ff3f7",
+  "timing": "metadata introspection outside setup and inference timers; command wall includes it; introspection_ms separately stored",
+  "fallback": "API_UNAVAILABLE with reason; do not report unavailable parameters as measured",
+  "unchanged": [
+    "model",
+    "input",
+    "A/B/C criteria",
+    "actual CKKS settings",
+    "security assumptions",
+    "repetitions",
+    "resource caps"
+  ],
+  "source_references": [
+    "https://raw.githubusercontent.com/OpenMined/TenSEAL/v0.3.14/cmake/seal.cmake",
+    "https://raw.githubusercontent.com/OpenMined/TenSEAL/v0.3.14/tenseal/enc_context.py",
+    "https://raw.githubusercontent.com/microsoft/SEAL/v4.1.1/native/src/seal/context.h"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": "flipguard_external_common_workload_contract_v2",
+  "workload_id": "mnist_mlp_square_784_100_10_v1",
+  "graph": {
+    "formula": "10_logits( square( affine_784_to_100(input) ) )",
+    "input_shape": [784],
+    "hidden_units": 100,
+    "activation": "square",
+    "output_logits": 10,
+    "multiplicative_depth": 1,
+    "operation_counts": {"mul": 79500, "add": 79400, "rescale": 1, "rotate": 0},
+    "operation_order": "affine, component-wise square, affine"
+  },
+  "model": {
+    "path": "datasets/journal_multiclass_extension_v1/mnist/mnist_mlp_square_784_100_10_v1.json",
+    "sha256": "sha256:c4228a2afa1d3c8f8d43d6bc991c1ad3f5b1eec272dc0da39d070f051713f3ac"
+  },
+  "preprocessing": "frozen MNIST preprocessing in model/input manifest; no tool-specific retraining",
+  "inputs": {
+    "configuration_validation": "datasets/journal_multiclass_extension_v1/mnist/configuration_validation.csv",
+    "configuration_validation_sha256": "sha256:cf7e9f749546104a15552b8bb679b093776b5bf3f91119d8e4f40c5dcedb11c4",
+    "locked_audit": "datasets/journal_multiclass_extension_v1/mnist/locked_audit.csv",
+    "locked_audit_sha256": "sha256:ce2e0d2fbf0a2d69cd4a4a4c9603d3624a9b82602236fea7fe47d12f4f7b2d35",
+    "validation_count": 500,
+    "audit_count": 500,
+    "overlap": 0
+  },
+  "packing": "feature-ciphertext sample slots; no rotations",
+  "output_semantics": "ten logits and deterministic argmax",
+  "decision_contract": "multiclass pairwise argmax decision-integrity contract",
+  "security_target": "Security Policy V2"
+}

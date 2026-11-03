@@ -1,0 +1,12 @@
+{
+  "affected_scope": "V7 finalization lifecycle",
+  "amendment_id": "external_v7_orchestration_amendment_009",
+  "classification": "DEADLINE_FINALIZATION_INTEGRITY_FIX",
+  "encrypted_execution_semantics_changed": false,
+  "final_preparation_boundary": "hard_pause_timestamp minus 30 minutes",
+  "finalization_outputs_overwritten": false,
+  "freeze_boundary": "hard_pause_timestamp",
+  "frozen_policy_changed": false,
+  "reason": "The initial master invoked one minimal finalizer before the hard pause and did not perform a distinct 24-hour environment-end freeze.",
+  "recovery": "Run deterministic preparation in the final 30 minutes, freeze at the exact hard-pause boundary, and fail on nonidentical pre-existing evidence files."
+}

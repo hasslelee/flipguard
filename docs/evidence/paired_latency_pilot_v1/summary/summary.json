@@ -1,0 +1,196 @@
+{
+  "aggregate_pairs": [
+    {
+      "denominator_arm_id": "direct",
+      "eval_ratio_workload_bootstrap_ci95_high": 1.7453143196481478,
+      "eval_ratio_workload_bootstrap_ci95_low": 1.528827160787088,
+      "geometric_mean_eval_only_ratio": 1.6375096708870638,
+      "geometric_mean_total_ratio": 1.976887386537088,
+      "max_workload_total_ratio": 2.150323669158005,
+      "mean_of_workload_mean_eval_only_differences_ms": 32.44290520833333,
+      "mean_of_workload_mean_total_differences_ms": 128.44262478333332,
+      "median_workload_total_ratio": 1.9656760721464333,
+      "min_workload_total_ratio": 1.8530944152173958,
+      "numerator_arm_id": "catalog",
+      "pairs": 120,
+      "total_ratio_workload_bootstrap_ci95_high": 2.037886430676772,
+      "total_ratio_workload_bootstrap_ci95_low": 1.9224926578662063,
+      "workloads": 10
+    },
+    {
+      "denominator_arm_id": "catalog",
+      "eval_ratio_workload_bootstrap_ci95_high": 1.3253520720661374,
+      "eval_ratio_workload_bootstrap_ci95_low": 1.0629058614401818,
+      "geometric_mean_eval_only_ratio": 1.1858098922594391,
+      "geometric_mean_total_ratio": 1.0790652979948903,
+      "max_workload_total_ratio": 1.2556984299396594,
+      "mean_of_workload_mean_eval_only_differences_ms": 22.41703843333334,
+      "mean_of_workload_mean_total_differences_ms": 23.384035241666666,
+      "median_workload_total_ratio": 1.0594951696543253,
+      "min_workload_total_ratio": 0.9679836802045725,
+      "numerator_arm_id": "reference",
+      "pairs": 120,
+      "total_ratio_workload_bootstrap_ci95_high": 1.141372203906692,
+      "total_ratio_workload_bootstrap_ci95_low": 1.0225674298810548,
+      "workloads": 10
+    },
+    {
+      "denominator_arm_id": "direct",
+      "eval_ratio_workload_bootstrap_ci95_high": 2.067960774077302,
+      "eval_ratio_workload_bootstrap_ci95_low": 1.8192503047034263,
+      "geometric_mean_eval_only_ratio": 1.9417751664083789,
+      "geometric_mean_total_ratio": 2.133190576855983,
+      "max_workload_total_ratio": 2.3537485940592036,
+      "mean_of_workload_mean_eval_only_differences_ms": 54.85994364166667,
+      "mean_of_workload_mean_total_differences_ms": 151.826660025,
+      "median_workload_total_ratio": 2.163846684962042,
+      "min_workload_total_ratio": 1.8951907288863226,
+      "numerator_arm_id": "reference",
+      "pairs": 120,
+      "total_ratio_workload_bootstrap_ci95_high": 2.2338871520721004,
+      "total_ratio_workload_bootstrap_ci95_low": 2.033114305797696,
+      "workloads": 10
+    }
+  ],
+  "claim_boundary": "Pilot results choose frozen repetition counts and cannot support paper latency claims.",
+  "counts": {
+    "arm_summary_rows": 30,
+    "decision_flips_by_arm": {
+      "catalog": 0,
+      "direct": 0,
+      "reference": 0
+    },
+    "pair_summary_rows": 30,
+    "raw_records": 360,
+    "workloads_failed": 0,
+    "workloads_successful": 10
+  },
+  "evidence_status": "PILOT_ONLY",
+  "host": {
+    "cpu_governors": [],
+    "cpu_model": "AMD Ryzen 5 3600 6-Core Processor",
+    "dmi_product_name": "VMware Virtual Platform",
+    "dmi_system_vendor": "VMware, Inc.",
+    "gomaxprocs": "runtime_default",
+    "logical_cpu": 2,
+    "machine": "x86_64",
+    "platform": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39",
+    "process_cpu_affinity": [
+      0,
+      1
+    ],
+    "processor": "x86_64",
+    "python": "3.12.3",
+    "uname": "Linux ckks2-VMware-Virtual-Platform 6.17.0-35-generic #35~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue May 26 19:30:42 UTC 2 x86_64 x86_64"
+  },
+  "inputs": {
+    "comparison": {
+      "path": "results/thesis_grade_protocol/direct_vs_catalog_oracle_v1/full/comparison.csv",
+      "sha256": "sha256:cd83cdf17fddc816d351361d13c33005420f799ccef01ee79b1dcfbde7b74963"
+    },
+    "direct_results": {
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/summary/workload_results.csv",
+      "sha256": "sha256:e45ecbe255dfddbdb278a5b5845cbc85f54b656b0dd68b269a98f4edf3a54b9a"
+    }
+  },
+  "mode": "PILOT",
+  "outputs": {
+    "aggregate_pairs.csv": {
+      "path": "results/thesis_grade_protocol/paired_tabular_latency_v1/pilot_seed0/summary/aggregate_pairs.csv",
+      "sha256": "sha256:a4ec19f3f4c5ba97180c3bf15ec2472c779f6a8187133fb720958fc9a59d9375"
+    },
+    "arm_summaries.csv": {
+      "path": "results/thesis_grade_protocol/paired_tabular_latency_v1/pilot_seed0/summary/arm_summaries.csv",
+      "sha256": "sha256:e6cb792f152f6b9aea2c9240890ed57ffc0defaf332a24d38d5e8a872c6f2200"
+    },
+    "pair_summaries.csv": {
+      "path": "results/thesis_grade_protocol/paired_tabular_latency_v1/pilot_seed0/summary/pair_summaries.csv",
+      "sha256": "sha256:f33f0936a3e2b6a062aa2b7cbeaec6b4afbf9546480ed96b2476d93f4d17e140"
+    },
+    "records.csv": {
+      "path": "results/thesis_grade_protocol/paired_tabular_latency_v1/pilot_seed0/summary/records.csv",
+      "sha256": "sha256:a8034c53f098751c2fc6ae7d3f9414cce7e8c199884d0400dbc1a3147b0febaa"
+    },
+    "run_status.csv": {
+      "path": "results/thesis_grade_protocol/paired_tabular_latency_v1/pilot_seed0/summary/run_status.csv",
+      "sha256": "sha256:be590c57892c46324862e8c95028b7e6bd4ad12390f7ac4b083690ef5ff31608"
+    }
+  },
+  "paper_latency_claim_allowed": false,
+  "protocol": {
+    "aggregate_inference_unit": "workload_instance",
+    "alpha": 0.5,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260728,
+    "key_policy": "one_parameter_compatible_keyset_per_arm_reused_within_workload",
+    "max_rows": 4,
+    "measurement_runs": 3,
+    "order_schedule": "balanced_cyclic_and_reverse_row_rotated_v1",
+    "outlier_policy": "none_all_raw_observations_preserved",
+    "warmup_runs": 1,
+    "workloads_requested": 10
+  },
+  "schema_version": 1,
+  "source": {
+    "commit": "c704fad9413483a337dbaa344ff5cc09e2add569",
+    "digest": "sha256:f3e0faa470d58b719bd36061f49116a6ceef019b6cdf4c35417c953b6279469b",
+    "files": {
+      "cmd/flipguard-paired-latency/main.go": {
+        "bytes": 8419,
+        "sha256": "sha256:1c99eb4fb57673a54d1de07cf36b5bddee0651aa355b7f91516a23bb35694fd2"
+      },
+      "go.mod": {
+        "bytes": 570,
+        "sha256": "sha256:002398be2c55fc464db27c92805c96abc7aae8e6e8106dd083d9b0b76cf8a179"
+      },
+      "go.sum": {
+        "bytes": 2614,
+        "sha256": "sha256:ba0b56d4f4d13fd01648402ad271b0c27a6722830ca2f652fcd94e4cfdcb508d"
+      },
+      "internal/ckksbackend/paired_tabular_latency.go": {
+        "bytes": 20690,
+        "sha256": "sha256:4e6711a6ee7e95ab464049595bdd273a14ede54db239f853a11eb0066e8be126"
+      },
+      "internal/ckksbackend/tabular_inference.go": {
+        "bytes": 21173,
+        "sha256": "sha256:dad48640d76098a03865d377438d45138467d49b019373b3ccd51b5110cfc15b"
+      },
+      "scripts/run_paired_tabular_latency.py": {
+        "bytes": 29449,
+        "sha256": "sha256:2505f179e8d3339ad445742151ac20140450907c1ffc6dea06a0c52f3e518c12"
+      }
+    },
+    "measurement_files_dirty": true,
+    "revision_label": "c704fad9413483a337dbaa344ff5cc09e2add569+measurement-working-tree"
+  },
+  "timing_diagnostics": {
+    "duplicate_catalog_reference": {
+      "geometric_mean_total_ratio": 0.994961471864052,
+      "workloads": 5
+    },
+    "normalized_mean_total_by_measurement_run": {
+      "1": 0.9963297834947473,
+      "2": 0.9864241385651692,
+      "3": 1.0172460779400836
+    },
+    "normalized_mean_total_by_order_position": {
+      "1": 1.000496926127242,
+      "2": 0.9965660404510237,
+      "3": 1.0029370334217342
+    },
+    "within_workload_total_cv_by_arm": {
+      "catalog": {
+        "max": 0.30540214836830426,
+        "median": 0.09686034191035713
+      },
+      "direct": {
+        "max": 0.28567128280066456,
+        "median": 0.11298170711197388
+      },
+      "reference": {
+        "max": 0.2658314561453583,
+        "median": 0.08959540346577871
+      }
+    }
+  }
+}

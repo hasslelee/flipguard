@@ -1,0 +1,87 @@
+{
+  "schema": "DP03_NATIVE_COST_V1",
+  "request_sha256": "a0c500617485416e86575decfba7f1dac497764afde718f33a5bd42ee86fdbe5",
+  "status": "SUCCESS",
+  "context": {
+    "arm": "two_stage",
+    "batch_size": "128",
+    "client_owner_id": "local_pilot_client_s20260907",
+    "model_id": "spambase__logistic_linear__20260907",
+    "offset": "640",
+    "original_batch_id": "s20260907_r2_b128_o640",
+    "repeat": "2",
+    "seed": "20260907",
+    "stage": "high"
+  },
+  "parameter": {
+    "admission": "unchanged DP_PILOT_V1A QP envelope; not independent security estimation",
+    "error": "discrete Gaussian sigma=3.2 bound=19.2",
+    "log_n": 13,
+    "log_qp": 109.99993415197719,
+    "p": [
+      1099511922689
+    ],
+    "q": [
+      1099511480321,
+      1073692673
+    ],
+    "scale": 30,
+    "secret": "ternary P=2/3",
+    "slots": 4096
+  },
+  "parameter_id": "5044fc159777c9afdf7cb43dbd3efc9e618bb764ba4fbd734d3450ff9cfa49a4",
+  "key_context_id": "f73110fab8324d14423d62808b3f901c8aa2e925c32abd0571eb0ada2aea5037",
+  "cost": {
+    "milliseconds": {
+      "client_context_init_ms": 0.117991,
+      "client_decode_ms": 0.261611,
+      "client_decrypt_ms": 0.032061,
+      "client_encode_ms": 27.52622999999999,
+      "client_encrypt_ms": 139.77186600000002,
+      "client_output_allocate_scatter_ms": 0.00025,
+      "client_pack_and_plaintext_allocate_ms": 1.5214129999999997,
+      "homomorphic_ops_ms": 10.719287999999997,
+      "key_generation_ms": 6.377435,
+      "observer_key_identity_ms": 0.286998,
+      "observer_parameter_identity_ms": 0.029325,
+      "parameter_validation_build_ms": 3.634987,
+      "server_context_init_ms": 0.69315,
+      "server_model_prepare_ms": 19.956202
+    },
+    "counts": {
+      "bias_add": 1,
+      "ct_add": 56,
+      "ct_pt_multiply": 57,
+      "evaluation_key_bytes": 786646,
+      "final_level": 0,
+      "input_active_values": 57,
+      "input_allocated_slots": 233472,
+      "input_ciphertext_bytes": 14961246,
+      "input_ciphertexts": 57,
+      "input_padding_values": 233415,
+      "key_pairs_generated": 1,
+      "output_ciphertext_bytes": 131390,
+      "output_ciphertexts": 1,
+      "output_decoded_slots": 4096,
+      "physical_slots_per_ciphertext": 4096,
+      "public_key_bytes": 393304,
+      "relinearization_keys_generated": 1,
+      "rescale": 1,
+      "server_evaluations_completed": 1,
+      "server_evaluations_started": 1,
+      "valid_rows": 1,
+      "weight_plaintext_encodes": 57
+    }
+  },
+  "client_decrypted_logits": [
+    [
+      0.06353999075598105
+    ]
+  ],
+  "native_total_ms": 211.142954,
+  "unmeasured": {
+    "ciphertext_wire_serialization_ms": null,
+    "network_ms": null,
+    "queue_wait_ms": null
+  }
+}

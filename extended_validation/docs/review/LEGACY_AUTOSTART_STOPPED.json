@@ -1,0 +1,27 @@
+{
+  "reason": "User requested the predecessor research to be frozen; reboot restarted old V7/V8 writers",
+  "services": [
+    {
+      "unit": "flipguard-external-v7.service",
+      "after": "ActiveState=inactive\nSubState=dead\nUnitFileState=\n"
+    },
+    {
+      "unit": "flipguard-external-v8.service",
+      "after": "ActiveState=inactive\nSubState=dead\nUnitFileState=disabled\n"
+    },
+    {
+      "unit": "flipguard-external-v8-corelab-recovery.service",
+      "after": "ActiveState=inactive\nSubState=dead\nUnitFileState=\n"
+    },
+    {
+      "unit": "flipguard-external-v8-flipguard-recovery.service",
+      "after": "ActiveState=inactive\nSubState=dead\nUnitFileState=\n"
+    },
+    {
+      "unit": "flipguard-external-v8-heir-recovery.service",
+      "after": "ActiveState=inactive\nSubState=dead\nUnitFileState=\n"
+    }
+  ],
+  "configuration_backup": "archive/service_control_before",
+  "source_service_files_modified": false
+}

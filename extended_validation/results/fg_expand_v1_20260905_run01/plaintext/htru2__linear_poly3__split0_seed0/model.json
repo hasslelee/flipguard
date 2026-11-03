@@ -1,0 +1,73 @@
+{
+  "dataset_id": "htru2",
+  "dataset_name": "htru2",
+  "input_dim": 8,
+  "model_id": "linear_poly3",
+  "model_type": "linear_poly3",
+  "outer_fold": 0,
+  "polynomial_score": {
+    "decision_threshold": 0.5,
+    "formula": "0.5 + 0.197*z - 0.004*z^3"
+  },
+  "scaled_model_for_ckks": {
+    "bias": -0.23344697060434766,
+    "weights": [
+      0.02807379737034662,
+      -0.008734745848035274,
+      0.338969275022124,
+      -0.16983162161520776,
+      -0.044985403299603134,
+      0.05539998823253508,
+      0.0013853687060789012,
+      -0.019247344546536337
+    ]
+  },
+  "schema_version": "flipguard_model_family_expansion_v17_plaintext_v1",
+  "selected_feature_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "selected_feature_names": [
+    "x_0",
+    "x_1",
+    "x_2",
+    "x_3",
+    "x_4",
+    "x_5",
+    "x_6",
+    "x_7"
+  ],
+  "standardization": {
+    "mean": [
+      111.070090559093,
+      46.55067713733783,
+      0.47798878067247,
+      1.7715419962525083,
+      12.608669490335512,
+      26.346022278800177,
+      8.301838922978842,
+      104.82703428771386
+    ],
+    "std": [
+      25.637977293407705,
+      6.853742800588135,
+      1.063951454003871,
+      6.169385286804639,
+      29.410497944613496,
+      19.49494622816799,
+      4.509868851633359,
+      106.67232851547587
+    ]
+  },
+  "task": "binary classification",
+  "test_samples": 256,
+  "train_samples": 17354,
+  "training_only_logit_scale": 0.05594325544481556,
+  "training_seed": 0
+}

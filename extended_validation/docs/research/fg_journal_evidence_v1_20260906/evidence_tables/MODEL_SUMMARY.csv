@@ -1,0 +1,17 @@
+dataset,model_id,cases,separate_inputs,applicable,boundary,accuracy_min,accuracy_max,coverage_min,coverage_max,direct_median_ms_min,direct_median_ms_max,timing_unit
+banknote,linear_poly3,5,1372,1372,0,0.9744525547445255,0.9890510948905109,1.0,1.0,63.386851,63.623605,one input invocation
+banknote,mlp_square2_linear_score,5,1372,1372,0,1.0,1.0,1.0,1.0,306.045799,306.53329699999995,one input invocation
+banknote,mlp_square_linear_score,5,1372,1372,0,1.0,1.0,1.0,1.0,91.8814945,92.4720575,one input invocation
+digits_binary,linear_poly3,5,1797,1783,14,0.8861111111111111,0.9136490250696379,0.9860724233983287,0.9972222222222222,149.827904,150.73709150000002,one input invocation
+digits_binary,mlp_square_linear_score,5,1797,1765,32,0.924791086350975,0.9555555555555556,0.9611111111111111,0.9944444444444445,179.0597755,179.641704,one input invocation
+iris_binary,linear_poly3,5,100,100,0,1.0,1.0,1.0,1.0,62.7319895,63.1078445,one input invocation
+iris_binary,mlp_square_linear_score,5,100,100,0,1.0,1.0,1.0,1.0,92.1502055,93.9858585,one input invocation
+mnist_10class,mnist_lenet5_small_square_v1,1,500,500,0,0.986,0.986,1.0,1.0,3626987.249586,3626987.249586,one invocation over batch20 inputs
+mnist_10class,mnist_mlp_square_784_100_10_v1,1,500,500,0,0.976,0.976,1.0,1.0,18094.536403500002,18094.536403500002,one invocation over batch20 inputs
+mnist_binary01,packed_cnn_lite_binary01_v17,1,250,250,0,0.992,0.992,1.0,1.0,2321.7605695,2321.7605695,one invocation over batch20 inputs
+mnist_pool16,linear_poly3,5,2500,2455,45,0.802,0.842,0.976,0.99,149.8256815,150.1345955,one input invocation
+mnist_pool16,mlp_square2_linear_score,5,2500,774,1726,0.858,0.888,0.256,0.412,454.7918135,455.856111,one input invocation
+mnist_pool16,mlp_square_linear_score,5,2500,2425,75,0.844,0.89,0.958,0.978,179.000694,179.63879350000002,one input invocation
+wdbc,linear_poly3,5,569,562,7,0.9385964912280702,0.9912280701754386,0.9736842105263158,1.0,149.71691700000002,150.2413755,one input invocation
+wdbc,mlp_square2_linear_score,5,569,159,410,0.9298245614035088,0.9912280701754386,0.20353982300884957,0.42105263157894735,453.7491315,455.54028600000004,one input invocation
+wdbc,mlp_square_linear_score,5,569,560,9,0.9035087719298246,0.9912280701754386,0.9736842105263158,1.0,178.9871085,179.418503,one input invocation

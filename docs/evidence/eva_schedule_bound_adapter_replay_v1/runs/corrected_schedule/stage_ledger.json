@@ -1,0 +1,29 @@
+[
+  {
+    "artifact": "smoke_selection.json",
+    "artifact_sha256": "sha256:04d1b11f1ef555a1fc94424f70c3a9452a8a079fd432bbb89328bdea74658e23",
+    "command": [
+      "/home/ckks2/flipguard/results/thesis_grade_protocol/eva_schedule_bound_adapter_v1/run_1a1c4f8d/bin/flipguard-certify-candidate",
+      "--model",
+      "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+      "--validation",
+      "/home/ckks2/flipguard/results/thesis_grade_protocol/eva_schedule_bound_adapter_v1/run_1a1c4f8d/smoke_validation.csv",
+      "--split-id",
+      "split_seed_0",
+      "--candidate",
+      "experiments/eva_schedule_bound_adapter_v1/candidate_request.json",
+      "--margin-floor",
+      "0.001",
+      "--safety-factor",
+      "0.5",
+      "--key-repeats",
+      "1",
+      "--out",
+      "/home/ckks2/flipguard/results/thesis_grade_protocol/eva_schedule_bound_adapter_v1/run_1a1c4f8d/smoke_selection.json"
+    ],
+    "reason": "diagnostic returned REJECTED",
+    "stage": "smoke",
+    "status": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+    "timestamp": "2026-07-30T15:41:29.534242+00:00"
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/bin/contribution-case",
+    "--mode",
+    "select",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__mlp_square_linear_score__split0_seed0/initial_plan.json",
+    "--role",
+    "C",
+    "--keyset",
+    "0",
+    "--rho",
+    "0.5",
+    "--delta",
+    "0.001",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/selection/A3_htru2__mlp_square_linear_score__split0_seed0_order2_n64",
+    "--data",
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order2_n64.prepared/prepared.csv"
+  ],
+  "cwd": "/home/ckks2/deciprotect",
+  "environment": {
+    "utc": "2026-09-08T10:08:08.742528+00:00",
+    "available_memory_bytes": 11112206336,
+    "free_disk_bytes": 21458993152,
+    "load": [
+      1.6328125,
+      1.65673828125,
+      1.564453125
+    ]
+  },
+  "timeout_seconds": 1800,
+  "charged_native": true,
+  "source_lock_sha256": "59f07579f6cc1122fd85d13924ca63a6c2c719d0643036ef1e404b14b3e39c64",
+  "protocol_sha256": "9145dcb1abf85b6b4f042c69c3c61d6f654952504c45db247963beff53a182cc"
+}

@@ -1,0 +1,9 @@
+debconf: delaying package configuration, since apt-utils is not installed
+Traceback (most recent call last):
+  File "/work/scripts/external_v6/run_eva_official_image_v6.py", line 184, in <module>
+    raise SystemExit(main())
+  File "/work/scripts/external_v6/run_eva_official_image_v6.py", line 51, in main
+    head = subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.

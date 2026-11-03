@@ -1,0 +1,88 @@
+{
+  "algorithm": "sha256_stratified_rank_v1",
+  "configuration_validation": {
+    "csv_digest": "sha256:d1dfea1c06757d546784871690771d09a76b37f1ed76b05b48bd662a6f101c1b",
+    "label_counts": {
+      "0": 7,
+      "1": 7
+    },
+    "path": "docs/evidence/direct_locked_audit_seed0_development_v1/inputs/source_data/seed0__iris_binary__mlp_square_linear_score.csv",
+    "row_count": 14,
+    "row_ids": [
+      "1",
+      "4",
+      "5",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "14",
+      "16",
+      "21",
+      "24",
+      "27",
+      "29"
+    ]
+  },
+  "dataset_id": "iris_binary",
+  "feature_fields": [
+    "x_0",
+    "x_1",
+    "x_2",
+    "x_3"
+  ],
+  "locked_audit_test": {
+    "csv_digest": "sha256:690faf2f7c43b67f49bfaf6cdf2d458e734e8e13cc5757efbaedbfc9331a8a49",
+    "label_counts": {
+      "0": 8,
+      "1": 8
+    },
+    "path": "docs/evidence/direct_locked_audit_seed0_development_v1/inputs/audit_source_data/seed0__iris_binary__mlp_square_linear_score.csv",
+    "row_count": 16,
+    "row_ids": [
+      "0",
+      "2",
+      "3",
+      "6",
+      "12",
+      "13",
+      "15",
+      "17",
+      "18",
+      "19",
+      "20",
+      "22",
+      "23",
+      "25",
+      "26",
+      "28"
+    ]
+  },
+  "model_artifact": "datasets/tabular_suite/iris_binary/mlp_square_linear_score/model.json",
+  "model_artifact_digest": "sha256:177371ecf4239a1072c5b451b94e492d80cc143b260f1ee0383783bb838eadeb",
+  "model_id": "mlp_square_linear_score",
+  "representation_recovery": {
+    "bound_paths": {
+      "configuration_validation": "docs/evidence/direct_locked_audit_seed0_development_v1/inputs/source_data/seed0__iris_binary__mlp_square_linear_score.csv",
+      "locked_audit_test": "docs/evidence/direct_locked_audit_seed0_development_v1/inputs/audit_source_data/seed0__iris_binary__mlp_square_linear_score.csv"
+    },
+    "classification": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+    "csv_digest_changed": false,
+    "encrypted_execution_before_recovery": false,
+    "original_paths": {
+      "configuration_validation": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/mlp_square_linear_score/configuration_validation.csv",
+      "locked_audit_test": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/iris_binary/mlp_square_linear_score/locked_audit_test.csv"
+    },
+    "reason_code": "FROZEN_EQUIVALENT_PATH_BINDING_MISMATCH",
+    "row_membership_changed": false,
+    "source_manifest_path": "docs/evidence/direct_locked_audit_seed0_development_v1/inputs/split_manifests/seed0__iris_binary__mlp_square_linear_score.json",
+    "source_manifest_sha256": "sha256:08a927a445d0a04bb18d3dbd261167deb31f69a3cf773213b9453d9df0ee4644"
+  },
+  "schema_version": 1,
+  "source_row_count": 30,
+  "source_test_csv": "datasets/tabular_suite/iris_binary/mlp_square_linear_score/test.csv",
+  "source_test_csv_digest": "sha256:f76added426d5379cdf25a87c9adc074f2d263772d65cab50bacea3f283d2397",
+  "split_seed": 0,
+  "validation_ratio": 0.5
+}

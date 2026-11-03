@@ -1,0 +1,362 @@
+clean-runner-replay	Set up job	﻿2026-07-30T10:46:55.0606038Z Current runner version: '2.336.0'
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0633452Z ##[group]Runner Image Provisioner
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0634524Z Hosted Compute Agent
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0635138Z Version: 20260707.563
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0635754Z Commit: 02667638d2b423fbc733a8e32a88b44996a3ba6e
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0636522Z Build Date: 2026-07-07T19:33:50Z
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0637211Z Worker ID: {1664c364-5c11-4117-b01f-e68aea215651}
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0638294Z Azure Region: westus
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0638945Z ##[endgroup]
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0640833Z ##[group]Operating System
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0641990Z Ubuntu
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0642563Z 24.04.4
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0643102Z LTS
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0643656Z ##[endgroup]
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0644211Z ##[group]Runner Image
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0644798Z Image: ubuntu-24.04
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0645419Z Version: 20260720.247.2
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0646530Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260720.247/images/ubuntu/Ubuntu2404-Readme.md
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0648483Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260720.247
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0649431Z ##[endgroup]
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0650620Z ##[group]GITHUB_TOKEN Permissions
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0652833Z Contents: read
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0653532Z Metadata: read
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0654081Z ##[endgroup]
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0656148Z Secret source: Actions
+clean-runner-replay	Set up job	2026-07-30T10:46:55.0657710Z Prepare workflow directory
+clean-runner-replay	Set up job	2026-07-30T10:46:55.1010476Z Prepare all required actions
+clean-runner-replay	Set up job	2026-07-30T10:46:55.1060055Z Getting action download info
+clean-runner-replay	Set up job	2026-07-30T10:46:55.4610015Z Download action repository 'actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd' (SHA:93cb6efe18208431cddfb8368fd83d5badbf9bfd)
+clean-runner-replay	Set up job	2026-07-30T10:46:55.6522757Z Download action repository 'actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16' (SHA:924ae3a1cded613372ab5595356fb5720e22ba16)
+clean-runner-replay	Set up job	2026-07-30T10:46:56.1220886Z Download action repository 'actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1' (SHA:ece7cb06caefa5fff74198d8649806c4678c61a1)
+clean-runner-replay	Set up job	2026-07-30T10:46:56.2427227Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+clean-runner-replay	Set up job	2026-07-30T10:46:56.7329254Z Complete job name: clean-runner-replay
+clean-runner-replay	Check out exact source commit	﻿2026-07-30T10:46:56.8251258Z ##[group]Run actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8253030Z with:
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8253860Z   ref: f08a929a2b610f1cec99444754738b4791bc8a5c
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8254959Z   fetch-depth: 0
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8255798Z   persist-credentials: false
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8256758Z   repository: hasslelee/flipguard
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8265315Z   token: ***
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8266084Z   ssh-strict: true
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8266877Z   ssh-user: git
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8267815Z   clean: true
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8268639Z   sparse-checkout-cone-mode: true
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8269633Z   fetch-tags: false
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8270457Z   show-progress: true
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8271318Z   lfs: false
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8272063Z   submodules: false
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8272890Z   set-safe-directory: true
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.8274066Z ##[endgroup]
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9289688Z Syncing repository: hasslelee/flipguard
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9293508Z ##[group]Getting Git version info
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9295804Z Working directory is '/home/runner/work/flipguard/flipguard'
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9299120Z [command]/usr/bin/git version
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9355274Z git version 2.54.0
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9378592Z ##[endgroup]
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9404999Z Temporarily overriding HOME='/home/runner/work/_temp/9e5aba83-24ae-4807-a6a1-e53c92c75575' before making global git config changes
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9409787Z Adding repository directory to the temporary git global config as a safe directory
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9413531Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/flipguard/flipguard
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9463376Z Deleting the contents of '/home/runner/work/flipguard/flipguard'
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9473326Z ##[group]Initializing the repository
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9477949Z [command]/usr/bin/git init /home/runner/work/flipguard/flipguard
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9610988Z hint: Using 'master' as the name for the initial branch. This default branch name
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9613656Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9616825Z hint: to use in all of your new repositories, which will suppress this warning,
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9619596Z hint: call:
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9620536Z hint:
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9621907Z hint: 	git config --global init.defaultBranch <name>
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9623306Z hint:
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9624392Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9626172Z hint: 'development'. The just-created branch can be renamed via this command:
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9627842Z hint:
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9629332Z hint: 	git branch -m <name>
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9630719Z hint:
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9632390Z hint: Disable this message with "git config set advice.defaultBranchName false"
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9635081Z Initialized empty Git repository in /home/runner/work/flipguard/flipguard/.git/
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9640030Z [command]/usr/bin/git remote add origin https://github.com/hasslelee/flipguard
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9689270Z ##[endgroup]
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9691920Z ##[group]Disabling automatic garbage collection
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9694584Z [command]/usr/bin/git config --local gc.auto 0
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9727690Z ##[endgroup]
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9730210Z ##[group]Setting up auth
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9734529Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:56.9772157Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:57.0238276Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:57.0281323Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:57.0524595Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:57.0567145Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:57.0798991Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:57.0839171Z ##[endgroup]
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:57.0840733Z ##[group]Fetching the repository
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:57.0849700Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.5778931Z From https://github.com/hasslelee/flipguard
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.5779827Z  * [new branch]      feature/flipguard-auto-tuner -> origin/feature/flipguard-auto-tuner
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.5780453Z  * [new branch]      main       -> origin/main
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.5828012Z [command]/usr/bin/git rev-parse --verify --quiet f08a929a2b610f1cec99444754738b4791bc8a5c^{object}
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.5856577Z f08a929a2b610f1cec99444754738b4791bc8a5c
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.5870414Z ##[endgroup]
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.5875380Z ##[group]Determining the checkout info
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.5877932Z ##[endgroup]
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.5915215Z [command]/usr/bin/git sparse-checkout disable
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.5920657Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.5959006Z ##[group]Checking out the ref
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.5962601Z [command]/usr/bin/git checkout --progress --force f08a929a2b610f1cec99444754738b4791bc8a5c
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9945939Z Note: switching to 'f08a929a2b610f1cec99444754738b4791bc8a5c'.
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9947119Z 
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9947871Z You are in 'detached HEAD' state. You can look around, make experimental
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9948630Z changes and commit them, and you can discard any commits you make in this
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9949253Z state without impacting any branches by switching back to a branch.
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9949625Z 
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9949864Z If you want to create a new branch to retain commits you create, you may
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9950409Z do so (now or later) by using -c with the switch command. Example:
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9950745Z 
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9950926Z   git switch -c <new-branch-name>
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9951200Z 
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9951363Z Or undo this operation with:
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9951552Z 
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9951659Z   git switch -
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9951808Z 
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9952068Z Turn off this advice by setting config variable advice.detachedHead to false
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9952454Z 
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9952666Z HEAD is now at f08a929 Make portable replay deterministic
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:58.9972410Z ##[endgroup]
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:59.0021774Z [command]/usr/bin/git log -1 --format=%H
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:59.0052956Z f08a929a2b610f1cec99444754738b4791bc8a5c
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:59.0064084Z ##[group]Removing auth
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:59.0068497Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:59.0101752Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:59.0336569Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:59.0366317Z http.https://github.com/.extraheader
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:59.0376301Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:59.0412047Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:59.0640109Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:59.0675942Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+clean-runner-replay	Check out exact source commit	2026-07-30T10:46:59.0901974Z ##[endgroup]
+clean-runner-replay	Set up Go from go.mod	﻿2026-07-30T10:46:59.1205448Z ##[group]Run actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:46:59.1205862Z with:
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:46:59.1206063Z   go-version-file: go.mod
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:46:59.1206284Z   cache: true
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:46:59.1206486Z   check-latest: false
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:46:59.1209225Z   token: ***
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:46:59.1209436Z ##[endgroup]
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:46:59.2431105Z Setup go version spec 1.25.9
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:46:59.2443963Z Attempting to download 1.25.9...
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:00.0518344Z matching 1.25.9...
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:00.0562640Z Acquiring 1.25.9 from https://github.com/actions/go-versions/releases/download/1.25.9-24114140790/go-1.25.9-linux-x64.tar.gz
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:00.5612248Z Extracting Go...
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:00.5748156Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/d95b22a5-059f-46d0-afc4-fc1c03132eef -f /home/runner/work/_temp/7d1ae911-00b3-4229-bb24-67044b3751b5
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:02.3226835Z Successfully extracted go to /home/runner/work/_temp/d95b22a5-059f-46d0-afc4-fc1c03132eef
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:02.3227822Z Adding to the cache ...
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:08.9302131Z Successfully cached go to /opt/hostedtoolcache/go/1.25.9/x64
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:08.9305352Z Added go to the path
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:08.9308125Z Successfully set up Go version 1.25.9
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:08.9517175Z [command]/opt/hostedtoolcache/go/1.25.9/x64/bin/go env GOMODCACHE
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:08.9552335Z [command]/opt/hostedtoolcache/go/1.25.9/x64/bin/go env GOCACHE
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:08.9585901Z /home/runner/go/pkg/mod
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:08.9603017Z /home/runner/.cache/go-build
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:09.2298672Z Cache hit for: setup-go-Linux-x64-ubuntu24-go-1.25.9-6aeb210f88c3451cfc600b1fcf5fb96c3e04b4e9d9150d2f223f4fa60ca13683
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:10.5268846Z Received 0 of 49229041 (0.0%), 0.0 MBs/sec
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.0838485Z Received 49229041 of 49229041 (100.0%), 30.1 MBs/sec
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.0839553Z Cache Size: ~47 MB (49229041 B)
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.0943406Z [command]/usr/bin/tar -xf /home/runner/work/_temp/58401205-46fd-4277-a662-5bb451a845ee/cache.tzst -P -C /home/runner/work/flipguard/flipguard --use-compress-program unzstd
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5060019Z Cache restored successfully
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5090131Z Cache restored from key: setup-go-Linux-x64-ubuntu24-go-1.25.9-6aeb210f88c3451cfc600b1fcf5fb96c3e04b4e9d9150d2f223f4fa60ca13683
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5111950Z go version go1.25.9 linux/amd64
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5112166Z 
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5112447Z ##[group]go env
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5270338Z AR='ar'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5270739Z CC='gcc'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5271125Z CGO_CFLAGS='-O2 -g'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5271528Z CGO_CPPFLAGS=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5271904Z CGO_CXXFLAGS='-O2 -g'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5272294Z CGO_ENABLED='1'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5272677Z CGO_FFLAGS='-O2 -g'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5273049Z CGO_LDFLAGS='-O2 -g'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5273417Z CXX='g++'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5273744Z GCCGO='gccgo'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5274088Z GO111MODULE=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5274447Z GOAMD64='v1'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5274798Z GOARCH='amd64'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5275033Z GOAUTH='netrc'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5275253Z GOBIN=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5275496Z GOCACHE='/home/runner/.cache/go-build'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5275814Z GOCACHEPROG=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5276039Z GODEBUG=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5276294Z GOENV='/home/runner/.config/go/env'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5276586Z GOEXE=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5276799Z GOEXPERIMENT=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5277032Z GOFIPS140='off'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5277253Z GOFLAGS=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5278251Z GOGCCFLAGS='-fPIC -m64 -pthread -Wl,--no-gc-sections -fmessage-length=0 -ffile-prefix-map=/tmp/go-build1626958671=/tmp/go-build -gno-record-gcc-switches'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5279008Z GOHOSTARCH='amd64'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5279246Z GOHOSTOS='linux'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5279463Z GOINSECURE=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5279771Z GOMOD='/home/runner/work/flipguard/flipguard/go.mod'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5280140Z GOMODCACHE='/home/runner/go/pkg/mod'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5280427Z GONOPROXY=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5280908Z GONOSUMDB=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5281112Z GOOS='linux'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5281330Z GOPATH='/home/runner/go'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5281579Z GOPRIVATE=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5281865Z GOPROXY='https://proxy.golang.org,direct'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5282232Z GOROOT='/opt/hostedtoolcache/go/1.25.9/x64'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5282554Z GOSUMDB='sum.golang.org'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5282805Z GOTELEMETRY='local'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5283092Z GOTELEMETRYDIR='/home/runner/.config/go/telemetry'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5283430Z GOTMPDIR=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5283642Z GOTOOLCHAIN='local'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5283985Z GOTOOLDIR='/opt/hostedtoolcache/go/1.25.9/x64/pkg/tool/linux_amd64'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5284370Z GOVCS=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5284571Z GOVERSION='go1.25.9'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5284792Z GOWORK=''
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5285007Z PKG_CONFIG='pkg-config'
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5285167Z 
+clean-runner-replay	Set up Go from go.mod	2026-07-30T10:47:11.5285455Z ##[endgroup]
+clean-runner-replay	Set up Python 3.12	﻿2026-07-30T10:47:11.5486304Z ##[group]Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.5486710Z with:
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.5486903Z   python-version: 3.12
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.5487112Z   cache: pip
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.5487663Z   cache-dependency-path: requirements-ci.txt
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.5487984Z   check-latest: false
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.5490329Z   token: ***
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.5490550Z   update-environment: true
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.5490788Z   allow-prereleases: false
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.5491016Z   freethreaded: false
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.5491214Z env:
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.5491390Z   GOTOOLCHAIN: local
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.5491786Z ##[endgroup]
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.6766147Z ##[group]Installed versions
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.6871134Z Successfully set up CPython (3.12.13)
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.6871935Z ##[endgroup]
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:11.7192378Z [command]/opt/hostedtoolcache/Python/3.12.13/x64/bin/pip cache dir
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:12.0970582Z /home/runner/.cache/pip
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:12.3921897Z Cache hit for: setup-python-Linux-x64-24.04-Ubuntu-python-3.12.13-pip-69b6c2c503626946b8784e35cfc2ea24980ad255375cc8a99be888e73f0ce5e6
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:13.6864365Z Received 755941 of 4950245 (15.3%), 0.7 MBs/sec
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:13.9849031Z Received 4950245 of 4950245 (100.0%), 3.6 MBs/sec
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:13.9849647Z Cache Size: ~5 MB (4950245 B)
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:13.9884897Z [command]/usr/bin/tar -xf /home/runner/work/_temp/e7022b6e-444f-4b19-a939-63208200ac00/cache.tzst -P -C /home/runner/work/flipguard/flipguard --use-compress-program unzstd
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:14.0024818Z Cache restored successfully
+clean-runner-replay	Set up Python 3.12	2026-07-30T10:47:14.0032185Z Cache restored from key: setup-python-Linux-x64-24.04-Ubuntu-python-3.12.13-pip-69b6c2c503626946b8784e35cfc2ea24980ad255375cc8a99be888e73f0ce5e6
+clean-runner-replay	Install pinned Python test dependencies	﻿2026-07-30T10:47:14.0170817Z ##[group]Run set -euo pipefail
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.0171188Z [36;1mset -euo pipefail[0m
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.0171555Z [36;1mpython3 -m pip install --requirement requirements-ci.txt[0m
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.0220818Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.0221181Z env:
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.0221376Z   GOTOOLCHAIN: local
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.0221672Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.0222113Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib/pkgconfig
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.0222544Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.0222921Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.0223308Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.0223696Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.0224036Z ##[endgroup]
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.8450604Z Collecting Pillow==10.2.0 (from -r requirements-ci.txt (line 1))
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.8465876Z   Using cached pillow-10.2.0-cp312-cp312-manylinux_2_28_x86_64.whl.metadata (9.7 kB)
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.8519245Z Using cached pillow-10.2.0-cp312-cp312-manylinux_2_28_x86_64.whl (4.5 MB)
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:14.8787666Z Installing collected packages: Pillow
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:15.1523976Z Successfully installed Pillow-10.2.0
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:15.1533064Z 
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:15.1533410Z [notice] A new release of pip is available: 26.1.2 -> 26.2
+clean-runner-replay	Install pinned Python test dependencies	2026-07-30T10:47:15.1534018Z [notice] To update, run: pip install --upgrade pip
+clean-runner-replay	Run independent replay	﻿2026-07-30T10:47:15.2014758Z ##[group]Run set -euo pipefail
+clean-runner-replay	Run independent replay	2026-07-30T10:47:15.2015115Z [36;1mset -euo pipefail[0m
+clean-runner-replay	Run independent replay	2026-07-30T10:47:15.2015451Z [36;1mpython3 scripts/run_independent_machine_replay.py \[0m
+clean-runner-replay	Run independent replay	2026-07-30T10:47:15.2015907Z [36;1m  --source-commit "f08a929a2b610f1cec99444754738b4791bc8a5c" \[0m
+clean-runner-replay	Run independent replay	2026-07-30T10:47:15.2016369Z [36;1m  --output /tmp/flipguard-independent-machine-replay[0m
+clean-runner-replay	Run independent replay	2026-07-30T10:47:15.2061727Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+clean-runner-replay	Run independent replay	2026-07-30T10:47:15.2062077Z env:
+clean-runner-replay	Run independent replay	2026-07-30T10:47:15.2062266Z   GOTOOLCHAIN: local
+clean-runner-replay	Run independent replay	2026-07-30T10:47:15.2062561Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Run independent replay	2026-07-30T10:47:15.2062986Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib/pkgconfig
+clean-runner-replay	Run independent replay	2026-07-30T10:47:15.2063408Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Run independent replay	2026-07-30T10:47:15.2063787Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Run independent replay	2026-07-30T10:47:15.2064191Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Run independent replay	2026-07-30T10:47:15.2064638Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib
+clean-runner-replay	Run independent replay	2026-07-30T10:47:15.2064963Z ##[endgroup]
+clean-runner-replay	Run independent replay	2026-07-30T10:48:13.8847716Z independent_machine_replay=PASS checks=11 output=/tmp/flipguard-independent-machine-replay
+clean-runner-replay	Verify replay artifact	﻿2026-07-30T10:48:13.8975212Z ##[group]Run set -euo pipefail
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.8975547Z [36;1mset -euo pipefail[0m
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.8975887Z [36;1mpython3 scripts/verify_independent_machine_replay.py \[0m
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.8976339Z [36;1m  --source-commit "f08a929a2b610f1cec99444754738b4791bc8a5c" \[0m
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.8976792Z [36;1m  --result-dir /tmp/flipguard-independent-machine-replay[0m
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.9021655Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.9022004Z env:
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.9022193Z   GOTOOLCHAIN: local
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.9022478Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.9022901Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib/pkgconfig
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.9023326Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.9023702Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.9024077Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.9024506Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.9024827Z ##[endgroup]
+clean-runner-replay	Verify replay artifact	2026-07-30T10:48:13.9470032Z independent_machine_replay=VERIFIED result_dir=/tmp/flipguard-independent-machine-replay
+clean-runner-replay	Upload replay artifact	﻿2026-07-30T10:48:13.9574429Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9575837Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9576224Z with:
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9576471Z   name: flipguard-independent-machine-replay
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9576831Z   path: /tmp/flipguard-independent-machine-replay
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9577149Z   if-no-files-found: error
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9577710Z   retention-days: 30
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9577942Z   compression-level: 6
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9578174Z   overwrite: false
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9578387Z   include-hidden-files: false
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9578628Z env:
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9578809Z   GOTOOLCHAIN: local
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9579081Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9579550Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib/pkgconfig
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9579966Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9580355Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9580748Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9581125Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:13.9581453Z ##[endgroup]
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:14.1267091Z (node:3609) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:14.1268678Z (Use `node --trace-deprecation ...` to show where the warning was created)
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:14.1382959Z With the provided path, there will be 24 files uploaded
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:14.1383852Z Artifact name is valid!
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:14.1384260Z Root directory input is valid!
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:14.4806362Z Beginning upload of artifact content to blob storage
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:14.5263449Z (node:3609) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:14.7844483Z Uploaded bytes 8687
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:14.8571571Z Finished uploading artifact content to blob storage!
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:14.8573259Z SHA256 digest of uploaded artifact zip is 33e62ad567ceaf995baf26263e9ac151752de1ff9a1a4565fe0d2fad809f35bb
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:14.8574823Z Finalizing artifact upload
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:15.0965313Z Artifact flipguard-independent-machine-replay.zip successfully finalized. Artifact ID 8756692365
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:15.0967845Z Artifact flipguard-independent-machine-replay has been successfully uploaded! Final size is 8687 bytes. Artifact ID is 8756692365
+clean-runner-replay	Upload replay artifact	2026-07-30T10:48:15.0974076Z Artifact download URL: https://github.com/hasslelee/flipguard/actions/runs/30535993621/artifacts/8756692365
+clean-runner-replay	Enforce replay result	﻿2026-07-30T10:48:15.1099855Z ##[group]Run set -euo pipefail
+clean-runner-replay	Enforce replay result	2026-07-30T10:48:15.1100199Z [36;1mset -euo pipefail[0m
+clean-runner-replay	Enforce replay result	2026-07-30T10:48:15.1100463Z [36;1mtest "success" = "success"[0m
+clean-runner-replay	Enforce replay result	2026-07-30T10:48:15.1100742Z [36;1mtest "success" = "success"[0m
+clean-runner-replay	Enforce replay result	2026-07-30T10:48:15.1146026Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+clean-runner-replay	Enforce replay result	2026-07-30T10:48:15.1146384Z env:
+clean-runner-replay	Enforce replay result	2026-07-30T10:48:15.1146582Z   GOTOOLCHAIN: local
+clean-runner-replay	Enforce replay result	2026-07-30T10:48:15.1146881Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Enforce replay result	2026-07-30T10:48:15.1147534Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib/pkgconfig
+clean-runner-replay	Enforce replay result	2026-07-30T10:48:15.1148124Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Enforce replay result	2026-07-30T10:48:15.1148525Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Enforce replay result	2026-07-30T10:48:15.1148937Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+clean-runner-replay	Enforce replay result	2026-07-30T10:48:15.1149333Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib
+clean-runner-replay	Enforce replay result	2026-07-30T10:48:15.1149669Z ##[endgroup]
+clean-runner-replay	Post Set up Python 3.12	﻿2026-07-30T10:48:15.1295496Z Post job cleanup.
+clean-runner-replay	Post Set up Python 3.12	2026-07-30T10:48:15.2555972Z Cache hit occurred on the primary key setup-python-Linux-x64-24.04-Ubuntu-python-3.12.13-pip-69b6c2c503626946b8784e35cfc2ea24980ad255375cc8a99be888e73f0ce5e6, not saving cache.
+clean-runner-replay	Post Set up Go from go.mod	﻿2026-07-30T10:48:15.2658797Z Post job cleanup.
+clean-runner-replay	Post Set up Go from go.mod	2026-07-30T10:48:15.3915733Z [command]/opt/hostedtoolcache/go/1.25.9/x64/bin/go env GOMODCACHE
+clean-runner-replay	Post Set up Go from go.mod	2026-07-30T10:48:15.3965124Z [command]/opt/hostedtoolcache/go/1.25.9/x64/bin/go env GOCACHE
+clean-runner-replay	Post Set up Go from go.mod	2026-07-30T10:48:15.3999791Z /home/runner/go/pkg/mod
+clean-runner-replay	Post Set up Go from go.mod	2026-07-30T10:48:15.4018629Z /home/runner/.cache/go-build
+clean-runner-replay	Post Set up Go from go.mod	2026-07-30T10:48:15.4025990Z Cache hit occurred on the primary key setup-go-Linux-x64-ubuntu24-go-1.25.9-6aeb210f88c3451cfc600b1fcf5fb96c3e04b4e9d9150d2f223f4fa60ca13683, not saving cache.
+clean-runner-replay	Post Check out exact source commit	﻿2026-07-30T10:48:15.4204240Z Post job cleanup.
+clean-runner-replay	Post Check out exact source commit	2026-07-30T10:48:15.5088931Z [command]/usr/bin/git version
+clean-runner-replay	Post Check out exact source commit	2026-07-30T10:48:15.5151262Z git version 2.54.0
+clean-runner-replay	Post Check out exact source commit	2026-07-30T10:48:15.5227707Z Temporarily overriding HOME='/home/runner/work/_temp/d0f6cb88-17bc-492e-9d32-29b62eef6d5d' before making global git config changes
+clean-runner-replay	Post Check out exact source commit	2026-07-30T10:48:15.5229554Z Adding repository directory to the temporary git global config as a safe directory
+clean-runner-replay	Post Check out exact source commit	2026-07-30T10:48:15.5231119Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/flipguard/flipguard
+clean-runner-replay	Post Check out exact source commit	2026-07-30T10:48:15.5266355Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+clean-runner-replay	Post Check out exact source commit	2026-07-30T10:48:15.5324243Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+clean-runner-replay	Post Check out exact source commit	2026-07-30T10:48:15.5628386Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+clean-runner-replay	Post Check out exact source commit	2026-07-30T10:48:15.5664669Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+clean-runner-replay	Post Check out exact source commit	2026-07-30T10:48:15.5931554Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+clean-runner-replay	Post Check out exact source commit	2026-07-30T10:48:15.5973133Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+clean-runner-replay	Complete job	﻿2026-07-30T10:48:15.6368611Z Cleaning up orphan processes
+clean-runner-replay	Complete job	2026-07-30T10:48:15.6725888Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

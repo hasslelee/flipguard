@@ -1,0 +1,10 @@
+{
+  "unchanged_contracts": 8,
+  "new_encryption": 0,
+  "Cprime_only_initial_option": true,
+  "tests": {
+    "command": "go -C research/thesis_validation_v1 test ./internal/ckksplanner -run TestThesis|TestIndependent -count=1",
+    "exit_code": 0,
+    "package_seconds": 0.204
+  }
+}

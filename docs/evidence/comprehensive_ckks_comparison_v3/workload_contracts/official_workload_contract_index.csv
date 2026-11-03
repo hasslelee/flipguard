@@ -1,0 +1,8 @@
+workload_family,source_system,contract_state,shared_with_flipguard,reason
+EVA Sobel/Harris/polynomial,EVA,EXACT_OFFICIAL_PROVIDER_WORKLOAD,False,official graph retained; no exact current frozen-plan equivalence
+CoreLab MLP/LeNet/regression,HECATE/ELASM,EXACT_OFFICIAL_PROVIDER_WORKLOAD,False,same task names do not establish graph/packing identity
+HEIR CKKS examples,HEIR,BUILD_BLOCKED,False,release closure did not execute
+ANT-ACE ONNX CNN,ANT-ACE,HARDWARE_UNAVAILABLE,False,different packed graph and high-resource official evaluation
+Orion NN,Orion,OUTPUT_NOT_EXPOSED,False,configuration-only static audit
+AutoFHE CIFAR,AutoFHE,HARDWARE_UNAVAILABLE,False,different architecture-search objective and high-resource evaluation
+bootstrap deep models,DaCapo/HALO/ReSBM/Orbit,NO_BOOTSTRAP_NOT_APPLICABLE,False,no bootstrap workload was manufactured

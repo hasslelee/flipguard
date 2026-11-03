@@ -1,0 +1,84 @@
+{
+  "accounting": {
+    "formal_candidate_trials": 0,
+    "formal_encrypted_sample_evaluations": 0,
+    "formal_key_runs": 0,
+    "preserved_diagnostic_candidate_trials": 2,
+    "preserved_diagnostic_key_runs": 2,
+    "repair_calls": 0,
+    "retuning": 0,
+    "synthesis_calls": 0
+  },
+  "block_reason": "development-only single compiler/workload replay; corrected Lattigo-runtime smoke was numerically REJECTED and native EVA/SEAL execution was not evaluated",
+  "claim_states": {
+    "encrypted_external_candidate_certification": "BLOCKED",
+    "general_external_compiler_interoperability": "PARTIALLY_SUPPORTED",
+    "locked_audit_external_schedule_replay": "NOT_EVALUATED",
+    "native_eva_seal_runtime_execution": "NOT_EVALUATED",
+    "schedule_bound_external_candidate_import": "SUPPORTED"
+  },
+  "classification": "SOURCE_REPLAYED_PUBLIC_COMPILER_SCHEDULE",
+  "corrected_smoke": {
+    "binary_sha256": "sha256:525953a4bc7b36664eef73892f0e39b2358ee17607253dc6d2def71daee94cd9",
+    "candidate_trials": 1,
+    "classification": "PARTIAL_SCIENTIFIC_RESULT",
+    "encrypted_sample_evaluations": 1,
+    "execution_critical_source_digest": "sha256:3710a477ddb0c198dff85bd6ec18a93636c12d9d0612e59032a68711f103fc67",
+    "flips": 0,
+    "key_runs": 1,
+    "max_budget_usage": 9.410894423253259,
+    "max_error": 0.4425889513579724,
+    "reason_code": "LATTIGO_RUNTIME_NUMERICAL_REJECT_AFTER_EXACT_SCHEDULE_REPLAY",
+    "security_admission": "PASS",
+    "source_commit": "1a1c4f8d8c4b5daf6e66b24bcc155dcb2f99d9ed",
+    "status": "REJECTED",
+    "violations": 1
+  },
+  "evaluation_role": "seed0_development_interoperability_control",
+  "formal_validation": {
+    "candidate_trials": 0,
+    "encrypted_sample_evaluations": 0,
+    "key_runs": 0,
+    "reason": "the corrected one-row diagnostic was REJECTED, so the predeclared smoke gate blocked the 14-row trial",
+    "status": "NOT_EVALUATED"
+  },
+  "interpretation": {
+    "native_eva_seal_inference": "NOT_EVALUATED; cross-runtime rejection does not establish native EVA/SEAL behavior",
+    "not_supported": "the candidate could not be certified decision-preserving under the frozen Lattigo v6.2.0 Xs/Xe runtime",
+    "retuning_performed": false,
+    "supported": "the schedule-bound schema and Lattigo lowering executed the source-replayed literal fail-closed"
+  },
+  "locked_audit": {
+    "key_runs": 0,
+    "reason": "validation did not establish a SAFE candidate",
+    "retuning": 0,
+    "status": "NOT_EVALUATED",
+    "trials": 0
+  },
+  "paper_claim_allowed": false,
+  "recovery_attempt": {
+    "binary_sha256": "sha256:ab9a43d618833769907a18e5f261cb022e2529f62cb52b5fbd7bb21b268f37e3",
+    "classification": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+    "execution_critical_source_digest": "sha256:5dc167a161882c40650364551d8dee8a1b055207c0c57958ef10e3360233f433",
+    "flips": 1,
+    "key_runs": 1,
+    "max_budget_usage": 6.237180370720678,
+    "max_error": 0.29333100506227044,
+    "reason": "cubic coefficient sign was negated before an explicit subtraction",
+    "source_commit": "441af726e9c240b71408468b297cc18fac6a6920",
+    "status": "REJECTED",
+    "violations": 1
+  },
+  "schedule_id": "microsoft_eva_v1.0.1_iris_linear_poly3_scalar_v1",
+  "schema_version": "flipguard_eva_schedule_bound_adapter_evidence_v1",
+  "security_v2": {
+    "cap": 430,
+    "headroom_bits": 190,
+    "log_n": 14,
+    "log_p": 60,
+    "log_q": 180,
+    "log_qp": 240,
+    "status": "PASS"
+  },
+  "status": "PARTIAL_SCIENTIFIC_RESULT"
+}

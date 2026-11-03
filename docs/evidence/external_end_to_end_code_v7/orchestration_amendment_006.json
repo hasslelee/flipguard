@@ -1,0 +1,12 @@
+{
+  "amendment_id": "external_v7_orchestration_amendment_006",
+  "affected_scope": "V7 runtime output root and terminal-state providers",
+  "classification": "RECOVERABLE_RUNTIME_OWNERSHIP_FAILURE",
+  "encrypted_execution_semantics_changed": false,
+  "frozen_policy_changed": false,
+  "failure_reason": "CoreLab Docker created external/v7/outputs as root:root mode 0755, blocking host-user result finalization.",
+  "recovery": "At an idle queue boundary under the global measurement lock, preserve the full root-owned tree, create a host-user-owned output root, and reuse already-passing source checkouts.",
+  "recovery_requires_active_provider": "NONE",
+  "recovery_requires_active_stage": "QUEUE_EXHAUSTED_QA",
+  "source_commit_at_diagnosis": "1895dd7c8cbba2fad681c079f714a03edacd7dff"
+}

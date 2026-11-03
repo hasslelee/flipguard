@@ -1,0 +1,14 @@
+{
+  "affected_component": "persistent master heartbeat thread",
+  "encrypted_execution_impact": "NONE",
+  "evidence_impact": "NONE",
+  "incident_id": "external_v7_control_plane_incident_002",
+  "observed_timestamp": "2026-08-06T17:38:58+09:00",
+  "recovery": "Use mkstemp-generated unique atomic-write paths across master threads, add an eight-thread regression test, and restart only the idle master service.",
+  "root_cause": "The heartbeat and main threads used the same PID-only temporary filename for atomic master_state.json writes. One thread replaced the file before the other called os.replace, causing FileNotFoundError in the heartbeat thread.",
+  "schema_version": "flipguard_external_v7_control_plane_incident_v1",
+  "state": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+  "systemd_master_process_impact": "MAIN_PROCESS_REMAINED_ACTIVE; HEARTBEAT_THREAD_TERMINATED",
+  "frozen_policy_changed": false,
+  "research_results_changed": false
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": "flipguard_comprehensive_source_overrides_v3",
+  "audit_date": "2026-08-05",
+  "systems": {
+    "Orbit": {
+      "official_paper": "https://www.usenix.org/conference/usenixsecurity26/presentation/zhou-zikai",
+      "official_repository": "https://github.com/cmu-cryptosystems/Orbit",
+      "official_archive": "https://doi.org/10.5281/zenodo.20739724",
+      "artifact_revision": "zenodo-v2@f364122b77be482bfe902c20a89755cee2060c5a",
+      "archive_sha256": "021bdd8cb074349b11602b134afc4b7955aa37b2d026ddcd40776cb72e3313f0",
+      "license": "LICENSE_AMBIGUOUS_ZENODO_CC_BY_4_0_AND_ARCHIVE_BSD_3_CLAUSE",
+      "public_reproduction_status": "OFFICIAL_ARCHIVE_PINNED",
+      "publication_status": "published",
+      "venue": "USENIX Security",
+      "year": "2026"
+    },
+    "ReSBM": {
+      "official_repository": "https://github.com/ant-research/ace-compiler",
+      "artifact_revision": "post-artifact-main@929e9b621f11bebbaa9ec1e215f4a52e3d07109b",
+      "license": "NO_LICENSE_DECLARED_IN_REPOSITORY",
+      "public_reproduction_status": "SOURCE_INTEGRATED_AFTER_CGO_ARTIFACT"
+    }
+  },
+  "flipguard": {
+    "system": "FlipGuard",
+    "full_title": "FlipGuard: Decision-Integrity-Aware Direct Synthesis and Validation of CKKS Configurations",
+    "authors": "ANONYMIZED_RESEARCH_ARTIFACT",
+    "venue": "manuscript in preparation",
+    "year": "2026",
+    "publication_status": "technical report",
+    "peer_reviewed": false,
+    "official_paper": "NOT_PUBLISHED",
+    "official_repository": "LOCAL_RESEARCH_REPOSITORY",
+    "artifact_revision": "flipguard-thesis-v1.0.0-rc2@6c5f8b234f9f9da91a189fa0f2dc180bb996abf5",
+    "license": "LICENSE_DECISION_REQUIRED",
+    "supported_scheme": "CKKS",
+    "backend": "Lattigo v6.2.0",
+    "frontend_model_format": "declared graph adapters and decision-integrity contracts",
+    "optimization_target": "fastest decision-stable candidate within a declared candidate set",
+    "parameter_search_space": "built-in direct synthesis plus manual, bounded-catalog, and external-provider candidates",
+    "scale_management": "graph-derived scale trace with frozen bounded repairs",
+    "bootstrapping": "not supported in the frozen direct-policy scope",
+    "packing_layout": "scalar-replicated packing in frozen evidence",
+    "security_handling": "Security Policy V2 admission with exact-Q/P sensitivity",
+    "error_correctness_metric": "finite-input decision preservation and reserve-policy admission",
+    "model_workload": "binary tabular, polynomial, image operators, CNN-lite, MNIST MLP-100 and LeNet-5-small adapters",
+    "public_reproduction_status": "FROZEN_RESEARCH_ARTIFACT",
+    "comparison_relevance": "decision-stability gate and built-in direct provider",
+    "experimental_inclusion_class": "SYSTEM_UNDER_EVALUATION",
+    "exclusion_reason": "NOT_APPLICABLE"
+  }
+}

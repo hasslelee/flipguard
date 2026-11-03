@@ -1,0 +1,73 @@
+{
+  "candidate": {
+    "id": "independent_S40_Q5_N14_69b8c02789f6",
+    "path": "rescale",
+    "parameters": {
+      "log_n": 14,
+      "log_q": [
+        50,
+        40,
+        40,
+        40,
+        40
+      ],
+      "log_p": [
+        50
+      ],
+      "log_default_scale": 40
+    },
+    "security": {
+      "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+      "target_bits": 128,
+      "declared_log_qp": 260,
+      "max_allowed_log_qp": 430,
+      "headroom_bits": 170,
+      "admission_status": "PASS",
+      "log_q": 210,
+      "log_p": 50,
+      "log_qp": 260,
+      "ciphertext_q_admission": "PASS",
+      "evaluation_key_qp_admission": "PASS",
+      "final_admission": "PASS",
+      "ciphertext_headroom_bits": 220,
+      "evaluation_key_headroom_bits": 170,
+      "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+    },
+    "required_rescale_levels": 3,
+    "level_guard": 0,
+    "precision_target_bits": 40,
+    "message_magnitude_bits": 7,
+    "analysis_scale_bits": 40,
+    "backend_scale_lift_bits": 0,
+    "backend_validation_attempts": 1,
+    "same_tier_precision_gain_bits": 0,
+    "same_tier_static_candidates_tried": 0,
+    "generation_kind": "independent_explicit_scale_v1",
+    "reason": "graph scale trace and output magnitude only; fixed scale; no decision or sensitivity input"
+  },
+  "status": "SAFE",
+  "keys": 3,
+  "numeric": [
+    {
+      "key": 1,
+      "count": 5000,
+      "max_abs": 2.818575719487626e-7,
+      "rmse": 2.8520706575671798e-8
+    },
+    {
+      "key": 2,
+      "count": 5000,
+      "max_abs": 2.3995384523800567e-7,
+      "rmse": 2.7663932836869737e-8
+    },
+    {
+      "key": 3,
+      "count": 5000,
+      "max_abs": 1.7327529988619972e-7,
+      "rmse": 2.7196227735180404e-8
+    }
+  ],
+  "decision_ms": 1.101075,
+  "numeric_ms": 0.091241,
+  "native_wall_ms": 108040.228228
+}

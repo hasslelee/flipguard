@@ -1,0 +1,515 @@
+{
+  "stage": "stress",
+  "key": 1,
+  "config": {
+    "log_n": 13,
+    "prime_bits": [
+      31,
+      26,
+      26,
+      26,
+      26,
+      26,
+      26,
+      31
+    ],
+    "scale_bits": 26,
+    "source": "official Start bank branch, unchanged",
+    "security": "TenSEAL/SEAL default128 admission; QP218 exceeds our frozen V2N13 limit214; do not claim identical security policy",
+    "input_ciphertexts_per_input": 1,
+    "input_values": 20,
+    "output_values": 2,
+    "packing": "official CKKSVector.mm; Galois keys and packed vector path; not common Lattigo schedule"
+  },
+  "runtime_parameters": {
+    "status": "API_UNAVAILABLE",
+    "reason": "TypeError('Unable to convert function return value to a Python type! The signature was\\n\\t(self: _tenseal_cpp.EncryptionParameters) -> List[seal::Modulus]')",
+    "public_metadata_only": true,
+    "introspection_ms": 0.08807500125840306
+  },
+  "setup_ms": 749.5751320093405,
+  "records": [
+    {
+      "row_id": 6190,
+      "source_row_id": 30108,
+      "original_label": null,
+      "parent_label_metadata": 0,
+      "original_float32_logits": [
+        -0.02684582769870758,
+        -0.14268264174461365
+      ],
+      "common_float64_logits": [
+        -0.026845676037313047,
+        -0.14268286909003092
+      ],
+      "ckks_logits": [
+        -0.031082473835697566,
+        -0.12897263942829318
+      ],
+      "original_prediction": 0,
+      "common_prediction": 0,
+      "ckks_prediction": 0,
+      "original_HEDiff_rounded_prediction": 0,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 7.143276001443155,
+      "he_ms": 1558.411673991941,
+      "decrypt_decode_ms": 1.7981529963435605,
+      "pdf_inference_ms": 1567.3531029897276,
+      "wall_ms": 1567.4486310017528
+    },
+    {
+      "row_id": 6191,
+      "source_row_id": 13131,
+      "original_label": null,
+      "parent_label_metadata": 1,
+      "original_float32_logits": [
+        0.2731128931045532,
+        -0.0907939001917839
+      ],
+      "common_float64_logits": [
+        0.27311246812446255,
+        -0.09079370168416355
+      ],
+      "ckks_logits": [
+        0.2801870731324121,
+        -0.07870733447647715
+      ],
+      "original_prediction": 0,
+      "common_prediction": 0,
+      "ckks_prediction": 0,
+      "original_HEDiff_rounded_prediction": 0,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 7.271816997672431,
+      "he_ms": 1446.864473997266,
+      "decrypt_decode_ms": 1.836134004406631,
+      "pdf_inference_ms": 1455.972424999345,
+      "wall_ms": 1456.0478570056148
+    },
+    {
+      "row_id": 6192,
+      "source_row_id": 23148,
+      "original_label": null,
+      "parent_label_metadata": 0,
+      "original_float32_logits": [
+        0.3746896982192993,
+        -0.16761474311351776
+      ],
+      "common_float64_logits": [
+        0.374689714132478,
+        -0.16761487405935127
+      ],
+      "ckks_logits": [
+        0.37950044166689534,
+        -0.15322248213677458
+      ],
+      "original_prediction": 0,
+      "common_prediction": 0,
+      "ckks_prediction": 0,
+      "original_HEDiff_rounded_prediction": 0,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 7.167741990997456,
+      "he_ms": 1503.7750609917566,
+      "decrypt_decode_ms": 1.6372309910366312,
+      "pdf_inference_ms": 1512.5800339737907,
+      "wall_ms": 1512.6672769983998
+    },
+    {
+      "row_id": 6193,
+      "source_row_id": 35337,
+      "original_label": null,
+      "parent_label_metadata": 1,
+      "original_float32_logits": [
+        -0.15629051625728607,
+        0.08718980103731155
+      ],
+      "common_float64_logits": [
+        -0.15629043761853884,
+        0.0871897593812616
+      ],
+      "ckks_logits": [
+        -0.1519650343125747,
+        0.0936029951722549
+      ],
+      "original_prediction": 1,
+      "common_prediction": 1,
+      "ckks_prediction": 1,
+      "original_HEDiff_rounded_prediction": 1,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 6.937280006241053,
+      "he_ms": 1391.8547009961912,
+      "decrypt_decode_ms": 1.6504859959241003,
+      "pdf_inference_ms": 1400.4424669983564,
+      "wall_ms": 1400.51254699938
+    },
+    {
+      "row_id": 6194,
+      "source_row_id": 19355,
+      "original_label": null,
+      "parent_label_metadata": 0,
+      "original_float32_logits": [
+        1.043703317642212,
+        -0.9553773999214172
+      ],
+      "common_float64_logits": [
+        1.0437035936141552,
+        -0.9553774726488673
+      ],
+      "ckks_logits": [
+        1.0475442266919877,
+        -0.9422576630238311
+      ],
+      "original_prediction": 0,
+      "common_prediction": 0,
+      "ckks_prediction": 0,
+      "original_HEDiff_rounded_prediction": 0,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 6.737794989021495,
+      "he_ms": 1470.6526850059163,
+      "decrypt_decode_ms": 1.625278004212305,
+      "pdf_inference_ms": 1479.01575799915,
+      "wall_ms": 1479.1150149976602
+    },
+    {
+      "row_id": 6195,
+      "source_row_id": 37714,
+      "original_label": null,
+      "parent_label_metadata": 0,
+      "original_float32_logits": [
+        0.0235050767660141,
+        0.03945375233888626
+      ],
+      "common_float64_logits": [
+        0.023504837882751498,
+        0.03945393881945862
+      ],
+      "ckks_logits": [
+        0.026381726636524216,
+        0.042318413974658575
+      ],
+      "original_prediction": 1,
+      "common_prediction": 1,
+      "ckks_prediction": 1,
+      "original_HEDiff_rounded_prediction": 1,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 7.763789995806292,
+      "he_ms": 1419.8960229987279,
+      "decrypt_decode_ms": 1.59311800962314,
+      "pdf_inference_ms": 1429.2529310041573,
+      "wall_ms": 1429.3099380010972
+    },
+    {
+      "row_id": 6196,
+      "source_row_id": 22140,
+      "original_label": null,
+      "parent_label_metadata": 0,
+      "original_float32_logits": [
+        0.2782382369041443,
+        -0.17200981080532074
+      ],
+      "common_float64_logits": [
+        0.2782380432754653,
+        -0.1720098549843709
+      ],
+      "ckks_logits": [
+        0.2846190510518608,
+        -0.1642417478677014
+      ],
+      "original_prediction": 0,
+      "common_prediction": 0,
+      "ckks_prediction": 0,
+      "original_HEDiff_rounded_prediction": 0,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 6.863771995995194,
+      "he_ms": 1285.1119400002062,
+      "decrypt_decode_ms": 1.749560993630439,
+      "pdf_inference_ms": 1293.7252729898319,
+      "wall_ms": 1293.8073069963139
+    },
+    {
+      "row_id": 6197,
+      "source_row_id": 14554,
+      "original_label": null,
+      "parent_label_metadata": 1,
+      "original_float32_logits": [
+        0.029729261994361877,
+        0.018033424392342567
+      ],
+      "common_float64_logits": [
+        0.029729334155297202,
+        0.018033208580680003
+      ],
+      "ckks_logits": [
+        0.03528427961806002,
+        0.02586756591241035
+      ],
+      "original_prediction": 0,
+      "common_prediction": 0,
+      "ckks_prediction": 0,
+      "original_HEDiff_rounded_prediction": 0,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 6.8434139975579455,
+      "he_ms": 1341.3339510007063,
+      "decrypt_decode_ms": 1.6903099894989282,
+      "pdf_inference_ms": 1349.8676749877632,
+      "wall_ms": 1349.9563910008874
+    },
+    {
+      "row_id": 6198,
+      "source_row_id": 14895,
+      "original_label": null,
+      "parent_label_metadata": 0,
+      "original_float32_logits": [
+        0.796787679195404,
+        -0.7328577637672424
+      ],
+      "common_float64_logits": [
+        0.7967878197677902,
+        -0.7328578322783019
+      ],
+      "ckks_logits": [
+        0.8015974864023804,
+        -0.7188790801034858
+      ],
+      "original_prediction": 0,
+      "common_prediction": 0,
+      "ckks_prediction": 0,
+      "original_HEDiff_rounded_prediction": 0,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 7.165358008933254,
+      "he_ms": 1371.730461003608,
+      "decrypt_decode_ms": 1.9882490014424548,
+      "pdf_inference_ms": 1380.8840680139838,
+      "wall_ms": 1380.985978001263
+    },
+    {
+      "row_id": 6199,
+      "source_row_id": 30111,
+      "original_label": null,
+      "parent_label_metadata": 0,
+      "original_float32_logits": [
+        0.07454374432563782,
+        -0.05597441643476486
+      ],
+      "common_float64_logits": [
+        0.0745438794829612,
+        -0.055974599787202595
+      ],
+      "ckks_logits": [
+        0.07581185117237543,
+        -0.04354989589923508
+      ],
+      "original_prediction": 0,
+      "common_prediction": 0,
+      "ckks_prediction": 0,
+      "original_HEDiff_rounded_prediction": 0,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 6.909276999067515,
+      "he_ms": 1435.6225969968364,
+      "decrypt_decode_ms": 1.5926670021144673,
+      "pdf_inference_ms": 1444.1245409980183,
+      "wall_ms": 1444.18569499976
+    },
+    {
+      "row_id": 6200,
+      "source_row_id": 29334,
+      "original_label": null,
+      "parent_label_metadata": 0,
+      "original_float32_logits": [
+        -0.03188706934452057,
+        -0.14008347690105438
+      ],
+      "common_float64_logits": [
+        -0.031887152794128404,
+        -0.1400833767705344
+      ],
+      "ckks_logits": [
+        -0.03202666573845547,
+        -0.13141836581019728
+      ],
+      "original_prediction": 0,
+      "common_prediction": 0,
+      "ckks_prediction": 0,
+      "original_HEDiff_rounded_prediction": 0,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 7.009915992966853,
+      "he_ms": 1509.3082680105,
+      "decrypt_decode_ms": 1.6901700000744313,
+      "pdf_inference_ms": 1518.0083540035412,
+      "wall_ms": 1518.0803389957873
+    },
+    {
+      "row_id": 6201,
+      "source_row_id": 18485,
+      "original_label": null,
+      "parent_label_metadata": 1,
+      "original_float32_logits": [
+        0.08352605998516083,
+        -0.06136607378721237
+      ],
+      "common_float64_logits": [
+        0.08352596139118021,
+        -0.06136584104394535
+      ],
+      "ckks_logits": [
+        0.08462416383708182,
+        -0.04906111595635043
+      ],
+      "original_prediction": 0,
+      "common_prediction": 0,
+      "ckks_prediction": 0,
+      "original_HEDiff_rounded_prediction": 0,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 7.773086996166967,
+      "he_ms": 1351.2803589983378,
+      "decrypt_decode_ms": 1.658179986407049,
+      "pdf_inference_ms": 1360.7116259809118,
+      "wall_ms": 1360.7804350031074
+    },
+    {
+      "row_id": 6202,
+      "source_row_id": 37345,
+      "original_label": null,
+      "parent_label_metadata": 1,
+      "original_float32_logits": [
+        -0.19789434969425201,
+        0.05489658564329147
+      ],
+      "common_float64_logits": [
+        -0.19789438744595197,
+        0.05489665204118321
+      ],
+      "ckks_logits": [
+        -0.19825256067217661,
+        0.06188102596703837
+      ],
+      "original_prediction": 1,
+      "common_prediction": 1,
+      "ckks_prediction": 1,
+      "original_HEDiff_rounded_prediction": 1,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 7.076670997776091,
+      "he_ms": 1353.4133740031393,
+      "decrypt_decode_ms": 1.8395299994153902,
+      "pdf_inference_ms": 1362.3295750003308,
+      "wall_ms": 1362.4321079987567
+    },
+    {
+      "row_id": 6203,
+      "source_row_id": 37171,
+      "original_label": null,
+      "parent_label_metadata": 1,
+      "original_float32_logits": [
+        -3.6195595264434814,
+        4.051260948181152
+      ],
+      "common_float64_logits": [
+        -3.6195598702098835,
+        4.051261028373982
+      ],
+      "ckks_logits": [
+        -3.6259948708202967,
+        4.0701869484000905
+      ],
+      "original_prediction": 1,
+      "common_prediction": 1,
+      "ckks_prediction": 1,
+      "original_HEDiff_rounded_prediction": 1,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 7.219007995445281,
+      "he_ms": 1309.2531540023629,
+      "decrypt_decode_ms": 1.6190760070458055,
+      "pdf_inference_ms": 1318.091238004854,
+      "wall_ms": 1318.1747349881334
+    },
+    {
+      "row_id": 6204,
+      "source_row_id": 35728,
+      "original_label": null,
+      "parent_label_metadata": 0,
+      "original_float32_logits": [
+        0.013442054390907288,
+        -0.07767610996961594
+      ],
+      "common_float64_logits": [
+        0.013442006541245291,
+        -0.0776760864225168
+      ],
+      "ckks_logits": [
+        0.015990693483558194,
+        -0.06798358428851214
+      ],
+      "original_prediction": 0,
+      "common_prediction": 0,
+      "ckks_prediction": 0,
+      "original_HEDiff_rounded_prediction": 0,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 7.1006369980750605,
+      "he_ms": 1530.6086990021868,
+      "decrypt_decode_ms": 1.5749330050311983,
+      "pdf_inference_ms": 1539.284269005293,
+      "wall_ms": 1539.3406950024655
+    },
+    {
+      "row_id": 6205,
+      "source_row_id": 16241,
+      "original_label": null,
+      "parent_label_metadata": 0,
+      "original_float32_logits": [
+        0.11151908338069916,
+        -0.1240425631403923
+      ],
+      "common_float64_logits": [
+        0.1115186789081962,
+        -0.12404222726216155
+      ],
+      "ckks_logits": [
+        0.11073218235847893,
+        -0.10752638474927823
+      ],
+      "original_prediction": 0,
+      "common_prediction": 0,
+      "ckks_prediction": 0,
+      "original_HEDiff_rounded_prediction": 0,
+      "all_common_disagreement": false,
+      "hediff_eq2_original": null,
+      "hediff_eq2_common": null,
+      "encode_encrypt_ms": 7.098893009242602,
+      "he_ms": 1567.353007994825,
+      "decrypt_decode_ms": 1.5912850067252293,
+      "pdf_inference_ms": 1576.0431860107929,
+      "wall_ms": 1576.1068249994423
+    }
+  ],
+  "script_sha256": "d961b1d81a8259b2bd09d69172c612b61a1cd6c3778b9a509d33a106447ff3f7",
+  "model_sha256": "e0624e2ad25e0c8f1be3eede95e3227dab28d2f644876eb8d3c796098569ca9d"
+}

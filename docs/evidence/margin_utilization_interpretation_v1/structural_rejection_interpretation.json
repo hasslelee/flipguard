@@ -1,0 +1,55 @@
+{
+  "classification": [
+    "OBSERVED_DECISION_PRESERVED",
+    "RESERVE_POLICY_REJECTED",
+    "POLICY_REJECTED_WITHOUT_FLIP"
+  ],
+  "encrypted_rerun_performed": false,
+  "failure_class": "VALIDATION_NEAR_BUDGET_LIMIT_AUDIT_OVERRUN",
+  "locked_audit": {
+    "absolute_error": 0.06405790366885711,
+    "absolute_error_field_scope": "population_maximum",
+    "margin": null,
+    "margin_field_status": "MAX_USAGE_SAMPLE_MARGIN_NOT_RECORDED",
+    "margin_utilization_cap": 0.5,
+    "margin_utilization_ratio": 0.5613686443055665,
+    "minimum_cap_required": 0.5613686443055665,
+    "observed_decision_preserved": true,
+    "operational_acceptance_budget": "rho_times_sample_margin",
+    "policy_reject_without_flip": true,
+    "reserve_policy_pass": false,
+    "reserved_margin_fraction": 0.5
+  },
+  "not_classified_as": [
+    "CRYPTOGRAPHIC_CORRECTNESS_FAILURE",
+    "OBSERVED_DECISION_FAILURE"
+  ],
+  "policy_change_authorized": false,
+  "sample_binding": {
+    "aggregate_counts_persisted": true,
+    "future_instrumentation_note": "Persist sample/key observations in future protocols before execution; do not reconstruct or rerun this frozen audit.",
+    "per_key_errors_persisted": false,
+    "per_sample_ckks_scores_persisted": false
+  },
+  "schema_version": 1,
+  "validation": {
+    "absolute_error": 0.055837523453377,
+    "absolute_error_field_scope": "population_maximum",
+    "margin": null,
+    "margin_field_status": "MAX_USAGE_SAMPLE_MARGIN_NOT_RECORDED",
+    "margin_utilization_cap": 0.5,
+    "margin_utilization_ratio": 0.4706530094839232,
+    "minimum_cap_required": 0.4706530094839232,
+    "observed_decision_preserved": true,
+    "operational_acceptance_budget": "rho_times_sample_margin",
+    "policy_reject_without_flip": false,
+    "reserve_policy_pass": true,
+    "reserved_margin_fraction": 0.5
+  },
+  "workload": {
+    "candidate_literal": "synth_analysis_minimum_rescale_N14_Q10_S22_01ae407b2f60",
+    "dataset": "banknote",
+    "model": "mlp_square_poly3",
+    "seed": 4
+  }
+}

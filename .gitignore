@@ -8,6 +8,7 @@ go.work
 # Results
 results/*
 !results/.gitkeep
+!results/go.mod
 
 # OS / editor
 .DS_Store
@@ -18,6 +19,16 @@ results/*
 tmp/
 *.log.venv/
 .venv/
+
+# Clean external end-to-end V6 runtime workspace
+external/v6/*
+!external/v6/.gitignore
+
+# Historical V5 and persistent V7 runtime workspaces
+external/v5/*
+!external/v5/.gitignore
+external/v7/*
+!external/v7/.gitignore
 
 # Python cache
 __pycache__/

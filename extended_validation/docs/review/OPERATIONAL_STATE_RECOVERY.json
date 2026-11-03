@@ -1,0 +1,60 @@
+{
+  "status": "RESTORED_TO_INITIAL_INVENTORY",
+  "completed_at_utc": "2026-09-05T07:17:21.879047+00:00",
+  "scope": "Exactly seven legacy operational status/log files; scientific results, manuscript and production code were not rewritten",
+  "reason": "Restore the user-designated freeze after old services restarted on host reboot",
+  "post_reboot_versions_preserved": "archive/operational_state_recovery/post_reboot",
+  "services_record": "docs/review/LEGACY_AUTOSTART_STOPPED.json",
+  "git_object_timestamps_or_capture_refs_modified_by_recovery": false,
+  "checks": [
+    {
+      "path": "external/v7/status/heartbeat.txt",
+      "original_sha256": "1bde44d2ab2d2f9069d269b6028d74534fbc91099b6dc2024405385899a14119",
+      "post_reboot_sha256": "94db992dcf5a5d9a66537605437cb5404f589fe96b24820d261be4c9030bd119",
+      "restored_sha256": "1bde44d2ab2d2f9069d269b6028d74534fbc91099b6dc2024405385899a14119",
+      "original_metadata_restored": true
+    },
+    {
+      "path": "external/v7/status/master_state.json",
+      "original_sha256": "617c894e18e276fe2fc82ecd1a0789526bd31cdc0d9ea3c3c47f7d9052f3ba4d",
+      "post_reboot_sha256": "7debe1f1272348aca18a05b1ee1eb7b7a41be85a0201c6cf48f03f6885667591",
+      "restored_sha256": "617c894e18e276fe2fc82ecd1a0789526bd31cdc0d9ea3c3c47f7d9052f3ba4d",
+      "original_metadata_restored": true
+    },
+    {
+      "path": "external/v7/status/provider_queue.json",
+      "original_sha256": "301240383ed17b0c1ed4cff2a684acb988d924db9b31e76e58affe89e122b220",
+      "post_reboot_sha256": "301240383ed17b0c1ed4cff2a684acb988d924db9b31e76e58affe89e122b220",
+      "restored_sha256": "301240383ed17b0c1ed4cff2a684acb988d924db9b31e76e58affe89e122b220",
+      "original_metadata_restored": true
+    },
+    {
+      "path": "external/v7/status/resource_samples.csv",
+      "original_sha256": "d5c4f6289ef644ce1340ef23f02da4b040aedcad65a98d462dee99c59880ab7c",
+      "post_reboot_sha256": "123a15da887ac1647a5fc7d839f636ebd5246fa29cec9c479c0dba971f4d47e5",
+      "restored_sha256": "d5c4f6289ef644ce1340ef23f02da4b040aedcad65a98d462dee99c59880ab7c",
+      "original_metadata_restored": true
+    },
+    {
+      "path": "external/v7/status/resource_state.json",
+      "original_sha256": "0f1f4b6a9c530e46ae37b8d46c9dc8e284cbceba965daf0bdfe2989b70ecbb2c",
+      "post_reboot_sha256": "bef651b03ac6953e8ae202cdb2f00b117720ebc567a34e0baeb93d41b8dbeb5a",
+      "restored_sha256": "0f1f4b6a9c530e46ae37b8d46c9dc8e284cbceba965daf0bdfe2989b70ecbb2c",
+      "original_metadata_restored": true
+    },
+    {
+      "path": "external/v8/logs/master_exception.log",
+      "original_sha256": "f08ea9a741f6cb7f41939e88a6368e53c36eaa1c9df1afb8364f0990bf4a3ced",
+      "post_reboot_sha256": "9b7265e59f6795e92a780512a5a945b0daea44bbace32163f73f875e2148ff56",
+      "restored_sha256": "f08ea9a741f6cb7f41939e88a6368e53c36eaa1c9df1afb8364f0990bf4a3ced",
+      "original_metadata_restored": true
+    },
+    {
+      "path": "external/v8/status/master_state.json",
+      "original_sha256": "54f325659d76c797c9250e286aceba8884ced3280df84e5c0b4560b28c7b20ca",
+      "post_reboot_sha256": "8e0967d959dbe9ba3750eb6c50e166bc22bb5045a6a03274323a0290f8baee1a",
+      "restored_sha256": "54f325659d76c797c9250e286aceba8884ced3280df84e5c0b4560b28c7b20ca",
+      "original_metadata_restored": true
+    }
+  ]
+}

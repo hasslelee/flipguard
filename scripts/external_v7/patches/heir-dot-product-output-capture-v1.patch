@@ -1,0 +1,32 @@
+diff --git a/tests/Examples/lattigo/ckks/dot_product_8f/dot_product_8f_test.go b/tests/Examples/lattigo/ckks/dot_product_8f/dot_product_8f_test.go
+index d85f67e..c1dff15 100644
+--- a/tests/Examples/lattigo/ckks/dot_product_8f/dot_product_8f_test.go
++++ b/tests/Examples/lattigo/ckks/dot_product_8f/dot_product_8f_test.go
+@@ -20,6 +20,7 @@ func TestBinops(t *testing.T) {
+ 
+ 	result := Dot_product__decrypt__result0(evaluator, params, ecd, dec, resultCt)
+ 
++	t.Logf("FLIPGUARD_V7_LATTIGO_ACTUAL=%.9g EXPECTED=%.9g", result, expected)
+ 	errorThreshold := float64(0.0001)
+ 	if math.Abs(float64(result-expected)) > errorThreshold {
+ 		t.Errorf("Decryption error %.2f != %.2f", result, expected)
+diff --git a/tests/Examples/openfhe/ckks/dot_product_8f/dot_product_8f_test.cpp b/tests/Examples/openfhe/ckks/dot_product_8f/dot_product_8f_test.cpp
+index b9162d0..cd256a7 100644
+--- a/tests/Examples/openfhe/ckks/dot_product_8f/dot_product_8f_test.cpp
++++ b/tests/Examples/openfhe/ckks/dot_product_8f/dot_product_8f_test.cpp
+@@ -1,3 +1,5 @@
++#include <iomanip>
++#include <iostream>
+ #include <vector>
+ 
+ #include "gtest/gtest.h"  // from @googletest
+@@ -26,6 +28,9 @@ TEST(DotProduct8FTest, RunTest) {
+   auto actual =
+       dot_product__decrypt__result0(cryptoContext, outputEncrypted, secretKey);
+ 
++  std::cout << std::setprecision(9) << "FLIPGUARD_V7_OPENFHE_ACTUAL="
++            << actual << " EXPECTED=" << expected << std::endl;
++
+   EXPECT_NEAR(expected, actual, 1e-3);
+ }
+

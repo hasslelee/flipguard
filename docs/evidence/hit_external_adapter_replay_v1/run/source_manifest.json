@@ -1,0 +1,77 @@
+{
+  "schema_version": "flipguard_hit_source_manifest_v1",
+  "sources": [
+    {
+      "local_path": "raw_sources/hit_parameter_formula/params.cpp",
+      "path": "src/hit/api/params.cpp",
+      "repository": "hit",
+      "role": "parameter_formula",
+      "sha256": "sha256:57875a14ab215d3f1aa3c30ab9bbb95449fedccc4d82bde01b2cc8917ea76785",
+      "source_id": "hit_parameter_formula",
+      "url": "https://raw.githubusercontent.com/awslabs/homomorphic-implementors-toolkit/902e87e0b96a2d270f4cc010ab1742aa062aa198/src/hit/api/params.cpp"
+    },
+    {
+      "local_path": "raw_sources/hit_wrapper_pin/CMakeLists.txt",
+      "path": "third-party/latticpp/CMakeLists.txt",
+      "repository": "hit",
+      "role": "wrapper_version_binding",
+      "sha256": "sha256:418afc453c8d0423c6ab1e36702e88219b0b7ddc1071a507455fa71f412b78e8",
+      "source_id": "hit_wrapper_pin",
+      "url": "https://raw.githubusercontent.com/awslabs/homomorphic-implementors-toolkit/902e87e0b96a2d270f4cc010ab1742aa062aa198/third-party/latticpp/CMakeLists.txt"
+    },
+    {
+      "local_path": "raw_sources/wrapper_materializer/params.go",
+      "path": "src/gowrapper/ckks/params.go",
+      "repository": "wrapper",
+      "role": "lattigo_v2_materialization",
+      "sha256": "sha256:e39c99bcc880d203f491660ca8b296f75472222bcf38cc9d43f40d96b17d8fb6",
+      "source_id": "wrapper_materializer",
+      "url": "https://raw.githubusercontent.com/awslabs/aws-cppwrapper-lattigo/826c9d1f33594b790c40d578a5ec3b2268fe762c/src/gowrapper/ckks/params.go"
+    },
+    {
+      "local_path": "raw_sources/wrapper_go_module/go.mod",
+      "path": "src/gowrapper/go.mod",
+      "repository": "wrapper",
+      "role": "lattigo_v2_version_binding",
+      "sha256": "sha256:3b15acc305e6577a847cc56898d9a11c9b0f2c9ba8665b126e2bd8250f088bf8",
+      "source_id": "wrapper_go_module",
+      "url": "https://raw.githubusercontent.com/awslabs/aws-cppwrapper-lattigo/826c9d1f33594b790c40d578a5ec3b2268fe762c/src/gowrapper/go.mod"
+    },
+    {
+      "local_path": "raw_sources/lattigo_v2_keygen/keygen.go",
+      "path": "rlwe/keygen.go",
+      "repository": "lattigo_v2",
+      "role": "v2_secret_and_error_distribution",
+      "sha256": "sha256:7fab7633de0b08b98dd07ee086bea992b280665e5466b579c64715e4f9b754f4",
+      "source_id": "lattigo_v2_keygen",
+      "url": "https://raw.githubusercontent.com/ldsec/lattigo/c629f0c9518f6117141f54e441d6ca5d765f8868/rlwe/keygen.go"
+    },
+    {
+      "local_path": "raw_sources/lattigo_v2_params/params.go",
+      "path": "rlwe/params.go",
+      "repository": "lattigo_v2",
+      "role": "v2_prime_generation",
+      "sha256": "sha256:bd9669070e95dfbe451475ca6b3d6465e702156964521e335ddeab17715a9d28",
+      "source_id": "lattigo_v2_params",
+      "url": "https://raw.githubusercontent.com/ldsec/lattigo/c629f0c9518f6117141f54e441d6ca5d765f8868/rlwe/params.go"
+    },
+    {
+      "local_path": "raw_sources/lattigo_v6_params/params.go",
+      "path": "core/rlwe/params.go",
+      "repository": "lattigo_v6",
+      "role": "v6_prime_generation",
+      "sha256": "sha256:972f08d26e63e884c0e3b4ffb100fe9345ea92d3d8bae966cfad78af55c60b7f",
+      "source_id": "lattigo_v6_params",
+      "url": "https://raw.githubusercontent.com/tuneinsight/lattigo/c1fd095f08602e2d4ef571db015fc553fdd2d845/core/rlwe/params.go"
+    },
+    {
+      "local_path": "raw_sources/lattigo_v6_sampler/sampler.go",
+      "path": "ring/sampler.go",
+      "repository": "lattigo_v6",
+      "role": "v6_distribution_semantics",
+      "sha256": "sha256:e4755efef7d55b33ab92442fc64c14fc937b53c24efc4771a7b255394c8721b9",
+      "source_id": "lattigo_v6_sampler",
+      "url": "https://raw.githubusercontent.com/tuneinsight/lattigo/c1fd095f08602e2d4ef571db015fc553fdd2d845/ring/sampler.go"
+    }
+  ]
+}

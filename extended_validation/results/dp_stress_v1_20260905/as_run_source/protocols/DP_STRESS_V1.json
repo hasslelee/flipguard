@@ -1,0 +1,14 @@
+{
+  "protocol_id": "DP_STRESS_V1",
+  "role": "EXPLORATORY_DIAGNOSTIC_NOT_CONFIRMATORY",
+  "parent": "DP_PILOT_V1A",
+  "models": ["spambase__logistic_linear__20260905", "spambase__square_mlp12__20260905"],
+  "policies": "Reuse parent model, preprocessing, low/high scales and calibration radii unchanged",
+  "generator_seed": 9162026,
+  "source": "Parent development inputs only; no original FlipGuard inputs",
+  "shift": "First 256 development inputs plus iid Gaussian noise sigma=0.5 in standardized model space, clip to [-5,5]",
+  "boundary": "32 pairs with opposite plaintext class from development; 48 bisection steps; evaluate interpolations at offsets [-0.01,-0.0001,-0.000001,0,0.000001,0.0001,0.01] along each segment, clip to [-5,5]",
+  "key_repeats": 3,
+  "outcomes": ["all-input fixed-low flips", "low-stage acceptance", "high-stage interval acceptance", "full-population cascade coverage and disagreement", "actual fallback ciphertext execution time"],
+  "limits": "Synthetic inputs have no ground-truth labels or real distribution guarantee. Report agreement with frozen polynomial reference only. Preserve calibration-envelope exceedances and failures; never tune from stress results."
+}

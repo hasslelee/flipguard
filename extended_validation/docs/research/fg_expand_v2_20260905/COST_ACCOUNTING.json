@@ -1,0 +1,53 @@
+{
+  "whole_main_calendar_elapsed_seconds": 10669.104652,
+  "data_download_and_csv_preparation_wall_seconds": null,
+  "source_build_wall_seconds": null,
+  "native_main_command_wall_seconds_all_attempts": 10523.576132955022,
+  "native_commands": 100,
+  "nonzero_native_commands": [
+    {
+      "command": [
+        "/usr/bin/time",
+        "-v",
+        "/home/ckks2/deciprotect/research/fashion_extension/bin/fashion-case",
+        "--mode",
+        "direct",
+        "--plan",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_0/planning/plan.json",
+        "--out",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_0/direct"
+      ],
+      "exit_code": 143,
+      "wall_seconds": 34.4759606839998
+    }
+  ],
+  "max_native_peak_rss_kib": 2060220,
+  "training": [
+    {
+      "seed": 0,
+      "training_seconds": 37.546270665,
+      "first_loss": 0.5686379897252628,
+      "last_loss": 0.2582474179981726,
+      "development_accuracy": 0.8882
+    },
+    {
+      "seed": 1,
+      "training_seconds": 37.564516226,
+      "first_loss": 0.5746436743755476,
+      "last_loss": 0.2592607900900726,
+      "development_accuracy": 0.885
+    },
+    {
+      "seed": 2,
+      "training_seconds": 37.452855518,
+      "first_loss": 0.5730175023879833,
+      "last_loss": 0.2583487374759467,
+      "development_accuracy": 0.8824
+    }
+  ],
+  "network_seconds": null,
+  "queue_wait_seconds": null,
+  "one_time_setup_included_in_audit_total": true,
+  "setup_excluded_from_paired_total_for_both_arms": true,
+  "main_status": "COMPLETED_EXPLORATORY"
+}

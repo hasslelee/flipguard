@@ -1,0 +1,48 @@
+{
+  "command": [
+    "/home/ckks2/flipguard/results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/bin/flipguard",
+    "-experiment",
+    "ckks_tabular_inference",
+    "-ckks-profile-name",
+    "short_chain_3",
+    "-ckks-evaluation-mode",
+    "rescale",
+    "-ckks-output-tag",
+    "finiteauditv1_confirm_seed0_banknote_linear_poly3_short_chain_3_rescale_aware_key3"
+  ],
+  "environment": {
+    "TABULAR_DATASET_ID": "banknote",
+    "TABULAR_DATA_ROOT": "/home/ckks2/flipguard/results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/materialized/split_seed_0",
+    "TABULAR_MODEL_ID": "linear_poly3"
+  },
+  "exit_code": 1,
+  "failure_class": "EXPECTED_PARAMETER_FAILURE",
+  "inputs": {
+    "audit": {
+      "bytes": 24771,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/banknote/linear_poly3/locked_audit_test.csv",
+      "sha256": "sha256:aca40de6e0a9d6acce02a595a9ec450884db619d4b4658e991734e6e7a9f1bf9"
+    },
+    "manifest": {
+      "bytes": 6585,
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_0/banknote/linear_poly3/split_manifest.json",
+      "sha256": "sha256:4de6d63f3bab78c62cbbc0fb440d9ed2c87ff914100eead1eae0ce79b7d18954"
+    },
+    "model": {
+      "bytes": 1639,
+      "path": "datasets/tabular_suite/banknote/linear_poly3/model.json",
+      "sha256": "sha256:d14e8e810a9b5b2b945f57cf8f53e4e12ee3b87a118262ba9cb796410c0083a4"
+    }
+  },
+  "log": {
+    "bytes": 1366,
+    "path": "results/thesis_grade_protocol/finite_domain_no_safe_locked_audit_v1/full/logs/seed0_banknote_linear_poly3_short_chain_3_rescale_aware_key3.log",
+    "sha256": "sha256:7e8463737f18b968d5fa6565979e7fdaaf92a374ce7a2c1db303f9b5abdac978"
+  },
+  "raw": {},
+  "schema_version": 1,
+  "source_commit": "7c0ad0c43fa80d53cf5e951a1c006d920ea9878c",
+  "source_digest": "sha256:4957147f1a5486fd957185f15ae7601bd71090571c9a687d7ca9fdc5e30dd9c4",
+  "status": "FAILED",
+  "tag": "finiteauditv1_confirm_seed0_banknote_linear_poly3_short_chain_3_rescale_aware_key3"
+}

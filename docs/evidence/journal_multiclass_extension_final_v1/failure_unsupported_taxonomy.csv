@@ -1,0 +1,7 @@
+component,model,result_class,preserved_interpretation,claim_effect
+exact_estimator_global_summary,multiclass,CLASS_S1_ESTIMATOR_ADAPTER_MISMATCH,pre-existing global status was incorrectly attributed to absent journal candidates,corrected candidate-specific static replay
+security_v2_bounded_catalog,mlp_100,BOUNDED_CATALOG_PLAN_UNSUPPORTED,one of seven profiles lacks required Q levels,partial frozen-catalog coverage
+security_v2_bounded_catalog,lenet5_small,PLAN_UNSUPPORTED_WITHIN_FROZEN_CATALOG,all seven frozen profiles lack required Q levels,no LeNet direct-versus-catalog claim
+graph_only_fixed_tolerance,lenet5_small,PLAN_UNSUPPORTED_SECURITY_ENVELOPE,no admitted ring dimension for declared graph-only literal,not executed
+paired_latency,mlp_100,LITERAL_EFFECT_ONLY,S29 and S32 differ but total-latency interval includes one,no S29-over-S32 latency superiority claim
+packed_cnn,general,BLOCKED_NOT_EVALUATED,no generic packing compiler was evaluated,no arbitrary packed-CNN claim

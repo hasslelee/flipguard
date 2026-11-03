@@ -1,0 +1,98 @@
+{
+  "audit_noninterference": {
+    "audit_result_may_modify_policy": false,
+    "candidate_selection_uses_audit_rows": false,
+    "hyperparameter_selection_uses_audit_rows": false,
+    "score_scaling_uses_audit_rows": false,
+    "training_uses_audit_rows": false
+  },
+  "extraction_policy_digest": "sha256:06c795514837759cfb8a75a0390964f1e3cf252ceda233ee42b2de3023a8bab5",
+  "extraction_policy_id": "mnist_binary01_cnn_lite_export_v1",
+  "model": {
+    "path": "datasets/vision_suite/mnist/cnn_lite_square_binary01/model.json",
+    "sha256": "sha256:28f673795c1982eb20d9cf156e527a5d61d74c2d674fc75f70dcca7b4876cf4e"
+  },
+  "partitions": {
+    "configuration_validation": {
+      "metrics": {
+        "accuracy": 0.98,
+        "correct": 245,
+        "incorrect": 5,
+        "maximum_margin": 0.8589890579304671,
+        "median_margin": 0.1700441036739496,
+        "minimum_margin": 0.011822953196082685,
+        "negative_decisions": 124,
+        "negative_labels": 125,
+        "positive_decisions": 126,
+        "positive_labels": 125,
+        "rows": 250
+      },
+      "path": "datasets/vision_suite/mnist/cnn_lite_square_binary01/configuration_validation.csv",
+      "role": "encrypted_candidate_selection",
+      "sha256": "sha256:c91fe6bb77ba57c2249bb643da20f73d034c6629d50156a115608e55f4e4b88b",
+      "source_partition": "train"
+    },
+    "locked_audit_test": {
+      "metrics": {
+        "accuracy": 0.992,
+        "correct": 248,
+        "incorrect": 2,
+        "maximum_margin": 0.80962108294076,
+        "median_margin": 0.17528200697532653,
+        "minimum_margin": 0.011173301291621501,
+        "negative_decisions": 123,
+        "negative_labels": 125,
+        "positive_decisions": 127,
+        "positive_labels": 125,
+        "rows": 250
+      },
+      "path": "datasets/vision_suite/mnist/cnn_lite_square_binary01/locked_audit_test.csv",
+      "role": "no_retuning_locked_audit",
+      "sha256": "sha256:dc45a3440752e36471257451f90298c0b3979c22fd68551e45ddae86b576c313",
+      "source_partition": "test"
+    },
+    "model_development": {
+      "exported": false,
+      "metrics": {
+        "accuracy": 0.996,
+        "correct": 249,
+        "incorrect": 1,
+        "maximum_margin": 0.9376691226614696,
+        "median_margin": 0.18405757237569545,
+        "minimum_margin": 0.003098459015025895,
+        "negative_decisions": 126,
+        "negative_labels": 125,
+        "positive_decisions": 124,
+        "positive_labels": 125,
+        "rows": 250
+      },
+      "role": "plaintext_development_diagnostic_only",
+      "rows": 250,
+      "source_partition": "train"
+    },
+    "training": {
+      "exported": false,
+      "role": "model_training_only",
+      "rows": 12165,
+      "source_partition": "train"
+    }
+  },
+  "schema_version": "flipguard_mnist_cnn_lite_holdout_v1",
+  "source_archive": {
+    "path": "results/source_datasets/mnist/mnist_784.arff.gz",
+    "sha256": "sha256:fe4410d8dbb50f6db6482b187557c5cb8bccfbcec74eeb6abc47c858f4ffab78"
+  },
+  "training_metrics": {
+    "accuracy": 0.9870941224825318,
+    "correct": 12008,
+    "incorrect": 157,
+    "maximum_margin": 0.9999999999999997,
+    "median_margin": 0.17149085000735542,
+    "minimum_margin": 0.00030149373934871757,
+    "negative_decisions": 5636,
+    "negative_labels": 5673,
+    "positive_decisions": 6529,
+    "positive_labels": 6492,
+    "rows": 12165
+  }
+}

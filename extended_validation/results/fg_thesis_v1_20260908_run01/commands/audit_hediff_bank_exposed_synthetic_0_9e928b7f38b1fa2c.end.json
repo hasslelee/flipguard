@@ -1,0 +1,40 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/bin/bank-case",
+    "--mode",
+    "raw-stress",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/planning/plan.json",
+    "--candidate",
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/frozen/hediff_bank/9e928b7f38b1fa2c.json",
+    "--data",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/stress.csv",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/9e928b7f38b1fa2c/exposed_synthetic/batch_00"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 9.736217524000494,
+  "charged_native": true,
+  "result_exists": true,
+  "before": {
+    "utc": "2026-09-08T10:42:39.170544+00:00",
+    "available_memory_bytes": 11101986816,
+    "free_disk_bytes": 21374197760,
+    "load": [
+      2.10498046875,
+      1.67138671875,
+      1.51220703125
+    ]
+  },
+  "after": {
+    "utc": "2026-09-08T10:42:48.913712+00:00",
+    "available_memory_bytes": 11093659648,
+    "free_disk_bytes": 21374140416,
+    "load": [
+      2.0146484375,
+      1.666015625,
+      1.51220703125
+    ]
+  },
+  "status": "COMPLETED"
+}

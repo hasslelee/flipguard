@@ -1,0 +1,62 @@
+{
+  "case": {
+    "group": "ablation",
+    "case_id": "banknote/mlp_square_poly3/fold_3/training_seed_0",
+    "dataset_id": "banknote",
+    "model_id": "mlp_square_poly3",
+    "split_id": "outer_fold_3_training_seed_0/configuration_selection",
+    "training_seed": "0",
+    "training_rows": "823",
+    "input_dim": "4",
+    "selection_inputs": "275",
+    "selection_eligible": "275",
+    "selection_boundary": "0",
+    "packing": "scalar_replicated_per_ciphertext_v1",
+    "required_slots": "1",
+    "key_repeats": "3",
+    "outcome": "SELECTED",
+    "trials": "1",
+    "audit_inputs": "274",
+    "audit_eligible": "274",
+    "audit_status": "REJECTED",
+    "audit_flips": "0",
+    "audit_violations": "1",
+    "selection_source": "/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/ablation/banknote/mlp_square_poly3/fold_3/training_seed_0/selection.json",
+    "audit_source": "/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/ablation/banknote/mlp_square_poly3/fold_3/training_seed_0/direct_independent_evaluation.json"
+  },
+  "metrics": {
+    "inputs": 274,
+    "applicable": 274,
+    "boundary": 0,
+    "key_observations": 822,
+    "key_repeats": 3,
+    "protected_flips": 0,
+    "protected_error_violations": 1,
+    "boundary_flip_observations": 0,
+    "min_margin": 0.009072351658337974,
+    "max_margin": 0.1672134185544229,
+    "min_applicable_margin": 0.009072351658337974,
+    "max_absolute_error": 0.06400527973742465,
+    "max_budget_usage": 1.0973134678824612,
+    "status": "REJECTED"
+  },
+  "violating_observations": [
+    {
+      "schema_version": 2,
+      "sample_id": "1068",
+      "key_repeat": 1,
+      "plaintext_score": 0.5196440056932156,
+      "ckks_score": 0.508866189688053,
+      "threshold": 0.5,
+      "decision_margin": 0.01964400569321556,
+      "error_budget": 0.00982200284660778,
+      "absolute_error": 0.010777816005162588,
+      "normalized_budget_usage": 1.0973134678824612,
+      "certifiable": true,
+      "plaintext_decision": true,
+      "ckks_decision": true,
+      "decision_flip": false,
+      "error_violation": true
+    }
+  ]
+}

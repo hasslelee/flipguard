@@ -1,0 +1,61 @@
+{
+  "schema_version": "flipguard_comprehensive_artifact_attempts_v3",
+  "audit_date": "2026-08-05",
+  "maximum_recovery_attempts": 3,
+  "systems": [
+    {
+      "system": "HALO",
+      "set": "CONDITIONAL_ATTEMPT",
+      "artifact_revision": "shared-post-publication-hecate-main@aedca73dac27b86044721781b9fca8d12e665876",
+      "attempts": 3,
+      "status": "REPRODUCTION_BLOCKED",
+      "reproduced": false,
+      "container_or_environment": "shared HECATE/HALO post-publication repository; Ubuntu 22.04; CUDA 12.2; MLIR 18",
+      "command_class": "SHARED_OFFICIAL_REPOSITORY_BUILD_AUDIT",
+      "last_error": "The shared repository did not build after three documented HECATE environment recoveries, so the HALO mode could not be reached.",
+      "dependency": "paper-tagged HALO closure unavailable; shared current HECATE repository; CUDA; MLIR/LLVM; SEAL",
+      "official_environment_difference": "No paper-specific HALO tag or standalone artifact was available.",
+      "reason_code": "SHARED_REPOSITORY_THREE_RECOVERIES_EXHAUSTED_MODE_NOT_REACHED",
+      "algorithm_semantics_changed": false,
+      "log_sha256": "sha256:e6d9a4cd136a50f62b42b28409068b6874d60428c83975546d9ffd4b8eb87f6b;sha256:c2aa53c5d755bcd8f6b961926f89d2fd9718092debea0f1eb797581f727842b6;sha256:bda99a15d6bf143d5a068f651a4c1cef713ba38622021f2d3c233926fe4c51af",
+      "notes": "This is a shared-repository build audit, not a successful HALO benchmark reproduction.",
+      "patches": []
+    },
+    {
+      "system": "Orbit",
+      "set": "CONDITIONAL_ATTEMPT",
+      "artifact_revision": "zenodo-v2@f364122b77be482bfe902c20a89755cee2060c5a",
+      "attempts": 1,
+      "status": "PASS",
+      "reproduced": true,
+      "container_or_environment": "official Zenodo v2 Dockerfile; image sha256:ae0fa99a213f20fcad5a33b57e07d19d505a2d3adebc329fec7d0af6d184171a",
+      "command_class": "OFFICIAL_DOCKER_BUILD_UNIT_TEST_AND_OPTIMIZER_QUICK",
+      "last_error": "",
+      "dependency": "Docker; official archive; PyTorch/MLIR dependency closure in image",
+      "official_environment_difference": "Full encrypted frontend/backend evaluation documents up to 256 GiB RAM and more than 20 GiB storage; audit host has 2 logical CPUs and about 15 GiB RAM.",
+      "reason_code": "PASS_BUILD_TEST_AND_SCHEDULE_SMOKE_FULL_RUNTIME_HARDWARE_BLOCKED",
+      "algorithm_semantics_changed": false,
+      "log_sha256": "sha256:fd36de1e1f7b409c00b4bd2c30df68778cd841412fbb4297ea4c4f9affa04c94",
+      "notes": "The official quick path passed 33 tests and emitted a schedule for motivation.mlir. This is SCHEDULE_ONLY, not encrypted end-to-end reproduction.",
+      "patches": []
+    },
+    {
+      "system": "ReSBM",
+      "set": "CONDITIONAL_ATTEMPT",
+      "artifact_revision": "post-artifact-main@929e9b621f11bebbaa9ec1e215f4a52e3d07109b",
+      "attempts": 3,
+      "status": "PASS",
+      "reproduced": true,
+      "container_or_environment": "official opencc/dev:ubuntu24.04 container and current official ACE repository",
+      "command_class": "OFFICIAL_COMPILER_BUILD_AND_RESBM_MODE_INPUT_CLOSURE_AUDIT",
+      "last_error": "Compiler build passed; ReSBM mode test could not fetch oss://antsys-fhe/cti/ir/sihe because ossutil requires credentials and anonymous HTTPS returned 403.",
+      "dependency": "opencc/dev:ubuntu24.04; ossutil v1.7.19; credential-gated official ONNX/SIHE inputs",
+      "official_environment_difference": "The official test assumes configured Alibaba OSS credentials not included in the public repository.",
+      "reason_code": "PASS_COMPILER_BUILD_SMOKE_NATIVE_MODE_OUTPUT_BLOCKED_BY_CREDENTIAL_GATED_INPUT",
+      "algorithm_semantics_changed": false,
+      "log_sha256": "sha256:530a24139e75a91195e125a1aeceaeadf737298ecd15b3e1b6f34ff368c7ade6;sha256:5cb9b8b83778a4daed33c8cfdc3045d2b1e0a3e7722dd932deb85041e1275b27;sha256:342a5a22119fec9e7cc616d8572db0260d3a8fab09d7ad69997b2eeb303fda3a",
+      "notes": "Build smoke is PASS. Native encrypted output is OUTPUT_UNAVAILABLE after three documented recovery attempts. No substitute model or synthetic output was used.",
+      "patches": []
+    }
+  ]
+}

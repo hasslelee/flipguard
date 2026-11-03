@@ -1,0 +1,132 @@
+{
+  "arm_measurement_flips": {
+    "bounded_catalog": 0,
+    "flipguard_direct": 8,
+    "heir_generated": 0
+  },
+  "claims": [
+    {
+      "bootstrap_repetitions": 5000,
+      "cluster_bootstrap_ci_high": 0.8041622383551202,
+      "cluster_bootstrap_ci_low": 0.7959682785478813,
+      "comparison": "heir_generated/flipguard_direct",
+      "denominator_arm": "flipguard_direct",
+      "geometric_mean_total_ratio": 0.8000644194132933,
+      "graph_identity": "EXACT_SHARED_POLYNOMIAL_OPERATION_ORDER",
+      "incomplete_pair_groups": 0,
+      "input_identity": "100_FROZEN_LOCKED_AUDIT_INPUTS",
+      "keyset_pairing": "3 keysets; each keyset/pass/input has both arms",
+      "locked_audit_state": "ZERO_FLIP_BOTH_ARMS_ON_ORIGINAL_500_INPUT_AUDITS",
+      "measurement_repeat_flips": {
+        "flipguard_direct": 8,
+        "heir_generated": 0
+      },
+      "numerator_arm": "heir_generated",
+      "outlier_removal": false,
+      "pair_id": "P1",
+      "post_hoc": false,
+      "predeclared_comparison": true,
+      "raw_pairs": 1800,
+      "reason": "Direct arm has 8 raw repeated flips on one V_amb input.",
+      "runtime": "Lattigo v6.2.0 common harness",
+      "security_v2": "PASS_BOTH_ARMS",
+      "state": "BLOCKED_UNSTABLE_ARM",
+      "timing_boundary": "per-input encrypt + evaluate + decrypt total_ms",
+      "unique_input_clusters": 100,
+      "validation_state": "ZERO_FLIP_BOTH_ARMS"
+    },
+    {
+      "bootstrap_repetitions": 5000,
+      "cluster_bootstrap_ci_high": 5.1410513280697465,
+      "cluster_bootstrap_ci_low": 5.0900699612057485,
+      "comparison": "bounded_catalog/flipguard_direct",
+      "denominator_arm": "flipguard_direct",
+      "geometric_mean_total_ratio": 5.115225647224325,
+      "graph_identity": "EXACT_SHARED_POLYNOMIAL_OPERATION_ORDER",
+      "incomplete_pair_groups": 0,
+      "input_identity": "100_FROZEN_LOCKED_AUDIT_INPUTS",
+      "keyset_pairing": "3 keysets; each keyset/pass/input has both arms",
+      "locked_audit_state": "ZERO_FLIP_BOTH_ARMS_ON_ORIGINAL_500_INPUT_AUDITS",
+      "measurement_repeat_flips": {
+        "bounded_catalog": 0,
+        "flipguard_direct": 8
+      },
+      "numerator_arm": "bounded_catalog",
+      "outlier_removal": false,
+      "pair_id": "P2",
+      "post_hoc": false,
+      "predeclared_comparison": true,
+      "raw_pairs": 1800,
+      "reason": "Direct arm has 8 raw repeated flips on one V_amb input.",
+      "runtime": "Lattigo v6.2.0 common harness",
+      "security_v2": "PASS_BOTH_ARMS",
+      "state": "BLOCKED_UNSTABLE_ARM",
+      "timing_boundary": "per-input encrypt + evaluate + decrypt total_ms",
+      "unique_input_clusters": 100,
+      "validation_state": "ZERO_FLIP_BOTH_ARMS"
+    },
+    {
+      "bootstrap_repetitions": 5000,
+      "cluster_bootstrap_ci_high": 6.427118084866673,
+      "cluster_bootstrap_ci_low": 6.361221883796193,
+      "comparison": "bounded_catalog/heir_generated",
+      "denominator_arm": "heir_generated",
+      "geometric_mean_total_ratio": 6.393517225744701,
+      "graph_identity": "EXACT_SHARED_POLYNOMIAL_OPERATION_ORDER",
+      "incomplete_pair_groups": 0,
+      "input_identity": "100_FROZEN_LOCKED_AUDIT_INPUTS",
+      "keyset_pairing": "3 keysets; each keyset/pass/input has both arms",
+      "locked_audit_state": "ZERO_FLIP_BOTH_ARMS_ON_ORIGINAL_500_INPUT_AUDITS",
+      "measurement_repeat_flips": {
+        "bounded_catalog": 0,
+        "heir_generated": 0
+      },
+      "numerator_arm": "bounded_catalog",
+      "outlier_removal": false,
+      "pair_id": "P3",
+      "post_hoc": false,
+      "predeclared_comparison": true,
+      "raw_pairs": 1800,
+      "reason": "Catalog and HEIR are fully paired, Security-V2 aligned, and have zero validation, audit, and measurement-repeat flips.",
+      "runtime": "Lattigo v6.2.0 common harness",
+      "security_v2": "PASS_BOTH_ARMS",
+      "state": "PAPER_ADMITTED",
+      "timing_boundary": "per-input encrypt + evaluate + decrypt total_ms",
+      "unique_input_clusters": 100,
+      "validation_state": "ZERO_FLIP_BOTH_ARMS"
+    }
+  ],
+  "direct_instability_does_not_leak_into_p3": true,
+  "original_audits": {
+    "catalog": {
+      "flips": 0,
+      "outcome": "LOCKED_AUDIT_PASS"
+    },
+    "direct": {
+      "flips": 0,
+      "outcome": "LOCKED_AUDIT_PASS",
+      "scope": "V_cert=498;V_amb=2"
+    },
+    "heir": {
+      "flips": 0,
+      "outcome": "LOCKED_AUDIT_PASS"
+    }
+  },
+  "prohibited": [
+    "HEIR is globally optimal",
+    "HEIR is always faster",
+    "ratio applies to other workloads",
+    "all compilers outperform direct synthesis"
+  ],
+  "protocol": {
+    "bootstrap_repetitions": 5000,
+    "bootstrap_seed": 20260807,
+    "keysets": 3,
+    "passes": 6,
+    "raw_pairs_per_comparison": 1800,
+    "unique_inputs": 100
+  },
+  "schema_version": "flipguard_pairwise_latency_claim_admission_v9",
+  "source_records": "docs/evidence/focused_external_comparison_v8/common_executor_records.csv",
+  "source_records_sha256": "sha256:e271872340e08ea074704d30138d444c0c53ed5f597aa881e876234c99e48f2d"
+}

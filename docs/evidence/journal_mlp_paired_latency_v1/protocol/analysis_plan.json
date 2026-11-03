@@ -1,0 +1,37 @@
+{
+  "bootstrap_repetitions": 10000,
+  "bootstrap_seed": 20260802,
+  "confidence_interval": "deterministic class-stratified image-cluster bootstrap 95% CI",
+  "latency_effect_supported": "different literals; both full locked audits PASS; total ratio CI lower bound > 1",
+  "literal_effect_only": "different literals but total ratio CI includes 1 or effect is negligible",
+  "no_observed_effect": "literal or latency difference is not reproduced",
+  "primary_pairs": [
+    {
+      "denominator": "gap_aware",
+      "metrics": [
+        "total_ms",
+        "evaluation_only_ms"
+      ],
+      "numerator": "graph_only"
+    },
+    {
+      "denominator": "gap_aware",
+      "metrics": [
+        "total_ms",
+        "evaluation_only_ms"
+      ],
+      "numerator": "catalog"
+    }
+  ],
+  "raw_measurements_are_not_independent": true,
+  "schema_version": "flipguard_journal_mlp_paired_latency_protocol_v1",
+  "summary": [
+    "mean",
+    "median",
+    "p95",
+    "standard_deviation",
+    "IQR",
+    "within_image_CV",
+    "arm_position_effect"
+  ]
+}

@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/runner/work/flipguard/flipguard/scripts/export_bsds500_sobel_holdout.py", line 566, in <module>
+    main()
+  File "/home/runner/work/flipguard/flipguard/scripts/export_bsds500_sobel_holdout.py", line 556, in main
+    verify(archive, image_root, output_root)
+  File "/home/runner/work/flipguard/flipguard/scripts/export_bsds500_sobel_holdout.py", line 527, in verify
+    build(archive, image_root, rebuilt, force=False)
+  File "/home/runner/work/flipguard/flipguard/scripts/export_bsds500_sobel_holdout.py", line 381, in build
+    selections[partition] = rank_images(paths, partition, count)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/flipguard/flipguard/scripts/export_bsds500_sobel_holdout.py", line 151, in rank_images
+    raise ValueError(
+ValueError: partition train has 0 images, need 100

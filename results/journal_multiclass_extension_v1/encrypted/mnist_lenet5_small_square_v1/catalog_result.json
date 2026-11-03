@@ -1,0 +1,469 @@
+{
+  "schema_version": "flipguard_journal_multiclass_run_v1",
+  "source_commit": "84b2493b3adacde10a5f49d5b90f7f6910812bf3",
+  "completed_at": "2026-08-02T02:47:54Z",
+  "formal_denominator": 7,
+  "encrypted_candidates": 0,
+  "safe": 0,
+  "rejected": 0,
+  "failed": 0,
+  "plan_unsupported": 7,
+  "entries": [
+    {
+      "static": {
+        "profile_name": "deep_chain_8_scale45",
+        "candidate": {
+          "id": "catalog_deep_chain_8_scale45__rescale",
+          "path": "rescale",
+          "parameters": {
+            "log_n": 15,
+            "log_q": [
+              56,
+              46,
+              46,
+              46,
+              45,
+              45,
+              46,
+              45
+            ],
+            "log_p": [
+              56,
+              55
+            ],
+            "log_default_scale": 45
+          },
+          "security": {
+            "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+            "target_bits": 128,
+            "declared_log_qp": 486,
+            "max_allowed_log_qp": 868,
+            "headroom_bits": 382,
+            "admission_status": "PASS",
+            "log_q": 375,
+            "log_p": 111,
+            "log_qp": 486,
+            "ciphertext_q_admission": "PASS",
+            "evaluation_key_qp_admission": "PASS",
+            "final_admission": "PASS",
+            "ciphertext_headroom_bits": 493,
+            "evaluation_key_headroom_bits": 382,
+            "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+          },
+          "required_rescale_levels": 16,
+          "level_guard": 0,
+          "precision_target_bits": 0,
+          "message_magnitude_bits": 0,
+          "analysis_scale_bits": 0,
+          "backend_scale_lift_bits": 0,
+          "backend_validation_attempts": 0,
+          "same_tier_precision_gain_bits": 0,
+          "same_tier_static_candidates_tried": 0,
+          "generation_kind": "security_v2_bounded_catalog",
+          "reason": "exact built-in profile; Security-V2 admitted; evaluation-only bounded catalog"
+        },
+        "required_q_primes": 18,
+        "available_q_primes": 8,
+        "static_status": "PLAN_UNSUPPORTED_LEVELS",
+        "encrypted_execution_required": false
+      }
+    },
+    {
+      "static": {
+        "profile_name": "deep_chain_9_scale45",
+        "candidate": {
+          "id": "catalog_deep_chain_9_scale45__rescale",
+          "path": "rescale",
+          "parameters": {
+            "log_n": 15,
+            "log_q": [
+              56,
+              46,
+              46,
+              46,
+              45,
+              45,
+              46,
+              45,
+              45
+            ],
+            "log_p": [
+              56,
+              55
+            ],
+            "log_default_scale": 45
+          },
+          "security": {
+            "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+            "target_bits": 128,
+            "declared_log_qp": 531,
+            "max_allowed_log_qp": 868,
+            "headroom_bits": 337,
+            "admission_status": "PASS",
+            "log_q": 420,
+            "log_p": 111,
+            "log_qp": 531,
+            "ciphertext_q_admission": "PASS",
+            "evaluation_key_qp_admission": "PASS",
+            "final_admission": "PASS",
+            "ciphertext_headroom_bits": 448,
+            "evaluation_key_headroom_bits": 337,
+            "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+          },
+          "required_rescale_levels": 16,
+          "level_guard": 0,
+          "precision_target_bits": 0,
+          "message_magnitude_bits": 0,
+          "analysis_scale_bits": 0,
+          "backend_scale_lift_bits": 0,
+          "backend_validation_attempts": 0,
+          "same_tier_precision_gain_bits": 0,
+          "same_tier_static_candidates_tried": 0,
+          "generation_kind": "security_v2_bounded_catalog",
+          "reason": "exact built-in profile; Security-V2 admitted; evaluation-only bounded catalog"
+        },
+        "required_q_primes": 18,
+        "available_q_primes": 9,
+        "static_status": "PLAN_UNSUPPORTED_LEVELS",
+        "encrypted_execution_required": false
+      }
+    },
+    {
+      "static": {
+        "profile_name": "short_chain_3",
+        "candidate": {
+          "id": "catalog_short_chain_3__rescale",
+          "path": "rescale",
+          "parameters": {
+            "log_n": 14,
+            "log_q": [
+              56,
+              46,
+              46
+            ],
+            "log_p": [
+              56,
+              55
+            ],
+            "q": [
+              36028797019488257,
+              35184372744193,
+              35184373006337
+            ],
+            "p": [
+              36028797020209153,
+              36028797017456641
+            ],
+            "log_default_scale": 35
+          },
+          "security": {
+            "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+            "target_bits": 128,
+            "declared_log_qp": 259,
+            "max_allowed_log_qp": 430,
+            "headroom_bits": 171,
+            "admission_status": "PASS",
+            "log_q": 148,
+            "log_p": 111,
+            "log_qp": 259,
+            "ciphertext_q_admission": "PASS",
+            "evaluation_key_qp_admission": "PASS",
+            "final_admission": "PASS",
+            "ciphertext_headroom_bits": 282,
+            "evaluation_key_headroom_bits": 171,
+            "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+          },
+          "required_rescale_levels": 16,
+          "level_guard": 0,
+          "precision_target_bits": 0,
+          "message_magnitude_bits": 0,
+          "analysis_scale_bits": 0,
+          "backend_scale_lift_bits": 0,
+          "backend_validation_attempts": 0,
+          "same_tier_precision_gain_bits": 0,
+          "same_tier_static_candidates_tried": 0,
+          "generation_kind": "security_v2_bounded_catalog",
+          "reason": "exact built-in profile; Security-V2 admitted; evaluation-only bounded catalog"
+        },
+        "required_q_primes": 18,
+        "available_q_primes": 3,
+        "static_status": "PLAN_UNSUPPORTED_LEVELS",
+        "encrypted_execution_required": false
+      }
+    },
+    {
+      "static": {
+        "profile_name": "short_chain_5",
+        "candidate": {
+          "id": "catalog_short_chain_5__rescale",
+          "path": "rescale",
+          "parameters": {
+            "log_n": 14,
+            "log_q": [
+              56,
+              46,
+              46,
+              46,
+              45
+            ],
+            "log_p": [
+              56,
+              55
+            ],
+            "q": [
+              36028797019488257,
+              35184372744193,
+              35184373006337,
+              35184373989377,
+              35184368877569
+            ],
+            "p": [
+              36028797020209153,
+              36028797017456641
+            ],
+            "log_default_scale": 40
+          },
+          "security": {
+            "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+            "target_bits": 128,
+            "declared_log_qp": 350,
+            "max_allowed_log_qp": 430,
+            "headroom_bits": 80,
+            "admission_status": "PASS",
+            "log_q": 239,
+            "log_p": 111,
+            "log_qp": 350,
+            "ciphertext_q_admission": "PASS",
+            "evaluation_key_qp_admission": "PASS",
+            "final_admission": "PASS",
+            "ciphertext_headroom_bits": 191,
+            "evaluation_key_headroom_bits": 80,
+            "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+          },
+          "required_rescale_levels": 16,
+          "level_guard": 0,
+          "precision_target_bits": 0,
+          "message_magnitude_bits": 0,
+          "analysis_scale_bits": 0,
+          "backend_scale_lift_bits": 0,
+          "backend_validation_attempts": 0,
+          "same_tier_precision_gain_bits": 0,
+          "same_tier_static_candidates_tried": 0,
+          "generation_kind": "security_v2_bounded_catalog",
+          "reason": "exact built-in profile; Security-V2 admitted; evaluation-only bounded catalog"
+        },
+        "required_q_primes": 18,
+        "available_q_primes": 5,
+        "static_status": "PLAN_UNSUPPORTED_LEVELS",
+        "encrypted_execution_required": false
+      }
+    },
+    {
+      "static": {
+        "profile_name": "short_chain_6_scale38",
+        "candidate": {
+          "id": "catalog_short_chain_6_scale38__rescale",
+          "path": "rescale",
+          "parameters": {
+            "log_n": 14,
+            "log_q": [
+              56,
+              46,
+              46,
+              46,
+              45,
+              45
+            ],
+            "log_p": [
+              56,
+              55
+            ],
+            "q": [
+              36028797019488257,
+              35184372744193,
+              35184373006337,
+              35184373989377,
+              35184368877569,
+              35184368025601
+            ],
+            "p": [
+              36028797020209153,
+              36028797017456641
+            ],
+            "log_default_scale": 38
+          },
+          "security": {
+            "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+            "target_bits": 128,
+            "declared_log_qp": 395,
+            "max_allowed_log_qp": 430,
+            "headroom_bits": 35,
+            "admission_status": "PASS",
+            "log_q": 284,
+            "log_p": 111,
+            "log_qp": 395,
+            "ciphertext_q_admission": "PASS",
+            "evaluation_key_qp_admission": "PASS",
+            "final_admission": "PASS",
+            "ciphertext_headroom_bits": 146,
+            "evaluation_key_headroom_bits": 35,
+            "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+          },
+          "required_rescale_levels": 16,
+          "level_guard": 0,
+          "precision_target_bits": 0,
+          "message_magnitude_bits": 0,
+          "analysis_scale_bits": 0,
+          "backend_scale_lift_bits": 0,
+          "backend_validation_attempts": 0,
+          "same_tier_precision_gain_bits": 0,
+          "same_tier_static_candidates_tried": 0,
+          "generation_kind": "security_v2_bounded_catalog",
+          "reason": "exact built-in profile; Security-V2 admitted; evaluation-only bounded catalog"
+        },
+        "required_q_primes": 18,
+        "available_q_primes": 6,
+        "static_status": "PLAN_UNSUPPORTED_LEVELS",
+        "encrypted_execution_required": false
+      }
+    },
+    {
+      "static": {
+        "profile_name": "short_chain_6_scale40",
+        "candidate": {
+          "id": "catalog_short_chain_6_scale40__rescale",
+          "path": "rescale",
+          "parameters": {
+            "log_n": 14,
+            "log_q": [
+              56,
+              46,
+              46,
+              46,
+              45,
+              45
+            ],
+            "log_p": [
+              56,
+              55
+            ],
+            "q": [
+              36028797019488257,
+              35184372744193,
+              35184373006337,
+              35184373989377,
+              35184368877569,
+              35184368025601
+            ],
+            "p": [
+              36028797020209153,
+              36028797017456641
+            ],
+            "log_default_scale": 40
+          },
+          "security": {
+            "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+            "target_bits": 128,
+            "declared_log_qp": 395,
+            "max_allowed_log_qp": 430,
+            "headroom_bits": 35,
+            "admission_status": "PASS",
+            "log_q": 284,
+            "log_p": 111,
+            "log_qp": 395,
+            "ciphertext_q_admission": "PASS",
+            "evaluation_key_qp_admission": "PASS",
+            "final_admission": "PASS",
+            "ciphertext_headroom_bits": 146,
+            "evaluation_key_headroom_bits": 35,
+            "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+          },
+          "required_rescale_levels": 16,
+          "level_guard": 0,
+          "precision_target_bits": 0,
+          "message_magnitude_bits": 0,
+          "analysis_scale_bits": 0,
+          "backend_scale_lift_bits": 0,
+          "backend_validation_attempts": 0,
+          "same_tier_precision_gain_bits": 0,
+          "same_tier_static_candidates_tried": 0,
+          "generation_kind": "security_v2_bounded_catalog",
+          "reason": "exact built-in profile; Security-V2 admitted; evaluation-only bounded catalog"
+        },
+        "required_q_primes": 18,
+        "available_q_primes": 6,
+        "static_status": "PLAN_UNSUPPORTED_LEVELS",
+        "encrypted_execution_required": false
+      }
+    },
+    {
+      "static": {
+        "profile_name": "short_chain_6_scale42",
+        "candidate": {
+          "id": "catalog_short_chain_6_scale42__rescale",
+          "path": "rescale",
+          "parameters": {
+            "log_n": 14,
+            "log_q": [
+              56,
+              46,
+              46,
+              46,
+              45,
+              45
+            ],
+            "log_p": [
+              56,
+              55
+            ],
+            "q": [
+              36028797019488257,
+              35184372744193,
+              35184373006337,
+              35184373989377,
+              35184368877569,
+              35184368025601
+            ],
+            "p": [
+              36028797020209153,
+              36028797017456641
+            ],
+            "log_default_scale": 42
+          },
+          "security": {
+            "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+            "target_bits": 128,
+            "declared_log_qp": 395,
+            "max_allowed_log_qp": 430,
+            "headroom_bits": 35,
+            "admission_status": "PASS",
+            "log_q": 284,
+            "log_p": 111,
+            "log_qp": 395,
+            "ciphertext_q_admission": "PASS",
+            "evaluation_key_qp_admission": "PASS",
+            "final_admission": "PASS",
+            "ciphertext_headroom_bits": 146,
+            "evaluation_key_headroom_bits": 35,
+            "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+          },
+          "required_rescale_levels": 16,
+          "level_guard": 0,
+          "precision_target_bits": 0,
+          "message_magnitude_bits": 0,
+          "analysis_scale_bits": 0,
+          "backend_scale_lift_bits": 0,
+          "backend_validation_attempts": 0,
+          "same_tier_precision_gain_bits": 0,
+          "same_tier_static_candidates_tried": 0,
+          "generation_kind": "security_v2_bounded_catalog",
+          "reason": "exact built-in profile; Security-V2 admitted; evaluation-only bounded catalog"
+        },
+        "required_q_primes": 18,
+        "available_q_primes": 6,
+        "static_status": "PLAN_UNSUPPORTED_LEVELS",
+        "encrypted_execution_required": false
+      }
+    }
+  ]
+}

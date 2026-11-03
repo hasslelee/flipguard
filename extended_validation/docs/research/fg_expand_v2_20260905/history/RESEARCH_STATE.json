@@ -1,0 +1,552 @@
+{
+  "project": "DeciProtect",
+  "research_purpose": "Expansion of final journal PDF offline decision-agreement CKKS configuration selection",
+  "updated_at_utc": "2026-09-05T10:18:19.976150+00:00",
+  "predecessor": "/home/ckks2/flipguard",
+  "new_repository": "https://github.com/hasslelee/deciprotect",
+  "visibility": "private",
+  "freeze": {
+    "started_at_utc": "2026-09-05T06:19:40.711457+00:00",
+    "source": "/home/ckks2/flipguard",
+    "head": "67251c57ca7be5aa8aeffd746a6a6671685e98c5",
+    "branch": "paper/v22-1-editorial-sync",
+    "remote": "origin\tgit@github.com:hasslelee/flipguard.git (fetch)\norigin\tgit@github.com:hasslelee/flipguard.git (push)\n",
+    "status": "VERIFIED_ARCHIVE",
+    "all_workspace_bytes_included": true,
+    "completed_at_utc": "2026-09-05T07:19:03.043456+00:00",
+    "entries": 1274177,
+    "inventory": {
+      ".gitattributes": {
+        "files": 1,
+        "bytes": 254
+      },
+      ".gitignore": {
+        "files": 1,
+        "bytes": 425
+      },
+      "AGENTS.md": {
+        "files": 1,
+        "bytes": 1153
+      },
+      "CKKS_결정안정성_실행구성선택_정보보호학회논문지_v25.txt": {
+        "files": 1,
+        "bytes": 48966
+      },
+      "README.md": {
+        "files": 1,
+        "bytes": 17756
+      },
+      "collect_flipguard_direction_snapshot.sh": {
+        "files": 1,
+        "bytes": 14662
+      },
+      "collect_flipguard_final_paper_readiness.sh": {
+        "files": 1,
+        "bytes": 9509
+      },
+      "collect_flipguard_post24h_review.sh": {
+        "files": 1,
+        "bytes": 12414
+      },
+      "go.mod": {
+        "files": 1,
+        "bytes": 563
+      },
+      "go.sum": {
+        "files": 1,
+        "bytes": 2614
+      },
+      "requirements-ci.txt": {
+        "files": 1,
+        "bytes": 15
+      },
+      "v25_code_verification_commands.log": {
+        "files": 1,
+        "bytes": 9992
+      },
+      "v25_code_verification_commands_r2.log": {
+        "files": 1,
+        "bytes": 10575
+      },
+      "v25_code_verification_evidence.tsv": {
+        "files": 1,
+        "bytes": 29329
+      },
+      "v25_code_verification_evidence_r2.tsv": {
+        "files": 1,
+        "bytes": 20821
+      },
+      "v25_code_verification_report.md": {
+        "files": 1,
+        "bytes": 24866
+      },
+      "v25_code_verification_report_r2.md": {
+        "files": 1,
+        "bytes": 14868
+      },
+      "v25_code_verification_summary.json": {
+        "files": 1,
+        "bytes": 9135
+      },
+      "v25_code_verification_summary_r2.json": {
+        "files": 1,
+        "bytes": 7450
+      },
+      "v25_최종검토_논문지비교_CISC26W수상가능성.txt": {
+        "files": 1,
+        "bytes": 10570
+      },
+      "v34_primary_coverage_by_case.tsv": {
+        "files": 1,
+        "bytes": 47948
+      },
+      "v34_required_code_audit_commands.log": {
+        "files": 1,
+        "bytes": 4741
+      },
+      "v34_required_code_audit_evidence.tsv": {
+        "files": 1,
+        "bytes": 14352
+      },
+      "v34_required_code_audit_report.md": {
+        "files": 1,
+        "bytes": 24655
+      },
+      "v34_required_code_audit_summary.json": {
+        "files": 1,
+        "bytes": 21273
+      },
+      ".codex": {
+        "files": 5,
+        "bytes": 84104
+      },
+      ".git": {
+        "files": 4273,
+        "bytes": 141618788
+      },
+      ".github": {
+        "files": 6,
+        "bytes": 26268
+      },
+      ".venv": {
+        "files": 6913,
+        "bytes": 321954730
+      },
+      "bin": {
+        "files": 1,
+        "bytes": 5990202
+      },
+      "cmd": {
+        "files": 51,
+        "bytes": 319254
+      },
+      "configs": {
+        "files": 1,
+        "bytes": 1831
+      },
+      "datasets": {
+        "files": 122,
+        "bytes": 11147498
+      },
+      "dist": {
+        "files": 4,
+        "bytes": 26060826
+      },
+      "docs": {
+        "files": 5137,
+        "bytes": 240749362
+      },
+      "experiments": {
+        "files": 15,
+        "bytes": 51700
+      },
+      "external": {
+        "files": 1225409,
+        "bytes": 39320496684
+      },
+      "internal": {
+        "files": 274,
+        "bytes": 1832249
+      },
+      "paper_audit_v24": {
+        "files": 9,
+        "bytes": 347370
+      },
+      "release": {
+        "files": 2,
+        "bytes": 2582
+      },
+      "research": {
+        "files": 5,
+        "bytes": 50217
+      },
+      "results": {
+        "files": 31369,
+        "bytes": 4937901779
+      },
+      "scripts": {
+        "files": 514,
+        "bytes": 5666778
+      },
+      "seminar_assets": {
+        "files": 36,
+        "bytes": 4464248
+      },
+      "tools": {
+        "files": 6,
+        "bytes": 17151
+      }
+    },
+    "logical_bytes": 45019142527,
+    "archive_path": "archive/freeze_20260905/flipguard_complete_restored.tar.zst",
+    "archive_sha256": "17d22ae5009f3b2fec55510e546136c03c59db94c717443d2f7ccf7ec4463cc2",
+    "archive_bytes": 16999245847,
+    "manifest_path": "archive/freeze_20260905/workspace_manifest.jsonl",
+    "manifest_sha256": "2d21dca85ae74fb0fffb7f71d1c252a1946dfc9a5e6ee30a8e33537f0a46c03a",
+    "final_pdf_sha256": "0210899a12ff1025db358e1812159ca4af2b5c6095a79e2b7b19200d7e9f3b85",
+    "archive_payload_verification": "Every original regular-file payload, symlink, mode and member matched the initial inventory",
+    "verification_log": "archive/freeze_20260905/restored_verification_retry1.log",
+    "verification_log_sha256": "b651ebe29f8cb0869ac7b9b7bd6d6a5e973acb0d2ddd7f87a492d8b6e9a5a4ad",
+    "verification_script_sha256": "e3f22a6cf587cd05e26639ae72cb46887a3dcace1d620f00535a6db965409ea1",
+    "live_source_resolution": {
+      "status": "RESEARCH_PAYLOAD_RESTORED_GIT_BOOKKEEPING_DRIFT_RECORDED",
+      "checked_at_utc": "2026-09-05T07:19:03.042047+00:00",
+      "full_inventory_check": "docs/review/SOURCE_STATE_FINAL.json",
+      "operational_files_restored": 7,
+      "scientific_artifact_or_production_code_payload_changes_detected": 0,
+      "git_object_mtime_changes_at_full_check": 592,
+      "new_codex_capture_refs_at_full_check": [
+        ".git/refs/codex/turn-diffs/captures/1788591718516/e45214dd-d292-4615-bab3-de05dfc1ec97/base"
+      ],
+      "git_object_payloads_unchanged": true,
+      "head_branch_remote_status_diff_unchanged": true,
+      "legacy_autostart_services_disabled": 5,
+      "live_git_byte_for_byte_unchanged_claim": false,
+      "directory_metadata_and_access_times_in_scope": false,
+      "original_archive_payloads_verified": 1274177
+    },
+    "storage": "Independent local compressed archive, not uploaded and not a separate-device backup",
+    "generated_cache_incident": "967 generated Python cache files quarantined and removed; see docs/review/CACHE_RESTORATION.json",
+    "reboot_incident": "Host reboot interrupted one verification pass and restarted legacy services. Five services were disabled; seven operational files were restored after preserving post-reboot versions.",
+    "git_bookkeeping": "592 original Git-object mtimes changed and one Codex capture ref appeared at the full recheck; object payloads and HEAD/branch/remote/porcelain/diff matched. Internal bookkeeping was not deleted or retimed.",
+    "superseded_attempt": "archive/freeze_20260905/attempt1_with_generated_caches.tar.gz",
+    "source_final_record": "docs/review/SOURCE_STATE_RESOLUTION.json"
+  },
+  "current_protocol_id": "FG_EXPAND_V1_20260905",
+  "current_run_id": "fg_expand_v1_20260905_run01",
+  "status": "FIRST_EXPANSION_COMPLETED_EXPLORATORY",
+  "active_experiments": [],
+  "automatic_followup_enabled": false,
+  "next_scope": "Proposed only: Fashion-MNIST existing square MLP100 across three training seeds; support and bounded budget must be fixed in a new protocol; no automatic execution",
+  "excluded_from_current_default": [
+    "DP-03 queue/recomputation followup",
+    "runtime abstention optimization",
+    "new operational risk guarantee"
+  ],
+  "historical_protocol_results": {
+    "pilot_v1a_completed_cases": 12,
+    "pilot_v1_static_failures_preserved": 6,
+    "synthetic_stress_cases": 4,
+    "gap_diagnostic_cases": 6,
+    "gap_diagnostic_added_acceptances": 0,
+    "iid_audit": {
+      "trials": 600,
+      "unique_population_indices_drawn": 502,
+      "population_size": 1322,
+      "accepted": 567,
+      "abstained": 33,
+      "accepted_disagreements": 0,
+      "fixed_low_disagreements": 29,
+      "coverage": 0.945,
+      "joint_risk": {
+        "status": "ADMITTED",
+        "upper_bound": 0.00612927133066926,
+        "admitted": true
+      },
+      "selective_risk": {
+        "status": "ADMITTED",
+        "upper_bound": 0.0064848422995379094,
+        "admitted": true
+      },
+      "wall_seconds": 99.25638029002585,
+      "scope": "FINITE_1322_ROW_OPERATIONAL_POPULATION_ONLY",
+      "real_world_generalization": false,
+      "worst_case_preservation": false
+    },
+    "dp03_cost_diagnostic": {
+      "status": "STAGE_1_COMPLETED_EXPLORATORY_ONLY",
+      "run_id": "dp03_cost_diag_v1_20260905",
+      "protocol_id": "DP03_COST_DIAG_V1",
+      "arm_trials": 216,
+      "native_calls": 247,
+      "verified_payload_files": 1219,
+      "verified_bound_parent_files": 24,
+      "report": "docs/research/dp03_cost_diag_v1_20260905/REPORT_KO.md",
+      "summary": "docs/research/dp03_cost_diag_v1_20260905/summary.json",
+      "queue_implemented": false,
+      "next_queue_experiment_executed": false,
+      "confirmatory": false,
+      "risk_admission": false,
+      "cells": [
+        {
+          "batch_size": 128,
+          "arm": "fixed_high",
+          "inputs": 7578,
+          "retry_requested": 0,
+          "high_batches_completed": 63,
+          "final_abstained": 0,
+          "execution_failed": 0,
+          "accepted_disagreements": 0,
+          "mean_ms_per_842_inputs": {
+            "setup_ms": 74.72432822222223,
+            "input_pack_ms": 8.75691822222222,
+            "input_encode_ms": 203.50326655555557,
+            "input_encrypt_ms": 964.5129947777776,
+            "server_model_prepare_ms": 141.96183044444444,
+            "homomorphic_ops_ms": 73.35505822222225,
+            "decrypt_decode_gate_ms": 3.0093239999999994,
+            "observer_identity_ms": 2.369329111111111,
+            "native_unassigned_ms": 1.5253577777778022,
+            "json_file_io_ms": 47.838783222222226,
+            "subprocess_outside_native_ms": 244.39031044444442,
+            "retry_select_materialize_ms": 0.0,
+            "client_harness_unassigned_ms": 8.111604888888845,
+            "native_total_ms": 1473.1246719999995,
+            "instrumented_local_wall_ms": 1774.0591058888883
+          }
+        },
+        {
+          "batch_size": 128,
+          "arm": "fixed_high_gate",
+          "inputs": 7578,
+          "retry_requested": 0,
+          "high_batches_completed": 63,
+          "final_abstained": 0,
+          "execution_failed": 0,
+          "accepted_disagreements": 0,
+          "mean_ms_per_842_inputs": {
+            "setup_ms": 74.60346033333332,
+            "input_pack_ms": 8.675721333333334,
+            "input_encode_ms": 202.95460333333332,
+            "input_encrypt_ms": 965.1018226666664,
+            "server_model_prepare_ms": 140.6898146666667,
+            "homomorphic_ops_ms": 73.59836622222221,
+            "decrypt_decode_gate_ms": 3.4194816666666674,
+            "observer_identity_ms": 2.298064555555555,
+            "native_unassigned_ms": 1.6157013333333086,
+            "json_file_io_ms": 47.362604222222224,
+            "subprocess_outside_native_ms": 283.4897716666667,
+            "retry_select_materialize_ms": 0.0,
+            "client_harness_unassigned_ms": 8.441242111111112,
+            "native_total_ms": 1472.0550578888885,
+            "instrumented_local_wall_ms": 1812.2506541111115
+          }
+        },
+        {
+          "batch_size": 128,
+          "arm": "two_stage",
+          "inputs": 7578,
+          "retry_requested": 30,
+          "high_batches_completed": 22,
+          "final_abstained": 0,
+          "execution_failed": 0,
+          "accepted_disagreements": 0,
+          "mean_ms_per_842_inputs": {
+            "setup_ms": 77.05331799999998,
+            "input_pack_ms": 9.811953111111112,
+            "input_encode_ms": 163.77007177777773,
+            "input_encrypt_ms": 804.215536666667,
+            "server_model_prepare_ms": 114.89766122222221,
+            "homomorphic_ops_ms": 62.02502977777777,
+            "decrypt_decode_gate_ms": 3.376806666666667,
+            "observer_identity_ms": 7.559765222222221,
+            "native_unassigned_ms": 1.5774002222222299,
+            "json_file_io_ms": 47.48661222222223,
+            "subprocess_outside_native_ms": 145.0597034444444,
+            "retry_select_materialize_ms": 0.15620677777777775,
+            "client_harness_unassigned_ms": 9.26158322222223,
+            "native_total_ms": 1243.2357062222227,
+            "instrumented_local_wall_ms": 1446.251648333334
+          }
+        },
+        {
+          "batch_size": 842,
+          "arm": "fixed_high",
+          "inputs": 7578,
+          "retry_requested": 0,
+          "high_batches_completed": 9,
+          "final_abstained": 0,
+          "execution_failed": 0,
+          "accepted_disagreements": 0,
+          "mean_ms_per_842_inputs": {
+            "setup_ms": 11.775618666666666,
+            "input_pack_ms": 1.4339528888888888,
+            "input_encode_ms": 29.301080111111112,
+            "input_encrypt_ms": 136.54358766666667,
+            "server_model_prepare_ms": 20.61816044444445,
+            "homomorphic_ops_ms": 10.819759444444445,
+            "decrypt_decode_gate_ms": 0.6893083333333334,
+            "observer_identity_ms": 0.4272391111111111,
+            "native_unassigned_ms": 0.2159961111111165,
+            "json_file_io_ms": 44.412107222222225,
+            "subprocess_outside_native_ms": 57.726970666666666,
+            "retry_select_materialize_ms": 0.0,
+            "client_harness_unassigned_ms": 5.311331999999993,
+            "native_total_ms": 211.6042581111111,
+            "instrumented_local_wall_ms": 319.2751126666667
+          }
+        },
+        {
+          "batch_size": 842,
+          "arm": "fixed_high_gate",
+          "inputs": 7578,
+          "retry_requested": 0,
+          "high_batches_completed": 9,
+          "final_abstained": 0,
+          "execution_failed": 0,
+          "accepted_disagreements": 0,
+          "mean_ms_per_842_inputs": {
+            "setup_ms": 11.40069422222222,
+            "input_pack_ms": 1.4076682222222223,
+            "input_encode_ms": 29.449760777777783,
+            "input_encrypt_ms": 136.76595922222225,
+            "server_model_prepare_ms": 20.073885333333333,
+            "homomorphic_ops_ms": 10.246364,
+            "decrypt_decode_gate_ms": 0.6046371111111111,
+            "observer_identity_ms": 0.43268933333333326,
+            "native_unassigned_ms": 0.20008888888889625,
+            "json_file_io_ms": 43.773324888888894,
+            "subprocess_outside_native_ms": 59.265025,
+            "retry_select_materialize_ms": 0.0,
+            "client_harness_unassigned_ms": 5.258592333333329,
+            "native_total_ms": 210.32690033333336,
+            "instrumented_local_wall_ms": 318.87868933333334
+          }
+        },
+        {
+          "batch_size": 842,
+          "arm": "two_stage",
+          "inputs": 7578,
+          "retry_requested": 30,
+          "high_batches_completed": 9,
+          "final_abstained": 0,
+          "execution_failed": 0,
+          "accepted_disagreements": 0,
+          "mean_ms_per_842_inputs": {
+            "setup_ms": 18.463404000000004,
+            "input_pack_ms": 2.1451718888888887,
+            "input_encode_ms": 42.33711911111111,
+            "input_encrypt_ms": 204.08685077777778,
+            "server_model_prepare_ms": 29.356996888888887,
+            "homomorphic_ops_ms": 16.003175111111105,
+            "decrypt_decode_gate_ms": 0.9242495555555555,
+            "observer_identity_ms": 0.5909881111111112,
+            "native_unassigned_ms": 0.3654766666666581,
+            "json_file_io_ms": 45.329818333333336,
+            "subprocess_outside_native_ms": 83.11237488888887,
+            "retry_select_materialize_ms": 0.03607111111111111,
+            "client_harness_unassigned_ms": 5.8468603333333435,
+            "native_total_ms": 313.9168554444445,
+            "instrumented_local_wall_ms": 448.5985567777778
+          }
+        }
+      ]
+    },
+    "journal_review_score": 76,
+    "thesis_extension_readiness_score": 61,
+    "verification": {
+      "status": "PASS",
+      "verified_payload_files": 2646,
+      "pilot_cases_independently_recomputed": 12,
+      "iid_trials_recomputed": 600,
+      "missing_request_files": 0,
+      "request_output_bindings_verified": 847,
+      "ckks_output_json_preserved": true,
+      "executable_rebuild_required_on_clean_clone": true,
+      "frozen_journal_pdf_sha256_verified": true,
+      "scope": "Artifact consistency and arithmetic, not external validation of model or population assumptions"
+    }
+  },
+  "open_claims": [
+    "generalization beyond applicable observed inputs",
+    "robustness to splits and training seeds on new data",
+    "larger multiclass/image evaluation",
+    "independent hardware"
+  ],
+  "report": "docs/research/fg_expand_v1_20260905/REPORT_KO.md",
+  "pdf_wording_issue": "Page7 section5.1: raw 63 additional model cases and 5 separate depth conditions; no manuscript correction applied",
+  "first_expansion": {
+    "completed_cases": 4,
+    "planned_cases": 4,
+    "recorded_candidate_key_observations": 8256,
+    "recorded_timing_key_pass_observations": 5760,
+    "unique_inputs_by_role": {
+      "configuration_selection": 64,
+      "development": 512,
+      "independent_evaluation": 512,
+      "model_training": 21014
+    },
+    "latency_aggregates": {
+      "finite_fastest_executable_over_direct": {
+        "bootstrap_repeats": 10000,
+        "cases": 4,
+        "confirmatory": false,
+        "equivalence_claim": false,
+        "exploratory_cluster_bootstrap_95_interval": [
+          0.9968144579224935,
+          1.002849846510983
+        ],
+        "geometric_mean": 0.9998275982025608,
+        "group_values": {
+          "htru2/linear_poly3": 0.9976509619961423,
+          "htru2/mlp_square_linear_score": 1.0038242091988072,
+          "spambase/linear_poly3": 0.9959786552354938,
+          "spambase/mlp_square_linear_score": 1.001876429589
+        },
+        "groups": 4,
+        "interpretation": "all observed pairs retained; not an accuracy-qualified speed claim",
+        "seed": 20260824
+      },
+      "finite_fastest_safe_over_direct": {
+        "bootstrap_repeats": 10000,
+        "cases": 4,
+        "confirmatory": false,
+        "equivalence_claim": false,
+        "exploratory_cluster_bootstrap_95_interval": [
+          0.9999589969239203,
+          1.0021223217737276
+        ],
+        "geometric_mean": 1.0010143151845665,
+        "group_values": {
+          "htru2/linear_poly3": 1.0014205590006169,
+          "htru2/mlp_square_linear_score": 1.00032736090125,
+          "spambase/linear_poly3": 0.9995907685942048,
+          "spambase/mlp_square_linear_score": 1.0027213575194012
+        },
+        "groups": 4,
+        "interpretation": "safe-to-safe observed comparison",
+        "seed": 20260824
+      },
+      "initial_criteria_off_over_direct": {
+        "bootstrap_repeats": 10000,
+        "cases": 4,
+        "confirmatory": false,
+        "equivalence_claim": false,
+        "exploratory_cluster_bootstrap_95_interval": [
+          0.996811039191757,
+          1.0013916766640907
+        ],
+        "geometric_mean": 0.998907268141147,
+        "group_values": {
+          "htru2/linear_poly3": 0.9965945314680127,
+          "htru2/mlp_square_linear_score": 0.9991685848943612,
+          "spambase/linear_poly3": 0.9970275939512745,
+          "spambase/mlp_square_linear_score": 1.0028506116684408
+        },
+        "groups": 4,
+        "interpretation": "all observed pairs retained; not an accuracy-qualified speed claim",
+        "seed": 20260824
+      }
+    }
+  }
+}

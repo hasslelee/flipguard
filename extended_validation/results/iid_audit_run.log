@@ -1,0 +1,36 @@
+IID_PROGRESS 50/600 accepted=48 wrong=0
+IID_PROGRESS 100/600 accepted=96 wrong=0
+IID_PROGRESS 150/600 accepted=144 wrong=0
+IID_PROGRESS 200/600 accepted=193 wrong=0
+IID_PROGRESS 250/600 accepted=242 wrong=0
+IID_PROGRESS 300/600 accepted=287 wrong=0
+IID_PROGRESS 350/600 accepted=335 wrong=0
+IID_PROGRESS 400/600 accepted=382 wrong=0
+IID_PROGRESS 450/600 accepted=428 wrong=0
+IID_PROGRESS 500/600 accepted=473 wrong=0
+IID_PROGRESS 550/600 accepted=520 wrong=0
+IID_PROGRESS 600/600 accepted=567 wrong=0
+{
+  "trials": 600,
+  "unique_population_indices_drawn": 502,
+  "population_size": 1322,
+  "accepted": 567,
+  "abstained": 33,
+  "accepted_disagreements": 0,
+  "fixed_low_disagreements": 29,
+  "coverage": 0.945,
+  "joint_risk": {
+    "status": "ADMITTED",
+    "upper_bound": 0.00612927133066926,
+    "admitted": true
+  },
+  "selective_risk": {
+    "status": "ADMITTED",
+    "upper_bound": 0.0064848422995379094,
+    "admitted": true
+  },
+  "wall_seconds": 99.25638029002585,
+  "scope": "FINITE_1322_ROW_OPERATIONAL_POPULATION_ONLY",
+  "real_world_generalization": false,
+  "worst_case_preservation": false
+}

@@ -1,0 +1,39 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/bin/contribution-case",
+    "--mode",
+    "materialize",
+    "--model",
+    "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/model.json",
+    "--data",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/stress/htru2__mlp_square_linear_score__split0_seed0/raw.csv",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/stress/htru2__mlp_square_linear_score__split0_seed0/materialized"
+  ],
+  "exit_code": 0,
+  "status": "PROCESS_COMPLETED",
+  "wall_seconds": 0.012742898004944436,
+  "before": {
+    "utc": "2026-09-06T02:27:31.405396+00:00",
+    "load": [
+      1.34033203125,
+      2.18798828125,
+      2.16796875
+    ],
+    "mem_available": "10299744 kB",
+    "swap_free": "3839616 kB",
+    "free_disk": 21419151360
+  },
+  "after": {
+    "utc": "2026-09-06T02:27:31.430171+00:00",
+    "load": [
+      1.34033203125,
+      2.18798828125,
+      2.16796875
+    ],
+    "mem_available": "10305152 kB",
+    "swap_free": "3839616 kB",
+    "free_disk": 21419126784
+  },
+  "result_exists": true
+}

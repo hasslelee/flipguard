@@ -1,0 +1,33 @@
+{
+  "catalog_comparison_scope": "frozen Security-V2 bounded-catalog fastest-safe on the predeclared 100-image latency subset",
+  "effect_class": "LITERAL_EFFECT_ONLY",
+  "gap_aware_full_locked_audit_pass": true,
+  "graph_only_existing_evidence_role": "configuration_validation_only",
+  "graph_only_full_locked_audit_pass": false,
+  "graph_only_over_gap_aware_total": {
+    "bootstrap_repetitions": 10000,
+    "bootstrap_seed_eval": 20260803,
+    "bootstrap_seed_total": 20260802,
+    "denominator_arm": "gap_aware",
+    "eval_ci_high": 1.001278161718572,
+    "eval_ci_low": 0.9985485536050975,
+    "geometric_mean_eval_ratio": 0.9999323677682461,
+    "geometric_mean_total_ratio": 0.9997798376066447,
+    "image_clusters": 100,
+    "numerator_arm": "graph_only",
+    "pair_id": "graph_only_over_gap_aware",
+    "raw_pairs": 1800,
+    "total_ci_high": 1.0009196039830495,
+    "total_ci_low": 0.9986480496157814
+  },
+  "latency_subset_argmax_flips": 0,
+  "latency_subset_decision_observations_per_arm": 1800,
+  "latency_subset_images": 100,
+  "latency_subset_reserve_policy_rejects": 0,
+  "latency_superiority_paper_admitted": false,
+  "le_net_catalog_latency": "BLOCKED_NOT_EVALUATED",
+  "limitation": "The graph-only S32 comparator has no separate full 500-image locked-audit replay; its decision checks in this amendment are limited to the frozen 100-image latency subset.",
+  "literal_difference": true,
+  "literal_effect_paper_admitted": true,
+  "schema_version": "flipguard_journal_mlp_paired_latency_analysis_v1"
+}

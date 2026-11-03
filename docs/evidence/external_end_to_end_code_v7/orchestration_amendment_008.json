@@ -1,0 +1,16 @@
+{
+  "affected_provider": "HEIR",
+  "amendment_id": "external_v7_orchestration_amendment_008",
+  "classification": "SUPPLEMENTARY_RAW_OUTPUT_CAPTURE",
+  "decision_rule_changed": false,
+  "encrypted_execution_required": true,
+  "frozen_policy_changed": false,
+  "graph_changed": false,
+  "input_changed": false,
+  "maximum_provider_attempt": 3,
+  "output_patch": "scripts/external_v7/patches/heir-dot-product-output-capture-v1.patch",
+  "patch_semantic_change": false,
+  "reason": "The official tests decrypt and compare the scalar result but do not emit it on successful execution; V7 evidence level 3 requires a persisted raw output.",
+  "source_commit": "cb7a7a30bb4d995b50e33bb5cd82ff7434db3656",
+  "timing_claim_role": "NOT_A_CROSS_RUNTIME_SPEEDUP_ARM"
+}

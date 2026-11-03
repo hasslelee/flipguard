@@ -1,0 +1,296 @@
+{
+  "algorithm": "sha256_stratified_rank_v1",
+  "excluded_workloads": [
+    {
+      "dataset_id": "banknote",
+      "model_id": "linear_poly3",
+      "test_csv": "datasets/tabular_suite/banknote/linear_poly3/test.csv"
+    },
+    {
+      "dataset_id": "banknote",
+      "model_id": "mlp_square_linear_score",
+      "test_csv": "datasets/tabular_suite/banknote/mlp_square_linear_score/test.csv"
+    },
+    {
+      "dataset_id": "digits_binary",
+      "model_id": "linear_poly3",
+      "test_csv": "datasets/tabular_suite/digits_binary/linear_poly3/test.csv"
+    },
+    {
+      "dataset_id": "digits_binary",
+      "model_id": "mlp_square_linear_score",
+      "test_csv": "datasets/tabular_suite/digits_binary/mlp_square_linear_score/test.csv"
+    },
+    {
+      "dataset_id": "iris_binary",
+      "model_id": "linear_poly3",
+      "test_csv": "datasets/tabular_suite/iris_binary/linear_poly3/test.csv"
+    },
+    {
+      "dataset_id": "iris_binary",
+      "model_id": "mlp_square_linear_score",
+      "test_csv": "datasets/tabular_suite/iris_binary/mlp_square_linear_score/test.csv"
+    },
+    {
+      "dataset_id": "mnist_pool16",
+      "model_id": "linear_poly3",
+      "test_csv": "datasets/tabular_suite/mnist_pool16/linear_poly3/test.csv"
+    },
+    {
+      "dataset_id": "mnist_pool16",
+      "model_id": "mlp_square_linear_score",
+      "test_csv": "datasets/tabular_suite/mnist_pool16/mlp_square_linear_score/test.csv"
+    },
+    {
+      "dataset_id": "wdbc",
+      "model_id": "linear_poly3",
+      "test_csv": "datasets/tabular_suite/wdbc/linear_poly3/test.csv"
+    },
+    {
+      "dataset_id": "wdbc",
+      "model_id": "mlp_square_linear_score",
+      "test_csv": "datasets/tabular_suite/wdbc/mlp_square_linear_score/test.csv"
+    }
+  ],
+  "records": [
+    {
+      "audit_rows": 207,
+      "dataset_id": "banknote",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_0/banknote/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 0,
+      "source_rows": 412,
+      "validation_rows": 205
+    },
+    {
+      "audit_rows": 207,
+      "dataset_id": "banknote",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_1/banknote/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 1,
+      "source_rows": 412,
+      "validation_rows": 205
+    },
+    {
+      "audit_rows": 207,
+      "dataset_id": "banknote",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_2/banknote/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 2,
+      "source_rows": 412,
+      "validation_rows": 205
+    },
+    {
+      "audit_rows": 207,
+      "dataset_id": "banknote",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_3/banknote/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 3,
+      "source_rows": 412,
+      "validation_rows": 205
+    },
+    {
+      "audit_rows": 207,
+      "dataset_id": "banknote",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_4/banknote/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 4,
+      "source_rows": 412,
+      "validation_rows": 205
+    },
+    {
+      "audit_rows": 270,
+      "dataset_id": "digits_binary",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_0/digits_binary/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 0,
+      "source_rows": 540,
+      "validation_rows": 270
+    },
+    {
+      "audit_rows": 270,
+      "dataset_id": "digits_binary",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_1/digits_binary/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 1,
+      "source_rows": 540,
+      "validation_rows": 270
+    },
+    {
+      "audit_rows": 270,
+      "dataset_id": "digits_binary",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_2/digits_binary/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 2,
+      "source_rows": 540,
+      "validation_rows": 270
+    },
+    {
+      "audit_rows": 270,
+      "dataset_id": "digits_binary",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_3/digits_binary/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 3,
+      "source_rows": 540,
+      "validation_rows": 270
+    },
+    {
+      "audit_rows": 270,
+      "dataset_id": "digits_binary",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_4/digits_binary/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 4,
+      "source_rows": 540,
+      "validation_rows": 270
+    },
+    {
+      "audit_rows": 16,
+      "dataset_id": "iris_binary",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_0/iris_binary/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 0,
+      "source_rows": 30,
+      "validation_rows": 14
+    },
+    {
+      "audit_rows": 16,
+      "dataset_id": "iris_binary",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_1/iris_binary/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 1,
+      "source_rows": 30,
+      "validation_rows": 14
+    },
+    {
+      "audit_rows": 16,
+      "dataset_id": "iris_binary",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_2/iris_binary/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 2,
+      "source_rows": 30,
+      "validation_rows": 14
+    },
+    {
+      "audit_rows": 16,
+      "dataset_id": "iris_binary",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_3/iris_binary/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 3,
+      "source_rows": 30,
+      "validation_rows": 14
+    },
+    {
+      "audit_rows": 16,
+      "dataset_id": "iris_binary",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_4/iris_binary/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 4,
+      "source_rows": 30,
+      "validation_rows": 14
+    },
+    {
+      "audit_rows": 251,
+      "dataset_id": "mnist_pool16",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_0/mnist_pool16/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 0,
+      "source_rows": 500,
+      "validation_rows": 249
+    },
+    {
+      "audit_rows": 251,
+      "dataset_id": "mnist_pool16",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_1/mnist_pool16/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 1,
+      "source_rows": 500,
+      "validation_rows": 249
+    },
+    {
+      "audit_rows": 251,
+      "dataset_id": "mnist_pool16",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_2/mnist_pool16/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 2,
+      "source_rows": 500,
+      "validation_rows": 249
+    },
+    {
+      "audit_rows": 251,
+      "dataset_id": "mnist_pool16",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_3/mnist_pool16/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 3,
+      "source_rows": 500,
+      "validation_rows": 249
+    },
+    {
+      "audit_rows": 251,
+      "dataset_id": "mnist_pool16",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_4/mnist_pool16/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 4,
+      "source_rows": 500,
+      "validation_rows": 249
+    },
+    {
+      "audit_rows": 86,
+      "dataset_id": "wdbc",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_0/wdbc/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 0,
+      "source_rows": 171,
+      "validation_rows": 85
+    },
+    {
+      "audit_rows": 86,
+      "dataset_id": "wdbc",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_1/wdbc/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 1,
+      "source_rows": 171,
+      "validation_rows": 85
+    },
+    {
+      "audit_rows": 86,
+      "dataset_id": "wdbc",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_2/wdbc/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 2,
+      "source_rows": 171,
+      "validation_rows": 85
+    },
+    {
+      "audit_rows": 86,
+      "dataset_id": "wdbc",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_3/wdbc/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 3,
+      "source_rows": 171,
+      "validation_rows": 85
+    },
+    {
+      "audit_rows": 86,
+      "dataset_id": "wdbc",
+      "manifest": "results/thesis_grade_protocol/structural_extension_splits_v1/split_seed_4/wdbc/mlp_square_poly3/split_manifest.json",
+      "model_id": "mlp_square_poly3",
+      "seed": 4,
+      "source_rows": 171,
+      "validation_rows": 85
+    }
+  ],
+  "schema_version": 1,
+  "selected_model_ids": [
+    "mlp_square_poly3"
+  ],
+  "selected_workload_count": 5,
+  "split_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "validation_ratio": 0.5,
+  "workload_split_count": 25
+}

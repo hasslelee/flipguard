@@ -1,0 +1,117 @@
+{
+  "binary_sha256": {
+    "audit": "sha256:e4264ff1ceade488430dca860049d511468cf4947d1e6ae656d5cd63d02d6754",
+    "autotune": "sha256:c5b9244c408a04635f077881abf4507f9a483141e64fe091d7f721fd93d3f604"
+  },
+  "derived_validation": {
+    "audit_ledger": {
+      "ambiguous_samples": 1,
+      "certifiable_samples": 399,
+      "decision_flips": 0,
+      "error_violations": 0,
+      "image_clusters": 50,
+      "key_runs": 3,
+      "max_error_budget_usage": 0.43881043175693457,
+      "max_observed_error": 0.007178545846171502,
+      "observations": 1200,
+      "sample_ids": 400
+    },
+    "selection_ledgers": [
+      {
+        "ambiguous_samples": 0,
+        "certifiable_samples": 400,
+        "decision_flips": 0,
+        "error_violations": 4,
+        "image_clusters": 50,
+        "key_runs": 3,
+        "max_error_budget_usage": 1.9144481027212057,
+        "max_observed_error": 0.05104449838457281,
+        "observations": 1200,
+        "sample_ids": 400
+      },
+      {
+        "ambiguous_samples": 0,
+        "certifiable_samples": 400,
+        "decision_flips": 0,
+        "error_violations": 0,
+        "image_clusters": 50,
+        "key_runs": 3,
+        "max_error_budget_usage": 0.1175063729356463,
+        "max_observed_error": 0.0024113407431274325,
+        "observations": 1200,
+        "sample_ids": 400
+      }
+    ]
+  },
+  "evidence_builder_commit": "9c4c243aa19d0e39c32537bc8c160e1c64843f67",
+  "evidence_id": "non_tabular_sobel_holdout_v1",
+  "execution_commit": "6b0409e2c05ba416dd87e285005fe30d8e036de0",
+  "execution_critical_source_digest": "sha256:db55ba5f6988397d97501dcfe05a3a53ab0e60d41ea289772caafab28e5530aa",
+  "policies": {
+    "direct_policy_v2": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "extraction_policy": "sha256:07c196374cea947c5bd9d8d478311e75ba4754f875c4f19ce0387241d55da699",
+    "security_policy_v2": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055"
+  },
+  "raw_run": {
+    "locked_audit_sha256": "sha256:509bf314ed1d1c1fdb18566893cfb20e0f1148dbaa491990b96c2b7bbcd96ef7",
+    "path": "/home/ckks2/flipguard/results/thesis_grade_protocol/non_tabular_sobel_holdout_v1/run_6b0409e",
+    "run_manifest_sha256": "sha256:b50d213ec0632a88649eba098c7fff18c7f43679a92e38a0c8ee0af3ca2e442c",
+    "selection_sha256": "sha256:39a52e8e37b2fc00944f3d9324bbc98f3937830e2f2c8964640b43a41c060b6c"
+  },
+  "schema_version": "flipguard_non_tabular_sobel_evidence_v1",
+  "summary": {
+    "accounting": {
+      "total_candidate_trials": 3,
+      "total_encrypted_sample_evaluations": 3600,
+      "total_fresh_key_runs": 9
+    },
+    "block_reason": "manual post-extension claim admission and paper review are pending",
+    "claim_boundary": {
+      "arbitrary_graph_generalization": "NOT_EVALUATED",
+      "cnn_generalization": "NOT_EVALUATED",
+      "full_image_edge_accuracy": "NOT_EVALUATED",
+      "non_tabular_sobel_holdout": "SUPPORTED",
+      "structural_generalization": "PARTIALLY_SUPPORTED"
+    },
+    "locked_audit": {
+      "candidate_identity_equal": true,
+      "encrypted_sample_evaluations": 1200,
+      "flips": 0,
+      "fresh_key_runs": 3,
+      "max_budget_usage": 0.43881043175693457,
+      "outcome": "LOCKED_AUDIT_PASS",
+      "retuning": 0,
+      "status": "SAFE",
+      "v_amb": 1,
+      "v_cert": 399,
+      "violations": 0
+    },
+    "paper_claim_allowed": false,
+    "schema_version": "flipguard_non_tabular_sobel_evidence_v1",
+    "scope": "BSDS500 single-patch Sobel gradient-energy threshold under scalar-replicated packing",
+    "selection": {
+      "encrypted_sample_evaluations": 2400,
+      "fresh_key_runs": 6,
+      "initial_flips": 0,
+      "initial_max_budget_usage": 1.9144481027212057,
+      "initial_status": "REJECTED",
+      "initial_violations": 4,
+      "outcome": "SELECTED",
+      "repairs": 1,
+      "selected_candidate": "synth_repair_scale_1_rescale_N13_Q4_S23_dae5ac48e826",
+      "selected_flips": 0,
+      "selected_max_budget_usage": 0.1175063729356463,
+      "selected_violations": 0,
+      "trials": 2
+    },
+    "source": {
+      "audit_images": 50,
+      "dataset": "BSDS500",
+      "patches_per_image": 8,
+      "train_threshold_images": 100,
+      "validation_audit_image_overlap": 0,
+      "validation_images": 50
+    },
+    "status": "SUPPORTED"
+  }
+}

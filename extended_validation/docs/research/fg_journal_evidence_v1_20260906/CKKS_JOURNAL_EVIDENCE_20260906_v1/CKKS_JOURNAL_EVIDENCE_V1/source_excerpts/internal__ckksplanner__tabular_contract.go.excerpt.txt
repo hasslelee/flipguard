@@ -1,0 +1,585 @@
+112: func BuildTabularWorkloadContract(
+113: 	options TabularContractOptions,
+114: ) (WorkloadContract, error) {
+115: 	normalizeTabularContractOptions(&options)
+116: 
+117: 	modelBytes, err := os.ReadFile(options.ModelPath)
+118: 	if err != nil {
+119: 		return WorkloadContract{}, fmt.Errorf(
+120: 			"read tabular model artifact: %w",
+121: 			err,
+122: 		)
+123: 	}
+124: 
+125: 	model := tabularModelArtifact{}
+126: 	if err := json.Unmarshal(modelBytes, &model); err != nil {
+127: 		return WorkloadContract{}, fmt.Errorf(
+128: 			"parse tabular model artifact: %w",
+129: 			err,
+130: 		)
+131: 	}
+132: 	if err := validateTabularModel(model); err != nil {
+133: 		return WorkloadContract{}, err
+134: 	}
+135: 
+136: 	graph, err := buildTabularIRGraph(model)
+137: 	if err != nil {
+138: 		return WorkloadContract{}, err
+139: 	}
+140: 
+141: 	validationBytes, err := os.ReadFile(options.ValidationPath)
+142: 	if err != nil {
+143: 		return WorkloadContract{}, fmt.Errorf(
+144: 			"read tabular validation data: %w",
+145: 			err,
+146: 		)
+147: 	}
+148: 
+149: 	samples, provenance, err := parseTabularValidation(
+150: 		validationBytes,
+151: 		model.InputDim,
+152: 	)
+153: 	if err != nil {
+154: 		return WorkloadContract{}, err
+155: 	}
+156: 
+157: 	analysisSamples := make(
+158: 		[]map[ir.NodeID]float64,
+159: 		0,
+160: 		len(samples),
+161: 	)
+162: 	plainScores := make(map[string]float64, len(samples))
+163: 	sampleOrder := make([]string, 0, len(samples))
+164: 
+165: 	maxInputAbs := 0.0
+166: 	maxOutputAbs := 0.0
+167: 	protectedMargin := math.Inf(1)
+168: 	vCert := 0
+169: 	vAmb := 0
+170: 
+171: 	for rowIndex, sample := range samples {
+172: 		inputs := make(map[ir.NodeID]float64, len(sample.Features))
+173: 		for featureIndex, feature := range sample.Features {
+174: 			inputs[tabularInputID(featureIndex)] = feature
+175: 			maxInputAbs = math.Max(maxInputAbs, math.Abs(feature))
+176: 		}
+177: 
+178: 		plainResult, err := fgruntime.EvalPlain(graph, inputs)
+179: 		if err != nil {
+180: 			return WorkloadContract{}, fmt.Errorf(
+181: 				"evaluate validation row %d plaintext graph: %w",
+182: 				rowIndex+2,
+183: 				err,
+184: 			)
+185: 		}
+186: 		if !closeFloatAtTolerance(
+187: 			plainResult.Output,
+188: 			sample.PlainScore,
+189: 			1e-9,
+190: 		) {
+191: 			return WorkloadContract{}, fmt.Errorf(
+192: 				"validation row %d score %.12g does not match model graph %.12g",
+193: 				rowIndex+2,
+194: 				sample.PlainScore,
+195: 				plainResult.Output,
+196: 			)
+197: 		}
+198: 
+199: 		decision :=
+200: 			sample.PlainScore >= model.PolynomialScore.DecisionThreshold
+201: 		if decision != sample.PlainDecision {
+202: 			return WorkloadContract{}, fmt.Errorf(
+203: 				"validation row %d plaintext decision does not match threshold",
+204: 				rowIndex+2,
+205: 			)
+206: 		}
+207: 
+208: 		margin := math.Abs(
+209: 			sample.PlainScore -
+210: 				model.PolynomialScore.DecisionThreshold,
+211: 		)
+212: 		if margin <= options.MarginFloor {
+213: 			vAmb++
+214: 		} else {
+215: 			vCert++
+216: 			protectedMargin = math.Min(protectedMargin, margin)
+217: 		}
+218: 
+219: 		maxOutputAbs = math.Max(
+220: 			maxOutputAbs,
+221: 			math.Abs(sample.PlainScore),
+222: 		)
+223: 		analysisSamples = append(analysisSamples, inputs)
+224: 		sampleOrder = append(sampleOrder, sample.ID)
+225: 		plainScores[sample.ID] = sample.PlainScore
+226: 	}
+227: 
+228: 	if vCert == 0 || math.IsInf(protectedMargin, 1) {
+229: 		return WorkloadContract{}, fmt.Errorf(
+230: 			"validation data has no certifiable sample above margin floor %.12g",
+231: 			options.MarginFloor,
+232: 		)
+233: 	}
+234: 
+235: 	bounds, err := analysis.AnalyzeBoundsAndSensitivity(
+236: 		graph,
+237: 		analysisSamples,
+238: 		model.PolynomialScore.DecisionThreshold,
+239: 		0.05,
+240: 	)
+241: 	if err != nil {
+242: 		return WorkloadContract{}, fmt.Errorf(
+243: 			"analyze tabular graph sensitivity: %w",
+244: 			err,
+245: 		)
+246: 	}
+247: 
+248: 	aggregateSensitivity := aggregateOperationSensitivity(graph, bounds)
+249: 	if aggregateSensitivity <= 0 {
+250: 		return WorkloadContract{}, fmt.Errorf(
+251: 			"derived aggregate sensitivity is not positive",
+252: 		)
+253: 	}
+254: 
+255: 	modelDigest := digestBytes(modelBytes)
+319: 
+320: 	contract := WorkloadContract{
+321: 		SchemaVersion: WorkloadContractSchemaVersion,
+322: 
+323: 		WorkloadID: strings.Join(
+324: 			[]string{options.SplitID, model.DatasetID, model.ModelID},
+325: 			"/",
+326: 		),
+327: 		DatasetID: model.DatasetID,
+328: 		ModelID:   model.ModelID,
+329: 		ModelType: model.ModelType,
+330: 		SplitID:   options.SplitID,
+331: 
+332: 		ModelArtifact: ArtifactBinding{
+333: 			Path:   options.ModelPath,
+334: 			SHA256: modelDigest,
+335: 		},
+336: 		ValidationData: ArtifactBinding{
+337: 			Path:   options.ValidationPath,
+338: 			SHA256: validationArtifactDigest,
+339: 		},
+340: 		SourceData:           sourceDataBinding,
+341: 		InputMaterialization: inputMaterialization,
+342: 
+343: 		Graph: graphSummary,
+344: 		Decision: DecisionStabilityContract{
+345: 			Threshold:    model.PolynomialScore.DecisionThreshold,
+346: 			MarginFloor:  options.MarginFloor,
+347: 			SafetyFactor: options.SafetyFactor,
+348: 
+349: 			ProtectedMargin: protectedMargin,
+350: 			OutputErrorBudget: options.SafetyFactor *
+351: 				protectedMargin,
+352: 
+353: 			ValidationDigest: validationDigest,
+354: 
+355: 			ValidationSamples:  len(samples),
+356: 			CertifiableSamples: vCert,
+357: 			AmbiguousSamples:   vAmb,
+358: 		},
+359: 		Calibration: NumericalCalibration{
+360: 			MaxInputAbs:           maxInputAbs,
+361: 			MaxPlaintextOutputAbs: maxOutputAbs,
+362: 
+363: 			AggregateSensitivity: aggregateSensitivity,
+364: 			SensitivityMethod:    EmpiricalIntervalDAGSensitivityV1,
+365: 			CalibrationScope: "observed_validation_artifact:" +
+366: 				validationArtifactDigest,
+367: 		},
+368: 		Deployment: DeploymentContract{
+369: 			SecurityBits:         options.SecurityBits,
+370: 			RequiredSlots:        1,
+371: 			MaxEncryptedTrials:   options.MaxEncryptedTrials,
+372: 			ValidationKeyRepeats: options.ValidationKeyRepeats,
+373: 
+374: 			PackingStrategy: ScalarReplicatedPackingV1,
+375: 			AllowedPaths: append(
+376: 				[]tuner.ExecutionPath(nil),
+377: 				options.AllowedPaths...,
+378: 			),
+379: 
+380: 			ScaleTraceMethod:      LattigoRescaleScaleTraceV1,
+381: 			RescaleLevelsConsumed: scaleDemand.LevelsConsumed,
+382: 			TerminalScaleExponent: scaleDemand.ScaleExponent,
+383: 			RequiredQPrimes:       scaleDemand.RequiredQPrimes,
+384: 		},
+385: 	}
+386: 
+387: 	if err := contract.Validate(); err != nil {
+388: 		return WorkloadContract{}, fmt.Errorf(
+389: 			"validate derived tabular workload contract: %w",
+390: 			err,
+391: 		)
+392: 	}
+393: 
+394: 	return contract, nil
+546: func buildTabularIRGraph(model tabularModelArtifact) (*ir.Graph, error) {
+547: 	graph := ir.NewGraph()
+548: 	inputs := make([]ir.NodeID, model.InputDim)
+549: 	for index := range inputs {
+550: 		inputs[index] = tabularInputID(index)
+551: 		graph.MustAddNode(
+552: 			ir.NewInput(inputs[index], string(inputs[index])),
+553: 		)
+554: 	}
+555: 
+556: 	var zID ir.NodeID
+557: 	family, err := modelregistry.LookupTabular(model.ModelType)
+558: 	if err != nil {
+559: 		return nil, err
+560: 	}
+561: 	switch family.Body {
+562: 	case modelregistry.BodyLinear:
+563: 		zID = addTabularAffine(
+564: 			graph,
+565: 			"model",
+566: 			inputs,
+567: 			model.ScaledModelForCKKS.Weights,
+568: 			model.ScaledModelForCKKS.Bias,
+569: 		)
+570: 
+571: 	case modelregistry.BodyOneHiddenSquare, modelregistry.BodyTwoHiddenSquares:
+572: 		hiddenOutputs := addTabularSquareLayer(
+573: 			graph, "hidden1", inputs,
+574: 			model.ScaledModelForCKKS.HiddenWeights,
+575: 			model.ScaledModelForCKKS.HiddenBias,
+576: 		)
+577: 		if family.Body == modelregistry.BodyTwoHiddenSquares {
+578: 			hiddenOutputs = addTabularSquareLayer(
+579: 				graph, "hidden2", hiddenOutputs,
+580: 				model.ScaledModelForCKKS.Hidden2Weights,
+581: 				model.ScaledModelForCKKS.Hidden2Bias,
+582: 			)
+583: 		}
+584: 		zID = addTabularAffine(
+585: 			graph,
+586: 			"output",
+587: 			hiddenOutputs,
+588: 			model.ScaledModelForCKKS.OutputWeights,
+589: 			model.ScaledModelForCKKS.OutputBias,
+590: 		)
+591: 	}
+592: 
+593: 	var outputID ir.NodeID
+594: 	switch model.PolynomialScore.Formula {
+595: 	case "0.5 + 0.197*z":
+596: 		const scaledID ir.NodeID = "score_scaled"
+597: 		const biasID ir.NodeID = "score_bias"
+598: 		outputID = "score"
+599: 
+600: 		graph.MustAddNode(
+601: 			ir.NewMulConst(scaledID, string(scaledID), zID, 0.197),
+602: 		)
+603: 		graph.MustAddNode(ir.NewConst(biasID, string(biasID), 0.5))
+604: 		graph.MustAddNode(
+605: 			ir.NewBinary(
+606: 				outputID,
+607: 				string(outputID),
+608: 				ir.OpAdd,
+609: 				scaledID,
+610: 				biasID,
+611: 			),
+612: 		)
+613: 
+614: 	case "0.5 + 0.197*z - 0.004*z^3":
+615: 		outputID = "score"
+616: 		graph.MustAddNode(
+617: 			ir.NewPoly(
+618: 				outputID,
+619: 				string(outputID),
+620: 				zID,
+621: 				[]float64{0.5, 0.197, 0, -0.004},
+622: 			),
+623: 		)
+624: 
+625: 	default:
+626: 		return nil, fmt.Errorf(
+627: 			"unsupported tabular score formula %q",
+628: 			model.PolynomialScore.Formula,
+629: 		)
+630: 	}
+631: 
+632: 	graph.MustSetOutput(outputID)
+633: 	if err := graph.Validate(); err != nil {
+634: 		return nil, fmt.Errorf("validate tabular planner graph: %w", err)
+635: 	}
+636: 	return graph, nil
+637: }
+638: 
+639: func addTabularSquareLayer(
+640: 	graph *ir.Graph,
+641: 	prefix string,
+642: 	inputs []ir.NodeID,
+643: 	weights [][]float64,
+644: 	biases []float64,
+645: ) []ir.NodeID {
+646: 	outputs := make([]ir.NodeID, len(weights))
+647: 	for unit, row := range weights {
+648: 		affineID := addTabularAffine(
+649: 			graph,
+650: 			fmt.Sprintf("%s_%d", prefix, unit),
+651: 			inputs,
+652: 			row,
+653: 			biases[unit],
+654: 		)
+655: 		squaredID := ir.NodeID(fmt.Sprintf("%s_%d_square", prefix, unit))
+656: 		graph.MustAddNode(ir.NewUnary(
+657: 			squaredID,
+658: 			string(squaredID),
+659: 			ir.OpPow2,
+660: 			affineID,
+661: 		))
+662: 		outputs[unit] = squaredID
+663: 	}
+664: 	return outputs
+665: }
+666: 
+667: func addTabularAffine(
+668: 	graph *ir.Graph,
+669: 	prefix string,
+670: 	inputs []ir.NodeID,
+671: 	weights []float64,
+672: 	bias float64,
+673: ) ir.NodeID {
+674: 	terms := make([]ir.NodeID, len(inputs))
+675: 	for index, input := range inputs {
+676: 		termID := ir.NodeID(fmt.Sprintf("%s_term_%d", prefix, index))
+677: 		graph.MustAddNode(
+678: 			ir.NewMulConst(
+679: 				termID,
+680: 				string(termID),
+681: 				input,
+682: 				weights[index],
+683: 			),
+684: 		)
+685: 		terms[index] = termID
+686: 	}
+687: 
+688: 	accumulator := terms[0]
+689: 	for index := 1; index < len(terms); index++ {
+690: 		sumID := ir.NodeID(fmt.Sprintf("%s_sum_%d", prefix, index))
+691: 		graph.MustAddNode(
+692: 			ir.NewBinary(
+693: 				sumID,
+694: 				string(sumID),
+695: 				ir.OpAdd,
+696: 				accumulator,
+697: 				terms[index],
+698: 			),
+699: 		)
+700: 		accumulator = sumID
+701: 	}
+702: 
+703: 	if bias == 0 {
+704: 		return accumulator
+705: 	}
+706: 
+707: 	biasID := ir.NodeID(prefix + "_bias")
+708: 	outputID := ir.NodeID(prefix + "_affine")
+709: 	graph.MustAddNode(ir.NewConst(biasID, string(biasID), bias))
+710: 	graph.MustAddNode(
+711: 		ir.NewBinary(
+712: 			outputID,
+713: 			string(outputID),
+714: 			ir.OpAdd,
+715: 			accumulator,
+716: 			biasID,
+717: 		),
+718: 	)
+719: 	return outputID
+720: }
+721: 
+722: type tabularValidationProvenance struct {
+723: 	SchemaVersion       string
+724: 	ModelSHA256         string
+725: 	SourceDataSHA256    string
+726: 	SourceFeatureSpace  string
+727: 	PreprocessingMethod string
+728: }
+729: 
+730: func parseTabularValidation(
+1131: func aggregateOperationSensitivity(
+1132: 	graph *ir.Graph,
+1133: 	bounds *analysis.BoundSensitivityResult,
+1134: ) float64 {
+1135: 	total := 0.0
+1136: 	for _, node := range graph.Nodes() {
+1137: 		switch node.Op {
+1138: 		case ir.OpInput, ir.OpConst:
+1139: 			continue
+1140: 		default:
+1141: 			total += bounds.Sensitivity[node.ID]
+1142: 		}
+1143: 	}
+1144: 	return total
+1145: }
+1146: 
+1147: type lattigoScaleState struct {
+1148: 	IsCiphertext bool
+1149: 
+1150: 	ScaleExponent  int
+1151: 	LevelsConsumed int
+1152: }
+1153: 
+1154: type lattigoScaleDemand struct {
+1155: 	LevelsConsumed  int
+1156: 	ScaleExponent   int
+1157: 	RequiredQPrimes int
+1158: }
+1159: 
+1160: // analyzeLattigoRescaleDemand models the current backend rather than equating
+1161: // multiplicative depth with modulus levels. In Lattigo v6, multiplication by a
+1162: // non-integer scalar adds the current Q-prime scale. RescaleTo can therefore
+1163: // consume several primes in one call.
+1164: func analyzeLattigoRescaleDemand(
+1165: 	graph *ir.Graph,
+1166: ) (lattigoScaleDemand, error) {
+1167: 	states := make(map[ir.NodeID]lattigoScaleState, graph.Len())
+1168: 
+1169: 	for _, node := range graph.Nodes() {
+1170: 		inputStates := make(
+1171: 			[]lattigoScaleState,
+1172: 			0,
+1173: 			len(node.Inputs),
+1174: 		)
+1175: 		for _, inputID := range node.Inputs {
+1176: 			state, exists := states[inputID]
+1177: 			if !exists {
+1178: 				return lattigoScaleDemand{}, fmt.Errorf(
+1179: 					"scale trace input %s for node %s is missing",
+1180: 					inputID,
+1181: 					node.ID,
+1182: 				)
+1183: 			}
+1184: 			inputStates = append(inputStates, state)
+1185: 		}
+1186: 
+1187: 		state := lattigoScaleState{}
+1188: 		switch node.Op {
+1189: 		case ir.OpInput:
+1190: 			state = lattigoScaleState{
+1191: 				IsCiphertext:  true,
+1192: 				ScaleExponent: 1,
+1193: 			}
+1194: 
+1195: 		case ir.OpConst:
+1196: 			state = lattigoScaleState{}
+1197: 
+1198: 		case ir.OpAdd, ir.OpSub:
+1199: 			for _, input := range inputStates {
+1200: 				if !input.IsCiphertext {
+1201: 					continue
+1202: 				}
+1203: 				state.IsCiphertext = true
+1204: 				state.ScaleExponent = maxInt(
+1205: 					state.ScaleExponent,
+1206: 					input.ScaleExponent,
+1207: 				)
+1208: 				state.LevelsConsumed = maxInt(
+1209: 					state.LevelsConsumed,
+1210: 					input.LevelsConsumed,
+1211: 				)
+1212: 			}
+1213: 			if !state.IsCiphertext {
+1214: 				return lattigoScaleDemand{}, fmt.Errorf(
+1215: 					"scale trace node %s adds only plaintext values",
+1216: 					node.ID,
+1217: 				)
+1218: 			}
+1219: 
+1220: 		case ir.OpMulConst:
+1221: 			input := inputStates[0]
+1222: 			if !input.IsCiphertext {
+1223: 				return lattigoScaleDemand{}, fmt.Errorf(
+1224: 					"scale trace node %s multiplies a plaintext",
+1225: 					node.ID,
+1226: 				)
+1227: 			}
+1228: 			state = input
+1229: 			state.ScaleExponent++
+1230: 
+1231: 		case ir.OpMul:
+1232: 			left := inputStates[0]
+1233: 			right := inputStates[1]
+1234: 			if !left.IsCiphertext || !right.IsCiphertext {
+1235: 				return lattigoScaleDemand{}, fmt.Errorf(
+1236: 					"scale trace node %s requires ciphertext inputs",
+1237: 					node.ID,
+1238: 				)
+1239: 			}
+1240: 			state = lattigoScaleState{
+1241: 				IsCiphertext: true,
+1242: 				ScaleExponent: left.ScaleExponent +
+1243: 					right.ScaleExponent,
+1244: 				LevelsConsumed: maxInt(
+1245: 					left.LevelsConsumed,
+1246: 					right.LevelsConsumed,
+1247: 				),
+1248: 			}
+1249: 
+1250: 		case ir.OpPow2:
+1251: 			input := inputStates[0]
+1252: 			productExponent := 2 * input.ScaleExponent
+1253: 			state = lattigoScaleState{
+1254: 				IsCiphertext:  true,
+1255: 				ScaleExponent: 1,
+1256: 				LevelsConsumed: input.LevelsConsumed +
+1257: 					productExponent - 1,
+1258: 			}
+1259: 
+1260: 		case ir.OpPow3:
+1261: 			return lattigoScaleDemand{}, fmt.Errorf(
+1262: 				"standalone pow3 has no declared rescale implementation",
+1263: 			)
+1264: 
+1265: 		case ir.OpPoly:
+1266: 			input := inputStates[0]
+1267: 			degree := len(node.Coeffs) - 1
+1268: 			if degree != 3 {
+1269: 				return lattigoScaleDemand{}, fmt.Errorf(
+1270: 					"scale trace supports cubic polynomial only, got degree %d",
+1271: 					degree,
+1272: 				)
+1273: 			}
+1274: 
+1275: 			// Current Horner backend:
+1276: 			// z2=rescale(z*z), inner=(-.004*z2)+.197,
+1277: 			// y=rescale(inner*z)+.5.
+1278: 			cubicLevels := 3 * input.ScaleExponent
+1279: 			state = lattigoScaleState{
+1280: 				IsCiphertext:  true,
+1281: 				ScaleExponent: 1,
+1282: 				LevelsConsumed: input.LevelsConsumed +
+1283: 					cubicLevels,
+1284: 			}
+1285: 
+1286: 		default:
+1287: 			return lattigoScaleDemand{}, fmt.Errorf(
+1288: 				"unsupported scale trace op %s",
+1289: 				node.Op,
+1290: 			)
+1291: 		}
+1292: 
+1293: 		states[node.ID] = state
+1294: 	}
+1295: 
+1296: 	output, exists := states[graph.Output]
+1297: 	if !exists || !output.IsCiphertext {
+1298: 		return lattigoScaleDemand{}, fmt.Errorf(
+1299: 			"scale trace output is not a ciphertext",
+1300: 		)
+1301: 	}
+1302: 
+1303: 	return lattigoScaleDemand{
+1304: 		LevelsConsumed: output.LevelsConsumed,
+1305: 		ScaleExponent:  output.ScaleExponent,
+1306: 		RequiredQPrimes: output.LevelsConsumed +
+1307: 			output.ScaleExponent,
+1308: 	}, nil
+1309: }
+1310: 

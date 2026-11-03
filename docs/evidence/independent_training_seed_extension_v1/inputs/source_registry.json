@@ -1,0 +1,35 @@
+{
+  "numpy_version": "2.5.0",
+  "schema_version": "flipguard_independent_training_seed_suite_v1",
+  "sklearn_data_module_relative_root": "sklearn/datasets/data",
+  "sklearn_version": "1.9.0",
+  "sources": [
+    {
+      "dataset_id": "iris_binary",
+      "features": 4,
+      "rows": 100,
+      "snapshot_path": "datasets/independent_training_seed_suite_v1/source/iris_binary.csv",
+      "snapshot_sha256": "sha256:0da028f4aad015120b25daf4569591cd38c6568225cced9eddbe5d4add8c8c24",
+      "upstream_name": "iris.csv",
+      "upstream_sha256": "sha256:f13ffa8fdd56fd8e6c8d16d4081a3fbd3114bcd0aae4256c43205169cd9d1449"
+    },
+    {
+      "dataset_id": "wdbc",
+      "features": 30,
+      "rows": 569,
+      "snapshot_path": "datasets/independent_training_seed_suite_v1/source/wdbc.csv",
+      "snapshot_sha256": "sha256:8774c48c55c067d327ae7086b1cea2d59d3ecf0abb4fa35bd905e5cc9aaf2ca4",
+      "upstream_name": "breast_cancer.csv",
+      "upstream_sha256": "sha256:fed3eb72d0575ef6192293f5093c6e801b1476b577d0386bf4455504522172ed"
+    },
+    {
+      "dataset_id": "digits_binary",
+      "features": 64,
+      "rows": 1797,
+      "snapshot_path": "datasets/independent_training_seed_suite_v1/source/digits_binary.csv",
+      "snapshot_sha256": "sha256:549a411ddf4ec2295609c23e95de1407e9f150c5af7bc75999addd63b1cbe20d",
+      "upstream_name": "digits.csv.gz",
+      "upstream_sha256": "sha256:09f66e6debdee2cd2b5ae59e0d6abbb73fc2b0e0185d2e1957e9ebb51e23aa22"
+    }
+  ]
+}

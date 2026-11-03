@@ -1,0 +1,79 @@
+{
+  "allow_incomplete": false,
+  "alpha": 0.5,
+  "catalog_candidate_executions": 700,
+  "catalog_selected": 50,
+  "claim_boundary": "The fixed catalog is a bounded oracle. Latencies in this comparison were recorded in separate processes and are diagnostic only. A paired repeated protocol is required before any paper speedup or latency-regret claim.",
+  "comparison_builder_commit": "1d15f3d00239971c069357861e1dbacebf2aaefb",
+  "complete_oracle_workloads_compared": 50,
+  "confirmatory_catalog_candidates": 560,
+  "development_catalog_candidates": 140,
+  "diagnostic_geomean_speedup_vs_catalog": 2.834616468663605,
+  "diagnostic_mean_bounded_regret": -0.602199252323157,
+  "direct_equal_diagnostic_count": 0,
+  "direct_faster_diagnostic_count": 50,
+  "direct_key_runs": 210,
+  "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+  "direct_policy_id": "flipguard_direct_synthesis_policy_v2",
+  "direct_selected": 50,
+  "direct_slower_diagnostic_count": 0,
+  "direct_trials": 70,
+  "direct_trials_all": 70,
+  "direct_trials_confirmatory": 56,
+  "direct_trials_development": 14,
+  "direct_vs_security_v2_catalog_comparison_schema": 2,
+  "encrypted_execution_commit": "ebbdcb0112ea6dfeb6115239cba812e4d2707650",
+  "expected_candidates_per_workload": 14,
+  "expected_workloads": 50,
+  "formal_trial_reduction_all": 0.9,
+  "formal_trial_reduction_confirmatory": 0.9,
+  "incomplete_oracle_workloads_excluded": 0,
+  "inputs": {
+    "direct_results": {
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_final_baseline_inputmodel_floor18_keys3/summary/workload_results.csv",
+      "sha256": "sha256:ce98eff70edce598565c734cfe9f09b6d33d5e4d7b0266b513b1b62d6510e10f"
+    },
+    "direct_summary": {
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_final_baseline_inputmodel_floor18_keys3/summary/summary.json",
+      "sha256": "sha256:2341c37ef219331e58913307d0f6845df09f157fa27b906a179ac70888d60165"
+    },
+    "oracle_selection": {
+      "path": "results/thesis_grade_protocol/security_v2_static_attestation/bounded_oracle_security_v2/oracle_selection.csv",
+      "sha256": "sha256:dc08523ec449d123d0b7aab2df8449bb450dc97236d70ad5f122bd0f99a333c6"
+    },
+    "oracle_summary": {
+      "path": "results/thesis_grade_protocol/security_v2_static_attestation/bounded_oracle_security_v2/summary.json",
+      "sha256": "sha256:5bc04e60f5bf9945c76038bc5e1ca2aa3370ac72806fa9dbfb264ea3e737bbdd"
+    },
+    "security_manifest": {
+      "path": "results/thesis_grade_protocol/security_v2_static_attestation/manifest.json",
+      "sha256": "sha256:949e452198106468cd509fb64679ab878a878bdd0e16a220a04f4fa773d2a877"
+    },
+    "validation_coverage": {
+      "path": "results/thesis_grade_protocol/security_v2_static_attestation/bounded_oracle_security_v2/validation_coverage.csv",
+      "sha256": "sha256:adfec8988bb68e2e5af190b1f70b429b1f82d95df7d5fdb04de8f2b4a5d42210"
+    },
+    "validation_identity_matrix": {
+      "path": "results/thesis_grade_protocol/validation_identity_audit_v2/validation_identity_matrix.csv",
+      "sha256": "sha256:8e3be462002cca543216a7c24830d3f3ec179c923d57d88d335d98756b344af7"
+    },
+    "validation_identity_summary": {
+      "path": "results/thesis_grade_protocol/validation_identity_audit_v2/summary.json",
+      "sha256": "sha256:890098c7ec1770a12e016b5b3e9c4bf1f4fdba4bcb0a84a68654767d1b271567"
+    }
+  },
+  "latency_evidence": "UNPAIRED_DIAGNOSTIC",
+  "oracle_matrix_complete": true,
+  "oracle_workloads_at_alpha": 50,
+  "paper_latency_claim_allowed": false,
+  "raw_catalog_executions": 1100,
+  "reference_failed_count": 0,
+  "reference_rejected_count": 0,
+  "reference_safe_count": 50,
+  "reference_security_pass_count": 50,
+  "schema_version": 2,
+  "security_admitted_catalog_candidates": 700,
+  "security_excluded_catalog_candidates": 400,
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "security_policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2"
+}

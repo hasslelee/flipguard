@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "outcome": "LOCKED_AUDIT_PASS",
+  "reason": "locked candidate synth_analysis_minimum_rescale_N13_Q6_S20_410391a92584 remained SAFE on disjoint audit with 3 fresh key run(s)",
+  "retuning_performed": false,
+  "selection_result": {
+    "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/results/directv1_full_floor18_keys3_seed4_iris_binary_mlp_square_linear_score.json",
+    "sha256": "sha256:f2174708e334f1fdc811930a81fa08d2fb14797e9dac4d6764411c79a4cab348"
+  },
+  "split_manifest": {
+    "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_4/iris_binary/mlp_square_linear_score/split_manifest.json",
+    "sha256": "sha256:484220e3d24aece0ed0452e9dbb4d020077e219dbe496985d0727dd00cb082f9"
+  },
+  "selection_contract_digest": "sha256:410391a925846337eacde00aa72654951f9dc290c81bb7252e98e4423374513b",
+  "selection_workload_id": "split_seed_4/iris_binary/mlp_square_linear_score",
+  "audit_contract": {
+    "schema_version": 2,
+    "workload_id": "split_seed_4/locked_audit/iris_binary/mlp_square_linear_score",
+    "dataset_id": "iris_binary",
+    "model_id": "mlp_square_linear_score",
+    "model_type": "mlp_square_linear_score",
+    "split_id": "split_seed_4/locked_audit",
+    "model_artifact": {
+      "path": "datasets/tabular_suite/iris_binary/mlp_square_linear_score/model.json",
+      "sha256": "sha256:177371ecf4239a1072c5b451b94e492d80cc143b260f1ee0383783bb838eadeb"
+    },
+    "validation_data": {
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_4/iris_binary/mlp_square_linear_score/locked_audit_test.csv",
+      "sha256": "sha256:0f94b83421c9eb3060abf8ea1a35ae3ca8c075b45f01b19144a6429ad2b8ac17"
+    },
+    "graph": {
+      "multiplicative_depth": 1,
+      "add_ops": 21,
+      "mul_ops": 25,
+      "rot_ops": 0,
+      "rescale_ops": 1,
+      "notes": [
+        "derived from the exact tabular plaintext DAG",
+        "rescale count is the maximum multiplicative path depth"
+      ]
+    },
+    "decision": {
+      "threshold": 0.5,
+      "margin_floor": 0.001,
+      "safety_factor": 0.5,
+      "protected_margin": 0.08119315390799997,
+      "output_error_budget": 0.040596576953999985,
+      "validation_digest": "sha256:78cf325acc8cf7faef814cc110e19b8b004eb8c83315972db2b194447a3f1db3",
+      "validation_samples": 16,
+      "certifiable_samples": 16,
+      "ambiguous_samples": 0
+    },
+    "calibration": {
+      "max_input_abs": 1.841917628576,
+      "max_plaintext_output_abs": 0.620427525227,
+      "aggregate_sensitivity": 5.128123815355369,
+      "sensitivity_method": "empirical_interval_dag_sum_v1",
+      "calibration_scope": "observed_validation_artifact:sha256:0f94b83421c9eb3060abf8ea1a35ae3ca8c075b45f01b19144a6429ad2b8ac17"
+    },
+    "deployment": {
+      "security_bits": 128,
+      "required_slots": 1,
+      "max_encrypted_trials": 1,
+      "validation_key_repeats": 3,
+      "packing_strategy": "scalar_replicated_per_ciphertext_v1",
+      "allowed_paths": [
+        "rescale"
+      ],
+      "scale_trace_method": "lattigo_v6_rescale_scale_trace_v1",
+      "rescale_levels_consumed": 3,
+      "terminal_scale_exponent": 3,
+      "required_q_primes": 6
+    }
+  },
+  "selected_candidate": {
+    "id": "synth_analysis_minimum_rescale_N13_Q6_S20_410391a92584",
+    "path": "rescale",
+    "parameters": {
+      "log_n": 13,
+      "log_q": [
+        23,
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "log_p": [
+        30
+      ],
+      "log_default_scale": 20
+    },
+    "security": {
+      "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+      "target_bits": 128,
+      "declared_log_qp": 153,
+      "max_allowed_log_qp": 217,
+      "headroom_bits": 64,
+      "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+    },
+    "required_rescale_levels": 3,
+    "level_guard": 0,
+    "precision_target_bits": 8,
+    "message_magnitude_bits": 0,
+    "analysis_scale_bits": 18,
+    "backend_scale_lift_bits": 2,
+    "backend_validation_attempts": 3,
+    "same_tier_precision_gain_bits": 0,
+    "same_tier_static_candidates_tried": 1,
+    "generation_kind": "analysis_minimum",
+    "reason": "budget=0.0346519 aggregate_sensitivity=5.35966 unit_budget=0.00646533 precision_bits=8 rescale_levels=3 terminal_scale_exponent=3 q_primes=6 level_guard=0 declared_logQP=153 analysis_scale_bits=18 backend_scale_lift_bits=2 backend_validation_attempts=3 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+  },
+  "audit_trial": {
+    "trial_index": 1,
+    "candidate": {
+      "id": "synth_analysis_minimum_rescale_N13_Q6_S20_410391a92584",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "security": {
+        "envelope_id": "he_security_guidelines_2024_ternary_classical_128",
+        "target_bits": 128,
+        "declared_log_qp": 153,
+        "max_allowed_log_qp": 217,
+        "headroom_bits": 64,
+        "admission_status": "ADMITTED_BY_DECLARED_ENVELOPE"
+      },
+      "required_rescale_levels": 3,
+      "level_guard": 0,
+      "precision_target_bits": 8,
+      "message_magnitude_bits": 0,
+      "analysis_scale_bits": 18,
+      "backend_scale_lift_bits": 2,
+      "backend_validation_attempts": 3,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 1,
+      "generation_kind": "analysis_minimum",
+      "reason": "budget=0.0346519 aggregate_sensitivity=5.35966 unit_budget=0.00646533 precision_bits=8 rescale_levels=3 terminal_scale_exponent=3 q_primes=6 level_guard=0 declared_logQP=153 analysis_scale_bits=18 backend_scale_lift_bits=2 backend_validation_attempts=3 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+    },
+    "status": "SAFE",
+    "assurance": "OBSERVED_VALIDATION",
+    "reason": "zero failures, zero decision flips, and zero error violations on V_cert=16",
+    "key_repeats_requested": 3,
+    "key_repeats_completed": 3,
+    "success_runs": 3,
+    "decision_flips": 0,
+    "error_violations": 0,
+    "max_observed_error": 0.00030074719728995225,
+    "v_cert": 16,
+    "v_amb": 0,
+    "mean_total_ms": 121.49131035416666,
+    "median_total_ms": 115.178955,
+    "p95_total_ms": 153.63108
+  }
+}

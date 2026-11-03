@@ -1,0 +1,59 @@
+{
+  "boundary_snapshot_sha256": "sha256:aeec339a87432618ee0458827b0757056794faa7fc2616d210938f6ee40f3ed2",
+  "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+  "encrypted_execution_allowed": false,
+  "encrypted_executions_added": 0,
+  "freezer": {
+    "path": "scripts/audit_eva_cross_runtime_replay_readiness_v1.py",
+    "sha256": "sha256:00a1b98fe12dfcc7b9257ee466e4f06f8c2f94f265a3022005d85aa4f5f56cf0"
+  },
+  "paper_claim_allowed": false,
+  "policy_modifications": 0,
+  "schema_version": "flipguard_eva_cross_runtime_replay_readiness_evidence_v1",
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "source_commit": "2cd615c49ce56298fe8ff2ea58a461874e8d57c8",
+  "sources": {
+    "backend_adapter": {
+      "path": "internal/ckksbackend/eva_execution_schedule.go",
+      "sha256": "sha256:10a50cdcd44b8ae0ca900a841702f36bdc0b659aea24828c32219c78c9aeeb07"
+    },
+    "native_manifest": {
+      "path": "docs/evidence/eva_native_scale_sensitivity_v1/manifest.json",
+      "sha256": "sha256:f129a0c3e7568726e88f2b6887ac7dc01f2cf1887ae696ff6de1c681110f22be"
+    },
+    "native_scale30_dot": {
+      "path": "docs/evidence/eva_native_scale_sensitivity_v1/raw/compiled_scale_30.dot",
+      "sha256": "sha256:0a3ee52b1fa73107143c6739eddc05803b26ea9cf3fef0d1f447ab6f6d3346a3"
+    },
+    "native_summary": {
+      "path": "docs/evidence/eva_native_scale_sensitivity_v1/summary.json",
+      "sha256": "sha256:20087223ce66ba24151688962be37b373cb96c61095295162c6cdd5b7c16a5b8"
+    },
+    "provider_gate": {
+      "path": "internal/providergate/provider_execution_schedule.go",
+      "sha256": "sha256:ab87eaa24a3750ae982a3c2e5a04fab7ce6d87818d8c14c60b80dfc5f0b928b7"
+    },
+    "research_boundary": {
+      "path": "docs/research/step_7g13_cross_runtime_evidence_boundary.md",
+      "sha256": "sha256:aeec339a87432618ee0458827b0757056794faa7fc2616d210938f6ee40f3ed2"
+    },
+    "scale20_compiler_output": {
+      "path": "docs/evidence/eva_external_adapter_replay_v1/run/compiler_output.json",
+      "sha256": "sha256:605cc94bb1df230f9d58b1cbbeb66a26d11b6ae44ed4ad46dfca0925cd711dea"
+    },
+    "schedule_manifest": {
+      "path": "docs/evidence/eva_schedule_bound_adapter_replay_v1/manifest.json",
+      "sha256": "sha256:297140949270a6e10361d014499948512214b06eec43d7d73eabbde25f1bd2ea"
+    },
+    "schedule_smoke": {
+      "path": "docs/evidence/eva_schedule_bound_adapter_replay_v1/runs/corrected_schedule/smoke_selection.json",
+      "sha256": "sha256:04d1b11f1ef555a1fc94424f70c3a9452a8a079fd432bbb89328bdea74658e23"
+    },
+    "schedule_summary": {
+      "path": "docs/evidence/eva_schedule_bound_adapter_replay_v1/summary.json",
+      "sha256": "sha256:eb53d4beefc4fdc88c391f04980a5560a557cf4487b1498d51cebfb8d97ea110"
+    }
+  },
+  "status": "NOT_READY_INTEGRITY_PRESERVING_REPLAY",
+  "summary_sha256": "sha256:252c7e530bc34b560e15428a8da016c6153c8b20e742055fba41a108c93d2dd1"
+}

@@ -1,0 +1,6 @@
+provider,runtime,scheme,log_n,q,p,log_qp,scale_bits,distribution,standard,state,headline_eligible
+Microsoft EVA,SEAL native,CKKS,,,,,20/30/40,native runtime model,native compiler security_level=128,NATIVE_RUNTIME_SECURITY_NOT_EQUIVALENT_TO_LATTIGO_SECURITY_V2,False
+Google HEIR,Lattigo v6.2.0,CKKS,14,"[36028797017456641, 35184372744193, 35184371138561, 35184372121601]","[1152921504607338497, 1152921504608747521]",309.99999998919384,45,"Xs=ring.Ternary(P=2/3); Xe=ring.DiscreteGaussian(sigma=3.2,bound=19.2)",Security Guidelines Table 5.2 conservative admission,PASS,True
+Google HEIR,OpenFHE,CKKS,,,,,,native runtime model,not aligned to Security V2,NATIVE_RUNTIME_SECURITY_MODEL_NOT_ALIGNED,False
+FlipGuard direct/catalog,Lattigo v6.2.0,CKKS,bound in provider candidate manifests,bound in provider candidate manifests,bound in provider candidate manifests,recomputed by provider gate,bound in provider candidate manifests,"Xs=ring.Ternary(P=2/3); Xe=ring.DiscreteGaussian(sigma=3.2,bound=19.2)",Security Guidelines Table 5.2 conservative admission,PASS,True
+CoreLab EVA/ELASM,SEAL native,CKKS,,,,,waterline 15..50,native runtime model,not aligned to Security V2,NATIVE_RUNTIME_SECURITY_MODEL_NOT_ALIGNED,False

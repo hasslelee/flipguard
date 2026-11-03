@@ -1,0 +1,43 @@
+{
+  "case_id": "primary|banknote|linear_poly3|outer_fold_0_training_seed_0",
+  "sample_id": "226",
+  "key_repeat_index": 1,
+  "selection_rule": "smallest original input ID then key index among applicable repaired flips in first illustrative case",
+  "initial_observation": {
+    "schema_version": 2,
+    "sample_id": "226",
+    "key_repeat": 1,
+    "plaintext_score": 0.5027796012554594,
+    "ckks_score": 0.4907081033856266,
+    "threshold": 0.5,
+    "decision_margin": 0.0027796012554593963,
+    "error_budget": 0.0013898006277296981,
+    "absolute_error": 0.012071497869832803,
+    "normalized_budget_usage": 8.685776671112992,
+    "certifiable": true,
+    "plaintext_decision": true,
+    "ckks_decision": false,
+    "decision_flip": true,
+    "error_violation": true
+  },
+  "selected_observation": {
+    "schema_version": 2,
+    "sample_id": "226",
+    "key_repeat": 1,
+    "plaintext_score": 0.5027796012554594,
+    "ckks_score": 0.5026977750559247,
+    "threshold": 0.5,
+    "decision_margin": 0.0027796012554593963,
+    "error_budget": 0.0013898006277296981,
+    "absolute_error": 8.182619953467363e-05,
+    "normalized_budget_usage": 0.05887621425840079,
+    "certifiable": true,
+    "plaintext_decision": true,
+    "ckks_decision": true,
+    "decision_flip": false,
+    "error_violation": false
+  },
+  "key_caveat": "same key-repeat index, independently generated contexts for different candidate literals; not the same secret key",
+  "source": "/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/primary/banknote/linear_poly3/fold_0/training_seed_0/selection.json",
+  "source_sha256": "6a85ea8bfbb6c41e8ae8fde0153b276a7d625a247e39fc5661327d442a0abe87"
+}

@@ -1,0 +1,59 @@
+{
+  "arms": [
+    {
+      "adaptive_repair": true,
+      "candidate_synthesis": "graph_fixed_tolerance:0.001",
+      "decision_integrity_gate": true,
+      "encrypted_validation": true,
+      "id": "graph_only_fixed_tolerance",
+      "source": "new_seed0_execution"
+    },
+    {
+      "adaptive_repair": false,
+      "candidate_synthesis": "graph_plus_decision_contract",
+      "decision_integrity_gate": true,
+      "encrypted_validation": true,
+      "id": "one_shot_direct",
+      "source": "frozen_full_first_trial_view"
+    },
+    {
+      "adaptive_repair": true,
+      "candidate_synthesis": "graph_plus_decision_contract",
+      "decision_integrity_gate": true,
+      "encrypted_validation": true,
+      "id": "full_flipguard",
+      "source": "frozen_seed0_full_result"
+    },
+    {
+      "adaptive_repair": false,
+      "candidate_synthesis": "security_v2_bounded_catalog_fastest_executable",
+      "decision_integrity_gate": false,
+      "encrypted_validation": true,
+      "id": "latency_only_no_certification",
+      "source": "frozen_security_v2_catalog_ledger"
+    }
+  ],
+  "catalog_candidate_identities_per_workload": 14,
+  "catalog_development_candidate_executions": 140,
+  "datasets": [
+    "banknote",
+    "digits_binary",
+    "iris_binary",
+    "mnist_pool16",
+    "wdbc"
+  ],
+  "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+  "fixed_output_error_budget": 0.001,
+  "key_repeats": 3,
+  "margin_floor": 0.001,
+  "max_encrypted_trials": 4,
+  "model_ids": [
+    "linear_poly3",
+    "mlp_square_linear_score"
+  ],
+  "paper_claim_allowed": false,
+  "safety_factor": 0.5,
+  "schema_version": "flipguard_direct_synthesis_ablation_contract_v1",
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "split_seed": 0
+}

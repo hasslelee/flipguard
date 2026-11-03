@@ -1,0 +1,42 @@
+{
+  "command_prefix": "external_",
+  "historical_protocol_root": {
+    "path": "results/fg_contrib_v1_20260906_run01/external/hediff_bank/EXTERNAL_PROTOCOL.json",
+    "sha256": "5a8762b0d7012c3aac7abdca480365da6684284476fffef4bd7940c4496fc0ed"
+  },
+  "effective_protocol": {
+    "path": "results/fg_contrib_v1_20260906_run01/external/hediff_bank/EXTERNAL_PROTOCOL_EXACT_LOGITS.json",
+    "sha256": "70716ffe257f2081afd099d27038d98b4db178b560d9de3f56f1c9a2a6c12068"
+  },
+  "common_source_lock": {
+    "path": "results/fg_contrib_v1_20260906_run01/external/hediff_bank/EXACT_ADAPTER_SOURCE_LOCK.json",
+    "sha256": "a28ebca2f30d15e2af0cc871b618c44ef8aad07fb5151d463886613daba1b00a"
+  },
+  "python_source_amendments": [
+    {
+      "path": "results/fg_contrib_v1_20260906_run01/external/hediff_bank/SOURCE_AMENDMENT_01.json",
+      "sha256": "b3ae223af358e89680b0c305427ce682d2182aa03dba7de8cc5b8675ef558761"
+    },
+    {
+      "path": "results/fg_contrib_v1_20260906_run01/external/hediff_bank/SOURCE_AMENDMENT_02.json",
+      "sha256": "fc53c8448454ece14721025dae59c61263dd498ca1ae70bfc66b0a6be2091b5f"
+    },
+    {
+      "path": "results/fg_contrib_v1_20260906_run01/external/hediff_bank/SOURCE_AMENDMENT_03.json",
+      "sha256": "e402eed1a59dd0b3ff94e4a6fefadd17a8669958586d893df34f6ddb1d8e0ac3"
+    },
+    {
+      "path": "results/fg_contrib_v1_20260906_run01/external/hediff_bank/SOURCE_AMENDMENT_04.json",
+      "sha256": "e42e8e778e5c351548f525d777c7e42eb46720cbda46baf1ace64861127ab344"
+    },
+    {
+      "path": "results/fg_contrib_v1_20260906_run01/external/hediff_bank/SOURCE_AMENDMENT_05.json",
+      "sha256": "3f6929542136bd2f0f91c6d4799d0257720735b5aac464794689db8eb1914ae9"
+    },
+    {
+      "path": "results/fg_contrib_v1_20260906_run01/external/hediff_bank/SOURCE_AMENDMENT_06.json",
+      "sha256": "d059d2ba40a18ecab0ce7668e4d17e6bdfe2bb58983413b088d7b2f10d7e41db"
+    }
+  ],
+  "metadata_note": "Docker command start.source_lock_sha256 is the preserved historical protocol root including source bindings. Apply the pre-execution source amendment chain and exact-logit protocol listed here. Common Go command source_lock_sha256 is the exact adapter lock. No external command has started when this binding is written."
+}

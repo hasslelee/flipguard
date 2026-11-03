@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc" >
+<title id="title">Controlled graph-scale points</title>
+<desc id="desc">Operation counts and selected CKKS literal scale across three disclosed graph points.</desc>
+<rect width="1200" height="700" fill="#ffffff"/>
+<text x="55" y="58" font-family="sans-serif" font-size="30" font-weight="700" fill="#111827">Controlled graph-scale points</text>
+<text x="65.0" y="150.0" font-family="sans-serif" font-size="19" font-weight="700" text-anchor="start" fill="#111827">Primary MLP-4</text>
+<rect x="285" y="123" width="178.9" height="42" fill="#2563eb"/>
+<text x="478.9" y="152.0" font-family="sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#111827">mul=24-72; depth=1; N=2^13; Q=6</text>
+<text x="65.0" y="310.0" font-family="sans-serif" font-size="19" font-weight="700" text-anchor="start" fill="#111827">MNIST MLP-100</text>
+<rect x="285" y="283" width="470.4" height="42" fill="#16a34a"/>
+<text x="770.4" y="312.0" font-family="sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#111827">mul=79500; depth=1; N=2^13; Q=5</text>
+<text x="65.0" y="470.0" font-family="sans-serif" font-size="19" font-weight="700" text-anchor="start" fill="#111827">MNIST LeNet-5-small</text>
+<rect x="285" y="443" width="540.0" height="42" fill="#d97706"/>
+<text x="840.0" y="472.0" font-family="sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#111827">mul=421984; depth=4; N=2^15; Q=18</text>
+<text x="65.0" y="640.0" font-family="sans-serif" font-size="16" font-weight="400" text-anchor="start" fill="#4b5563">Bar length uses log10(multiplication count); it is not a latency axis.</text>
+</svg>

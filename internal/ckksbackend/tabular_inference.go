@@ -8,6 +8,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/hasslelee/flipguard/internal/modelregistry"
 	"github.com/tuneinsight/lattigo/v6/core/rlwe"
 )
 
@@ -121,10 +122,12 @@ type tabularScaledModel struct {
 	Weights []float64 `json:"weights"`
 	Bias    float64   `json:"bias"`
 
-	HiddenWeights [][]float64 `json:"hidden_weights"`
-	HiddenBias    []float64   `json:"hidden_bias"`
-	OutputWeights []float64   `json:"output_weights"`
-	OutputBias    float64     `json:"output_bias"`
+	HiddenWeights  [][]float64 `json:"hidden_weights"`
+	HiddenBias     []float64   `json:"hidden_bias"`
+	Hidden2Weights [][]float64 `json:"hidden2_weights,omitempty"`
+	Hidden2Bias    []float64   `json:"hidden2_bias,omitempty"`
+	OutputWeights  []float64   `json:"output_weights"`
+	OutputBias     float64     `json:"output_bias"`
 }
 
 type tabularTestRow struct {
@@ -176,6 +179,15 @@ func (c Context) RunCKKSTabularInference(
 		return nil, CKKSTabularInferenceSummary{}, err
 	}
 
+	decisionThreshold :=
+		model.PolynomialScore.DecisionThreshold
+
+	if err := validateTabularDecisionThreshold(
+		decisionThreshold,
+	); err != nil {
+		return nil, CKKSTabularInferenceSummary{}, err
+	}
+
 	if model.InputDim <= 0 {
 		return nil, CKKSTabularInferenceSummary{}, fmt.Errorf("invalid input_dim %d", model.InputDim)
 	}
@@ -187,6 +199,13 @@ func (c Context) RunCKKSTabularInference(
 
 	if config.MaxRows > 0 && config.MaxRows < len(rows) {
 		rows = rows[:config.MaxRows]
+	}
+
+	if err := validateTabularPlainDecisions(
+		rows,
+		decisionThreshold,
+	); err != nil {
+		return nil, CKKSTabularInferenceSummary{}, err
 	}
 
 	if len(rows) == 0 {
@@ -272,7 +291,8 @@ func (c Context) runTabularTimedInference(
 	decryptDecodeMS := durationMS(time.Since(decryptStart))
 	totalEvalMS := durationMS(time.Since(totalStart))
 
-	ckksDecision := yDecoded >= 0.5
+	ckksDecision :=
+		yDecoded >= model.PolynomialScore.DecisionThreshold
 	plainCorrect := row.PlainDecision == labelToDecision(row.Label)
 	ckksCorrect := ckksDecision == labelToDecision(row.Label)
 
@@ -326,15 +346,35 @@ func (c Context) evalTabularModel(
 	model tabularModelArtifact,
 	evaluationMode string,
 ) (tabularModelEvalResult, error) {
-	switch model.ModelType {
-	case "linear_poly3":
+	family, err := modelregistry.LookupTabular(model.ModelType)
+	if err != nil {
+		return tabularModelEvalResult{}, err
+	}
+	if evaluationMode == CKKSEvaluationModeEVAV101LinearPoly3 &&
+		model.ModelType != "linear_poly3" {
+		return tabularModelEvalResult{}, fmt.Errorf(
+			"EVA schedule supports only linear_poly3, got %q",
+			model.ModelType,
+		)
+	}
+	switch family.Body {
+	case modelregistry.BodyLinear:
+		if evaluationMode ==
+			CKKSEvaluationModeEVAV101LinearPoly3 {
+			return c.evalTabularEVALinearModel(
+				runtimeState,
+				inputs,
+				model.ScaledModelForCKKS.Weights,
+				model.ScaledModelForCKKS.Bias,
+			)
+		}
 		return c.evalTabularLinearModel(runtimeState, inputs, model.ScaledModelForCKKS.Weights, model.ScaledModelForCKKS.Bias)
-	case "mlp_square_poly3":
+	case modelregistry.BodyOneHiddenSquare:
 		return c.evalTabularSquareMLPModel(runtimeState, inputs, model.ScaledModelForCKKS, evaluationMode)
-	case "mlp_square_linear_score":
-		return c.evalTabularSquareMLPModel(runtimeState, inputs, model.ScaledModelForCKKS, evaluationMode)
+	case modelregistry.BodyTwoHiddenSquares:
+		return c.evalTabularSquare2MLPModel(runtimeState, inputs, model.ScaledModelForCKKS, evaluationMode)
 	default:
-		return tabularModelEvalResult{}, fmt.Errorf("unsupported tabular model_type %q", model.ModelType)
+		return tabularModelEvalResult{}, fmt.Errorf("unsupported tabular body %q", family.Body)
 	}
 }
 
@@ -402,6 +442,64 @@ func (c Context) evalTabularSquareMLPModel(
 		ZCipher:     zCipher,
 		ModelEvalMS: durationMS(time.Since(start)),
 	}, nil
+}
+
+func (c Context) evalTabularSquare2MLPModel(
+	runtimeState ckksTimingRuntime,
+	inputs []*rlwe.Ciphertext,
+	model tabularScaledModel,
+	evaluationMode string,
+) (tabularModelEvalResult, error) {
+	start := time.Now()
+	first, err := c.evalTabularSquareLayer(
+		runtimeState, inputs, model.HiddenWeights, model.HiddenBias,
+		evaluationMode, "first hidden",
+	)
+	if err != nil {
+		return tabularModelEvalResult{}, err
+	}
+	second, err := c.evalTabularSquareLayer(
+		runtimeState, first, model.Hidden2Weights, model.Hidden2Bias,
+		evaluationMode, "second hidden",
+	)
+	if err != nil {
+		return tabularModelEvalResult{}, err
+	}
+	zCipher, err := c.evalTabularWeightedSum(
+		runtimeState, second, model.OutputWeights, model.OutputBias,
+	)
+	if err != nil {
+		return tabularModelEvalResult{}, fmt.Errorf("output weighted sum: %w", err)
+	}
+	return tabularModelEvalResult{
+		ZCipher: zCipher, ModelEvalMS: durationMS(time.Since(start)),
+	}, nil
+}
+
+func (c Context) evalTabularSquareLayer(
+	runtimeState ckksTimingRuntime,
+	inputs []*rlwe.Ciphertext,
+	weights [][]float64,
+	biases []float64,
+	evaluationMode string,
+	name string,
+) ([]*rlwe.Ciphertext, error) {
+	if len(weights) == 0 || len(biases) != len(weights) {
+		return nil, fmt.Errorf("%s dimensions are inconsistent", name)
+	}
+	outputs := make([]*rlwe.Ciphertext, 0, len(weights))
+	for unit, row := range weights {
+		affine, err := c.evalTabularWeightedSum(runtimeState, inputs, row, biases[unit])
+		if err != nil {
+			return nil, fmt.Errorf("%s unit %d weighted sum: %w", name, unit, err)
+		}
+		squared, err := c.squareTabularCiphertext(runtimeState, affine, evaluationMode)
+		if err != nil {
+			return nil, fmt.Errorf("%s unit %d square activation: %w", name, unit, err)
+		}
+		outputs = append(outputs, squared)
+	}
+	return outputs, nil
 }
 
 func (c Context) evalTabularWeightedSum(
@@ -496,6 +594,13 @@ func (c Context) evalTabularOutputScore(
 ) (ckksTimedPolynomialResult, error) {
 	switch formula {
 	case "0.5 + 0.197*z - 0.004*z^3":
+		if evaluationMode ==
+			CKKSEvaluationModeEVAV101LinearPoly3 {
+			return c.evalTabularEVALinearPoly3Score(
+				runtimeState,
+				zCipher,
+			)
+		}
 		return c.evalTimedPolynomial(runtimeState, zCipher, evaluationMode)
 	case "0.5 + 0.197*z":
 		return c.evalTabularAffineOutputScore(runtimeState, zCipher)

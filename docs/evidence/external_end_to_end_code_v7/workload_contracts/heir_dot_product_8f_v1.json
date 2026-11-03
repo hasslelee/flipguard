@@ -1,0 +1,11 @@
+{
+  "backends": ["OpenFHE CKKS", "Lattigo CKKS"],
+  "decision_rule": "NOT_AVAILABLE_IN_OFFICIAL_WORKLOAD",
+  "frozen_before_execution": true,
+  "graph_path": "tests/Examples/common/dot_product_8f.mlir",
+  "provider": "Google HEIR",
+  "schema_version": "flipguard_external_v7_workload_contract_v1",
+  "source_commit": "cb7a7a30bb4d995b50e33bb5cd82ff7434db3656",
+  "status": "FROZEN",
+  "workload_id": "heir_official_dot_product_8f_v1"
+}

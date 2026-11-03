@@ -1,0 +1,54 @@
+{
+  "Xe": "{Sigma:3.2 Bound:19.2}",
+  "Xs": "{P:0.6666666666666666 H:0}",
+  "actual_security": {
+    "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "target_bits": 128,
+    "declared_log_qp": 225,
+    "max_allowed_log_qp": 430,
+    "headroom_bits": 205,
+    "admission_status": "PASS",
+    "measurement": "ceil_log2_concrete_modulus_product",
+    "log_q": 181,
+    "log_p": 45,
+    "log_qp": 225,
+    "ciphertext_q_admission": "PASS",
+    "evaluation_key_qp_admission": "PASS",
+    "final_admission": "PASS",
+    "ciphertext_headroom_bits": 249,
+    "evaluation_key_headroom_bits": 205,
+    "admission_reason": "concrete ciphertext Q and evaluation-key QP products are within the conservative Table 5.2 cap"
+  },
+  "backend_valid": true,
+  "candidate_id": "synth_analysis_minimum_rescale_N14_Q5_S34_d39996cb17fd",
+  "concrete": {
+    "log_n": 14,
+    "q": [
+      17592186175489,
+      17179967489,
+      17179672577,
+      17180262401,
+      17180295169
+    ],
+    "p": [
+      17592186273793
+    ],
+    "log_default_scale": 34
+  },
+  "declared": {
+    "log_n": 14,
+    "log_q": [
+      44,
+      34,
+      34,
+      34,
+      34
+    ],
+    "log_p": [
+      44
+    ],
+    "log_default_scale": 34
+  },
+  "interpretation": "frozen 128-bit policy admission and Lattigo validity; not a per-instance attack-cost estimate",
+  "static_parameter_ms": 16.080081
+}

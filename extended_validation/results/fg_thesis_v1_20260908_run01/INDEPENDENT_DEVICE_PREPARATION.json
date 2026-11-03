@@ -1,0 +1,45 @@
+{
+  "utc": "2026-09-08T11:08:59.032574+00:00",
+  "scope": "independent-device execution preparation only; no new CKKS or selection",
+  "rotation_case": "packed_cnn_lite_binary01_v17",
+  "staged_files": [
+    {
+      "source": "/home/ckks2/flipguard/datasets/vision_suite/mnist/cnn_lite_square_binary01/model.json",
+      "copy": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/independent_device_preparation/model.json",
+      "sha256": "28f673795c1982eb20d9cf156e527a5d61d74c2d674fc75f70dcca7b4876cf4e",
+      "bytes": 5611,
+      "operation": "read-only copy; no source code or experiment executed in FlipGuard"
+    },
+    {
+      "source": "/home/ckks2/flipguard/datasets/vision_suite/mnist/cnn_lite_square_binary01/configuration_validation.csv",
+      "copy": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/independent_device_preparation/selection250.csv",
+      "sha256": "c91fe6bb77ba57c2249bb643da20f73d034c6629d50156a115608e55f4e4b88b",
+      "bytes": 106289,
+      "operation": "read-only copy; no source code or experiment executed in FlipGuard"
+    },
+    {
+      "source": "/home/ckks2/flipguard/datasets/vision_suite/mnist/cnn_lite_square_binary01/locked_audit_test.csv",
+      "copy": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/independent_device_preparation/audit250.csv",
+      "sha256": "dc45a3440752e36471257451f90298c0b3979c22fd68551e45ddae86b576c313",
+      "bytes": 105963,
+      "operation": "read-only copy; no source code or experiment executed in FlipGuard"
+    }
+  ],
+  "model_metadata_source": "/home/ckks2/deciprotect/docs/research/fg_journal_evidence_v1_20260906/evidence_tables/MODEL_METADATA_packed_cnn_lite_binary01_v17.json",
+  "model_metadata_sha256": "104b37b9385fb55764efd83025e41b937b8a2ebab66ff5fe900c1f5794994302",
+  "source_archive_dependency": {
+    "path": "results/source_datasets/mnist/mnist_784.arff.gz",
+    "sha256": "sha256:fe4410d8dbb50f6db6482b187557c5cb8bccfbcec74eeb6abc47c858f4ffab78"
+  },
+  "source_archive_staged": false,
+  "source_archive_payload_read": false,
+  "requires_before_future_execution": [
+    "authorize a distinct physical host and destination",
+    "bind the original MNIST source archive and extraction manifest required by the existing materialization/audit verifier, without disabling those checks",
+    "bind a new protocol/run ID and host metadata",
+    "wire the existing packed selection/audit entry points and perform a bounded connection check before full measurements"
+  ],
+  "no_independent_device_execution": true,
+  "existing_selected_cases": "Spambase linear and Fashion seed0 exact model/selection/audit dependencies are already bound in SOURCE_LOCK and protocol",
+  "exposure": "All staged selection/audit rows are historical exposed rows; not a new population or fresh reserve."
+}

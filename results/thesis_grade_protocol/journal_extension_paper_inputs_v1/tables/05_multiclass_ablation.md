@@ -1,0 +1,7 @@
+# Multiclass synthesis ablation
+
+| Model | Arm | Static status | Encrypted status | Candidate | Trials | Keys | Flips | Reserve rejects | Interpretation |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| mlp_100 | full_flipguard | PLAN_OK_SECURITY_ADMITTED | SAFE | synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140 | 1 | 3 | 0 | 0 | decision-aware synthesis and validation |
+| mlp_100 | graph_only_fixed_tolerance | PLAN_OK_SECURITY_ADMITTED | SAFE | synth_analysis_minimum_rescale_N13_Q5_S32_cd07c4b74140 | 1 | 3 | 0 | 0 | A_LITERAL_EFFECT_SUPPORTED |
+| lenet5_small | graph_only_fixed_tolerance | PLAN_UNSUPPORTED_SECURITY_ENVELOPE | NOT_EXECUTED |  | 0 | 0 |  |  | scientific static negative result |

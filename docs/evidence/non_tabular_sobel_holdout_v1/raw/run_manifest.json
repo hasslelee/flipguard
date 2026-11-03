@@ -1,0 +1,64 @@
+{
+  "binary_sha256": {
+    "audit": "sha256:e4264ff1ceade488430dca860049d511468cf4947d1e6ae656d5cd63d02d6754",
+    "autotune": "sha256:c5b9244c408a04635f077881abf4507f9a483141e64fe091d7f721fd93d3f604"
+  },
+  "direct_policy": {
+    "digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "id": "flipguard_direct_synthesis_policy_v2",
+    "modified": false
+  },
+  "execution_critical_source_digest": "sha256:db55ba5f6988397d97501dcfe05a3a53ab0e60d41ea289772caafab28e5530aa",
+  "extraction_policy": {
+    "digest": "sha256:07c196374cea947c5bd9d8d478311e75ba4754f875c4f19ce0387241d55da699",
+    "id": "bsds500_sobel_patch_extraction_v1"
+  },
+  "go_version": "go version go1.25.9 linux/amd64",
+  "graph_adapter": {
+    "id": "bsds500_sobel_rescale_graph_adapter_v1",
+    "scope": "predeclared_extension_outside_v2_supported_model_list"
+  },
+  "host": {
+    "cpu_model": "AMD Ryzen 5 3600 6-Core Processor",
+    "hostname": "ckks2-VMware-Virtual-Platform",
+    "machine": "x86_64",
+    "memory_kib": "16328516",
+    "os": "Linux-6.17.0-35-generic-x86_64-with-glibc2.39"
+  },
+  "inputs": {
+    "configuration_validation": "sha256:a254f865457034e530298b245c4a37e993eaa9579edc1fbf15fe25948a1d3d81",
+    "extraction_manifest": "sha256:36bc312a6f90ca8d55add55a9b368c228456bb20d1fa3556e1a79769f68ef095",
+    "locked_audit_test": "sha256:5d327ddbc8138275ae046a95011594287e5ec0b87da8e7b81797dfb480e27d8d",
+    "model": "sha256:6fd550087f7374634aae5a56d79545729d8bf7eab986237a4a708334c23499b6",
+    "source_archive": "sha256:97e49d31764f3912f0c4122707d53062ac9e783ba0f095e447a4d53c1a41af8e"
+  },
+  "lattigo_module": "github.com/tuneinsight/lattigo/v6 v6.2.0",
+  "origin_commit": "6b0409e2c05ba416dd87e285005fe30d8e036de0",
+  "predecessor_run": {
+    "id": "run_cb71a21",
+    "reason_code": "IMPLEMENTATION_DIAGNOSTIC_MISSING_RAW_SAMPLE_LEDGER",
+    "status": "SUPERSEDED_DIAGNOSTIC"
+  },
+  "protocol": {
+    "alpha": 0.5,
+    "audit_samples": 400,
+    "first_safe": true,
+    "key_repeats_audit": 3,
+    "key_repeats_selection": 3,
+    "margin_floor": 0.001,
+    "max_encrypted_trials": 4,
+    "no_retuning": true,
+    "sample_level_ledger_required": true,
+    "validation_samples": 400
+  },
+  "python_version": "3.12.3",
+  "schema_version": "flipguard_non_tabular_sobel_run_v1",
+  "security_policy": {
+    "digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+    "id": "security_guidelines_cic2025_table5_2_ternary_128_v2"
+  },
+  "source_commit": "6b0409e2c05ba416dd87e285005fe30d8e036de0",
+  "started_at": "2026-07-30T14:53:08.833623+09:00",
+  "status": "STARTED",
+  "working_tree_clean": true
+}

@@ -1,0 +1,27 @@
+{
+  "bootstrapping_placement": "PUBLIC_CONFIG_ONLY",
+  "log_n": "NOT_ADMITTED",
+  "p": "UNSUPPORTED_OR_MISSING",
+  "packing": "ORION_NATIVE_PACKING_NOT_PORTED",
+  "plans_executed": 0,
+  "plans_generated": 3,
+  "provider": "Orion",
+  "provider_objective": "packed deep-learning compilation",
+  "q": "UNSUPPORTED_OR_MISSING",
+  "raw_artifact_digest": "sha256:bc0a1f248850fee0ab280317a1621521c1130f2e7472ad5edba08617d7db48c9",
+  "rescale_modswitch_relinearization_placement": "NOT_LOSSLESSLY_IMPORTED",
+  "runtime_assumptions": "Orion native runtime not executed for frozen workload",
+  "scale": "PUBLIC_CONFIGURATION_FIELDS",
+  "scale_schedule": "NOT_LOSSLESSLY_IMPORTED",
+  "schema_version": "flipguard_provider_candidate_manifest_v3",
+  "security_assumptions": "NOT_ADMITTED",
+  "selected_plan": "PLAN_UNSUPPORTED",
+  "source_commit": "main@be8a827350a147d610fe3bb998b5bea8de814ff8",
+  "tuning_parameters": "STATIC_FAIL_CLOSED_IMPORT",
+  "unsupported_or_missing_fields": [
+    "exact Q/P materialization",
+    "raw per-sample output",
+    "common-executor schedule"
+  ],
+  "workload": "three public configurations static audit"
+}

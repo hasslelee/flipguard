@@ -1,0 +1,142 @@
+{
+  "schema_version": "flipguard_eva_native_scale_sensitivity_contract_v1",
+  "status": "PREDECLARED_DEVELOPMENT_SENSITIVITY_BEFORE_NEW_ENCRYPTED_EXECUTION",
+  "classification": "POST_REJECTION_PROSPECTIVE_NATIVE_EVA_PRECISION_SENSITIVITY",
+  "paper_claim_allowed": false,
+  "evaluation_role": "seed0_development_external_compiler_precision_sensitivity",
+  "motivation": {
+    "preserved_negative_result": "The frozen scale-20 EVA candidate remains REJECTED and is not retuned or replaced.",
+    "question": "Does caller-declared CKKS input precision alter the native EVA/SEAL decision-integrity outcome under a fixed graph, workload, compiler configuration, and validation/audit protocol?",
+    "causal_boundary": "The fixed arm matrix can describe scale-associated outcome changes but cannot isolate scale from the compiler-generated schedule and modulus changes.",
+    "confirmation_boundary": "This post-rejection seed-0 study is development evidence, not a confirmatory evaluation."
+  },
+  "literature_basis": [
+    {
+      "title": "EVA: An Encrypted Vector Arithmetic Language and Compiler for Efficient Homomorphic Computation",
+      "venue": "PLDI 2020",
+      "url": "https://www.microsoft.com/en-us/research/publication/eva-an-encrypted-vector-arithmetic-language-and-compiler-for-efficient-homomorphic-computation/",
+      "adopted_practice": "The caller supplies input scale and output range; EVA compiles the program, inserts CKKS operations, and returns encryption parameters and a signature."
+    },
+    {
+      "title": "HECATE: Performance-Aware Scale Optimization for Homomorphic Encryption Compiler",
+      "venue": "CGO 2022",
+      "url": "https://www3.cs.stonybrook.edu/~dongyoon/papers/CGO-22-HECATE.pdf",
+      "adopted_practice": "Treat scale management as an explicit empirical dimension and avoid attributing performance or accuracy to graph depth alone."
+    }
+  ],
+  "upstream": {
+    "eva_repository": "https://github.com/microsoft/EVA",
+    "eva_tag": "v1.0.1",
+    "eva_commit": "4cd3254c9c51340ae30c451495ce5378135758c0",
+    "seal_repository": "https://github.com/microsoft/SEAL",
+    "seal_tag": "v3.6.4",
+    "seal_commit": "0b058d99b7f18a00e5ebb2b80caee593804b0500"
+  },
+  "source_binding": {
+    "compiler_source_contract_path": "experiments/eva_external_adapter_v1/contract.json",
+    "compiler_source_contract_sha256": "sha256:5da5bf7e12f41893a90b7fe746c59948479dbfdfe45c2a4a8e9f76b41f283842",
+    "original_native_evidence_manifest_path": "docs/evidence/eva_native_runtime_replay_v1/manifest.json",
+    "original_native_evidence_manifest_sha256": "sha256:a8a0ad63c50c6f806fa50adce43686d59c67f5817c8f01fab63aa8f41c1f4581",
+    "model_path": "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+    "model_sha256": "sha256:9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1",
+    "validation_path": "experiments/eva_native_runtime_v1/inputs/configuration_validation.csv",
+    "validation_sha256": "sha256:29cf99a47cd25520a15aa36d8e7fdf58328fc3a91ad54067266d443b4c04e5ea",
+    "validation_rows": 14,
+    "locked_audit_path": "experiments/eva_native_runtime_v1/inputs/locked_audit_test.csv",
+    "locked_audit_sha256": "sha256:72a182968acd60e8c0bd5acc830627d698a9f1d2e1760dd492dbb07129a26327",
+    "locked_audit_rows": 16
+  },
+  "program": {
+    "program_id_prefix": "iris_linear_poly3_scalar_scale_sensitivity",
+    "vector_size": 1,
+    "input_names": [
+      "x_0",
+      "x_1",
+      "x_2",
+      "x_3"
+    ],
+    "formula": "z=bias+sum_i(weight_i*x_i); score=0.5+0.197*z-0.004*z^3",
+    "output_range_bits": 1,
+    "compiler_config": {
+      "balance_reductions": true,
+      "rescaler": "lazy_waterline",
+      "lazy_relinearize": true,
+      "security_level": 128,
+      "quantum_safe": false,
+      "warn_vec_size": true
+    }
+  },
+  "candidate_matrix": {
+    "arm_order": [
+      20,
+      30,
+      40
+    ],
+    "input_scale_bits": [
+      20,
+      30,
+      40
+    ],
+    "execute_all_validation_arms": true,
+    "selection_rule": "select the smallest input scale whose Security V2 reference gate passes and whose three-key encrypted validation is SAFE",
+    "locked_audit_rule": "replay only the selected compiled literal with three fresh keys and no parameter, graph, scale, or schedule change",
+    "no_safe_rule": "if no arm is SAFE, report NO_SAFE and do not run locked audit",
+    "candidate_trials_max": 3,
+    "synthesis_calls": 0,
+    "repair_calls": 0,
+    "retuning": 0
+  },
+  "decision_contract": {
+    "threshold": 0.5,
+    "primary_alpha": 0.5,
+    "primary_margin_floor": 0.001,
+    "certifiable_rule": "abs(plaintext_score-threshold)>margin_floor",
+    "error_violation_rule": "absolute_error>=alpha*decision_margin",
+    "decision_rule": "score>=threshold",
+    "safe_rule": "execution_failures=0 AND decision_flips=0 AND error_violations=0"
+  },
+  "execution_protocol": {
+    "validation_key_repeats_per_arm": 3,
+    "locked_audit_key_repeats": 3,
+    "sample_packing": "one scalar per encrypted EVA vector of size one",
+    "key_policy": "one fresh native SEAL context per arm and key repeat",
+    "sample_policy": "encrypt and execute every row independently within each repeat",
+    "arm_failure_policy": "record the failed arm and continue the remaining predeclared arms",
+    "outlier_removal": false,
+    "concurrent_ckks_processes": 0
+  },
+  "security_reference": {
+    "policy_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+    "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+    "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "caps": {
+      "12": 106,
+      "13": 214,
+      "14": 430,
+      "15": 868
+    },
+    "admission_rule": "record compiler Q and P bit sizes separately; execute only when both Q and QP are within the cap for LogN",
+    "native_seal_context_security_enforcement": "sec_level_type::none",
+    "native_seal_secret": "uniform_ternary_-1_0_1",
+    "native_seal_error": "centered_binomial_stddev_3.2",
+    "lattigo_distribution_identity": false,
+    "runtime_security_claim": "NOT_EVALUATED_DIFFERENT_RUNTIME_DISTRIBUTION"
+  },
+  "falsification": {
+    "source_or_split_mismatch": "INTEGRITY_BLOCK",
+    "policy_digest_mismatch": "INTEGRITY_BLOCK",
+    "security_reference_failure": "skip that arm before key generation and preserve the static result",
+    "individual_arm_rejected_or_failed": "preserve and continue remaining predeclared validation arms",
+    "selected_locked_audit_negative": "preserve without repair or reselection",
+    "post_result_arm_or_rule_change": "PROHIBITED"
+  },
+  "claim_boundary": {
+    "external_precision_sensitivity": "eligible as development evidence after all admissible arms complete",
+    "native_eva_safe_candidate_locked_audit": "eligible only if the predeclared first-SAFE literal passes untouched locked audit",
+    "original_scale20_candidate_status": "remains REJECTED regardless of the new result",
+    "general_external_compiler_interoperability": "at most PARTIALLY_SUPPORTED",
+    "general_external_autotuner_integration": "NOT_EVALUATED",
+    "cross_runtime_numerical_equivalence": "NOT_EVALUATED",
+    "paper_claim_allowed": false
+  }
+}

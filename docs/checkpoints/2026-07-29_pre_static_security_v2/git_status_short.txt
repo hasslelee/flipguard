@@ -1,0 +1,66 @@
+ M README.md
+ M cmd/flipguard-audit/main.go
+ M cmd/flipguard-autotune/main.go
+ M cmd/flipguard-autotune/main_test.go
+ M cmd/flipguard-synthesize/main.go
+ M docs/paper_result_notes.md
+ M docs/research/flipguard_v2_claim_evidence_matrix.md
+ M docs/research/step_7b2_planner_oracle_protocol.md
+ M docs/research/step_7b2a_direct_configuration_synthesis.md
+ M docs/research/step_7b3_full_validation_execution.md
+ M internal/certify/certificate.go
+ M internal/certify/engine.go
+ M internal/certify/observation.go
+ M internal/certify/observation_test.go
+ M internal/ckksplanner/audit.go
+ M internal/ckksplanner/audit_test.go
+ M internal/ckksplanner/contract.go
+ M internal/ckksplanner/contract_test.go
+ M internal/ckksplanner/executor.go
+ M internal/ckksplanner/synthesis.go
+ M internal/ckksplanner/synthesis_test.go
+ M internal/ckksplanner/tabular_contract.go
+ M scripts/freeze_direct_locked_audit_evidence.py
+ M scripts/run_direct_tabular_autotune_matrix.sh
+ M scripts/run_direct_tabular_locked_audit_matrix.sh
+ M scripts/summarize_direct_tabular_autotune.py
+ M scripts/summarize_direct_tabular_locked_audit.py
+?? cmd/flipguard-audit/main_test.go
+?? cmd/flipguard-paired-latency/
+?? collect_flipguard_direction_snapshot.sh
+?? docs/evidence/direct_locked_audit_five_split_v1/
+?? docs/evidence/direct_locked_audit_seeds1_3_checkpoint_v1/
+?? docs/evidence/full_oracle_comparison_v1/
+?? docs/evidence/no_safe_controls_v1/
+?? docs/evidence/paired_latency_pilot_v1/
+?? docs/evidence/policy_sensitivity_v1/
+?? docs/research/flipguard_v2_manuscript_draft_ko.md
+?? docs/research/flipguard_v2_references.bib
+?? docs/research/flipguard_v2_related_work.md
+?? docs/research/step_7b4_paired_selected_latency_protocol.md
+?? docs/research/step_7b5_no_safe_budget_negative_control.md
+?? docs/research/step_7b6_policy_sensitivity.md
+?? docs/research/step_7b7_structural_extension.md
+?? docs/research/step_7b8_final_confirmatory_suite.md
+?? docs/research/step_7b9_paper_artifact_assembly.md
+?? internal/ckksbackend/paired_tabular_latency.go
+?? internal/ckksbackend/paired_tabular_latency_test.go
+?? internal/ckksplanner/tabular_materialize.go
+?? internal/ckksplanner/tabular_materialize_test.go
+?? scripts/analyze_margin_floor_challenger.py
+?? scripts/analyze_structural_extension_plans.py
+?? scripts/analyze_thesis_policy_sensitivity.py
+?? scripts/build_finite_domain_no_safe_control.py
+?? scripts/build_flipguard_v2_paper_artifacts.py
+?? scripts/compare_direct_synthesis_to_catalog_oracle.py
+?? scripts/freeze_full_oracle_comparison_evidence.py
+?? scripts/freeze_no_safe_control_evidence.py
+?? scripts/freeze_paired_latency_evidence.py
+?? scripts/freeze_policy_sensitivity_evidence.py
+?? scripts/run_finite_domain_no_safe_locked_audit.py
+?? scripts/run_margin_floor_challenger.sh
+?? scripts/run_no_safe_budget_negative_controls.py
+?? scripts/run_paired_tabular_latency.py
+?? scripts/run_structural_extension.sh
+?? scripts/run_thesis_final_confirmatory_suite.sh
+?? scripts/tests/

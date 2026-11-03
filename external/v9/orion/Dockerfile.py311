@@ -1,0 +1,24 @@
+FROM python:3.11-slim
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN python -m pip install --no-cache-dir \
+    --index-url https://download.pytorch.org/whl/cpu \
+    torch==2.2.2 torchvision==0.17.2 \
+    && python -m pip install --no-cache-dir \
+    PyYAML==6.0.2 \
+    tqdm==4.67.1 \
+    numpy==1.26.4 \
+    scipy==1.14.1 \
+    matplotlib==3.10.5 \
+    h5py==3.14.0 \
+    certifi==2025.8.3 \
+    pytest==8.4.1
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace

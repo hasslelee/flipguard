@@ -1,0 +1,20 @@
+{
+  "protocol_id": "DP_IID_AUDIT_V1",
+  "role": "FINITE_OPERATIONAL_POPULATION_RISK_AUDIT",
+  "model": "spambase__logistic_linear__20260905 from DP_PILOT_V1A",
+  "policy": "Fixed parent low/high scales and calibration radii, with client interval gate; no retuning",
+  "population": "Uniform sampling with replacement from exactly 842 parent test inputs plus 224 synthetic boundary inputs plus 256 shifted inputs, total 1322 rows; duplicate feature values, if any, retain their separate finite-population weights",
+  "population_is_real_world_distribution": false,
+  "input_sampling_seed": 20260917,
+  "trials": 600,
+  "independent_unit": "One newly sampled population index plus independent new CKKS key/encryption randomness; one input per encrypted evaluation; no packed observations counted separately",
+  "risk_target": 0.01,
+  "family_confidence": 0.95,
+  "hypotheses": 2,
+  "alpha_per_bound": 0.025,
+  "outcomes": ["P(return a decision different from reference)", "P(disagree | return a decision)"],
+  "bound": "Exact one-sided Clopper-Pearson; joint denominator all 600 requests; selective denominator all accepted requests; Bonferroni over 2 bounds",
+  "coverage": "Report observed fraction; no coverage confidence claim",
+  "stopping": "Exactly 600 requests; no early success or tuning; preserve failures and abstentions",
+  "claim_limits": "Conditional on the frozen model, finite population, CKKS implementation, parameter policy and gate; randomized experiment uses a recorded pseudorandom input seed and OS crypto randomness. No clinical, Internet-traffic, unseen distribution, worst-case, model accuracy or malicious-server guarantee. Repeated source rows are intentional independent draws under this finite-population experiment, not new unique dataset rows."
+}

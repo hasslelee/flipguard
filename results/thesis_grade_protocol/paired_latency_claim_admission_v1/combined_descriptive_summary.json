@@ -1,0 +1,106 @@
+{
+  "arm_latency": {
+    "catalog": {
+      "eval_only_ms": {
+        "mean": 149.1873056911111,
+        "median": 144.2527325,
+        "p95": 211.45248454999998
+      },
+      "raw_observations": 1800,
+      "total_ms": {
+        "mean": 478.10942800555557,
+        "median": 419.654879,
+        "p95": 1000.1479081999998
+      },
+      "within_workload_total_cv": {
+        "max": 0.3812221252813458,
+        "median": 0.13622550416806326
+      }
+    },
+    "direct": {
+      "eval_only_ms": {
+        "mean": 61.172237259444444,
+        "median": 62.004259000000005,
+        "p95": 108.48461529999999
+      },
+      "raw_observations": 1800,
+      "total_ms": {
+        "mean": 145.61437654666668,
+        "median": 134.4429235,
+        "p95": 247.3759641
+      },
+      "within_workload_total_cv": {
+        "max": 0.32746445074159974,
+        "median": 0.15671518146522062
+      }
+    },
+    "reference": {
+      "eval_only_ms": {
+        "mean": 313.367453715,
+        "median": 325.25545750000003,
+        "p95": 557.8177588
+      },
+      "raw_observations": 1800,
+      "total_ms": {
+        "mean": 778.1080853161111,
+        "median": 719.1413044999999,
+        "p95": 1330.98450805
+      },
+      "within_workload_total_cv": {
+        "max": 0.2033910670415775,
+        "median": 0.10816213109322133
+      }
+    }
+  },
+  "catalog_over_direct": {
+    "cluster_bootstrap_95_ci_eval_only": {
+      "high": 3.6766318142276435,
+      "low": 1.887295399739385,
+      "replicates": 10000
+    },
+    "cluster_bootstrap_95_ci_total": {
+      "high": 4.2114174614363975,
+      "low": 2.3462962648659733,
+      "replicates": 10000
+    },
+    "cluster_ratio": {
+      "max": 5.287453599109094,
+      "median": 3.438782740992643,
+      "min": 1.8927077509599404
+    },
+    "geometric_mean_eval_only_ratio": 2.631775823942276,
+    "geometric_mean_total_latency_ratio": 3.141754631447834,
+    "workload_partition_ratio": {
+      "max": 5.4106714389699,
+      "median": 3.40881670042883,
+      "min": 1.850580832747875
+    }
+  },
+  "dataset_model_clusters": 10,
+  "failure_count": 0,
+  "inference_unit": "dataset_model_cluster",
+  "outlier_removal": false,
+  "population": "combined_descriptive",
+  "position_effect": {
+    "1": 0.9974410148307976,
+    "2": 1.002277090277785,
+    "3": 1.0002818948914172
+  },
+  "raw_pairs": 1800,
+  "reference_status": {
+    "failed": 0,
+    "rejected": 0,
+    "safe": 50,
+    "security_pass": 50
+  },
+  "repeated_partition_role": "within_cluster_repetition",
+  "schema_version": 1,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "workload_partition_instances": 50
+}

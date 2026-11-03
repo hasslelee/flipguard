@@ -1,0 +1,205 @@
+{
+  "utc": "2026-09-08T11:56:38.237834+00:00",
+  "scope": "read-only post-run check of fixed A3 model-input vectors; no input removal/replacement, no retuning, no new CKKS",
+  "equality": "exact numeric equality of frozen transformed model features; distinct source rows and distinct feature vectors are separate units",
+  "checks": [
+    {
+      "case": "spambase__linear_poly3__split0_seed0",
+      "candidate_rows": 256,
+      "audit_rows": 256,
+      "feature_dimensions": 16,
+      "source_row_id_intersection": 0,
+      "candidate_distinct_model_input_vectors": 240,
+      "audit_distinct_model_input_vectors": 241,
+      "shared_model_input_vectors": 10,
+      "candidate_rows_with_shared_vector": 23,
+      "audit_rows_with_shared_vector": 25,
+      "source_files": {
+        "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order0_n256.prepared/prepared.csv": "47a4811a14e3bb105910390d555dda219656af87c993ba6eaede31c62a7c51b3",
+        "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__linear_poly3__split0_seed0/independent_evaluation.prepared.csv": "d040e134e8b238e2d20603a729ed1fda80d9493c1fb774d606cf96cd8e950188"
+      }
+    },
+    {
+      "case": "htru2__mlp_square_linear_score__split0_seed0",
+      "candidate_rows": 256,
+      "audit_rows": 256,
+      "feature_dimensions": 8,
+      "source_row_id_intersection": 0,
+      "candidate_distinct_model_input_vectors": 256,
+      "audit_distinct_model_input_vectors": 256,
+      "shared_model_input_vectors": 0,
+      "candidate_rows_with_shared_vector": 0,
+      "audit_rows_with_shared_vector": 0,
+      "source_files": {
+        "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order0_n256.prepared/prepared.csv": "36b5d572610ee344870b0bc2a9da65ef88281001fdcf029f2c5d45568565434b",
+        "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__mlp_square_linear_score__split0_seed0/independent_evaluation.prepared.csv": "8fd2fcc054c075df59ff0ec83ca60b1549c7f33809997dc11a2c717a89e3b2cf"
+      }
+    }
+  ],
+  "preexecution_check_scope": "Original source row identity separation was checked before execution; exact transformed-vector overlap was checked after execution. The precheck did not establish vector-disjoint audit inputs.",
+  "subset_checks": [
+    {
+      "case": "spambase__linear_poly3__split0_seed0",
+      "order": 0,
+      "selection_source_rows": 16,
+      "distinct_selection_vectors": 15,
+      "shared_vectors_with_old_audit": 4,
+      "selection_rows_matching_old_audit_vector": 5,
+      "old_audit_rows_matching_selection_vector": 13
+    },
+    {
+      "case": "spambase__linear_poly3__split0_seed0",
+      "order": 0,
+      "selection_source_rows": 64,
+      "distinct_selection_vectors": 60,
+      "shared_vectors_with_old_audit": 8,
+      "selection_rows_matching_old_audit_vector": 12,
+      "old_audit_rows_matching_selection_vector": 21
+    },
+    {
+      "case": "spambase__linear_poly3__split0_seed0",
+      "order": 0,
+      "selection_source_rows": 256,
+      "distinct_selection_vectors": 240,
+      "shared_vectors_with_old_audit": 10,
+      "selection_rows_matching_old_audit_vector": 23,
+      "old_audit_rows_matching_selection_vector": 25
+    },
+    {
+      "case": "spambase__linear_poly3__split0_seed0",
+      "order": 1,
+      "selection_source_rows": 16,
+      "distinct_selection_vectors": 15,
+      "shared_vectors_with_old_audit": 2,
+      "selection_rows_matching_old_audit_vector": 3,
+      "old_audit_rows_matching_selection_vector": 7
+    },
+    {
+      "case": "spambase__linear_poly3__split0_seed0",
+      "order": 1,
+      "selection_source_rows": 64,
+      "distinct_selection_vectors": 60,
+      "shared_vectors_with_old_audit": 6,
+      "selection_rows_matching_old_audit_vector": 9,
+      "old_audit_rows_matching_selection_vector": 18
+    },
+    {
+      "case": "spambase__linear_poly3__split0_seed0",
+      "order": 1,
+      "selection_source_rows": 256,
+      "distinct_selection_vectors": 240,
+      "shared_vectors_with_old_audit": 10,
+      "selection_rows_matching_old_audit_vector": 23,
+      "old_audit_rows_matching_selection_vector": 25
+    },
+    {
+      "case": "spambase__linear_poly3__split0_seed0",
+      "order": 2,
+      "selection_source_rows": 16,
+      "distinct_selection_vectors": 16,
+      "shared_vectors_with_old_audit": 3,
+      "selection_rows_matching_old_audit_vector": 3,
+      "old_audit_rows_matching_selection_vector": 10
+    },
+    {
+      "case": "spambase__linear_poly3__split0_seed0",
+      "order": 2,
+      "selection_source_rows": 64,
+      "distinct_selection_vectors": 62,
+      "shared_vectors_with_old_audit": 5,
+      "selection_rows_matching_old_audit_vector": 6,
+      "old_audit_rows_matching_selection_vector": 18
+    },
+    {
+      "case": "spambase__linear_poly3__split0_seed0",
+      "order": 2,
+      "selection_source_rows": 256,
+      "distinct_selection_vectors": 240,
+      "shared_vectors_with_old_audit": 10,
+      "selection_rows_matching_old_audit_vector": 23,
+      "old_audit_rows_matching_selection_vector": 25
+    },
+    {
+      "case": "htru2__mlp_square_linear_score__split0_seed0",
+      "order": 0,
+      "selection_source_rows": 16,
+      "distinct_selection_vectors": 16,
+      "shared_vectors_with_old_audit": 0,
+      "selection_rows_matching_old_audit_vector": 0,
+      "old_audit_rows_matching_selection_vector": 0
+    },
+    {
+      "case": "htru2__mlp_square_linear_score__split0_seed0",
+      "order": 0,
+      "selection_source_rows": 64,
+      "distinct_selection_vectors": 64,
+      "shared_vectors_with_old_audit": 0,
+      "selection_rows_matching_old_audit_vector": 0,
+      "old_audit_rows_matching_selection_vector": 0
+    },
+    {
+      "case": "htru2__mlp_square_linear_score__split0_seed0",
+      "order": 0,
+      "selection_source_rows": 256,
+      "distinct_selection_vectors": 256,
+      "shared_vectors_with_old_audit": 0,
+      "selection_rows_matching_old_audit_vector": 0,
+      "old_audit_rows_matching_selection_vector": 0
+    },
+    {
+      "case": "htru2__mlp_square_linear_score__split0_seed0",
+      "order": 1,
+      "selection_source_rows": 16,
+      "distinct_selection_vectors": 16,
+      "shared_vectors_with_old_audit": 0,
+      "selection_rows_matching_old_audit_vector": 0,
+      "old_audit_rows_matching_selection_vector": 0
+    },
+    {
+      "case": "htru2__mlp_square_linear_score__split0_seed0",
+      "order": 1,
+      "selection_source_rows": 64,
+      "distinct_selection_vectors": 64,
+      "shared_vectors_with_old_audit": 0,
+      "selection_rows_matching_old_audit_vector": 0,
+      "old_audit_rows_matching_selection_vector": 0
+    },
+    {
+      "case": "htru2__mlp_square_linear_score__split0_seed0",
+      "order": 1,
+      "selection_source_rows": 256,
+      "distinct_selection_vectors": 256,
+      "shared_vectors_with_old_audit": 0,
+      "selection_rows_matching_old_audit_vector": 0,
+      "old_audit_rows_matching_selection_vector": 0
+    },
+    {
+      "case": "htru2__mlp_square_linear_score__split0_seed0",
+      "order": 2,
+      "selection_source_rows": 16,
+      "distinct_selection_vectors": 16,
+      "shared_vectors_with_old_audit": 0,
+      "selection_rows_matching_old_audit_vector": 0,
+      "old_audit_rows_matching_selection_vector": 0
+    },
+    {
+      "case": "htru2__mlp_square_linear_score__split0_seed0",
+      "order": 2,
+      "selection_source_rows": 64,
+      "distinct_selection_vectors": 64,
+      "shared_vectors_with_old_audit": 0,
+      "selection_rows_matching_old_audit_vector": 0,
+      "old_audit_rows_matching_selection_vector": 0
+    },
+    {
+      "case": "htru2__mlp_square_linear_score__split0_seed0",
+      "order": 2,
+      "selection_source_rows": 256,
+      "distinct_selection_vectors": 256,
+      "shared_vectors_with_old_audit": 0,
+      "selection_rows_matching_old_audit_vector": 0,
+      "old_audit_rows_matching_selection_vector": 0
+    }
+  ],
+  "interpretation": "No rerun/removal/retuning. Selection-size and measured cost comparison remains an observed fixed-data comparison; Spambase is not an evaluation on entirely unseen transformed inputs. Original-row unique counts are not distinct-vector counts."
+}

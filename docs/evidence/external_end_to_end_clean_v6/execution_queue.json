@@ -1,0 +1,22 @@
+{
+  "providers": [
+    {"id": "eva", "priority": 1, "target": "official Sobel, Harris, and shared polynomial"},
+    {"id": "corelab", "priority": 2, "target": "EVA, ELASM, and actual HECATE modes"},
+    {"id": "heir", "priority": 3, "target": "OpenFHE and Lattigo CKKS backends"},
+    {"id": "heco", "priority": 4, "target": "official terminal encrypted backend capability"},
+    {"id": "orion", "priority": 5, "target": "official model inference, minimum 100 decisions"},
+    {"id": "ant-ace", "priority": 6, "target": "official Docker ResNet-20/CIFAR-10"},
+    {"id": "autofhe", "priority": 7, "target": "official search and inference if hardware permits"},
+    {"id": "dacapo", "priority": 8, "target": "official bootstrap workload if hardware permits"},
+    {"id": "lohen", "priority": 9, "target": "official scheduler and encrypted runtime"},
+    {"id": "slothe", "priority": 10, "target": "official terminal capability"},
+    {"id": "heaan-mlir", "priority": 11, "target": "official terminal capability"},
+    {"id": "heilp", "priority": 12, "target": "official terminal capability"},
+    {"id": "halo", "priority": 13, "target": "official terminal capability"},
+    {"id": "resbm", "priority": 14, "target": "official terminal capability"},
+    {"id": "orbit", "priority": 15, "target": "official terminal capability"},
+    {"id": "fhe-agent", "priority": 16, "target": "official executable if no credential is required"},
+    {"id": "fhecrafter", "priority": 17, "target": "official executable if no credential is required"}
+  ],
+  "schema_version": "flipguard_external_end_to_end_clean_v6_queue_v1"
+}

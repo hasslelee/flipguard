@@ -1,0 +1,61 @@
+{
+  "all": {
+    "bounded_optimum_recall": 0.68,
+    "false_no_safe": 0,
+    "latency_regret_max": 0.0868466835447,
+    "latency_regret_mean": 0.0073655358194306,
+    "latency_regret_median": 0.0,
+    "planning_overhead_us": 174.72414799999999,
+    "pruning_ratio": 0.5,
+    "rows": 250,
+    "safe_recall": 0.45
+  },
+  "by_model": {
+    "linear_poly3": {
+      "bounded_optimum_recall": 1.0,
+      "false_no_safe": 0,
+      "latency_regret_max": 0.0,
+      "latency_regret_mean": 0.0,
+      "latency_regret_median": 0.0,
+      "planning_overhead_us": 200.79623199999997,
+      "pruning_ratio": 0.571428571429,
+      "rows": 125,
+      "safe_recall": 0.5
+    },
+    "mlp_square_linear_score": {
+      "bounded_optimum_recall": 0.36,
+      "false_no_safe": 0,
+      "latency_regret_max": 0.0868466835447,
+      "latency_regret_mean": 0.0147310716388612,
+      "latency_regret_median": 0.00301909113666,
+      "planning_overhead_us": 148.65206400000002,
+      "pruning_ratio": 0.428571428571,
+      "rows": 125,
+      "safe_recall": 0.4
+    }
+  },
+  "catalog_scope": "security_v2_admitted_7_profiles_x_2_paths",
+  "confirmatory_seeds1_4": {
+    "bounded_optimum_recall": 0.7,
+    "false_no_safe": 0,
+    "latency_regret_max": 0.0452034926248,
+    "latency_regret_mean": 0.00473123835191325,
+    "latency_regret_median": 0.0,
+    "planning_overhead_us": 188.162965,
+    "pruning_ratio": 0.5,
+    "rows": 200,
+    "safe_recall": 0.45
+  },
+  "development_seed0": {
+    "bounded_optimum_recall": 0.6,
+    "false_no_safe": 0,
+    "latency_regret_max": 0.0868466835447,
+    "latency_regret_mean": 0.0179027256895,
+    "latency_regret_median": 0.0,
+    "planning_overhead_us": 120.96888000000001,
+    "pruning_ratio": 0.5,
+    "rows": 50,
+    "safe_recall": 0.45
+  },
+  "schema_version": 2
+}

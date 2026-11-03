@@ -1,0 +1,186 @@
+{
+  "status": "PASS",
+  "utc": "2026-09-05T14:13:48.888028+00:00",
+  "checks": {
+    "external_readonly": {
+      "utc": "2026-09-05T14:08:07.586706+00:00",
+      "command": [
+        "/home/ckks2/deciprotect/.venv/bin/python",
+        "scripts/analyze_external_fg_expand_v2.py",
+        "--check"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "wall_seconds": 0.15786951200061594,
+      "log_sha256": "72fa9c9856ae5bd60919c917022a9f628043b334cc1748bdae7afcbec08cba7f"
+    },
+    "fashion_native_tests": {
+      "utc": "2026-09-05T14:08:00.148728+00:00",
+      "command": [
+        "go",
+        "test",
+        "./cmd/fashion-case",
+        "./cmd/fashion-train",
+        "./cmd/external-one",
+        "./internal/ckksplanner",
+        "./internal/certify",
+        "-run",
+        "Test(Fashion|Multiclass|Synthesize|DirectPolicy)",
+        "-count=1"
+      ],
+      "cwd": "/home/ckks2/deciprotect/research/fashion_extension",
+      "exit_code": 0,
+      "wall_seconds": 1.3923239809992083,
+      "log_sha256": "09af02da960ff01b0a6d923586caa3d4046fbe2fbccf730ae8837ce5185a5eb0"
+    },
+    "first_expansion_readonly": {
+      "utc": "2026-09-05T14:08:07.125231+00:00",
+      "command": [
+        "/home/ckks2/deciprotect/.venv/bin/python",
+        "scripts/analyze_fg_expand_v1.py",
+        "--check"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "wall_seconds": 0.46111371299775783,
+      "log_sha256": "72feb61439a9276d211981fd357ad4eafaa1d29d3937484da92b7947cbfef991"
+    },
+    "historical_cost_readonly": {
+      "utc": "2026-09-05T14:08:04.935040+00:00",
+      "command": [
+        "/home/ckks2/deciprotect/.venv/bin/python",
+        "scripts/check_cost_report.py"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "wall_seconds": 2.189885319003224,
+      "log_sha256": "6840e6319e22994d46ad3bc1379cd7792b02f202b728965716e0f9c7231bbc62"
+    },
+    "historical_native_tests": {
+      "utc": "2026-09-05T14:08:00.003494+00:00",
+      "command": [
+        "go",
+        "test",
+        "./cmd/deciprotect-ckks"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "wall_seconds": 0.14493655800106353,
+      "log_sha256": "e1a71d7d0b39678e1fe308bb0a2c7335eaf410d1bad586edcd0bac611f8caf81"
+    },
+    "historical_payloads_readonly": {
+      "utc": "2026-09-05T14:08:01.541322+00:00",
+      "command": [
+        "/home/ckks2/deciprotect/.venv/bin/python",
+        "scripts/verify_research.py",
+        "--check"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "wall_seconds": 3.3933434080026927,
+      "log_sha256": "3b9eead67ff42e49abdcccca7184172eed62efdc6653093b1496f1346fcf1b87"
+    },
+    "input_provenance_readonly": {
+      "utc": "2026-09-05T14:08:07.744879+00:00",
+      "command": [
+        "/home/ckks2/deciprotect/.venv/bin/python",
+        "scripts/verify_fg_expand_v2_inputs.py",
+        "--check"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "wall_seconds": 4.909383521000564,
+      "log_sha256": "3899ba38bb10e1fdca22985766dee8081d0cbf9b0784cb62a5fffe34ace5ce51"
+    },
+    "python_compile": {
+      "utc": "2026-09-05T14:07:59.068843+00:00",
+      "command": [
+        "/home/ckks2/deciprotect/.venv/bin/python",
+        "-c",
+        "from pathlib import Path; ps=list(Path('scripts').glob('*fg_expand_v2*.py'))+[Path('scripts/reanalyze_fg_expand_v1_for_v2.py'),Path('scripts/build_handoff.py'),Path('scripts/build_handoff_v2.py'),Path('tests/test_fg_expand_v2_analysis.py')]; [compile(p.read_text(),str(p),'exec') for p in ps]; print('COMPILE_PASS',len(ps))"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "wall_seconds": 0.04794111699811765,
+      "log_sha256": "395ea21b836be21e3d9f22a6652916a700254ff55ccda28ce55dd3bd52389f8b"
+    },
+    "python_tests": {
+      "utc": "2026-09-05T14:07:59.117226+00:00",
+      "command": [
+        "/home/ckks2/deciprotect/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "wall_seconds": 0.8858328089991119,
+      "log_sha256": "ce442070a83839475eb2872244a242ee36244db6205ca6cf1281ebcc36581690"
+    },
+    "second_expansion_readonly": {
+      "utc": "2026-09-05T14:09:41.954752+00:00",
+      "command": [
+        "/home/ckks2/deciprotect/.venv/bin/python",
+        "scripts/analyze_fg_expand_v2.py",
+        "--check"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "wall_seconds": 28.175403996003297,
+      "log_sha256": "f4c992410f60f073541e15fc9598be36b966e3797987f152f9d64bcad25997f3"
+    }
+  },
+  "final_reporting_syntax_check": "validation_logs/final_reporting_compile.txt",
+  "staged_diff_whitespace_check": "validation_logs/staged_diff_whitespace.txt",
+  "reporting_source_sha256_at_publication": {
+    "scripts/analyze_external_fg_expand_v2.py": "2d7afb82ae1680ca51619434569a2d9dc51495bc00706d3c163f962311d4c4e7",
+    "scripts/analyze_fg_expand_v2.py": "c0dd014b15fb8c68d8bbf733aa12284fa99bcf5dc68e5e8b4939a5be7a2a4620",
+    "scripts/build_handoff.py": "9804aab0734c97a1d67845a64271463494abe49070dee48e7469c14aaadee6eb",
+    "scripts/build_handoff_v2.py": "acccb1f809fa50d2ca607a6c8a96ff684d421db350f941ffe580ee59f21a130b",
+    "scripts/prepare_fg_expand_v2.py": "05db3aeae4aad12e8776e4453679b8402cf7df32e2f308ff9fd51632eff4a1b2",
+    "scripts/reanalyze_fg_expand_v1_for_v2.py": "2e6d5cc81b60bdf8852ba7a5a301c63e550a6e365aaee636e01bc65b94cba34d",
+    "scripts/report_fg_expand_v2.py": "18baa0a4860995b90a98b75a7506c44f42302157a50e5c348f55189e10a20d8e",
+    "scripts/run_eva_fg_expand_v2.py": "766530c24c91f37fbe97645acde99b803e8aa50b0a0a3825c6f29516a47841f8",
+    "scripts/run_fg_expand_v2.py": "b79f3947457c33e11935423603c65e1ecdee86af7609657b319f6c6ec9319d9e",
+    "scripts/verify_fg_expand_v2_inputs.py": "faaa7d51fe9e0e31a91e13f2c32ad6dc17745d2b0e646155d5397feb42ef5736",
+    "tests/test_fg_expand_v2_analysis.py": "651de58960ca6bd1e2e742f2d64c0d143a900bf50e22b33282ded5632fd65998"
+  },
+  "source_note": "Native execution is bound by MAIN_SOURCE_LOCK plus amendments and binary hashes; reporting source hashes identify publication versions. The current handoff builders remain mutable for later tasks.",
+  "unchanged_core_source_sha256": {
+    "internal/journalmnist/mlp.go": "490a7b7aaef6203b02868d85cd1a27b7bf96c615ea9414ea9485a90029edafe5",
+    "internal/journalmnist/optimizer.go": "1ddffc12b437c3223cbbff190ca6645f6c1bbc6057a5b7261444631328cc69ce",
+    "internal/certify/multiclass_decision_contract.go": "a30b34f1e04291acbf90420b5279d9c7653b23867455604ee615b4619bdbbfb7",
+    "internal/ckksplanner/synthesis.go": "8f3ee5a1e4c39984e273a120c84edf2e5964c83624b090679516e3347398942a",
+    "internal/ckksplanner/direct_policy.go": "e706efc63008153f047de84580a62f3403e62c0e3fde18d86fb69da65af4bb97",
+    "internal/ckksplanner/security_policy.go": "b16902ebbe4c175095a675c69953767358a733373ce369d6cda7addacf84b13e",
+    "internal/ckksplanner/v17_candidate_space.go": "340579c6e18c9a705e19ca77770e1988d1352bb36f842c4a20be0631113f1d9a",
+    "internal/ckksplanner/multiclass_executor.go": "ed31ff5a28399e3d1741dd16cabaa091be65f16d7b5b860718aae530c449c4b1",
+    "internal/ckksbackend/journal_mnist_multiclass.go": "3e2b708e7302d8cc5e2bc81e08a4b283a778a4ffc24124695830980b957c53ac",
+    "internal/ckksbackend/v17_primary_paired_latency.go": "ecf0e95b0beb8aeff10442d1e3570636aaf48bf4a6a8c46a4bc24313809ed1f6"
+  },
+  "raw_payloads_checked": 910,
+  "source_bound_files": 320,
+  "audit_case_inputs_recomputed": 30000,
+  "audit_input_key_observations_recomputed": 90000,
+  "audit_key_contexts": 180,
+  "timing_measurement_records": 108,
+  "completed_audit_batches": 60,
+  "completed_timing_blocks": 9,
+  "native_nonzero_command_attempts_preserved": 1,
+  "incidents_preserved": [
+    "ORCHESTRATION_INCIDENT_01.json",
+    "READER_RECOVERY.json",
+    "SOURCE_ID_CORRECTION.json",
+    "TRAINING_LOCK_SCOPE_CHECK.json"
+  ],
+  "pre_main_validation": "results/fg_expand_v2_20260905_run01/PREMAIN_VALIDATION.json",
+  "new_ckks_during_final_verification": 0,
+  "training_figure_visually_inspected": true,
+  "source_pixel_and_label_replay_verified": true,
+  "current_sync_manifest_verified": true,
+  "ci_note": "Local checks recorded here; remote CI status is reported separately after publishing this commit.",
+  "tests_are_not_performance_or_risk_guarantees": true
+}

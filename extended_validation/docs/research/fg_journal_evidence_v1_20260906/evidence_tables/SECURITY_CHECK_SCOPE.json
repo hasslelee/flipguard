@@ -1,0 +1,72 @@
+{
+  "source": "/home/ckks2/flipguard/docs/evidence/journal_multiclass_security_reconciliation_v1/reconciliation.json",
+  "source_sha256": "78efcc9636a0640603ab30b2957ad0e26fcdda852f1aa50bfcaa10ff820cf531",
+  "matching_primary_selected_candidates": [
+    {
+      "case_id": "primary|mnist_10class|mnist_mlp_square_784_100_10_v1|mnist_sha_rank_validation_500_v1",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q5_S29_cd07c4b74140",
+      "same_literal": true,
+      "actual_log_q": 154.9992070672203,
+      "actual_log_p": 39.000000558946134,
+      "actual_log_qp": 193.99920762616645,
+      "minimum_classical_bits": 145.229851075969,
+      "security_policy_v2": {
+        "admission_reason": "concrete ciphertext Q and evaluation-key QP products are within the conservative Table 5.2 cap",
+        "admission_status": "PASS",
+        "ciphertext_headroom_bits": 59,
+        "ciphertext_q_admission": "PASS",
+        "declared_log_qp": 194,
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "evaluation_key_headroom_bits": 20,
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "headroom_bits": 20,
+        "log_p": 40,
+        "log_q": 155,
+        "log_qp": 194,
+        "max_allowed_log_qp": 214,
+        "measurement": "ceil_log2_concrete_modulus_product",
+        "target_bits": 128
+      }
+    },
+    {
+      "case_id": "primary|mnist_10class|mnist_lenet5_small_square_v1|mnist_sha_rank_validation_500_v1",
+      "candidate_id": "synth_analysis_minimum_rescale_N15_Q18_S44_3d9a3ac648cc",
+      "same_literal": true,
+      "actual_log_q": 802.00000059666,
+      "actual_log_p": 54.000000000152205,
+      "actual_log_qp": 856.0000005968122,
+      "minimum_classical_bits": 132.046927836598,
+      "security_policy_v2": {
+        "admission_reason": "concrete ciphertext Q and evaluation-key QP products are within the conservative Table 5.2 cap",
+        "admission_status": "PASS",
+        "ciphertext_headroom_bits": 65,
+        "ciphertext_q_admission": "PASS",
+        "declared_log_qp": 857,
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "evaluation_key_headroom_bits": 11,
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "headroom_bits": 11,
+        "log_p": 55,
+        "log_q": 803,
+        "log_qp": 857,
+        "max_allowed_log_qp": 868,
+        "measurement": "ceil_log2_concrete_modulus_product",
+        "target_bits": 128
+      }
+    }
+  ],
+  "posthoc": true,
+  "new_estimator_runs": 0,
+  "new_prime_materialization": 0,
+  "exact_distribution_claim": false,
+  "runtime_distribution_caveat": {
+    "exact_distribution_claim_allowed": false,
+    "quantum_cost_model": "NOT_EVALUATED",
+    "xe": "runtime ring.DiscreteGaussian sigma=3.2 bound=19.2 maps to untruncated estimator ND.DiscreteGaussian(3.2)",
+    "xs": "runtime ring.Ternary P=2/3 maps exactly to estimator ND.Uniform(-1,1)"
+  },
+  "coverage_caveat": "this two-candidate binding does not establish exact-prime checks for all68 or the follow-up Bank caller",
+  "worked_banknote_exact_prime_record": "not established in the bounded source records"
+}

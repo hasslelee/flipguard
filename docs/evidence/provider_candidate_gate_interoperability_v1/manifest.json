@@ -1,0 +1,41 @@
+{
+  "binary_digests": {
+    "audit_candidate": "sha256:8018d103bf003bad497d1c976981c93051ca992eccd09c42ea68442e985f09af",
+    "certify_candidate": "sha256:693d8b15a812d99777a13fca420f0b95122c036e3b8de6c22a155f34a946c3af"
+  },
+  "block_reason": "single development workload and synthetic external-format fixture do not support a paper-level external-autotuner claim",
+  "claim_states": {
+    "provider_class_interoperability": "PARTIALLY_SUPPORTED",
+    "provider_locked_literal_replay": "PARTIALLY_SUPPORTED",
+    "third_party_autotuner_integration": "NOT_EVALUATED",
+    "third_party_autotuner_quality": "NOT_EVALUATED"
+  },
+  "corrected_contract_sha256": "sha256:7a16a835aad531e3517b212414236ac82f23958707db5d76e19dbebabc2c6482",
+  "counts": {
+    "arms": 4,
+    "audit_key_runs": 12,
+    "candidate_trials": 4,
+    "implementation_failures": 0,
+    "locked_audit_fail": 0,
+    "locked_audit_pass": 4,
+    "no_safe": 0,
+    "retuning": 0,
+    "scientific_negatives": 0,
+    "selected": 4,
+    "selection_key_runs": 12
+  },
+  "direct_policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+  "execution_critical_source_digest": "sha256:aaee0e66c6c3e194282597f62d96852ce49023ffbdc7abfcfa355a51fa114ad2",
+  "failed_execution_commit": "f84ecff1ea98a505f5a895f5c352fcbc9101f7a8",
+  "failed_incident_sha256": "sha256:91390c51e377cd5e6dd1ee2e5636f810e625861e6bff51b208216c5f54c215c1",
+  "failed_run_disposition": "HISTORICAL_FAILED_RUN_PRESERVED",
+  "failed_run_manifest_sha256": "sha256:925196a76eb22fe916d791dc5ec5172f507df8c81919d4c8fe15d8bc88187259",
+  "freezer_commit": "e7c02127a21d653b3876c74a41d82d05f7f36810",
+  "paper_claim_allowed": false,
+  "schema_version": "flipguard_provider_candidate_gate_interoperability_evidence_v1",
+  "security_policy_digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+  "successful_execution_commit": "707441b724e48a7460ea264948562c9ad74d40e5",
+  "successful_run_manifest_sha256": "sha256:2c1b98146871eec73e6e335caa9e7fc6cb42d5fb35251b8b2a2d9c5ba2a35440",
+  "successful_summary_sha256": "sha256:52f28993af9d5fa5cf64b000beef3ae785101216c6c3682f20434380628b5ff7",
+  "superseded_contract_sha256": "sha256:429dcf909626a4eaaa36e730b134b9d3be9ef71132de0f708e96897a888dd3a7"
+}

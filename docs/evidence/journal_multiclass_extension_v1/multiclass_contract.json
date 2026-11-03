@@ -1,0 +1,27 @@
+{
+  "ckks_logits": "zhat_k=z_k+Delta_k",
+  "class_count": 10,
+  "interpretation": "predeclared reserve policy; not a theorem constant or optimum",
+  "margin_floor": 0.001,
+  "margin_utilization_cap": 0.5,
+  "non_finite_handling": "NaN and Inf are FAILED",
+  "plaintext_class": "c*=argmax_k z_k with lowest-class-index representation tie break",
+  "plaintext_logits": "z(x)=(z_1,...,z_K)",
+  "proof": [
+    "For each j != c*, zhat_c* >= z_c*-B_c*.",
+    "Also zhat_j <= z_j+B_j.",
+    "The strict premise gives z_c*-B_c* > z_j+B_j, hence zhat_c* > zhat_j for every competitor.",
+    "Therefore c* is the unique CKKS argmax."
+  ],
+  "proposition": "for every j != c*, z_c*(x)-z_j(x) > B_c*(x)+B_j(x) implies argmax_k zhat_k(x)=c*",
+  "schema_version": "decision_integrity_contract_v2",
+  "statuses": [
+    "SAFE",
+    "REJECTED",
+    "FAILED",
+    "NO_SAFE"
+  ],
+  "strict_boundary": "equality is rejected because it permits a CKKS tie",
+  "tie_handling": "plaintext ties are V_amb; deterministic lowest-index tie break is representation only, not a certificate",
+  "uniform_bound_corollary": "2B < g(x), where g=z_top1-z_top2"
+}

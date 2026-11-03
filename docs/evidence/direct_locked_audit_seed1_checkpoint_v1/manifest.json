@@ -1,0 +1,488 @@
+{
+  "claim_boundary": "All frozen candidates in the recorded split checkpoint remained SAFE with zero flips and zero protected error-budget violations on the disjoint locked-audit V_cert rows across three fresh keypairs. This is limited observed evidence, not a distribution-wide, split-independent, key-independent, or analytical safety guarantee.",
+  "evidence_id": "direct_locked_audit_seed1_checkpoint_v1",
+  "evidence_type": "observed_no_retuning_locked_audit_preliminary",
+  "execution": {
+    "audit_run_id": "full_floor18_keys3_locked_audit_keys3",
+    "checkpoint": true,
+    "command": "scripts/run_direct_tabular_locked_audit_matrix.sh --full --only-seed 1 --selection-run full_floor18_keys3 --key-repeats 3 --force",
+    "key_repeats": 3,
+    "retuning_allowed": false,
+    "selection_run_id": "full_floor18_keys3",
+    "split_seeds": [
+      1
+    ]
+  },
+  "external_inputs": [
+    {
+      "kind": "model_artifact",
+      "path": "datasets/tabular_suite/banknote/linear_poly3/model.json",
+      "sha256": "sha256:d14e8e810a9b5b2b945f57cf8f53e4e12ee3b87a118262ba9cb796410c0083a4",
+      "size_bytes": 1639,
+      "workload": "seed1__banknote__linear_poly3"
+    },
+    {
+      "kind": "configuration_validation",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/banknote/linear_poly3/configuration_validation.csv",
+      "sha256": "sha256:b8343f24d2e663ef5c2159d243a2b48214476ce6a639cf079cf80aa3a459bf54",
+      "size_bytes": 24553,
+      "workload": "seed1__banknote__linear_poly3"
+    },
+    {
+      "kind": "locked_audit_test",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/banknote/linear_poly3/locked_audit_test.csv",
+      "sha256": "sha256:b91760a18d90c5bea9cf480af9bdc02ebd93faf7ee7324fa34e21cd184a54b1d",
+      "size_bytes": 24774,
+      "workload": "seed1__banknote__linear_poly3"
+    },
+    {
+      "kind": "source_test_csv",
+      "path": "datasets/tabular_suite/banknote/linear_poly3/test.csv",
+      "sha256": "sha256:e06b34c0fd134f05502a452d40821f25ef0223b26619929d2a8cb59f10959607",
+      "size_bytes": 49652,
+      "workload": "seed1__banknote__linear_poly3"
+    },
+    {
+      "kind": "model_artifact",
+      "path": "datasets/tabular_suite/banknote/mlp_square_linear_score/model.json",
+      "sha256": "sha256:4f8ce6d8ca23d87fc4d3623b97f235f3836ca4c0964286f4a1c634427e1d8e31",
+      "size_bytes": 3029,
+      "workload": "seed1__banknote__mlp_square_linear_score"
+    },
+    {
+      "kind": "configuration_validation",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/banknote/mlp_square_linear_score/configuration_validation.csv",
+      "sha256": "sha256:4dd0c18a05ae62f427009faddd9a190419c56dbce2646dc4ed87a518e3437d78",
+      "size_bytes": 24731,
+      "workload": "seed1__banknote__mlp_square_linear_score"
+    },
+    {
+      "kind": "locked_audit_test",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/banknote/mlp_square_linear_score/locked_audit_test.csv",
+      "sha256": "sha256:360e26e14c567485f97d074477c89719466c8298326deda4e513d298fd9a8d75",
+      "size_bytes": 25007,
+      "workload": "seed1__banknote__mlp_square_linear_score"
+    },
+    {
+      "kind": "source_test_csv",
+      "path": "datasets/tabular_suite/banknote/mlp_square_linear_score/test.csv",
+      "sha256": "sha256:a8cf0f4d6d3e88346280087435a44216b2889cf7dfabb3d741e704ae4bb6186f",
+      "size_bytes": 50063,
+      "workload": "seed1__banknote__mlp_square_linear_score"
+    },
+    {
+      "kind": "model_artifact",
+      "path": "datasets/tabular_suite/digits_binary/linear_poly3/model.json",
+      "sha256": "sha256:4732af06a200e574b79412c23f8a91a98989217b2dc0ffb6e5f48ddd4e9caa36",
+      "size_bytes": 2164,
+      "workload": "seed1__digits_binary__linear_poly3"
+    },
+    {
+      "kind": "configuration_validation",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/digits_binary/linear_poly3/configuration_validation.csv",
+      "sha256": "sha256:f07edb98e2fb06427da51d665844ceb5d7020158323b0f49f6c68033bd56634d",
+      "size_bytes": 49312,
+      "workload": "seed1__digits_binary__linear_poly3"
+    },
+    {
+      "kind": "locked_audit_test",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/digits_binary/linear_poly3/locked_audit_test.csv",
+      "sha256": "sha256:5e4437a93ea0b4c125c28c0f6b278f399397203429e782738577f2dcfd5b4bae",
+      "size_bytes": 49255,
+      "workload": "seed1__digits_binary__linear_poly3"
+    },
+    {
+      "kind": "source_test_csv",
+      "path": "datasets/tabular_suite/digits_binary/linear_poly3/test.csv",
+      "sha256": "sha256:0540449c25c82f75b6db60189e0b901ff63983c2002b6d945fca7b4b8aaa7b83",
+      "size_bytes": 99004,
+      "workload": "seed1__digits_binary__linear_poly3"
+    },
+    {
+      "kind": "model_artifact",
+      "path": "datasets/tabular_suite/digits_binary/mlp_square_linear_score/model.json",
+      "sha256": "sha256:025eb7dea28322d4b60adcfff3b1ff48c3fb44aa57280d39eea813405a6561d5",
+      "size_bytes": 4304,
+      "workload": "seed1__digits_binary__mlp_square_linear_score"
+    },
+    {
+      "kind": "configuration_validation",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/digits_binary/mlp_square_linear_score/configuration_validation.csv",
+      "sha256": "sha256:a62ac7ab4b53478da5c03b5dadf2a0afbb7fbb5fd9fc9b5ba51d5db1e96b0972",
+      "size_bytes": 49279,
+      "workload": "seed1__digits_binary__mlp_square_linear_score"
+    },
+    {
+      "kind": "locked_audit_test",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/digits_binary/mlp_square_linear_score/locked_audit_test.csv",
+      "sha256": "sha256:5ab8f6012f10c07a3c85a4a5e3dbe1432c374948700aee0726362ddf8cbf4694",
+      "size_bytes": 49295,
+      "workload": "seed1__digits_binary__mlp_square_linear_score"
+    },
+    {
+      "kind": "source_test_csv",
+      "path": "datasets/tabular_suite/digits_binary/mlp_square_linear_score/test.csv",
+      "sha256": "sha256:330ac3308c451324d3f8ceef7be3b5d86c5d3bcfb7142418912908e1530e6838",
+      "size_bytes": 99011,
+      "workload": "seed1__digits_binary__mlp_square_linear_score"
+    },
+    {
+      "kind": "model_artifact",
+      "path": "datasets/tabular_suite/iris_binary/linear_poly3/model.json",
+      "sha256": "sha256:9d4cf49eb8f29c382a891665f15e69859f5d1419a4ae18552a3490fc78ec0ed1",
+      "size_bytes": 1610,
+      "workload": "seed1__iris_binary__linear_poly3"
+    },
+    {
+      "kind": "configuration_validation",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/iris_binary/linear_poly3/configuration_validation.csv",
+      "sha256": "sha256:cf8bb61c111a4915703b0f7130b2a51df0f7fce791b975f03cb5bbf9c3ee4402",
+      "size_bytes": 1740,
+      "workload": "seed1__iris_binary__linear_poly3"
+    },
+    {
+      "kind": "locked_audit_test",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/iris_binary/linear_poly3/locked_audit_test.csv",
+      "sha256": "sha256:14ec2c341deb68d729f1510ad2741dfeb27005cd0d1545b122b8775d5816ceb4",
+      "size_bytes": 1980,
+      "workload": "seed1__iris_binary__linear_poly3"
+    },
+    {
+      "kind": "source_test_csv",
+      "path": "datasets/tabular_suite/iris_binary/linear_poly3/test.csv",
+      "sha256": "sha256:638d5eee22bd86a43fbb5295bfba0c05c2c45a0046be68959d5fe9556d9929dc",
+      "size_bytes": 3663,
+      "workload": "seed1__iris_binary__linear_poly3"
+    },
+    {
+      "kind": "model_artifact",
+      "path": "datasets/tabular_suite/iris_binary/mlp_square_linear_score/model.json",
+      "sha256": "sha256:177371ecf4239a1072c5b451b94e492d80cc143b260f1ee0383783bb838eadeb",
+      "size_bytes": 3015,
+      "workload": "seed1__iris_binary__mlp_square_linear_score"
+    },
+    {
+      "kind": "configuration_validation",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/iris_binary/mlp_square_linear_score/configuration_validation.csv",
+      "sha256": "sha256:d6685b39215f4e08127db7612449c5a7e7cd26be102a409d648121be555c9327",
+      "size_bytes": 1754,
+      "workload": "seed1__iris_binary__mlp_square_linear_score"
+    },
+    {
+      "kind": "locked_audit_test",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/iris_binary/mlp_square_linear_score/locked_audit_test.csv",
+      "sha256": "sha256:6e0e018c0844f7d27d320c92fe0077f03c0aa8b386f20a9372a114096d638cf2",
+      "size_bytes": 1989,
+      "workload": "seed1__iris_binary__mlp_square_linear_score"
+    },
+    {
+      "kind": "source_test_csv",
+      "path": "datasets/tabular_suite/iris_binary/mlp_square_linear_score/test.csv",
+      "sha256": "sha256:f76added426d5379cdf25a87c9adc074f2d263772d65cab50bacea3f283d2397",
+      "size_bytes": 3686,
+      "workload": "seed1__iris_binary__mlp_square_linear_score"
+    },
+    {
+      "kind": "model_artifact",
+      "path": "datasets/tabular_suite/mnist_pool16/linear_poly3/model.json",
+      "sha256": "sha256:afd5351d9b781a1fad2db90dc7bca0052521a41efd7694c0ade20974824dcb4e",
+      "size_bytes": 3261,
+      "workload": "seed1__mnist_pool16__linear_poly3"
+    },
+    {
+      "kind": "configuration_validation",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/mnist_pool16/linear_poly3/configuration_validation.csv",
+      "sha256": "sha256:85aafeee9d61e0ca1ee59058bb918407abaa28ac670cf6a90de7fee1205b1500",
+      "size_bytes": 76966,
+      "workload": "seed1__mnist_pool16__linear_poly3"
+    },
+    {
+      "kind": "locked_audit_test",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/mnist_pool16/linear_poly3/locked_audit_test.csv",
+      "sha256": "sha256:5476d1e1799d9bf7cd21b0b910158574f2b183d7ce0f11c5aaf560cf0f1f54e0",
+      "size_bytes": 77513,
+      "workload": "seed1__mnist_pool16__linear_poly3"
+    },
+    {
+      "kind": "source_test_csv",
+      "path": "datasets/tabular_suite/mnist_pool16/linear_poly3/test.csv",
+      "sha256": "sha256:9e06072f224eff1eefcd9f9c3e7b2e6e38500019891747392cfe13fd3fda33f3",
+      "size_bytes": 154838,
+      "workload": "seed1__mnist_pool16__linear_poly3"
+    },
+    {
+      "kind": "model_artifact",
+      "path": "datasets/tabular_suite/mnist_pool16/mlp_square_linear_score/model.json",
+      "sha256": "sha256:edb34de653b4d4b756b3e497b1edc448b941926d02b32f3d93817db66bde9b78",
+      "size_bytes": 6839,
+      "workload": "seed1__mnist_pool16__mlp_square_linear_score"
+    },
+    {
+      "kind": "configuration_validation",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/mnist_pool16/mlp_square_linear_score/configuration_validation.csv",
+      "sha256": "sha256:96f6446d1288df8b2b613868e797b86313a5603c2dfd7e1069630db7e4166589",
+      "size_bytes": 76968,
+      "workload": "seed1__mnist_pool16__mlp_square_linear_score"
+    },
+    {
+      "kind": "locked_audit_test",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/mnist_pool16/mlp_square_linear_score/locked_audit_test.csv",
+      "sha256": "sha256:082f12337abec03a27db67adbf34230c14f747191c9ef7d014ffae2b6579a2bb",
+      "size_bytes": 77511,
+      "workload": "seed1__mnist_pool16__mlp_square_linear_score"
+    },
+    {
+      "kind": "source_test_csv",
+      "path": "datasets/tabular_suite/mnist_pool16/mlp_square_linear_score/test.csv",
+      "sha256": "sha256:090583b7d0e744ec5e65164b51eb8a95888e9db7b507db4eec766d85b2dcc4ba",
+      "size_bytes": 154838,
+      "workload": "seed1__mnist_pool16__mlp_square_linear_score"
+    },
+    {
+      "kind": "model_artifact",
+      "path": "datasets/tabular_suite/wdbc/linear_poly3/model.json",
+      "sha256": "sha256:50d82e12fc96b3084084fba4f370487f7a20d16371905c21d7cb024f9e07f759",
+      "size_bytes": 2187,
+      "workload": "seed1__wdbc__linear_poly3"
+    },
+    {
+      "kind": "configuration_validation",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/wdbc/linear_poly3/configuration_validation.csv",
+      "sha256": "sha256:ccb6c6d4c3d5f1c5b5f92ef2717505ce7b97b429d49cc4b028f51001e1396eea",
+      "size_bytes": 15520,
+      "workload": "seed1__wdbc__linear_poly3"
+    },
+    {
+      "kind": "locked_audit_test",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/wdbc/linear_poly3/locked_audit_test.csv",
+      "sha256": "sha256:f20c77b2a5dd006f6bebe843b72d1de5d6a56cd3dbf496220482c4b28980aed4",
+      "size_bytes": 15731,
+      "workload": "seed1__wdbc__linear_poly3"
+    },
+    {
+      "kind": "source_test_csv",
+      "path": "datasets/tabular_suite/wdbc/linear_poly3/test.csv",
+      "sha256": "sha256:e75b76573bfdd99ed9ca444874bf31d485e122e69806c3bf7a0b19d7edd963bb",
+      "size_bytes": 31319,
+      "workload": "seed1__wdbc__linear_poly3"
+    },
+    {
+      "kind": "model_artifact",
+      "path": "datasets/tabular_suite/wdbc/mlp_square_linear_score/model.json",
+      "sha256": "sha256:1893e664ba828fbeadfbd122a679d67b16824b736017e531d84aa3401d3752b4",
+      "size_bytes": 4295,
+      "workload": "seed1__wdbc__mlp_square_linear_score"
+    },
+    {
+      "kind": "configuration_validation",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/wdbc/mlp_square_linear_score/configuration_validation.csv",
+      "sha256": "sha256:1fd7a713f642d2a43cf5db005a6b735b4581d6b03c92c2944bed0aba91e9a7d0",
+      "size_bytes": 15560,
+      "workload": "seed1__wdbc__mlp_square_linear_score"
+    },
+    {
+      "kind": "locked_audit_test",
+      "path": "results/thesis_grade_protocol/tabular_splits_v1/split_seed_1/wdbc/mlp_square_linear_score/locked_audit_test.csv",
+      "sha256": "sha256:a7b77071b650c3c0703ca8b110e9bfec0832a1f92003f020a12aa7cce4be77a4",
+      "size_bytes": 15770,
+      "workload": "seed1__wdbc__mlp_square_linear_score"
+    },
+    {
+      "kind": "source_test_csv",
+      "path": "datasets/tabular_suite/wdbc/mlp_square_linear_score/test.csv",
+      "sha256": "sha256:e42dbe06190461648c89600df2d9624b571ed32b70afd2e747661b3119367c47",
+      "size_bytes": 31398,
+      "workload": "seed1__wdbc__mlp_square_linear_score"
+    }
+  ],
+  "schema_version": 1,
+  "source_code": {
+    "commit_time": "2026-07-27T16:44:12+09:00",
+    "git_commit": "bece761a573692acd9851107ef2870ed89bed8a0",
+    "subject": "Support seed-batched validation matrices"
+  },
+  "structural_summary": {
+    "complete": false,
+    "expected_runs": 50,
+    "failed_executions": 0,
+    "failed_tags": [],
+    "locked_audit_fails": 0,
+    "locked_audit_passes": 10,
+    "outcome_counts": {
+      "LOCKED_AUDIT_PASS": 10
+    },
+    "recorded_runs": 10,
+    "retuned_runs": 0,
+    "run_status_path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_floor18_keys3/locked_audit/full_floor18_keys3_locked_audit_keys3/locked_audit_status.csv",
+    "schema_version": 1,
+    "successful_executions": 10,
+    "total_configuration_trials": 10,
+    "total_fresh_key_runs": 30,
+    "total_v_amb": 37,
+    "total_v_cert": 1623,
+    "zero_flip_passes": 10,
+    "zero_violation_passes": 10
+  },
+  "workloads": [
+    {
+      "audit_result_snapshot": "outputs/audit_results/seed1__banknote__linear_poly3.json",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_cabfebc33906",
+      "decision_flips": 0,
+      "error_violations": 0,
+      "key_repeats_completed": 3,
+      "log_default_scale": 24,
+      "log_n": 13,
+      "outcome": "LOCKED_AUDIT_PASS",
+      "q_prime_count": 7,
+      "selection_snapshot": "inputs/selections/seed1__banknote__linear_poly3.json",
+      "split_manifest_snapshot": "inputs/split_manifests/seed1__banknote__linear_poly3.json",
+      "v_amb": 0,
+      "v_cert": 207,
+      "workload": "seed1__banknote__linear_poly3"
+    },
+    {
+      "audit_result_snapshot": "outputs/audit_results/seed1__banknote__mlp_square_linear_score.json",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_9c960732c5c0",
+      "decision_flips": 0,
+      "error_violations": 0,
+      "key_repeats_completed": 3,
+      "log_default_scale": 20,
+      "log_n": 13,
+      "outcome": "LOCKED_AUDIT_PASS",
+      "q_prime_count": 6,
+      "selection_snapshot": "inputs/selections/seed1__banknote__mlp_square_linear_score.json",
+      "split_manifest_snapshot": "inputs/split_manifests/seed1__banknote__mlp_square_linear_score.json",
+      "v_amb": 0,
+      "v_cert": 207,
+      "workload": "seed1__banknote__mlp_square_linear_score"
+    },
+    {
+      "audit_result_snapshot": "outputs/audit_results/seed1__digits_binary__linear_poly3.json",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_8d14b4c6f5fe",
+      "decision_flips": 0,
+      "error_violations": 0,
+      "key_repeats_completed": 3,
+      "log_default_scale": 24,
+      "log_n": 13,
+      "outcome": "LOCKED_AUDIT_PASS",
+      "q_prime_count": 7,
+      "selection_snapshot": "inputs/selections/seed1__digits_binary__linear_poly3.json",
+      "split_manifest_snapshot": "inputs/split_manifests/seed1__digits_binary__linear_poly3.json",
+      "v_amb": 6,
+      "v_cert": 264,
+      "workload": "seed1__digits_binary__linear_poly3"
+    },
+    {
+      "audit_result_snapshot": "outputs/audit_results/seed1__digits_binary__mlp_square_linear_score.json",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_8094986b7a00",
+      "decision_flips": 0,
+      "error_violations": 0,
+      "key_repeats_completed": 3,
+      "log_default_scale": 20,
+      "log_n": 13,
+      "outcome": "LOCKED_AUDIT_PASS",
+      "q_prime_count": 6,
+      "selection_snapshot": "inputs/selections/seed1__digits_binary__mlp_square_linear_score.json",
+      "split_manifest_snapshot": "inputs/split_manifests/seed1__digits_binary__mlp_square_linear_score.json",
+      "v_amb": 21,
+      "v_cert": 249,
+      "workload": "seed1__digits_binary__mlp_square_linear_score"
+    },
+    {
+      "audit_result_snapshot": "outputs/audit_results/seed1__iris_binary__linear_poly3.json",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q7_S20_e069b1a71dbf",
+      "decision_flips": 0,
+      "error_violations": 0,
+      "key_repeats_completed": 3,
+      "log_default_scale": 20,
+      "log_n": 13,
+      "outcome": "LOCKED_AUDIT_PASS",
+      "q_prime_count": 7,
+      "selection_snapshot": "inputs/selections/seed1__iris_binary__linear_poly3.json",
+      "split_manifest_snapshot": "inputs/split_manifests/seed1__iris_binary__linear_poly3.json",
+      "v_amb": 0,
+      "v_cert": 16,
+      "workload": "seed1__iris_binary__linear_poly3"
+    },
+    {
+      "audit_result_snapshot": "outputs/audit_results/seed1__iris_binary__mlp_square_linear_score.json",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_417fd14390cd",
+      "decision_flips": 0,
+      "error_violations": 0,
+      "key_repeats_completed": 3,
+      "log_default_scale": 20,
+      "log_n": 13,
+      "outcome": "LOCKED_AUDIT_PASS",
+      "q_prime_count": 6,
+      "selection_snapshot": "inputs/selections/seed1__iris_binary__mlp_square_linear_score.json",
+      "split_manifest_snapshot": "inputs/split_manifests/seed1__iris_binary__mlp_square_linear_score.json",
+      "v_amb": 0,
+      "v_cert": 16,
+      "workload": "seed1__iris_binary__mlp_square_linear_score"
+    },
+    {
+      "audit_result_snapshot": "outputs/audit_results/seed1__mnist_pool16__linear_poly3.json",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_44b57e556da9",
+      "decision_flips": 0,
+      "error_violations": 0,
+      "key_repeats_completed": 3,
+      "log_default_scale": 24,
+      "log_n": 13,
+      "outcome": "LOCKED_AUDIT_PASS",
+      "q_prime_count": 7,
+      "selection_snapshot": "inputs/selections/seed1__mnist_pool16__linear_poly3.json",
+      "split_manifest_snapshot": "inputs/split_manifests/seed1__mnist_pool16__linear_poly3.json",
+      "v_amb": 3,
+      "v_cert": 248,
+      "workload": "seed1__mnist_pool16__linear_poly3"
+    },
+    {
+      "audit_result_snapshot": "outputs/audit_results/seed1__mnist_pool16__mlp_square_linear_score.json",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_ef6827811dc9",
+      "decision_flips": 0,
+      "error_violations": 0,
+      "key_repeats_completed": 3,
+      "log_default_scale": 20,
+      "log_n": 13,
+      "outcome": "LOCKED_AUDIT_PASS",
+      "q_prime_count": 6,
+      "selection_snapshot": "inputs/selections/seed1__mnist_pool16__mlp_square_linear_score.json",
+      "split_manifest_snapshot": "inputs/split_manifests/seed1__mnist_pool16__mlp_square_linear_score.json",
+      "v_amb": 4,
+      "v_cert": 247,
+      "workload": "seed1__mnist_pool16__mlp_square_linear_score"
+    },
+    {
+      "audit_result_snapshot": "outputs/audit_results/seed1__wdbc__linear_poly3.json",
+      "candidate_id": "synth_repair_scale_1_rescale_N13_Q7_S24_50f4079fb1f8",
+      "decision_flips": 0,
+      "error_violations": 0,
+      "key_repeats_completed": 3,
+      "log_default_scale": 24,
+      "log_n": 13,
+      "outcome": "LOCKED_AUDIT_PASS",
+      "q_prime_count": 7,
+      "selection_snapshot": "inputs/selections/seed1__wdbc__linear_poly3.json",
+      "split_manifest_snapshot": "inputs/split_manifests/seed1__wdbc__linear_poly3.json",
+      "v_amb": 1,
+      "v_cert": 85,
+      "workload": "seed1__wdbc__linear_poly3"
+    },
+    {
+      "audit_result_snapshot": "outputs/audit_results/seed1__wdbc__mlp_square_linear_score.json",
+      "candidate_id": "synth_analysis_minimum_rescale_N13_Q6_S20_cfec66f693fd",
+      "decision_flips": 0,
+      "error_violations": 0,
+      "key_repeats_completed": 3,
+      "log_default_scale": 20,
+      "log_n": 13,
+      "outcome": "LOCKED_AUDIT_PASS",
+      "q_prime_count": 6,
+      "selection_snapshot": "inputs/selections/seed1__wdbc__mlp_square_linear_score.json",
+      "split_manifest_snapshot": "inputs/split_manifests/seed1__wdbc__mlp_square_linear_score.json",
+      "v_amb": 2,
+      "v_cert": 84,
+      "workload": "seed1__wdbc__mlp_square_linear_score"
+    }
+  ]
+}

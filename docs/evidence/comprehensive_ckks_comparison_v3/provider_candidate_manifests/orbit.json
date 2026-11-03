@@ -1,0 +1,28 @@
+{
+  "bootstrapping_placement": "optimizer schedule output",
+  "log_n": "NOT_EMITTED_BY_QUICK_PATH",
+  "p": "NOT_EMITTED_BY_QUICK_PATH",
+  "packing": "NOT_EVALUATED",
+  "plans_executed": 0,
+  "plans_generated": 1,
+  "provider": "Orbit",
+  "provider_objective": "rescale and bootstrap placement by integer programming",
+  "q": "NOT_EMITTED_BY_QUICK_PATH",
+  "raw_artifact_digest": "sha256:fd36de1e1f7b409c00b4bd2c30df68778cd841412fbb4297ea4c4f9affa04c94",
+  "rescale_modswitch_relinearization_placement": "optimizer schedule output",
+  "runtime_assumptions": "official Docker quick path",
+  "scale": "SCHEDULE_MODEL",
+  "scale_schedule": "assignment estimate 0.266 seconds; TDAG estimate 0.235 seconds",
+  "schema_version": "flipguard_provider_candidate_manifest_v3",
+  "security_assumptions": "NOT_EVALUATED_IN_QUICK_PATH",
+  "selected_plan": "SCHEDULE_ONLY",
+  "source_commit": "zenodo-v2@f364122b77be482bfe902c20a89755cee2060c5a",
+  "tuning_parameters": "official motivation.mlir quick command",
+  "unsupported_or_missing_fields": [
+    "encrypted execution",
+    "per-sample output",
+    "exact shared workload",
+    "common-executor plan"
+  ],
+  "workload": "official motivation.mlir optimizer smoke"
+}

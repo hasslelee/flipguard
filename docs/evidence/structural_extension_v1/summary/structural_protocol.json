@@ -1,0 +1,98 @@
+{
+  "claim_boundary": "Observed support for mlp_square_poly3 on the frozen scalar-tabular five-partition scope; not arbitrary graph, image, or CNN support.",
+  "claim_state": "PARTIALLY_SUPPORTED",
+  "counts": {
+    "audit_v_amb": 117,
+    "audit_v_cert": 4033,
+    "flip_count": 0,
+    "locked_audit_failed": 0,
+    "locked_audit_key_runs": 75,
+    "locked_audit_pass": 24,
+    "locked_audit_rejected": 1,
+    "policy_modification_after_audit": 0,
+    "retuning": 0,
+    "selection_failed": 0,
+    "selection_key_runs": 129,
+    "selection_no_safe": 0,
+    "selection_repairs": 18,
+    "selection_selected": 25,
+    "selection_trials": 43,
+    "structural_instances": 25,
+    "validation_v_amb": 123,
+    "validation_v_cert": 3992,
+    "violation_count": 1
+  },
+  "experiment_id": "structural_extension_v1",
+  "inputs": {
+    "resume_provenance": {
+      "path": "results/thesis_grade_protocol/final_confirmatory_suite_v1/resume_provenance/resume_provenance.json",
+      "sha256": "sha256:c9fc9d38fd8eabf8d2b617a35b63d99c1eab9c2a5bc81511577ee4e41ca7cb5f"
+    },
+    "run_manifest": {
+      "path": "results/thesis_grade_protocol/final_confirmatory_suite_v1/run_manifest/run_manifest.json",
+      "sha256": "sha256:44d71c41208268b87f794616d7dbc23b238d249c6fbba1766d8b03504f1c0f49"
+    },
+    "split_summary": {
+      "path": "results/thesis_grade_protocol/structural_extension_splits_v1/summary.json",
+      "sha256": "sha256:8e1ac4e74e086a86944510023c0312f5ee77b0dedeaaa4dc3d1b5332607fa609"
+    }
+  },
+  "negative_result": {
+    "audit_flips": 0,
+    "audit_max_usage": 1.122737288611133,
+    "audit_status": "REJECTED",
+    "audit_violations": 1,
+    "candidate_literal": "synth_analysis_minimum_rescale_N14_Q10_S22_01ae407b2f60",
+    "dataset": "banknote",
+    "failure_class": "VALIDATION_NEAR_BUDGET_LIMIT_AUDIT_OVERRUN",
+    "model": "mlp_square_poly3",
+    "preservation_rule": "No repair, reselection, policy change, or audit-to-validation movement is authorized.",
+    "retuning": false,
+    "seed": 4,
+    "validation_flips": 0,
+    "validation_max_usage": 0.9413060189678464,
+    "validation_status": "SAFE",
+    "validation_violations": 0
+  },
+  "outputs": {
+    "audit_rows": {
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_structural_poly3_inputmodel_floor18_keys3/locked_audit/full_structural_poly3_inputmodel_floor18_keys3_locked_audit_keys3/summary/locked_audit_results.csv",
+      "sha256": "sha256:1e31fd98637a44300f34590103c69696bf5f010e2fee45bf04f8f1125645892c"
+    },
+    "audit_summary": {
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_structural_poly3_inputmodel_floor18_keys3/locked_audit/full_structural_poly3_inputmodel_floor18_keys3_locked_audit_keys3/summary/summary.json",
+      "sha256": "sha256:5eed6772c5d6b26c525db421177c4436df321fd3cd22a38aa14a18cd886fe87e"
+    },
+    "failure_result": {
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_structural_poly3_inputmodel_floor18_keys3/locked_audit/full_structural_poly3_inputmodel_floor18_keys3_locked_audit_keys3/results/directv1_full_structural_poly3_inputmodel_floor18_keys3_seed4_banknote_mlp_square_poly3_locked_audit_keys3.json",
+      "sha256": "sha256:3ad4d089cc6ade9bb21cf4195b7f1fd491a7d10872d320ff17696ace2be6b91c"
+    },
+    "selection_rows": {
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_structural_poly3_inputmodel_floor18_keys3/summary/workload_results.csv",
+      "sha256": "sha256:d6c9816250e3cab10a2cf37566c4a368eb7f2e8dd6f7e80cf73d33c81e0c8db1"
+    },
+    "selection_summary": {
+      "path": "results/thesis_grade_protocol/direct_tabular_autotune_v1/full_structural_poly3_inputmodel_floor18_keys3/summary/summary.json",
+      "sha256": "sha256:049d7abac6aa0130a95ddfbdaf2c334e53144d78309736385fc1a52907b83adc"
+    }
+  },
+  "provenance": {
+    "audit_binary_sha256": "sha256:b69a47bde5f49ee3beed5c50822446998eabd8585b6d8cb9c3698050b1bcdc96",
+    "direct_policy": {
+      "digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+      "id": "flipguard_direct_synthesis_policy_v2"
+    },
+    "direct_selection_execution_commit": "ebbdcb0112ea6dfeb6115239cba812e4d2707650",
+    "evidence_builder_parent_commit": "cb8a9a5165fea53008fa07b4c620e13fc9cecf09",
+    "execution_critical_source_digest": "sha256:a7a77cb4ec4d39c5c91102aa56e9297a8bb3f392f27f0419d0151a3f9861532e",
+    "execution_critical_source_unchanged": true,
+    "locked_audit_execution_commit": "ebbdcb0112ea6dfeb6115239cba812e4d2707650",
+    "security_policy": {
+      "digest": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055",
+      "id": "security_guidelines_cic2025_table5_2_ternary_128_v2"
+    },
+    "selection_binary_sha256": "sha256:48061550318d3f9fc1916aedb03907d427823a78f69b5de13577e5f3dd7e2ef6"
+  },
+  "schema_version": 2,
+  "stage_status": "PARTIAL_SCIENTIFIC_RESULT"
+}

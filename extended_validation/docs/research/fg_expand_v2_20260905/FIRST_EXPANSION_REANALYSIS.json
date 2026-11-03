@@ -1,0 +1,321 @@
+{
+  "parent_run": "fg_expand_v1_20260905_run01",
+  "readonly": true,
+  "new_ckks_executions": 0,
+  "totals": {
+    "initial_criteria_off": {
+      "eligible": 820,
+      "key_observations": 3072,
+      "protected_flip_events": 201,
+      "protected_error_violations": 675,
+      "protected_unique_flipped_inputs": 70,
+      "protected_unique_error_inputs": 228,
+      "boundary_flip_events": 33
+    },
+    "direct": {
+      "eligible": 820,
+      "key_observations": 3072,
+      "protected_flip_events": 0,
+      "protected_error_violations": 0,
+      "protected_unique_flipped_inputs": 0,
+      "protected_unique_error_inputs": 0,
+      "boundary_flip_events": 1
+    }
+  },
+  "applicable_case_inputs": 820,
+  "applicable_key_observations": 2460,
+  "initial_synthesis_still_uses_margin": true,
+  "numerical_comparison_scope": "retrospective development-based precision diagnostic; thresholds fixed in V2_PREP, prior outcomes already known; not confirmatory",
+  "cases": [
+    {
+      "case_id": "spambase__linear_poly3__split0_seed0",
+      "selection_applicable": 31,
+      "selection_n": 32,
+      "selected_features": [
+        3,
+        6,
+        15,
+        22,
+        24,
+        25,
+        26,
+        28,
+        40,
+        41,
+        43,
+        44,
+        45,
+        52,
+        53,
+        55
+      ],
+      "feature_rule": "abs(train-only standardized liblinear coefficient), descending top min(16,d), sorted indices; inherited bounded adapter experiment convention, not proof16 optimal or universal backend limit",
+      "training_only_logit_scale": 0.010040434140219422,
+      "unscaled_training_maxabs": 99.59728693346582,
+      "model_sha256": "e3a8f955b2c7c047265a6cfb787e0fd0b5c4e1abd51569e19f38c7da5bd91cba",
+      "minimum_max_error_candidate": {
+        "case_id": "spambase__linear_poly3__split0_seed0",
+        "candidate_id": "synth_repair_level_4_rescale_N14_Q8_S32_997e44125727",
+        "status": "SAFE",
+        "log_n": 14,
+        "scale": 32,
+        "q_count": 8,
+        "selection_inputs": 32,
+        "applicable": 31,
+        "max_all": 0.0001128887731756123,
+        "max_applicable": 0.0001128887731756123,
+        "max_key_rmse": 2.4622959612932555e-05,
+        "rmse_threshold": 0.00010591331337878595,
+        "max_abs_threshold": 0.0002422508818502589,
+        "numeric_rmse_pass": true,
+        "numeric_max_abs_pass": true,
+        "flips": 0,
+        "error_violations": 0,
+        "selection_mean_total_ms": 358.3549924791667,
+        "source": "results/fg_expand_v1_20260905_run01/run/spambase__linear_poly3__split0_seed0/exhaustive.json"
+      },
+      "numerical_comparators": {
+        "rmse": {
+          "candidate": "synth_repair_level_4_rescale_N14_Q8_S32_997e44125727",
+          "original_numeric_condition_pass": true,
+          "proposal_condition_pass": true,
+          "audit": "NOT_EVALUATED_NO_NEW_CKKS_IN_REANALYSIS"
+        },
+        "max_abs": {
+          "candidate": "synth_repair_level_4_rescale_N14_Q8_S32_997e44125727",
+          "original_numeric_condition_pass": true,
+          "proposal_condition_pass": true,
+          "audit": "NOT_EVALUATED_NO_NEW_CKKS_IN_REANALYSIS"
+        }
+      },
+      "alias_bindings": {
+        "direct": "synth_repair_scale_1_rescale_N13_Q7_S24_997e44125727",
+        "finite_fastest_executable": "synth_analysis_minimum_rescale_N13_Q7_S20_997e44125727",
+        "finite_fastest_safe": "synth_repair_scale_1_rescale_N13_Q7_S24_997e44125727",
+        "initial_criteria_off": "synth_analysis_minimum_rescale_N13_Q7_S20_997e44125727"
+      },
+      "actual_audit_candidates": 2,
+      "training_warnings": [],
+      "training_completion": "LIBLINEAR_RETURNED_WITH_WARNINGS_RECORDED"
+    },
+    {
+      "case_id": "htru2__linear_poly3__split0_seed0",
+      "selection_applicable": 32,
+      "selection_n": 32,
+      "selected_features": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "feature_rule": "abs(train-only standardized liblinear coefficient), descending top min(16,d), sorted indices; inherited bounded adapter experiment convention, not proof16 optimal or universal backend limit",
+      "training_only_logit_scale": 0.05594325544481556,
+      "unscaled_training_maxabs": 17.87525577567498,
+      "model_sha256": "6085e2b6582635a9efd339b5e16cdd9d1454a91e7ac3b147b57cbb5b58df6a06",
+      "minimum_max_error_candidate": {
+        "case_id": "htru2__linear_poly3__split0_seed0",
+        "candidate_id": "synth_repair_level_4_rescale_N14_Q8_S32_cf1cf74807ab",
+        "status": "SAFE",
+        "log_n": 14,
+        "scale": 32,
+        "q_count": 8,
+        "selection_inputs": 32,
+        "applicable": 32,
+        "max_all": 8.73862706279871e-05,
+        "max_applicable": 8.73862706279871e-05,
+        "max_key_rmse": 5.395255421032075e-05,
+        "rmse_threshold": 7.764996006546673e-05,
+        "max_abs_threshold": 0.00022823183442854944,
+        "numeric_rmse_pass": true,
+        "numeric_max_abs_pass": true,
+        "flips": 0,
+        "error_violations": 0,
+        "selection_mean_total_ms": 231.37951083333334,
+        "source": "results/fg_expand_v1_20260905_run01/run/htru2__linear_poly3__split0_seed0/exhaustive.json"
+      },
+      "numerical_comparators": {
+        "rmse": {
+          "candidate": "synth_repair_level_4_rescale_N14_Q8_S32_cf1cf74807ab",
+          "original_numeric_condition_pass": true,
+          "proposal_condition_pass": true,
+          "audit": "NOT_EVALUATED_NO_NEW_CKKS_IN_REANALYSIS"
+        },
+        "max_abs": {
+          "candidate": "synth_repair_level_4_rescale_N14_Q8_S32_cf1cf74807ab",
+          "original_numeric_condition_pass": true,
+          "proposal_condition_pass": true,
+          "audit": "NOT_EVALUATED_NO_NEW_CKKS_IN_REANALYSIS"
+        }
+      },
+      "alias_bindings": {
+        "direct": "synth_repair_scale_1_rescale_N13_Q7_S24_cf1cf74807ab",
+        "finite_fastest_executable": "synth_analysis_minimum_rescale_N13_Q7_S20_cf1cf74807ab",
+        "finite_fastest_safe": "synth_repair_scale_1_rescale_N13_Q7_S24_cf1cf74807ab",
+        "initial_criteria_off": "synth_analysis_minimum_rescale_N13_Q7_S20_cf1cf74807ab"
+      },
+      "actual_audit_candidates": 2,
+      "training_warnings": [],
+      "training_completion": "LIBLINEAR_RETURNED_WITH_WARNINGS_RECORDED"
+    },
+    {
+      "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+      "selection_applicable": 11,
+      "selection_n": 32,
+      "selected_features": [
+        3,
+        6,
+        15,
+        22,
+        24,
+        25,
+        26,
+        28,
+        40,
+        41,
+        43,
+        44,
+        45,
+        52,
+        53,
+        55
+      ],
+      "feature_rule": "abs(train-only standardized liblinear coefficient), descending top min(16,d), sorted indices; inherited bounded adapter experiment convention, not proof16 optimal or universal backend limit",
+      "training_only_logit_scale": 0.0006540689212219475,
+      "unscaled_training_maxabs": 1528.8908669315392,
+      "model_sha256": "2da302abf46523e1f8565d421776a7fa75cf00560dfdf94f4e33ed6cb4e98c18",
+      "minimum_max_error_candidate": {
+        "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+        "candidate_id": "synth_repair_level_4_rescale_N14_Q7_S32_8efb198132d5",
+        "status": "SAFE",
+        "log_n": 14,
+        "scale": 32,
+        "q_count": 7,
+        "selection_inputs": 32,
+        "applicable": 11,
+        "max_all": 1.3857619940438326e-08,
+        "max_applicable": 1.3857619940438326e-08,
+        "max_key_rmse": 3.949066164898479e-09,
+        "rmse_threshold": 0.00010138683003703308,
+        "max_abs_threshold": 0.00024221041203142946,
+        "numeric_rmse_pass": true,
+        "numeric_max_abs_pass": true,
+        "flips": 0,
+        "error_violations": 0,
+        "selection_mean_total_ms": 429.5559541145833,
+        "source": "results/fg_expand_v1_20260905_run01/run/spambase__mlp_square_linear_score__split0_seed0/exhaustive.json"
+      },
+      "numerical_comparators": {
+        "rmse": {
+          "candidate": "synth_analysis_minimum_rescale_N13_Q6_S20_8efb198132d5",
+          "original_numeric_condition_pass": true,
+          "proposal_condition_pass": true,
+          "audit": "reused_existing_same_candidate"
+        },
+        "max_abs": {
+          "candidate": "synth_analysis_minimum_rescale_N13_Q6_S20_8efb198132d5",
+          "original_numeric_condition_pass": true,
+          "proposal_condition_pass": true,
+          "audit": "reused_existing_same_candidate"
+        }
+      },
+      "alias_bindings": {
+        "direct": "synth_analysis_minimum_rescale_N13_Q6_S20_8efb198132d5",
+        "finite_fastest_executable": "synth_analysis_minimum_rescale_N13_Q6_S20_8efb198132d5",
+        "finite_fastest_safe": "synth_analysis_minimum_rescale_N13_Q6_S20_8efb198132d5",
+        "initial_criteria_off": "synth_analysis_minimum_rescale_N13_Q6_S20_8efb198132d5"
+      },
+      "actual_audit_candidates": 1,
+      "training_warnings": [],
+      "training_completion": "FIXED_1200_EPOCHS_NOT_CONVERGENCE_CERTIFICATE"
+    },
+    {
+      "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+      "selection_applicable": 32,
+      "selection_n": 32,
+      "selected_features": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "feature_rule": "abs(train-only standardized liblinear coefficient), descending top min(16,d), sorted indices; inherited bounded adapter experiment convention, not proof16 optimal or universal backend limit",
+      "training_only_logit_scale": 0.041272295107177184,
+      "unscaled_training_maxabs": 24.229328594476485,
+      "model_sha256": "b6f40035e2ebfabb8aa6460b10a5ce846d0da9fb7a324ad2dad3abb5836c7203",
+      "minimum_max_error_candidate": {
+        "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+        "candidate_id": "synth_repair_scale_3_rescale_N14_Q6_S32_7268e09b6fb1",
+        "status": "SAFE",
+        "log_n": 14,
+        "scale": 32,
+        "q_count": 6,
+        "selection_inputs": 32,
+        "applicable": 32,
+        "max_all": 2.3778196289736542e-07,
+        "max_applicable": 2.3778196289736542e-07,
+        "max_key_rmse": 6.11962973442972e-08,
+        "rmse_threshold": 8.036603347841478e-05,
+        "max_abs_threshold": 0.00023826961643313993,
+        "numeric_rmse_pass": true,
+        "numeric_max_abs_pass": true,
+        "flips": 0,
+        "error_violations": 0,
+        "selection_mean_total_ms": 250.34375801041662,
+        "source": "results/fg_expand_v1_20260905_run01/run/htru2__mlp_square_linear_score__split0_seed0/exhaustive.json"
+      },
+      "numerical_comparators": {
+        "rmse": {
+          "candidate": "synth_repair_scale_1_rescale_N13_Q6_S24_7268e09b6fb1",
+          "original_numeric_condition_pass": true,
+          "proposal_condition_pass": true,
+          "audit": "NOT_EVALUATED_NO_NEW_CKKS_IN_REANALYSIS"
+        },
+        "max_abs": {
+          "candidate": "synth_repair_scale_1_rescale_N13_Q6_S24_7268e09b6fb1",
+          "original_numeric_condition_pass": true,
+          "proposal_condition_pass": true,
+          "audit": "NOT_EVALUATED_NO_NEW_CKKS_IN_REANALYSIS"
+        }
+      },
+      "alias_bindings": {
+        "direct": "synth_analysis_minimum_rescale_N13_Q6_S20_7268e09b6fb1",
+        "finite_fastest_executable": "synth_analysis_minimum_rescale_N13_Q6_S20_7268e09b6fb1",
+        "finite_fastest_safe": "synth_analysis_minimum_rescale_N13_Q6_S20_7268e09b6fb1",
+        "initial_criteria_off": "synth_analysis_minimum_rescale_N13_Q6_S20_7268e09b6fb1"
+      },
+      "actual_audit_candidates": 1,
+      "training_warnings": [],
+      "training_completion": "FIXED_1200_EPOCHS_NOT_CONVERGENCE_CERTIFICATE"
+    }
+  ],
+  "input_types": [
+    {
+      "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+      "method": "rmse",
+      "counts": {
+        "numeric_pass_flip_proposed_preserved": 0,
+        "both_decisions_preserved": 768,
+        "proposed_failed_or_boundary": 543
+      },
+      "unit": "input-key observations; numerical acceptance was on selection, not per-audit-input guarantee"
+    },
+    {
+      "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+      "method": "max_abs",
+      "counts": {
+        "numeric_pass_flip_proposed_preserved": 0,
+        "both_decisions_preserved": 768,
+        "proposed_failed_or_boundary": 543
+      },
+      "unit": "input-key observations; numerical acceptance was on selection, not per-audit-input guarantee"
+    }
+  ]
+}

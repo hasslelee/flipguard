@@ -1,0 +1,30 @@
+{
+  "configuration_validation": {
+    "accuracy": 0.84375,
+    "ambiguous_at_margin_floor_0_001": 5,
+    "certifiable_at_margin_floor_0_001": 91,
+    "correct": 81,
+    "minimum_margin": 0.0002754864662967149,
+    "rows": 96
+  },
+  "dataset_id": "digits_binary",
+  "locked_audit_descriptive_only": {
+    "accuracy": 0.9375,
+    "ambiguous_at_margin_floor_0_001": 2,
+    "certifiable_at_margin_floor_0_001": 94,
+    "correct": 90,
+    "minimum_margin": 0.00011499195725678257,
+    "rows": 96
+  },
+  "model_id": "mlp_square_linear_score",
+  "schema_version": "flipguard_independent_training_seed_suite_v1",
+  "training": {
+    "accuracy": 0.8691588785046729,
+    "ambiguous_at_margin_floor_0_001": 62,
+    "certifiable_at_margin_floor_0_001": 1543,
+    "correct": 1395,
+    "minimum_margin": 5.624242191082374e-06,
+    "rows": 1605
+  },
+  "training_seed": 1729
+}

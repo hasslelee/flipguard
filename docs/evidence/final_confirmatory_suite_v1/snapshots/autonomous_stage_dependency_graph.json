@@ -1,0 +1,37 @@
+{
+  "dependencies": {
+    "direct_selection": [
+      "preflight"
+    ],
+    "final_evidence_freeze": [
+      "no_safe_controls",
+      "structural_holdout",
+      "paired_latency"
+    ],
+    "locked_audit": [
+      "direct_selection"
+    ],
+    "no_safe_controls": [
+      "preflight"
+    ],
+    "paired_latency": [
+      "direct_selection",
+      "locked_audit"
+    ],
+    "preflight": [],
+    "structural_holdout": [
+      "preflight"
+    ]
+  },
+  "hard_stop_rule": "immediate stop is reserved for integrity, security, destructive, or unrecoverable infrastructure failures",
+  "normal_pause_rule": "normal pause is forbidden before earliest_normal_pause_timestamp",
+  "policy": "CLAIM_LEVEL_FAIL_CLOSED_PIPELINE_LEVEL_CONTINUE",
+  "schema_version": 1,
+  "statuses": [
+    "INFRASTRUCTURE_BLOCK",
+    "INTEGRITY_BLOCK",
+    "PARTIAL_SCIENTIFIC_RESULT",
+    "PASS",
+    "RECOVERABLE_IMPLEMENTATION_FAILURE"
+  ]
+}

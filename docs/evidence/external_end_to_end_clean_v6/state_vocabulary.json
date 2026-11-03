@@ -1,0 +1,30 @@
+{
+  "evidence_levels": [
+    "LEVEL_0_SOURCE_VERIFIED",
+    "LEVEL_1_CLEAN_BUILD_PASS",
+    "LEVEL_2_OFFICIAL_PIPELINE_PASS",
+    "LEVEL_3_ENCRYPTED_END_TO_END",
+    "LEVEL_4_MULTI_SAMPLE_END_TO_END",
+    "LEVEL_5_DECISION_BEARING_VALIDATION",
+    "LEVEL_6_DECISION_BEARING_LOCKED_AUDIT"
+  ],
+  "gate_minimum_level": 5,
+  "headline_minimum_level": 3,
+  "missing_value": "NOT_AVAILABLE",
+  "portability_states": [
+    "PORTABLE_EXACT",
+    "GRAPH_EQUIVALENT_COMMON_EXECUTOR",
+    "PORTABLE_PARAMETER_ONLY",
+    "NATIVE_ONLY",
+    "NOT_PORTABLE",
+    "NOT_EVALUATED"
+  ],
+  "schema_version": "flipguard_external_end_to_end_clean_v6_states_v1",
+  "security_states": [
+    "SECURITY_ALIGNED",
+    "SECURITY_TARGET_MATCH_ASSUMPTIONS_DIFFER",
+    "SECURITY_NOT_REPORTED",
+    "SECURITY_NOT_EVALUATED",
+    "SECURITY_BELOW_TARGET"
+  ]
+}

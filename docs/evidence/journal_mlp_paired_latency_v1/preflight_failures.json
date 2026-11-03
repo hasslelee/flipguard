@@ -1,0 +1,36 @@
+{
+  "candidate_or_policy_changes": 0,
+  "encrypted_measurement_records_before_v1_3": 0,
+  "preserved_failures": [
+    {
+      "classification": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+      "frozen_path": "raw/preflight_failures/keyset_01_attempt_01.log",
+      "message": "flipguard-journal-mlp-paired-latency: parse protocol: json: unknown field \"arm_order\"",
+      "sha256": "sha256:28d4e501ae8c16c6d3ef678e436aacd464db48dfa387e9e0e213cf9a962c0ab0",
+      "source_path": "results/journal_mlp_paired_latency_v1/execution/keyset_01_attempt_01.log"
+    },
+    {
+      "classification": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+      "frozen_path": "raw/preflight_failures/keyset_01_attempt_02.log",
+      "message": "flipguard-journal-mlp-paired-latency: parse protocol: json: unknown field \"sha256_rank\"",
+      "sha256": "sha256:8d1d68cff2f3945218e6fa0edb708b485f732d9b0778ebfd5a50258f05f67dca",
+      "source_path": "results/journal_mlp_paired_latency_v1/execution/keyset_01_attempt_02.log"
+    },
+    {
+      "classification": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+      "frozen_path": "raw/preflight_failures/keyset_01_attempt_03.log",
+      "message": "flipguard-journal-mlp-paired-latency: parse protocol: json: unknown field \"sha256_rank\"",
+      "sha256": "sha256:8d1d68cff2f3945218e6fa0edb708b485f732d9b0778ebfd5a50258f05f67dca",
+      "source_path": "results/journal_mlp_paired_latency_v1/execution/keyset_01_attempt_03.log"
+    },
+    {
+      "classification": "RECOVERABLE_IMPLEMENTATION_FAILURE",
+      "frozen_path": "raw/preflight_failures/keyset_01_attempt_04.log",
+      "message": "flipguard-journal-mlp-paired-latency: parse protocol: json: unknown field \"sha256_rank\"",
+      "sha256": "sha256:8d1d68cff2f3945218e6fa0edb708b485f732d9b0778ebfd5a50258f05f67dca",
+      "source_path": "results/journal_mlp_paired_latency_v1/execution/keyset_01_attempt_04.log"
+    }
+  ],
+  "resolution": "V1.3 binary preflight parses all protocol evidence fields before attempt creation",
+  "schema_version": "flipguard_journal_mlp_paired_latency_evidence_v1"
+}

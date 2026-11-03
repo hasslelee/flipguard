@@ -1,0 +1,40 @@
+{
+  "admitted_claim_count": 11,
+  "artifact_manifest_digest": "sha256:32d378b371b75d31b8e39ef2acce4c3c7353581ccfbd5e6c7d22b30ffaf4743b",
+  "blocked_claim_count": 9,
+  "core_development_complete": true,
+  "exact_source_commit": "0e07fd53a2783a5e0d51c7fb62218f67420a7d93",
+  "future_work_count": 5,
+  "paper_artifacts_final_admissible": true,
+  "paper_writing_allowed": true,
+  "paper_writing_rule": "Use only claims.json entries with paper_admitted=true.",
+  "remaining_auxiliary_work": [
+    {
+      "blocking": false,
+      "claim": "EVA cross-runtime numerical equivalence",
+      "state": "NOT_EVALUATED"
+    },
+    {
+      "blocking": false,
+      "claim": "general external-autotuner integration",
+      "state": "NOT_EVALUATED"
+    },
+    {
+      "blocking": false,
+      "claim": "runtime-specific equivalent security",
+      "state": "NOT_EVALUATED"
+    },
+    {
+      "blocking": false,
+      "claim": "instantiated analytical CKKS certificate",
+      "state": "BLOCKED"
+    },
+    {
+      "blocking": false,
+      "claim": "arbitrary packed CNN/full LeNet",
+      "state": "NOT_EVALUATED"
+    }
+  ],
+  "remaining_core_blockers": [],
+  "schema_version": "flipguard_research_completion_state_v10"
+}

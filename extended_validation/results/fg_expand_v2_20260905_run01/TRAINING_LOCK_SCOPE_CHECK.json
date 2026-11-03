@@ -1,0 +1,21 @@
+{
+  "scope": "training source-lock full file list compared with current new copy; unrelated later planner fixes distinguished from trainer",
+  "differences": [
+    {
+      "path": "research/fashion_extension/internal/ckksplanner/contract.go",
+      "training_lock_sha256": "639438e9b599c0867bdbbedbd63ece45e75fc2acc612861cfeac84ed82ccf860",
+      "current_sha256": "3a142f7d0982783d55a411c57ae43a85526fbbdc85edfacd9ef1682067a7b64d"
+    },
+    {
+      "path": "research/fashion_extension/internal/ckksplanner/multiclass_contract.go",
+      "training_lock_sha256": "5a93372ea4e27751b574d20d1ef5c7facfbbbdb2633a17f48d5707103d59308c",
+      "current_sha256": "b73ae28f83e2fc52cf90ab1ca8a34557cf45fe2947d7bce2a7e93d5749861cd7"
+    }
+  ],
+  "unchanged_training_critical_paths": [
+    "research/fashion_extension/bin/fashion-train",
+    "research/fashion_extension/cmd/fashion-train/main.go",
+    "research/fashion_extension/internal/journalmnist/mlp.go",
+    "research/fashion_extension/internal/journalmnist/optimizer.go"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "claims": {
+    "cross_runtime_speedup": {
+      "block_reason": "Native timing boundaries and runtime security assumptions differ.",
+      "paper_admitted": false,
+      "state": "BLOCKED"
+    },
+    "external_decision_bearing_comparison": {
+      "allowed_wording": "A frozen EVA candidate was evaluated by the FlipGuard gate and replayed on a disjoint locked audit.",
+      "paper_admitted": true,
+      "scope": [
+        "EVA"
+      ],
+      "state": "PARTIALLY_SUPPORTED"
+    },
+    "external_encrypted_end_to_end": {
+      "allowed_wording": "V7 reproduced encrypted end-to-end execution with raw outputs for ELASM, EVA, HEIR on their declared native workloads.",
+      "paper_admitted": true,
+      "scope": [
+        "ELASM",
+        "EVA",
+        "HEIR"
+      ],
+      "state": "PARTIALLY_SUPPORTED"
+    },
+    "multiple_external_decision_providers": {
+      "block_reason": "Only one external provider exposed a frozen decision-bearing validation/audit output.",
+      "paper_admitted": false,
+      "state": "BLOCKED"
+    },
+    "portable_exact_common_executor": {
+      "block_reason": "No external plan satisfied the full PORTABLE_EXACT contract.",
+      "paper_admitted": false,
+      "state": "NOT_EVALUATED"
+    },
+    "universal_provider_superiority": {
+      "block_reason": "The reproduced set is finite and heterogeneous.",
+      "paper_admitted": false,
+      "state": "BLOCKED"
+    }
+  },
+  "decision_bearing_provider_count": 1,
+  "encrypted_e2e_system_count": 3,
+  "final_classification": "PARTIAL_EXTERNAL_EVIDENCE",
+  "locked_audit_provider_count": 1,
+  "paper_claim_allowed": false,
+  "portable_exact_count": 0,
+  "schema_version": "flipguard_external_v7_claim_admission_v1"
+}

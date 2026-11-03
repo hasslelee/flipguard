@@ -1,0 +1,101 @@
+{
+  "binary_sha256": {
+    "audit": "sha256:79354bf0312fc6e32df48fdccf9ac034af56c96b768265fe8ed21aa3a9a9f5d3",
+    "autotune": "sha256:e43184f084411fdd5568cfe5f6723ed77dbe86064e88d60d15f8af25943cd93e"
+  },
+  "derived_validation": {
+    "audit_ledger": {
+      "ambiguous_samples": 1,
+      "certifiable_samples": 199,
+      "decision_flips": 0,
+      "error_violations": 0,
+      "image_clusters": 50,
+      "key_runs": 3,
+      "max_error_budget_usage": 0.019487168974487747,
+      "max_observed_error": 0.013645600589626383,
+      "observations": 600,
+      "sample_ids": 200
+    },
+    "selection_ledger": {
+      "ambiguous_samples": 0,
+      "certifiable_samples": 200,
+      "decision_flips": 0,
+      "error_violations": 0,
+      "image_clusters": 50,
+      "key_runs": 3,
+      "max_error_budget_usage": 0.017141840887655954,
+      "max_observed_error": 0.012568837284646861,
+      "observations": 600,
+      "sample_ids": 200
+    }
+  },
+  "evidence_builder_commit": "375b6316bc041f57efabf3dfca33145bc8a015fb",
+  "evidence_id": "non_tabular_harris_holdout_v1",
+  "execution_commit": "a4ccd0be562c4dac2ddac52b95bcaeb112e30d3b",
+  "execution_critical_source_digest": "sha256:00ec55fda7a671f46e4335d550199f003c16b5d9d9b1f6d474a842d81e08171b",
+  "policies": {
+    "direct_policy_v2": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "extraction_policy": "sha256:90befad9bdf9c58b817a54664348b421233e5834995a2648793024892b5cb291",
+    "security_policy_v2": "sha256:855d44820387879ea5cce97b945bbb7e14d869f1a1672cf4d4842713b743a055"
+  },
+  "raw_run": {
+    "locked_audit_sha256": "sha256:9b51ad5d85360e6f96026bcadf75d0beedb77eae8cfdcfa394b3130401ec2c3e",
+    "path": "/home/ckks2/flipguard/results/thesis_grade_protocol/non_tabular_harris_holdout_v1/run_a4ccd0b",
+    "run_manifest_sha256": "sha256:8feb6a0a4a38eeb6f1bd48db1603228e54c290afef199f29fe42be36e08318ac",
+    "selection_sha256": "sha256:f373fc130ced1ff93f35ffec06767bce50887612642082ddabed87abb782c9e9"
+  },
+  "schema_version": "flipguard_non_tabular_harris_evidence_v1",
+  "summary": {
+    "accounting": {
+      "total_candidate_trials": 2,
+      "total_encrypted_sample_evaluations": 1200,
+      "total_fresh_key_runs": 6
+    },
+    "block_reason": "manual post-extension claim admission and paper review are pending",
+    "claim_boundary": {
+      "arbitrary_graph_generalization": "NOT_EVALUATED",
+      "cnn_generalization": "NOT_EVALUATED",
+      "full_image_corner_accuracy": "NOT_EVALUATED",
+      "multi_graph_vision_extension": "SUPPORTED",
+      "non_tabular_harris_holdout": "SUPPORTED",
+      "structural_generalization": "PARTIALLY_SUPPORTED"
+    },
+    "locked_audit": {
+      "candidate_identity_equal": true,
+      "encrypted_sample_evaluations": 600,
+      "flips": 0,
+      "fresh_key_runs": 3,
+      "max_budget_usage": 0.019487168974487747,
+      "outcome": "LOCKED_AUDIT_PASS",
+      "retuning": 0,
+      "status": "SAFE",
+      "v_amb": 1,
+      "v_cert": 199,
+      "violations": 0
+    },
+    "paper_claim_allowed": false,
+    "schema_version": "flipguard_non_tabular_harris_evidence_v1",
+    "scope": "BSDS500 single-window Harris response threshold under scalar-replicated packing",
+    "selection": {
+      "encrypted_sample_evaluations": 600,
+      "fresh_key_runs": 3,
+      "outcome": "SELECTED",
+      "repairs": 0,
+      "security_headroom_bits": 14,
+      "selected_candidate": "synth_analysis_minimum_rescale_N13_Q6_S26_b9a6f9573340",
+      "selected_flips": 0,
+      "selected_max_budget_usage": 0.017141840887655954,
+      "selected_violations": 0,
+      "trials": 1
+    },
+    "source": {
+      "audit_images": 50,
+      "dataset": "BSDS500",
+      "patches_per_image": 4,
+      "train_threshold_images": 100,
+      "validation_audit_image_overlap": 0,
+      "validation_images": 50
+    },
+    "status": "SUPPORTED"
+  }
+}

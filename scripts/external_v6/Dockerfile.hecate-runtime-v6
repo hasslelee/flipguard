@@ -1,0 +1,26 @@
+FROM flipguard/hecate-v6-deps:llvm18-cuda12.2
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+# The official HECATE Python frontend imports torch through both `hecate.expr`
+# and `hetorch`, including for the CPU-only LinearRegression example.  Use the
+# officially declared 2.0.1 release but its CPU wheel because this host exposes
+# no GPU to the experiment.
+RUN python3 -m pip install --no-cache-dir \
+      psutil==7.2.1 einops==0.7.0 && \
+    python3 -m pip install --no-cache-dir \
+      torch==2.0.1 --index-url https://download.pytorch.org/whl/cpu && \
+    python3 - <<'PY'
+import einops
+import numpy
+import psutil
+import torch
+
+assert torch.__version__.startswith("2.0.1")
+assert not torch.cuda.is_available()
+print("numpy", numpy.__version__)
+print("torch", torch.__version__)
+print("einops", einops.__version__)
+print("psutil", psutil.__version__)
+PY
+

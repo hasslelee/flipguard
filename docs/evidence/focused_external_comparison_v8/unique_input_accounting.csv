@@ -1,0 +1,5 @@
+provider,workload,unique_inputs,contexts,plans_or_arms,raw_rows,row_meaning
+Microsoft EVA,shared_polynomial_threshold_v8,1000,15,5,7500,input-context-arm observations
+Google HEIR,shared_polynomial_threshold_v8,1000,12,4,6000,input-context-runtime-role observations
+CoreLab EVA/ELASM,official_LinearRegression_multi_input_v8,200,70,70,14000,unique-input-plan observations; two failed plans emitted no rows
+FlipGuard,shared_polynomial_threshold_v8,1000,30,SEE_EXECUTION_ACCOUNTING,5400,selection/audit summaries plus common-harness measurement rows; see execution accounting
