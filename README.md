@@ -6,6 +6,7 @@ CKKS 동형암호로 암호화한 채 추론할 때, 평문과 판정이 같은 
 
 - Status: research code. A Korean journal paper based on this work is under review.
 - Stack: Go 1.25 · [Lattigo v6.2.0](https://github.com/tuneinsight/lattigo) (CKKS) · Python for data export, analysis and figures
+- Implementation: the Go code was written with AI coding assistance. Problem definition, acceptance criteria, experiment design and result checks are the author's.
 
 [English](#english) · [한국어](#한국어)
 
@@ -61,7 +62,7 @@ Experiment outputs are written to `results/<experiment>/` as CSV and Markdown. `
 
 ### Project history
 
-The project started in May 2026 as node-wise precision scheduling on a plain simulator. After moving to the real Lattigo CKKS backend, the method was redefined as execution-configuration selection with a decision-consistency acceptance rule (June to August 2026). The full history is kept in the commit log.
+The project started in May 2026 as node-wise precision scheduling on a plain simulator. After moving to the real Lattigo CKKS backend, the work shifted to selecting whole execution configurations, with decision consistency as the acceptance rule (June to August 2026). The full history is kept in the commit log.
 
 ---
 
@@ -113,4 +114,6 @@ go run ./cmd/flipguard -list          # 실험 목록
 
 ### 진행 과정
 
-2026년 5월 평문 시뮬레이터에서 노드별 정밀도 배분으로 시작했습니다. 실제 Lattigo CKKS 백엔드로 옮긴 뒤 판정 일관성을 채택 조건으로 하는 실행 구성 선택 기법으로 다시 정의했습니다(2026년 6~8월). 전체 과정은 커밋 기록에 남아 있습니다.
+2026년 5월 평문 시뮬레이터에서 노드별 정밀도 배분으로 시작했습니다. 실제 Lattigo CKKS 백엔드로 옮긴 뒤에는 판정 일관성을 채택 조건으로 삼아 실행 구성 전체를 고르는 방식으로 바뀌었습니다(2026년 6~8월). 전체 과정은 커밋 기록에 남아 있습니다.
+
+Go 코드는 AI 코딩 도구의 도움을 받아 작성했습니다. 문제 정의, 채택 기준, 실험 설계와 결과 검증은 직접 했습니다.
