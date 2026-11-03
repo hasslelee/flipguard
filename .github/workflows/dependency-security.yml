@@ -1,0 +1,139 @@
+name: Dependency Security
+
+# Records which third-party code this repository pulls in (SBOM) and checks it
+# against public vulnerability databases. Research code is not modified.
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    # Every Monday 00:00 UTC (09:00 KST), so advisories published after the
+    # last push are still caught.
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  go-modules:
+    name: Go modules (SBOM + govulncheck)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
+
+      - name: Set up Go from go.mod
+        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version-file: go.mod
+          cache: false
+
+      - name: Verify downloaded modules against go.sum
+        shell: bash
+        run: |
+          set -euo pipefail
+          go mod download
+          go mod verify
+
+      - name: Install scanners (pinned versions)
+        shell: bash
+        env:
+          # govulncheck v1.9.0 needs a newer Go to build; let Go fetch that
+          # toolchain for the scanner only. The module itself stays on go.mod.
+          GOTOOLCHAIN: auto
+        run: |
+          set -euo pipefail
+          go install golang.org/x/vuln/cmd/govulncheck@v1.9.0
+          go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@v1.9.0
+
+      - name: Generate CycloneDX SBOM
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="${RUNNER_TEMP}/sbom"
+          mkdir -p "${out}"
+          cyclonedx-gomod mod -json -licenses -output "${out}/flipguard-go.cdx.json"
+          {
+            echo "### Go module SBOM (CycloneDX)"
+            echo
+            echo "| Module | Version |"
+            echo "|---|---|"
+            jq -r '.components[] | "| \(.name) | \(.version) |"' "${out}/flipguard-go.cdx.json"
+          } >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Upload SBOM
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: sbom-go-cyclonedx
+          path: ${{ runner.temp }}/sbom/flipguard-go.cdx.json
+          if-no-files-found: error
+
+      - name: govulncheck (fails only on vulnerabilities reachable from this code)
+        shell: bash
+        run: |
+          set -euo pipefail
+          govulncheck ./...
+
+  python-ci-requirements:
+    name: CI Python requirements (report only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          persist-credentials: false
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+        with:
+          python-version: "3.12"
+
+      - name: Install pip-audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install pip-audit==2.9.0
+
+      - name: Audit requirements-ci.txt
+        shell: bash
+        run: |
+          set -uo pipefail
+          status=0
+          pip-audit --requirement requirements-ci.txt --no-deps --disable-pip \
+            --vulnerability-service pypi --progress-spinner off \
+            --format json --output "${RUNNER_TEMP}/pip-audit.json" || status=$?
+          python3 - "${RUNNER_TEMP}/pip-audit.json" >> "${GITHUB_STEP_SUMMARY}" <<'PY'
+          import json, sys
+          data = json.load(open(sys.argv[1]))
+          print("### CI Python requirements (pip-audit)")
+          print()
+          def key(v):
+              return [int(p) if p.isdigit() else 0 for p in v.split(".")]
+          print("| Package | Version | Advisories | Version that fixes all listed advisories |")
+          print("|---|---|---:|---|")
+          for dep in data.get("dependencies", []):
+              vulns = dep.get("vulns", [])
+              per_vuln = [min(x["fix_versions"], key=key) for x in vulns if x.get("fix_versions")]
+              fix_all = max(per_vuln, key=key) if per_vuln else "-"
+              print(f"| {dep['name']} | {dep.get('version', '')} | {len(vulns)} | {fix_all} |")
+          PY
+          if [ "${status}" -ne 0 ]; then
+            echo "::warning title=CI Python advisories::requirements-ci.txt has known advisories (see job summary). Reported, not blocking: these pins belong to the frozen replay environment and are changed only by a deliberate decision."
+          fi
+          exit 0
+
+      - name: Upload pip-audit report
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pip-audit-ci-requirements
+          path: ${{ runner.temp }}/pip-audit.json
+          if-no-files-found: error
