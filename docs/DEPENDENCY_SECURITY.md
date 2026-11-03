@@ -27,8 +27,10 @@ A called advisory in the standard library is listed with its fixed Go version
 and a warning.
 
 As of 2026-11-03, govulncheck reports 13 called standard library advisories for
-go1.25.9, fixed between go1.25.11 and go1.25.13. No called advisory was found
-in a required module.
+go1.25.9. Five are fixed in later 1.25 releases (go1.25.11 to go1.25.13). The
+other eight have no 1.25 fix listed and are fixed in go1.26.9 or go1.26.10, so
+fixing all 13 needs go1.26.10 or later. No called advisory was found in a
+required module.
 
 ## Why the Python check only reports
 
@@ -48,7 +50,8 @@ against the replay results before the pin changes.
 모듈은 이 코드가 실제로 호출하는 취약점이 있으면 빌드를 실패시킨다. Go 표준 라이브러리
 취약점은 경고로 보고만 한다. Go 1.25.9가 재현 환경 고정값(go.mod, 환경 잠금 파일)이라
 툴체인을 올리는 일은 따로 결정하기 때문이다. 2026-11-03 기준 go1.25.9에서 호출되는 표준
-라이브러리 권고는 13건이고, go1.25.11~1.25.13에서 고쳐졌다. CI 전용 Python 의존성은
+라이브러리 권고는 13건이다. 5건은 go1.25.11~1.25.13에서 고쳐졌고, 나머지 8건은 1.25 계열
+수정판이 없고 go1.26.9~1.26.10에서 고쳐졌다. 13건을 모두 고치려면 go1.26.10 이상이 필요하다. CI 전용 Python 의존성은
 보고만 한다. CI 전용 Pillow 10.2.0에는 2026-11-03 기준 알려진 권고 48건이 있고, 모두
 고치려면 13.0.0이 필요하다. 재현 환경에 묶인 고정 버전이라 올릴지는 재현 결과를 확인한 뒤
 따로 결정한다.

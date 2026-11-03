@@ -16,6 +16,7 @@ Exit status: 1 if a required module has a called vulnerability, else 0.
 """
 
 import json
+import re
 import sys
 
 
@@ -31,6 +32,11 @@ def read_stream(path):
             return out
         obj, pos = decoder.raw_decode(text, pos)
         out.append(obj)
+
+
+def version_key(version):
+    """Order versions like v1.26.10 after v1.26.9."""
+    return [int(n) for n in re.findall(r"\d+", version)]
 
 
 def main(json_path, summary_path):
@@ -77,12 +83,17 @@ def main(json_path, summary_path):
         fh.write("\n".join(lines) + "\n")
 
     if stdlib:
-        fixed = sorted({v[2] for v in stdlib.values() if v[2]})
+        fixed = sorted({v[2] for v in stdlib.values() if v[2]}, key=version_key)
+        needs = (
+            f"; fixing all of them needs {fixed[-1]}"
+            if fixed and all(v[2] for v in stdlib.values())
+            else ""
+        )
         print(
             f"::warning title=Go standard library advisories::"
             f"{len(stdlib)} called advisories in the pinned Go toolchain "
-            f"(fixed in {', '.join(fixed) or 'n/a'}). Reported, not blocking: the "
-            f"toolchain is part of the reproduction environment lock."
+            f"(fixed in {', '.join(fixed) or 'n/a'}{needs}). Reported, not "
+            f"blocking: the toolchain is part of the reproduction environment lock."
         )
     if modules:
         print(
