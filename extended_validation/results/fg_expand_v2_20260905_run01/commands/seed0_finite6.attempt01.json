@@ -1,0 +1,42 @@
+{
+  "command": [
+    "/usr/bin/time",
+    "-v",
+    "/home/ckks2/deciprotect/research/fashion_extension/bin/fashion-case",
+    "--mode",
+    "candidate",
+    "--plan",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_0/planning/plan.json",
+    "--candidate",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_0/candidate_specs/06.json",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_0/finite/candidate_06"
+  ],
+  "cwd": "/home/ckks2/deciprotect",
+  "started": {
+    "utc": "2026-09-05T11:25:32.539397+00:00",
+    "load_average": [
+      1.55078125,
+      1.6826171875,
+      1.396484375
+    ],
+    "mem_available": "10933620 kB",
+    "swap_free": "3830612 kB",
+    "disk_free": 24000487424
+  },
+  "finished": {
+    "utc": "2026-09-05T11:27:22.680510+00:00",
+    "load_average": [
+      1.45361328125,
+      1.5986328125,
+      1.3935546875
+    ],
+    "mem_available": "10932516 kB",
+    "swap_free": "3830612 kB",
+    "disk_free": 24000061440
+  },
+  "wall_seconds": 110.14124676400024,
+  "exit_code": 0,
+  "status": "COMPLETED",
+  "binary_sha256": "c358a601f15bc3713c8879a9cc3867292b83917f83356e99185e9b635d2203a2"
+}

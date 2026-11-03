@@ -1,0 +1,2495 @@
+{
+  "status": "PASS",
+  "created_utc": "2026-09-06T14:19:36.117345+00:00",
+  "checks": [
+    {
+      "check": "HEAD_unchanged",
+      "pass": true,
+      "detail": "54671293e5f6532f2423f5bf473ea714555ee9f4"
+    },
+    {
+      "check": "tracked_and_staged_changes_absent",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "initial_untracked_entries_preserved",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "new_git_entries_in_authorized_scope",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "final_PDF_identity",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "preserved_review_PAPER_ONLY_REVIEW_KO.md",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "preserved_review_CLAIM_EVIDENCE.csv",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "as_run_source_internal/ckksplanner/synthesis.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "as_run_source_internal/ckksplanner/v17_candidate_space.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "as_run_source_internal/ckksplanner/direct_policy.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "as_run_source_internal/ckksplanner/security_policy.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "as_run_source_internal/ckksplanner/tabular_contract.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "as_run_source_internal/ckksplanner/executor.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "as_run_source_internal/ckksplanner/multiclass_executor.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "as_run_source_internal/certify/multiclass_decision_contract.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "as_run_source_internal/ckksbackend/context.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "as_run_source_internal/ckksbackend/profile.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "as_run_source_cmd/flipguard-v17-tabular-case/main.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "as_run_source_scripts/build_v17_plaintext_suite.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "bound_analysis_source",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "analysis_reporting_scripts_compile_without_cache",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "actual_candidate_denominators",
+      "pass": true,
+      "detail": {
+        "direct": 89,
+        "finite": 537
+      }
+    },
+    {
+      "check": "actual_three_key_runs_each",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "candidate_materializations_all_finite",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "candidate_literal_fingerprints",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "finite_result_counts",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "finite_case_count_distribution",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "initial_internal_failures",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "ID_and_literal_distinction",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "scope_role_rows",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary_scope_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "protected_final_zero_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary_scope_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "protected_final_zero_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "primary_quality_201_rows",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_0_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_0_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_0_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_1_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_1_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_1_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_2_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_2_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_2_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_3_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_3_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_3_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_4_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_4_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|linear_poly3|outer_fold_4_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_0_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_0_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_0_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_1_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_1_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_1_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_2_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_2_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_2_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_3_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_3_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_3_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_4_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_4_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square2_linear_score|outer_fold_4_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_0_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_0_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_0_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_1_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_1_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_1_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_2_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_2_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_2_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_3_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_3_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_3_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_4_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_4_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|banknote|mlp_square_linear_score|outer_fold_4_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_0_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_0_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_0_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_1_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_1_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_1_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_2_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_2_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_2_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_3_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_3_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_3_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_4_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_4_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|linear_poly3|outer_fold_4_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_0_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_0_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_0_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_1_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_1_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_1_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_2_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_2_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_2_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_3_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_3_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_3_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_4_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_4_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|digits_binary|mlp_square_linear_score|outer_fold_4_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_0_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_0_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_0_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_1_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_1_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_1_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_2_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_2_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_2_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_3_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_3_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_3_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_4_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_4_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|linear_poly3|outer_fold_4_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_0_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_0_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_0_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_1_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_1_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_1_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_2_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_2_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_2_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_3_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_3_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_3_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_4_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_4_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|iris_binary|mlp_square_linear_score|outer_fold_4_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_10class|mnist_lenet5_small_square_v1|mnist_sha_rank_validation_500_v1_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_10class|mnist_lenet5_small_square_v1|mnist_sha_rank_validation_500_v1_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_10class|mnist_mlp_square_784_100_10_v1|mnist_sha_rank_validation_500_v1_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_10class|mnist_mlp_square_784_100_10_v1|mnist_sha_rank_validation_500_v1_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_binary01|packed_cnn_lite_binary01_v17|v17_p6_packed_cnn_lite_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_binary01|packed_cnn_lite_binary01_v17|v17_p6_packed_cnn_lite_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_0_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_0_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_0_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_1_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_1_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_1_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_2_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_2_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_2_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_3_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_3_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_3_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_4_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_4_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|linear_poly3|outer_fold_4_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_0_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_0_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_0_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_1_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_1_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_1_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_2_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_2_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_2_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_3_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_3_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_3_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_4_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_4_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square2_linear_score|outer_fold_4_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_0_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_0_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_0_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_1_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_1_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_1_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_2_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_2_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_2_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_3_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_3_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_3_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_4_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_4_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|mnist_pool16|mlp_square_linear_score|outer_fold_4_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_0_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_0_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_0_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_1_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_1_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_1_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_2_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_2_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_2_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_3_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_3_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_3_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_4_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_4_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|linear_poly3|outer_fold_4_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_0_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_0_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_0_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_1_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_1_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_1_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_2_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_2_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_2_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_3_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_3_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_3_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_4_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_4_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square2_linear_score|outer_fold_4_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_0_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_0_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_0_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_1_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_1_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_1_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_2_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_2_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_2_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_3_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_3_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_3_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_4_training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_4_training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_primary|wdbc|mlp_square_linear_score|outer_fold_4_training_seed_0_model_training",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/linear_affine_score/fold_0/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/linear_affine_score/fold_0/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/linear_affine_score/fold_1/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/linear_affine_score/fold_1/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/linear_affine_score/fold_2/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/linear_affine_score/fold_2/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/linear_affine_score/fold_3/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/linear_affine_score/fold_3/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/linear_affine_score/fold_4/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/linear_affine_score/fold_4/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_poly3/fold_0/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_poly3/fold_0/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_poly3/fold_1/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_poly3/fold_1/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_poly3/fold_2/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_poly3/fold_2/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_poly3/fold_3/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_poly3/fold_3/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_poly3/fold_4/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_poly3/fold_4/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/linear_affine_score/fold_0/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/linear_affine_score/fold_0/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/linear_affine_score/fold_1/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/linear_affine_score/fold_1/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/linear_affine_score/fold_2/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/linear_affine_score/fold_2/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/linear_affine_score/fold_3/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/linear_affine_score/fold_3/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/linear_affine_score/fold_4/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/linear_affine_score/fold_4/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_poly3/fold_0/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_poly3/fold_0/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_poly3/fold_1/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_poly3/fold_1/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_poly3/fold_2/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_poly3/fold_2/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_poly3/fold_3/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_poly3/fold_3/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_poly3/fold_4/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_poly3/fold_4/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/linear_affine_score/fold_0/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/linear_affine_score/fold_0/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/linear_affine_score/fold_1/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/linear_affine_score/fold_1/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/linear_affine_score/fold_2/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/linear_affine_score/fold_2/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/linear_affine_score/fold_3/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/linear_affine_score/fold_3/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/linear_affine_score/fold_4/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/linear_affine_score/fold_4/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_poly3/fold_0/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_poly3/fold_0/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_poly3/fold_1/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_poly3/fold_1/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_poly3/fold_2/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_poly3/fold_2/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_poly3/fold_3/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_poly3/fold_3/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_poly3/fold_4/training_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_poly3/fold_4/training_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square2_linear_score/fold_0/training_seed_1_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square2_linear_score/fold_0/training_seed_1_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square2_linear_score/fold_0/training_seed_2_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square2_linear_score/fold_0/training_seed_2_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square2_linear_score/fold_0/training_seed_3_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square2_linear_score/fold_0/training_seed_3_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square2_linear_score/fold_0/training_seed_4_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square2_linear_score/fold_0/training_seed_4_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_linear_score/fold_0/training_seed_1_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_linear_score/fold_0/training_seed_1_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_linear_score/fold_0/training_seed_2_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_linear_score/fold_0/training_seed_2_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_linear_score/fold_0/training_seed_3_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_linear_score/fold_0/training_seed_3_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_linear_score/fold_0/training_seed_4_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_banknote/mlp_square_linear_score/fold_0/training_seed_4_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square2_linear_score/fold_0/training_seed_1_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square2_linear_score/fold_0/training_seed_1_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square2_linear_score/fold_0/training_seed_2_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square2_linear_score/fold_0/training_seed_2_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square2_linear_score/fold_0/training_seed_3_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square2_linear_score/fold_0/training_seed_3_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square2_linear_score/fold_0/training_seed_4_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square2_linear_score/fold_0/training_seed_4_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_linear_score/fold_0/training_seed_1_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_linear_score/fold_0/training_seed_1_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_linear_score/fold_0/training_seed_2_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_linear_score/fold_0/training_seed_2_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_linear_score/fold_0/training_seed_3_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_linear_score/fold_0/training_seed_3_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_linear_score/fold_0/training_seed_4_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mnist_pool16/mlp_square_linear_score/fold_0/training_seed_4_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square2_linear_score/fold_0/training_seed_1_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square2_linear_score/fold_0/training_seed_1_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square2_linear_score/fold_0/training_seed_2_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square2_linear_score/fold_0/training_seed_2_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square2_linear_score/fold_0/training_seed_3_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square2_linear_score/fold_0/training_seed_3_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square2_linear_score/fold_0/training_seed_4_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square2_linear_score/fold_0/training_seed_4_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_linear_score/fold_0/training_seed_1_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_linear_score/fold_0/training_seed_1_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_linear_score/fold_0/training_seed_2_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_linear_score/fold_0/training_seed_2_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_linear_score/fold_0/training_seed_3_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_linear_score/fold_0/training_seed_3_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_linear_score/fold_0/training_seed_4_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_wdbc/mlp_square_linear_score/fold_0/training_seed_4_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_lenet5_small/seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_lenet5_small/seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_lenet5_small/seed_1_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_lenet5_small/seed_1_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_lenet5_small/seed_2_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_lenet5_small/seed_2_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mlp100/seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mlp100/seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mlp100/seed_1_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mlp100/seed_1_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mlp100/seed_2_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_mlp100/seed_2_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_seed_0_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_seed_0_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_seed_1_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_seed_1_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_seed_2_selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "quality_denominator_seed_2_separate",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "plaintext_replay_checks",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "additional_negative_preserved",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "additional_vs_depth",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "paired_observation_count",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "cost_arms_136",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "cost_equal_cluster_point",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "cost_stage_common66",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "example_sensitivity",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "real_input_repair_example",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P01_before",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P01_target",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P01_after",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P02_before",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P02_target",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P02_after",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P03_before",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P03_target",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P03_after",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P04_before",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P04_target",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P04_after",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P05_before",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P05_target",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P05_after",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P06_before",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P06_target",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P06_after",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P07_before",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P07_target",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P07_after",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P08_before",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P08_target",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P08_after",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P09_before",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P09_target",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P09_after",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P10_before",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P10_target",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P10_after",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P11_before",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P11_target",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P11_after",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P12_before",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P12_target",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "PDF_anchor_P12_after",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "manuscript_insertion_units",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/docs/evidence/model_family_expansion_v17/source_snapshots/v17_final_vm1x6_20260811T050104Z/manifest.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/deciprotect/baseline/source/internal/ckksplanner/synthesis.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/deciprotect/baseline/source/internal/ckksplanner/v17_candidate_space.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/deciprotect/baseline/source/internal/ckksplanner/tabular_contract.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/deciprotect/baseline/source/internal/certify/multiclass_decision_contract.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/deciprotect/baseline/source/internal/ckksplanner/security_policy.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/deciprotect/baseline/source/internal/ckksbackend/context.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/deciprotect/baseline/source/cmd/flipguard-v17-tabular-case/main.go",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/scripts/build_v17_plaintext_suite.py",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/plaintext/primary/banknote/linear_poly3/fold_0/training_seed_0/model.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/plaintext/primary/banknote/linear_poly3/fold_0/training_seed_0/configuration_selection.csv",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/linear_poly3/fold_0/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/linear_poly3/fold_1/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/linear_poly3/fold_2/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/linear_poly3/fold_3/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/linear_poly3/fold_4/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/mlp_square2_linear_score/fold_0/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/mlp_square2_linear_score/fold_1/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/mlp_square2_linear_score/fold_2/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/mlp_square2_linear_score/fold_3/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/mlp_square2_linear_score/fold_4/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/mlp_square_linear_score/fold_0/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/mlp_square_linear_score/fold_1/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/mlp_square_linear_score/fold_2/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/mlp_square_linear_score/fold_3/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/banknote/mlp_square_linear_score/fold_4/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/digits_binary/linear_poly3/fold_0/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/digits_binary/linear_poly3/fold_1/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/digits_binary/linear_poly3/fold_2/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/digits_binary/linear_poly3/fold_3/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/digits_binary/linear_poly3/fold_4/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/digits_binary/mlp_square_linear_score/fold_0/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/digits_binary/mlp_square_linear_score/fold_1/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/digits_binary/mlp_square_linear_score/fold_2/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/digits_binary/mlp_square_linear_score/fold_3/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/digits_binary/mlp_square_linear_score/fold_4/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/iris_binary/linear_poly3/fold_0/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/iris_binary/linear_poly3/fold_1/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/iris_binary/linear_poly3/fold_2/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/iris_binary/linear_poly3/fold_3/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/iris_binary/linear_poly3/fold_4/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/iris_binary/mlp_square_linear_score/fold_0/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/iris_binary/mlp_square_linear_score/fold_1/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/iris_binary/mlp_square_linear_score/fold_2/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/iris_binary/mlp_square_linear_score/fold_3/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/iris_binary/mlp_square_linear_score/fold_4/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/multiclass/mnist_lenet5_small_square_v1/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/multiclass/mnist_mlp_square_784_100_10_v1/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/packed_cnn_lite_binary01_v17/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/linear_poly3/fold_0/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/linear_poly3/fold_1/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/linear_poly3/fold_2/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/linear_poly3/fold_3/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/linear_poly3/fold_4/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/mlp_square2_linear_score/fold_0/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/mlp_square2_linear_score/fold_1/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/mlp_square2_linear_score/fold_2/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/mlp_square2_linear_score/fold_3/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/mlp_square2_linear_score/fold_4/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/mlp_square_linear_score/fold_0/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/mlp_square_linear_score/fold_1/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/mlp_square_linear_score/fold_2/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/mlp_square_linear_score/fold_3/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/mnist_pool16/mlp_square_linear_score/fold_4/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/linear_poly3/fold_0/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/linear_poly3/fold_1/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/linear_poly3/fold_2/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/linear_poly3/fold_3/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/linear_poly3/fold_4/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/mlp_square2_linear_score/fold_0/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/mlp_square2_linear_score/fold_1/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/mlp_square2_linear_score/fold_2/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/mlp_square2_linear_score/fold_3/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/mlp_square2_linear_score/fold_4/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/mlp_square_linear_score/fold_0/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/mlp_square_linear_score/fold_1/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/mlp_square_linear_score/fold_2/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/mlp_square_linear_score/fold_3/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/latency/wdbc/mlp_square_linear_score/fold_4/training_seed_0/paired_latency.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/deciprotect/docs/review/latency_recomputed.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/deciprotect/docs/research/fg_expand_v1_20260905/LEGACY_SOURCE_BINDINGS.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/results/model_family_expansion_v17/runs/v17_final_vm1x6_20260811T050104Z/ablation/banknote/mlp_square_poly3/fold_3/training_seed_0/direct_independent_evaluation.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/datasets/journal_multiclass_extension_v1/mnist/input_split_manifest.json",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/datasets/journal_multiclass_extension_v1/mnist/configuration_validation.csv",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "consistent_binding_/home/ckks2/flipguard/datasets/journal_multiclass_extension_v1/mnist/locked_audit.csv",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "no_reserved_or_archive_reads",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "no_secret_artifact_reads",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "new_ckks_runs": 0,
+  "new_parameter_generation": 0,
+  "new_training_runs": 0,
+  "reserved_684_access": false,
+  "bootstrap_interval": "reused existing validated frozen interval; point reaggregated",
+  "limitations": [
+    "finite pre-generation failures not individually logged",
+    "two primary multiclass direct selection wall clocks missing",
+    "exact-prime binding limited to two primary multiclass candidates",
+    "no universal stability or global optimality claim"
+  ]
+}

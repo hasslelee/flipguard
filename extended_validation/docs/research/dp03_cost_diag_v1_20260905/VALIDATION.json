@@ -1,0 +1,26 @@
+{
+  "start_head": "9685958c0ac138bf6356fbcc63ef9cf3a7d94c57",
+  "source_as_run_matches_live": true,
+  "modified_existing_protected_paths": [],
+  "archive_full_hash_repeated": false,
+  "flipguard_code_or_experiment_executed": false,
+  "python_tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src .venv/bin/python -m unittest discover -s tests -v",
+    "passed": 16,
+    "log": "validation_logs/python_tests.log"
+  },
+  "go_tests": {
+    "command": "go test ./cmd/deciprotect-ckks",
+    "passed": 3,
+    "log": "validation_logs/go_tests.log"
+  },
+  "independent_audit": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/check_cost_report.py",
+    "status": "PASS",
+    "raw_payload_files": 1219,
+    "bound_parent_files": 24,
+    "row_observations": 45468
+  },
+  "checks_scope": "Implementation and evidence consistency only; no performance superiority or risk assurance",
+  "active_experiments": []
+}

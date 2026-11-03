@@ -1,0 +1,910 @@
+{
+  "created_utc": "2026-09-05T11:45:38.424727+00:00",
+  "seed": 1,
+  "roles": {
+    "initial": {
+      "id": "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          41,
+          31,
+          31,
+          31,
+          31
+        ],
+        "log_p": [
+          41
+        ],
+        "log_default_scale": 31
+      },
+      "security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 206,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 8,
+        "admission_status": "PASS",
+        "log_q": 165,
+        "log_p": 41,
+        "log_qp": 206,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 49,
+        "evaluation_key_headroom_bits": 8,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "required_rescale_levels": 3,
+      "level_guard": 0,
+      "precision_target_bits": 28,
+      "message_magnitude_bits": 7,
+      "analysis_scale_bits": 31,
+      "backend_scale_lift_bits": 0,
+      "backend_validation_attempts": 1,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 1,
+      "generation_kind": "analysis_minimum",
+      "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=206 analysis_scale_bits=31 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+    },
+    "proposed": {
+      "id": "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          41,
+          31,
+          31,
+          31,
+          31
+        ],
+        "log_p": [
+          41
+        ],
+        "log_default_scale": 31
+      },
+      "security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 206,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 8,
+        "admission_status": "PASS",
+        "log_q": 165,
+        "log_p": 41,
+        "log_qp": 206,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 49,
+        "evaluation_key_headroom_bits": 8,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "required_rescale_levels": 3,
+      "level_guard": 0,
+      "precision_target_bits": 28,
+      "message_magnitude_bits": 7,
+      "analysis_scale_bits": 31,
+      "backend_scale_lift_bits": 0,
+      "backend_validation_attempts": 1,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 1,
+      "generation_kind": "analysis_minimum",
+      "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=206 analysis_scale_bits=31 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+    },
+    "finite_fastest_acceptable": {
+      "id": "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          41,
+          31,
+          31,
+          31,
+          31
+        ],
+        "log_p": [
+          41
+        ],
+        "log_default_scale": 31
+      },
+      "security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 206,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 8,
+        "admission_status": "PASS",
+        "log_q": 165,
+        "log_p": 41,
+        "log_qp": 206,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 49,
+        "evaluation_key_headroom_bits": 8,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "required_rescale_levels": 3,
+      "level_guard": 0,
+      "precision_target_bits": 28,
+      "message_magnitude_bits": 7,
+      "analysis_scale_bits": 31,
+      "backend_scale_lift_bits": 0,
+      "backend_validation_attempts": 1,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 1,
+      "generation_kind": "analysis_minimum",
+      "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=206 analysis_scale_bits=31 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+    },
+    "finite_fastest_executable": {
+      "id": "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          41,
+          31,
+          31,
+          31,
+          31
+        ],
+        "log_p": [
+          41
+        ],
+        "log_default_scale": 31
+      },
+      "security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 206,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 8,
+        "admission_status": "PASS",
+        "log_q": 165,
+        "log_p": 41,
+        "log_qp": 206,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 49,
+        "evaluation_key_headroom_bits": 8,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "required_rescale_levels": 3,
+      "level_guard": 0,
+      "precision_target_bits": 28,
+      "message_magnitude_bits": 7,
+      "analysis_scale_bits": 31,
+      "backend_scale_lift_bits": 0,
+      "backend_validation_attempts": 1,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 1,
+      "generation_kind": "analysis_minimum",
+      "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=206 analysis_scale_bits=31 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+    },
+    "numeric_rmse": {
+      "id": "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          41,
+          31,
+          31,
+          31,
+          31
+        ],
+        "log_p": [
+          41
+        ],
+        "log_default_scale": 31
+      },
+      "security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 206,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 8,
+        "admission_status": "PASS",
+        "log_q": 165,
+        "log_p": 41,
+        "log_qp": 206,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 49,
+        "evaluation_key_headroom_bits": 8,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "required_rescale_levels": 3,
+      "level_guard": 0,
+      "precision_target_bits": 28,
+      "message_magnitude_bits": 7,
+      "analysis_scale_bits": 31,
+      "backend_scale_lift_bits": 0,
+      "backend_validation_attempts": 1,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 1,
+      "generation_kind": "analysis_minimum",
+      "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=206 analysis_scale_bits=31 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+    },
+    "numeric_max_abs": {
+      "id": "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          41,
+          31,
+          31,
+          31,
+          31
+        ],
+        "log_p": [
+          41
+        ],
+        "log_default_scale": 31
+      },
+      "security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 206,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 8,
+        "admission_status": "PASS",
+        "log_q": 165,
+        "log_p": 41,
+        "log_qp": 206,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 49,
+        "evaluation_key_headroom_bits": 8,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "required_rescale_levels": 3,
+      "level_guard": 0,
+      "precision_target_bits": 28,
+      "message_magnitude_bits": 7,
+      "analysis_scale_bits": 31,
+      "backend_scale_lift_bits": 0,
+      "backend_validation_attempts": 1,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 1,
+      "generation_kind": "analysis_minimum",
+      "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=206 analysis_scale_bits=31 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+    }
+  },
+  "finite_entries": [
+    {
+      "candidate": {
+        "id": "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d",
+        "path": "rescale",
+        "parameters": {
+          "log_n": 13,
+          "log_q": [
+            41,
+            31,
+            31,
+            31,
+            31
+          ],
+          "log_p": [
+            41
+          ],
+          "log_default_scale": 31
+        },
+        "security": {
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "target_bits": 128,
+          "declared_log_qp": 206,
+          "max_allowed_log_qp": 214,
+          "headroom_bits": 8,
+          "admission_status": "PASS",
+          "log_q": 165,
+          "log_p": 41,
+          "log_qp": 206,
+          "ciphertext_q_admission": "PASS",
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "ciphertext_headroom_bits": 49,
+          "evaluation_key_headroom_bits": 8,
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+        },
+        "required_rescale_levels": 3,
+        "level_guard": 0,
+        "precision_target_bits": 28,
+        "message_magnitude_bits": 7,
+        "analysis_scale_bits": 31,
+        "backend_scale_lift_bits": 0,
+        "backend_validation_attempts": 1,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 1,
+        "generation_kind": "analysis_minimum",
+        "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=206 analysis_scale_bits=31 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+      },
+      "status": "SAFE",
+      "executable": true,
+      "mean_total_ms": 18457.246548,
+      "numeric": [
+        {
+          "key": 1,
+          "rmse": 7.060853826309868e-06,
+          "max_abs": 5.1342936991716215e-05
+        },
+        {
+          "key": 2,
+          "rmse": 7.087707673263498e-06,
+          "max_abs": 5.3858157190944667e-05
+        },
+        {
+          "key": 3,
+          "rmse": 6.811150752511872e-06,
+          "max_abs": 5.136502852209901e-05
+        }
+      ],
+      "rmse_pass": true,
+      "max_abs_pass": true,
+      "raw": "results/fg_expand_v2_20260905_run01/cases/seed_1/finite/candidate_00"
+    },
+    {
+      "candidate": {
+        "id": "synth_repair_level_1_rescale_N14_Q6_S31_742f6599b55d",
+        "path": "rescale",
+        "parameters": {
+          "log_n": 14,
+          "log_q": [
+            41,
+            31,
+            31,
+            31,
+            31,
+            31
+          ],
+          "log_p": [
+            41
+          ],
+          "log_default_scale": 31
+        },
+        "security": {
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "target_bits": 128,
+          "declared_log_qp": 237,
+          "max_allowed_log_qp": 430,
+          "headroom_bits": 193,
+          "admission_status": "PASS",
+          "log_q": 196,
+          "log_p": 41,
+          "log_qp": 237,
+          "ciphertext_q_admission": "PASS",
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "ciphertext_headroom_bits": 234,
+          "evaluation_key_headroom_bits": 193,
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+        },
+        "required_rescale_levels": 3,
+        "level_guard": 1,
+        "precision_target_bits": 28,
+        "message_magnitude_bits": 7,
+        "analysis_scale_bits": 31,
+        "backend_scale_lift_bits": 0,
+        "backend_validation_attempts": 1,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 1,
+        "generation_kind": "repair_level_1",
+        "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=1 declared_logQP=237 analysis_scale_bits=31 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+      },
+      "status": "SAFE",
+      "executable": true,
+      "mean_total_ms": 43507.78756533333,
+      "numeric": [
+        {
+          "key": 1,
+          "rmse": 1.4713776253592399e-05,
+          "max_abs": 0.00011392355389716613
+        },
+        {
+          "key": 2,
+          "rmse": 1.4127242876500025e-05,
+          "max_abs": 0.00011185711298722367
+        },
+        {
+          "key": 3,
+          "rmse": 1.389847920014417e-05,
+          "max_abs": 0.00011430972744363999
+        }
+      ],
+      "rmse_pass": true,
+      "max_abs_pass": true,
+      "raw": "results/fg_expand_v2_20260905_run01/cases/seed_1/finite/candidate_01"
+    },
+    {
+      "candidate": {
+        "id": "synth_repair_scale_1_rescale_N14_Q5_S35_742f6599b55d",
+        "path": "rescale",
+        "parameters": {
+          "log_n": 14,
+          "log_q": [
+            45,
+            35,
+            35,
+            35,
+            35
+          ],
+          "log_p": [
+            45
+          ],
+          "log_default_scale": 35
+        },
+        "security": {
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "target_bits": 128,
+          "declared_log_qp": 230,
+          "max_allowed_log_qp": 430,
+          "headroom_bits": 200,
+          "admission_status": "PASS",
+          "log_q": 185,
+          "log_p": 45,
+          "log_qp": 230,
+          "ciphertext_q_admission": "PASS",
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "ciphertext_headroom_bits": 245,
+          "evaluation_key_headroom_bits": 200,
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+        },
+        "required_rescale_levels": 3,
+        "level_guard": 0,
+        "precision_target_bits": 28,
+        "message_magnitude_bits": 7,
+        "analysis_scale_bits": 35,
+        "backend_scale_lift_bits": 0,
+        "backend_validation_attempts": 1,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 1,
+        "generation_kind": "repair_scale_1",
+        "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=230 analysis_scale_bits=35 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+      },
+      "status": "SAFE",
+      "executable": true,
+      "mean_total_ms": 36456.01791233334,
+      "numeric": [
+        {
+          "key": 1,
+          "rmse": 8.594598089626339e-07,
+          "max_abs": 7.10610469667472e-06
+        },
+        {
+          "key": 2,
+          "rmse": 8.701391082560111e-07,
+          "max_abs": 5.776006478441786e-06
+        },
+        {
+          "key": 3,
+          "rmse": 8.928534275326486e-07,
+          "max_abs": 9.096841996125704e-06
+        }
+      ],
+      "rmse_pass": true,
+      "max_abs_pass": true,
+      "raw": "results/fg_expand_v2_20260905_run01/cases/seed_1/finite/candidate_02"
+    },
+    {
+      "candidate": {
+        "id": "synth_repair_level_2_rescale_N14_Q6_S35_742f6599b55d",
+        "path": "rescale",
+        "parameters": {
+          "log_n": 14,
+          "log_q": [
+            45,
+            35,
+            35,
+            35,
+            35,
+            35
+          ],
+          "log_p": [
+            45
+          ],
+          "log_default_scale": 35
+        },
+        "security": {
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "target_bits": 128,
+          "declared_log_qp": 265,
+          "max_allowed_log_qp": 430,
+          "headroom_bits": 165,
+          "admission_status": "PASS",
+          "log_q": 220,
+          "log_p": 45,
+          "log_qp": 265,
+          "ciphertext_q_admission": "PASS",
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "ciphertext_headroom_bits": 210,
+          "evaluation_key_headroom_bits": 165,
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+        },
+        "required_rescale_levels": 3,
+        "level_guard": 1,
+        "precision_target_bits": 28,
+        "message_magnitude_bits": 7,
+        "analysis_scale_bits": 35,
+        "backend_scale_lift_bits": 0,
+        "backend_validation_attempts": 1,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 1,
+        "generation_kind": "repair_level_2",
+        "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=1 declared_logQP=265 analysis_scale_bits=35 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+      },
+      "status": "SAFE",
+      "executable": true,
+      "mean_total_ms": 43009.045549333336,
+      "numeric": [
+        {
+          "key": 1,
+          "rmse": 8.900754209404041e-07,
+          "max_abs": 6.698700250495904e-06
+        },
+        {
+          "key": 2,
+          "rmse": 8.936486691795683e-07,
+          "max_abs": 7.320583549130788e-06
+        },
+        {
+          "key": 3,
+          "rmse": 8.494327686508442e-07,
+          "max_abs": 7.417479096716306e-06
+        }
+      ],
+      "rmse_pass": true,
+      "max_abs_pass": true,
+      "raw": "results/fg_expand_v2_20260905_run01/cases/seed_1/finite/candidate_03"
+    },
+    {
+      "candidate": {
+        "id": "synth_repair_scale_2_rescale_N14_Q5_S39_742f6599b55d",
+        "path": "rescale",
+        "parameters": {
+          "log_n": 14,
+          "log_q": [
+            49,
+            39,
+            39,
+            39,
+            39
+          ],
+          "log_p": [
+            49
+          ],
+          "log_default_scale": 39
+        },
+        "security": {
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "target_bits": 128,
+          "declared_log_qp": 254,
+          "max_allowed_log_qp": 430,
+          "headroom_bits": 176,
+          "admission_status": "PASS",
+          "log_q": 205,
+          "log_p": 49,
+          "log_qp": 254,
+          "ciphertext_q_admission": "PASS",
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "ciphertext_headroom_bits": 225,
+          "evaluation_key_headroom_bits": 176,
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+        },
+        "required_rescale_levels": 3,
+        "level_guard": 0,
+        "precision_target_bits": 28,
+        "message_magnitude_bits": 7,
+        "analysis_scale_bits": 39,
+        "backend_scale_lift_bits": 0,
+        "backend_validation_attempts": 1,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 1,
+        "generation_kind": "repair_scale_2",
+        "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=254 analysis_scale_bits=39 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+      },
+      "status": "SAFE",
+      "executable": true,
+      "mean_total_ms": 36167.58974933333,
+      "numeric": [
+        {
+          "key": 1,
+          "rmse": 5.5926811001028064e-08,
+          "max_abs": 4.294362874190938e-07
+        },
+        {
+          "key": 2,
+          "rmse": 5.502325936587379e-08,
+          "max_abs": 4.737169945201458e-07
+        },
+        {
+          "key": 3,
+          "rmse": 5.441501624792957e-08,
+          "max_abs": 4.749102480161582e-07
+        }
+      ],
+      "rmse_pass": true,
+      "max_abs_pass": true,
+      "raw": "results/fg_expand_v2_20260905_run01/cases/seed_1/finite/candidate_04"
+    },
+    {
+      "candidate": {
+        "id": "synth_repair_level_3_rescale_N14_Q6_S39_742f6599b55d",
+        "path": "rescale",
+        "parameters": {
+          "log_n": 14,
+          "log_q": [
+            49,
+            39,
+            39,
+            39,
+            39,
+            39
+          ],
+          "log_p": [
+            49
+          ],
+          "log_default_scale": 39
+        },
+        "security": {
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "target_bits": 128,
+          "declared_log_qp": 293,
+          "max_allowed_log_qp": 430,
+          "headroom_bits": 137,
+          "admission_status": "PASS",
+          "log_q": 244,
+          "log_p": 49,
+          "log_qp": 293,
+          "ciphertext_q_admission": "PASS",
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "ciphertext_headroom_bits": 186,
+          "evaluation_key_headroom_bits": 137,
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+        },
+        "required_rescale_levels": 3,
+        "level_guard": 1,
+        "precision_target_bits": 28,
+        "message_magnitude_bits": 7,
+        "analysis_scale_bits": 39,
+        "backend_scale_lift_bits": 0,
+        "backend_validation_attempts": 1,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 1,
+        "generation_kind": "repair_level_3",
+        "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=1 declared_logQP=293 analysis_scale_bits=39 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+      },
+      "status": "SAFE",
+      "executable": true,
+      "mean_total_ms": 42846.084954666665,
+      "numeric": [
+        {
+          "key": 1,
+          "rmse": 5.926599049988152e-08,
+          "max_abs": 5.064493908690793e-07
+        },
+        {
+          "key": 2,
+          "rmse": 5.3067383718231557e-08,
+          "max_abs": 3.900187799388277e-07
+        },
+        {
+          "key": 3,
+          "rmse": 5.467055084668422e-08,
+          "max_abs": 3.854034726913369e-07
+        }
+      ],
+      "rmse_pass": true,
+      "max_abs_pass": true,
+      "raw": "results/fg_expand_v2_20260905_run01/cases/seed_1/finite/candidate_05"
+    },
+    {
+      "candidate": {
+        "id": "synth_repair_scale_3_rescale_N14_Q5_S43_742f6599b55d",
+        "path": "rescale",
+        "parameters": {
+          "log_n": 14,
+          "log_q": [
+            53,
+            43,
+            43,
+            43,
+            43
+          ],
+          "log_p": [
+            53
+          ],
+          "log_default_scale": 43
+        },
+        "security": {
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "target_bits": 128,
+          "declared_log_qp": 278,
+          "max_allowed_log_qp": 430,
+          "headroom_bits": 152,
+          "admission_status": "PASS",
+          "log_q": 225,
+          "log_p": 53,
+          "log_qp": 278,
+          "ciphertext_q_admission": "PASS",
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "ciphertext_headroom_bits": 205,
+          "evaluation_key_headroom_bits": 152,
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+        },
+        "required_rescale_levels": 3,
+        "level_guard": 0,
+        "precision_target_bits": 28,
+        "message_magnitude_bits": 7,
+        "analysis_scale_bits": 43,
+        "backend_scale_lift_bits": 0,
+        "backend_validation_attempts": 1,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 1,
+        "generation_kind": "repair_scale_3",
+        "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=278 analysis_scale_bits=43 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+      },
+      "status": "SAFE",
+      "executable": true,
+      "mean_total_ms": 36237.668029,
+      "numeric": [
+        {
+          "key": 1,
+          "rmse": 3.4604375440655273e-09,
+          "max_abs": 3.208148768862884e-08
+        },
+        {
+          "key": 2,
+          "rmse": 3.4408510920632662e-09,
+          "max_abs": 2.4515468766139747e-08
+        },
+        {
+          "key": 3,
+          "rmse": 3.702538821663966e-09,
+          "max_abs": 2.940671706141984e-08
+        }
+      ],
+      "rmse_pass": true,
+      "max_abs_pass": true,
+      "raw": "results/fg_expand_v2_20260905_run01/cases/seed_1/finite/candidate_06"
+    },
+    {
+      "candidate": {
+        "id": "synth_repair_level_4_rescale_N14_Q6_S43_742f6599b55d",
+        "path": "rescale",
+        "parameters": {
+          "log_n": 14,
+          "log_q": [
+            53,
+            43,
+            43,
+            43,
+            43,
+            43
+          ],
+          "log_p": [
+            53
+          ],
+          "log_default_scale": 43
+        },
+        "security": {
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "target_bits": 128,
+          "declared_log_qp": 321,
+          "max_allowed_log_qp": 430,
+          "headroom_bits": 109,
+          "admission_status": "PASS",
+          "log_q": 268,
+          "log_p": 53,
+          "log_qp": 321,
+          "ciphertext_q_admission": "PASS",
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "ciphertext_headroom_bits": 162,
+          "evaluation_key_headroom_bits": 109,
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+        },
+        "required_rescale_levels": 3,
+        "level_guard": 1,
+        "precision_target_bits": 28,
+        "message_magnitude_bits": 7,
+        "analysis_scale_bits": 43,
+        "backend_scale_lift_bits": 0,
+        "backend_validation_attempts": 1,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 1,
+        "generation_kind": "repair_level_4",
+        "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=1 declared_logQP=321 analysis_scale_bits=43 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+      },
+      "status": "SAFE",
+      "executable": true,
+      "mean_total_ms": 43849.141806666674,
+      "numeric": [
+        {
+          "key": 1,
+          "rmse": 3.430058154828769e-09,
+          "max_abs": 2.502845219964911e-08
+        },
+        {
+          "key": 2,
+          "rmse": 3.717323322426401e-09,
+          "max_abs": 4.0067167361712563e-08
+        },
+        {
+          "key": 3,
+          "rmse": 3.603405284732233e-09,
+          "max_abs": 3.236262813288704e-08
+        }
+      ],
+      "rmse_pass": true,
+      "max_abs_pass": true,
+      "raw": "results/fg_expand_v2_20260905_run01/cases/seed_1/finite/candidate_07"
+    }
+  ],
+  "minimum_max_error_diagnostic": {
+    "id": "synth_repair_scale_3_rescale_N14_Q5_S43_742f6599b55d",
+    "path": "rescale",
+    "parameters": {
+      "log_n": 14,
+      "log_q": [
+        53,
+        43,
+        43,
+        43,
+        43
+      ],
+      "log_p": [
+        53
+      ],
+      "log_default_scale": 43
+    },
+    "security": {
+      "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+      "target_bits": 128,
+      "declared_log_qp": 278,
+      "max_allowed_log_qp": 430,
+      "headroom_bits": 152,
+      "admission_status": "PASS",
+      "log_q": 225,
+      "log_p": 53,
+      "log_qp": 278,
+      "ciphertext_q_admission": "PASS",
+      "evaluation_key_qp_admission": "PASS",
+      "final_admission": "PASS",
+      "ciphertext_headroom_bits": 205,
+      "evaluation_key_headroom_bits": 152,
+      "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+    },
+    "required_rescale_levels": 3,
+    "level_guard": 0,
+    "precision_target_bits": 28,
+    "message_magnitude_bits": 7,
+    "analysis_scale_bits": 43,
+    "backend_scale_lift_bits": 0,
+    "backend_validation_attempts": 1,
+    "same_tier_precision_gain_bits": 0,
+    "same_tier_static_candidates_tried": 1,
+    "generation_kind": "repair_scale_3",
+    "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=278 analysis_scale_bits=43 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+  },
+  "minimum_error_audit": "not separately required; selection-only diagnostic",
+  "thresholds": {
+    "rmse": 0.0026124242411956584,
+    "max_abs": 0.029613854530992967
+  },
+  "finite_analysis": "all candidates evaluated; retrospective finite-set argmin, not a bounded online selector",
+  "retuning": 0,
+  "planning_sha256": "2a5271b65359d71d3454166f8abd9a253b08001210277b50318d28e49493f72f"
+}

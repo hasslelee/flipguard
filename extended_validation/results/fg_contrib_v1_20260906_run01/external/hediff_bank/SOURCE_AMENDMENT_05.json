@@ -1,0 +1,8 @@
+{
+  "path": "scripts/hediff_bank_contrib_v1.py",
+  "old_sha256": "549f9c5dad8f76449266a4c5379c619f4276dc0b02ca9c60297b139fe47c2a77",
+  "new_sha256": "7978e77edf76a6fe6ab1d4829d4ab1946a2ac1e719593044e7de19dea72eab6f",
+  "utc": "2026-09-05T18:25:35.039312+00:00",
+  "reason": "Before any external training or CKKS: remove scalar output projection; preserve both original logits using exact square identity and separately bound graph adapter; no C core rule or existing internal source changed",
+  "external_commands_started": 0
+}

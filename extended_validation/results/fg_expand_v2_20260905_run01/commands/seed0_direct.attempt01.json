@@ -1,0 +1,40 @@
+{
+  "command": [
+    "/usr/bin/time",
+    "-v",
+    "/home/ckks2/deciprotect/research/fashion_extension/bin/fashion-case",
+    "--mode",
+    "direct",
+    "--plan",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_0/planning/plan.json",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_0/direct"
+  ],
+  "cwd": "/home/ckks2/deciprotect",
+  "started": {
+    "utc": "2026-09-05T11:08:48.248967+00:00",
+    "load_average": [
+      2.091796875,
+      1.21875,
+      0.81640625
+    ],
+    "mem_available": "10812224 kB",
+    "swap_free": "3830612 kB",
+    "disk_free": 24042405888
+  },
+  "finished": {
+    "utc": "2026-09-05T11:09:22.724820+00:00",
+    "load_average": [
+      1.97705078125,
+      1.2900390625,
+      0.85595703125
+    ],
+    "mem_available": "10858420 kB",
+    "swap_free": "3830612 kB",
+    "disk_free": 24042381312
+  },
+  "wall_seconds": 34.4759606839998,
+  "exit_code": 143,
+  "status": "COMPLETED",
+  "binary_sha256": "c358a601f15bc3713c8879a9cc3867292b83917f83356e99185e9b635d2203a2"
+}

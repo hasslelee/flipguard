@@ -1,0 +1,68 @@
+{
+  "status": "PASS_SCOPED_PRESERVATION_CHECK",
+  "utc": "2026-09-05T14:11:04.035876+00:00",
+  "starting_head": "b64fa9c100f4f13789e3012a8e2258a48034f5d0",
+  "head_before_recording": "b64fa9c100f4f13789e3012a8e2258a48034f5d0",
+  "initial_worktree_clean": true,
+  "modified_existing_files": [
+    ".gitattributes",
+    ".github/workflows/verify.yml",
+    "README.md",
+    "docs/project_sync/CHATGPT_HANDOFF.md",
+    "docs/project_sync/CODEX_HANDOFF.md",
+    "docs/project_sync/OPEN_ISSUES.md",
+    "docs/project_sync/PROJECT_SYNC_INDEX.md",
+    "docs/project_sync/RESEARCH_STATE.json",
+    "docs/project_sync/SHA256SUMS",
+    "docs/project_sync/SYNC_CHANGELOG.md",
+    "docs/research/THESIS_ROADMAP.md",
+    "scripts/build_handoff.py"
+  ],
+  "baseline_archive_or_completed_evidence_modifications": [],
+  "predecessor_head": "67251c57ca7be5aa8aeffd746a6a6671685e98c5",
+  "predecessor_tracked_status": [
+    " M AGENTS.md"
+  ],
+  "predecessor_tracked_diff_sha256": "1044a3fe66935f649ad80b89ba6d6ebf2c3913fedfa0d2d31320973ed8a3a8af",
+  "preexisting_agents_change_preserved": true,
+  "predecessor_head_status_diff_match_prior_preservation": true,
+  "final_pdf_sha256": "0210899a12ff1025db358e1812159ca4af2b5c6095a79e2b7b19200d7e9f3b85",
+  "final_pdf_matches_existing_freeze": true,
+  "prior_mutable_documents_copied": [
+    {
+      "source": "docs/project_sync/CODEX_HANDOFF.md",
+      "copy": "docs/research/fg_expand_v2_20260905/history/CODEX_HANDOFF.md",
+      "sha256": "89a7f0f85065f42f9d067afafc947d7104e6bd935b74d09678155229bc701d3e"
+    },
+    {
+      "source": "docs/project_sync/RESEARCH_STATE.json",
+      "copy": "docs/research/fg_expand_v2_20260905/history/RESEARCH_STATE.json",
+      "sha256": "c1d9dc2f1f4efa9b4c6439f74eab0f30ba50937d5054245f5d82b7b665dbfb4f"
+    },
+    {
+      "source": "docs/project_sync/CHATGPT_HANDOFF.md",
+      "copy": "docs/research/fg_expand_v2_20260905/history/CHATGPT_HANDOFF.md",
+      "sha256": "89a7f0f85065f42f9d067afafc947d7104e6bd935b74d09678155229bc701d3e"
+    },
+    {
+      "source": "docs/project_sync/PROJECT_SYNC_INDEX.md",
+      "copy": "docs/research/fg_expand_v2_20260905/history/PROJECT_SYNC_INDEX.md",
+      "sha256": "0a3054fa3d7e1f665b5ff21a9abec46037b260ab92892dea2b60c3cd8c1c2e5e"
+    },
+    {
+      "source": "docs/research/THESIS_ROADMAP.md",
+      "copy": "docs/research/fg_expand_v2_20260905/history/THESIS_ROADMAP.md",
+      "sha256": "23c407db47f8e297c191e4cc47c92b20de43970d0f61a73d2d6f929d86e2b0a6"
+    }
+  ],
+  "archive_tracked_files": 0,
+  "archive_full_hash_or_inventory_repeated": false,
+  "predecessor_code_or_interpreter_executed": false,
+  "original_or_completed_evidence_writes_by_this_task": false,
+  "archive_uploaded": false,
+  "new_raw_manifest_entries": 910,
+  "new_raw_bytes_including_manifest": 379937815,
+  "scope": "Tracked content and refs/status, named PDF and protocol payload checks; prior archive verification reused. Not a full archive rehash or filesystem metadata/atime equality claim.",
+  "run_finished": true,
+  "automatic_followup_started": false
+}

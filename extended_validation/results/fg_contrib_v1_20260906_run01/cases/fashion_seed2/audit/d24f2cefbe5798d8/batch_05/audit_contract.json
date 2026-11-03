@@ -1,0 +1,84 @@
+{
+  "schema_version": 2,
+  "workload_id": "fashion_mnist_10class__fashion_mnist_mlp_square_784_100_10_v1__contribution/locked_audit",
+  "dataset_id": "fashion_mnist_10class",
+  "model_id": "fashion_mnist_mlp_square_784_100_10_v1",
+  "model_type": "mlp_square_multiclass",
+  "split_id": "contribution/locked_audit",
+  "model_artifact": {
+    "path": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/plaintext/seed_2/model.json",
+    "sha256": "sha256:ddd43b8c5f97239db86a6ae7c5e3fd8b2a83eaee7b42721cf4e95a0723da02f1"
+  },
+  "validation_data": {
+    "path": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_05.csv",
+    "sha256": "sha256:de669f4ebf97bde2dfd6d45d0a951629fcc07dc4f42a39c65ffe03d59c83af21"
+  },
+  "source_data": {
+    "path": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/DATA_SOURCE.json",
+    "sha256": "sha256:654d6cc8f93eb38f9902fff5b52b544ce7c762534b9f1ae42b2e3e2207954803"
+  },
+  "input_materialization": {
+    "schema_version": "mnist_multiclass_materialization_v1",
+    "source_feature_space": "official_fashion_mnist_28x28_uint8_v1",
+    "preprocessing_method": "fashion_mnist_train_sha256_stratified_rank_v1",
+    "source_replay_verified": true
+  },
+  "graph": {
+    "multiplicative_depth": 1,
+    "add_ops": 79400,
+    "mul_ops": 79500,
+    "rot_ops": 0,
+    "rescale_ops": 1,
+    "notes": [
+      "exact affine/square operation inventory for 784-100-10 MLP",
+      "feature ciphertexts use sample slots; no rotation",
+      "one square consumes three Q levels and the terminal affine has scale exponent two under the Lattigo v6 scalar/rescale trace"
+    ]
+  },
+  "decision": {
+    "threshold": 0,
+    "margin_floor": 0,
+    "safety_factor": 0,
+    "protected_margin": 0,
+    "output_error_budget": 0,
+    "validation_digest": "",
+    "validation_samples": 0,
+    "certifiable_samples": 0,
+    "ambiguous_samples": 0
+  },
+  "multiclass_decision": {
+    "schema_version": "decision_integrity_contract_v2",
+    "class_count": 10,
+    "tie_break": "lowest_class_index",
+    "bound_mode": "uniform_per_logit_v1",
+    "margin_floor": 0.001,
+    "margin_utilization_cap": 0.5,
+    "protected_top_two_gap": 0.004151296563380313,
+    "per_logit_error_budget": 0.0010378241408450783,
+    "validation_digest": "sha256:203e5962005007f9f09e88ec099844ce30684952980ea7cba3371b336eb5cc6c",
+    "validation_samples": 500,
+    "certifiable_samples": 500,
+    "ambiguous_samples": 0
+  },
+  "calibration": {
+    "max_input_abs": 1,
+    "max_plaintext_output_abs": 52.545106219197116,
+    "aggregate_sensitivity": 538481.4847528723,
+    "sensitivity_method": "empirical_interval_dag_sum_v1",
+    "calibration_scope": "configuration_validation:sha256:cd404c837b405027d61f44bfcea30fb771f6b72123978f36ad54912c8b2d46db;underlying_method=empirical_layerwise_linf_roundoff_v1"
+  },
+  "deployment": {
+    "security_bits": 128,
+    "required_slots": 500,
+    "max_encrypted_trials": 4,
+    "validation_key_repeats": 3,
+    "packing_strategy": "feature_ciphertext_sample_slots_v1",
+    "allowed_paths": [
+      "rescale"
+    ],
+    "scale_trace_method": "lattigo_v6_rescale_scale_trace_v1",
+    "rescale_levels_consumed": 3,
+    "terminal_scale_exponent": 2,
+    "required_q_primes": 5
+  }
+}

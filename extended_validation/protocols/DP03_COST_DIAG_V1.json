@@ -1,0 +1,53 @@
+{
+  "protocol_id": "DP03_COST_DIAG_V1",
+  "created_at_utc": "2026-09-05T08:14:30.565954+00:00",
+  "role": "EXPLORATORY_RECOMPUTATION_COST_STRUCTURE_ONLY",
+  "parent_protocol": "DP_PILOT_V1A",
+  "parent_run": "results/dp_pilot_v1a_20260905",
+  "scope": "Spambase logistic_linear only; no training, calibration, policy tuning, queue implementation or risk admission",
+  "training_seeds": [
+    20260905,
+    20260906,
+    20260907
+  ],
+  "key_repetitions": 3,
+  "batch_sizes": [
+    842,
+    128
+  ],
+  "tail_batch": "Retain final 74 rows in the 128 condition; retain parent input order",
+  "arms": [
+    "fixed_high",
+    "fixed_high_gate",
+    "two_stage"
+  ],
+  "key_lifecycle": "Fresh independent low or high key pair for EVERY executed native call, matching the original fresh-call policy; high key cannot be reused across independently keyed calls. Parameter construction is cold per call; all arms include their own actual parameter/key/context setup. One key per invocation replaces the historical repeats=3 CLI batching, with no change to the per-key decision rule.",
+  "scales": {
+    "low": 18,
+    "high": 30
+  },
+  "radii": "Read all three existing deployment_lock.json values unchanged",
+  "parameters": "Same parametersForRequest and evaluator as current harness; actual Q/P checked against parent outputs at every successful call",
+  "client_server": "One local process simulates both roles. Client owns preprocessed original features and gathers retry rows before fresh high-precision encoding/encryption. Server evaluator takes ciphertexts, plaintext model constants, parameters and evaluation keys only.",
+  "packing": "One ciphertext per feature; rows occupy slots; no rotations; same maximal slot capacity for full and partial batches at each scale",
+  "order_seed": 2026090503,
+  "order": "Shuffle 72 model/repeat/batch/chunk blocks; cycle shuffled six arm permutations for position balance. Lock complete 216-arm schedule before measurements.",
+  "budget": {
+    "planned_arm_trials": 216,
+    "max_native_calls": 288,
+    "measurement_retries": 0,
+    "native_timeout_seconds": 120,
+    "total_wall_budget_seconds": 900
+  },
+  "budget_basis": "No independent frozen DP-03 protocol or numerical budget exists. Inherit all 3 model seeds and 3 key repeats; use original 842 and one roadmap batch candidate 128 only. This bounded diagnostic budget is not a statistical power calculation.",
+  "failure_handling": "Preserve every attempted call, unfavorable duration, execution failure and unexecuted scheduled work; continue independent arms within budget. No success-based stopping or replacement trials.",
+  "cost_scope": "Instrumented local call path with parameter/key/context, client encoding/encryption, server weight preparation and HE operators, client decryption/decoding/gate, retry selection/materialization, actual JSON-file/subprocess overhead and measured observer overhead. Initial loading of already preprocessed parent inputs and model, initial build, audit/report writing are outside each arm.",
+  "unmeasured": {
+    "network_ms": null,
+    "queue_wait_ms": null,
+    "ciphertext_wire_serialization_ms": null
+  },
+  "units": "One row request is operational trace, not an independent statistical sample; original batch is an execution grouping. Keys and slots do not imply IID evidence.",
+  "statistics": "All observed values, means and raw totals only; no CI, significance, latency superiority or previous 600-trial risk bound. No coverage pass threshold.",
+  "next_stage": "Recommend exactly one minimal queue experiment from evidence; do not execute it in this stage."
+}

@@ -1,0 +1,38 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/bin/contribution-case",
+    "--mode",
+    "materialize",
+    "--model",
+    "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/model.json",
+    "--data",
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order2_n256.raw.csv",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order2_n256.prepared"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 0.019237605000171243,
+  "charged_native": false,
+  "result_exists": true,
+  "before": {
+    "utc": "2026-09-08T09:33:26.885036+00:00",
+    "available_memory_bytes": 11640852480,
+    "free_disk_bytes": 21454848000,
+    "load": [
+      0.5908203125,
+      0.63623046875,
+      0.7255859375
+    ]
+  },
+  "after": {
+    "utc": "2026-09-08T09:33:26.906723+00:00",
+    "available_memory_bytes": 11640676352,
+    "free_disk_bytes": 21454716928,
+    "load": [
+      0.5908203125,
+      0.63623046875,
+      0.7255859375
+    ]
+  },
+  "status": "COMPLETED"
+}

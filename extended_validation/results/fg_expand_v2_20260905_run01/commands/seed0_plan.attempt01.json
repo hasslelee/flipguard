@@ -1,0 +1,44 @@
+{
+  "command": [
+    "/usr/bin/time",
+    "-v",
+    "/home/ckks2/deciprotect/research/fashion_extension/bin/fashion-case",
+    "--mode",
+    "plan",
+    "--model",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/plaintext/seed_0/model.json",
+    "--data",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/selection.csv",
+    "--source",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/DATA_SOURCE.json",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_0/planning"
+  ],
+  "cwd": "/home/ckks2/deciprotect",
+  "started": {
+    "utc": "2026-09-05T11:08:47.951621+00:00",
+    "load_average": [
+      2.091796875,
+      1.21875,
+      0.81640625
+    ],
+    "mem_available": "10822572 kB",
+    "swap_free": "3830612 kB",
+    "disk_free": 24042668032
+  },
+  "finished": {
+    "utc": "2026-09-05T11:08:48.229877+00:00",
+    "load_average": [
+      2.091796875,
+      1.21875,
+      0.81640625
+    ],
+    "mem_available": "10812220 kB",
+    "swap_free": "3830612 kB",
+    "disk_free": 24042450944
+  },
+  "wall_seconds": 0.2783533970014105,
+  "exit_code": 0,
+  "status": "COMPLETED",
+  "binary_sha256": "c358a601f15bc3713c8879a9cc3867292b83917f83356e99185e9b635d2203a2"
+}

@@ -1,0 +1,37 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/bin/bank-case",
+    "--mode",
+    "plan",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/planning/plan.json",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/static/hediff_bank/Cprime",
+    "--cprime"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 0.167848868999954,
+  "charged_native": false,
+  "result_exists": true,
+  "before": {
+    "utc": "2026-09-08T09:32:26.227018+00:00",
+    "available_memory_bytes": 11616698368,
+    "free_disk_bytes": 21453496320,
+    "load": [
+      0.28466796875,
+      0.6103515625,
+      0.72509765625
+    ]
+  },
+  "after": {
+    "utc": "2026-09-08T09:32:26.396738+00:00",
+    "available_memory_bytes": 11614842880,
+    "free_disk_bytes": 21453463552,
+    "load": [
+      0.28466796875,
+      0.6103515625,
+      0.72509765625
+    ]
+  },
+  "status": "COMPLETED"
+}

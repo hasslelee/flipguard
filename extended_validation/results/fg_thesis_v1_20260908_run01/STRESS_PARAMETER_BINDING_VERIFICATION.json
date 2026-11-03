@@ -1,0 +1,75 @@
+{
+  "utc": "2026-09-08T12:23:41.464326+00:00",
+  "scope": "supplemental read-only validation after ZIP creation; raw-stress mode has no local concrete.json, so compare its Q/P to the already bound same-literal normal-audit concrete record",
+  "extra_key_records": 9,
+  "previous_direct_concrete_key_records": 312,
+  "all_main_key_records_covered": 321,
+  "result": "PASS",
+  "checks": [
+    {
+      "raw_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/24122c3ebccc694f/exposed_synthetic/batch_00/key_1.json",
+      "raw_sha256": "859f7a69f1a0c26f3f4d088964f67c783dd568334a489cc46ad8d607e1e8b397",
+      "same_literal_concrete_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/24122c3ebccc694f/existing_audit/batch_00/concrete.json",
+      "concrete_sha256": "ae7964366c07b455add7cef3b79ea048ae42e9c3fec9c74b59df1617412d1b63",
+      "actual_Q_P_match": true
+    },
+    {
+      "raw_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/24122c3ebccc694f/exposed_synthetic/batch_00/key_2.json",
+      "raw_sha256": "cf5d14966f59f07deb87437168cf7696d12f00fd5c1b14e955a82d31eab8714a",
+      "same_literal_concrete_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/24122c3ebccc694f/existing_audit/batch_00/concrete.json",
+      "concrete_sha256": "ae7964366c07b455add7cef3b79ea048ae42e9c3fec9c74b59df1617412d1b63",
+      "actual_Q_P_match": true
+    },
+    {
+      "raw_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/24122c3ebccc694f/exposed_synthetic/batch_00/key_3.json",
+      "raw_sha256": "f88fb1386da273d6edf3a32e6a1e3355f110d9aee02c52ecf6a3adb0ea45ea97",
+      "same_literal_concrete_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/24122c3ebccc694f/existing_audit/batch_00/concrete.json",
+      "concrete_sha256": "ae7964366c07b455add7cef3b79ea048ae42e9c3fec9c74b59df1617412d1b63",
+      "actual_Q_P_match": true
+    },
+    {
+      "raw_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/9e928b7f38b1fa2c/exposed_synthetic/batch_00/key_1.json",
+      "raw_sha256": "3b892cc99f1d95694332c11b7e8c9613d3c5ea68282f6630c3d0db1a2594856d",
+      "same_literal_concrete_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/9e928b7f38b1fa2c/existing_audit/batch_00/concrete.json",
+      "concrete_sha256": "1c01bf83d9a7299f4d6ab3f800d741cdf5f09be99fe8afbde09f8a38f0059706",
+      "actual_Q_P_match": true
+    },
+    {
+      "raw_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/9e928b7f38b1fa2c/exposed_synthetic/batch_00/key_2.json",
+      "raw_sha256": "81e8fbf875c71105227d04683b2f4da9adb08a4e9a10f85b6cf3a834f123ce02",
+      "same_literal_concrete_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/9e928b7f38b1fa2c/existing_audit/batch_00/concrete.json",
+      "concrete_sha256": "1c01bf83d9a7299f4d6ab3f800d741cdf5f09be99fe8afbde09f8a38f0059706",
+      "actual_Q_P_match": true
+    },
+    {
+      "raw_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/9e928b7f38b1fa2c/exposed_synthetic/batch_00/key_3.json",
+      "raw_sha256": "6daee3b4f0f294357b066cfc759c85b0141c3082fc1bd1d405828ac86886c8ec",
+      "same_literal_concrete_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/9e928b7f38b1fa2c/existing_audit/batch_00/concrete.json",
+      "concrete_sha256": "1c01bf83d9a7299f4d6ab3f800d741cdf5f09be99fe8afbde09f8a38f0059706",
+      "actual_Q_P_match": true
+    },
+    {
+      "raw_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/d5466aa2bec02013/exposed_synthetic/batch_00/key_1.json",
+      "raw_sha256": "13bc966b70734f7171467a0f0726c0799ce8b364ff3ae0ca8e617e07f4a54de8",
+      "same_literal_concrete_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/d5466aa2bec02013/existing_audit/batch_00/concrete.json",
+      "concrete_sha256": "a52ec878bcc89946128fd14febbbac27643d48fa8b657c421f545d9c77490586",
+      "actual_Q_P_match": true
+    },
+    {
+      "raw_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/d5466aa2bec02013/exposed_synthetic/batch_00/key_2.json",
+      "raw_sha256": "8dd6dda056421441cc40185b3d181dbdf6acab0dae2be8b8abfab229fc72693b",
+      "same_literal_concrete_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/d5466aa2bec02013/existing_audit/batch_00/concrete.json",
+      "concrete_sha256": "a52ec878bcc89946128fd14febbbac27643d48fa8b657c421f545d9c77490586",
+      "actual_Q_P_match": true
+    },
+    {
+      "raw_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/d5466aa2bec02013/exposed_synthetic/batch_00/key_3.json",
+      "raw_sha256": "039689715876ec531d506e314a9d16f7a1038323baf23c9a7700a7ea1716d0cb",
+      "same_literal_concrete_path": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/audit/hediff_bank/d5466aa2bec02013/existing_audit/batch_00/concrete.json",
+      "concrete_sha256": "a52ec878bcc89946128fd14febbbac27643d48fa8b657c421f545d9c77490586",
+      "actual_Q_P_match": true
+    }
+  ],
+  "new_CKKS": false,
+  "original_ZIP_unchanged": true
+}

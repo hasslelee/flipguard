@@ -1,0 +1,11 @@
+{
+  "recorded_utc": "2026-09-05T11:40:57.736939+00:00",
+  "phase": "before audit and before paired timing",
+  "pdf_definition": "encode_encrypt_ms + evaluation_only_ms + decrypt_decode_ms",
+  "existing_native_total": "retained separately; includes original harness plaintext reference and GC residual; paired excludes setup while accuracy native total includes setup",
+  "planned_reporting": "both native total ratio and PDF-defined three-component ratio; paired raw blocks unchanged",
+  "selection_rule_change": false,
+  "new_encryption_required": false,
+  "pdf_evidence": "verified final PDF p8 section5.2; PDF_METHOD_MAP_KO.md time row",
+  "source_evidence": "research/fashion_extension/internal/ckksbackend/v17_primary_paired_latency.go::runV17JournalMNISTBatch"
+}

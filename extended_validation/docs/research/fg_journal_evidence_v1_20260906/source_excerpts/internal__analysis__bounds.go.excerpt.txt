@@ -1,0 +1,212 @@
+44: // AnalyzeBoundsAndSensitivity computes observed node intervals from samples
+45: // and propagates interval-based output sensitivity over the computation graph.
+46: //
+47: // The samples are plaintext calibration inputs.
+48: // Sensitivity S_v is an upper bound on how much a local error at node v
+49: // can affect the final output.
+50: func AnalyzeBoundsAndSensitivity(
+51: 	g *ir.Graph,
+52: 	samples []map[ir.NodeID]float64,
+53: 	threshold float64,
+54: 	protectedPercentile float64,
+55: ) (*BoundSensitivityResult, error) {
+56: 	if g == nil {
+57: 		return nil, fmt.Errorf("graph is nil")
+58: 	}
+59: 	if err := g.Validate(); err != nil {
+60: 		return nil, fmt.Errorf("invalid graph: %w", err)
+61: 	}
+62: 	if len(samples) == 0 {
+63: 		return nil, fmt.Errorf("samples are empty")
+64: 	}
+65: 	if protectedPercentile <= 0 || protectedPercentile > 1 {
+66: 		protectedPercentile = 0.05
+67: 	}
+68: 
+69: 	intervals := make(map[ir.NodeID]Interval)
+70: 	outputs := make([]float64, 0, len(samples))
+71: 	margins := make([]float64, 0, len(samples))
+72: 
+73: 	for _, sample := range samples {
+74: 		result, err := fgruntime.EvalPlain(g, sample)
+75: 		if err != nil {
+76: 			return nil, fmt.Errorf("plain evaluation failed: %w", err)
+77: 		}
+78: 
+79: 		outputs = append(outputs, result.Output)
+80: 		margins = append(margins, math.Abs(result.Output-threshold))
+81: 
+82: 		for id, value := range result.Values {
+83: 			updateInterval(intervals, id, value)
+84: 		}
+85: 	}
+86: 
+87: 	sortedMargins := make([]float64, len(margins))
+88: 	copy(sortedMargins, margins)
+89: 	sortFloat64s(sortedMargins)
+90: 
+91: 	protectedMargin := percentileSorted(sortedMargins, protectedPercentile)
+92: 
+93: 	sensitivity, err := propagateSensitivity(g, intervals)
+94: 	if err != nil {
+95: 		return nil, err
+96: 	}
+97: 
+98: 	return &BoundSensitivityResult{
+99: 		Intervals:           intervals,
+100: 		Sensitivity:         sensitivity,
+101: 		Outputs:             outputs,
+127: func propagateSensitivity(g *ir.Graph, intervals map[ir.NodeID]Interval) (map[ir.NodeID]float64, error) {
+128: 	sensitivity := make(map[ir.NodeID]float64)
+129: 
+130: 	for _, n := range g.Nodes() {
+131: 		sensitivity[n.ID] = 0
+132: 	}
+133: 
+134: 	sensitivity[g.Output] = 1.0
+135: 
+136: 	nodes := g.Nodes()
+137: 	for i := len(nodes) - 1; i >= 0; i-- {
+138: 		n := nodes[i]
+139: 		sOut := sensitivity[n.ID]
+140: 
+141: 		if sOut == 0 {
+142: 			continue
+143: 		}
+144: 
+145: 		switch n.Op {
+146: 		case ir.OpInput, ir.OpConst:
+147: 			// Leaf nodes do not propagate sensitivity further.
+148: 
+149: 		case ir.OpAdd:
+150: 			a := n.Inputs[0]
+151: 			b := n.Inputs[1]
+152: 			sensitivity[a] += sOut
+153: 			sensitivity[b] += sOut
+154: 
+155: 		case ir.OpSub:
+156: 			a := n.Inputs[0]
+157: 			b := n.Inputs[1]
+158: 			sensitivity[a] += sOut
+159: 			sensitivity[b] += sOut
+160: 
+161: 		case ir.OpMulConst:
+162: 			a := n.Inputs[0]
+163: 			sensitivity[a] += math.Abs(n.Const) * sOut
+164: 
+165: 		case ir.OpMul:
+166: 			a := n.Inputs[0]
+167: 			b := n.Inputs[1]
+168: 
+169: 			ivA, ok := intervals[a]
+170: 			if !ok {
+171: 				return nil, fmt.Errorf("missing interval for node %s", a)
+172: 			}
+173: 			ivB, ok := intervals[b]
+174: 			if !ok {
+175: 				return nil, fmt.Errorf("missing interval for node %s", b)
+176: 			}
+177: 
+178: 			sensitivity[a] += ivB.MaxAbs() * sOut
+179: 			sensitivity[b] += ivA.MaxAbs() * sOut
+180: 
+181: 		case ir.OpPow2:
+182: 			a := n.Inputs[0]
+183: 
+184: 			ivA, ok := intervals[a]
+185: 			if !ok {
+186: 				return nil, fmt.Errorf("missing interval for node %s", a)
+187: 			}
+188: 
+189: 			sensitivity[a] += 2.0 * ivA.MaxAbs() * sOut
+190: 
+191: 		case ir.OpPow3:
+192: 			a := n.Inputs[0]
+193: 
+194: 			ivA, ok := intervals[a]
+195: 			if !ok {
+196: 				return nil, fmt.Errorf("missing interval for node %s", a)
+197: 			}
+198: 
+199: 			maxAbs := ivA.MaxAbs()
+200: 			sensitivity[a] += 3.0 * maxAbs * maxAbs * sOut
+201: 
+202: 		case ir.OpPoly:
+203: 			a := n.Inputs[0]
+204: 
+205: 			ivA, ok := intervals[a]
+206: 			if !ok {
+207: 				return nil, fmt.Errorf("missing interval for node %s", a)
+208: 			}
+209: 
+210: 			derivBound := maxAbsPolyDerivative(n.Coeffs, ivA)
+211: 			sensitivity[a] += derivBound * sOut
+212: 
+213: 		default:
+214: 			return nil, fmt.Errorf("unsupported op for sensitivity propagation: %s", n.Op)
+215: 		}
+216: 	}
+217: 
+218: 	return sensitivity, nil
+219: }
+220: 
+221: func maxAbsPolyDerivative(coeffs []float64, iv Interval) float64 {
+222: 	if len(coeffs) <= 1 {
+223: 		return 0
+224: 	}
+225: 
+226: 	candidates := []float64{
+227: 		iv.Low,
+228: 		iv.High,
+229: 	}
+230: 
+231: 	// For cubic polynomial c0 + c1*x + c2*x^2 + c3*x^3,
+232: 	// derivative is c1 + 2*c2*x + 3*c3*x^2.
+233: 	// Its critical point is x = -c2 / (3*c3), if c3 != 0.
+234: 	if len(coeffs) == 4 {
+235: 		c2 := coeffs[2]
+236: 		c3 := coeffs[3]
+237: 		if c3 != 0 {
+238: 			x := -c2 / (3.0 * c3)
+239: 			if x >= iv.Low && x <= iv.High {
+240: 				candidates = append(candidates, x)
+241: 			}
+242: 		}
+243: 	} else if len(coeffs) > 4 {
+244: 		// Generic fallback for higher-degree polynomials.
+245: 		// This is conservative enough for the first prototype but can be
+246: 		// replaced by a tighter interval polynomial derivative bound later.
+247: 		const grid = 64
+248: 		width := iv.High - iv.Low
+249: 		if width > 0 {
+250: 			for i := 1; i < grid; i++ {
+251: 				x := iv.Low + width*float64(i)/float64(grid)
+252: 				candidates = append(candidates, x)
+253: 			}
+254: 		}
+255: 	}
+256: 
+257: 	maxAbs := 0.0
+258: 	for _, x := range candidates {
+259: 		v := math.Abs(evalPolyDerivative(coeffs, x))
+260: 		if v > maxAbs {
+261: 			maxAbs = v
+262: 		}
+263: 	}
+264: 
+265: 	return maxAbs
+266: }
+267: 
+268: func evalPolyDerivative(coeffs []float64, x float64) float64 {
+269: 	if len(coeffs) <= 1 {
+270: 		return 0
+271: 	}
+272: 
+273: 	sum := 0.0
+274: 	pow := 1.0
+275: 
+276: 	for i := 1; i < len(coeffs); i++ {
+277: 		sum += float64(i) * coeffs[i] * pow
+278: 		pow *= x
+279: 	}
+280: 

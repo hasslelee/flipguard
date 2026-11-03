@@ -1,0 +1,41 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/bin/bank-contribution-case",
+    "--mode",
+    "audit",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/planning/plan.json",
+    "--candidate",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/candidates/feee1f9d4d7ce5df.json",
+    "--data",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/independent_evaluation.csv",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/audit/feee1f9d4d7ce5df"
+  ],
+  "exit_code": 0,
+  "status": "PROCESS_COMPLETED",
+  "wall_seconds": 9.90201813200838,
+  "before": {
+    "utc": "2026-09-06T02:22:32.484831+00:00",
+    "load": [
+      4.8056640625,
+      3.40673828125,
+      2.42529296875
+    ],
+    "mem_available": "10296048 kB",
+    "swap_free": "3839616 kB",
+    "free_disk": 21417304064
+  },
+  "after": {
+    "utc": "2026-09-06T02:22:42.398118+00:00",
+    "load": [
+      4.29345703125,
+      3.34326171875,
+      2.4150390625
+    ],
+    "mem_available": "10252344 kB",
+    "swap_free": "3839616 kB",
+    "free_disk": 21417123840
+  },
+  "result_exists": true
+}

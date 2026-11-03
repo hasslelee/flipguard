@@ -1,0 +1,9 @@
+{
+  "path": "scripts/hediff_bank_contrib_v1.py",
+  "old_sha256": "7978e77edf76a6fe6ab1d4829d4ab1946a2ac1e719593044e7de19dea72eab6f",
+  "new_sha256": "6baa511615c812323ce2b538a59d0826321bef2882d2f7713aa3260366c925c4",
+  "utc": "2026-09-05T19:05:55.254863+00:00",
+  "reason": "Pre-execution source-feature validity review: normalized age, duration and count columns retain integer source constraints. Add projection to their original integer lattice inside the same fixed radius; categorical coordinates stay frozen. No model, selection input, threshold, CKKS parameter or C rule changes.",
+  "external_commands_started": 0,
+  "previous_source_commit": "1a9404faa220a773555a387dc4ede809fdc8d6ca"
+}

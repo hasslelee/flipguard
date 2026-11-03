@@ -1,0 +1,125 @@
+{
+  "status": "PASS",
+  "utc": "2026-09-05T10:19:39.315680+00:00",
+  "checks": [
+    {
+      "check": "copied_selection_tests",
+      "command": [
+        "go",
+        "test",
+        "./cmd/fg-expand-case",
+        "./internal/ckksplanner",
+        "-run",
+        "Test(TabularSampleLedger|CountTabularRepeated|MaterializeTabular|BuildContractRejects|Synthesize|DirectPolicy)",
+        "-count=1"
+      ],
+      "cwd": "/home/ckks2/deciprotect/research/selection_extension",
+      "exit_code": 0,
+      "elapsed_seconds": 1.281397819519043,
+      "log": "docs/research/fg_expand_v1_20260905/validation_logs/copied_selection_tests.txt",
+      "log_sha256": "b2ccfa3ca2b79910a11bc7a96789a31d3cd30c279d95287480ef21263cbdb5f9"
+    },
+    {
+      "check": "historical_native_tests",
+      "command": [
+        "go",
+        "test",
+        "./cmd/deciprotect-ckks"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "elapsed_seconds": 0.1611337661743164,
+      "log": "docs/research/fg_expand_v1_20260905/validation_logs/historical_native_tests.txt",
+      "log_sha256": "e1a71d7d0b39678e1fe308bb0a2c7335eaf410d1bad586edcd0bac611f8caf81"
+    },
+    {
+      "check": "historical_python_tests",
+      "command": [
+        "/home/ckks2/deciprotect/.venv/bin/python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "elapsed_seconds": 2.2941741943359375,
+      "log": "docs/research/fg_expand_v1_20260905/validation_logs/historical_python_tests.txt",
+      "log_sha256": "2912d39eaf3633d869325d9d7fddbab8ca0c562e0756ef8657252cf1d331d997"
+    },
+    {
+      "check": "historical_payloads_readonly",
+      "command": [
+        "/home/ckks2/deciprotect/.venv/bin/python",
+        "scripts/verify_research.py",
+        "--check"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "elapsed_seconds": 4.278515100479126,
+      "log": "docs/research/fg_expand_v1_20260905/validation_logs/historical_payloads_readonly.txt",
+      "log_sha256": "3b9eead67ff42e49abdcccca7184172eed62efdc6653093b1496f1346fcf1b87"
+    },
+    {
+      "check": "historical_cost_readonly",
+      "command": [
+        "/home/ckks2/deciprotect/.venv/bin/python",
+        "scripts/check_cost_report.py"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "elapsed_seconds": 2.0053629875183105,
+      "log": "docs/research/fg_expand_v1_20260905/validation_logs/historical_cost_readonly.txt",
+      "log_sha256": "6840e6319e22994d46ad3bc1379cd7792b02f202b728965716e0f9c7231bbc62"
+    },
+    {
+      "check": "new_evidence_readonly",
+      "command": [
+        "/home/ckks2/deciprotect/.venv/bin/python",
+        "scripts/analyze_fg_expand_v1.py",
+        "--check"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "elapsed_seconds": 0.6951301097869873,
+      "log": "docs/research/fg_expand_v1_20260905/validation_logs/new_evidence_readonly.txt",
+      "log_sha256": "72feb61439a9276d211981fd357ad4eafaa1d29d3937484da92b7947cbfef991"
+    },
+    {
+      "check": "python_compile",
+      "command": [
+        "/home/ckks2/deciprotect/.venv/bin/python",
+        "-m",
+        "py_compile",
+        "scripts/analyze_fg_expand_v1.py",
+        "scripts/report_fg_expand_v1.py",
+        "scripts/plot_fg_expand_v1.py",
+        "scripts/build_handoff.py",
+        "scripts/verify_research.py"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "elapsed_seconds": 0.04254007339477539,
+      "log": "docs/research/fg_expand_v1_20260905/validation_logs/python_compile.txt",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "check": "tracked_diff_whitespace",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "elapsed_seconds": 0.007652759552001953,
+      "log": "docs/research/fg_expand_v1_20260905/validation_logs/tracked_diff_whitespace.txt",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Source/observation arithmetic and preservation checks, not a speed or risk guarantee",
+  "new_ckks_experiments_by_verification": false,
+  "plot_visual_review": "Four panels inspected; legend and first ratio annotation spacing corrected before final rendering"
+}

@@ -1,0 +1,16 @@
+{
+  "utc": "2026-09-08T10:32:02.318320+00:00",
+  "kind": "serialization-only pre-open implementation correction",
+  "original_preopen_lock_sha256": "ba19fd30f973902b942b005fe8ecba737654adf0fbfb006b606783dc5dd5d1f5",
+  "frozen_selections_sha256": "78227afa1a7904d693590654240283d219b69160f7583fe5763b5a4271848e7a",
+  "original_audit_sha256": "5ed34727aee93a43ab208f80610c0dbeeb742f4de3800c994b1c7c22fa50df0a",
+  "corrected_preparer": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/scripts/prepare_reserved_corrected.py",
+  "corrected_preparer_sha256": "947411c8bf0bb94123bdc884ddb5d57576387836c2d6dd416ccf694a82f7b2eb",
+  "format_change": "repr(numpy.float64) to repr(float(numpy.float64))",
+  "reason": "NumPy2.2.6 produces np.float64(...) representation, which the Go CSV numeric parser rejects",
+  "source_rows_or_normalized_values_changed": false,
+  "model_candidates_acceptance_keys_batches_changed": false,
+  "reservation_payload_opened_before_amendment": false,
+  "timing_or_scientific_retry": false,
+  "execution": "preparation only; existing immutable audit reserve() consumes the resulting hash-bound READY inputs"
+}

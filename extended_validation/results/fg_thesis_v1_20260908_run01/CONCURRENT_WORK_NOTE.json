@@ -1,0 +1,8 @@
+{
+  "utc": "2026-09-08T10:04:52.086329+00:00",
+  "native_concurrency": 1,
+  "other_local_work": "read-only source inspection, Python metadata/plaintext aggregation and document writing while native selection runs",
+  "build_note": "main experiment binaries built before first HE; separate size-probe binary compiled during A2, before audit pre-open binding",
+  "timing_policy": "serial native paired harness, no concurrent new CKKS or training, no removal of measurements affected by normal host activity",
+  "interpretation": "observational local cost diagnostics; not isolated-hardware or independent-host statistical replication"
+}

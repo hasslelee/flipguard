@@ -1,0 +1,74 @@
+{
+  "candidate": {
+    "id": "synth_analysis_minimum_rescale_N13_Q6_S20_865657525889",
+    "path": "rescale",
+    "parameters": {
+      "log_n": 13,
+      "log_q": [
+        23,
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "log_p": [
+        30
+      ],
+      "log_default_scale": 20
+    },
+    "security": {
+      "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+      "target_bits": 128,
+      "declared_log_qp": 153,
+      "max_allowed_log_qp": 214,
+      "headroom_bits": 61,
+      "admission_status": "PASS",
+      "log_q": 123,
+      "log_p": 30,
+      "log_qp": 153,
+      "ciphertext_q_admission": "PASS",
+      "evaluation_key_qp_admission": "PASS",
+      "final_admission": "PASS",
+      "ciphertext_headroom_bits": 91,
+      "evaluation_key_headroom_bits": 61,
+      "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+    },
+    "required_rescale_levels": 3,
+    "level_guard": 0,
+    "precision_target_bits": 12,
+    "message_magnitude_bits": 0,
+    "analysis_scale_bits": 18,
+    "backend_scale_lift_bits": 2,
+    "backend_validation_attempts": 3,
+    "same_tier_precision_gain_bits": 0,
+    "same_tier_static_candidates_tried": 1,
+    "generation_kind": "analysis_minimum",
+    "reason": "budget=0.00337977 aggregate_sensitivity=8.29786 unit_budget=0.000407307 precision_bits=12 rescale_levels=3 terminal_scale_exponent=3 q_primes=6 level_guard=0 declared_logQP=153 analysis_scale_bits=18 backend_scale_lift_bits=2 backend_validation_attempts=3 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+  },
+  "status": "SAFE",
+  "keys": 3,
+  "numeric": [
+    {
+      "key": 1,
+      "count": 64,
+      "max_abs": 0.000300919339969008,
+      "rmse": 0.00007085458064172143
+    },
+    {
+      "key": 2,
+      "count": 64,
+      "max_abs": 0.00027269616577418887,
+      "rmse": 0.00006729324631782686
+    },
+    {
+      "key": 3,
+      "count": 64,
+      "max_abs": 0.0006012415635889834,
+      "rmse": 0.00011374236038785507
+    }
+  ],
+  "decision_ms": 0.051556,
+  "numeric_ms": 0.002664,
+  "native_wall_ms": 23079.128179
+}

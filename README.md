@@ -42,6 +42,17 @@ These results hold for the declared candidate set and measurement environment. T
 
 Evidence: [`docs/reports/comparison_extension_v18/ABSTRACT_RESULT_FACTS_V18_KO_EN.md`](docs/reports/comparison_extension_v18/ABSTRACT_RESULT_FACTS_V18_KO_EN.md), code verification reports on the [`paper/v25-v34-verification`](https://github.com/hasslelee/flipguard/tree/paper/v25-v34-verification/docs/verification) branch.
 
+### Extended validation (September–October 2026)
+
+After the 68-case evaluation, the same selection method was tested further in [`extended_validation/`](extended_validation/). Negative and limited results are reported as observed. The reports are in Korean.
+
+- **First expansion** (Spambase and HTRU2, four cases, [report](extended_validation/docs/research/fg_expand_v1_20260905/REPORT_KO.md)): on 820 decision-applicable case–input pairs not used for selection, the selected configurations showed 0 decision changes and 0 error-limit violations, against 201 and 675 for the initial configurations (per-key observation counts).
+- **Second expansion** (Fashion-MNIST with three training initializations, numerical-error criteria and official EVA execution, [report](extended_validation/docs/research/fg_expand_v2_20260905/REPORT_KO.md)): the numerical criteria and the decision criterion accepted the same candidates.
+- **Contribution check** (seven models, [report](extended_validation/docs/research/fg_contrib_v1_20260906/REPORT_KO.md)): adding the decision condition to selection did not change the chosen configuration in any of 14 case–selection blocks, and the proposed procedure did not need fewer candidate evaluations than plain decision-based selection. On an external stress set its selected configurations still showed 1 decision change and 6 error-limit violations, so passing selection is not a guarantee for new inputs.
+- **Precision-slack option** (Bank, Spambase MLP and Fashion-MNIST, [report](extended_validation/docs/research/fg_thesis_v1_20260908/THESIS_EXPERIMENTS_KO.md)): on the Bank reserved audit, decision mismatches in the applicable region fell from 8 to 0, but a simpler decision-based baseline also had 0, so the option is kept separate rather than made the default.
+
+Raw result files over 256 KiB and documents carrying author details are not included; see [`extended_validation/PUBLIC_EXPORT.md`](extended_validation/PUBLIC_EXPORT.md).
+
 ### Quick start
 
 ```bash
@@ -55,7 +66,7 @@ Experiment outputs are written to `results/<experiment>/` as CSV and Markdown. `
 
 | Branch | Contents |
 |---|---|
-| `main` | Code and locked paper facts at manuscript submission |
+| `main` | Code and locked paper facts at manuscript submission, plus `extended_validation/` |
 | `paper/v25-v34-verification` | Code verification reports for the submitted manuscript |
 | `research/model-family-expansion-v17-vcpu6-20260811` | 68-case runs and as-run source tracking |
 | `paper/final-audit-defense-v1`, `experiments/*`, `research/*` | Earlier audits and comparisons with external tools (EVA, HECATE, ELASM, Orion) |
@@ -94,6 +105,17 @@ CKKS는 근사 연산이라, 모델 점수가 임곗값 근처에 있거나 두 
 
 이 결과는 선언한 후보 집합과 측정 환경에 한정되며, 전역 최적성이나 모든 미래 입력의 안전, 악의적인 서버에 대한 보호를 주장하지 않습니다.
 
+### 확대 검증 (2026년 9~10월)
+
+68개 사례 평가 뒤 같은 선택 방법을 [`extended_validation/`](extended_validation/)에서 더 시험했습니다. 효과가 없거나 제한적이었던 결과도 관측한 그대로 적었습니다.
+
+- **첫 확대**(Spambase·HTRU2 네 사례, [보고서](extended_validation/docs/research/fg_expand_v1_20260905/REPORT_KO.md)): 선택에 쓰지 않은 판정 적용 영역 820개 사례–입력 쌍에서 선택 구성은 판정 변화 0회·오차 위반 0회, 초기 구성은 201회·675회였습니다(키별 관측 수).
+- **두 번째 확대**(Fashion-MNIST 세 학습 초기값, 수치 오차 기준, 공식 EVA 실행, [보고서](extended_validation/docs/research/fg_expand_v2_20260905/REPORT_KO.md)): 수치 기준과 판정 기준의 통과 후보가 같았습니다.
+- **기여 검증**(7개 모델, [보고서](extended_validation/docs/research/fg_contrib_v1_20260906/REPORT_KO.md)): 판정 조건을 선택에 넣어도 14개 사례–선택 블록 모두에서 고른 구성이 같았고, 제안 절차가 단순 판정 기반 선택보다 후보 평가를 덜 하지도 않았습니다. 외부 스트레스 입력에서는 선택 구성에도 판정 변화 1회와 오차 위반 6회가 있어, 선택 통과가 새 입력에 대한 보장은 아닙니다.
+- **정밀도 여유 옵션**(Bank, Spambase MLP, Fashion-MNIST, [보고서](extended_validation/docs/research/fg_thesis_v1_20260908/THESIS_EXPERIMENTS_KO.md)): Bank 예약 감사에서 적용 영역 판정 불일치가 8회에서 0회로 줄었지만 더 단순한 판정 기반 비교군도 0회여서, 기본값으로 바꾸지 않고 별도 옵션으로 두었습니다.
+
+256 KiB를 넘는 원시 결과와 저자 정보가 들어 있는 문서는 넣지 않았습니다. 자세한 내용은 [`extended_validation/PUBLIC_EXPORT.md`](extended_validation/PUBLIC_EXPORT.md)에 있습니다.
+
 ### 실행
 
 ```bash
@@ -107,7 +129,7 @@ go run ./cmd/flipguard -list          # 실험 목록
 
 | 브랜치 | 내용 |
 |---|---|
-| `main` | 논문 투고 시점 코드와 고정된 논문 수치 |
+| `main` | 논문 투고 시점 코드와 고정된 논문 수치, `extended_validation/` 확대 검증 |
 | `paper/v25-v34-verification` | 투고 원고에 대한 코드 검증 보고서 |
 | `research/model-family-expansion-v17-vcpu6-20260811` | 68개 사례 실행과 실행 시점 소스 기록 |
 | `paper/final-audit-defense-v1`, `experiments/*`, `research/*` | 이전 감사, 외부 도구(EVA, HECATE, ELASM, Orion)와의 비교 |

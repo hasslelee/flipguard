@@ -1,0 +1,8 @@
+{
+  "path": "scripts/run_external_contrib_v1.py",
+  "old_sha256": "b2df8ba0ab524f0cc7e78d54102abbbb9d4a5880a1a66113e47f427451c2a2aa",
+  "new_sha256": "237fd9994a25d22cc2c209cc1879f24ccc1826b968f4b5891473afa0a14722eb",
+  "utc": "2026-09-05T18:14:25.640338+00:00",
+  "reason": "Pre-execution isolation: networked installer sees only new work area, wheels only; offline research container sees new external outputs and read-only scripts, no archive/baseline/original repo; handle already-exited container on timeout. No method or comparison changes.",
+  "external_commands_already_executed": 0
+}

@@ -1,0 +1,20 @@
+{
+  "equal_source_files": 289,
+  "changed": [
+    {
+      "new": "research/thesis_validation_v1/cmd/bank-case/main.go",
+      "original": "research/hediff_bank_validation/cmd/contribution-case/main.go",
+      "new_sha256": "2ab74e0e57148971307dce019b30b28bbfa73f2dc3c2426ebe4407b39c811e51"
+    },
+    {
+      "new": "research/thesis_validation_v1/cmd/contribution-case/main.go",
+      "original": "research/contribution_validation/cmd/contribution-case/main.go",
+      "new_sha256": "ef5d0917505ca79b0786ebf67e9471219e442268aac8d0eef2ef3f2408979888"
+    }
+  ],
+  "added": [
+    "internal/ckksplanner/thesis_variant.go",
+    "internal/ckksplanner/thesis_variant_test.go"
+  ],
+  "comparison": "new isolated module versus preserved source copies; no original writes"
+}

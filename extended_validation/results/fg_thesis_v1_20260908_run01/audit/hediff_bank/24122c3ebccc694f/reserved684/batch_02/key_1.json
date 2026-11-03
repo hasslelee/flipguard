@@ -1,0 +1,4604 @@
+{
+  "parameter_ms": 7.213779,
+  "backend_ms": 3215.61404,
+  "q": [
+    68719230977,
+    1073692673,
+    1073643521,
+    1073872897,
+    1073971201
+  ],
+  "p": [
+    68720050177
+  ],
+  "schema_version": "flipguard_journal_multiclass_key_run_v1",
+  "key_run": 1,
+  "candidate_id": "independent_S30_Q5_N13_5a1e3c5aa602",
+  "contract_digest": "sha256:646bef2e5de28ab22568739e557edb0fce1105d1f77ca20de1d0c73b181a2177",
+  "records": [
+    {
+      "row_id": 7321,
+      "sample_id": "bank_test_7321",
+      "source_index": 6648,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.8468648729314502,
+        0.9168858218157886
+      ],
+      "ckks_logits": [
+        -0.8468791164537227,
+        0.9169006181088902
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.7637506947472388,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6980,
+      "sample_id": "bank_test_6980",
+      "source_index": 17869,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.4644473035293732,
+        -1.3965276327523932
+      ],
+      "ckks_logits": [
+        1.4644194156612091,
+        -1.396497790096877
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.8609749362817665,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7536,
+      "sample_id": "bank_test_7536",
+      "source_index": 39662,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -3.7986395330800087,
+        3.9786662909347386
+      ],
+      "ckks_logits": [
+        -3.7986501619797264,
+        3.9786751222563557
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 7.777305824014747,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7566,
+      "sample_id": "bank_test_7566",
+      "source_index": 27778,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.1168826869035313,
+        2.0637329526164607
+      ],
+      "ckks_logits": [
+        -2.116906975891046,
+        2.063758113843903
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 4.180615639519992,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7282,
+      "sample_id": "bank_test_7282",
+      "source_index": 7049,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.4595090222960367,
+        -1.2821111665475051
+      ],
+      "ckks_logits": [
+        1.4595063127548138,
+        -1.2821086762149143
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.741620188843542,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7559,
+      "sample_id": "bank_test_7559",
+      "source_index": 36440,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.776509561365946,
+        0.9591385885289944
+      ],
+      "ckks_logits": [
+        -0.7765036025424521,
+        0.9591306351651477
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.7356481498949403,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7105,
+      "sample_id": "bank_test_7105",
+      "source_index": 12368,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.6547872364623846,
+        -0.5229362048768472
+      ],
+      "ckks_logits": [
+        0.6547784704355541,
+        -0.522926964615008
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 1.1777234413392317,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6995,
+      "sample_id": "bank_test_6995",
+      "source_index": 37922,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.89468068499067,
+        2.9209831660515855
+      ],
+      "ckks_logits": [
+        -2.8947278686263136,
+        2.921027340089017
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 5.815663851042256,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6886,
+      "sample_id": "bank_test_6886",
+      "source_index": 30803,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.24554572142144898,
+        -0.3308634214296888
+      ],
+      "ckks_logits": [
+        0.24557022861408595,
+        -0.3308879396516772
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.5764091428511378,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6640,
+      "sample_id": "bank_test_6640",
+      "source_index": 28491,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.7866662914440038,
+        -1.0450792849764527
+      ],
+      "ckks_logits": [
+        0.7865859244330307,
+        -1.0449987351448908
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 1.8317455764204564,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6531,
+      "sample_id": "bank_test_6531",
+      "source_index": 17990,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.626287605551874,
+        -0.6741497656255333
+      ],
+      "ckks_logits": [
+        0.6262206989726923,
+        -0.6740810498599425
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 1.3004373711774073,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7365,
+      "sample_id": "bank_test_7365",
+      "source_index": 39940,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.3339303609441817,
+        2.6204546096420485
+      ],
+      "ckks_logits": [
+        -2.333925677382503,
+        2.6204501555748014
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 4.95438497058623,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6359,
+      "sample_id": "bank_test_6359",
+      "source_index": 1228,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.320330322428813,
+        -2.1750113774102537
+      ],
+      "ckks_logits": [
+        2.3203367919389057,
+        -2.1750173602991656
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.4953416998390665,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6964,
+      "sample_id": "bank_test_6964",
+      "source_index": 27251,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.0738696054511634,
+        -1.1571287877440077
+      ],
+      "ckks_logits": [
+        1.0738633120468712,
+        -1.1571226305539115
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.230998393195171,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6556,
+      "sample_id": "bank_test_6556",
+      "source_index": 28403,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.1236591035318892,
+        -1.2008299909343338
+      ],
+      "ckks_logits": [
+        1.123663580500263,
+        -1.2008347010892944
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.324489094466223,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6822,
+      "sample_id": "bank_test_6822",
+      "source_index": 19926,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.74647197102632,
+        1.957647927824854
+      ],
+      "ckks_logits": [
+        -1.7464464219529545,
+        1.957622362496613
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 3.704119898851174,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6522,
+      "sample_id": "bank_test_6522",
+      "source_index": 18280,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        1.362382044916616,
+        -1.2840570857209708
+      ],
+      "ckks_logits": [
+        1.362398555977218,
+        -1.2840728548886449
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.646439130637587,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7132,
+      "sample_id": "bank_test_7132",
+      "source_index": 26946,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.3626019449875995,
+        1.4213192079958998
+      ],
+      "ckks_logits": [
+        -1.3626117577402639,
+        1.4213287389879399
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 2.783921152983499,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7712,
+      "sample_id": "bank_test_7712",
+      "source_index": 30047,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.6136658999260518,
+        0.5965830291914587
+      ],
+      "ckks_logits": [
+        -0.6136677286332353,
+        0.5965880170742529
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.2102489291175105,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7120,
+      "sample_id": "bank_test_7120",
+      "source_index": 14622,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.3047982643545892,
+        -2.4135954871225156
+      ],
+      "ckks_logits": [
+        2.3048128660270684,
+        -2.413610841372234
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.718393751477105,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7033,
+      "sample_id": "bank_test_7033",
+      "source_index": 20204,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.7933667653355987,
+        -2.7347676448673433
+      ],
+      "ckks_logits": [
+        2.7933488128223907,
+        -2.734749852165252
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.5281344102029415,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6633,
+      "sample_id": "bank_test_6633",
+      "source_index": 31307,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.0373985877711345,
+        1.1639342902425929
+      ],
+      "ckks_logits": [
+        -1.0374021429012528,
+        1.163935202919035
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 2.2013328780137273,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7657,
+      "sample_id": "bank_test_7657",
+      "source_index": 37880,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -3.9456835435709117,
+        3.9217959131175677
+      ],
+      "ckks_logits": [
+        -3.945689004504082,
+        3.921801946794253
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 7.867479456688479,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7005,
+      "sample_id": "bank_test_7005",
+      "source_index": 36617,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -5.501193345632064,
+        6.108307101149328
+      ],
+      "ckks_logits": [
+        -5.501239625659162,
+        6.108353635889946
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 11.609500446781393,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7451,
+      "sample_id": "bank_test_7451",
+      "source_index": 25714,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.06317783701735719,
+        -0.10561211175515181
+      ],
+      "ckks_logits": [
+        0.06318021434325138,
+        -0.10561474439746543
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.168789948772509,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7695,
+      "sample_id": "bank_test_7695",
+      "source_index": 23992,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.861925606074856,
+        -2.7807629323645635
+      ],
+      "ckks_logits": [
+        2.8619352197025014,
+        -2.78077236837387
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.642688538439419,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7440,
+      "sample_id": "bank_test_7440",
+      "source_index": 35866,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.2760769309695443,
+        -1.4110398772691226
+      ],
+      "ckks_logits": [
+        1.2760607742456833,
+        -1.411023810375784
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.6871168082386667,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7031,
+      "sample_id": "bank_test_7031",
+      "source_index": 3699,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.13242416676277,
+        -0.7352249058676109
+      ],
+      "ckks_logits": [
+        1.1323741906169538,
+        -0.7351749370343394
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 1.867649072630381,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6353,
+      "sample_id": "bank_test_6353",
+      "source_index": 40822,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.697736911153497,
+        2.860833847985942
+      ],
+      "ckks_logits": [
+        -2.697698982328112,
+        2.860796609155495
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 5.558570759139439,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7291,
+      "sample_id": "bank_test_7291",
+      "source_index": 34399,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.9385049629194607,
+        -1.0699770526853143
+      ],
+      "ckks_logits": [
+        0.9384951384879794,
+        -1.0699675180191086
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.008482015604775,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6612,
+      "sample_id": "bank_test_6612",
+      "source_index": 30454,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        1.0974451254541147,
+        -1.1938509344866015
+      ],
+      "ckks_logits": [
+        1.097531334016095,
+        -1.1939340759976353
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.2912960599407164,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7586,
+      "sample_id": "bank_test_7586",
+      "source_index": 17215,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.652196098071132,
+        -2.6594455852693764
+      ],
+      "ckks_logits": [
+        2.6521985957575787,
+        -2.6594475477111637
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.3116416833405085,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7715,
+      "sample_id": "bank_test_7715",
+      "source_index": 12881,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.8036366330144515,
+        -1.7573436146963695
+      ],
+      "ckks_logits": [
+        1.8036240783768718,
+        -1.7573332040645404
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.560980247710821,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7060,
+      "sample_id": "bank_test_7060",
+      "source_index": 3506,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -3.9652189043113624,
+        4.618336761423955
+      ],
+      "ckks_logits": [
+        -3.9652261575649352,
+        4.618343324817218
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 8.583555665735318,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6386,
+      "sample_id": "bank_test_6386",
+      "source_index": 36073,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.1017145677916615,
+        -2.2162571190552325
+      ],
+      "ckks_logits": [
+        2.1017093024520035,
+        -2.216252134387294
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.317971686846894,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7623,
+      "sample_id": "bank_test_7623",
+      "source_index": 16426,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.21830328079277514,
+        0.21906897157496907
+      ],
+      "ckks_logits": [
+        0.2183162574496974,
+        0.21905719993595008
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 0.000765690782193934,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7549,
+      "sample_id": "bank_test_7549",
+      "source_index": 32953,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.059436560923913,
+        -1.281917629446687
+      ],
+      "ckks_logits": [
+        1.059349324250524,
+        -1.2818295897759322
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.3413541903706,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6685,
+      "sample_id": "bank_test_6685",
+      "source_index": 35341,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.4002813566873855,
+        -1.5295820356099625
+      ],
+      "ckks_logits": [
+        1.4002616651154582,
+        -1.5295630197531032
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.929863392297348,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7553,
+      "sample_id": "bank_test_7553",
+      "source_index": 6718,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.9696340939423518,
+        -1.8482314070263117
+      ],
+      "ckks_logits": [
+        1.9695775606504191,
+        -1.848176168523124
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.8178655009686633,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6987,
+      "sample_id": "bank_test_6987",
+      "source_index": 34800,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        -0.43093101955643054,
+        0.3163648254106382
+      ],
+      "ckks_logits": [
+        -0.4309263094915853,
+        0.31636072505942225
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 0.7472958449670688,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6810,
+      "sample_id": "bank_test_6810",
+      "source_index": 39749,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -4.232979325659864,
+        4.4485210748693
+      ],
+      "ckks_logits": [
+        -4.232951565915376,
+        4.448492889086542
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 8.681500400529163,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7592,
+      "sample_id": "bank_test_7592",
+      "source_index": 2039,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.126358505350056,
+        0.3136505843704791
+      ],
+      "ckks_logits": [
+        -0.12639934779717188,
+        0.3136912397586724
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 0.4400090897205351,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7254,
+      "sample_id": "bank_test_7254",
+      "source_index": 19173,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.7792428696078368,
+        -1.8547858667479944
+      ],
+      "ckks_logits": [
+        1.779243657968041,
+        -1.8547862745895738
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.6340287363558312,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7066,
+      "sample_id": "bank_test_7066",
+      "source_index": 19884,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.191328264574183,
+        -1.9930368804998497
+      ],
+      "ckks_logits": [
+        2.1913409887218878,
+        -1.9930494283161688
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.1843651450740325,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6977,
+      "sample_id": "bank_test_6977",
+      "source_index": 34205,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.06032096935139254,
+        -0.025072531255326817
+      ],
+      "ckks_logits": [
+        0.060277551523602035,
+        -0.025028591419855917
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.08539350060671935,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7190,
+      "sample_id": "bank_test_7190",
+      "source_index": 27901,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.05729406477113523,
+        -0.21484390901640718
+      ],
+      "ckks_logits": [
+        0.05730582120358896,
+        -0.21485661677433243
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.2721379737875424,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7199,
+      "sample_id": "bank_test_7199",
+      "source_index": 21264,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.8364689533565066,
+        -2.794085622737171
+      ],
+      "ckks_logits": [
+        2.836479102490701,
+        -2.794095248684473
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.630554576093678,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6969,
+      "sample_id": "bank_test_6969",
+      "source_index": 30336,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.1816933286683953,
+        0.9976744196645234
+      ],
+      "ckks_logits": [
+        -1.181708609458149,
+        0.9976894826370152
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 2.179367748332919,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7343,
+      "sample_id": "bank_test_7343",
+      "source_index": 26101,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.4643083787668003,
+        -1.424612277134207
+      ],
+      "ckks_logits": [
+        1.4643001844559418,
+        -1.4246068419566642
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.888920655901007,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6560,
+      "sample_id": "bank_test_6560",
+      "source_index": 15895,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.8849258909843813,
+        2.028287975164235
+      ],
+      "ckks_logits": [
+        -1.8849282744695384,
+        2.028289560391606
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 3.913213866148616,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6701,
+      "sample_id": "bank_test_6701",
+      "source_index": 8603,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.25990597643347846,
+        -0.34407582891604654
+      ],
+      "ckks_logits": [
+        0.2598869673050763,
+        -0.34405750247207467
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.603981805349525,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6594,
+      "sample_id": "bank_test_6594",
+      "source_index": 25420,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.3295239678638993,
+        2.5542084133001812
+      ],
+      "ckks_logits": [
+        -2.329498972883213,
+        2.5541794782591007
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 4.88373238116408,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7668,
+      "sample_id": "bank_test_7668",
+      "source_index": 24044,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.856611056748885,
+        1.0938200887428966
+      ],
+      "ckks_logits": [
+        -0.8566235817780364,
+        1.0938328713283874
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.9504311454917818,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6444,
+      "sample_id": "bank_test_6444",
+      "source_index": 25691,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.509566768164188,
+        -1.6904880932366457
+      ],
+      "ckks_logits": [
+        1.50956115492653,
+        -1.6904801840891217
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.200054861400834,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7297,
+      "sample_id": "bank_test_7297",
+      "source_index": 37411,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.6546081595055135,
+        1.7404069885840037
+      ],
+      "ckks_logits": [
+        -1.6546226114303049,
+        1.7404213013454974
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 3.3950151480895174,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7385,
+      "sample_id": "bank_test_7385",
+      "source_index": 9338,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.8851516466610442,
+        0.9993460324826315
+      ],
+      "ckks_logits": [
+        -0.885137880019239,
+        0.9993313327858557
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.8844976791436756,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6614,
+      "sample_id": "bank_test_6614",
+      "source_index": 21996,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.9691437231029374,
+        -2.7661429714614214
+      ],
+      "ckks_logits": [
+        2.9691009903390784,
+        -2.7661018585759956
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.735286694564358,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7092,
+      "sample_id": "bank_test_7092",
+      "source_index": 39386,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.572417302888904,
+        1.8893146500670832
+      ],
+      "ckks_logits": [
+        -1.5724367340188188,
+        1.8893345292864414
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 3.4617319529559873,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6876,
+      "sample_id": "bank_test_6876",
+      "source_index": 21199,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.770848330793044,
+        -2.551383043717279
+      ],
+      "ckks_logits": [
+        2.770900173409507,
+        -2.551434421569345
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.322231374510324,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6856,
+      "sample_id": "bank_test_6856",
+      "source_index": 15108,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.2884507901267968,
+        -1.3072852952306866
+      ],
+      "ckks_logits": [
+        1.288457179707761,
+        -1.3072905353650042
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.5957360853574833,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6762,
+      "sample_id": "bank_test_6762",
+      "source_index": 37829,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.21248106928619842,
+        -0.2733159441535425
+      ],
+      "ckks_logits": [
+        0.21244616963677287,
+        -0.27328225035327014
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.4857970134397409,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7043,
+      "sample_id": "bank_test_7043",
+      "source_index": 8178,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.412022629313345,
+        -1.261873611439503
+      ],
+      "ckks_logits": [
+        1.4120477016930857,
+        -1.2618986566103239
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.673896240752848,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7544,
+      "sample_id": "bank_test_7544",
+      "source_index": 39392,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.8104133911223673,
+        0.7771389016918725
+      ],
+      "ckks_logits": [
+        -0.8103992010290191,
+        0.777124662101253
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.5875522928142398,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7397,
+      "sample_id": "bank_test_7397",
+      "source_index": 23262,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.454864801075593,
+        -2.4528716272864415
+      ],
+      "ckks_logits": [
+        2.454796838744751,
+        -2.452803756072884
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.907736428362035,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7585,
+      "sample_id": "bank_test_7585",
+      "source_index": 21475,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.786292306021572,
+        -2.7931077733178773
+      ],
+      "ckks_logits": [
+        2.7862911206298184,
+        -2.7931065213506328
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.579400079339449,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6695,
+      "sample_id": "bank_test_6695",
+      "source_index": 40626,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -6.4545969481182475,
+        6.709499183231917
+      ],
+      "ckks_logits": [
+        -6.4546183199962694,
+        6.709521188532976
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 13.164096131350163,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6931,
+      "sample_id": "bank_test_6931",
+      "source_index": 33044,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.7871062841420648,
+        -2.015290177573545
+      ],
+      "ckks_logits": [
+        1.7870709023444844,
+        -2.0152519206760364
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.8023964617156096,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6566,
+      "sample_id": "bank_test_6566",
+      "source_index": 28263,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.5533871441481791,
+        -0.4410533054991325
+      ],
+      "ckks_logits": [
+        0.5533697489690845,
+        -0.44103453969561673
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.9944404496473116,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7056,
+      "sample_id": "bank_test_7056",
+      "source_index": 10981,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.375120925484419,
+        2.7581101492911815
+      ],
+      "ckks_logits": [
+        -2.3751086581027487,
+        2.7580981077319517
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 5.133231074775601,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6494,
+      "sample_id": "bank_test_6494",
+      "source_index": 36982,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.42490503438428356,
+        0.4556586500267591
+      ],
+      "ckks_logits": [
+        -0.42491121084962136,
+        0.4556648566108573
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 0.8805636844110427,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6541,
+      "sample_id": "bank_test_6541",
+      "source_index": 35196,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.5136718029648926,
+        -0.7131610704794996
+      ],
+      "ckks_logits": [
+        0.5136717850282888,
+        -0.713161346022443
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 1.2268328734443923,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6827,
+      "sample_id": "bank_test_6827",
+      "source_index": 39220,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.4806999429315857,
+        2.503327569258092
+      ],
+      "ckks_logits": [
+        -2.4807054613668935,
+        2.503333904914394
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 4.9840275121896775,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7698,
+      "sample_id": "bank_test_7698",
+      "source_index": 22025,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.4198421035067346,
+        -1.4285427492369083
+      ],
+      "ckks_logits": [
+        1.4198914185607197,
+        -1.4285906797373276
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.848384852743643,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6973,
+      "sample_id": "bank_test_6973",
+      "source_index": 26312,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.1410706679684917,
+        -2.1944280839778028
+      ],
+      "ckks_logits": [
+        2.1410355374203025,
+        -2.194393740601109
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.335498751946295,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7369,
+      "sample_id": "bank_test_7369",
+      "source_index": 20967,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        1.2576391509551657,
+        -1.2703533778029295
+      ],
+      "ckks_logits": [
+        1.257642365235351,
+        -1.2703565397938248
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.5279925287580953,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7150,
+      "sample_id": "bank_test_7150",
+      "source_index": 4838,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.84621310105231,
+        -2.7076378674047774
+      ],
+      "ckks_logits": [
+        2.8462606230765335,
+        -2.7076809000781323
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.553850968457088,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6945,
+      "sample_id": "bank_test_6945",
+      "source_index": 35541,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.1246935529312774,
+        -2.3412046201935226
+      ],
+      "ckks_logits": [
+        2.1246835778944595,
+        -2.3411941890132435
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.4658981731248,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6549,
+      "sample_id": "bank_test_6549",
+      "source_index": 13451,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.5318828231764243,
+        -0.6189208377047584
+      ],
+      "ckks_logits": [
+        0.5318621979710438,
+        -0.6188999009831309
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 1.1508036608811827,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6974,
+      "sample_id": "bank_test_6974",
+      "source_index": 13090,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.8268981338048764,
+        -1.7975213390340588
+      ],
+      "ckks_logits": [
+        1.8268936013332502,
+        -1.7975162490164287
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.624419472838935,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6773,
+      "sample_id": "bank_test_6773",
+      "source_index": 39318,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -6.027402558340713,
+        6.18525877586203
+      ],
+      "ckks_logits": [
+        -6.027382038491787,
+        6.185239370317854
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 12.212661334202743,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6545,
+      "sample_id": "bank_test_6545",
+      "source_index": 37231,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.5832509189611582,
+        0.5522309284201293
+      ],
+      "ckks_logits": [
+        -0.5832605988604773,
+        0.5522401737389697
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.1354818473812875,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6411,
+      "sample_id": "bank_test_6411",
+      "source_index": 16875,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.6918302320246817,
+        -0.5692844969028632
+      ],
+      "ckks_logits": [
+        0.691859252794992,
+        -0.5693141398305169
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 1.261114728927545,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7534,
+      "sample_id": "bank_test_7534",
+      "source_index": 13742,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.3138777575369147,
+        -2.2906056702565167
+      ],
+      "ckks_logits": [
+        2.3139186936357037,
+        -2.2906450154317115
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.604483427793431,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6396,
+      "sample_id": "bank_test_6396",
+      "source_index": 38040,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.40838909314968,
+        2.8833738177456194
+      ],
+      "ckks_logits": [
+        -2.4083895249852256,
+        2.8833744484241253
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 5.291762910895299,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6967,
+      "sample_id": "bank_test_6967",
+      "source_index": 38557,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.6294191924794825,
+        1.922785305563572
+      ],
+      "ckks_logits": [
+        -1.6294116342513574,
+        1.9227771353058236
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 3.5522044980430545,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6831,
+      "sample_id": "bank_test_6831",
+      "source_index": 30377,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -6.749605888593526,
+        7.19637209373737
+      ],
+      "ckks_logits": [
+        -6.749700136165178,
+        7.196477242072996
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 13.945977982330895,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7094,
+      "sample_id": "bank_test_7094",
+      "source_index": 39885,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -7.4456467700958315,
+        8.114808567149252
+      ],
+      "ckks_logits": [
+        -7.4456468462396135,
+        8.11480861574322
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 15.560455337245084,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6418,
+      "sample_id": "bank_test_6418",
+      "source_index": 23269,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.8457411201831397,
+        -2.6090423604798625
+      ],
+      "ckks_logits": [
+        2.845738276806747,
+        -2.6090400055268104
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.454783480663002,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6734,
+      "sample_id": "bank_test_6734",
+      "source_index": 37658,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.3274640276740568,
+        1.4210460995344172
+      ],
+      "ckks_logits": [
+        -1.3274366536367357,
+        1.421017470479166
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 2.748510127208474,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6525,
+      "sample_id": "bank_test_6525",
+      "source_index": 39110,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.863583903541019,
+        1.9804139242432948
+      ],
+      "ckks_logits": [
+        -1.8635869680968054,
+        1.9804173352769627
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 3.843997827784314,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6504,
+      "sample_id": "bank_test_6504",
+      "source_index": 35285,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.0642118152361144,
+        -2.2863120096828076
+      ],
+      "ckks_logits": [
+        2.0641888442513636,
+        -2.2862903384616926
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.3505238249189215,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6473,
+      "sample_id": "bank_test_6473",
+      "source_index": 40392,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -5.766606273430842,
+        5.872898305807735
+      ],
+      "ckks_logits": [
+        -5.7666018521219105,
+        5.872892861367186
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 11.639504579238576,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6751,
+      "sample_id": "bank_test_6751",
+      "source_index": 34701,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.206805100769975,
+        -2.3918346635472303
+      ],
+      "ckks_logits": [
+        2.206824486179009,
+        -2.391850088045941
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.5986397643172054,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7662,
+      "sample_id": "bank_test_7662",
+      "source_index": 3023,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.2169066731072933,
+        -1.6755648551456088
+      ],
+      "ckks_logits": [
+        2.216912301373273,
+        -1.6755711786572283
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.8924715282529023,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7374,
+      "sample_id": "bank_test_7374",
+      "source_index": 7739,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.4196639689587591,
+        -1.0775111553090497
+      ],
+      "ckks_logits": [
+        1.419651426416893,
+        -1.077498713107504
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.497175124267809,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6682,
+      "sample_id": "bank_test_6682",
+      "source_index": 14827,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.766437604520617,
+        -2.688498726106737
+      ],
+      "ckks_logits": [
+        2.7664534999274797,
+        -2.6885141663063736
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.454936330627354,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6395,
+      "sample_id": "bank_test_6395",
+      "source_index": 37374,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.785527388095735,
+        1.8857231152679996
+      ],
+      "ckks_logits": [
+        -1.785537023361575,
+        1.8857324687035815
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 3.6712505033637344,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6783,
+      "sample_id": "bank_test_6783",
+      "source_index": 28490,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.188181873737942,
+        -1.3439516526578938
+      ],
+      "ckks_logits": [
+        1.1882023891879334,
+        -1.3439717426574416
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.5321335263958358,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7209,
+      "sample_id": "bank_test_7209",
+      "source_index": 36575,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        -0.6917185819338267,
+        0.6563327124648713
+      ],
+      "ckks_logits": [
+        -0.6917487583598867,
+        0.6563600497899253
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.3480512943986982,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7086,
+      "sample_id": "bank_test_7086",
+      "source_index": 20849,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.8721238709875556,
+        -2.702102515696504
+      ],
+      "ckks_logits": [
+        2.8721086387371617,
+        -2.702087077950159
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.57422638668406,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7052,
+      "sample_id": "bank_test_7052",
+      "source_index": 23497,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.212023617542829,
+        -1.9997386601975646
+      ],
+      "ckks_logits": [
+        2.212045934109997,
+        -1.999761391942181
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.211762277740394,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6371,
+      "sample_id": "bank_test_6371",
+      "source_index": 19936,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.9148223425036743,
+        -2.8671480080662857
+      ],
+      "ckks_logits": [
+        2.914806997595175,
+        -2.8671334986949333
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.78197035056996,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6759,
+      "sample_id": "bank_test_6759",
+      "source_index": 20631,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.08778288142140649,
+        0.04852203823006164
+      ],
+      "ckks_logits": [
+        0.08780982669712101,
+        0.04849478992064815
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.039260843191344846,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6553,
+      "sample_id": "bank_test_6553",
+      "source_index": 12971,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.12923967892482532,
+        0.50578725685083
+      ],
+      "ckks_logits": [
+        -0.12923751468226752,
+        0.5057897262048912
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 0.6350269357756554,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6935,
+      "sample_id": "bank_test_6935",
+      "source_index": 20345,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.261107221769378,
+        -2.285795695021955
+      ],
+      "ckks_logits": [
+        2.261105322313477,
+        -2.2857935702222347
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.546902916791333,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6726,
+      "sample_id": "bank_test_6726",
+      "source_index": 39013,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -3.6325620740866387,
+        4.0029272397043645
+      ],
+      "ckks_logits": [
+        -3.632570592974389,
+        4.002934882076798
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 7.635489313791004,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7181,
+      "sample_id": "bank_test_7181",
+      "source_index": 35634,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.47285843139711936,
+        0.3624802637675121
+      ],
+      "ckks_logits": [
+        -0.4728599073785586,
+        0.3624815783961652
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 0.8353386951646314,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7421,
+      "sample_id": "bank_test_7421",
+      "source_index": 15551,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.337676502602965,
+        -1.252553450573454
+      ],
+      "ckks_logits": [
+        1.3377533269072495,
+        -1.2526274896783811
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.5902299531764186,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7299,
+      "sample_id": "bank_test_7299",
+      "source_index": 36583,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.498699136424046,
+        2.4502842490626286
+      ],
+      "ckks_logits": [
+        -2.4986926125764892,
+        2.450276992619016
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 4.948983385486675,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6409,
+      "sample_id": "bank_test_6409",
+      "source_index": 378,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        3.3014549171259606,
+        -3.1170911923419715
+      ],
+      "ckks_logits": [
+        3.301457710708547,
+        -3.1170929418888034
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 6.418546109467933,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6354,
+      "sample_id": "bank_test_6354",
+      "source_index": 1396,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.5795791589768027,
+        2.96825337384902
+      ],
+      "ckks_logits": [
+        -2.57956718018663,
+        2.968239969989324
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 5.547832532825822,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7684,
+      "sample_id": "bank_test_7684",
+      "source_index": 11317,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.6182989424555655,
+        -0.3774438797365311
+      ],
+      "ckks_logits": [
+        0.6181996395683305,
+        -0.37734554215992905
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.9957428221920965,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7680,
+      "sample_id": "bank_test_7680",
+      "source_index": 27740,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.09666863630205044,
+        -0.2765540897796565
+      ],
+      "ckks_logits": [
+        0.09666822786649643,
+        -0.2765511216225516
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.3732227260817069,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6558,
+      "sample_id": "bank_test_6558",
+      "source_index": 22152,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.8320696767153977,
+        -2.82668542797883
+      ],
+      "ckks_logits": [
+        2.832142651858809,
+        -2.826756199415588
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.658755104694228,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6867,
+      "sample_id": "bank_test_6867",
+      "source_index": 37492,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.4092446253797857,
+        1.5540787431910457
+      ],
+      "ckks_logits": [
+        -1.4092383219251274,
+        1.5540717746720885
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 2.9633233685708316,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7029,
+      "sample_id": "bank_test_7029",
+      "source_index": 14830,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.405042693197414,
+        -2.4181311275245423
+      ],
+      "ckks_logits": [
+        2.4050554198815006,
+        -2.4181435727099054
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.823173820721957,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6474,
+      "sample_id": "bank_test_6474",
+      "source_index": 27788,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        -0.10013879379999259,
+        -0.12321820055015639
+      ],
+      "ckks_logits": [
+        -0.10013847390918984,
+        -0.12321950149238059
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.023079406750163803,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6761,
+      "sample_id": "bank_test_6761",
+      "source_index": 32818,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.9570143011299452,
+        -2.188040942493805
+      ],
+      "ckks_logits": [
+        1.9569844491784543,
+        -2.188010770259525
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.145055243623751,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6686,
+      "sample_id": "bank_test_6686",
+      "source_index": 38892,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -4.761444443127333,
+        4.955382011226365
+      ],
+      "ckks_logits": [
+        -4.761432405162779,
+        4.9553716647940504
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 9.716826454353697,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7573,
+      "sample_id": "bank_test_7573",
+      "source_index": 19138,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        3.108809813139565,
+        -2.8652120352597334
+      ],
+      "ckks_logits": [
+        3.108786671887515,
+        -2.8651900087345794
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.974021848399298,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6651,
+      "sample_id": "bank_test_6651",
+      "source_index": 30572,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.9402146258553582,
+        1.0250593596603432
+      ],
+      "ckks_logits": [
+        -0.9402167460397599,
+        1.0250613747467012
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.9652739855157013,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7025,
+      "sample_id": "bank_test_7025",
+      "source_index": 30221,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        -0.22890147871732514,
+        0.12280019966878558
+      ],
+      "ckks_logits": [
+        -0.22891742137171633,
+        0.12281731929177886
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 0.3517016783861107,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6912,
+      "sample_id": "bank_test_6912",
+      "source_index": 25941,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.6322077122977516,
+        1.9224731004549689
+      ],
+      "ckks_logits": [
+        -1.632199903186631,
+        1.9224638210134186
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 3.5546808127527205,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7008,
+      "sample_id": "bank_test_7008",
+      "source_index": 40927,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -3.954422350335129,
+        4.613042908931361
+      ],
+      "ckks_logits": [
+        -3.9544171478505072,
+        4.61303393471446
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 8.567465259266491,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7617,
+      "sample_id": "bank_test_7617",
+      "source_index": 15450,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.31257680823950523,
+        -0.20722830879793222
+      ],
+      "ckks_logits": [
+        0.3126058418888329,
+        -0.2072569791719936
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.5198051170374375,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7265,
+      "sample_id": "bank_test_7265",
+      "source_index": 29023,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.8300035766188332,
+        1.9197410793888323
+      ],
+      "ckks_logits": [
+        -1.830002889274058,
+        1.9197418681237577
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 3.7497446560076657,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7384,
+      "sample_id": "bank_test_7384",
+      "source_index": 34057,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.1177897445667793,
+        -1.2959139006432687
+      ],
+      "ckks_logits": [
+        1.1177703087884754,
+        -1.2958934592151556
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.413703645210048,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6493,
+      "sample_id": "bank_test_6493",
+      "source_index": 40683,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.661320785033174,
+        1.6875844252199494
+      ],
+      "ckks_logits": [
+        -1.66134380754142,
+        1.687607398548674
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 3.3489052102531236,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6573,
+      "sample_id": "bank_test_6573",
+      "source_index": 34675,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.4810376800010928,
+        0.38443260321527406
+      ],
+      "ckks_logits": [
+        -0.4810203697153649,
+        0.384416367291489
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 0.8654702832163669,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6539,
+      "sample_id": "bank_test_6539",
+      "source_index": 40275,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.6082328110408213,
+        2.779501017927286
+      ],
+      "ckks_logits": [
+        -2.6082012064638196,
+        2.779467180194928
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 5.387733828968107,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7149,
+      "sample_id": "bank_test_7149",
+      "source_index": 31194,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.587778570279563,
+        -1.5811858807250527
+      ],
+      "ckks_logits": [
+        1.5877891675655467,
+        -1.5811970179699957
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.1689644510046158,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6350,
+      "sample_id": "bank_test_6350",
+      "source_index": 30549,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.8405168355833794,
+        -2.0553781894790704
+      ],
+      "ckks_logits": [
+        1.8405300328130478,
+        -2.0553905995491784
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.89589502506245,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7469,
+      "sample_id": "bank_test_7469",
+      "source_index": 16983,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.23196217627622218,
+        -0.1457470148886143
+      ],
+      "ckks_logits": [
+        0.23195050402396944,
+        -0.14573678146538138
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.3777091911648365,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7405,
+      "sample_id": "bank_test_7405",
+      "source_index": 370,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        3.1696242467047733,
+        -2.980053579172203
+      ],
+      "ckks_logits": [
+        3.169630213140997,
+        -2.980061311289549
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 6.149677825876976,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6983,
+      "sample_id": "bank_test_6983",
+      "source_index": 41098,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -5.692610698316654,
+        6.594811914219327
+      ],
+      "ckks_logits": [
+        -5.6925750753662125,
+        6.594772964360418
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 12.28742261253598,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7454,
+      "sample_id": "bank_test_7454",
+      "source_index": 28176,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.2399235043513406,
+        -0.3985714478939033
+      ],
+      "ckks_logits": [
+        0.23998734463672444,
+        -0.398636156260807
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.6384949522452439,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7638,
+      "sample_id": "bank_test_7638",
+      "source_index": 34629,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.1899880755328702,
+        -1.3572276522161184
+      ],
+      "ckks_logits": [
+        1.1900036412800594,
+        -1.3572415829625188
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.5472157277489886,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7348,
+      "sample_id": "bank_test_7348",
+      "source_index": 13338,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.7727104107035188,
+        -2.6623583449086565
+      ],
+      "ckks_logits": [
+        2.7727115633126114,
+        -2.6623593392298024
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.435068755612175,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6450,
+      "sample_id": "bank_test_6450",
+      "source_index": 24985,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.117853968583162,
+        2.264570011330548
+      ],
+      "ckks_logits": [
+        -2.1178514668313153,
+        2.2645714496974927
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 4.38242397991371,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7438,
+      "sample_id": "bank_test_7438",
+      "source_index": 36240,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.3922674188458575,
+        -0.5159789773075945
+      ],
+      "ckks_logits": [
+        0.3922517181693713,
+        -0.5159621684881381
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.9082463961534519,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7518,
+      "sample_id": "bank_test_7518",
+      "source_index": 30277,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.1958647539168518,
+        -0.18212789890487385
+      ],
+      "ckks_logits": [
+        0.19588826866466325,
+        -0.18215083338344074
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.37799265282172567,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6497,
+      "sample_id": "bank_test_6497",
+      "source_index": 41034,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.0835255732268978,
+        1.1017222549458134
+      ],
+      "ckks_logits": [
+        -1.0835348298303267,
+        1.1017319941376618
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 2.1852478281727112,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6752,
+      "sample_id": "bank_test_6752",
+      "source_index": 36425,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.44329994304820675,
+        -0.58389295920836
+      ],
+      "ckks_logits": [
+        0.4433372056334975,
+        -0.5839335780279534
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 1.0271929022565667,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6587,
+      "sample_id": "bank_test_6587",
+      "source_index": 13123,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        3.0106132212716563,
+        -3.02351405789167
+      ],
+      "ckks_logits": [
+        3.0105876201206616,
+        -3.023490151424655
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 6.034127279163327,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6512,
+      "sample_id": "bank_test_6512",
+      "source_index": 1619,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.6102730234727853,
+        -2.238074367487463
+      ],
+      "ckks_logits": [
+        2.6102778966797353,
+        -2.2380783183775903
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.848347390960248,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7661,
+      "sample_id": "bank_test_7661",
+      "source_index": 2417,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.1701269214017456,
+        1.2347240772241528
+      ],
+      "ckks_logits": [
+        -1.1701103028558577,
+        1.234705315565636
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 2.404850998625898,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7222,
+      "sample_id": "bank_test_7222",
+      "source_index": 34730,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.740447727190758,
+        2.631567398858537
+      ],
+      "ckks_logits": [
+        -2.740459769952028,
+        2.6315795906138595
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 5.372015126049295,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7576,
+      "sample_id": "bank_test_7576",
+      "source_index": 19604,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.581480110633565,
+        1.6548637671617468
+      ],
+      "ckks_logits": [
+        -1.5814659545267538,
+        1.654851874024684
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 3.2363438777953117,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6641,
+      "sample_id": "bank_test_6641",
+      "source_index": 27282,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.9480135318190148,
+        1.0164348288038019
+      ],
+      "ckks_logits": [
+        -0.9480101260245604,
+        1.0164313848805104
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.9644483606228167,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7599,
+      "sample_id": "bank_test_7599",
+      "source_index": 27746,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -4.691937757893174,
+        4.6944419369619705
+      ],
+      "ckks_logits": [
+        -4.691960731283846,
+        4.694464412586702
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 9.386379694855144,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6792,
+      "sample_id": "bank_test_6792",
+      "source_index": 39441,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -3.215256204388396,
+        3.478496081232161
+      ],
+      "ckks_logits": [
+        -3.215255899553952,
+        3.478496102259541
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 6.6937522856205565,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7270,
+      "sample_id": "bank_test_7270",
+      "source_index": 20364,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        -0.6004078546440875,
+        1.254372648360324
+      ],
+      "ckks_logits": [
+        -0.600379162938697,
+        1.2543445554235022
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.8547805030044113,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7706,
+      "sample_id": "bank_test_7706",
+      "source_index": 30411,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.1902805008000248,
+        0.059417558331144364
+      ],
+      "ckks_logits": [
+        -0.1902665380597619,
+        0.05940233216060309
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 0.24969805913116916,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7506,
+      "sample_id": "bank_test_7506",
+      "source_index": 29824,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.6121185974112442,
+        1.6829566816210908
+      ],
+      "ckks_logits": [
+        -1.6121148438703137,
+        1.682952268242706
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 3.2950752790323348,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6537,
+      "sample_id": "bank_test_6537",
+      "source_index": 39314,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -3.372807454702459,
+        3.395771860314443
+      ],
+      "ckks_logits": [
+        -3.372799018254812,
+        3.395762478043099
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 6.768579315016902,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7185,
+      "sample_id": "bank_test_7185",
+      "source_index": 23190,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.7565463187980024,
+        -1.6504001023260149
+      ],
+      "ckks_logits": [
+        1.7565545929709678,
+        -1.6504081494120206
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.406946421124017,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6361,
+      "sample_id": "bank_test_6361",
+      "source_index": 32252,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.7228777407498947,
+        -1.9825790907524385
+      ],
+      "ckks_logits": [
+        1.7228614051298692,
+        -1.9825638457241832
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.7054568315023335,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7503,
+      "sample_id": "bank_test_7503",
+      "source_index": 41027,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -8.43618172395448,
+        9.25364794991277
+      ],
+      "ckks_logits": [
+        -8.436176556908558,
+        9.253642855221122
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 17.68982967386725,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6442,
+      "sample_id": "bank_test_6442",
+      "source_index": 14620,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.7981606272407085,
+        -2.7623997903285575
+      ],
+      "ckks_logits": [
+        2.798160184180256,
+        -2.7623986512613827
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.560560417569266,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6722,
+      "sample_id": "bank_test_6722",
+      "source_index": 13660,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.2433325411664065,
+        -2.1849445761649635
+      ],
+      "ckks_logits": [
+        2.2433322713437613,
+        -2.1849443361723346
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.42827711733137,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7479,
+      "sample_id": "bank_test_7479",
+      "source_index": 22099,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.6798577165130348,
+        -1.5153663232467716
+      ],
+      "ckks_logits": [
+        1.6797619647505004,
+        -1.515273083115746
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.1952240397598066,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7416,
+      "sample_id": "bank_test_7416",
+      "source_index": 16074,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.2960230400780084,
+        -2.2411524777708354
+      ],
+      "ckks_logits": [
+        2.2960620168762405,
+        -2.241191623989839
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.537175517848844,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6368,
+      "sample_id": "bank_test_6368",
+      "source_index": 35965,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.8527153095450792,
+        -2.0901613502772403
+      ],
+      "ckks_logits": [
+        1.8527025103272656,
+        -2.090147928001814
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.9428766598223195,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7249,
+      "sample_id": "bank_test_7249",
+      "source_index": 31510,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.3410209814600922,
+        1.6325535623876954
+      ],
+      "ckks_logits": [
+        -1.3410032771033202,
+        1.6325341940275022
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 2.9735745438477874,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7593,
+      "sample_id": "bank_test_7593",
+      "source_index": 33536,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.3144229428762839,
+        -0.1020395597229228
+      ],
+      "ckks_logits": [
+        0.31440940934996464,
+        -0.10202618752809745
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.4164625025992067,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6816,
+      "sample_id": "bank_test_6816",
+      "source_index": 38692,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -4.4133514600919135,
+        4.456688688048364
+      ],
+      "ckks_logits": [
+        -4.413361020987676,
+        4.456697606840166
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 8.870040148140276,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6540,
+      "sample_id": "bank_test_6540",
+      "source_index": 11166,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.894223083591969,
+        -2.7877183632219746
+      ],
+      "ckks_logits": [
+        2.8942045434384265,
+        -2.787700431898483
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.681941446813944,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7575,
+      "sample_id": "bank_test_7575",
+      "source_index": 36569,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.753871797845823,
+        0.9675382241845383
+      ],
+      "ckks_logits": [
+        -0.7538970187422208,
+        0.967564562444896
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.7214100220303612,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7312,
+      "sample_id": "bank_test_7312",
+      "source_index": 36007,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.107399260932232,
+        -2.2600944778678507
+      ],
+      "ckks_logits": [
+        2.107394797324125,
+        -2.2600901766183066
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.367493738800082,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7363,
+      "sample_id": "bank_test_7363",
+      "source_index": 9518,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.9617452877776538,
+        -1.9397531129949759
+      ],
+      "ckks_logits": [
+        1.961816148391395,
+        -1.939824685990739
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.9014984007726294,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7474,
+      "sample_id": "bank_test_7474",
+      "source_index": 13227,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        3.2275130199230246,
+        -3.1104186954953654
+      ],
+      "ckks_logits": [
+        3.2275198861883743,
+        -3.110425877545397
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 6.3379317154183905,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7356,
+      "sample_id": "bank_test_7356",
+      "source_index": 37529,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.8149030655040298,
+        0.8610691258203905
+      ],
+      "ckks_logits": [
+        -0.814884099632211,
+        0.8610498306113492
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.6759721913244203,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7633,
+      "sample_id": "bank_test_7633",
+      "source_index": 4235,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.545006570399117,
+        -2.364606305200723
+      ],
+      "ckks_logits": [
+        2.5450116675489154,
+        -2.3646111954515665
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.909612875599841,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6745,
+      "sample_id": "bank_test_6745",
+      "source_index": 26353,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.9649895656521827,
+        -1.0646422803356448
+      ],
+      "ckks_logits": [
+        0.9650430249494252,
+        -1.0646977990962454
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.0296318459878275,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7360,
+      "sample_id": "bank_test_7360",
+      "source_index": 31431,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.30345628163798427,
+        -0.4698750166453257
+      ],
+      "ckks_logits": [
+        0.30345080818026393,
+        -0.4698719864300521
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.77333129828331,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7324,
+      "sample_id": "bank_test_7324",
+      "source_index": 40769,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -6.008906907634586,
+        6.278508009548481
+      ],
+      "ckks_logits": [
+        -6.00888304151402,
+        6.278484765443336
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 12.287414917183067,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7577,
+      "sample_id": "bank_test_7577",
+      "source_index": 38269,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -5.296924737658133,
+        5.8175694978920385
+      ],
+      "ckks_logits": [
+        -5.296955789819782,
+        5.817600352133377
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 11.114494235550172,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7051,
+      "sample_id": "bank_test_7051",
+      "source_index": 19351,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.8644271530282683,
+        -1.6700904985388618
+      ],
+      "ckks_logits": [
+        1.8643880826267645,
+        -1.670048557024709
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.53451765156713,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7285,
+      "sample_id": "bank_test_7285",
+      "source_index": 41132,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -4.583502413616739,
+        4.830988541925569
+      ],
+      "ckks_logits": [
+        -4.583458228462071,
+        4.83093849212377
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 9.414490955542309,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6817,
+      "sample_id": "bank_test_6817",
+      "source_index": 32164,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.242163618209625,
+        -1.468408358571885
+      ],
+      "ckks_logits": [
+        1.2421621886320167,
+        -1.4684072811286972
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.7105719767815097,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7453,
+      "sample_id": "bank_test_7453",
+      "source_index": 37243,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.27479388465509513,
+        -0.4657438491869553
+      ],
+      "ckks_logits": [
+        0.274794360061149,
+        -0.46574480184375894
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.7405377338420505,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6743,
+      "sample_id": "bank_test_6743",
+      "source_index": 12749,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.65125069999605,
+        -2.612684231676101
+      ],
+      "ckks_logits": [
+        2.6512713404996346,
+        -2.612704789587196
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.263934931672152,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7574,
+      "sample_id": "bank_test_7574",
+      "source_index": 13926,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.9169169668685313,
+        -1.7783122020942679
+      ],
+      "ckks_logits": [
+        1.9168907300947304,
+        -1.7782856680500378
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.695229168962799,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6742,
+      "sample_id": "bank_test_6742",
+      "source_index": 14990,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.0156173240673847,
+        -2.124538627860693
+      ],
+      "ckks_logits": [
+        2.0156572295763633,
+        -2.12457780553481
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.140155951928078,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7243,
+      "sample_id": "bank_test_7243",
+      "source_index": 9731,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.5645067964643202,
+        -1.1510616340324253
+      ],
+      "ckks_logits": [
+        1.5643992739660386,
+        -1.1509487331516068
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.7155684304967456,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7158,
+      "sample_id": "bank_test_7158",
+      "source_index": 36602,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.14457022555459592,
+        -0.08277084192054862
+      ],
+      "ckks_logits": [
+        -0.14456202477748326,
+        -0.0827792792382468
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 0.0617993836340473,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6825,
+      "sample_id": "bank_test_6825",
+      "source_index": 14510,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.5726377705003567,
+        -2.571064718969983
+      ],
+      "ckks_logits": [
+        2.572652611533816,
+        -2.5710791821687176
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.143702489470339,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6555,
+      "sample_id": "bank_test_6555",
+      "source_index": 13609,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        0.2285532793690386,
+        -0.3371410545067876
+      ],
+      "ckks_logits": [
+        0.2284858312689072,
+        -0.33707395433666687
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.5656943338758262,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7180,
+      "sample_id": "bank_test_7180",
+      "source_index": 26684,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.60018604225786,
+        -2.650016602961015
+      ],
+      "ckks_logits": [
+        2.600156966435669,
+        -2.649987702875375
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.2502026452188755,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7669,
+      "sample_id": "bank_test_7669",
+      "source_index": 32698,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.523327021271125,
+        -1.716652272138778
+      ],
+      "ckks_logits": [
+        1.5234679927103798,
+        -1.716799851070393
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.239979293409903,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7134,
+      "sample_id": "bank_test_7134",
+      "source_index": 30342,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.7123355299442485,
+        0.7559436875802282
+      ],
+      "ckks_logits": [
+        -0.7124169944292859,
+        0.7560272858446455
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.4682792175244768,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6768,
+      "sample_id": "bank_test_6768",
+      "source_index": 39876,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -3.3077204021071003,
+        3.6263457982673093
+      ],
+      "ckks_logits": [
+        -3.307739535792658,
+        3.626366731101313
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 6.93406620037441,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6723,
+      "sample_id": "bank_test_6723",
+      "source_index": 27732,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.49592941681584457,
+        -0.7044880969925658
+      ],
+      "ckks_logits": [
+        0.4959437635998323,
+        -0.7045022893226515
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 1.2004175138084103,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7032,
+      "sample_id": "bank_test_7032",
+      "source_index": 20092,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.04130793000239,
+        -2.0623478843645078
+      ],
+      "ckks_logits": [
+        2.0413362281888525,
+        -2.0623752582910417
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.103655814366897,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6788,
+      "sample_id": "bank_test_6788",
+      "source_index": 21836,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.3689985989609801,
+        0.5045036332431797
+      ],
+      "ckks_logits": [
+        -0.36900933193211694,
+        0.5045108300735521
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 0.8735022322041598,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7676,
+      "sample_id": "bank_test_7676",
+      "source_index": 41025,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.6526077193074236,
+        2.7322717575879207
+      ],
+      "ckks_logits": [
+        -2.652599085840875,
+        2.7322635188258646
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 5.384879476895344,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7612,
+      "sample_id": "bank_test_7612",
+      "source_index": 33051,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        -0.6997010783388992,
+        0.6920168082124184
+      ],
+      "ckks_logits": [
+        -0.6996889458824422,
+        0.6920043774260101
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 1.3917178865513176,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7130,
+      "sample_id": "bank_test_7130",
+      "source_index": 20199,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.7196921604314594,
+        -2.713946089829209
+      ],
+      "ckks_logits": [
+        2.7196675123553873,
+        -2.713921154372914
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.433638250260668,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7306,
+      "sample_id": "bank_test_7306",
+      "source_index": 39344,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -3.5435219513426666,
+        3.6879337789465385
+      ],
+      "ckks_logits": [
+        -3.543532386785887,
+        3.6879436415338973
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 7.2314557302892055,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7432,
+      "sample_id": "bank_test_7432",
+      "source_index": 21779,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.5927728453467345,
+        -2.5220913207109774
+      ],
+      "ckks_logits": [
+        2.5927905552399166,
+        -2.522106712435586
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 5.114864166057712,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6840,
+      "sample_id": "bank_test_6840",
+      "source_index": 22737,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.1646826641318664,
+        -1.954628872716319
+      ],
+      "ckks_logits": [
+        2.1647123312135705,
+        -1.9546558224192934
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.119311536848185,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6833,
+      "sample_id": "bank_test_6833",
+      "source_index": 36986,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.3599266311754956,
+        2.3702483760779733
+      ],
+      "ckks_logits": [
+        -2.3599499300387192,
+        2.3702719107666255
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 4.730175007253469,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7578,
+      "sample_id": "bank_test_7578",
+      "source_index": 20426,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        1.5454536393754439,
+        -1.3799574228031144
+      ],
+      "ckks_logits": [
+        1.5454494945066122,
+        -1.3799527626419588
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.9254110621785583,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7117,
+      "sample_id": "bank_test_7117",
+      "source_index": 30041,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.0791838997580638,
+        -0.13286550933270536
+      ],
+      "ckks_logits": [
+        0.07917114404887693,
+        -0.13285315993622637
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.21204940909076914,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7309,
+      "sample_id": "bank_test_7309",
+      "source_index": 21459,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.1576338224003748,
+        1.3273516056316317
+      ],
+      "ckks_logits": [
+        -1.1576349155766867,
+        1.327353059891529
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 2.4849854280320063,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7508,
+      "sample_id": "bank_test_7508",
+      "source_index": 25793,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        -0.2542305818490846,
+        0.1857866146211238
+      ],
+      "ckks_logits": [
+        -0.2542332922010251,
+        0.18578882764926818
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 0.4400171964702084,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7247,
+      "sample_id": "bank_test_7247",
+      "source_index": 37304,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        -2.513975303539547,
+        2.4942818864887935
+      ],
+      "ckks_logits": [
+        -2.51398487553688,
+        2.4942901512745155
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 5.00825719002834,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6865,
+      "sample_id": "bank_test_6865",
+      "source_index": 3432,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.087072432677033,
+        -1.702709853507739
+      ],
+      "ckks_logits": [
+        2.0870477687625497,
+        -1.7026860924593312
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.7897822861847716,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7097,
+      "sample_id": "bank_test_7097",
+      "source_index": 36539,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.3106095074505241,
+        -0.42902483233351424
+      ],
+      "ckks_logits": [
+        0.3105798997539928,
+        -0.42899314523561183
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.7396343397840384,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7273,
+      "sample_id": "bank_test_7273",
+      "source_index": 40490,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -2.095311909408049,
+        2.2133784740756943
+      ],
+      "ckks_logits": [
+        -2.095312335885725,
+        2.213376749591738
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 4.308690383483743,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7520,
+      "sample_id": "bank_test_7520",
+      "source_index": 14768,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.3623960891489406,
+        -2.300093938519269
+      ],
+      "ckks_logits": [
+        2.3623861470862666,
+        -2.3000823212404713
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.662490027668209,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7123,
+      "sample_id": "bank_test_7123",
+      "source_index": 19937,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.394140040091018,
+        -2.389086411173843
+      ],
+      "ckks_logits": [
+        2.394156426421935,
+        -2.389103944621016
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.783226451264861,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7582,
+      "sample_id": "bank_test_7582",
+      "source_index": 34652,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.2636898189334332,
+        0.14729182379206826
+      ],
+      "ckks_logits": [
+        -0.263696209797903,
+        0.14729824976715145
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 0.4109816427255014,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6446,
+      "sample_id": "bank_test_6446",
+      "source_index": 29771,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.655442492937451,
+        -0.841881074855741
+      ],
+      "ckks_logits": [
+        0.6554216264208764,
+        -0.8418670875565207
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 1.4973235677931922,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6484,
+      "sample_id": "bank_test_6484",
+      "source_index": 18568,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        0.08696886687667439,
+        -0.20049482885605752
+      ],
+      "ckks_logits": [
+        0.08696986482608948,
+        -0.20049558506232568
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 0.2874636957327319,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7174,
+      "sample_id": "bank_test_7174",
+      "source_index": 521,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.1576740040683284,
+        -1.9891176265606494
+      ],
+      "ckks_logits": [
+        2.1576868218756164,
+        -1.9891306428072788
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.146791630628978,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7201,
+      "sample_id": "bank_test_7201",
+      "source_index": 8879,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.281757112489862,
+        -2.0321054355566224
+      ],
+      "ckks_logits": [
+        2.2817169837095745,
+        -2.032064769996517
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.313862548046485,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6984,
+      "sample_id": "bank_test_6984",
+      "source_index": 1934,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.2253571676127368,
+        -0.9150956396811794
+      ],
+      "ckks_logits": [
+        1.2253275538669435,
+        -0.9150674337845147
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.140452807293916,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7427,
+      "sample_id": "bank_test_7427",
+      "source_index": 17551,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -1.545067804376787,
+        1.6637643312476187
+      ],
+      "ckks_logits": [
+        -1.5450426729468636,
+        1.6637380427242263
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 3.2088321356244056,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7535,
+      "sample_id": "bank_test_7535",
+      "source_index": 21559,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.4341813539098274,
+        -1.3461468806957313
+      ],
+      "ckks_logits": [
+        1.4342150017177238,
+        -1.3461811435030857
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.780328234605559,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7606,
+      "sample_id": "bank_test_7606",
+      "source_index": 39267,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -3.145134156163851,
+        3.5452107561076467
+      ],
+      "ckks_logits": [
+        -3.145139804005118,
+        3.545218367587089
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 6.690344912271497,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7035,
+      "sample_id": "bank_test_7035",
+      "source_index": 31819,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.5359751712307443,
+        -1.735938447444198
+      ],
+      "ckks_logits": [
+        1.5359928699213585,
+        -1.7359563190901537
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.271913618674942,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6951,
+      "sample_id": "bank_test_6951",
+      "source_index": 36152,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        1.2612609267158692,
+        -1.4762785121548234
+      ],
+      "ckks_logits": [
+        1.2613060424182052,
+        -1.4763256302084105
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.7375394388706926,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7352,
+      "sample_id": "bank_test_7352",
+      "source_index": 25528,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 1,
+      "plaintext_logits": [
+        -0.3637605324435975,
+        0.3280783164761638
+      ],
+      "ckks_logits": [
+        -0.36382274037020534,
+        0.3281390696061439
+      ],
+      "plaintext_top_1": 1,
+      "ckks_top_1": 1,
+      "top_two_gap": 0.6918388489197613,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6533,
+      "sample_id": "bank_test_6533",
+      "source_index": 2642,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        2.2866275530096445,
+        -2.1466073425518535
+      ],
+      "ckks_logits": [
+        2.2865914386040673,
+        -2.1465714661903625
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 4.4332348955614975,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 6394,
+      "sample_id": "bank_test_6394",
+      "source_index": 19933,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.9453574996069933,
+        -1.8137566917725583
+      ],
+      "ckks_logits": [
+        1.945322721947759,
+        -1.8137216972541357
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.7591141913795516,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7334,
+      "sample_id": "bank_test_7334",
+      "source_index": 32487,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.736659152835355,
+        -1.979902412768349
+      ],
+      "ckks_logits": [
+        1.7366394454478464,
+        -1.9798832451602948
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 3.716561565603704,
+      "argmax_flip": false
+    },
+    {
+      "row_id": 7426,
+      "sample_id": "bank_test_7426",
+      "source_index": 31074,
+      "source_partition": "official_public_procedure_test",
+      "role": "locked_audit",
+      "label": 0,
+      "plaintext_logits": [
+        1.0965860903026186,
+        -1.0040220760164942
+      ],
+      "ckks_logits": [
+        1.0966183409611432,
+        -1.0040518565260026
+      ],
+      "plaintext_top_1": 0,
+      "ckks_top_1": 0,
+      "top_two_gap": 2.1006081663191125,
+      "argmax_flip": false
+    }
+  ],
+  "summary": {
+    "execution_adapter": "hediff_bank_exact_two_logit_adapter_v1",
+    "dataset_id": "hediff_bank_additional_public_procedure",
+    "model_id": "hediff_bank_mlp_20_256_2_seed20260906",
+    "model_type": "hediff_bank_exact_two_logit_square_adapter_v1",
+    "role": "locked_audit",
+    "evaluated_rows": 228,
+    "class_count": 2,
+    "crypto_setup_ms": 19.403216,
+    "encode_encrypt_ms": 118.438253,
+    "evaluation_only_ms": 3061.523915,
+    "adapter_io_ms": 0,
+    "decrypt_decode_ms": 10.063506,
+    "total_ms": 3212.324954,
+    "amortized_total_ms_per_image": 14.08914453508772,
+    "input_ciphertexts": 20,
+    "output_ciphertexts": 2,
+    "initial_level": 4,
+    "final_level": 1,
+    "required_slots": 228,
+    "available_slots": 4096,
+    "argmax_flips": 0,
+    "spool_bytes": 0
+  }
+}

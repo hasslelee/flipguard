@@ -1,0 +1,161 @@
+90: 	LegacyFinitePlanUnsupported          int                               `json:"legacy_finite_plan_unsupported"`
+91: 	LatencyOnlyCandidate                 *ckksplanner.SynthesizedCandidate `json:"latency_only_candidate,omitempty"`
+92: 	LatencyOnlyGateStatus                certify.CandidateStatus           `json:"latency_only_gate_status,omitempty"`
+93: 	FixedDefaultStatus                   string                            `json:"fixed_default_status"`
+94: 	LegacyFiniteWallClockMS              float64                           `json:"legacy_finite_wall_clock_ms"`
+95: }
+96: 
+97: type stageTiming struct {
+98: 	SelectionMS   float64 `json:"selection_wall_clock_ms"`
+99: 	ExhaustiveMS  float64 `json:"exhaustive_wall_clock_ms"`
+100: 	IndependentMS float64 `json:"independent_wall_clock_ms"`
+101: 	LegacyMS      float64 `json:"legacy_finite_wall_clock_ms"`
+102: }
+103: 
+104: func main() {
+105: 	modelPath := flag.String("model", "", "trained model artifact")
+106: 	selectionPath := flag.String("selection", "", "configuration-selection feature CSV")
+107: 	independentPath := flag.String("independent", "", "independent-evaluation feature CSV")
+108: 	datasetID := flag.String("dataset", "", "dataset identity")
+109: 	modelID := flag.String("model-id", "", "model identity")
+110: 	splitID := flag.String("split-id", "", "outer-fold and training-seed identity")
+111: 	outRoot := flag.String("out-root", "", "case output directory")
+112: 	stopAfter := flag.String("stop-after", "", "test-only controlled interruption point: selection")
+113: 	flag.Parse()
+114: 	if *modelPath == "" || *selectionPath == "" || *independentPath == "" || *datasetID == "" || *modelID == "" || *splitID == "" || *outRoot == "" {
+115: 		fatalf("all flags are required")
+116: 	}
+117: 	if _, err := os.Stat(filepath.Join(*outRoot, "case_summary.json")); err == nil {
+118: 		fmt.Printf("case already complete: %s\n", *outRoot)
+119: 		return
+120: 	}
+121: 	if err := os.MkdirAll(*outRoot, 0o755); err != nil {
+122: 		fatalf("create output: %v", err)
+123: 	}
+124: 	selectionPrepared := filepath.Join(*outRoot, "configuration_selection.prepared.csv")
+125: 	independentPrepared := filepath.Join(*outRoot, "independent_evaluation.prepared.csv")
+126: 	ensurePrepared(*modelPath, *selectionPath, selectionPrepared)
+127: 	selectionContract := buildContract(*modelPath, *selectionPath, selectionPrepared, *datasetID, *modelID, *splitID+"/configuration_selection")
+128: 
+129: 	selectionFile := filepath.Join(*outRoot, "selection.json")
+130: 	timingFile := filepath.Join(*outRoot, "stage_timing.json")
+131: 	var timings stageTiming
+132: 	load(timingFile, &timings)
+133: 	var direct ckksplanner.AdaptiveAutotuneResult
+134: 	if !load(selectionFile, &direct) {
+135: 		started := time.Now()
+136: 		plan, err := ckksplanner.Synthesize(selectionContract, ckksplanner.DefaultPrimarySynthesisPolicy())
+137: 		if err != nil {
+138: 			fatalf("direct synthesis: %v", err)
+139: 		}
+140: 		direct, err = ckksplanner.RunAdaptiveTabularAutotuneWithOptions(
+141: 			plan,
+142: 			ckksplanner.TabularCandidateExecutionOptions{CaptureSampleLedger: true},
+143: 		)
+144: 		if err != nil {
+145: 			fatalf("direct selection: %v", err)
+146: 		}
+147: 		writeAtomic(selectionFile, direct)
+148: 		timings.SelectionMS = float64(time.Since(started).Microseconds()) / 1000
+149: 		writeAtomic(timingFile, timings)
+150: 	}
+151: 	if *stopAfter == "selection" {
+152: 		fmt.Printf("controlled interruption after durable selection checkpoint: %s\n", selectionFile)
+153: 		os.Exit(75)
+154: 	} else if *stopAfter != "" {
+155: 		fatalf("unsupported --stop-after value %q", *stopAfter)
+156: 	}
+157: 
+158: 	exhaustiveFile := filepath.Join(*outRoot, "exhaustive.json")
+159: 	var exhaustive exhaustiveResult
+160: 	if !load(exhaustiveFile, &exhaustive) {
+161: 		started := time.Now()
+162: 		_, candidates, err := ckksplanner.BuildV17DepthCompleteFiniteSet(selectionContract)
+163: 		if err != nil {
+164: 			fatalf("build depth-complete finite set: %v", err)
+165: 		}
+166: 		exhaustive = exhaustiveResult{SchemaVersion: schema, GeneratorID: ckksplanner.V17DepthCompleteCandidateGeneratorID, FormalDenominator: len(candidates), Entries: make([]ckksplanner.TabularTrialResult, 0, len(candidates))}
+167: 		for index, candidate := range candidates {
+168: 			trialPath := filepath.Join(*outRoot, "exhaustive_candidates", fmt.Sprintf("candidate_%02d_%s", index+1, candidate.ID), "trial.json")
+169: 			var trial ckksplanner.TabularTrialResult
+170: 			if !load(trialPath, &trial) {
+171: 				if err := os.MkdirAll(filepath.Dir(trialPath), 0o755); err != nil {
+172: 					fatalf("create exhaustive candidate directory: %v", err)
+173: 				}
+174: 				trial, err = ckksplanner.ExecuteTabularCandidateWithOptions(
+175: 					selectionContract,
+176: 					candidate,
+177: 					index+1,
+178: 					ckksplanner.TabularCandidateExecutionOptions{CaptureSampleLedger: true},
+179: 				)
+180: 				if err != nil {
+181: 					fatalf("exhaustive candidate %d: %v", index+1, err)
+182: 				}
+183: 				writeAtomic(trialPath, trial)
+184: 			}
+185: 			exhaustive.Entries = append(exhaustive.Entries, trial)
+186: 			switch trial.Status {
+187: 			case certify.StatusSafe:
+188: 				exhaustive.Safe++
+189: 			case certify.StatusRejected:
+190: 				exhaustive.Rejected++
+191: 			default:
+192: 				exhaustive.Failed++
+193: 			}
+194: 		}
+195: 		for _, trial := range exhaustive.Entries {
+196: 			if trial.Status == certify.StatusSafe &&
+197: 				(exhaustive.FastestSafe == nil || trial.MeanTotalMS < exhaustive.FastestSafeMeanTotalMS) {
+198: 				candidate := trial.Candidate
+199: 				exhaustive.FastestSafe = &candidate
+200: 				exhaustive.FastestSafeMeanTotalMS = trial.MeanTotalMS
+201: 			}
+202: 		}
+203: 		writeAtomic(exhaustiveFile, exhaustive)
+204: 		timings.ExhaustiveMS = float64(time.Since(started).Microseconds()) / 1000
+205: 		writeAtomic(timingFile, timings)
+206: 	}
+207: 
+208: 	legacyFile := filepath.Join(*outRoot, "legacy_finite.json")
+209: 	var legacy legacyResult
+210: 	if !load(legacyFile, &legacy) {
+211: 		started := time.Now()
+212: 		legacyContract := buildContractWithPaths(
+213: 			*modelPath, *selectionPath, selectionPrepared, *datasetID, *modelID,
+214: 			*splitID+"/configuration_selection/legacy_B2",
+215: 			[]tuner.ExecutionPath{tuner.PathRescale, tuner.PathNonRescale},
+216: 		)
+217: 		entries, err := ckksplanner.BuildV17LegacyFiniteSet(legacyContract)
+218: 		if err != nil {
+219: 			fatalf("build legacy finite set: %v", err)
+220: 		}
+221: 		fixedDefault, err := ckksplanner.BuildV17FixedDefaultBaseline(legacyContract)
+222: 		if err != nil {
+223: 			fatalf("build fixed-default baseline: %v", err)
+224: 		}
+225: 		legacyDigest, err := ckksplanner.WorkloadContractDigest(legacyContract)
+226: 		if err != nil {
+227: 			fatalf("digest legacy finite-set contract: %v", err)
+228: 		}
+229: 		legacy = legacyResult{
+230: 			SchemaVersion: schema, GeneratorID: ckksplanner.V17LegacyFiniteSetID,
+231: 			Contract: legacyContract, ContractDigest: legacyDigest,
+232: 			FormalRows: len(entries), Entries: make([]legacyExecutionEntry, 0, len(entries)),
+233: 			FixedDefault: fixedDefault,
+234: 		}
+235: 		for index, entry := range entries {
+236: 			output := legacyExecutionEntry{Static: entry}
+237: 			if entry.EncryptedExecutionRequired {
+238: 				trialPath := filepath.Join(*outRoot, "legacy_candidates", fmt.Sprintf("candidate_%02d_%s", index+1, entry.Candidate.ID), "trial.json")
+239: 				var trial ckksplanner.TabularTrialResult
+240: 				if !load(trialPath, &trial) {
+241: 					if err := os.MkdirAll(filepath.Dir(trialPath), 0o755); err != nil {
+242: 						fatalf("create legacy candidate directory: %v", err)
+243: 					}
+244: 					trial, err = ckksplanner.ExecuteTabularCandidateWithOptions(
+245: 						legacyContract,
+246: 						entry.Candidate,
+247: 						index+1,
+248: 						ckksplanner.TabularCandidateExecutionOptions{CaptureSampleLedger: true},
+249: 					)
+250: 					if err != nil {

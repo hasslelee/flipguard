@@ -1,0 +1,47 @@
+{
+  "protocol_id": "FG_EXPAND_V2_PREP_20260905",
+  "run_id": "fg_expand_v2_20260905_run01",
+  "created_utc": "2026-09-05T10:59:41.087409+00:00",
+  "phase": "preparation_only_before_ckks_main_lock",
+  "final_pdf_sha256": "0210899a12ff1025db358e1812159ca4af2b5c6095a79e2b7b19200d7e9f3b85",
+  "research_question": "Effect of numerical accuracy versus inputwise decision and margin-linked error acceptance on configurations, held-out decisions, and costs",
+  "dataset": "official Fashion-MNIST train60000/test10000",
+  "training_seeds": [
+    0,
+    1,
+    2
+  ],
+  "architecture": "784-100-10 square; unmodified original Go TrainMLP and optimizer",
+  "training_rule": {
+    "epochs": 8,
+    "batch": 64,
+    "initial_lr": 0.001,
+    "decay": 0.9,
+    "weight_decay": 1e-05,
+    "development": 5000,
+    "selection": 500,
+    "train": 54500
+  },
+  "splitting": "SHA256 deterministic per-class rank from train, dev500/class then selection50/class then rest training; official test held out",
+  "preprocessing": "uint8 / 255, no fitted normalization or output scaling",
+  "numerical_comparators": {
+    "type": "representative precision reference, not reproduction of named prior paper",
+    "reference": "round development logits to IEEE binary16 and back to float64",
+    "rmse_threshold": "sqrt(mean((dev_logits-float16(dev_logits))^2)) over all development rows and logits",
+    "max_abs_threshold": "max(abs(dev_logits-float16(dev_logits))) over all development rows and logits",
+    "rationale": "development-output-dependent numerical precision budget; no labels, margins, CKKS or test outputs determine thresholds; engineering reference, no application adequacy guarantee",
+    "selection": "fastest numerically passing finite candidate by original selection timing, all repeated keys must meet the corresponding numerical condition; full finite-set post-hoc selection, not bounded online search",
+    "edge_cases": "float16 overflow or zero threshold recorded; no outcome-based substitute tolerance"
+  },
+  "resource_preliminary": {
+    "training_timeout_seconds_per_seed": 3600,
+    "development_smoke_timeout_seconds": 1800,
+    "training_serial": true,
+    "gomaxprocs": 4,
+    "new_storage_cap_gib": 4,
+    "minimum_free_disk_gib": 8,
+    "memory_cap_gib": 8,
+    "main_scope_decision": "after legacy cost and development-only smoke, before selection/audit; evaluate full10000 if affordable"
+  },
+  "future_experiments_automatic": false
+}

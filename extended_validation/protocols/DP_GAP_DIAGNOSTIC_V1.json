@@ -1,0 +1,12 @@
+{
+  "protocol_id": "DP_GAP_DIAGNOSTIC_V1",
+  "role": "EXPLORATORY_REUSE_OF_EXPOSED_LOGITS",
+  "hypothesis": "Class-common CKKS error cancels in score differences; calibrating the maximum pairwise error may avoid unnecessary abstention",
+  "residual": "For each input, max over calibration keys of (max_c error_c - min_c error_c), where error_c = decrypted_c - plaintext_c",
+  "gate": "Return observed top class if observed top-two gap exceeds the calibrated maximum pairwise-error radius; else abstain",
+  "scope": "Multiclass outputs only, K>=2; reuse DP_PILOT_V1A square MLP models and already observed calibration/test logits",
+  "alpha_stage_nominal": 0.025,
+  "retuning": false,
+  "new_ckks_executions": 0,
+  "statistical_claim": "None. This is an offline diagnostic on exposed pilot data; it does not inherit the IID audit of the different two-stage interval policy."
+}

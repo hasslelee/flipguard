@@ -1,0 +1,87 @@
+{
+  "protocol_id": "FG_EXPAND_V1_20260905",
+  "purpose": "First bounded expansion of the final journal PDF's offline CKKS configuration selection method",
+  "final_pdf_sha256": "0210899a12ff1025db358e1812159ca4af2b5c6095a79e2b7b19200d7e9f3b85",
+  "run_id": "fg_expand_v1_20260905_run01",
+  "cases_in_execution_order": [
+    ["spambase", "linear_poly3"],
+    ["htru2", "linear_poly3"],
+    ["spambase", "mlp_square_linear_score"],
+    ["htru2", "mlp_square_linear_score"]
+  ],
+  "data": {
+    "spambase": {"url": "https://archive.ics.uci.edu/static/public/94/spambase.zip", "member": "spambase.data", "expected_raw_rows": 4601, "features": 57, "exposure": "Dataset already used in DP pilots; new split is not a newly blind population."},
+    "htru2": {"url": "https://archive.ics.uci.edu/static/public/372/htru2.zip", "member": "HTRU_2.csv", "expected_raw_rows": 17898, "features": 8, "exposure": "New dataset in this workspace inventory; no CKKS results used in design."}
+  },
+  "deduplication": "Group identical float64 feature bytes; retain first original row for consistent labels; discard whole conflicting-label groups. Record every retained original row ID.",
+  "split": {
+    "method": "Sequential sklearn train_test_split stratified on labels; take independent, then development, then selection; sort original retained row indices within each role",
+    "random_states": [1701, 2701, 3701],
+    "independent_rows": 256,
+    "development_rows": 256,
+    "selection_rows": 32,
+    "training_rows": "all remaining deduplicated rows",
+    "split_repeats": 1,
+    "training_seed": 0,
+    "rationale": "Four dataset-model cases with larger raw data and 256 disjoint audit rows each; selection 32 limits scalar-per-input CKKS cost. This first slice does not establish split or training-seed robustness. No post-CKKS sample changes."
+  },
+  "model_training": {
+    "implementation": "Unmodified copied build_v17_plaintext_suite.py fit_model/scaled_parameters/head_formula",
+    "preprocessing": "Train-only standardization and logistic coefficient feature ranking, max 16 features, as reference training script",
+    "linear": "liblinear logistic C=1 max_iter=2000; polynomial score 0.5+0.197*z-0.004*z^3",
+    "mlp": "One hidden layer of 4 square units, original fixed 1200 Adam epochs; affine score 0.5+0.197*z",
+    "scale": "Output-logit scale from maximum absolute training logit only",
+    "quality": "Train/development accuracy, balanced accuracy, macro F1, AUROC and score margins recorded before CKKS. Fixed-epoch completion is not convergence proof. No refit or favorable replacement. Numerical/nonfinite failures are unsupported execution conditions; quality deficits retained."
+  },
+  "unchanged_method": {
+    "implementation_root": "research/selection_extension/internal",
+    "selection": "Synthesize + RunAdaptiveTabularAutotuneWithOptions, first acceptable, max 4 encrypted trials",
+    "rho": 0.5,
+    "delta": 0.001,
+    "decision_threshold": 0.5,
+    "security": "Existing Security Policy V2, ciphertext Q and evaluation-key QP checks, >=128 bits, original secret/error distributions",
+    "repair": "Existing +4 scale bits or +1 Q prime rule, unchanged selection policy and guards",
+    "key_repeats": 3,
+    "boundary": "margin<=delta excluded from acceptance numerator but retained in raw diagnostics; empty applicable set not acceptable"
+  },
+  "comparators": {
+    "initial_criteria_off": "Same actually executed initial candidate, remove BOTH agreement and error tests for selection interpretation; security and execution remain. Do not isolate either test's causal effect.",
+    "finite_reference": "Unmodified BuildV17DepthCompleteFiniteSet, all feasible prespecified initial/+4/+8/+12 scale by level guard 0/+1 candidates, at most 8, no denominator padding",
+    "fastest_acceptable": "Minimum measured mean inference time among acceptable finite candidates, fixed before independent evaluation",
+    "fastest_executable": "Minimum measured mean inference time among fully executable finite candidates regardless of agreement/error; diagnostic",
+    "minimum_error": "Offline diagnostic argmin maximum observed error among fully executable same finite set; no new candidate evaluations",
+    "legacy_14_grid": "Not executed in this slice: separate historical B2 diagnostic, not the PDF's 537-candidate finite reference"
+  },
+  "audit": "On all 256 separate rows under 3 fresh keys for direct, fastest acceptable, initial and fastest executable. Deduplicate equal candidate IDs within this audit only, map all roles to the recorded execution. Never feed audit observations into selection or repairs.",
+  "timing": {
+    "backend": "Unmodified RunPairedTabularLatency",
+    "rows": 20,
+    "warmup_runs": 1,
+    "measurement_passes": 6,
+    "fresh_keysets": 3,
+    "order": "balanced_cyclic_and_reverse_row_rotated_v1",
+    "arms": "Direct, fastest acceptable, initial, fastest executable when present and executable. Preserve distinct role arms even with equal literals; independent parameter-compatible keys per arm, reused across that keyset's passes.",
+    "inference_scope": "Encoding/encryption + homomorphic evaluation + decryption/decoding; excludes setup and all configuration selection",
+    "setup": "Report backend setup_ms separately; includes parameter/runtime/key setup, not a pure keygen microbenchmark",
+    "selection_cost": "Wall time of Synthesize and bounded selection separately from whole finite search; includes setup/evaluation/gate/orchestration. Do not label 1-evaluations ratio a latency speedup.",
+    "outlier_removal": false,
+    "aggregation": "Per-case geometric ratios matched on keyset,row,pass; geometric mean within dataset-model groups then equal group geometric mean. Dynamic group count. Descriptive with four groups; optional bootstrap10k seed20260824 explicitly exploratory, no equivalence or confirmatory claims.",
+    "network": "Not implemented/measured; never zero-filled as service latency"
+  },
+  "plumbing": "Before main run: all four models train and pass finite-value/role-disjointness checks; Go raw materialization and Python score parity on selection; static plans and full finite sets; one initial-candidate execution on first 2 development rows with original 3 keys per case. Scientific rejection does not exclude a case. No final audit scores used to accept plumbing.",
+  "budget": {
+    "maximum_cases": 4,
+    "maximum_direct_trials_per_case": 4,
+    "maximum_finite_candidates_per_case": 8,
+    "maximum_audit_candidate_executions_per_case": 4,
+    "estimated_wall_minutes": [45, 150],
+    "wall_cap_seconds": 10800,
+    "memory_expectation_gib": [1, 8],
+    "new_storage_cap_gib": 2,
+    "gomaxprocs": 4,
+    "concurrency": "One CKKS process at a time, no other large experiment during timing",
+    "cap_action": "Stop at a durable stage/case boundary; preserve all attempts, mark remaining work not run; no silent rerun or result deletion",
+    "estimate_basis": "Existing scalar-per-input tabular evidence approximately 63-105 ms/input on small Banknote models; 8/16 features and larger selected parameters may cost more. Current 6-vCPU/16-GiB environment, available disk checked before run."
+  },
+  "claims": "Exploratory first expansion; final PDF's 68 primary and 63 additional cases remain unchanged and are reported separately. No statistical risk bound transferred from DP protocols. No automatic next batch."
+}

@@ -1,0 +1,355 @@
+{
+  "protocol_id": "FG_CONTRIB_V1_20260906",
+  "run_id": "fg_contrib_v1_20260906_run01",
+  "locked_utc": "2026-09-05T17:52:34.735699+00:00",
+  "parent_checkpoint": "b4950499987e06a08075b4a8413ef216e9ab3471",
+  "authorization": "explicit user approval 2026-09-06; CKKS contribution directive v1",
+  "pdf": {
+    "path": "baseline/journal_final_20260905.pdf",
+    "sha256": "0210899a12ff1025db358e1812159ca4af2b5c6095a79e2b7b19200d7e9f3b85"
+  },
+  "cases": [
+    {
+      "case_id": "spambase__linear_poly3__split0_seed0",
+      "kind": "tabular",
+      "model": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__linear_poly3__split0_seed0/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__linear_poly3__split0_seed0/initial_plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__linear_poly3__split0_seed0/configuration_selection.prepared.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__linear_poly3__split0_seed0/independent_evaluation.prepared.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__linear_poly3__split0_seed0/development.csv",
+      "thresholds": {
+        "max_abs": 0.0002422508818502589,
+        "rmse": 0.00010591331337878595
+      },
+      "selection_inputs": 32,
+      "audit_inputs": 256
+    },
+    {
+      "case_id": "htru2__linear_poly3__split0_seed0",
+      "kind": "tabular",
+      "model": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__linear_poly3__split0_seed0/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__linear_poly3__split0_seed0/initial_plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__linear_poly3__split0_seed0/configuration_selection.prepared.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__linear_poly3__split0_seed0/independent_evaluation.prepared.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__linear_poly3__split0_seed0/development.csv",
+      "thresholds": {
+        "max_abs": 0.00022823183442854944,
+        "rmse": 7.764996006546673e-05
+      },
+      "selection_inputs": 32,
+      "audit_inputs": 256
+    },
+    {
+      "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+      "kind": "tabular",
+      "model": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__mlp_square_linear_score__split0_seed0/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__mlp_square_linear_score__split0_seed0/initial_plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__mlp_square_linear_score__split0_seed0/configuration_selection.prepared.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__mlp_square_linear_score__split0_seed0/independent_evaluation.prepared.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__mlp_square_linear_score__split0_seed0/development.csv",
+      "thresholds": {
+        "max_abs": 0.00024221041203142946,
+        "rmse": 0.00010138683003703308
+      },
+      "selection_inputs": 32,
+      "audit_inputs": 256
+    },
+    {
+      "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+      "kind": "tabular",
+      "model": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__mlp_square_linear_score__split0_seed0/initial_plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__mlp_square_linear_score__split0_seed0/configuration_selection.prepared.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__mlp_square_linear_score__split0_seed0/independent_evaluation.prepared.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/development.csv",
+      "thresholds": {
+        "max_abs": 0.00023826961643313993,
+        "rmse": 8.036603347841478e-05
+      },
+      "selection_inputs": 32,
+      "audit_inputs": 256
+    },
+    {
+      "case_id": "fashion_seed0",
+      "kind": "multiclass",
+      "seed": 0,
+      "model": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/plaintext/seed_0/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_0/planning/plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/selection.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_00.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_01.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_02.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_03.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_04.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_05.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_06.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_07.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_08.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_09.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_10.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_11.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_12.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_13.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_14.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_15.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_16.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_17.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_18.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_19.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/plaintext/seed_0/development_logits.json",
+      "thresholds": {
+        "rmse": 0.0028724034277539836,
+        "max_abs": 0.027530070390810124
+      },
+      "selection_inputs": 500,
+      "audit_inputs": 10000
+    },
+    {
+      "case_id": "fashion_seed1",
+      "kind": "multiclass",
+      "seed": 1,
+      "model": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/plaintext/seed_1/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_1/planning/plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/selection.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_00.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_01.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_02.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_03.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_04.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_05.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_06.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_07.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_08.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_09.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_10.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_11.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_12.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_13.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_14.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_15.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_16.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_17.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_18.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_19.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/plaintext/seed_1/development_logits.json",
+      "thresholds": {
+        "rmse": 0.0026124242411956584,
+        "max_abs": 0.029613854530992967
+      },
+      "selection_inputs": 500,
+      "audit_inputs": 10000
+    },
+    {
+      "case_id": "fashion_seed2",
+      "kind": "multiclass",
+      "seed": 2,
+      "model": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/plaintext/seed_2/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_2/planning/plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/selection.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_00.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_01.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_02.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_03.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_04.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_05.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_06.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_07.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_08.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_09.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_10.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_11.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_12.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_13.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_14.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_15.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_16.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_17.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_18.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_19.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/plaintext/seed_2/development_logits.json",
+      "thresholds": {
+        "rmse": 0.0026951232116630055,
+        "max_abs": 0.026194294078862868
+      },
+      "selection_inputs": 500,
+      "audit_inputs": 10000
+    }
+  ],
+  "questions": {
+    "Q1": "numerical acceptance and decision disagreement",
+    "Q2": "acceptance effect A versus B within independent generator",
+    "Q3": "same decision purpose, simple B versus unchanged C, selection and inference cost"
+  },
+  "roles": [
+    {
+      "id": "A30",
+      "role": "A",
+      "start_scale": 30
+    },
+    {
+      "id": "B30",
+      "role": "B",
+      "start_scale": 30
+    },
+    {
+      "id": "C",
+      "role": "C",
+      "start_scale": null
+    },
+    {
+      "id": "A40",
+      "role": "A",
+      "start_scale": 40
+    },
+    {
+      "id": "B40",
+      "role": "B",
+      "start_scale": 40
+    }
+  ],
+  "generator": {
+    "id": "independent_explicit_scale_v1",
+    "inputs": "only fresh graph scale trace, required slots, observed selection output magnitude, model/input identities, explicit scale/qguard; no WorkloadContract argument, margins, sensitivity or C bounds",
+    "normal_start": 30,
+    "normal_basis": "pre-existing DefaultSynthesisPolicy MinScaleBits30, synthesis.go; used only as conventional explicit scale, not its synthesis procedure",
+    "conservative_start": 40,
+    "conservative_basis": "Microsoft SEAL official native/examples/5_ckks_basics.cpp scale2^40; precision setting inspiration, not full SEAL reproduction",
+    "progression": "fixed scale +4, unchanged qguard0; at most4 encrypted candidates and4 proposed scales; admission failures consume no encrypted call but bounded sequence may exhaust",
+    "q_count": "independent model graph Lattigo scale trace requiredQ, not depth+1 assumption",
+    "q_first": "max(18, scale+ceil(log2(max(1, observed_maxabs_output)))+3)",
+    "q_rest": "scale bits",
+    "P": "one prime max(30,q_first)",
+    "N": "minimum admitted logN12..15 for slots and same Q/QP128 policy",
+    "prime_max_bits": 60,
+    "no_hidden_scale_lift": true
+  },
+  "selection": {
+    "blocks": 2,
+    "keys_per_candidate": 3,
+    "max_encrypted_candidates": 4,
+    "inputs": "original32 tabular /500 Fashion; all three keys completed unless execution fails",
+    "stop": "first acceptable; A maxabs<=tau per key all outputs; B/C exact original conjunction on common Vdelta",
+    "C": "unchanged original analysis, Synthesize, firstSAFE, RepairCandidate scale+4 or Q+1, max4, rho.5 delta.001",
+    "order": "block, case; roles rotated by case_index+block; reverse role order on block1",
+    "A_posthoc_decision_overhead": "separately instrumented; actual wall inclusive; attributable phase sums distinguish posthoc overhead; no C analysis charged to A/B",
+    "unexposed_confirmation": false,
+    "block_variation": "two exploratory independent key blocks, not formal significance or risk guarantee"
+  },
+  "diagnostic": {
+    "after_all_actual_selections": true,
+    "scales": [
+      18,
+      22,
+      26,
+      30,
+      34,
+      38,
+      40
+    ],
+    "q_guards": [
+      0
+    ],
+    "keys": 3,
+    "max_candidates_per_case": 7,
+    "inputs": "same selection set; never heldout grid sweep",
+    "precision_sensitivity_multipliers": [
+      0.25,
+      1,
+      4
+    ],
+    "sensitivity_basis": "predeclared +/-2-bit absolute-error budget perturbations around development FP16 roundtrip; representative criteria, not paper tolerances",
+    "secondary_metric": "development FP16 RMSE, independently reported, not main A acceptance",
+    "replay": "any sequential derivation from map explicitly replay, no online wall-time claim",
+    "B_extra": "if budget exhausts, at most2 further explicit scales +4, capped52; separately labelled extra diagnosis, never promote to bounded selection"
+  },
+  "audit": {
+    "configs": "all parameter-distinct selected configs across two blocks, plus exact legacy Spambase pair; aliases share evidence",
+    "input_scope": "all existing256/10000; already exposed inputs, fresh keys do not make new independent input confirmation",
+    "keys": 3,
+    "fashion_batches": 20,
+    "batch_size": 500,
+    "new_key_contexts": "fresh per candidate per batch; same key ordinal is not same key material",
+    "order": "round-robin batch index, case, rotated parameter identities, including partial progress if resource bound reached",
+    "empty_applicability": "not success; preserve boundary and all-input metrics"
+  },
+  "timing": {
+    "protocols": "existing RunPairedTabularLatency and RunV17PrimaryPairedLatencyKeyset",
+    "inputs": 20,
+    "warmup": 1,
+    "measure": 6,
+    "key_blocks": 3,
+    "reference": "first C block selected config, or second if first has none; explicit not quality-based",
+    "aliases": "parameter-identical choices share audit/timing; self-control only if sole distinct config",
+    "selection_minima_not_final_latency": true,
+    "setup": "same inclusion convention all arms; reported separately",
+    "pdf_time": "encode/encrypt + HE + decrypt/decode; generation/key setup excluded but separately measured",
+    "order": "original balanced schedule; all retained; no outlier deletion",
+    "network": null,
+    "queue": null
+  },
+  "stress": {
+    "source": "plaintext-model-only bounded common set, frozen selections unchanged",
+    "seed_inputs": "first16 original heldout rows per model, independent of CKKS outcomes",
+    "selection_of_stress": "fixed20-step projected gradient toward smaller plaintext top2gap/binary threshold margin; retain all generated rows, including no progress",
+    "budget": "16 seeds per model,20 gradient steps; no HE feedback; one resulting common set per model",
+    "bounds": "images clip[0,1], Linfinity radius8/255; tabular featurewise observed training min/max, radius.02*training_range; categorical/binary features frozen; no synthetic labels asserted",
+    "keys": 3,
+    "report": "general and conditional stress results separate; empty Vdelta not zero-failure success"
+  },
+  "external": {
+    "sources": [
+      "https://daoyuan14.github.io/papers/ICSE25_HEDiff.pdf",
+      "https://github.com/Yiteng-Peng/HEDiff",
+      "https://www.usenix.org/conference/usenixsecurity23/presentation/lee-yongwoo",
+      "https://github.com/corelab-src/elasm"
+    ],
+    "representative_priority": "HEDiff BankMLP square+x has exact polynomial plaintext and official TenSEAL implementation; missing official weights/data must be recreated from public procedure, never called original model reproduction",
+    "connect_attempt_cap": 3,
+    "connection_and_install_wall_cap_seconds": 1200,
+    "native_stage_wall_cap_seconds": 7200,
+    "training": "at most one supported public model using its fixed100epoch Adam procedure; one seed20260906; source preprocessing and split retained; no checkpoint selection",
+    "inputs": "16 separate selection,32 audit,16 plaintext-only stress if supported; exact IDs frozen before HE",
+    "C_common_graph": "only semantics-preserving adapter if verified; otherwise report unsupported, never replace with smaller model",
+    "original_parameters_first": true,
+    "HEDiff_metric": "plaintext-correct subset Eq2 alongside all disagreements; CKKS only",
+    "new_compiler_or_bootstrapping": false
+  },
+  "resource": {
+    "gomaxprocs": 4,
+    "native_as_gib": 8,
+    "go_memory_limit": "6GiB",
+    "native_call_timeout_seconds": 1800,
+    "native_total_cap_seconds": 43200,
+    "estimated_hours": [
+      8,
+      11
+    ],
+    "estimate_basis": "prior V2 ~2.923h for one unique config per seed incl8-candidate finite/timing; allow roughly3 unique configs plus two5-role selection blocks and7 diagnostic candidates; additional1-2h tabular/external. Actual aliases unknown before selection. Finite cap applies regardless outcomes.",
+    "storage_cap_gib": 6,
+    "minimum_free_disk_gib": 8,
+    "symmetric_resource_rule": "before audit/timing generate full job lists and interleave cases/batches; on cap preserve completed/incomplete jobs, never replace unmeasured withzero",
+    "heavy_parallelism": false
+  },
+  "preservation": {
+    "original_flipguard_execution": false,
+    "baseline_or_completed_changes": false,
+    "archive_upload": false,
+    "full_archive_rehash": false
+  },
+  "automatic_followup": false,
+  "risk_guarantee": false
+}

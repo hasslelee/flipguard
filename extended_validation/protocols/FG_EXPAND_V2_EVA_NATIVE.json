@@ -1,0 +1,25 @@
+{
+  "protocol_id": "FG_EXPAND_V2_EVA_NATIVE_20260905",
+  "created_utc": "2026-09-05T11:06:34.814123+00:00",
+  "representative_selection_reason": "cited finalPDF, existing official native build, exact shared polynomial/input semantics, bounded viable execution; not expected disagreement",
+  "provider_commit": "4cd3254c9c51340ae30c451495ce5378135758c0",
+  "input_source": "frozen V8 common polynomial; previously exposed500/500, no new independent population",
+  "A": "official EVA compile_program(scale30), range20 and128bit config inherited V8; no decision acceptance added to prior procedure",
+  "B": "original DirectPolicyV2 independent selection,max4trials,3freshkeys; newsourcecopy",
+  "own_accuracy_condition_A": "user-supplied input scale/output range; no empirical tolerance specified by original frozen config; report observed numerical error separately",
+  "our_condition_A": "posthoc only",
+  "key_repeats": 3,
+  "packing_A": "1024vector,500 valid values,3inputciphertexts; compiled runtime schedule",
+  "packing_B": "original scalar-replicated Lattigo graph,one input at a time; same real polynomial",
+  "security": "same128bit target; nativeSEAL and Lattigo distribution/assessment not established identical; no fully matched security or speed superiority claim",
+  "cost_scope": "selection and native encode/evaluate/decode separately; no cross-backend latency attribution to criterion",
+  "connection_budget_seconds": 600,
+  "execution_budget_seconds": 1800,
+  "retuning": 0,
+  "input_bindings": {
+    "results/fg_expand_v2_20260905_run01/external/inputs/configuration_validation.csv": "0848aac9dc05c0ed4403f870ea08b9613be623b05546179adc8cb36701abc8dd",
+    "results/fg_expand_v2_20260905_run01/external/inputs/locked_audit.csv": "9208988e6edf66bc703d228b64b6c1481928436d82ad3f98847bf757f40bdc48",
+    "results/fg_expand_v2_20260905_run01/external/inputs/split_manifest.json": "cb7061a09ad888ccdc43f6bbb7be67ac5ddee3f152450615669491a7ae4163c3",
+    "results/fg_expand_v2_20260905_run01/external/inputs/model.json": "407b8aac2af801b6735cfe870369ec554306b3e3cbc459c768bccf96e1e0cbc7"
+  }
+}

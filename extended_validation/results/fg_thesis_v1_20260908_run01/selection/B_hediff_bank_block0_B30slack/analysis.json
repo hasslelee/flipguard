@@ -1,0 +1,187 @@
+{
+  "analysis_ms": 2.629991,
+  "evaluation_contract": {
+    "schema_version": 2,
+    "workload_id": "hediff_bank_additional_public_procedure__hediff_bank_mlp_20_256_2_seed20260906__configuration_selection",
+    "dataset_id": "hediff_bank_additional_public_procedure",
+    "model_id": "hediff_bank_mlp_20_256_2_seed20260906",
+    "model_type": "hediff_bank_exact_two_logit_square_adapter_v1",
+    "split_id": "configuration_selection",
+    "model_artifact": {
+      "path": "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/model.json",
+      "sha256": "sha256:e0624e2ad25e0c8f1be3eede95e3227dab28d2f644876eb8d3c796098569ca9d"
+    },
+    "validation_data": {
+      "path": "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/configuration_selection.csv",
+      "sha256": "sha256:5c41fed650ad63ceae472155dfefdb63547933839890008acc4bcf5d48575753"
+    },
+    "graph": {
+      "multiplicative_depth": 1,
+      "add_ops": 5632,
+      "mul_ops": 5888,
+      "rot_ops": 0,
+      "rescale_ops": 1,
+      "notes": [
+        "20-256-2 affine/square graph; exact t*t+t=(t+.5)^2-.25; original two logits",
+        "same feature-ciphertext sample-slots and scalar/rescale schedule as journal MLP; three levels, terminal exponent2, Q5"
+      ]
+    },
+    "decision": {
+      "threshold": 0,
+      "margin_floor": 0,
+      "safety_factor": 0,
+      "protected_margin": 0,
+      "output_error_budget": 0,
+      "validation_digest": "",
+      "validation_samples": 0,
+      "certifiable_samples": 0,
+      "ambiguous_samples": 0
+    },
+    "multiclass_decision": {
+      "schema_version": "decision_integrity_contract_v2",
+      "class_count": 2,
+      "tie_break": "lowest_class_index",
+      "bound_mode": "uniform_per_logit_v1",
+      "margin_floor": 0.001,
+      "margin_utilization_cap": 0.5,
+      "protected_top_two_gap": 1.055846000209417,
+      "per_logit_error_budget": 0.26396150005235425,
+      "validation_digest": "sha256:bf758ecf6e37c5b623c87bff5110a73f72970a16bcc49588ece5c19483ae9899",
+      "validation_samples": 16,
+      "certifiable_samples": 16,
+      "ambiguous_samples": 0
+    },
+    "calibration": {
+      "max_input_abs": 1,
+      "max_plaintext_output_abs": 5.0644396057846235,
+      "aggregate_sensitivity": 4748.064647501094,
+      "sensitivity_method": "empirical_interval_dag_sum_v1",
+      "calibration_scope": "configuration_selection:sha256:5c41fed650ad63ceae472155dfefdb63547933839890008acc4bcf5d48575753;underlying_method=empirical_layerwise_linf_roundoff_v1"
+    },
+    "deployment": {
+      "security_bits": 128,
+      "required_slots": 16,
+      "max_encrypted_trials": 4,
+      "validation_key_repeats": 3,
+      "packing_strategy": "feature_ciphertext_sample_slots_v1",
+      "allowed_paths": [
+        "rescale"
+      ],
+      "scale_trace_method": "lattigo_v6_rescale_scale_trace_v1",
+      "rescale_levels_consumed": 3,
+      "terminal_scale_exponent": 2,
+      "required_q_primes": 5
+    }
+  },
+  "facts": {
+    "model_digest": "sha256:e0624e2ad25e0c8f1be3eede95e3227dab28d2f644876eb8d3c796098569ca9d",
+    "input_digest": "sha256:5c41fed650ad63ceae472155dfefdb63547933839890008acc4bcf5d48575753",
+    "required_q_primes": 5,
+    "rescale_levels": 3,
+    "required_slots": 16,
+    "max_output_abs": 5.0644396057846235
+  },
+  "generator_does_not_receive_evaluation_contract": true,
+  "plan": {
+    "schema_version": 0,
+    "contract": {
+      "schema_version": 0,
+      "workload_id": "",
+      "dataset_id": "",
+      "model_id": "",
+      "model_type": "",
+      "split_id": "",
+      "model_artifact": {
+        "path": "",
+        "sha256": ""
+      },
+      "validation_data": {
+        "path": "",
+        "sha256": ""
+      },
+      "graph": {
+        "multiplicative_depth": 0,
+        "add_ops": 0,
+        "mul_ops": 0,
+        "rot_ops": 0,
+        "rescale_ops": 0
+      },
+      "decision": {
+        "threshold": 0,
+        "margin_floor": 0,
+        "safety_factor": 0,
+        "protected_margin": 0,
+        "output_error_budget": 0,
+        "validation_digest": "",
+        "validation_samples": 0,
+        "certifiable_samples": 0,
+        "ambiguous_samples": 0
+      },
+      "calibration": {
+        "max_input_abs": 0,
+        "max_plaintext_output_abs": 0,
+        "aggregate_sensitivity": 0,
+        "sensitivity_method": "",
+        "calibration_scope": ""
+      },
+      "deployment": {
+        "security_bits": 0,
+        "required_slots": 0,
+        "max_encrypted_trials": 0,
+        "validation_key_repeats": 0,
+        "packing_strategy": "",
+        "allowed_paths": null,
+        "scale_trace_method": "",
+        "rescale_levels_consumed": 0,
+        "terminal_scale_exponent": 0,
+        "required_q_primes": 0
+      }
+    },
+    "contract_digest": "",
+    "policy": {
+      "min_log_n": 0,
+      "max_log_n": 0,
+      "min_scale_bits": 0,
+      "max_scale_bits": 0,
+      "min_prime_bits": 0,
+      "max_prime_bits": 0,
+      "scale_guard_bits": 0,
+      "first_prime_guard_bits": 0,
+      "level_guard": 0,
+      "special_prime_bits": 0,
+      "repair_scale_step_bits": 0,
+      "max_repair_levels": 0,
+      "precision_slack_mode": "",
+      "synthesis_budget_mode": "",
+      "security_envelope": {
+        "id": "",
+        "source": "",
+        "security_bits": 0,
+        "secret_distribution": "",
+        "error_sigma": 0,
+        "runtime_xs": {
+          "concrete_type": ""
+        },
+        "runtime_xe": {
+          "concrete_type": ""
+        },
+        "modulus_semantics": {
+          "ciphertext_object": "",
+          "evaluation_key_object": "",
+          "final_admission": ""
+        },
+        "limits": null
+      }
+    },
+    "initial_candidates": null,
+    "repair_policy": {
+      "on_level_failure": "",
+      "on_numerical_reject": "",
+      "scale_step_bits": 0,
+      "max_additional_levels": 0,
+      "max_encrypted_trials": 0
+    },
+    "planner_assurance": ""
+  },
+  "role": "B"
+}

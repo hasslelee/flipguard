@@ -1,0 +1,18 @@
+{
+  "protocol_id": "FG_CAUSE_V1_20260906",
+  "created_utc": "2026-09-06T04:46:44.674755+00:00",
+  "checkpoint": "e2c0054e7778da8f099b1e49ee7b584b2b29bc30",
+  "mode": "existing_evidence_and_plaintext_only",
+  "new_ckks": false,
+  "retraining": false,
+  "new_dataset": false,
+  "modify_C": false,
+  "automatic_followup": false,
+  "selection_policy": "review only: unchanged original first16 test positions0..15; uniform =16 smallest SHA256 selection rank in candidate pool; quartile =4 smallest same ranks per development128 gap quartile; linear quantiles at .25,.5,.75, ties go to higher bin, outer bins unbounded; fewer than4 in any bin => infeasible with no fallback",
+  "pool_rule": "unused original resampled test rows positions176..1543 ranked SHA256 UTF8 FG_CAUSE_V1_20260906/pool/<source_row_id>; first684 candidate, remainder684 future audit reserve; independent of features labels outputs margins",
+  "selection_rank": "SHA256 UTF8 FG_CAUSE_V1_20260906/select/<source_row_id>, source ID tie break; fixed before candidate outputs",
+  "audit_reserve_rule": "identities only; no reserve model forward, logits, margins, accuracy, or selection-policy inspection",
+  "preprocessing": "reuse complete-case LabelEncoder/full-source float32 minmax history; do not rerun NearMiss; exact locked source identities; validate against already exposed role CSVs before candidate forward",
+  "comparison": "existing selection/development candidate observations only for retrospective alternatives; no test/stress winners for proposal",
+  "outputs": "one new cause report and supporting tables, sync update; completed reports and C preserved"
+}

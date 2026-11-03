@@ -1,0 +1,7 @@
+{
+  "stage": "new_package_preflight",
+  "cause": "PEM marker text in validator source was mistaken for actual PEM file content",
+  "scientific_checks": "passed before package inspection",
+  "resolution": "require a full standalone PEM header line; verify copies/excerpts against source; rerun only reporting verification, no scientific reaggregation or HE",
+  "prior_frozen_outputs_changed": false
+}

@@ -1,0 +1,69 @@
+?   	github.com/hasslelee/flipguard/cmd/flipguard	[no test files]
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-audit	0.005s
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-audit-candidate	0.005s
+?   	github.com/hasslelee/flipguard/cmd/flipguard-audit-orion-candidate	[no test files]
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-autotune	0.004s
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-certify-candidate	0.005s
+?   	github.com/hasslelee/flipguard/cmd/flipguard-cnn-lite-audit	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-cnn-lite-autotune	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-harris-audit	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-harris-autotune	[no test files]
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-journal-mlp-paired-latency	0.005s
+?   	github.com/hasslelee/flipguard/cmd/flipguard-journal-mnist-prepare	[no test files]
+--- FAIL: TestFrozenMLPGraphOnlyPreflight (0.00s)
+    main_test.go:22: open /home/ckks2/deciprotect/baseline/source/results/journal_multiclass_extension_v1/preflight/mlp_configuration_validation.json: no such file or directory
+FAIL
+FAIL	github.com/hasslelee/flipguard/cmd/flipguard-journal-multiclass-comparator	0.004s
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-journal-multiclass-preflight	0.005s
+?   	github.com/hasslelee/flipguard/cmd/flipguard-journal-multiclass-run	[no test files]
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-journal-security-materialization	0.019s
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-materialize-tabular	0.017s
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-paired-latency	0.004s
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-planner-oracle	0.004s
+?   	github.com/hasslelee/flipguard/cmd/flipguard-security-inventory	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-sobel-audit	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-sobel-autotune	[no test files]
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-synthesize	0.004s
+?   	github.com/hasslelee/flipguard/cmd/flipguard-v17-depth-ladder	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-v17-mnist-train	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-v17-multiclass-exhaustive	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-v17-multiclass-seed-case	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-v17-multiclass-smoke	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-v17-packed-cnn	[no test files]
+?   	github.com/hasslelee/flipguard/cmd/flipguard-v17-packed-cnn-case	[no test files]
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-v17-plaintext-quality	0.002s
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-v17-primary-paired-latency	0.006s
+?   	github.com/hasslelee/flipguard/cmd/flipguard-v17-tabular-case	[no test files]
+ok  	github.com/hasslelee/flipguard/cmd/flipguard-v17-tabular-paired-latency	0.005s
+ok  	github.com/hasslelee/flipguard/internal/analysis	0.005s
+ok  	github.com/hasslelee/flipguard/internal/benchmarks	0.024s
+ok  	github.com/hasslelee/flipguard/internal/certify	0.028s
+ok  	github.com/hasslelee/flipguard/internal/ckksbackend	46.160s
+--- FAIL: TestBuildCNNLiteWorkloadContractAndSynthesize (0.00s)
+    cnn_lite_contract_test.go:23: BuildCNNLiteWorkloadContract failed: read MNIST source: open ../../results/source_datasets/mnist/mnist_784.arff.gz: no such file or directory
+--- FAIL: TestCNNLiteAuditContractUsesOfficialTestRows (0.00s)
+    cnn_lite_contract_test.go:88: BuildCNNLiteWorkloadContract failed: read MNIST source: open ../../results/source_datasets/mnist/mnist_784.arff.gz: no such file or directory
+--- FAIL: TestCNNLiteInitialCandidateOneRowSmoke (0.00s)
+    cnn_lite_contract_test.go:108: BuildCNNLiteWorkloadContract failed: read MNIST source: open ../../results/source_datasets/mnist/mnist_784.arff.gz: no such file or directory
+--- FAIL: TestPackedCNNLiteContractAndOneRowSmoke (0.00s)
+    cnn_lite_contract_test.go:171: read MNIST source: open ../../results/source_datasets/mnist/mnist_784.arff.gz: no such file or directory
+--- FAIL: TestV17DepthLadderContractTracksDeclaredDepth (0.00s)
+    depth_ladder_contract_test.go:26: build depth 1 contract: open /home/ckks2/deciprotect/baseline/source/results/model_family_expansion_v17/depth_ladder/inputs/D1/model.json: no such file or directory
+--- FAIL: TestBuildHarrisWorkloadContractAndSynthesize (0.00s)
+    harris_contract_test.go:35: BuildHarrisWorkloadContract failed: read Harris source archive: open ../../results/source_datasets/bsds500/BSR_bsds500.tgz: no such file or directory
+FAIL
+FAIL	github.com/hasslelee/flipguard/internal/ckksplanner	6.978s
+ok  	github.com/hasslelee/flipguard/internal/experiment	0.005s
+ok  	github.com/hasslelee/flipguard/internal/externaladapter	0.005s
+?   	github.com/hasslelee/flipguard/internal/ir	[no test files]
+ok  	github.com/hasslelee/flipguard/internal/journalmnist	1.885s
+ok  	github.com/hasslelee/flipguard/internal/modelregistry	0.002s
+--- FAIL: TestProviderSchemaV3BindsPinnedEVASchedule (0.00s)
+    provider_candidate_test.go:169: bind EVA schedule candidate: read EVA compiled program /home/ckks2/deciprotect/baseline/source/docs/evidence/eva_external_adapter_replay_v1/run/compiled_program.dot: open /home/ckks2/deciprotect/baseline/source/docs/evidence/eva_external_adapter_replay_v1/run/compiled_program.dot: no such file or directory
+FAIL
+FAIL	github.com/hasslelee/flipguard/internal/providergate	0.504s
+ok  	github.com/hasslelee/flipguard/internal/report	0.005s
+ok  	github.com/hasslelee/flipguard/internal/runtime	0.010s
+ok  	github.com/hasslelee/flipguard/internal/scheduler	0.006s
+ok  	github.com/hasslelee/flipguard/internal/tuner	0.002s
+FAIL

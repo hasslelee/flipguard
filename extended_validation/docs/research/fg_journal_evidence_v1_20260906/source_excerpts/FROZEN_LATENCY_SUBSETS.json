@@ -1,0 +1,466 @@
+{
+  "result_independent": true,
+  "role": "independent_evaluation_latency_only",
+  "schema_version": "flipguard_v17_primary_latency_subsets_v1",
+  "subsets": [
+    {
+      "data_path": "datasets/journal_multiclass_extension_v1/mnist/locked_audit.csv",
+      "data_sha256": "sha256:ce2e0d2fbf0a2d69cd4a4a4c9603d3624a9b82602236fea7fe47d12f4f7b2d35",
+      "id": "p4_mlp100_locked_audit_20_v1",
+      "kind": "journal_mnist_multiclass",
+      "model_id": "mnist_mlp_square_784_100_10_v1",
+      "per_class": 2,
+      "row_ids": [
+        98,
+        272,
+        213,
+        411,
+        106,
+        193,
+        365,
+        473,
+        94,
+        426,
+        112,
+        97,
+        314,
+        73,
+        288,
+        1,
+        18,
+        76,
+        38,
+        349
+      ],
+      "rows": [
+        {
+          "label": 0,
+          "row_id": 98,
+          "sample_id": "mnist_61712",
+          "sha256_rank": "094d5dbdc1a1e5647b4d79eb57300b27cadd8a8bd663b3a894a6e070a249b3e2"
+        },
+        {
+          "label": 0,
+          "row_id": 272,
+          "sample_id": "mnist_65443",
+          "sha256_rank": "0b792d70a90fc87c8f107e30bb9426dc6d017d533ab1f34a01eec96c0c9f78c1"
+        },
+        {
+          "label": 1,
+          "row_id": 213,
+          "sample_id": "mnist_64185",
+          "sha256_rank": "02ee1e6e06b8c6f269f90c54c9f08c748f5e63104af62af9b4712d12a9c17b53"
+        },
+        {
+          "label": 1,
+          "row_id": 411,
+          "sample_id": "mnist_68233",
+          "sha256_rank": "054f48b182c9540e01e96c796f0739ce0072da747d00612edc0552d86a950e3e"
+        },
+        {
+          "label": 2,
+          "row_id": 106,
+          "sample_id": "mnist_61890",
+          "sha256_rank": "028246494f6ba1e15fc3647319d9bc09028bc3db47ea866c5cba47514faec57d"
+        },
+        {
+          "label": 2,
+          "row_id": 193,
+          "sample_id": "mnist_63611",
+          "sha256_rank": "04187dadd140266214b73bc3c757bc801e8bea0ad8a4840e64cc7dfb3fd3494f"
+        },
+        {
+          "label": 3,
+          "row_id": 365,
+          "sample_id": "mnist_67435",
+          "sha256_rank": "021995baf4b0b6b8165fb2318359bc6e0a048abba42dbd4d495e7e56cddef601"
+        },
+        {
+          "label": 3,
+          "row_id": 473,
+          "sample_id": "mnist_69380",
+          "sha256_rank": "03a8ac1766c4a29afd0b188abd7274d78c2e6be58ace9ed903451c5332028fea"
+        },
+        {
+          "label": 4,
+          "row_id": 94,
+          "sample_id": "mnist_61625",
+          "sha256_rank": "00849d1eb0e8c5879f81b0dac77a41b0b65ccbfe9c2a16396c9f9a94f96cc617"
+        },
+        {
+          "label": 4,
+          "row_id": 426,
+          "sample_id": "mnist_68520",
+          "sha256_rank": "0cffadb6187dacbea7b23b522317cb27f47eeec9eae5b660187877134e9dde5f"
+        },
+        {
+          "label": 5,
+          "row_id": 112,
+          "sample_id": "mnist_62073",
+          "sha256_rank": "0f3bdcf2b90c2ad5932c10ce02630c66f883e50384db1262958dc8e2b55e97aa"
+        },
+        {
+          "label": 5,
+          "row_id": 97,
+          "sample_id": "mnist_61672",
+          "sha256_rank": "0f4802a15488bf35b3d0f57d8ba54a0846b22cb134e4056508c7ccecde98fa04"
+        },
+        {
+          "label": 6,
+          "row_id": 314,
+          "sample_id": "mnist_66218",
+          "sha256_rank": "0058a3fdd9bd117e56a4813c9e433c37bca86a67b83504e59104514da2eb79d3"
+        },
+        {
+          "label": 6,
+          "row_id": 73,
+          "sample_id": "mnist_61250",
+          "sha256_rank": "074cfe60914fcb6ccf0751654498c7cfc65cd0f99c6738106528bed2df5a4f25"
+        },
+        {
+          "label": 7,
+          "row_id": 288,
+          "sample_id": "mnist_65655",
+          "sha256_rank": "00a8728d488de6197a8b5e42205d774e4119e848307a258845a22befa20f5310"
+        },
+        {
+          "label": 7,
+          "row_id": 1,
+          "sample_id": "mnist_60026",
+          "sha256_rank": "05a972462f236e9a7f422b503cdd75acfca5b8165d70ef47b1497f6e959c05da"
+        },
+        {
+          "label": 8,
+          "row_id": 18,
+          "sample_id": "mnist_60266",
+          "sha256_rank": "08c396b8d4030f865cccf7d8a9a2b954bca19b46a382ab26b76894b346d4f503"
+        },
+        {
+          "label": 8,
+          "row_id": 76,
+          "sample_id": "mnist_61287",
+          "sha256_rank": "0df1dee7c99021cbeaac0f3d5c7bd470a9d0b23a962890c9253047a92e148036"
+        },
+        {
+          "label": 9,
+          "row_id": 38,
+          "sample_id": "mnist_60681",
+          "sha256_rank": "08e21c66c181a116ee8890c7b4880f71b8c9694baf6be85400018c8e014f7085"
+        },
+        {
+          "label": 9,
+          "row_id": 349,
+          "sample_id": "mnist_66980",
+          "sha256_rank": "0c8dc232ea0ede70894d735ac9f8afb63fac8f39b2ddec225f44bb492c49a7af"
+        }
+      ],
+      "selection_rule": "SHA-256 rank within each class; result-independent; frozen before latency execution"
+    },
+    {
+      "data_path": "datasets/journal_multiclass_extension_v1/mnist/locked_audit.csv",
+      "data_sha256": "sha256:ce2e0d2fbf0a2d69cd4a4a4c9603d3624a9b82602236fea7fe47d12f4f7b2d35",
+      "id": "p5_lenet_locked_audit_20_v1",
+      "kind": "journal_mnist_multiclass",
+      "model_id": "mnist_lenet5_small_square_v1",
+      "per_class": 2,
+      "row_ids": [
+        498,
+        378,
+        66,
+        230,
+        106,
+        291,
+        169,
+        218,
+        184,
+        418,
+        395,
+        457,
+        47,
+        384,
+        130,
+        152,
+        456,
+        459,
+        153,
+        216
+      ],
+      "rows": [
+        {
+          "label": 0,
+          "row_id": 498,
+          "sample_id": "mnist_69964",
+          "sha256_rank": "08c2fb20f01ac3a392c35cef232e133a752efe9544fcfb81e75ab0ca61929287"
+        },
+        {
+          "label": 0,
+          "row_id": 378,
+          "sample_id": "mnist_67671",
+          "sha256_rank": "09a9f36140f7f5e1bf8f1ff5b4db528a4e87824df5f4ef812b3aa612d8bdbd72"
+        },
+        {
+          "label": 1,
+          "row_id": 66,
+          "sample_id": "mnist_61075",
+          "sha256_rank": "003dad92d352753d058c0cf8bcd5ce974464a369ed6f084b6281f8837df71229"
+        },
+        {
+          "label": 1,
+          "row_id": 230,
+          "sample_id": "mnist_64428",
+          "sha256_rank": "005f5c7e55f7fd2c5d3764b3e37b06679b1209f8440ce46a058d47487c5f36ae"
+        },
+        {
+          "label": 2,
+          "row_id": 106,
+          "sample_id": "mnist_61890",
+          "sha256_rank": "003f4780cf534b6e4a3316d0193f739420ac0e01b9dab171826ee736648e1fcb"
+        },
+        {
+          "label": 2,
+          "row_id": 291,
+          "sample_id": "mnist_65723",
+          "sha256_rank": "0062047751167189eade4582acef6b4e49fd8df88c2d1109cbcb5347485421eb"
+        },
+        {
+          "label": 3,
+          "row_id": 169,
+          "sample_id": "mnist_62953",
+          "sha256_rank": "00699149ff043c10f724cafc84376b96555c1bf3fee59cc593a135727bc10a6a"
+        },
+        {
+          "label": 3,
+          "row_id": 218,
+          "sample_id": "mnist_64234",
+          "sha256_rank": "00a85e89bafcd5f46b10fcd82db131025a9b7b66f20e1385c4e2e03c1bba239b"
+        },
+        {
+          "label": 4,
+          "row_id": 184,
+          "sample_id": "mnist_63332",
+          "sha256_rank": "031e492d72d40288ab4d7ab19eebfdb12eef5879340f18efd9f271628bb63745"
+        },
+        {
+          "label": 4,
+          "row_id": 418,
+          "sample_id": "mnist_68363",
+          "sha256_rank": "057efd18ed9d462e09c2611336fd7057ddeeaaa064da989536ca8851de44b24a"
+        },
+        {
+          "label": 5,
+          "row_id": 395,
+          "sample_id": "mnist_67988",
+          "sha256_rank": "035244758050ec8fb8c4fd0cdc2595e544da4be9d2637af1bb802b0eda549420"
+        },
+        {
+          "label": 5,
+          "row_id": 457,
+          "sample_id": "mnist_69119",
+          "sha256_rank": "07db36f88f55b0e13606dba535840c4440b25fd221e97acbe7aa4019e51f4d98"
+        },
+        {
+          "label": 6,
+          "row_id": 47,
+          "sample_id": "mnist_60861",
+          "sha256_rank": "03f2f3f39169d73c2329b146c8726e3dce1093d816adc8876ad08b92871bc686"
+        },
+        {
+          "label": 6,
+          "row_id": 384,
+          "sample_id": "mnist_67761",
+          "sha256_rank": "0569b6afafd7cd0ee20adc034df46348f77bdfdc98e0459a1f58ba58c5299fa9"
+        },
+        {
+          "label": 7,
+          "row_id": 130,
+          "sample_id": "mnist_62317",
+          "sha256_rank": "081552356077f060608ef70df9b4ade23f5581bf2bd86a51a971a0e84204b001"
+        },
+        {
+          "label": 7,
+          "row_id": 152,
+          "sample_id": "mnist_62646",
+          "sha256_rank": "0bb6543d955bbf2b2e94663a8251b2f16df04dd822ffa36b65857af212ab159a"
+        },
+        {
+          "label": 8,
+          "row_id": 456,
+          "sample_id": "mnist_69116",
+          "sha256_rank": "0a60737fcb4c7031823dd303c4ad38e7b232a5a22f1fa30d234c5e1dd5d70f56"
+        },
+        {
+          "label": 8,
+          "row_id": 459,
+          "sample_id": "mnist_69150",
+          "sha256_rank": "0fa45ab8ed2955119dd4bed8f5a08c12655fe1f85e70c09dbdb76ff7ee4620f9"
+        },
+        {
+          "label": 9,
+          "row_id": 153,
+          "sample_id": "mnist_62692",
+          "sha256_rank": "009c36f361879f20b42f192853d5580d98230ca3a924e4fb92af4f7c20685fcd"
+        },
+        {
+          "label": 9,
+          "row_id": 216,
+          "sample_id": "mnist_64224",
+          "sha256_rank": "01043d5745f25d996710586be94903d4cb91ff10c1fd9f96f23dcb7eaedde031"
+        }
+      ],
+      "selection_rule": "SHA-256 rank within each class; result-independent; frozen before latency execution"
+    },
+    {
+      "data_path": "datasets/vision_suite/mnist/cnn_lite_square_binary01/locked_audit_test.csv",
+      "data_sha256": "sha256:dc45a3440752e36471257451f90298c0b3979c22fd68551e45ddae86b576c313",
+      "id": "p6_packed_cnn_locked_audit_20_v1",
+      "kind": "packed_cnn_lite_binary01",
+      "model_id": "packed_cnn_lite_binary01_v17",
+      "per_class": 10,
+      "row_ids": [
+        69911,
+        61231,
+        65652,
+        67317,
+        65987,
+        63982,
+        64788,
+        64208,
+        64062,
+        61535,
+        65917,
+        66115,
+        64670,
+        69368,
+        63784,
+        64491,
+        63641,
+        61674,
+        66540,
+        67000
+      ],
+      "rows": [
+        {
+          "label": 0,
+          "row_id": 69911,
+          "sample_id": "mnist_69911",
+          "sha256_rank": "005486a17acdad2d8c1087be503fb1e4ac66b9756dc7e2b7885f7f5cafde6119"
+        },
+        {
+          "label": 0,
+          "row_id": 61231,
+          "sample_id": "mnist_61231",
+          "sha256_rank": "0077aa8ca19840ebca96d427b2e3f8afd6ed05942660c498e57f79a69b7669b5"
+        },
+        {
+          "label": 0,
+          "row_id": 65652,
+          "sample_id": "mnist_65652",
+          "sha256_rank": "00aa727c9f609c88a78e18a5c294bbcb2f1f100d35554339fa494f614713d6f2"
+        },
+        {
+          "label": 0,
+          "row_id": 67317,
+          "sample_id": "mnist_67317",
+          "sha256_rank": "01bb989a1131cc89d557feb652adc99452f3badafcaef70c72a9750185ba8283"
+        },
+        {
+          "label": 0,
+          "row_id": 65987,
+          "sample_id": "mnist_65987",
+          "sha256_rank": "03f4cca5c1f23da3293d89ef5d49a62be7f4d3ec0b335a53f694631849df20db"
+        },
+        {
+          "label": 0,
+          "row_id": 63982,
+          "sample_id": "mnist_63982",
+          "sha256_rank": "04c069a3a5335014fad827a7013b2d2d4237d98f87367b6d6a1364f51c5e5185"
+        },
+        {
+          "label": 0,
+          "row_id": 64788,
+          "sample_id": "mnist_64788",
+          "sha256_rank": "06283c17f57deced67c68e685c77873aae2f7b1018e0416e734c41e6d81f138d"
+        },
+        {
+          "label": 0,
+          "row_id": 64208,
+          "sample_id": "mnist_64208",
+          "sha256_rank": "09bd93e9e60bd1d7f59e6685c17766089d1ac18267c28652144754b281c9e16d"
+        },
+        {
+          "label": 0,
+          "row_id": 64062,
+          "sample_id": "mnist_64062",
+          "sha256_rank": "0d11bc25622b64ccdab79dcf2deaf33cdda740abfc4e8529cdbc073ff35f9c2b"
+        },
+        {
+          "label": 0,
+          "row_id": 61535,
+          "sample_id": "mnist_61535",
+          "sha256_rank": "0d9eaa7517d1bd16f7d4dbf3533f89204246e5e242c616a108483f749657be81"
+        },
+        {
+          "label": 1,
+          "row_id": 65917,
+          "sample_id": "mnist_65917",
+          "sha256_rank": "01f9a5906e9d4d44828476a670f14e5fa768ee80cae60f71b7934949b9904b78"
+        },
+        {
+          "label": 1,
+          "row_id": 66115,
+          "sample_id": "mnist_66115",
+          "sha256_rank": "028cf0c0eb5e0f4c09dda73a99cf70956559c0c9c0634333cc60eea3d785cca4"
+        },
+        {
+          "label": 1,
+          "row_id": 64670,
+          "sample_id": "mnist_64670",
+          "sha256_rank": "049872218656ad8eea4316230920229a3f79554e43779bea6a38d8397a80e4a5"
+        },
+        {
+          "label": 1,
+          "row_id": 69368,
+          "sample_id": "mnist_69368",
+          "sha256_rank": "05b951ccfe54ca87b9e85ae478a0e9232d685bb676b2af95587750ec72420fbb"
+        },
+        {
+          "label": 1,
+          "row_id": 63784,
+          "sample_id": "mnist_63784",
+          "sha256_rank": "05ec841f826cb513952f6f9c66d46c6d67667dcfb228a99c05f5e8a48da2bb2c"
+        },
+        {
+          "label": 1,
+          "row_id": 64491,
+          "sample_id": "mnist_64491",
+          "sha256_rank": "0841bedbdc2a774afdb810c219e431704d6e4b2c123f2c8616029cf1b38efe54"
+        },
+        {
+          "label": 1,
+          "row_id": 63641,
+          "sample_id": "mnist_63641",
+          "sha256_rank": "094c3bdeccfdde7c5ce98255e0384720d90a2b2bb431377d14e2d029180f4a03"
+        },
+        {
+          "label": 1,
+          "row_id": 61674,
+          "sample_id": "mnist_61674",
+          "sha256_rank": "0c53224a3f7752a1257a2416593222cce0f0650afafa1a5559dde7573000e864"
+        },
+        {
+          "label": 1,
+          "row_id": 66540,
+          "sample_id": "mnist_66540",
+          "sha256_rank": "0ca0aedb8b160606410fb7e86703cd3cb36112771a3d822061e9dab985ca144d"
+        },
+        {
+          "label": 1,
+          "row_id": 67000,
+          "sample_id": "mnist_67000",
+          "sha256_rank": "0cf840fe2c43ce7d3b54ac4485543747b414f33bd592f081ba3adc8d942763a4"
+        }
+      ],
+      "selection_rule": "SHA-256 rank within each class; result-independent; frozen before latency execution"
+    }
+  ]
+}

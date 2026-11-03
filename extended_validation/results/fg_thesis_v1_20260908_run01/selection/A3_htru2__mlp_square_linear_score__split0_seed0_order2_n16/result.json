@@ -1,0 +1,143 @@
+{
+  "actual_encrypted_candidates": 1,
+  "analysis_ms": 9.315734,
+  "b_slack": false,
+  "candidate_cap": 4,
+  "cprime": false,
+  "decision_posthoc_for_A": true,
+  "delta": 0.001,
+  "evidence_write_ms": 8.118977,
+  "generation_attempts": [],
+  "key_block": 0,
+  "numeric_posthoc_for_B_C": true,
+  "outcome": "SELECTED",
+  "protocol": "FG_THESIS_V1_20260908",
+  "rho": 0.5,
+  "role": "C",
+  "selected": {
+    "id": "synth_analysis_minimum_rescale_N13_Q6_S20_861422e35365",
+    "path": "rescale",
+    "parameters": {
+      "log_n": 13,
+      "log_q": [
+        23,
+        20,
+        20,
+        20,
+        20,
+        20
+      ],
+      "log_p": [
+        30
+      ],
+      "log_default_scale": 20
+    },
+    "security": {
+      "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+      "target_bits": 128,
+      "declared_log_qp": 153,
+      "max_allowed_log_qp": 214,
+      "headroom_bits": 61,
+      "admission_status": "PASS",
+      "log_q": 123,
+      "log_p": 30,
+      "log_qp": 153,
+      "ciphertext_q_admission": "PASS",
+      "evaluation_key_qp_admission": "PASS",
+      "final_admission": "PASS",
+      "ciphertext_headroom_bits": 91,
+      "evaluation_key_headroom_bits": 61,
+      "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+    },
+    "required_rescale_levels": 3,
+    "level_guard": 0,
+    "precision_target_bits": 9,
+    "message_magnitude_bits": 0,
+    "analysis_scale_bits": 18,
+    "backend_scale_lift_bits": 2,
+    "backend_validation_attempts": 3,
+    "same_tier_precision_gain_bits": 0,
+    "same_tier_static_candidates_tried": 1,
+    "generation_kind": "analysis_minimum",
+    "reason": "budget=0.0142079 aggregate_sensitivity=7.05816 unit_budget=0.00201298 precision_bits=9 rescale_levels=3 terminal_scale_exponent=3 q_primes=6 level_guard=0 declared_logQP=153 analysis_scale_bits=18 backend_scale_lift_bits=2 backend_validation_attempts=3 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+  },
+  "start_scale": 30,
+  "threshold": 0,
+  "trials": [
+    {
+      "candidate": {
+        "id": "synth_analysis_minimum_rescale_N13_Q6_S20_861422e35365",
+        "path": "rescale",
+        "parameters": {
+          "log_n": 13,
+          "log_q": [
+            23,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "log_p": [
+            30
+          ],
+          "log_default_scale": 20
+        },
+        "security": {
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "target_bits": 128,
+          "declared_log_qp": 153,
+          "max_allowed_log_qp": 214,
+          "headroom_bits": 61,
+          "admission_status": "PASS",
+          "log_q": 123,
+          "log_p": 30,
+          "log_qp": 153,
+          "ciphertext_q_admission": "PASS",
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "ciphertext_headroom_bits": 91,
+          "evaluation_key_headroom_bits": 61,
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+        },
+        "required_rescale_levels": 3,
+        "level_guard": 0,
+        "precision_target_bits": 9,
+        "message_magnitude_bits": 0,
+        "analysis_scale_bits": 18,
+        "backend_scale_lift_bits": 2,
+        "backend_validation_attempts": 3,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 1,
+        "generation_kind": "analysis_minimum",
+        "reason": "budget=0.0142079 aggregate_sensitivity=7.05816 unit_budget=0.00201298 precision_bits=9 rescale_levels=3 terminal_scale_exponent=3 q_primes=6 level_guard=0 declared_logQP=153 analysis_scale_bits=18 backend_scale_lift_bits=2 backend_validation_attempts=3 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+      },
+      "status": "SAFE",
+      "keys": 3,
+      "numeric": [
+        {
+          "key": 1,
+          "count": 16,
+          "max_abs": 0.0004195158892237316,
+          "rmse": 0.00011951401607144953
+        },
+        {
+          "key": 2,
+          "count": 16,
+          "max_abs": 0.00009506217274279916,
+          "rmse": 0.00003067690869584973
+        },
+        {
+          "key": 3,
+          "count": 16,
+          "max_abs": 0.00014527102355943455,
+          "rmse": 0.00006044208607518749
+        }
+      ],
+      "decision_ms": 0.032721,
+      "numeric_ms": 0.001882,
+      "native_wall_ms": 5868.405402
+    }
+  ],
+  "wall_ms": 5897.212072
+}

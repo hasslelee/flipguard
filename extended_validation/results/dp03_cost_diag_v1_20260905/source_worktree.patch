@@ -1,0 +1,138 @@
+diff --git a/cmd/deciprotect-ckks/main.go b/cmd/deciprotect-ckks/main.go
+index a08af91..012d1f6 100644
+--- a/cmd/deciprotect-ckks/main.go
++++ b/cmd/deciprotect-ckks/main.go
+@@ -103,14 +103,21 @@ func validate(r Request) (int, error) {
+ }
+ 
+ func evaluate(params ckks.Parameters, layers []Layer, inputs []*rlwe.Ciphertext, evk rlwe.EvaluationKeySet) ([]*rlwe.Ciphertext, error) {
++	return evaluateWithCost(params, layers, inputs, evk, nil)
++}
++
++func evaluateWithCost(params ckks.Parameters, layers []Layer, inputs []*rlwe.Ciphertext, evk rlwe.EvaluationKeySet, cost *CostCounters) ([]*rlwe.Ciphertext, error) {
++	tick := costStart(cost)
+ 	ev := ckks.NewEvaluator(params, evk)
+ 	encoder := ckks.NewEncoder(params)
++	costAdd(cost, "server_context_init_ms", tick)
+ 	current := inputs
+ 	for _, layer := range layers {
+ 		next := make([]*rlwe.Ciphertext, len(layer.Weights))
+ 		for j, weights := range layer.Weights {
+ 			var acc *rlwe.Ciphertext
+ 			for k, w := range weights {
++				tick = costStart(cost)
+ 				pt := ckks.NewPlaintext(params, current[k].Level())
+ 				vals := make([]float64, params.MaxSlots())
+ 				for n := range vals {
+@@ -119,7 +126,11 @@ func evaluate(params ckks.Parameters, layers []Layer, inputs []*rlwe.Ciphertext,
+ 				if err := encoder.Encode(vals, pt); err != nil {
+ 					return nil, err
+ 				}
++				costAdd(cost, "server_model_prepare_ms", tick)
++				costCount(cost, "weight_plaintext_encodes", 1)
++				tick = costStart(cost)
+ 				term, err := ev.MulNew(current[k], pt)
++				costCount(cost, "ct_pt_multiply", 1)
+ 				if err != nil {
+ 					return nil, err
+ 				}
+@@ -128,7 +139,12 @@ func evaluate(params ckks.Parameters, layers []Layer, inputs []*rlwe.Ciphertext,
+ 				} else if err = ev.Add(acc, term, acc); err != nil {
+ 					return nil, err
+ 				}
++				costAdd(cost, "homomorphic_ops_ms", tick)
++				if k > 0 {
++					costCount(cost, "ct_add", 1)
++				}
+ 			}
++			tick = costStart(cost)
+ 			if err := ev.Rescale(acc, acc); err != nil {
+ 				return nil, err
+ 			}
+@@ -136,6 +152,8 @@ func evaluate(params ckks.Parameters, layers []Layer, inputs []*rlwe.Ciphertext,
+ 				return nil, err
+ 			}
+ 			if layer.Square {
++				costCount(cost, "ct_ct_multiply_relinearize", 1)
++				costCount(cost, "rescale", 1)
+ 				var err error
+ 				acc, err = ev.MulRelinNew(acc, acc)
+ 				if err != nil {
+@@ -146,16 +164,19 @@ func evaluate(params ckks.Parameters, layers []Layer, inputs []*rlwe.Ciphertext,
+ 				}
+ 			}
+ 			next[j] = acc
++			costAdd(cost, "homomorphic_ops_ms", tick)
++			costCount(cost, "rescale", 1)
++			costCount(cost, "bias_add", 1)
+ 		}
+ 		current = next
+ 	}
+ 	return current, nil
+ }
+ 
+-func run(r Request) (Result, error) {
++func parametersForRequest(r Request) (ckks.Parameters, float64, error) {
+ 	depth, err := validate(r)
+ 	if err != nil {
+-		return Result{}, err
++		return ckks.Parameters{}, 0, err
+ 	}
+ 	qBits := []int{r.Scale + 10}
+ 	total := r.Scale + 10 + 40
+@@ -172,11 +193,11 @@ func run(r Request) (Result, error) {
+ 		}
+ 	}
+ 	if logN == 0 {
+-		return Result{}, fmt.Errorf("NO_SAFE: QP or slot envelope exceeded")
++		return ckks.Parameters{}, 0, fmt.Errorf("NO_SAFE: QP or slot envelope exceeded")
+ 	}
+ 	params, err := ckks.NewParametersFromLiteral(ckks.ParametersLiteral{LogN: logN, LogQ: qBits, LogP: []int{40}, LogDefaultScale: r.Scale, Xs: ring.Ternary{P: 2.0 / 3.0}, Xe: ring.DiscreteGaussian{Sigma: 3.2, Bound: 19.2}})
+ 	if err != nil {
+-		return Result{}, err
++		return ckks.Parameters{}, 0, err
+ 	}
+ 	logQP := 0.0
+ 	for _, p := range params.Q() {
+@@ -186,9 +207,17 @@ func run(r Request) (Result, error) {
+ 		logQP += math.Log2(float64(p))
+ 	}
+ 	if logQP > float64(caps[logN]) {
+-		return Result{}, fmt.Errorf("actual QP exceeds declared security envelope")
++		return ckks.Parameters{}, 0, fmt.Errorf("actual QP exceeds declared security envelope")
++	}
++	return params, logQP, nil
++}
++
++func run(r Request) (Result, error) {
++	params, logQP, err := parametersForRequest(r)
++	if err != nil {
++		return Result{}, err
+ 	}
+-	result := Result{Backend: "Lattigo v6.2.0", LogN: logN, Scale: r.Scale, Q: params.Q(), P: params.P(), LogQP: logQP, Slots: params.MaxSlots()}
++	result := Result{Backend: "Lattigo v6.2.0", LogN: params.LogN(), Scale: r.Scale, Q: params.Q(), P: params.P(), LogQP: logQP, Slots: params.MaxSlots()}
+ 	for repeat := 0; repeat < r.Repeats; repeat++ {
+ 		start := time.Now()
+ 		m := Measurement{Repeat: repeat}
+@@ -256,6 +285,7 @@ func run(r Request) (Result, error) {
+ func main() {
+ 	in := flag.String("input", "", "request JSON")
+ 	out := flag.String("output", "", "new result JSON")
++	diagnostic := flag.Bool("cost-diagnostic", false, "emit DP-03 local cost instrumentation")
+ 	flag.Parse()
+ 	if *in == "" || *out == "" {
+ 		fmt.Fprintln(os.Stderr, "--input and --output required")
+@@ -265,6 +295,13 @@ func main() {
+ 	if err != nil {
+ 		panic(err)
+ 	}
++	if *diagnostic {
++		if err = diagnosticMain(data, *out); err != nil {
++			fmt.Fprintln(os.Stderr, err)
++			os.Exit(1)
++		}
++		return
++	}
+ 	var r Request
+ 	if err = json.Unmarshal(data, &r); err != nil {
+ 		panic(err)

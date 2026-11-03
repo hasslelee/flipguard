@@ -1,0 +1,19 @@
+{
+  "utc": "2026-09-05T14:08:00.148728+00:00",
+  "command": [
+    "go",
+    "test",
+    "./cmd/fashion-case",
+    "./cmd/fashion-train",
+    "./cmd/external-one",
+    "./internal/ckksplanner",
+    "./internal/certify",
+    "-run",
+    "Test(Fashion|Multiclass|Synthesize|DirectPolicy)",
+    "-count=1"
+  ],
+  "cwd": "/home/ckks2/deciprotect/research/fashion_extension",
+  "exit_code": 0,
+  "wall_seconds": 1.3923239809992083,
+  "log_sha256": "09af02da960ff01b0a6d923586caa3d4046fbe2fbccf730ae8837ce5185a5eb0"
+}

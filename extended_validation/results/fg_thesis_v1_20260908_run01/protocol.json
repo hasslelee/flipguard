@@ -1,0 +1,652 @@
+{
+  "protocol_id": "FG_THESIS_V1_20260908",
+  "run_id": "fg_thesis_v1_20260908_run01",
+  "locked_utc": "2026-09-08T09:30:11.967970+00:00",
+  "authorization_source": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/provenance/00_CODEX_EXECUTE_KO.md",
+  "authorization_sha256": "a4473394470d0198b1e3ad67409df902fbc2d1a003214cc441ce79e93024bde9",
+  "source_module": "research/thesis_validation_v1",
+  "cases": [
+    {
+      "case_id": "spambase__linear_poly3__split0_seed0",
+      "kind": "tabular",
+      "model": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__linear_poly3__split0_seed0/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__linear_poly3__split0_seed0/initial_plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__linear_poly3__split0_seed0/configuration_selection.prepared.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__linear_poly3__split0_seed0/independent_evaluation.prepared.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__linear_poly3__split0_seed0/development.csv",
+      "thresholds": {
+        "max_abs": 0.0002422508818502589,
+        "rmse": 0.00010591331337878595
+      },
+      "selection_inputs": 32,
+      "audit_inputs": 256
+    },
+    {
+      "case_id": "htru2__linear_poly3__split0_seed0",
+      "kind": "tabular",
+      "model": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__linear_poly3__split0_seed0/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__linear_poly3__split0_seed0/initial_plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__linear_poly3__split0_seed0/configuration_selection.prepared.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__linear_poly3__split0_seed0/independent_evaluation.prepared.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__linear_poly3__split0_seed0/development.csv",
+      "thresholds": {
+        "max_abs": 0.00022823183442854944,
+        "rmse": 7.764996006546673e-05
+      },
+      "selection_inputs": 32,
+      "audit_inputs": 256
+    },
+    {
+      "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+      "kind": "tabular",
+      "model": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__mlp_square_linear_score__split0_seed0/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__mlp_square_linear_score__split0_seed0/initial_plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__mlp_square_linear_score__split0_seed0/configuration_selection.prepared.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__mlp_square_linear_score__split0_seed0/independent_evaluation.prepared.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__mlp_square_linear_score__split0_seed0/development.csv",
+      "thresholds": {
+        "max_abs": 0.00024221041203142946,
+        "rmse": 0.00010138683003703308
+      },
+      "selection_inputs": 32,
+      "audit_inputs": 256
+    },
+    {
+      "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+      "kind": "tabular",
+      "model": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__mlp_square_linear_score__split0_seed0/initial_plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__mlp_square_linear_score__split0_seed0/configuration_selection.prepared.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__mlp_square_linear_score__split0_seed0/independent_evaluation.prepared.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/development.csv",
+      "thresholds": {
+        "max_abs": 0.00023826961643313993,
+        "rmse": 8.036603347841478e-05
+      },
+      "selection_inputs": 32,
+      "audit_inputs": 256
+    },
+    {
+      "case_id": "fashion_seed0",
+      "kind": "multiclass",
+      "seed": 0,
+      "model": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/plaintext/seed_0/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_0/planning/plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/selection.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_00.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_01.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_02.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_03.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_04.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_05.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_06.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_07.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_08.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_09.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_10.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_11.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_12.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_13.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_14.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_15.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_16.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_17.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_18.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_19.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/plaintext/seed_0/development_logits.json",
+      "thresholds": {
+        "rmse": 0.0028724034277539836,
+        "max_abs": 0.027530070390810124
+      },
+      "selection_inputs": 500,
+      "audit_inputs": 10000
+    },
+    {
+      "case_id": "fashion_seed1",
+      "kind": "multiclass",
+      "seed": 1,
+      "model": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/plaintext/seed_1/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_1/planning/plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/selection.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_00.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_01.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_02.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_03.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_04.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_05.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_06.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_07.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_08.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_09.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_10.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_11.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_12.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_13.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_14.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_15.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_16.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_17.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_18.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_19.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/plaintext/seed_1/development_logits.json",
+      "thresholds": {
+        "rmse": 0.0026124242411956584,
+        "max_abs": 0.029613854530992967
+      },
+      "selection_inputs": 500,
+      "audit_inputs": 10000
+    },
+    {
+      "case_id": "fashion_seed2",
+      "kind": "multiclass",
+      "seed": 2,
+      "model": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/plaintext/seed_2/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_2/planning/plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/selection.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_00.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_01.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_02.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_03.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_04.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_05.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_06.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_07.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_08.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_09.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_10.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_11.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_12.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_13.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_14.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_15.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_16.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_17.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_18.csv",
+        "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/inputs/audit_19.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/plaintext/seed_2/development_logits.json",
+      "thresholds": {
+        "rmse": 0.0026951232116630055,
+        "max_abs": 0.026194294078862868
+      },
+      "selection_inputs": 500,
+      "audit_inputs": 10000
+    },
+    {
+      "case_id": "hediff_bank",
+      "kind": "bank",
+      "model": "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/model.json",
+      "plan": "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/planning/plan.json",
+      "selection": "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/configuration_selection.csv",
+      "audit": [
+        "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/independent_evaluation.csv"
+      ],
+      "development": "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/development.csv",
+      "selection_inputs": 16,
+      "audit_inputs": 32,
+      "thresholds": {
+        "max_abs": null
+      }
+    }
+  ],
+  "settings": [
+    {
+      "id": "base",
+      "rho": 0.5,
+      "delta": 0.001
+    },
+    {
+      "id": "rho025",
+      "rho": 0.25,
+      "delta": 0.001
+    },
+    {
+      "id": "rho075",
+      "rho": 0.75,
+      "delta": 0.001
+    },
+    {
+      "id": "delta0",
+      "rho": 0.5,
+      "delta": 0
+    },
+    {
+      "id": "delta0001",
+      "rho": 0.5,
+      "delta": 0.0001
+    },
+    {
+      "id": "delta01",
+      "rho": 0.5,
+      "delta": 0.01
+    }
+  ],
+  "A1": {
+    "source": "old frozen output only, all input denominator retained",
+    "case_ids": [
+      "spambase__linear_poly3__split0_seed0",
+      "htru2__linear_poly3__split0_seed0",
+      "spambase__mlp_square_linear_score__split0_seed0",
+      "htru2__mlp_square_linear_score__split0_seed0",
+      "fashion_seed0",
+      "fashion_seed1",
+      "fashion_seed2",
+      "hediff_bank"
+    ],
+    "common_applicability": "margin > .01 shared across six settings; tie excluded",
+    "events": "decision changes independent of rho at fixed output; delta excludes events rather than repairs them"
+  },
+  "A2": {
+    "cases": [
+      "spambase__linear_poly3__split0_seed0",
+      "spambase__mlp_square_linear_score__split0_seed0",
+      "fashion_seed0"
+    ],
+    "settings": [
+      "base",
+      "rho025",
+      "rho075",
+      "delta0",
+      "delta0001",
+      "delta01"
+    ],
+    "selection_key_blocks": 1,
+    "keys_per_candidate": 3,
+    "max_encrypted_candidates": 4,
+    "selection_inputs": "unchanged original 32/500; no Cprime",
+    "audits": {
+      "tabular": 256,
+      "fashion_seed0": 1000
+    },
+    "audit_fashion_rows": "first two existing official-test batches audit_00 and audit_01; row order fixed before new outputs; already exposed"
+  },
+  "A3": {
+    "cases": [
+      "spambase__linear_poly3__split0_seed0",
+      "htru2__mlp_square_linear_score__split0_seed0"
+    ],
+    "sizes": [
+      16,
+      64,
+      256
+    ],
+    "input_order_seeds": [
+      0,
+      1,
+      2
+    ],
+    "pool": "existing development256 only",
+    "subsets": [
+      {
+        "case_id": "spambase__linear_poly3__split0_seed0",
+        "input_order_seed": 0,
+        "n": 16,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order0_n16.raw.csv",
+        "sha256": "40dcc50b4089c7988884cf85e3b0c3eb9a8dd08263a7af18ce17dceca9575dc6",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__linear_poly3__split0_seed0/development.csv",
+        "pool_sha256": "2f71447efb2b27adf3c61b2d59d58c34e9e74e808d4b99db9aa49987a1760402",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order0_n16.prepared/prepared.csv"
+      },
+      {
+        "case_id": "spambase__linear_poly3__split0_seed0",
+        "input_order_seed": 0,
+        "n": 64,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order0_n64.raw.csv",
+        "sha256": "b2009ec3b5d37a1596440426a3c299c70aed8a363d6159cdfeb37dab43cc8db3",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__linear_poly3__split0_seed0/development.csv",
+        "pool_sha256": "2f71447efb2b27adf3c61b2d59d58c34e9e74e808d4b99db9aa49987a1760402",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order0_n64.prepared/prepared.csv"
+      },
+      {
+        "case_id": "spambase__linear_poly3__split0_seed0",
+        "input_order_seed": 0,
+        "n": 256,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order0_n256.raw.csv",
+        "sha256": "4853374a754a57591993c7c49d9439a2e0a80eaead0d4c84959458c0fe6b1f12",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__linear_poly3__split0_seed0/development.csv",
+        "pool_sha256": "2f71447efb2b27adf3c61b2d59d58c34e9e74e808d4b99db9aa49987a1760402",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order0_n256.prepared/prepared.csv"
+      },
+      {
+        "case_id": "spambase__linear_poly3__split0_seed0",
+        "input_order_seed": 1,
+        "n": 16,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order1_n16.raw.csv",
+        "sha256": "3aa4434a417f33a39640adf81b4ebdbf59ae513609fcef633ff763f29dea7ebd",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__linear_poly3__split0_seed0/development.csv",
+        "pool_sha256": "2f71447efb2b27adf3c61b2d59d58c34e9e74e808d4b99db9aa49987a1760402",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order1_n16.prepared/prepared.csv"
+      },
+      {
+        "case_id": "spambase__linear_poly3__split0_seed0",
+        "input_order_seed": 1,
+        "n": 64,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order1_n64.raw.csv",
+        "sha256": "ca1f93a9f08bbfdef701b17e1c93aa5cd71ad9bd21f2a1453596834ef9242bfd",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__linear_poly3__split0_seed0/development.csv",
+        "pool_sha256": "2f71447efb2b27adf3c61b2d59d58c34e9e74e808d4b99db9aa49987a1760402",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order1_n64.prepared/prepared.csv"
+      },
+      {
+        "case_id": "spambase__linear_poly3__split0_seed0",
+        "input_order_seed": 1,
+        "n": 256,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order1_n256.raw.csv",
+        "sha256": "ea063b6d5fbf758c887a23d4af05a444e45bdbe9993f146f574655d60d5cd595",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__linear_poly3__split0_seed0/development.csv",
+        "pool_sha256": "2f71447efb2b27adf3c61b2d59d58c34e9e74e808d4b99db9aa49987a1760402",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order1_n256.prepared/prepared.csv"
+      },
+      {
+        "case_id": "spambase__linear_poly3__split0_seed0",
+        "input_order_seed": 2,
+        "n": 16,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order2_n16.raw.csv",
+        "sha256": "7d5efaa97fc82938bebd533f62fb9f61457eae0aefdc24d7892faf13b022f479",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__linear_poly3__split0_seed0/development.csv",
+        "pool_sha256": "2f71447efb2b27adf3c61b2d59d58c34e9e74e808d4b99db9aa49987a1760402",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order2_n16.prepared/prepared.csv"
+      },
+      {
+        "case_id": "spambase__linear_poly3__split0_seed0",
+        "input_order_seed": 2,
+        "n": 64,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order2_n64.raw.csv",
+        "sha256": "ab16784697aea15d5617f579b67b80c0af842d1ba7e8ad2e3672f72277ad101d",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__linear_poly3__split0_seed0/development.csv",
+        "pool_sha256": "2f71447efb2b27adf3c61b2d59d58c34e9e74e808d4b99db9aa49987a1760402",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order2_n64.prepared/prepared.csv"
+      },
+      {
+        "case_id": "spambase__linear_poly3__split0_seed0",
+        "input_order_seed": 2,
+        "n": 256,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order2_n256.raw.csv",
+        "sha256": "7f09399cca0afda1245fb045f364e508bb6eb0b05053a14d8a7f6ac118c99e33",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/spambase__linear_poly3__split0_seed0/development.csv",
+        "pool_sha256": "2f71447efb2b27adf3c61b2d59d58c34e9e74e808d4b99db9aa49987a1760402",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/spambase__linear_poly3__split0_seed0/order2_n256.prepared/prepared.csv"
+      },
+      {
+        "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+        "input_order_seed": 0,
+        "n": 16,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order0_n16.raw.csv",
+        "sha256": "d7d2732dbf6aa63ec61b195de17e12373cb4e44af6b226d02a213970f75c3e5f",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/development.csv",
+        "pool_sha256": "23d37a58dda9b75694e63ac82e22b62c87e7ea7ae75318736abdd2ce8badedb5",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order0_n16.prepared/prepared.csv"
+      },
+      {
+        "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+        "input_order_seed": 0,
+        "n": 64,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order0_n64.raw.csv",
+        "sha256": "c277c0e78e2a5360ea44ae4260c8abb8774b5eff780784b66a27ad97bb5bfc5b",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/development.csv",
+        "pool_sha256": "23d37a58dda9b75694e63ac82e22b62c87e7ea7ae75318736abdd2ce8badedb5",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order0_n64.prepared/prepared.csv"
+      },
+      {
+        "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+        "input_order_seed": 0,
+        "n": 256,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order0_n256.raw.csv",
+        "sha256": "1a3399874d702c97aaba98e92f90de651ef20d7c930b8abad5977ba3c2c5e905",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/development.csv",
+        "pool_sha256": "23d37a58dda9b75694e63ac82e22b62c87e7ea7ae75318736abdd2ce8badedb5",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order0_n256.prepared/prepared.csv"
+      },
+      {
+        "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+        "input_order_seed": 1,
+        "n": 16,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order1_n16.raw.csv",
+        "sha256": "6489af5c7df4513adcb9ca289737fb8d308dcb7c97419d9c9fec1e0b82e7fc07",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/development.csv",
+        "pool_sha256": "23d37a58dda9b75694e63ac82e22b62c87e7ea7ae75318736abdd2ce8badedb5",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order1_n16.prepared/prepared.csv"
+      },
+      {
+        "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+        "input_order_seed": 1,
+        "n": 64,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order1_n64.raw.csv",
+        "sha256": "774f879c6f0c8e670ea7fa04030024afa5f7aeeae8d3e0dd3dd9499d6ed742cc",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/development.csv",
+        "pool_sha256": "23d37a58dda9b75694e63ac82e22b62c87e7ea7ae75318736abdd2ce8badedb5",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order1_n64.prepared/prepared.csv"
+      },
+      {
+        "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+        "input_order_seed": 1,
+        "n": 256,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order1_n256.raw.csv",
+        "sha256": "6201647d8addd72b3902b73d6444e974a90cfd5a6aa8bd16b724bd3094c771a6",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/development.csv",
+        "pool_sha256": "23d37a58dda9b75694e63ac82e22b62c87e7ea7ae75318736abdd2ce8badedb5",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order1_n256.prepared/prepared.csv"
+      },
+      {
+        "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+        "input_order_seed": 2,
+        "n": 16,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order2_n16.raw.csv",
+        "sha256": "8480525cb25ecdfae9ff7e45474c4c61186f06403421b104dd694a2b86b1da5d",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/development.csv",
+        "pool_sha256": "23d37a58dda9b75694e63ac82e22b62c87e7ea7ae75318736abdd2ce8badedb5",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order2_n16.prepared/prepared.csv"
+      },
+      {
+        "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+        "input_order_seed": 2,
+        "n": 64,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order2_n64.raw.csv",
+        "sha256": "29b38c3af73104508d859fc5d80c6c5ad56393f59b4b7d9540b883008b8e3124",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/development.csv",
+        "pool_sha256": "23d37a58dda9b75694e63ac82e22b62c87e7ea7ae75318736abdd2ce8badedb5",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order2_n64.prepared/prepared.csv"
+      },
+      {
+        "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+        "input_order_seed": 2,
+        "n": 256,
+        "raw": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order2_n256.raw.csv",
+        "sha256": "82fcde78a020a4edf4fa22bdcc49689f8c0615448bd5418d9bc558124f406a03",
+        "pool": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/development.csv",
+        "pool_sha256": "23d37a58dda9b75694e63ac82e22b62c87e7ea7ae75318736abdd2ce8badedb5",
+        "audit_overlap": 0,
+        "nested": true,
+        "key_block": 0,
+        "prepared": "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/inputs/htru2__mlp_square_linear_score__split0_seed0/order2_n256.prepared/prepared.csv"
+      }
+    ],
+    "rho": 0.5,
+    "delta": 0.001,
+    "max_candidates": 4,
+    "keys_per_candidate": 3,
+    "selection_key_blocks_per_subset": 1,
+    "audit_inputs": 256,
+    "prefix_B": [
+      1,
+      2,
+      4
+    ],
+    "key_blocks_not_input_seeds": true
+  },
+  "B": {
+    "cases": [
+      "spambase__mlp_square_linear_score__split0_seed0",
+      "fashion_seed0",
+      "hediff_bank"
+    ],
+    "roles": [
+      "C",
+      "Cprime",
+      "B30",
+      "B30slack"
+    ],
+    "selection_blocks": 2,
+    "selection_order": "rotate by case index+block, reverse on block1; all four methods scheduled if static auxiliary differs and passes independence/structure checks",
+    "keys_per_candidate": 3,
+    "max_candidates": 4,
+    "rho": 0.5,
+    "delta": 0.001,
+    "Cprime": "existing maximize_within_min_log_n before first encrypted candidate; unchanged repair; added static structural validation is counted in selection cost",
+    "B30": "unchanged independent start30 and +4; same acceptance",
+    "B30slack": "separate auxiliary; independent facts only; increase scale by1 up to50 while same N/Q/P/path/level count; before each B candidate execution, no HE-driven tuning",
+    "static_cases": [
+      "spambase__linear_poly3__split0_seed0",
+      "htru2__linear_poly3__split0_seed0",
+      "spambase__mlp_square_linear_score__split0_seed0",
+      "htru2__mlp_square_linear_score__split0_seed0",
+      "fashion_seed0",
+      "fashion_seed1",
+      "fashion_seed2",
+      "hediff_bank"
+    ],
+    "audits": {
+      "hediff_bank": "reserved684 only after all compared configurations frozen; old32 and exposed synthetic16 separate",
+      "spambase_mlp": 256,
+      "fashion_seed0": 1000
+    },
+    "fashion_size_reason": "original per-batch runtime and total upper bound; no score/margin/error based choice",
+    "reservation_open_prerequisites": [
+      "source/code/rules/selection/model/metrics/batch/key plan hashed",
+      "all compared methods selected using original selection data only or final nonselection recorded",
+      "FROZEN_SELECTIONS.json immutable; no post-open rule or configuration change"
+    ],
+    "reservation_batches": "three batches of228 in locked reservation rank order; 3 fresh keys per distinct literal per batch",
+    "reservation_uncertainty": "existing management says unscored; no global access-log proof; previous whole-source normalization and NearMiss exposure retained",
+    "stress": "all old16, exposure regression only; no true-label claim",
+    "adoption": "decision-error improvement, numerical slack, cost improvement and inconclusive execution separated; no after-the-fact tolerance",
+    "extra_algorithm": false
+  },
+  "C_IDS": {
+    "status": "official download access verification in progress",
+    "source": "https://research.unsw.edu.au/projects/unsw-nb15-dataset",
+    "requirement": "official feature CSV from official source; no third-party substituted corpus",
+    "on_unavailable": "DEFERRED_SOURCE_ACCESS; internal A/B continue; prepare explicit nonexecuted plan",
+    "models": [
+      "linear_poly3",
+      "square_mlp_hidden32"
+    ],
+    "training_seeds": [
+      0,
+      1,
+      2
+    ],
+    "max_models": 6,
+    "selection_inputs": 64,
+    "audit_inputs": 2048,
+    "roles": [
+      "A30",
+      "B30",
+      "C"
+    ],
+    "Cprime_in_IDS": false,
+    "no_test_preprocessing": true
+  },
+  "timing": {
+    "inputs": 20,
+    "warmup": 1,
+    "measure": 6,
+    "key_blocks": 3,
+    "pairing": "same-time balanced order; each distinct comparator versus reference C; aliases share result",
+    "pdf_latency": "encode/encrypt + HE + decrypt/decode",
+    "setup": "separate, included equally in end-to-end sums",
+    "network": null,
+    "queue": null,
+    "no_outlier_removal": true
+  },
+  "resource": {
+    "native_total_cap_seconds": 86400,
+    "per_process_limit_seconds": 1800,
+    "address_space_gib": 8,
+    "go_memory_limit": "6GiB",
+    "GOMAXPROCS": 4,
+    "min_available_memory_gib": 2,
+    "minimum_free_disk_gib": 8,
+    "new_run_storage_cap_gib": 8,
+    "serial_native": true,
+    "no_paid_resources": true
+  },
+  "estimate": {
+    "basis": "existing command elapsed times, conservative per-job upper bounds; not observed new outcomes",
+    "A2_selection_seconds": 8640,
+    "A2_A3_audit_seconds": 10800,
+    "A3_selection_seconds": 8640,
+    "B_selection_seconds": 11520,
+    "B_audit_seconds": 4320,
+    "paired_time_and_artifact_seconds": 7200,
+    "sum_upper_envelope_seconds": 51120,
+    "expected_less_than_upper": "aliases deduplicate audits; past all A/B first acceptance; no reliance on this as stopping rule"
+  },
+  "stop": "exhaust finite schedule or resource cap; do not create another experiment; thesis writing and judgement mandatory",
+  "historical_reuse": "old A/B/C and cause reports, not rerun as new discovery",
+  "independent_device": "no separately authorized physical device in current session; prepare bundle, mark not run"
+}

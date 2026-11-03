@@ -1,0 +1,10 @@
+{"job": "seed0_plan", "exit_code": 0, "wall_seconds": 0.2783533970014105}
+{"job": "seed0_direct", "exit_code": 143, "wall_seconds": 34.4759606839998}
+Traceback (most recent call last):
+  File "/home/ckks2/deciprotect/scripts/run_fg_expand_v2.py", line 120, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/ckks2/deciprotect/scripts/run_fg_expand_v2.py", line 85, in main
+    budget();code=execute(f'seed{seed}_direct',['--mode','direct','--plan',plan,'--out',root/'direct']);assert code==0
+                                                                                                               ^^^^^^^
+AssertionError

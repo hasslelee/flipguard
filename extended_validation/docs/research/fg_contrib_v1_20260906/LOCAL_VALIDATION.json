@@ -1,0 +1,44 @@
+{
+  "checked_utc": "2026-09-06 02:44:26 UTC",
+  "tests": [
+    {
+      "name": "independent_generator",
+      "command": "go test ./cmd/contribution-case ./internal/ckksplanner -run TestIndependent -count=1",
+      "cwd": "/home/ckks2/deciprotect/research/contribution_validation",
+      "exit_code": 0,
+      "stdout": "?   \tgithub.com/hasslelee/flipguard/cmd/contribution-case\t[no test files]\nok  \tgithub.com/hasslelee/flipguard/internal/ckksplanner\t0.044s\n"
+    },
+    {
+      "name": "exact_two_logits",
+      "command": "go test ./cmd/contribution-case ./internal/bankadapter -run TestExactTwoLogit -count=1",
+      "cwd": "/home/ckks2/deciprotect/research/hediff_bank_validation",
+      "exit_code": 0,
+      "stdout": "?   \tgithub.com/hasslelee/flipguard/cmd/contribution-case\t[no test files]\nok  \tgithub.com/hasslelee/flipguard/internal/bankadapter\t0.005s\n"
+    },
+    {
+      "name": "analysis_semantics",
+      "command": "PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/test_contrib_analysis.py",
+      "cwd": "/home/ckks2/deciprotect",
+      "exit_code": 0,
+      "stdout": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.001s\n\nOK\n"
+    }
+  ],
+  "independent_reaggregation": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/analyze_fg_contrib_v1.py --check",
+      "exit_code": 0,
+      "observation": "independent recomputation matches stored results; selection70, diagnostic49, audit22, stress22, execution_failures0"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/analyze_external_contrib_v1.py --check",
+      "exit_code": 0,
+      "observation": "external independent recomputation matches stored results"
+    }
+  ],
+  "figure_visual_review": [
+    "candidate_condition_map.png",
+    "selection_cost_decomposition.png",
+    "candidate_error_cost.png"
+  ],
+  "meaning": "Implementation, accounting and evidence checks only; not a performance improvement or risk guarantee. Final preservation checks are separately recorded in FINAL_VERIFICATION.json."
+}

@@ -1,0 +1,32 @@
+{
+  "cwd": "/home/ckks2/deciprotect",
+  "commands": [
+    {
+      "command": "pdftotext -f 3 -l 6 -layout baseline/journal_final_20260905.pdf -",
+      "exit_code": 0,
+      "purpose": "direct final PDF method inspection"
+    },
+    {
+      "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/analyze_fg_cause_v1.py --write",
+      "attempt": 1,
+      "exit_code": 1,
+      "reason": "features() unexpected keyword rows; before unused candidate outputs; partial tables retained"
+    },
+    {
+      "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/analyze_fg_cause_v1.py --write",
+      "attempt": 2,
+      "exit_code": 0
+    },
+    {
+      "command": "OPENBLAS_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/supplement_fg_cause_v1.py",
+      "exit_code": 0
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 .venv/bin/python scripts/verify_fg_cause_v1.py",
+      "exit_code": 0
+    }
+  ],
+  "analysis_wall_time_not_instrumented": true,
+  "no_new_native_execution": true,
+  "python_environment": "/home/ckks2/deciprotect/.venv/bin/python"
+}

@@ -1,0 +1,19 @@
+{
+  "protocol_id": "FG_CONTRIB_V1_EXTERNAL_HEDIFF_BANK_INTEGER_STRESS_AMENDMENT_20260906",
+  "parent_protocol_sha256": "70716ffe257f2081afd099d27038d98b4db178b560d9de3f56f1c9a2a6c12068",
+  "locked_utc": "2026-09-05T19:05:55.255051+00:00",
+  "affected_scope": "external stress generation only, before any external training or CKKS",
+  "unchanged": [
+    "original model and two logits",
+    "selection and normal audit inputs",
+    "numeric thresholds rule",
+    "A/B/C and security",
+    "16 parents and20steps",
+    "radius.05 and categorical freeze",
+    "resource budget"
+  ],
+  "stress_integer_rule": "Columns that are integer-valued in the original complete-case source are projected to nearest original integer inside the normalized radius and[0,1]. Categories remain exactly unchanged. Full-source preprocessing was already part of the reproduced public procedure.",
+  "validity_limit": "joint customer feasibility and synthetic truth remain unknown",
+  "script_sha256": "6baa511615c812323ce2b538a59d0826321bef2882d2f7713aa3260366c925c4",
+  "external_commands_started": 0
+}

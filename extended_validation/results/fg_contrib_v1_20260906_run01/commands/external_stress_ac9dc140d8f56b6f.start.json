@@ -1,0 +1,29 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/bin/bank-contribution-case",
+    "--mode",
+    "raw-stress",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/planning/plan.json",
+    "--candidate",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/candidates/ac9dc140d8f56b6f.json",
+    "--data",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/stress.csv",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/stress/ac9dc140d8f56b6f"
+  ],
+  "cwd": "/home/ckks2/deciprotect",
+  "environment": {
+    "utc": "2026-09-06T02:23:02.272368+00:00",
+    "load": [
+      3.48779296875,
+      3.22265625,
+      2.39453125
+    ],
+    "mem_available": "10294928 kB",
+    "swap_free": "3839616 kB",
+    "free_disk": 21420294144
+  },
+  "binary_sha256": "3a0fcd1514c4b28d04dbf52c37c021eadb1aef877b17246014a66d0cdd20d6a2",
+  "source_lock_sha256": "a28ebca2f30d15e2af0cc871b618c44ef8aad07fb5151d463886613daba1b00a"
+}

@@ -1,0 +1,27 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/bin/contribution-case",
+    "--mode",
+    "candidate",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_0/planning/plan.json",
+    "--candidate",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/cases/fashion_seed0/diagnostic/S26_Qguard0/candidate.json",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/cases/fashion_seed0/diagnostic/S26_Qguard0/execution"
+  ],
+  "cwd": "/home/ckks2/deciprotect",
+  "environment": {
+    "utc": "2026-09-05T18:58:12.201502+00:00",
+    "load": [
+      1.88330078125,
+      1.7880859375,
+      1.7099609375
+    ],
+    "mem_available": "10544644 kB",
+    "swap_free": "3837480 kB",
+    "free_disk": 23359598592
+  },
+  "binary_sha256": "ac08fd249d4b42c18a2a951272cff7dd4fc63b4f8a98c123331837be37d67195",
+  "source_lock_sha256": "75f29969b3cec4c49537f5100ca990eea3b57707a5e7049d95dad06a9ba24b91"
+}

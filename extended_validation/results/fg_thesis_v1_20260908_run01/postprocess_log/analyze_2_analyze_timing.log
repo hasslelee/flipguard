@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/scripts/analyze_timing.py", line 97, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/scripts/analyze_timing.py", line 28, in main
+    assert abs(a['total_ms']-(a['encode_encrypt_ms']+he+a['decrypt_decode_ms']))<1e-4
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

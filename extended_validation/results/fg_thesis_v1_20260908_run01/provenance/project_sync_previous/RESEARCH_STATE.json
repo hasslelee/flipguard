@@ -1,0 +1,3988 @@
+{
+  "project": "DeciProtect",
+  "research_purpose": "Expansion of final journal PDF offline decision-agreement CKKS configuration selection",
+  "updated_at_utc": "2026-09-06T04:57:43.367349+00:00",
+  "predecessor": "/home/ckks2/flipguard",
+  "new_repository": "https://github.com/hasslelee/deciprotect",
+  "visibility": "private",
+  "freeze": {
+    "started_at_utc": "2026-09-05T06:19:40.711457+00:00",
+    "source": "/home/ckks2/flipguard",
+    "head": "67251c57ca7be5aa8aeffd746a6a6671685e98c5",
+    "branch": "paper/v22-1-editorial-sync",
+    "remote": "origin\tgit@github.com:hasslelee/flipguard.git (fetch)\norigin\tgit@github.com:hasslelee/flipguard.git (push)\n",
+    "status": "VERIFIED_ARCHIVE",
+    "all_workspace_bytes_included": true,
+    "completed_at_utc": "2026-09-05T07:19:03.043456+00:00",
+    "entries": 1274177,
+    "inventory": {
+      ".gitattributes": {
+        "files": 1,
+        "bytes": 254
+      },
+      ".gitignore": {
+        "files": 1,
+        "bytes": 425
+      },
+      "AGENTS.md": {
+        "files": 1,
+        "bytes": 1153
+      },
+      "CKKS_결정안정성_실행구성선택_정보보호학회논문지_v25.txt": {
+        "files": 1,
+        "bytes": 48966
+      },
+      "README.md": {
+        "files": 1,
+        "bytes": 17756
+      },
+      "collect_flipguard_direction_snapshot.sh": {
+        "files": 1,
+        "bytes": 14662
+      },
+      "collect_flipguard_final_paper_readiness.sh": {
+        "files": 1,
+        "bytes": 9509
+      },
+      "collect_flipguard_post24h_review.sh": {
+        "files": 1,
+        "bytes": 12414
+      },
+      "go.mod": {
+        "files": 1,
+        "bytes": 563
+      },
+      "go.sum": {
+        "files": 1,
+        "bytes": 2614
+      },
+      "requirements-ci.txt": {
+        "files": 1,
+        "bytes": 15
+      },
+      "v25_code_verification_commands.log": {
+        "files": 1,
+        "bytes": 9992
+      },
+      "v25_code_verification_commands_r2.log": {
+        "files": 1,
+        "bytes": 10575
+      },
+      "v25_code_verification_evidence.tsv": {
+        "files": 1,
+        "bytes": 29329
+      },
+      "v25_code_verification_evidence_r2.tsv": {
+        "files": 1,
+        "bytes": 20821
+      },
+      "v25_code_verification_report.md": {
+        "files": 1,
+        "bytes": 24866
+      },
+      "v25_code_verification_report_r2.md": {
+        "files": 1,
+        "bytes": 14868
+      },
+      "v25_code_verification_summary.json": {
+        "files": 1,
+        "bytes": 9135
+      },
+      "v25_code_verification_summary_r2.json": {
+        "files": 1,
+        "bytes": 7450
+      },
+      "v25_최종검토_논문지비교_CISC26W수상가능성.txt": {
+        "files": 1,
+        "bytes": 10570
+      },
+      "v34_primary_coverage_by_case.tsv": {
+        "files": 1,
+        "bytes": 47948
+      },
+      "v34_required_code_audit_commands.log": {
+        "files": 1,
+        "bytes": 4741
+      },
+      "v34_required_code_audit_evidence.tsv": {
+        "files": 1,
+        "bytes": 14352
+      },
+      "v34_required_code_audit_report.md": {
+        "files": 1,
+        "bytes": 24655
+      },
+      "v34_required_code_audit_summary.json": {
+        "files": 1,
+        "bytes": 21273
+      },
+      ".codex": {
+        "files": 5,
+        "bytes": 84104
+      },
+      ".git": {
+        "files": 4273,
+        "bytes": 141618788
+      },
+      ".github": {
+        "files": 6,
+        "bytes": 26268
+      },
+      ".venv": {
+        "files": 6913,
+        "bytes": 321954730
+      },
+      "bin": {
+        "files": 1,
+        "bytes": 5990202
+      },
+      "cmd": {
+        "files": 51,
+        "bytes": 319254
+      },
+      "configs": {
+        "files": 1,
+        "bytes": 1831
+      },
+      "datasets": {
+        "files": 122,
+        "bytes": 11147498
+      },
+      "dist": {
+        "files": 4,
+        "bytes": 26060826
+      },
+      "docs": {
+        "files": 5137,
+        "bytes": 240749362
+      },
+      "experiments": {
+        "files": 15,
+        "bytes": 51700
+      },
+      "external": {
+        "files": 1225409,
+        "bytes": 39320496684
+      },
+      "internal": {
+        "files": 274,
+        "bytes": 1832249
+      },
+      "paper_audit_v24": {
+        "files": 9,
+        "bytes": 347370
+      },
+      "release": {
+        "files": 2,
+        "bytes": 2582
+      },
+      "research": {
+        "files": 5,
+        "bytes": 50217
+      },
+      "results": {
+        "files": 31369,
+        "bytes": 4937901779
+      },
+      "scripts": {
+        "files": 514,
+        "bytes": 5666778
+      },
+      "seminar_assets": {
+        "files": 36,
+        "bytes": 4464248
+      },
+      "tools": {
+        "files": 6,
+        "bytes": 17151
+      }
+    },
+    "logical_bytes": 45019142527,
+    "archive_path": "archive/freeze_20260905/flipguard_complete_restored.tar.zst",
+    "archive_sha256": "17d22ae5009f3b2fec55510e546136c03c59db94c717443d2f7ccf7ec4463cc2",
+    "archive_bytes": 16999245847,
+    "manifest_path": "archive/freeze_20260905/workspace_manifest.jsonl",
+    "manifest_sha256": "2d21dca85ae74fb0fffb7f71d1c252a1946dfc9a5e6ee30a8e33537f0a46c03a",
+    "final_pdf_sha256": "0210899a12ff1025db358e1812159ca4af2b5c6095a79e2b7b19200d7e9f3b85",
+    "archive_payload_verification": "Every original regular-file payload, symlink, mode and member matched the initial inventory",
+    "verification_log": "archive/freeze_20260905/restored_verification_retry1.log",
+    "verification_log_sha256": "b651ebe29f8cb0869ac7b9b7bd6d6a5e973acb0d2ddd7f87a492d8b6e9a5a4ad",
+    "verification_script_sha256": "e3f22a6cf587cd05e26639ae72cb46887a3dcace1d620f00535a6db965409ea1",
+    "live_source_resolution": {
+      "status": "RESEARCH_PAYLOAD_RESTORED_GIT_BOOKKEEPING_DRIFT_RECORDED",
+      "checked_at_utc": "2026-09-05T07:19:03.042047+00:00",
+      "full_inventory_check": "docs/review/SOURCE_STATE_FINAL.json",
+      "operational_files_restored": 7,
+      "scientific_artifact_or_production_code_payload_changes_detected": 0,
+      "git_object_mtime_changes_at_full_check": 592,
+      "new_codex_capture_refs_at_full_check": [
+        ".git/refs/codex/turn-diffs/captures/1788591718516/e45214dd-d292-4615-bab3-de05dfc1ec97/base"
+      ],
+      "git_object_payloads_unchanged": true,
+      "head_branch_remote_status_diff_unchanged": true,
+      "legacy_autostart_services_disabled": 5,
+      "live_git_byte_for_byte_unchanged_claim": false,
+      "directory_metadata_and_access_times_in_scope": false,
+      "original_archive_payloads_verified": 1274177
+    },
+    "storage": "Independent local compressed archive, not uploaded and not a separate-device backup",
+    "generated_cache_incident": "967 generated Python cache files quarantined and removed; see docs/review/CACHE_RESTORATION.json",
+    "reboot_incident": "Host reboot interrupted one verification pass and restarted legacy services. Five services were disabled; seven operational files were restored after preserving post-reboot versions.",
+    "git_bookkeeping": "592 original Git-object mtimes changed and one Codex capture ref appeared at the full recheck; object payloads and HEAD/branch/remote/porcelain/diff matched. Internal bookkeeping was not deleted or retimed.",
+    "superseded_attempt": "archive/freeze_20260905/attempt1_with_generated_caches.tar.gz",
+    "source_final_record": "docs/review/SOURCE_STATE_RESOLUTION.json"
+  },
+  "current_protocol_id": "FG_CAUSE_V1_20260906",
+  "current_run_id": "fg_cause_v1_20260906_run01",
+  "status": "COMPLETED_PLAINTEXT_CAUSE_ANALYSIS",
+  "active_experiments": [],
+  "automatic_followup_enabled": false,
+  "next_scope": "Stop. User confirmation required before implementing C variant or any new CKKS. Bank quartile experiment not executed.",
+  "excluded_from_current_default": [
+    "DP-03 queue/recomputation followup",
+    "runtime abstention optimization",
+    "new operational risk guarantee"
+  ],
+  "historical_protocol_results": {
+    "pilot_v1a_completed_cases": 12,
+    "pilot_v1_static_failures_preserved": 6,
+    "synthetic_stress_cases": 4,
+    "gap_diagnostic_cases": 6,
+    "gap_diagnostic_added_acceptances": 0,
+    "iid_audit": {
+      "trials": 600,
+      "unique_population_indices_drawn": 502,
+      "population_size": 1322,
+      "accepted": 567,
+      "abstained": 33,
+      "accepted_disagreements": 0,
+      "fixed_low_disagreements": 29,
+      "coverage": 0.945,
+      "joint_risk": {
+        "status": "ADMITTED",
+        "upper_bound": 0.00612927133066926,
+        "admitted": true
+      },
+      "selective_risk": {
+        "status": "ADMITTED",
+        "upper_bound": 0.0064848422995379094,
+        "admitted": true
+      },
+      "wall_seconds": 99.25638029002585,
+      "scope": "FINITE_1322_ROW_OPERATIONAL_POPULATION_ONLY",
+      "real_world_generalization": false,
+      "worst_case_preservation": false
+    },
+    "dp03_cost_diagnostic": {
+      "status": "STAGE_1_COMPLETED_EXPLORATORY_ONLY",
+      "run_id": "dp03_cost_diag_v1_20260905",
+      "protocol_id": "DP03_COST_DIAG_V1",
+      "arm_trials": 216,
+      "native_calls": 247,
+      "verified_payload_files": 1219,
+      "verified_bound_parent_files": 24,
+      "report": "docs/research/dp03_cost_diag_v1_20260905/REPORT_KO.md",
+      "summary": "docs/research/dp03_cost_diag_v1_20260905/summary.json",
+      "queue_implemented": false,
+      "next_queue_experiment_executed": false,
+      "confirmatory": false,
+      "risk_admission": false,
+      "cells": [
+        {
+          "batch_size": 128,
+          "arm": "fixed_high",
+          "inputs": 7578,
+          "retry_requested": 0,
+          "high_batches_completed": 63,
+          "final_abstained": 0,
+          "execution_failed": 0,
+          "accepted_disagreements": 0,
+          "mean_ms_per_842_inputs": {
+            "setup_ms": 74.72432822222223,
+            "input_pack_ms": 8.75691822222222,
+            "input_encode_ms": 203.50326655555557,
+            "input_encrypt_ms": 964.5129947777776,
+            "server_model_prepare_ms": 141.96183044444444,
+            "homomorphic_ops_ms": 73.35505822222225,
+            "decrypt_decode_gate_ms": 3.0093239999999994,
+            "observer_identity_ms": 2.369329111111111,
+            "native_unassigned_ms": 1.5253577777778022,
+            "json_file_io_ms": 47.838783222222226,
+            "subprocess_outside_native_ms": 244.39031044444442,
+            "retry_select_materialize_ms": 0.0,
+            "client_harness_unassigned_ms": 8.111604888888845,
+            "native_total_ms": 1473.1246719999995,
+            "instrumented_local_wall_ms": 1774.0591058888883
+          }
+        },
+        {
+          "batch_size": 128,
+          "arm": "fixed_high_gate",
+          "inputs": 7578,
+          "retry_requested": 0,
+          "high_batches_completed": 63,
+          "final_abstained": 0,
+          "execution_failed": 0,
+          "accepted_disagreements": 0,
+          "mean_ms_per_842_inputs": {
+            "setup_ms": 74.60346033333332,
+            "input_pack_ms": 8.675721333333334,
+            "input_encode_ms": 202.95460333333332,
+            "input_encrypt_ms": 965.1018226666664,
+            "server_model_prepare_ms": 140.6898146666667,
+            "homomorphic_ops_ms": 73.59836622222221,
+            "decrypt_decode_gate_ms": 3.4194816666666674,
+            "observer_identity_ms": 2.298064555555555,
+            "native_unassigned_ms": 1.6157013333333086,
+            "json_file_io_ms": 47.362604222222224,
+            "subprocess_outside_native_ms": 283.4897716666667,
+            "retry_select_materialize_ms": 0.0,
+            "client_harness_unassigned_ms": 8.441242111111112,
+            "native_total_ms": 1472.0550578888885,
+            "instrumented_local_wall_ms": 1812.2506541111115
+          }
+        },
+        {
+          "batch_size": 128,
+          "arm": "two_stage",
+          "inputs": 7578,
+          "retry_requested": 30,
+          "high_batches_completed": 22,
+          "final_abstained": 0,
+          "execution_failed": 0,
+          "accepted_disagreements": 0,
+          "mean_ms_per_842_inputs": {
+            "setup_ms": 77.05331799999998,
+            "input_pack_ms": 9.811953111111112,
+            "input_encode_ms": 163.77007177777773,
+            "input_encrypt_ms": 804.215536666667,
+            "server_model_prepare_ms": 114.89766122222221,
+            "homomorphic_ops_ms": 62.02502977777777,
+            "decrypt_decode_gate_ms": 3.376806666666667,
+            "observer_identity_ms": 7.559765222222221,
+            "native_unassigned_ms": 1.5774002222222299,
+            "json_file_io_ms": 47.48661222222223,
+            "subprocess_outside_native_ms": 145.0597034444444,
+            "retry_select_materialize_ms": 0.15620677777777775,
+            "client_harness_unassigned_ms": 9.26158322222223,
+            "native_total_ms": 1243.2357062222227,
+            "instrumented_local_wall_ms": 1446.251648333334
+          }
+        },
+        {
+          "batch_size": 842,
+          "arm": "fixed_high",
+          "inputs": 7578,
+          "retry_requested": 0,
+          "high_batches_completed": 9,
+          "final_abstained": 0,
+          "execution_failed": 0,
+          "accepted_disagreements": 0,
+          "mean_ms_per_842_inputs": {
+            "setup_ms": 11.775618666666666,
+            "input_pack_ms": 1.4339528888888888,
+            "input_encode_ms": 29.301080111111112,
+            "input_encrypt_ms": 136.54358766666667,
+            "server_model_prepare_ms": 20.61816044444445,
+            "homomorphic_ops_ms": 10.819759444444445,
+            "decrypt_decode_gate_ms": 0.6893083333333334,
+            "observer_identity_ms": 0.4272391111111111,
+            "native_unassigned_ms": 0.2159961111111165,
+            "json_file_io_ms": 44.412107222222225,
+            "subprocess_outside_native_ms": 57.726970666666666,
+            "retry_select_materialize_ms": 0.0,
+            "client_harness_unassigned_ms": 5.311331999999993,
+            "native_total_ms": 211.6042581111111,
+            "instrumented_local_wall_ms": 319.2751126666667
+          }
+        },
+        {
+          "batch_size": 842,
+          "arm": "fixed_high_gate",
+          "inputs": 7578,
+          "retry_requested": 0,
+          "high_batches_completed": 9,
+          "final_abstained": 0,
+          "execution_failed": 0,
+          "accepted_disagreements": 0,
+          "mean_ms_per_842_inputs": {
+            "setup_ms": 11.40069422222222,
+            "input_pack_ms": 1.4076682222222223,
+            "input_encode_ms": 29.449760777777783,
+            "input_encrypt_ms": 136.76595922222225,
+            "server_model_prepare_ms": 20.073885333333333,
+            "homomorphic_ops_ms": 10.246364,
+            "decrypt_decode_gate_ms": 0.6046371111111111,
+            "observer_identity_ms": 0.43268933333333326,
+            "native_unassigned_ms": 0.20008888888889625,
+            "json_file_io_ms": 43.773324888888894,
+            "subprocess_outside_native_ms": 59.265025,
+            "retry_select_materialize_ms": 0.0,
+            "client_harness_unassigned_ms": 5.258592333333329,
+            "native_total_ms": 210.32690033333336,
+            "instrumented_local_wall_ms": 318.87868933333334
+          }
+        },
+        {
+          "batch_size": 842,
+          "arm": "two_stage",
+          "inputs": 7578,
+          "retry_requested": 30,
+          "high_batches_completed": 9,
+          "final_abstained": 0,
+          "execution_failed": 0,
+          "accepted_disagreements": 0,
+          "mean_ms_per_842_inputs": {
+            "setup_ms": 18.463404000000004,
+            "input_pack_ms": 2.1451718888888887,
+            "input_encode_ms": 42.33711911111111,
+            "input_encrypt_ms": 204.08685077777778,
+            "server_model_prepare_ms": 29.356996888888887,
+            "homomorphic_ops_ms": 16.003175111111105,
+            "decrypt_decode_gate_ms": 0.9242495555555555,
+            "observer_identity_ms": 0.5909881111111112,
+            "native_unassigned_ms": 0.3654766666666581,
+            "json_file_io_ms": 45.329818333333336,
+            "subprocess_outside_native_ms": 83.11237488888887,
+            "retry_select_materialize_ms": 0.03607111111111111,
+            "client_harness_unassigned_ms": 5.8468603333333435,
+            "native_total_ms": 313.9168554444445,
+            "instrumented_local_wall_ms": 448.5985567777778
+          }
+        }
+      ]
+    },
+    "journal_review_score": 76,
+    "thesis_extension_readiness_score": 61,
+    "verification": {
+      "status": "PASS",
+      "verified_payload_files": 2646,
+      "pilot_cases_independently_recomputed": 12,
+      "iid_trials_recomputed": 600,
+      "missing_request_files": 0,
+      "request_output_bindings_verified": 847,
+      "ckks_output_json_preserved": true,
+      "executable_rebuild_required_on_clean_clone": true,
+      "frozen_journal_pdf_sha256_verified": true,
+      "scope": "Artifact consistency and arithmetic, not external validation of model or population assumptions"
+    }
+  },
+  "open_claims": [
+    "generalization beyond applicable observed inputs",
+    "robustness to splits and training seeds on new data",
+    "larger multiclass/image evaluation",
+    "independent hardware"
+  ],
+  "report": "docs/research/fg_cause_v1_20260906/REPORT_KO.md",
+  "pdf_wording_issue": "Page7 section5.1: raw 63 additional model cases and 5 separate depth conditions; no manuscript correction applied",
+  "first_expansion": {
+    "completed_cases": 4,
+    "planned_cases": 4,
+    "recorded_candidate_key_observations": 8256,
+    "recorded_timing_key_pass_observations": 5760,
+    "unique_inputs_by_role": {
+      "configuration_selection": 64,
+      "development": 512,
+      "independent_evaluation": 512,
+      "model_training": 21014
+    },
+    "latency_aggregates": {
+      "finite_fastest_executable_over_direct": {
+        "bootstrap_repeats": 10000,
+        "cases": 4,
+        "confirmatory": false,
+        "equivalence_claim": false,
+        "exploratory_cluster_bootstrap_95_interval": [
+          0.9968144579224935,
+          1.002849846510983
+        ],
+        "geometric_mean": 0.9998275982025608,
+        "group_values": {
+          "htru2/linear_poly3": 0.9976509619961423,
+          "htru2/mlp_square_linear_score": 1.0038242091988072,
+          "spambase/linear_poly3": 0.9959786552354938,
+          "spambase/mlp_square_linear_score": 1.001876429589
+        },
+        "groups": 4,
+        "interpretation": "all observed pairs retained; not an accuracy-qualified speed claim",
+        "seed": 20260824
+      },
+      "finite_fastest_safe_over_direct": {
+        "bootstrap_repeats": 10000,
+        "cases": 4,
+        "confirmatory": false,
+        "equivalence_claim": false,
+        "exploratory_cluster_bootstrap_95_interval": [
+          0.9999589969239203,
+          1.0021223217737276
+        ],
+        "geometric_mean": 1.0010143151845665,
+        "group_values": {
+          "htru2/linear_poly3": 1.0014205590006169,
+          "htru2/mlp_square_linear_score": 1.00032736090125,
+          "spambase/linear_poly3": 0.9995907685942048,
+          "spambase/mlp_square_linear_score": 1.0027213575194012
+        },
+        "groups": 4,
+        "interpretation": "safe-to-safe observed comparison",
+        "seed": 20260824
+      },
+      "initial_criteria_off_over_direct": {
+        "bootstrap_repeats": 10000,
+        "cases": 4,
+        "confirmatory": false,
+        "equivalence_claim": false,
+        "exploratory_cluster_bootstrap_95_interval": [
+          0.996811039191757,
+          1.0013916766640907
+        ],
+        "geometric_mean": 0.998907268141147,
+        "group_values": {
+          "htru2/linear_poly3": 0.9965945314680127,
+          "htru2/mlp_square_linear_score": 0.9991685848943612,
+          "spambase/linear_poly3": 0.9970275939512745,
+          "spambase/mlp_square_linear_score": 1.0028506116684408
+        },
+        "groups": 4,
+        "interpretation": "all observed pairs retained; not an accuracy-qualified speed claim",
+        "seed": 20260824
+      }
+    }
+  },
+  "research_question": "A versus B: numerical versus decision acceptance; B versus C: additional value of unchanged PDF synthesis and bounded repair",
+  "related_work_correction": "docs/research/fg_expand_v2_20260905/FHE_AGENT_CORRECTION_KO.md",
+  "second_expansion_summary": {
+    "protocol": "FG_EXPAND_V2_MAIN_20260905",
+    "run_id": "fg_expand_v2_20260905_run01",
+    "status": "COMPLETED_EXPLORATORY",
+    "new_datasets": 1,
+    "new_architectures": 0,
+    "new_trained_models": 3,
+    "dataset_architecture_groups": 1,
+    "training_seed_cases": 3,
+    "unique_selection_inputs": 500,
+    "selection_case_inputs": 1500,
+    "planned_unique_audit_inputs": 10000,
+    "planned_audit_case_inputs": 30000,
+    "common_evaluated_audit_case_inputs": 30000,
+    "independent_key_sample_guarantee": false,
+    "source_verification": {
+      "bound_files": 320,
+      "unchanged_critical_functions": [
+        "internal/journalmnist/mlp.go",
+        "internal/journalmnist/optimizer.go",
+        "internal/certify/multiclass_decision_contract.go",
+        "internal/ckksplanner/synthesis.go",
+        "internal/ckksplanner/direct_policy.go",
+        "internal/ckksplanner/security_policy.go",
+        "internal/ckksplanner/v17_candidate_space.go",
+        "internal/ckksplanner/multiclass_executor.go",
+        "internal/ckksbackend/journal_mnist_multiclass.go",
+        "internal/ckksbackend/v17_primary_paired_latency.go"
+      ]
+    },
+    "main_key_evidence_payloads": 261,
+    "actual_audit_key_contexts": 180,
+    "actual_audit_input_key_observations": 90000,
+    "actual_distinct_audit_candidate_cases": 3,
+    "cases": [
+      {
+        "seed": 0,
+        "development": {
+          "seed": 0,
+          "development_n": 5000,
+          "accuracy": 0.8882,
+          "confusion_matrix": [
+            [
+              397,
+              0,
+              4,
+              19,
+              0,
+              1,
+              77,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              485,
+              2,
+              12,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              13,
+              0,
+              404,
+              5,
+              44,
+              0,
+              33,
+              1,
+              0,
+              0
+            ],
+            [
+              6,
+              1,
+              2,
+              462,
+              13,
+              0,
+              15,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              1,
+              29,
+              17,
+              407,
+              0,
+              45,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              481,
+              0,
+              7,
+              1,
+              10
+            ],
+            [
+              56,
+              0,
+              34,
+              17,
+              22,
+              0,
+              368,
+              0,
+              3,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              7,
+              0,
+              474,
+              1,
+              18
+            ],
+            [
+              2,
+              0,
+              2,
+              3,
+              2,
+              1,
+              5,
+              1,
+              484,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              5,
+              0,
+              15,
+              1,
+              479
+            ]
+          ],
+          "class_recall": [
+            0.794,
+            0.97,
+            0.808,
+            0.924,
+            0.814,
+            0.962,
+            0.736,
+            0.948,
+            0.968,
+            0.958
+          ],
+          "gap_quantiles": {
+            "0": 0.0013030879986244415,
+            "0.01": 0.05089745268244996,
+            "0.1": 0.7085704550788754,
+            "0.5": 4.9824354045860515,
+            "0.9": 18.656778532562566,
+            "0.99": 32.90710884520002,
+            "1": 63.48193296401349
+          },
+          "applicable": 5000,
+          "boundary": 0,
+          "finite": true,
+          "convergence_claim": false,
+          "numerical_thresholds": {
+            "rmse": 0.0028724034277539836,
+            "max_abs": 0.027530070390810124
+          },
+          "threshold_rule": "development logits round-to-nearest binary16; all rows/classes; no labels/margins/test/CKKS influence",
+          "development_logits_sha256": "19e04feb1d3638318e48e5655b8a1809c6faf5ff45431ff30432d047f3c7324b",
+          "model_sha256": "6db60633ac8f2f5d7e60a36d8d3668dc40311860d3f075822fc60b2b57f29bee"
+        },
+        "selection_applicable": 500,
+        "selection_inputs": 500,
+        "direct_trials": 1,
+        "finite_candidates": 8,
+        "acceptance_set_comparisons": [
+          {
+            "seed": 0,
+            "numerical_criterion": "rmse",
+            "candidates": 8,
+            "both_pass": 8,
+            "numerical_only": 0,
+            "proposal_only": 0,
+            "both_fail": 0,
+            "same_observed_acceptance_set": true
+          },
+          {
+            "seed": 0,
+            "numerical_criterion": "max_abs",
+            "candidates": 8,
+            "both_pass": 8,
+            "numerical_only": 0,
+            "proposal_only": 0,
+            "both_fail": 0,
+            "same_observed_acceptance_set": true
+          }
+        ],
+        "roles": {
+          "initial": {
+            "id": "synth_analysis_minimum_rescale_N14_Q5_S33_5838baabc77f",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 14,
+              "log_q": [
+                43,
+                33,
+                33,
+                33,
+                33
+              ],
+              "log_p": [
+                43
+              ],
+              "log_default_scale": 33
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 218,
+              "max_allowed_log_qp": 430,
+              "headroom_bits": 212,
+              "admission_status": "PASS",
+              "log_q": 175,
+              "log_p": 43,
+              "log_qp": 218,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 255,
+              "evaluation_key_headroom_bits": 212,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 30,
+            "message_magnitude_bits": 7,
+            "analysis_scale_bits": 33,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.000610482 aggregate_sensitivity=589106 unit_budget=1.03629e-09 precision_bits=30 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=218 analysis_scale_bits=33 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "proposed": {
+            "id": "synth_analysis_minimum_rescale_N14_Q5_S33_5838baabc77f",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 14,
+              "log_q": [
+                43,
+                33,
+                33,
+                33,
+                33
+              ],
+              "log_p": [
+                43
+              ],
+              "log_default_scale": 33
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 218,
+              "max_allowed_log_qp": 430,
+              "headroom_bits": 212,
+              "admission_status": "PASS",
+              "log_q": 175,
+              "log_p": 43,
+              "log_qp": 218,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 255,
+              "evaluation_key_headroom_bits": 212,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 30,
+            "message_magnitude_bits": 7,
+            "analysis_scale_bits": 33,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.000610482 aggregate_sensitivity=589106 unit_budget=1.03629e-09 precision_bits=30 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=218 analysis_scale_bits=33 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "finite_fastest_acceptable": {
+            "id": "synth_analysis_minimum_rescale_N14_Q5_S33_5838baabc77f",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 14,
+              "log_q": [
+                43,
+                33,
+                33,
+                33,
+                33
+              ],
+              "log_p": [
+                43
+              ],
+              "log_default_scale": 33
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 218,
+              "max_allowed_log_qp": 430,
+              "headroom_bits": 212,
+              "admission_status": "PASS",
+              "log_q": 175,
+              "log_p": 43,
+              "log_qp": 218,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 255,
+              "evaluation_key_headroom_bits": 212,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 30,
+            "message_magnitude_bits": 7,
+            "analysis_scale_bits": 33,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.000610482 aggregate_sensitivity=589106 unit_budget=1.03629e-09 precision_bits=30 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=218 analysis_scale_bits=33 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "finite_fastest_executable": {
+            "id": "synth_analysis_minimum_rescale_N14_Q5_S33_5838baabc77f",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 14,
+              "log_q": [
+                43,
+                33,
+                33,
+                33,
+                33
+              ],
+              "log_p": [
+                43
+              ],
+              "log_default_scale": 33
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 218,
+              "max_allowed_log_qp": 430,
+              "headroom_bits": 212,
+              "admission_status": "PASS",
+              "log_q": 175,
+              "log_p": 43,
+              "log_qp": 218,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 255,
+              "evaluation_key_headroom_bits": 212,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 30,
+            "message_magnitude_bits": 7,
+            "analysis_scale_bits": 33,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.000610482 aggregate_sensitivity=589106 unit_budget=1.03629e-09 precision_bits=30 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=218 analysis_scale_bits=33 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "numeric_rmse": {
+            "id": "synth_analysis_minimum_rescale_N14_Q5_S33_5838baabc77f",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 14,
+              "log_q": [
+                43,
+                33,
+                33,
+                33,
+                33
+              ],
+              "log_p": [
+                43
+              ],
+              "log_default_scale": 33
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 218,
+              "max_allowed_log_qp": 430,
+              "headroom_bits": 212,
+              "admission_status": "PASS",
+              "log_q": 175,
+              "log_p": 43,
+              "log_qp": 218,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 255,
+              "evaluation_key_headroom_bits": 212,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 30,
+            "message_magnitude_bits": 7,
+            "analysis_scale_bits": 33,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.000610482 aggregate_sensitivity=589106 unit_budget=1.03629e-09 precision_bits=30 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=218 analysis_scale_bits=33 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "numeric_max_abs": {
+            "id": "synth_analysis_minimum_rescale_N14_Q5_S33_5838baabc77f",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 14,
+              "log_q": [
+                43,
+                33,
+                33,
+                33,
+                33
+              ],
+              "log_p": [
+                43
+              ],
+              "log_default_scale": 33
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 218,
+              "max_allowed_log_qp": 430,
+              "headroom_bits": 212,
+              "admission_status": "PASS",
+              "log_q": 175,
+              "log_p": 43,
+              "log_qp": 218,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 255,
+              "evaluation_key_headroom_bits": 212,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 30,
+            "message_magnitude_bits": 7,
+            "analysis_scale_bits": 33,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.000610482 aggregate_sensitivity=589106 unit_budget=1.03629e-09 precision_bits=30 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=218 analysis_scale_bits=33 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          }
+        },
+        "actual_unique_audit_candidates": 1,
+        "common_evaluated_audit_inputs": 10000,
+        "audit": {
+          "synth_analysis_minimum_rescale_N14_Q5_S33_5838baabc77f": {
+            "inputs": 10000,
+            "applicable": 9999,
+            "boundary": 1,
+            "key_observations": 30000,
+            "applicable_key_observations": 29997,
+            "applicable_flip_events": 0,
+            "applicable_flip_inputs": 0,
+            "applicable_error_events": 0,
+            "applicable_error_inputs": 0,
+            "boundary_flip_events": 0,
+            "boundary_flip_inputs": 0,
+            "all_flip_events": 0,
+            "all_flip_inputs": 0,
+            "plain_correct": 8766,
+            "ckks_correct_events": 26298,
+            "key_contexts": 60,
+            "execution_failures": 0,
+            "squared_error_sum": 4.006476601389135e-06,
+            "logit_observations": 300000,
+            "max_abs_all": 4.5470901255839635e-05,
+            "max_abs_applicable": 4.5470901255839635e-05,
+            "rmse_all": 3.654438671619822e-06,
+            "plaintext_accuracy": 0.8766,
+            "ckks_accuracy": 0.8766,
+            "status": "SAFE",
+            "planned_inputs": 10000,
+            "missing_batches": [],
+            "completion": "COMPLETE",
+            "audit_native_cost_ms": {
+              "crypto_setup_ms": 2015.624626,
+              "encode_encrypt_ms": 570599.624364,
+              "evaluation_only_ms": 1617811.369169,
+              "decrypt_decode_ms": 6591.757745,
+              "adapter_io_ms": 0,
+              "total_ms": 2198954.759072
+            },
+            "plaintext_confusion_matrix": [
+              [
+                798,
+                1,
+                13,
+                35,
+                2,
+                0,
+                144,
+                0,
+                7,
+                0
+              ],
+              [
+                4,
+                962,
+                1,
+                26,
+                4,
+                0,
+                3,
+                0,
+                0,
+                0
+              ],
+              [
+                16,
+                0,
+                766,
+                13,
+                105,
+                0,
+                98,
+                0,
+                2,
+                0
+              ],
+              [
+                15,
+                2,
+                13,
+                911,
+                26,
+                0,
+                29,
+                0,
+                4,
+                0
+              ],
+              [
+                0,
+                0,
+                86,
+                39,
+                782,
+                0,
+                91,
+                0,
+                2,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                1,
+                0,
+                948,
+                0,
+                20,
+                4,
+                27
+              ],
+              [
+                103,
+                1,
+                72,
+                36,
+                53,
+                0,
+                727,
+                0,
+                8,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                19,
+                0,
+                948,
+                1,
+                32
+              ],
+              [
+                6,
+                0,
+                10,
+                7,
+                4,
+                2,
+                7,
+                3,
+                961,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                6,
+                1,
+                30,
+                0,
+                963
+              ]
+            ],
+            "plaintext_class_recall": [
+              0.798,
+              0.962,
+              0.766,
+              0.911,
+              0.782,
+              0.948,
+              0.727,
+              0.948,
+              0.961,
+              0.963
+            ]
+          }
+        },
+        "timing_ratios_comparator_over_proposed": {
+          "synth_analysis_minimum_rescale_N14_Q5_S33_5838baabc77f": 1.0006062854707942
+        },
+        "pdf_inference_ratios_comparator_over_proposed": {
+          "synth_analysis_minimum_rescale_N14_Q5_S33_5838baabc77f": 1.0006065723036994
+        },
+        "missing_timing_blocks": [],
+        "selection_costs": {
+          "audit_all_attempt_wall_seconds": 2212.834962891,
+          "audit_completed_wall_seconds": 2212.834962891,
+          "finite_all_attempt_wall_seconds": 960.6962994650021,
+          "finite_completed_wall_seconds": 960.6962994650021,
+          "timing_all_attempt_wall_seconds": 1505.5247175209988,
+          "timing_completed_wall_seconds": 1505.5247175209988,
+          "direct_all_attempt_wall_seconds": 145.13655404400015,
+          "interrupted_or_failed_wall_seconds": 34.4759606839998,
+          "direct_completed_wall_seconds": 110.66059336000035,
+          "plan_all_attempt_wall_seconds": 0.2783533970014105,
+          "plan_completed_wall_seconds": 0.2783533970014105
+        },
+        "input_types": [
+          {
+            "method": "numeric_rmse",
+            "type": "numeric_batch_condition_pass_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "numeric_batch_condition_pass_flip_proposed_preserved_all_keys",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "both_decisions_preserved_all_keys",
+            "case_input_pairs": 10000,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "proposed_failure_or_outside_domain",
+            "case_input_pairs": 1,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "proposed_applicable_decision_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "proposed_error_violation_without_applicable_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "proposed_outside_domain",
+            "case_input_pairs": 1,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "numeric_batch_condition_pass_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "numeric_batch_condition_pass_flip_proposed_preserved_all_keys",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "both_decisions_preserved_all_keys",
+            "case_input_pairs": 10000,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "proposed_failure_or_outside_domain",
+            "case_input_pairs": 1,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "proposed_applicable_decision_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "proposed_error_violation_without_applicable_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "proposed_outside_domain",
+            "case_input_pairs": 1,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          }
+        ],
+        "minimum_error_diagnostic": {
+          "id": "synth_repair_scale_3_rescale_N14_Q5_S45_5838baabc77f",
+          "path": "rescale",
+          "parameters": {
+            "log_n": 14,
+            "log_q": [
+              55,
+              45,
+              45,
+              45,
+              45
+            ],
+            "log_p": [
+              55
+            ],
+            "log_default_scale": 45
+          },
+          "security": {
+            "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+            "target_bits": 128,
+            "declared_log_qp": 290,
+            "max_allowed_log_qp": 430,
+            "headroom_bits": 140,
+            "admission_status": "PASS",
+            "log_q": 235,
+            "log_p": 55,
+            "log_qp": 290,
+            "ciphertext_q_admission": "PASS",
+            "evaluation_key_qp_admission": "PASS",
+            "final_admission": "PASS",
+            "ciphertext_headroom_bits": 195,
+            "evaluation_key_headroom_bits": 140,
+            "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+          },
+          "required_rescale_levels": 3,
+          "level_guard": 0,
+          "precision_target_bits": 30,
+          "message_magnitude_bits": 7,
+          "analysis_scale_bits": 45,
+          "backend_scale_lift_bits": 0,
+          "backend_validation_attempts": 1,
+          "same_tier_precision_gain_bits": 0,
+          "same_tier_static_candidates_tried": 1,
+          "generation_kind": "repair_scale_3",
+          "reason": "budget=0.000610482 aggregate_sensitivity=589106 unit_budget=1.03629e-09 precision_bits=30 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=290 analysis_scale_bits=45 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+        }
+      },
+      {
+        "seed": 1,
+        "development": {
+          "seed": 1,
+          "development_n": 5000,
+          "accuracy": 0.885,
+          "confusion_matrix": [
+            [
+              412,
+              0,
+              5,
+              37,
+              1,
+              0,
+              40,
+              1,
+              4,
+              0
+            ],
+            [
+              1,
+              490,
+              2,
+              7,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              8,
+              0,
+              425,
+              10,
+              41,
+              0,
+              15,
+              1,
+              0,
+              0
+            ],
+            [
+              3,
+              1,
+              3,
+              476,
+              6,
+              0,
+              10,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              1,
+              33,
+              31,
+              410,
+              2,
+              21,
+              0,
+              1,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              491,
+              0,
+              3,
+              3,
+              3
+            ],
+            [
+              68,
+              1,
+              48,
+              36,
+              46,
+              1,
+              298,
+              0,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              11,
+              0,
+              475,
+              1,
+              13
+            ],
+            [
+              1,
+              0,
+              2,
+              4,
+              2,
+              0,
+              5,
+              2,
+              484,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              1,
+              0,
+              12,
+              0,
+              23,
+              0,
+              464
+            ]
+          ],
+          "class_recall": [
+            0.824,
+            0.98,
+            0.85,
+            0.952,
+            0.82,
+            0.982,
+            0.596,
+            0.95,
+            0.968,
+            0.928
+          ],
+          "gap_quantiles": {
+            "0": 0.0012601723380923913,
+            "0.01": 0.06398588851409903,
+            "0.1": 0.7386602734177155,
+            "0.5": 5.29344156449401,
+            "0.9": 17.847545955927327,
+            "0.99": 30.542063516909447,
+            "1": 66.15123444899778
+          },
+          "applicable": 5000,
+          "boundary": 0,
+          "finite": true,
+          "convergence_claim": false,
+          "numerical_thresholds": {
+            "rmse": 0.0026124242411956584,
+            "max_abs": 0.029613854530992967
+          },
+          "threshold_rule": "development logits round-to-nearest binary16; all rows/classes; no labels/margins/test/CKKS influence",
+          "development_logits_sha256": "830de05b18bfa36a69f4e32cc0f147a4aac75990314670536115de1a6d070964",
+          "model_sha256": "43c54e908afd48896711be4725df4bd500513d423303ab7ed52b061c91e29e86"
+        },
+        "selection_applicable": 500,
+        "selection_inputs": 500,
+        "direct_trials": 1,
+        "finite_candidates": 8,
+        "acceptance_set_comparisons": [
+          {
+            "seed": 1,
+            "numerical_criterion": "rmse",
+            "candidates": 8,
+            "both_pass": 8,
+            "numerical_only": 0,
+            "proposal_only": 0,
+            "both_fail": 0,
+            "same_observed_acceptance_set": true
+          },
+          {
+            "seed": 1,
+            "numerical_criterion": "max_abs",
+            "candidates": 8,
+            "both_pass": 8,
+            "numerical_only": 0,
+            "proposal_only": 0,
+            "both_fail": 0,
+            "same_observed_acceptance_set": true
+          }
+        ],
+        "roles": {
+          "initial": {
+            "id": "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 13,
+              "log_q": [
+                41,
+                31,
+                31,
+                31,
+                31
+              ],
+              "log_p": [
+                41
+              ],
+              "log_default_scale": 31
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 206,
+              "max_allowed_log_qp": 214,
+              "headroom_bits": 8,
+              "admission_status": "PASS",
+              "log_q": 165,
+              "log_p": 41,
+              "log_qp": 206,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 49,
+              "evaluation_key_headroom_bits": 8,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 28,
+            "message_magnitude_bits": 7,
+            "analysis_scale_bits": 31,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=206 analysis_scale_bits=31 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "proposed": {
+            "id": "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 13,
+              "log_q": [
+                41,
+                31,
+                31,
+                31,
+                31
+              ],
+              "log_p": [
+                41
+              ],
+              "log_default_scale": 31
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 206,
+              "max_allowed_log_qp": 214,
+              "headroom_bits": 8,
+              "admission_status": "PASS",
+              "log_q": 165,
+              "log_p": 41,
+              "log_qp": 206,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 49,
+              "evaluation_key_headroom_bits": 8,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 28,
+            "message_magnitude_bits": 7,
+            "analysis_scale_bits": 31,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=206 analysis_scale_bits=31 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "finite_fastest_acceptable": {
+            "id": "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 13,
+              "log_q": [
+                41,
+                31,
+                31,
+                31,
+                31
+              ],
+              "log_p": [
+                41
+              ],
+              "log_default_scale": 31
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 206,
+              "max_allowed_log_qp": 214,
+              "headroom_bits": 8,
+              "admission_status": "PASS",
+              "log_q": 165,
+              "log_p": 41,
+              "log_qp": 206,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 49,
+              "evaluation_key_headroom_bits": 8,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 28,
+            "message_magnitude_bits": 7,
+            "analysis_scale_bits": 31,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=206 analysis_scale_bits=31 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "finite_fastest_executable": {
+            "id": "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 13,
+              "log_q": [
+                41,
+                31,
+                31,
+                31,
+                31
+              ],
+              "log_p": [
+                41
+              ],
+              "log_default_scale": 31
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 206,
+              "max_allowed_log_qp": 214,
+              "headroom_bits": 8,
+              "admission_status": "PASS",
+              "log_q": 165,
+              "log_p": 41,
+              "log_qp": 206,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 49,
+              "evaluation_key_headroom_bits": 8,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 28,
+            "message_magnitude_bits": 7,
+            "analysis_scale_bits": 31,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=206 analysis_scale_bits=31 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "numeric_rmse": {
+            "id": "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 13,
+              "log_q": [
+                41,
+                31,
+                31,
+                31,
+                31
+              ],
+              "log_p": [
+                41
+              ],
+              "log_default_scale": 31
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 206,
+              "max_allowed_log_qp": 214,
+              "headroom_bits": 8,
+              "admission_status": "PASS",
+              "log_q": 165,
+              "log_p": 41,
+              "log_qp": 206,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 49,
+              "evaluation_key_headroom_bits": 8,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 28,
+            "message_magnitude_bits": 7,
+            "analysis_scale_bits": 31,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=206 analysis_scale_bits=31 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "numeric_max_abs": {
+            "id": "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 13,
+              "log_q": [
+                41,
+                31,
+                31,
+                31,
+                31
+              ],
+              "log_p": [
+                41
+              ],
+              "log_default_scale": 31
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 206,
+              "max_allowed_log_qp": 214,
+              "headroom_bits": 8,
+              "admission_status": "PASS",
+              "log_q": 165,
+              "log_p": 41,
+              "log_qp": 206,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 49,
+              "evaluation_key_headroom_bits": 8,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 28,
+            "message_magnitude_bits": 7,
+            "analysis_scale_bits": 31,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=206 analysis_scale_bits=31 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          }
+        },
+        "actual_unique_audit_candidates": 1,
+        "common_evaluated_audit_inputs": 10000,
+        "audit": {
+          "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d": {
+            "inputs": 10000,
+            "applicable": 9999,
+            "boundary": 1,
+            "key_observations": 30000,
+            "applicable_key_observations": 29997,
+            "applicable_flip_events": 0,
+            "applicable_flip_inputs": 0,
+            "applicable_error_events": 0,
+            "applicable_error_inputs": 0,
+            "boundary_flip_events": 0,
+            "boundary_flip_inputs": 0,
+            "all_flip_events": 0,
+            "all_flip_inputs": 0,
+            "plain_correct": 8762,
+            "ckks_correct_events": 26286,
+            "key_contexts": 60,
+            "execution_failures": 0,
+            "squared_error_sum": 1.4790750083207644e-05,
+            "logit_observations": 300000,
+            "max_abs_all": 9.694805478233093e-05,
+            "max_abs_applicable": 9.694805478233093e-05,
+            "rmse_all": 7.021573917389093e-06,
+            "plaintext_accuracy": 0.8762,
+            "ckks_accuracy": 0.8762,
+            "status": "SAFE",
+            "planned_inputs": 10000,
+            "missing_batches": [],
+            "completion": "COMPLETE",
+            "audit_native_cost_ms": {
+              "crypto_setup_ms": 1019.244669,
+              "encode_encrypt_ms": 274267.497308,
+              "evaluation_only_ms": 823966.999803,
+              "decrypt_decode_ms": 3253.340461,
+              "adapter_io_ms": 0,
+              "total_ms": 1104172.05304
+            },
+            "plaintext_confusion_matrix": [
+              [
+                811,
+                2,
+                19,
+                76,
+                2,
+                2,
+                76,
+                0,
+                12,
+                0
+              ],
+              [
+                3,
+                969,
+                1,
+                22,
+                3,
+                0,
+                1,
+                0,
+                1,
+                0
+              ],
+              [
+                15,
+                1,
+                837,
+                24,
+                80,
+                1,
+                40,
+                0,
+                2,
+                0
+              ],
+              [
+                15,
+                4,
+                9,
+                947,
+                13,
+                0,
+                9,
+                0,
+                3,
+                0
+              ],
+              [
+                0,
+                1,
+                102,
+                63,
+                790,
+                0,
+                42,
+                0,
+                2,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                1,
+                0,
+                965,
+                0,
+                23,
+                1,
+                10
+              ],
+              [
+                147,
+                1,
+                109,
+                59,
+                106,
+                2,
+                572,
+                0,
+                4,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                18,
+                0,
+                962,
+                1,
+                19
+              ],
+              [
+                3,
+                1,
+                7,
+                6,
+                2,
+                3,
+                8,
+                6,
+                964,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                15,
+                1,
+                39,
+                0,
+                945
+              ]
+            ],
+            "plaintext_class_recall": [
+              0.811,
+              0.969,
+              0.837,
+              0.947,
+              0.79,
+              0.965,
+              0.572,
+              0.962,
+              0.964,
+              0.945
+            ]
+          }
+        },
+        "timing_ratios_comparator_over_proposed": {
+          "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d": 1.0001052611339518
+        },
+        "pdf_inference_ratios_comparator_over_proposed": {
+          "synth_analysis_minimum_rescale_N13_Q5_S31_742f6599b55d": 1.0001319183061075
+        },
+        "missing_timing_blocks": [],
+        "selection_costs": {
+          "finite_all_attempt_wall_seconds": 905.9358110530065,
+          "finite_completed_wall_seconds": 905.9358110530065,
+          "audit_all_attempt_wall_seconds": 1117.4512672489946,
+          "audit_completed_wall_seconds": 1117.4512672489946,
+          "direct_all_attempt_wall_seconds": 56.08618283500073,
+          "direct_completed_wall_seconds": 56.08618283500073,
+          "timing_all_attempt_wall_seconds": 759.2578093150005,
+          "timing_completed_wall_seconds": 759.2578093150005,
+          "plan_all_attempt_wall_seconds": 0.27770183000029647,
+          "plan_completed_wall_seconds": 0.27770183000029647
+        },
+        "input_types": [
+          {
+            "method": "numeric_rmse",
+            "type": "numeric_batch_condition_pass_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "numeric_batch_condition_pass_flip_proposed_preserved_all_keys",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "both_decisions_preserved_all_keys",
+            "case_input_pairs": 10000,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "proposed_failure_or_outside_domain",
+            "case_input_pairs": 1,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "proposed_applicable_decision_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "proposed_error_violation_without_applicable_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "proposed_outside_domain",
+            "case_input_pairs": 1,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "numeric_batch_condition_pass_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "numeric_batch_condition_pass_flip_proposed_preserved_all_keys",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "both_decisions_preserved_all_keys",
+            "case_input_pairs": 10000,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "proposed_failure_or_outside_domain",
+            "case_input_pairs": 1,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "proposed_applicable_decision_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "proposed_error_violation_without_applicable_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "proposed_outside_domain",
+            "case_input_pairs": 1,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          }
+        ],
+        "minimum_error_diagnostic": {
+          "id": "synth_repair_scale_3_rescale_N14_Q5_S43_742f6599b55d",
+          "path": "rescale",
+          "parameters": {
+            "log_n": 14,
+            "log_q": [
+              53,
+              43,
+              43,
+              43,
+              43
+            ],
+            "log_p": [
+              53
+            ],
+            "log_default_scale": 43
+          },
+          "security": {
+            "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+            "target_bits": 128,
+            "declared_log_qp": 278,
+            "max_allowed_log_qp": 430,
+            "headroom_bits": 152,
+            "admission_status": "PASS",
+            "log_q": 225,
+            "log_p": 53,
+            "log_qp": 278,
+            "ciphertext_q_admission": "PASS",
+            "evaluation_key_qp_admission": "PASS",
+            "final_admission": "PASS",
+            "ciphertext_headroom_bits": 205,
+            "evaluation_key_headroom_bits": 152,
+            "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+          },
+          "required_rescale_levels": 3,
+          "level_guard": 0,
+          "precision_target_bits": 28,
+          "message_magnitude_bits": 7,
+          "analysis_scale_bits": 43,
+          "backend_scale_lift_bits": 0,
+          "backend_validation_attempts": 1,
+          "same_tier_precision_gain_bits": 0,
+          "same_tier_static_candidates_tried": 1,
+          "generation_kind": "repair_scale_3",
+          "reason": "budget=0.00301732 aggregate_sensitivity=670367 unit_budget=4.501e-09 precision_bits=28 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=278 analysis_scale_bits=43 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+        }
+      },
+      {
+        "seed": 2,
+        "development": {
+          "seed": 2,
+          "development_n": 5000,
+          "accuracy": 0.8824,
+          "confusion_matrix": [
+            [
+              469,
+              0,
+              1,
+              7,
+              2,
+              2,
+              18,
+              0,
+              1,
+              0
+            ],
+            [
+              1,
+              489,
+              0,
+              9,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              20,
+              1,
+              383,
+              8,
+              58,
+              1,
+              29,
+              0,
+              0,
+              0
+            ],
+            [
+              24,
+              1,
+              0,
+              446,
+              17,
+              0,
+              10,
+              0,
+              2,
+              0
+            ],
+            [
+              4,
+              1,
+              29,
+              13,
+              418,
+              0,
+              33,
+              0,
+              1,
+              1
+            ],
+            [
+              2,
+              0,
+              0,
+              1,
+              0,
+              484,
+              0,
+              6,
+              0,
+              7
+            ],
+            [
+              117,
+              1,
+              38,
+              8,
+              31,
+              1,
+              302,
+              0,
+              2,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              14,
+              0,
+              468,
+              1,
+              17
+            ],
+            [
+              6,
+              0,
+              3,
+              3,
+              1,
+              0,
+              4,
+              3,
+              480,
+              0
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              12,
+              0,
+              15,
+              0,
+              473
+            ]
+          ],
+          "class_recall": [
+            0.938,
+            0.978,
+            0.766,
+            0.892,
+            0.836,
+            0.968,
+            0.604,
+            0.936,
+            0.96,
+            0.946
+          ],
+          "gap_quantiles": {
+            "0": 0.0008623389359891931,
+            "0.01": 0.07582759178923912,
+            "0.1": 0.7550241098546471,
+            "0.5": 5.169138635456896,
+            "0.9": 19.640166527029788,
+            "0.99": 35.76656050442692,
+            "1": 64.89512301566856
+          },
+          "applicable": 4999,
+          "boundary": 1,
+          "finite": true,
+          "convergence_claim": false,
+          "numerical_thresholds": {
+            "rmse": 0.0026951232116630055,
+            "max_abs": 0.026194294078862868
+          },
+          "threshold_rule": "development logits round-to-nearest binary16; all rows/classes; no labels/margins/test/CKKS influence",
+          "development_logits_sha256": "27d1f9b2cbf36d7b4bd50d089c59901b38843a7f5f67fe5ba4b45206e9be04b3",
+          "model_sha256": "ddd43b8c5f97239db86a6ae7c5e3fd8b2a83eaee7b42721cf4e95a0723da02f1"
+        },
+        "selection_applicable": 500,
+        "selection_inputs": 500,
+        "direct_trials": 1,
+        "finite_candidates": 8,
+        "acceptance_set_comparisons": [
+          {
+            "seed": 2,
+            "numerical_criterion": "rmse",
+            "candidates": 8,
+            "both_pass": 8,
+            "numerical_only": 0,
+            "proposal_only": 0,
+            "both_fail": 0,
+            "same_observed_acceptance_set": true
+          },
+          {
+            "seed": 2,
+            "numerical_criterion": "max_abs",
+            "candidates": 8,
+            "both_pass": 8,
+            "numerical_only": 0,
+            "proposal_only": 0,
+            "both_fail": 0,
+            "same_observed_acceptance_set": true
+          }
+        ],
+        "roles": {
+          "initial": {
+            "id": "synth_analysis_minimum_rescale_N13_Q5_S32_597aa3414ad9",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 13,
+              "log_q": [
+                41,
+                32,
+                32,
+                32,
+                32
+              ],
+              "log_p": [
+                41
+              ],
+              "log_default_scale": 32
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 210,
+              "max_allowed_log_qp": 214,
+              "headroom_bits": 4,
+              "admission_status": "PASS",
+              "log_q": 169,
+              "log_p": 41,
+              "log_qp": 210,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 45,
+              "evaluation_key_headroom_bits": 4,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 29,
+            "message_magnitude_bits": 6,
+            "analysis_scale_bits": 32,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.00188066 aggregate_sensitivity=538481 unit_budget=3.49253e-09 precision_bits=29 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=210 analysis_scale_bits=32 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "proposed": {
+            "id": "synth_analysis_minimum_rescale_N13_Q5_S32_597aa3414ad9",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 13,
+              "log_q": [
+                41,
+                32,
+                32,
+                32,
+                32
+              ],
+              "log_p": [
+                41
+              ],
+              "log_default_scale": 32
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 210,
+              "max_allowed_log_qp": 214,
+              "headroom_bits": 4,
+              "admission_status": "PASS",
+              "log_q": 169,
+              "log_p": 41,
+              "log_qp": 210,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 45,
+              "evaluation_key_headroom_bits": 4,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 29,
+            "message_magnitude_bits": 6,
+            "analysis_scale_bits": 32,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.00188066 aggregate_sensitivity=538481 unit_budget=3.49253e-09 precision_bits=29 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=210 analysis_scale_bits=32 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "finite_fastest_acceptable": {
+            "id": "synth_analysis_minimum_rescale_N13_Q5_S32_597aa3414ad9",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 13,
+              "log_q": [
+                41,
+                32,
+                32,
+                32,
+                32
+              ],
+              "log_p": [
+                41
+              ],
+              "log_default_scale": 32
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 210,
+              "max_allowed_log_qp": 214,
+              "headroom_bits": 4,
+              "admission_status": "PASS",
+              "log_q": 169,
+              "log_p": 41,
+              "log_qp": 210,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 45,
+              "evaluation_key_headroom_bits": 4,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 29,
+            "message_magnitude_bits": 6,
+            "analysis_scale_bits": 32,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.00188066 aggregate_sensitivity=538481 unit_budget=3.49253e-09 precision_bits=29 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=210 analysis_scale_bits=32 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "finite_fastest_executable": {
+            "id": "synth_analysis_minimum_rescale_N13_Q5_S32_597aa3414ad9",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 13,
+              "log_q": [
+                41,
+                32,
+                32,
+                32,
+                32
+              ],
+              "log_p": [
+                41
+              ],
+              "log_default_scale": 32
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 210,
+              "max_allowed_log_qp": 214,
+              "headroom_bits": 4,
+              "admission_status": "PASS",
+              "log_q": 169,
+              "log_p": 41,
+              "log_qp": 210,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 45,
+              "evaluation_key_headroom_bits": 4,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 29,
+            "message_magnitude_bits": 6,
+            "analysis_scale_bits": 32,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.00188066 aggregate_sensitivity=538481 unit_budget=3.49253e-09 precision_bits=29 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=210 analysis_scale_bits=32 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "numeric_rmse": {
+            "id": "synth_analysis_minimum_rescale_N13_Q5_S32_597aa3414ad9",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 13,
+              "log_q": [
+                41,
+                32,
+                32,
+                32,
+                32
+              ],
+              "log_p": [
+                41
+              ],
+              "log_default_scale": 32
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 210,
+              "max_allowed_log_qp": 214,
+              "headroom_bits": 4,
+              "admission_status": "PASS",
+              "log_q": 169,
+              "log_p": 41,
+              "log_qp": 210,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 45,
+              "evaluation_key_headroom_bits": 4,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 29,
+            "message_magnitude_bits": 6,
+            "analysis_scale_bits": 32,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.00188066 aggregate_sensitivity=538481 unit_budget=3.49253e-09 precision_bits=29 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=210 analysis_scale_bits=32 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          },
+          "numeric_max_abs": {
+            "id": "synth_analysis_minimum_rescale_N13_Q5_S32_597aa3414ad9",
+            "path": "rescale",
+            "parameters": {
+              "log_n": 13,
+              "log_q": [
+                41,
+                32,
+                32,
+                32,
+                32
+              ],
+              "log_p": [
+                41
+              ],
+              "log_default_scale": 32
+            },
+            "security": {
+              "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+              "target_bits": 128,
+              "declared_log_qp": 210,
+              "max_allowed_log_qp": 214,
+              "headroom_bits": 4,
+              "admission_status": "PASS",
+              "log_q": 169,
+              "log_p": 41,
+              "log_qp": 210,
+              "ciphertext_q_admission": "PASS",
+              "evaluation_key_qp_admission": "PASS",
+              "final_admission": "PASS",
+              "ciphertext_headroom_bits": 45,
+              "evaluation_key_headroom_bits": 4,
+              "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+            },
+            "required_rescale_levels": 3,
+            "level_guard": 0,
+            "precision_target_bits": 29,
+            "message_magnitude_bits": 6,
+            "analysis_scale_bits": 32,
+            "backend_scale_lift_bits": 0,
+            "backend_validation_attempts": 1,
+            "same_tier_precision_gain_bits": 0,
+            "same_tier_static_candidates_tried": 1,
+            "generation_kind": "analysis_minimum",
+            "reason": "budget=0.00188066 aggregate_sensitivity=538481 unit_budget=3.49253e-09 precision_bits=29 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=210 analysis_scale_bits=32 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+          }
+        },
+        "actual_unique_audit_candidates": 1,
+        "common_evaluated_audit_inputs": 10000,
+        "audit": {
+          "synth_analysis_minimum_rescale_N13_Q5_S32_597aa3414ad9": {
+            "inputs": 10000,
+            "applicable": 10000,
+            "boundary": 0,
+            "key_observations": 30000,
+            "applicable_key_observations": 30000,
+            "applicable_flip_events": 0,
+            "applicable_flip_inputs": 0,
+            "applicable_error_events": 0,
+            "applicable_error_inputs": 0,
+            "boundary_flip_events": 0,
+            "boundary_flip_inputs": 0,
+            "all_flip_events": 0,
+            "all_flip_inputs": 0,
+            "plain_correct": 8788,
+            "ckks_correct_events": 26364,
+            "key_contexts": 60,
+            "execution_failures": 0,
+            "squared_error_sum": 4.001101425314116e-06,
+            "logit_observations": 300000,
+            "max_abs_all": 4.4119736372749685e-05,
+            "max_abs_applicable": 4.4119736372749685e-05,
+            "rmse_all": 3.651986411673386e-06,
+            "plaintext_accuracy": 0.8788,
+            "ckks_accuracy": 0.8788,
+            "status": "SAFE",
+            "planned_inputs": 10000,
+            "missing_batches": [],
+            "completion": "COMPLETE",
+            "audit_native_cost_ms": {
+              "crypto_setup_ms": 1139.688211,
+              "encode_encrypt_ms": 274021.041532,
+              "evaluation_only_ms": 824801.593373,
+              "decrypt_decode_ms": 3271.266315,
+              "adapter_io_ms": 0,
+              "total_ms": 1104893.6468480001
+            },
+            "plaintext_confusion_matrix": [
+              [
+                914,
+                3,
+                6,
+                20,
+                2,
+                0,
+                45,
+                0,
+                10,
+                0
+              ],
+              [
+                4,
+                968,
+                2,
+                22,
+                3,
+                0,
+                1,
+                0,
+                0,
+                0
+              ],
+              [
+                32,
+                2,
+                760,
+                14,
+                137,
+                0,
+                53,
+                0,
+                2,
+                0
+              ],
+              [
+                42,
+                3,
+                6,
+                890,
+                29,
+                2,
+                24,
+                0,
+                4,
+                0
+              ],
+              [
+                1,
+                1,
+                62,
+                31,
+                822,
+                0,
+                82,
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                1,
+                0,
+                974,
+                0,
+                16,
+                1,
+                8
+              ],
+              [
+                228,
+                2,
+                83,
+                24,
+                63,
+                2,
+                590,
+                0,
+                8,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                26,
+                0,
+                948,
+                1,
+                25
+              ],
+              [
+                7,
+                0,
+                0,
+                5,
+                3,
+                5,
+                10,
+                5,
+                965,
+                0
+              ],
+              [
+                0,
+                0,
+                0,
+                0,
+                0,
+                9,
+                1,
+                33,
+                0,
+                957
+              ]
+            ],
+            "plaintext_class_recall": [
+              0.914,
+              0.968,
+              0.76,
+              0.89,
+              0.822,
+              0.974,
+              0.59,
+              0.948,
+              0.965,
+              0.957
+            ]
+          }
+        },
+        "timing_ratios_comparator_over_proposed": {
+          "synth_analysis_minimum_rescale_N13_Q5_S32_597aa3414ad9": 0.9979796295308071
+        },
+        "pdf_inference_ratios_comparator_over_proposed": {
+          "synth_analysis_minimum_rescale_N13_Q5_S32_597aa3414ad9": 0.9979711927412432
+        },
+        "missing_timing_blocks": [],
+        "selection_costs": {
+          "audit_all_attempt_wall_seconds": 1118.0179409740012,
+          "audit_completed_wall_seconds": 1118.0179409740012,
+          "finite_all_attempt_wall_seconds": 910.2104093860144,
+          "finite_completed_wall_seconds": 910.2104093860144,
+          "timing_all_attempt_wall_seconds": 775.6826731130022,
+          "timing_completed_wall_seconds": 775.6826731130022,
+          "plan_all_attempt_wall_seconds": 0.26955484700010857,
+          "plan_completed_wall_seconds": 0.26955484700010857,
+          "direct_all_attempt_wall_seconds": 55.91589503499927,
+          "direct_completed_wall_seconds": 55.91589503499927
+        },
+        "input_types": [
+          {
+            "method": "numeric_rmse",
+            "type": "numeric_batch_condition_pass_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "numeric_batch_condition_pass_flip_proposed_preserved_all_keys",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "both_decisions_preserved_all_keys",
+            "case_input_pairs": 10000,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "proposed_failure_or_outside_domain",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "proposed_applicable_decision_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "proposed_error_violation_without_applicable_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_rmse",
+            "type": "proposed_outside_domain",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "numeric_batch_condition_pass_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "numeric_batch_condition_pass_flip_proposed_preserved_all_keys",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "both_decisions_preserved_all_keys",
+            "case_input_pairs": 10000,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "proposed_failure_or_outside_domain",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "proposed_applicable_decision_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "proposed_error_violation_without_applicable_flip",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          },
+          {
+            "method": "numeric_max_abs",
+            "type": "proposed_outside_domain",
+            "case_input_pairs": 0,
+            "unit": "unique input within this seed and method; categories can overlap on boundary inputs"
+          }
+        ],
+        "minimum_error_diagnostic": {
+          "id": "synth_repair_scale_3_rescale_N14_Q5_S44_597aa3414ad9",
+          "path": "rescale",
+          "parameters": {
+            "log_n": 14,
+            "log_q": [
+              53,
+              44,
+              44,
+              44,
+              44
+            ],
+            "log_p": [
+              53
+            ],
+            "log_default_scale": 44
+          },
+          "security": {
+            "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+            "target_bits": 128,
+            "declared_log_qp": 282,
+            "max_allowed_log_qp": 430,
+            "headroom_bits": 148,
+            "admission_status": "PASS",
+            "log_q": 229,
+            "log_p": 53,
+            "log_qp": 282,
+            "ciphertext_q_admission": "PASS",
+            "evaluation_key_qp_admission": "PASS",
+            "final_admission": "PASS",
+            "ciphertext_headroom_bits": 201,
+            "evaluation_key_headroom_bits": 148,
+            "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+          },
+          "required_rescale_levels": 3,
+          "level_guard": 0,
+          "precision_target_bits": 29,
+          "message_magnitude_bits": 6,
+          "analysis_scale_bits": 44,
+          "backend_scale_lift_bits": 0,
+          "backend_validation_attempts": 1,
+          "same_tier_precision_gain_bits": 0,
+          "same_tier_static_candidates_tried": 1,
+          "generation_kind": "repair_scale_3",
+          "reason": "budget=0.00188066 aggregate_sensitivity=538481 unit_budget=3.49253e-09 precision_bits=29 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=282 analysis_scale_bits=44 backend_scale_lift_bits=0 backend_validation_attempts=1 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+        }
+      }
+    ],
+    "automatic_followup": false,
+    "network_cost": null,
+    "confidence_or_risk_bound": null
+  },
+  "contribution_validation": {
+    "summary": {
+      "status": "COMPLETED_EXPLORATORY",
+      "judgments": [
+        {
+          "question": "독립 수치 기준의 판정 한계",
+          "status": "지지됨",
+          "scope": "주 기준의 독립 진단 0개·일반 감사 0개, 사전 민감도 1개 후보–허용값 조합. 민감도 사례는 실제 A30 선택 실패가 아니다."
+        },
+        {
+          "question": "판정 관련 수용 조건의 추가 효과",
+          "status": "미관측",
+          "scope": "실제 A30/B30 선택은 14/14 블록에서 동일. 후보 지도에서 특정 후보를 배제하는 효과와 실제 선택 개선을 분리한다."
+        },
+        {
+          "question": "단순 판정 선택 대비 제안 합성·조정 절차의 추가 효과",
+          "status": "지지됨",
+          "scope": "사례별 관측 선택 비용에 한정. C 후보 수 감소 0, 동일 10, 증가 4블록. 두 블록 모두 비용 감소한 사례 5, 증가한 사례 2. 통계적 우월성·모든 시작점의 개선은 판단하지 않는다."
+        },
+        {
+          "question": "동일 판정 목적에서의 선택·추론 비용 절충",
+          "status": "지지됨",
+          "scope": "같은 B/C 판정 목적의 실제 선택 비용과 새 대응 추론 시간을 사례별 공개한다. 수치 요구가 다르거나 비용이 증가한 결과를 함께 보고하며, 개선 방향은 아래 대응 표로 한정한다."
+        },
+        {
+          "question": "외부 문제 사례에 대한 적용 범위",
+          "status": "판단 불가",
+          "scope": "공개 절차 Bank 모델의 일반·합성 입력에서 공식 native 판정 이탈 입력은 0개, 그중 적용 영역에서 C 판정·오차 조건을 모두 통과한 입력은 0개. 원래 문제 해결을 판단할 자료와 단순 실행 완료를 구분한다. C는 합성 스트레스 적용 영역에서 판정 변화 1, 오차 조건 위반 6키 사건으로 불리했다. 원래 가중치·발견 corpus 재현도 아니다."
+        }
+      ],
+      "selection_runs": 70,
+      "planned_selection_runs": 70,
+      "distinct_selected_audits_expected": 22,
+      "full_audits_completed": 22,
+      "timing_completed": 45,
+      "timing_planned": 45,
+      "execution_failures": [],
+      "A30_B30_same_config_blocks": 14,
+      "A30_B30_changed_config_blocks": 0,
+      "B30_C_same_config_blocks": 0,
+      "B30_C_changed_config_blocks": 14,
+      "numeric_accepted_diagnostic_candidates_with_all_input_flips": 0,
+      "numeric_accepted_diagnostic_candidates_with_application_flips": 0,
+      "predeclared_numeric_sensitivity_flip_combinations": [
+        {
+          "case_id": "fashion_seed0",
+          "scale": 22,
+          "multiplier": 4,
+          "all_flip_events": 1,
+          "application_flip_events": 1
+        }
+      ],
+      "C_selection_cost_lower_both_blocks_cases": [
+        "spambase__linear_poly3__split0_seed0",
+        "htru2__linear_poly3__split0_seed0",
+        "spambase__mlp_square_linear_score__split0_seed0",
+        "htru2__mlp_square_linear_score__split0_seed0",
+        "fashion_seed2"
+      ],
+      "C_selection_cost_higher_both_blocks_cases": [
+        "fashion_seed0",
+        "fashion_seed1"
+      ],
+      "pairwise_selection": [
+        {
+          "case_id": "spambase__linear_poly3__split0_seed0",
+          "block": 0,
+          "left": "A30",
+          "right": "B30",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 30314.510404998146,
+          "right_wall_ms": 30428.84842499916,
+          "left_internal_wall_ms": 30280.116345,
+          "right_internal_wall_ms": 30374.132539,
+          "right_over_left_wall": 1.0037717257667524
+        },
+        {
+          "case_id": "spambase__linear_poly3__split0_seed0",
+          "block": 0,
+          "left": "B30",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 2,
+          "left_wall_ms": 30428.84842499916,
+          "right_wall_ms": 29645.809281995753,
+          "left_internal_wall_ms": 30374.132539,
+          "right_internal_wall_ms": 29596.908465,
+          "right_over_left_wall": 0.9742665534999316
+        },
+        {
+          "case_id": "spambase__linear_poly3__split0_seed0",
+          "block": 0,
+          "left": "A40",
+          "right": "B40",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 30736.53647500032,
+          "right_wall_ms": 30964.075913005217,
+          "left_internal_wall_ms": 30670.515463,
+          "right_internal_wall_ms": 30926.986398,
+          "right_over_left_wall": 1.0074028977920126
+        },
+        {
+          "case_id": "spambase__linear_poly3__split0_seed0",
+          "block": 0,
+          "left": "B40",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 2,
+          "left_wall_ms": 30964.075913005217,
+          "right_wall_ms": 29645.809281995753,
+          "left_internal_wall_ms": 30926.986398,
+          "right_internal_wall_ms": 29596.908465,
+          "right_over_left_wall": 0.9574259333715243
+        },
+        {
+          "case_id": "spambase__linear_poly3__split0_seed0",
+          "block": 1,
+          "left": "A30",
+          "right": "B30",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 30402.33434199763,
+          "right_wall_ms": 30592.585345999396,
+          "left_internal_wall_ms": 30369.282913,
+          "right_internal_wall_ms": 30558.044103,
+          "right_over_left_wall": 1.006257776191184
+        },
+        {
+          "case_id": "spambase__linear_poly3__split0_seed0",
+          "block": 1,
+          "left": "B30",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 2,
+          "left_wall_ms": 30592.585345999396,
+          "right_wall_ms": 29549.752036000427,
+          "left_internal_wall_ms": 30558.044103,
+          "right_internal_wall_ms": 29487.402299,
+          "right_over_left_wall": 0.9659122202911387
+        },
+        {
+          "case_id": "spambase__linear_poly3__split0_seed0",
+          "block": 1,
+          "left": "A40",
+          "right": "B40",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 30736.432008998236,
+          "right_wall_ms": 30865.811773997848,
+          "left_internal_wall_ms": 30707.092278,
+          "right_internal_wall_ms": 30828.397719,
+          "right_over_left_wall": 1.0042093293379575
+        },
+        {
+          "case_id": "spambase__linear_poly3__split0_seed0",
+          "block": 1,
+          "left": "B40",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 2,
+          "left_wall_ms": 30865.811773997848,
+          "right_wall_ms": 29549.752036000427,
+          "left_internal_wall_ms": 30828.397719,
+          "right_internal_wall_ms": 29487.402299,
+          "right_over_left_wall": 0.957361894524799
+        },
+        {
+          "case_id": "htru2__linear_poly3__split0_seed0",
+          "block": 0,
+          "left": "A30",
+          "right": "B30",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 18600.131970000803,
+          "right_wall_ms": 18655.66221199697,
+          "left_internal_wall_ms": 18559.735822,
+          "right_internal_wall_ms": 18615.674768,
+          "right_over_left_wall": 1.0029854756990826
+        },
+        {
+          "case_id": "htru2__linear_poly3__split0_seed0",
+          "block": 0,
+          "left": "B30",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 2,
+          "left_wall_ms": 18655.66221199697,
+          "right_wall_ms": 18071.304477998638,
+          "left_internal_wall_ms": 18615.674768,
+          "right_internal_wall_ms": 18015.026848,
+          "right_over_left_wall": 0.9686766555184224
+        },
+        {
+          "case_id": "htru2__linear_poly3__split0_seed0",
+          "block": 0,
+          "left": "A40",
+          "right": "B40",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 18774.45596900361,
+          "right_wall_ms": 18617.97942999692,
+          "left_internal_wall_ms": 18742.223442,
+          "right_internal_wall_ms": 18600.001424,
+          "right_over_left_wall": 0.9916654554856327
+        },
+        {
+          "case_id": "htru2__linear_poly3__split0_seed0",
+          "block": 0,
+          "left": "B40",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 2,
+          "left_wall_ms": 18617.97942999692,
+          "right_wall_ms": 18071.304477998638,
+          "left_internal_wall_ms": 18600.001424,
+          "right_internal_wall_ms": 18015.026848,
+          "right_over_left_wall": 0.9706372566339023
+        },
+        {
+          "case_id": "htru2__linear_poly3__split0_seed0",
+          "block": 1,
+          "left": "A30",
+          "right": "B30",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 18708.818599996448,
+          "right_wall_ms": 19300.256378002814,
+          "left_internal_wall_ms": 18674.165503,
+          "right_internal_wall_ms": 19265.541571,
+          "right_over_left_wall": 1.0316127806170763
+        },
+        {
+          "case_id": "htru2__linear_poly3__split0_seed0",
+          "block": 1,
+          "left": "B30",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 2,
+          "left_wall_ms": 19300.256378002814,
+          "right_wall_ms": 18055.54122600006,
+          "left_internal_wall_ms": 19265.541571,
+          "right_internal_wall_ms": 18038.911575,
+          "right_over_left_wall": 0.9355078436459838
+        },
+        {
+          "case_id": "htru2__linear_poly3__split0_seed0",
+          "block": 1,
+          "left": "A40",
+          "right": "B40",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 18736.521564002032,
+          "right_wall_ms": 18846.556543001498,
+          "left_internal_wall_ms": 18715.258914,
+          "right_internal_wall_ms": 18799.267034,
+          "right_over_left_wall": 1.0058727538419336
+        },
+        {
+          "case_id": "htru2__linear_poly3__split0_seed0",
+          "block": 1,
+          "left": "B40",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 2,
+          "left_wall_ms": 18846.556543001498,
+          "right_wall_ms": 18055.54122600006,
+          "left_internal_wall_ms": 18799.267034,
+          "right_internal_wall_ms": 18038.911575,
+          "right_over_left_wall": 0.9580286555161094
+        },
+        {
+          "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+          "block": 0,
+          "left": "A30",
+          "right": "B30",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 36848.11011800048,
+          "right_wall_ms": 36138.477742999385,
+          "left_internal_wall_ms": 36824.805799,
+          "right_internal_wall_ms": 36076.496972,
+          "right_over_left_wall": 0.9807416887127018
+        },
+        {
+          "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+          "block": 0,
+          "left": "B30",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 36138.477742999385,
+          "right_wall_ms": 17314.331582994782,
+          "left_internal_wall_ms": 36076.496972,
+          "right_internal_wall_ms": 17280.434869,
+          "right_over_left_wall": 0.479110705938599
+        },
+        {
+          "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+          "block": 0,
+          "left": "A40",
+          "right": "B40",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 36236.9587370049,
+          "right_wall_ms": 37017.41999100341,
+          "left_internal_wall_ms": 36183.202099,
+          "right_internal_wall_ms": 36996.158462,
+          "right_over_left_wall": 1.0215377140135524
+        },
+        {
+          "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+          "block": 0,
+          "left": "B40",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 37017.41999100341,
+          "right_wall_ms": 17314.331582994782,
+          "left_internal_wall_ms": 36996.158462,
+          "right_internal_wall_ms": 17280.434869,
+          "right_over_left_wall": 0.46773469321208233
+        },
+        {
+          "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+          "block": 1,
+          "left": "A30",
+          "right": "B30",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 36227.251096002874,
+          "right_wall_ms": 35931.49168600212,
+          "left_internal_wall_ms": 36206.959006,
+          "right_internal_wall_ms": 35900.428076,
+          "right_over_left_wall": 0.9918359963548714
+        },
+        {
+          "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+          "block": 1,
+          "left": "B30",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 35931.49168600212,
+          "right_wall_ms": 17644.70514700224,
+          "left_internal_wall_ms": 35900.428076,
+          "right_internal_wall_ms": 17615.869895,
+          "right_over_left_wall": 0.4910651998863747
+        },
+        {
+          "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+          "block": 1,
+          "left": "A40",
+          "right": "B40",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 36515.072659,
+          "right_wall_ms": 36654.198960997746,
+          "left_internal_wall_ms": 36484.82554,
+          "right_internal_wall_ms": 36630.419101,
+          "right_over_left_wall": 1.0038101061251334
+        },
+        {
+          "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+          "block": 1,
+          "left": "B40",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 36654.198960997746,
+          "right_wall_ms": 17644.70514700224,
+          "left_internal_wall_ms": 36630.419101,
+          "right_internal_wall_ms": 17615.869895,
+          "right_over_left_wall": 0.4813829151136889
+        },
+        {
+          "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+          "block": 0,
+          "left": "A30",
+          "right": "B30",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 24517.029565002304,
+          "right_wall_ms": 24509.15777199407,
+          "left_internal_wall_ms": 24461.159498,
+          "right_internal_wall_ms": 24467.673479,
+          "right_over_left_wall": 0.999678925500034
+        },
+        {
+          "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+          "block": 0,
+          "left": "B30",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 24509.15777199407,
+          "right_wall_ms": 11813.097311001911,
+          "left_internal_wall_ms": 24467.673479,
+          "right_internal_wall_ms": 11782.637778,
+          "right_over_left_wall": 0.4819870768672601
+        },
+        {
+          "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+          "block": 0,
+          "left": "A40",
+          "right": "B40",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 24629.52437900094,
+          "right_wall_ms": 24599.281090995646,
+          "left_internal_wall_ms": 24602.512035,
+          "right_internal_wall_ms": 24574.414627,
+          "right_over_left_wall": 0.9987720717810092
+        },
+        {
+          "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+          "block": 0,
+          "left": "B40",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 24599.281090995646,
+          "right_wall_ms": 11813.097311001911,
+          "left_internal_wall_ms": 24574.414627,
+          "right_internal_wall_ms": 11782.637778,
+          "right_over_left_wall": 0.48022124172262876
+        },
+        {
+          "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+          "block": 1,
+          "left": "A30",
+          "right": "B30",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 24856.59166500409,
+          "right_wall_ms": 24868.25286399835,
+          "left_internal_wall_ms": 24838.265171,
+          "right_internal_wall_ms": 24830.962426,
+          "right_over_left_wall": 1.0004691390980478
+        },
+        {
+          "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+          "block": 1,
+          "left": "B30",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 24868.25286399835,
+          "right_wall_ms": 12006.22195899632,
+          "left_internal_wall_ms": 24830.962426,
+          "right_internal_wall_ms": 11980.733032,
+          "right_over_left_wall": 0.4827931429142604
+        },
+        {
+          "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+          "block": 1,
+          "left": "A40",
+          "right": "B40",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 25076.69232799526,
+          "right_wall_ms": 25041.588815998693,
+          "left_internal_wall_ms": 25055.700801,
+          "right_internal_wall_ms": 24998.456187,
+          "right_over_left_wall": 0.9986001538186366
+        },
+        {
+          "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+          "block": 1,
+          "left": "B40",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 25041.588815998693,
+          "right_wall_ms": 12006.22195899632,
+          "left_internal_wall_ms": 24998.456187,
+          "right_internal_wall_ms": 11980.733032,
+          "right_over_left_wall": 0.4794512859074551
+        },
+        {
+          "case_id": "fashion_seed0",
+          "block": 0,
+          "left": "A30",
+          "right": "B30",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 55107.98995300138,
+          "right_wall_ms": 55034.389300999464,
+          "left_internal_wall_ms": 55016.473929,
+          "right_internal_wall_ms": 54931.671979,
+          "right_over_left_wall": 0.9986644286597155
+        },
+        {
+          "case_id": "fashion_seed0",
+          "block": 0,
+          "left": "B30",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 55034.389300999464,
+          "right_wall_ms": 109589.77727700403,
+          "left_internal_wall_ms": 54931.671979,
+          "right_internal_wall_ms": 109452.268459,
+          "right_over_left_wall": 1.9912963270587942
+        },
+        {
+          "case_id": "fashion_seed0",
+          "block": 0,
+          "left": "A40",
+          "right": "B40",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 109831.78117200441,
+          "right_wall_ms": 109696.99306000257,
+          "left_internal_wall_ms": 109726.033151,
+          "right_internal_wall_ms": 109588.067391,
+          "right_over_left_wall": 0.9987727767813329
+        },
+        {
+          "case_id": "fashion_seed0",
+          "block": 0,
+          "left": "B40",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 109696.99306000257,
+          "right_wall_ms": 109589.77727700403,
+          "left_internal_wall_ms": 109588.067391,
+          "right_internal_wall_ms": 109452.268459,
+          "right_over_left_wall": 0.9990226187609363
+        },
+        {
+          "case_id": "fashion_seed0",
+          "block": 1,
+          "left": "A30",
+          "right": "B30",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 55456.56920899637,
+          "right_wall_ms": 55523.84131299914,
+          "left_internal_wall_ms": 55381.027616,
+          "right_internal_wall_ms": 55453.265304,
+          "right_over_left_wall": 1.0012130592455015
+        },
+        {
+          "case_id": "fashion_seed0",
+          "block": 1,
+          "left": "B30",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 55523.84131299914,
+          "right_wall_ms": 111296.23259200162,
+          "left_internal_wall_ms": 55453.265304,
+          "right_internal_wall_ms": 111154.000385,
+          "right_over_left_wall": 2.0044764548007805
+        },
+        {
+          "case_id": "fashion_seed0",
+          "block": 1,
+          "left": "A40",
+          "right": "B40",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 111469.49584200047,
+          "right_wall_ms": 110856.87390199746,
+          "left_internal_wall_ms": 111336.724884,
+          "right_internal_wall_ms": 110719.72314,
+          "right_over_left_wall": 0.994504129265361
+        },
+        {
+          "case_id": "fashion_seed0",
+          "block": 1,
+          "left": "B40",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 110856.87390199746,
+          "right_wall_ms": 111296.23259200162,
+          "left_internal_wall_ms": 110719.72314,
+          "right_internal_wall_ms": 111154.000385,
+          "right_over_left_wall": 1.0039632967676193
+        },
+        {
+          "case_id": "fashion_seed1",
+          "block": 0,
+          "left": "A30",
+          "right": "B30",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 55447.554532998765,
+          "right_wall_ms": 55692.78902599763,
+          "left_internal_wall_ms": 55390.489225,
+          "right_internal_wall_ms": 55603.268938,
+          "right_over_left_wall": 1.0044228189153575
+        },
+        {
+          "case_id": "fashion_seed1",
+          "block": 0,
+          "left": "B30",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 55692.78902599763,
+          "right_wall_ms": 57117.58831499901,
+          "left_internal_wall_ms": 55603.268938,
+          "right_internal_wall_ms": 57051.920854,
+          "right_over_left_wall": 1.0255831915391467
+        },
+        {
+          "case_id": "fashion_seed1",
+          "block": 0,
+          "left": "A40",
+          "right": "B40",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 112443.58179799747,
+          "right_wall_ms": 112695.31869800267,
+          "left_internal_wall_ms": 112321.444877,
+          "right_internal_wall_ms": 112593.642459,
+          "right_over_left_wall": 1.0022387840726867
+        },
+        {
+          "case_id": "fashion_seed1",
+          "block": 0,
+          "left": "B40",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 112695.31869800267,
+          "right_wall_ms": 57117.58831499901,
+          "left_internal_wall_ms": 112593.642459,
+          "right_internal_wall_ms": 57051.920854,
+          "right_over_left_wall": 0.5068319516275641
+        },
+        {
+          "case_id": "fashion_seed1",
+          "block": 1,
+          "left": "A30",
+          "right": "B30",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 55736.20459600352,
+          "right_wall_ms": 55166.7817790003,
+          "left_internal_wall_ms": 55664.859678,
+          "right_internal_wall_ms": 55096.136369,
+          "right_over_left_wall": 0.9897836097536493
+        },
+        {
+          "case_id": "fashion_seed1",
+          "block": 1,
+          "left": "B30",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 55166.7817790003,
+          "right_wall_ms": 55402.72720200301,
+          "left_internal_wall_ms": 55096.136369,
+          "right_internal_wall_ms": 55325.068173,
+          "right_over_left_wall": 1.0042769473838062
+        },
+        {
+          "case_id": "fashion_seed1",
+          "block": 1,
+          "left": "A40",
+          "right": "B40",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 110399.5124550056,
+          "right_wall_ms": 110772.34058699833,
+          "left_internal_wall_ms": 110243.823523,
+          "right_internal_wall_ms": 110641.796139,
+          "right_over_left_wall": 1.0033770813267375
+        },
+        {
+          "case_id": "fashion_seed1",
+          "block": 1,
+          "left": "B40",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 110772.34058699833,
+          "right_wall_ms": 55402.72720200301,
+          "left_internal_wall_ms": 110641.796139,
+          "right_internal_wall_ms": 55325.068173,
+          "right_over_left_wall": 0.5001494678943869
+        },
+        {
+          "case_id": "fashion_seed2",
+          "block": 0,
+          "left": "A30",
+          "right": "B30",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 57524.02287899895,
+          "right_wall_ms": 56936.5692700012,
+          "left_internal_wall_ms": 57440.778667,
+          "right_internal_wall_ms": 56869.662971,
+          "right_over_left_wall": 0.9897876820918201
+        },
+        {
+          "case_id": "fashion_seed2",
+          "block": 0,
+          "left": "B30",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 56936.5692700012,
+          "right_wall_ms": 56398.841279995395,
+          "left_internal_wall_ms": 56869.662971,
+          "right_internal_wall_ms": 56310.649275,
+          "right_over_left_wall": 0.9905556657715743
+        },
+        {
+          "case_id": "fashion_seed2",
+          "block": 0,
+          "left": "A40",
+          "right": "B40",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 112749.05402200238,
+          "right_wall_ms": 113189.4242250055,
+          "left_internal_wall_ms": 112646.262881,
+          "right_internal_wall_ms": 113079.549474,
+          "right_over_left_wall": 1.0039057551907902
+        },
+        {
+          "case_id": "fashion_seed2",
+          "block": 0,
+          "left": "B40",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 113189.4242250055,
+          "right_wall_ms": 56398.841279995395,
+          "left_internal_wall_ms": 113079.549474,
+          "right_internal_wall_ms": 56310.649275,
+          "right_over_left_wall": 0.4982695306222427
+        },
+        {
+          "case_id": "fashion_seed2",
+          "block": 1,
+          "left": "A30",
+          "right": "B30",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 55033.26096999808,
+          "right_wall_ms": 55244.61073100247,
+          "left_internal_wall_ms": 54950.080522,
+          "right_internal_wall_ms": 55131.27997,
+          "right_over_left_wall": 1.0038404004647228
+        },
+        {
+          "case_id": "fashion_seed2",
+          "block": 1,
+          "left": "B30",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 55244.61073100247,
+          "right_wall_ms": 55196.121683002275,
+          "left_internal_wall_ms": 55131.27997,
+          "right_internal_wall_ms": 55133.202827,
+          "right_over_left_wall": 0.9991222845566549
+        },
+        {
+          "case_id": "fashion_seed2",
+          "block": 1,
+          "left": "A40",
+          "right": "B40",
+          "same_config": true,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 110120.5750030058,
+          "right_wall_ms": 109860.94034399866,
+          "left_internal_wall_ms": 109987.754211,
+          "right_internal_wall_ms": 109745.439605,
+          "right_over_left_wall": 0.9976422693125236
+        },
+        {
+          "case_id": "fashion_seed2",
+          "block": 1,
+          "left": "B40",
+          "right": "C",
+          "same_config": false,
+          "left_candidates": 1,
+          "right_candidates": 1,
+          "left_wall_ms": 109860.94034399866,
+          "right_wall_ms": 55196.121683002275,
+          "left_internal_wall_ms": 109745.439605,
+          "right_internal_wall_ms": 55133.202827,
+          "right_over_left_wall": 0.5024180706097283
+        }
+      ],
+      "external_status": "SCHEDULE_EXHAUSTED_CHECK_FAILURES",
+      "automatic_followup_enabled": false,
+      "risk_guarantee": false,
+      "independent_input_confirmation": false,
+      "A40_B40_same_config_blocks": 14,
+      "recorded_command_wall_hours": 8.75302926641276,
+      "command_costs": [
+        {
+          "stage": "external_common_audit",
+          "commands": 2,
+          "wall_seconds": 19.714800631001708,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "external_common_new-plan",
+          "commands": 1,
+          "wall_seconds": 0.037621309005771764,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "external_common_raw-stress",
+          "commands": 2,
+          "wall_seconds": 19.51252168099745,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "external_common_select",
+          "commands": 3,
+          "wall_seconds": 29.17375631799223,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "external_common_timing",
+          "commands": 3,
+          "wall_seconds": 134.3211500620091,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "external_connection_install_or_import",
+          "commands": 3,
+          "wall_seconds": 56.03481091800495,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "external_official_ckks_audit",
+          "commands": 1,
+          "wall_seconds": 141.5662948620011,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "external_official_ckks_selection",
+          "commands": 1,
+          "wall_seconds": 72.94941846700385,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "external_official_ckks_stress",
+          "commands": 1,
+          "wall_seconds": 72.84170803100278,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "external_public_procedure_training",
+          "commands": 1,
+          "wall_seconds": 17.46441615599906,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "internal_audit",
+          "commands": 194,
+          "wall_seconds": 16485.034646948974,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "internal_candidate",
+          "commands": 43,
+          "wall_seconds": 2094.601401923006,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "internal_generate",
+          "commands": 56,
+          "wall_seconds": 4.9867874949850375,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "internal_materialize",
+          "commands": 4,
+          "wall_seconds": 0.04917927901260555,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "internal_raw-stress",
+          "commands": 22,
+          "wall_seconds": 852.7213993379846,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "internal_select",
+          "commands": 70,
+          "wall_seconds": 3486.0411428650114,
+          "nonzero_exits": 0
+        },
+        {
+          "stage": "internal_timing",
+          "commands": 45,
+          "wall_seconds": 8023.854302801941,
+          "nonzero_exits": 0
+        }
+      ],
+      "normal_audit_denominators": {
+        "planned_unique_model_input_pairs": 31024,
+        "configuration_input_evaluations": 93328,
+        "key_observations": 279984,
+        "actual_key_contexts": 579,
+        "independent_environments": 1,
+        "keys_and_slots_are_not_independent_inputs": true
+      },
+      "next_minimum_experiment": {
+        "status": "PROPOSED_NOT_EXECUTED",
+        "scope": "same frozen public-procedure Bank model only",
+        "question": "Does development-defined margin coverage of selection inputs reduce held-out decision failures without changing C?",
+        "minimal_change": "separate input-policy variant: 16 selection inputs stratified by four development-only margin quantiles; unchanged C core, security, numeric threshold, delta/rho and four-candidate cap",
+        "comparison": "original frozen selection policy versus margin-stratified policy, with B30 and C using the same selection inputs within each policy and equal existing key budgets",
+        "evidence": "reserve unused original source rows into disjoint selection pool and common audit before HE; do not recycle this observed stress failure as selection evidence; report coverage, flips, sufficient-condition violations and both selection and paired inference cost",
+        "automatic_execution": false
+      },
+      "external_C_stress_application_flip_events": 1,
+      "external_C_stress_application_error_events": 6
+    },
+    "selection_completed": 70,
+    "selection_planned": 70,
+    "internal_phase_markers": {
+      "preflight": true,
+      "select": true,
+      "diagnostic": true,
+      "audit": true,
+      "timing": true
+    },
+    "external": "results/fg_contrib_v1_20260906_run01/external/hediff_bank/EXTERNAL_PROTOCOL_EXACT_LOGITS.json",
+    "source": "research/contribution_validation",
+    "external_source": "research/hediff_bank_validation",
+    "approval": "Latest user explicitly authorized implementation and execution of finite attached contribution-validation directive; do not request per-model/seed approval"
+  },
+  "cause_analysis": {
+    "status": "COMPLETED_PLAINTEXT_CAUSE_ANALYSIS",
+    "source_checkpoint": "e2c0054e7778da8f099b1e49ee7b584b2b29bc30",
+    "new_ckks": 0,
+    "retraining": 0,
+    "C_changed": false,
+    "AB_decision_improvement": "unobserved, preserved",
+    "Bank_C_stress": {
+      "flips": 1,
+      "condition_violations": 6,
+      "affected_condition_inputs": 3
+    },
+    "candidate_pool": 684,
+    "future_audit_reserve": 684,
+    "future_audit_outputs_computed": 0,
+    "quartile_and_uniform_min_margin": 0.1279571776304232,
+    "quartile_additional_low_margin_coverage": "not observed under locked plaintext sampling rule",
+    "minimal_proposal": "review existing inactive same-tier precision-slack policy; not activated",
+    "incremental_value_over_B": "not established",
+    "automatic_followup": false
+  }
+}

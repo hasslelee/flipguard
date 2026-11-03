@@ -1,0 +1,306 @@
+{
+  "schema": "DP03_NATIVE_COST_V1",
+  "request_sha256": "4ef14c2852705918f8f2c2972f38818efa5f787aaf6d9ab4cf865ed7292f4f0c",
+  "status": "SUCCESS",
+  "context": {
+    "arm": "fixed_high_gate",
+    "batch_size": "128",
+    "client_owner_id": "local_pilot_client_s20260906",
+    "model_id": "spambase__logistic_linear__20260906",
+    "offset": "768",
+    "original_batch_id": "s20260906_r2_b128_o768",
+    "repeat": "2",
+    "seed": "20260906",
+    "stage": "high"
+  },
+  "parameter": {
+    "admission": "unchanged DP_PILOT_V1A QP envelope; not independent security estimation",
+    "error": "discrete Gaussian sigma=3.2 bound=19.2",
+    "log_n": 13,
+    "log_qp": 109.99993415197719,
+    "p": [
+      1099511922689
+    ],
+    "q": [
+      1099511480321,
+      1073692673
+    ],
+    "scale": 30,
+    "secret": "ternary P=2/3",
+    "slots": 4096
+  },
+  "parameter_id": "5044fc159777c9afdf7cb43dbd3efc9e618bb764ba4fbd734d3450ff9cfa49a4",
+  "key_context_id": "cf70835ea17f06f21b1db5c79cc1dfde0495fb0a621922a460ff86b3b933b5c0",
+  "cost": {
+    "milliseconds": {
+      "client_context_init_ms": 0.111299,
+      "client_decode_ms": 0.285656,
+      "client_decrypt_ms": 0.031619,
+      "client_encode_ms": 29.475465,
+      "client_encrypt_ms": 136.953074,
+      "client_output_allocate_scatter_ms": 0.002354,
+      "client_pack_and_plaintext_allocate_ms": 1.4267949999999994,
+      "homomorphic_ops_ms": 10.528798999999998,
+      "key_generation_ms": 6.87899,
+      "observer_key_identity_ms": 0.286397,
+      "observer_parameter_identity_ms": 0.040676,
+      "parameter_validation_build_ms": 3.893452,
+      "server_context_init_ms": 0.35177,
+      "server_model_prepare_ms": 19.373575999999996
+    },
+    "counts": {
+      "bias_add": 1,
+      "ct_add": 56,
+      "ct_pt_multiply": 57,
+      "evaluation_key_bytes": 786646,
+      "final_level": 0,
+      "input_active_values": 4218,
+      "input_allocated_slots": 233472,
+      "input_ciphertext_bytes": 14961246,
+      "input_ciphertexts": 57,
+      "input_padding_values": 229254,
+      "key_pairs_generated": 1,
+      "output_ciphertext_bytes": 131390,
+      "output_ciphertexts": 1,
+      "output_decoded_slots": 4096,
+      "physical_slots_per_ciphertext": 4096,
+      "public_key_bytes": 393304,
+      "relinearization_keys_generated": 1,
+      "rescale": 1,
+      "server_evaluations_completed": 1,
+      "server_evaluations_started": 1,
+      "valid_rows": 74,
+      "weight_plaintext_encodes": 57
+    }
+  },
+  "client_decrypted_logits": [
+    [
+      1.1971031399767145
+    ],
+    [
+      -3.81329373542613
+    ],
+    [
+      -7.5130836211209395
+    ],
+    [
+      0.9354421030759312
+    ],
+    [
+      0.11225962400796918
+    ],
+    [
+      -5.4809131031619485
+    ],
+    [
+      -4.824000417882586
+    ],
+    [
+      6.440763886622185
+    ],
+    [
+      0.12717462564509563
+    ],
+    [
+      -1.2950970764591891
+    ],
+    [
+      -8.986011878479575
+    ],
+    [
+      -0.7426259264249203
+    ],
+    [
+      -8.08824798289377
+    ],
+    [
+      12.312516301421132
+    ],
+    [
+      -6.451525343644894
+    ],
+    [
+      -10.467478677017652
+    ],
+    [
+      -0.2751071120381976
+    ],
+    [
+      -0.14502395391395817
+    ],
+    [
+      7.889164396958405
+    ],
+    [
+      -0.6153519929468807
+    ],
+    [
+      -6.166123857825372
+    ],
+    [
+      -4.536325169721879
+    ],
+    [
+      -24.255779770100524
+    ],
+    [
+      -6.233736577501358
+    ],
+    [
+      -5.995076233262918
+    ],
+    [
+      -0.963857105039704
+    ],
+    [
+      4.000741473842619
+    ],
+    [
+      2.9202596559075786
+    ],
+    [
+      2.6024174258670936
+    ],
+    [
+      1.9972393507694326
+    ],
+    [
+      2.1980365746020434
+    ],
+    [
+      2.878337807705647
+    ],
+    [
+      2.800362371290148
+    ],
+    [
+      0.7242786176330779
+    ],
+    [
+      8.461412412205721
+    ],
+    [
+      0.1651484147888902
+    ],
+    [
+      -3.344235994926241
+    ],
+    [
+      -14.566795427765053
+    ],
+    [
+      -3.85233366389964
+    ],
+    [
+      -1.7710784224776668
+    ],
+    [
+      3.305614253460986
+    ],
+    [
+      -1.8887544000741978
+    ],
+    [
+      -4.396175865276609
+    ],
+    [
+      0.9058733813321165
+    ],
+    [
+      8.87257654317304
+    ],
+    [
+      -3.607890806683038
+    ],
+    [
+      -7.0956349390868265
+    ],
+    [
+      -0.6835737932806778
+    ],
+    [
+      2.0254388789545366
+    ],
+    [
+      4.459033525219462
+    ],
+    [
+      -1.8749653433251328
+    ],
+    [
+      -5.972958252846733
+    ],
+    [
+      0.6939742050323544
+    ],
+    [
+      -23.04485779007794
+    ],
+    [
+      -6.095434987438206
+    ],
+    [
+      -4.788650810625015
+    ],
+    [
+      -1.2006618092788972
+    ],
+    [
+      7.433734498765595
+    ],
+    [
+      1.9693297125492044
+    ],
+    [
+      -23.144269378659445
+    ],
+    [
+      10.913457011735959
+    ],
+    [
+      8.798104147124143
+    ],
+    [
+      3.8149300758837117
+    ],
+    [
+      -6.386759551716636
+    ],
+    [
+      2.541956395226366
+    ],
+    [
+      1.1824388903757332
+    ],
+    [
+      2.883483538618913
+    ],
+    [
+      -18.47137563258053
+    ],
+    [
+      -13.88710506364314
+    ],
+    [
+      -1.0524326678942455
+    ],
+    [
+      -2.880554914640213
+    ],
+    [
+      -3.750639348705074
+    ],
+    [
+      9.686488876134211
+    ],
+    [
+      3.5399813449795885
+    ]
+  ],
+  "native_total_ms": 209.859537,
+  "unmeasured": {
+    "ciphertext_wire_serialization_ms": null,
+    "network_ms": null,
+    "queue_wait_ms": null
+  }
+}

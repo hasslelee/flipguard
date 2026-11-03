@@ -1,0 +1,582 @@
+204: func DefaultSecurityEnvelope() SecurityEnvelope {
+205: 	return SecurityEnvelope{
+206: 		ID:                 SecurityPolicyV2ID,
+207: 		SchemaVersion:      2,
+208: 		PolicyVersion:      "2.0.0",
+209: 		Source:             "https://doi.org/10.62056/anxra69p1",
+210: 		PaperTitle:         "Security Guidelines for Implementing Homomorphic Encryption",
+211: 		DOI:                "10.62056/anxra69p1",
+212: 		PublicationDate:    "2025-01-13",
+213: 		TableNumber:        "Table 5.2",
+214: 		TargetCategory:     "Category 128",
+215: 		EstimatorCommit:    "8f1ff7e",
+216: 		CostModel:          "classical lattice reduction; ring operations",
+217: 		LattigoModule:      "github.com/tuneinsight/lattigo/v6",
+218: 		LattigoVersion:     "v6.2.0",
+219: 		SecurityBits:       128,
+220: 		SecretDistribution: "uniform_ternary",
+221: 		ErrorSigma:         3.2,
+222: 		TableErrorSigma:    3.19,
+223: 		RuntimeXs: RuntimeDistribution{
+224: 			ConcreteType: "ring.Ternary",
+225: 			P:            2.0 / 3.0,
+226: 		},
+227: 		RuntimeXe: RuntimeDistribution{
+228: 			ConcreteType: "ring.DiscreteGaussian",
+229: 			Sigma:        3.2,
+230: 			Bound:        19.2,
+231: 		},
+232: 		ModulusSemantics: ModulusSemantics{
+233: 			CiphertextObject:    "check Q against the Table 5.2 q cap",
+234: 			EvaluationKeyObject: "check QP against the Table 5.2 q cap because hybrid key-switching objects use the extended modulus",
+235: 			FinalAdmission:      "PASS only when every required object passes",
+236: 		},
+237: 		AdmissionCaveat: "Table 5.2 assumes Gaussian error sigma=3.19; the Lattigo v6.2.0 runtime uses discrete Gaussian sigma=3.2, bound=19.2. The table is used as a conservative admission reference, not as an exact-distribution proof.",
+238: 		Limits: []SecurityLimit{
+239: 			{LogN: 12, MaxLogQPBits: 106},
+240: 			{LogN: 13, MaxLogQPBits: 214},
+241: 			{LogN: 14, MaxLogQPBits: 430},
+242: 			{LogN: 15, MaxLogQPBits: 868},
+243: 		},
+244: 	}
+245: }
+246: 
+247: // DefaultSynthesisPolicy returns a direct-generation policy for the current
+248: // non-bootstrapped Lattigo backend.
+249: func DefaultSynthesisPolicy() SynthesisPolicy {
+250: 	direct := DefaultDirectSynthesisPolicyContract()
+251: 	return SynthesisPolicy{
+252: 		MinLogN: 12,
+253: 		MaxLogN: 15,
+254: 
+255: 		MinScaleBits: 30,
+256: 		MaxScaleBits: direct.MaxScaleBits,
+257: 
+258: 		MinPrimeBits: 30,
+259: 		MaxPrimeBits: direct.MaxPrimeBits,
+260: 
+261: 		ScaleGuardBits:      direct.ScaleGuardBits,
+262: 		FirstPrimeGuardBits: direct.FirstPrimeGuardBits,
+263: 		LevelGuard:          0,
+264: 		SpecialPrimeBits:    direct.SpecialPrimeBits,
+265: 
+266: 		RepairScaleStepBits: direct.NumericalRepairScaleBits,
+267: 		MaxRepairLevels:     direct.MaxAdditionalLevels,
+268: 
+269: 		PrecisionSlackMode:  PrecisionSlackNone,
+270: 		SynthesisBudgetMode: SynthesisBudgetDecisionContract,
+271: 
+272: 		SecurityEnvelope: DefaultSecurityEnvelope(),
+273: 	}
+274: }
+275: 
+276: // DefaultPrimarySynthesisPolicy returns the policy evaluated by the primary
+277: // direct-synthesis experiments. Backend admission may raise these lower bounds.
+278: func DefaultPrimarySynthesisPolicy() SynthesisPolicy {
+279: 	direct := DefaultDirectSynthesisPolicyContract()
+280: 	policy := DefaultSynthesisPolicy()
+281: 	policy.MinScaleBits = direct.MinScaleBits
+282: 	policy.MinPrimeBits = direct.MinPrimeBits
+283: 	return policy
+284: }
+285: 
+286: // Synthesize creates the first directly executable CKKS configuration for a
+287: // workload. It does not run CKKS and therefore cannot label a candidate SAFE.
+288: func Synthesize(
+289: 	contract WorkloadContract,
+290: 	policy SynthesisPolicy,
+291: ) (SynthesisPlan, error) {
+292: 	if err := contract.Validate(); err != nil {
+293: 		return SynthesisPlan{}, fmt.Errorf(
+294: 			"invalid workload contract: %w",
+295: 			err,
+296: 		)
+297: 	}
+298: 
+299: 	policy = normalizeSynthesisPolicy(policy)
+300: 	if err := validateSynthesisPolicy(policy, contract); err != nil {
+301: 		return SynthesisPlan{}, err
+302: 	}
+303: 
+304: 	contractDigest, err := digestContract(contract)
+305: 	if err != nil {
+306: 		return SynthesisPlan{}, err
+307: 	}
+308: 	directPolicy := DefaultDirectSynthesisPolicyContract()
+309: 	directPolicyDigest, err := DirectSynthesisPolicyDigest(directPolicy)
+310: 	if err != nil {
+311: 		return SynthesisPlan{}, err
+312: 	}
+313: 	securityPolicyDigest, err := SecurityPolicyDigest(
+314: 		policy.SecurityEnvelope,
+315: 	)
+316: 	if err != nil {
+317: 		return SynthesisPlan{}, err
+318: 	}
+319: 
+320: 	candidates := make(
+321: 		[]SynthesizedCandidate,
+322: 		0,
+323: 		len(contract.Deployment.AllowedPaths),
+324: 	)
+325: 	for _, path := range contract.Deployment.AllowedPaths {
+326: 		if path != tuner.PathRescale {
+327: 			return SynthesisPlan{}, fmt.Errorf(
+328: 				"direct synthesis for execution path %q is not implemented; rescale is the declared v1 scope",
+329: 				path,
+330: 			)
+331: 		}
+332: 
+333: 		candidate, err := synthesizeBackendValidRescaleCandidate(
+334: 			contract,
+335: 			policy,
+336: 			contractDigest,
+337: 			"analysis_minimum",
+338: 			0,
+339: 			0,
+340: 			true,
+341: 		)
+342: 		if err != nil {
+343: 			return SynthesisPlan{}, err
+344: 		}
+345: 		candidates = append(candidates, candidate)
+346: 	}
+347: 
+348: 	return SynthesisPlan{
+349: 		SchemaVersion:        SynthesisPlanSchemaVersion,
+350: 		AlgorithmID:          directPolicy.AlgorithmID,
+351: 		AlgorithmVersion:     directPolicy.AlgorithmVersion,
+352: 		DirectPolicyID:       directPolicy.PolicyID,
+353: 		DirectPolicyDigest:   directPolicyDigest,
+354: 		SecurityPolicyDigest: securityPolicyDigest,
+355: 
+356: 		Contract:       contract,
+357: 		ContractDigest: contractDigest,
+358: 		Policy:         policy,
+359: 
+360: 		InitialCandidates: candidates,
+361: 		RepairPolicy: AdaptiveRepairPolicy{
+362: 			OnLevelFailure:      "append_one_scale_sized_q_prime_then_readmit_security",
+363: 			OnNumericalReject:   "increase_all_scale_primes_then_readmit_security",
+364: 			ScaleStepBits:       policy.RepairScaleStepBits,
+365: 			MaxAdditionalLevels: policy.MaxRepairLevels,
+366: 			MaxEncryptedTrials:  contract.Deployment.MaxEncryptedTrials,
+367: 		},
+368: 
+369: 		PlannerAssurance: "PREDICTED_FEASIBLE_ONLY; SAFE requires encrypted validation certification",
+370: 	}, nil
+371: }
+372: 
+373: // Profile converts a synthesized candidate into a backend profile without
+374: // consulting the built-in profile catalog.
+375: func (candidate SynthesizedCandidate) Profile() (
+376: 	ckksbackend.CKKSProfile,
+377: 	error,
+378: ) {
+379: 	literal := ckks.ParametersLiteral{
+380: 		LogN: candidate.Parameters.LogN,
+381: 		Q: append(
+382: 			[]uint64(nil),
+383: 			candidate.Parameters.Q...,
+384: 		),
+385: 		P: append(
+386: 			[]uint64(nil),
+387: 			candidate.Parameters.P...,
+388: 		),
+389: 		LogQ: append(
+390: 			[]int(nil),
+391: 			candidate.Parameters.LogQ...,
+392: 		),
+393: 		LogP: append(
+394: 			[]int(nil),
+395: 			candidate.Parameters.LogP...,
+396: 		),
+397: 		LogDefaultScale: candidate.Parameters.LogDefaultScale,
+398: 	}
+399: 
+400: 	return ckksbackend.NewCKKSProfileFromLiteral(
+401: 		candidate.ID,
+402: 		candidate.Reason,
+403: 		literal,
+404: 	)
+405: }
+406: 
+407: // RepairCandidate derives one new candidate from observed feedback. It never
+408: // enumerates a neighborhood and never weakens a prior configuration.
+409: func RepairCandidate(
+410: 	plan SynthesisPlan,
+411: 	current SynthesizedCandidate,
+412: 	signal RepairSignal,
+413: 	repairOrdinal int,
+414: ) (SynthesizedCandidate, error) {
+415: 	if plan.SchemaVersion != SynthesisPlanSchemaVersion {
+416: 		return SynthesizedCandidate{}, fmt.Errorf(
+417: 			"unsupported synthesis plan schema version %d",
+418: 			plan.SchemaVersion,
+419: 		)
+420: 	}
+421: 	if repairOrdinal <= 0 {
+422: 		return SynthesizedCandidate{}, fmt.Errorf(
+423: 			"repair ordinal must be positive",
+424: 		)
+425: 	}
+426: 	if current.Path != tuner.PathRescale {
+427: 		return SynthesizedCandidate{}, fmt.Errorf(
+428: 			"cannot repair unsupported path %q",
+429: 			current.Path,
+430: 		)
+431: 	}
+432: 	if len(plan.InitialCandidates) == 0 {
+433: 		return SynthesizedCandidate{}, fmt.Errorf(
+434: 			"synthesis plan has no initial candidate",
+435: 		)
+436: 	}
+437: 
+438: 	minimumScaleBits := current.Parameters.LogDefaultScale
+439: 	extraLevels := current.LevelGuard - plan.Policy.LevelGuard
+440: 
+441: 	generationKind := ""
+442: 	switch signal {
+443: 	case RepairLevelFailure:
+444: 		extraLevels++
+445: 		if extraLevels > plan.Policy.MaxRepairLevels {
+446: 			return SynthesizedCandidate{}, fmt.Errorf(
+447: 				"%w: level repair %d exceeds maximum %d",
+448: 				ErrRepairExhausted,
+449: 				extraLevels,
+450: 				plan.Policy.MaxRepairLevels,
+451: 			)
+452: 		}
+453: 		generationKind = fmt.Sprintf(
+454: 			"repair_level_%d",
+455: 			repairOrdinal,
+456: 		)
+457: 
+458: 	case RepairNumericalReject:
+459: 		minimumScaleBits += plan.Policy.RepairScaleStepBits
+460: 		generationKind = fmt.Sprintf(
+461: 			"repair_scale_%d",
+462: 			repairOrdinal,
+463: 		)
+464: 
+465: 	default:
+466: 		return SynthesizedCandidate{}, fmt.Errorf(
+467: 			"unsupported repair signal %q",
+468: 			signal,
+469: 		)
+470: 	}
+471: 
+472: 	candidate, err := synthesizeBackendValidRescaleCandidate(
+473: 		plan.Contract,
+474: 		plan.Policy,
+475: 		plan.ContractDigest,
+476: 		generationKind,
+477: 		minimumScaleBits,
+478: 		extraLevels,
+479: 		false,
+480: 	)
+481: 	if err != nil {
+482: 		return SynthesizedCandidate{}, fmt.Errorf(
+483: 			"%w: %v",
+484: 			ErrRepairExhausted,
+485: 			err,
+486: 		)
+487: 	}
+488: 	return candidate, nil
+489: }
+490: 
+491: func synthesizeBackendValidRescaleCandidate(
+492: 	contract WorkloadContract,
+493: 	policy SynthesisPolicy,
+494: 	contractDigest string,
+495: 	generationKind string,
+496: 	minimumScaleBits int,
+497: 	extraLevels int,
+498: 	allowPrecisionSlack bool,
+499: ) (SynthesizedCandidate, error) {
+500: 	analysisScaleBits := -1
+501: 	attempts := 0
+502: 	nextMinimumScaleBits := minimumScaleBits
+503: 
+504: 	for {
+505: 		attempts++
+506: 		candidate, err := synthesizeRescaleCandidate(
+507: 			contract,
+508: 			policy,
+509: 			contractDigest,
+510: 			generationKind,
+511: 			nextMinimumScaleBits,
+512: 			extraLevels,
+513: 		)
+514: 		if err != nil {
+515: 			return SynthesizedCandidate{}, err
+516: 		}
+517: 		if analysisScaleBits < 0 {
+518: 			analysisScaleBits =
+519: 				candidate.Parameters.LogDefaultScale
+520: 		}
+521: 
+522: 		if _, err := candidate.Profile(); err == nil {
+523: 			candidate.AnalysisScaleBits = analysisScaleBits
+524: 			candidate.BackendScaleLiftBits =
+525: 				candidate.Parameters.LogDefaultScale -
+526: 					analysisScaleBits
+527: 			candidate.BackendValidationAttempts = attempts
+528: 			if allowPrecisionSlack &&
+529: 				policy.PrecisionSlackMode ==
+530: 					PrecisionSlackMaximizeWithinMinLogN {
+531: 				candidate, err =
+532: 					maximizePrecisionWithinMinLogNTier(
+533: 						contract,
+534: 						policy,
+535: 						contractDigest,
+536: 						generationKind,
+537: 						extraLevels,
+538: 						candidate,
+539: 					)
+540: 				if err != nil {
+541: 					return SynthesizedCandidate{}, err
+542: 				}
+543: 			}
+544: 			return annotateStaticFeasibility(candidate), nil
+545: 		} else if !retryablePrimeGenerationError(err) {
+546: 			return SynthesizedCandidate{}, fmt.Errorf(
+547: 				"static backend validation for candidate %s: %w",
+548: 				candidate.ID,
+549: 				err,
+550: 			)
+551: 		}
+552: 
+553: 		currentScaleBits :=
+554: 			candidate.Parameters.LogDefaultScale
+555: 		if currentScaleBits >= policy.MaxScaleBits {
+556: 			return SynthesizedCandidate{}, fmt.Errorf(
+557: 				"static backend prime generation failed through maximum scale %d after %d attempts",
+558: 				policy.MaxScaleBits,
+559: 				attempts,
+560: 			)
+561: 		}
+562: 		nextMinimumScaleBits = currentScaleBits + 1
+563: 	}
+564: }
+565: 
+566: func maximizePrecisionWithinMinLogNTier(
+654: func synthesizeRescaleCandidate(
+655: 	contract WorkloadContract,
+656: 	policy SynthesisPolicy,
+657: 	contractDigest string,
+658: 	generationKind string,
+659: 	minimumScaleBits int,
+660: 	extraLevels int,
+661: ) (SynthesizedCandidate, error) {
+662: 	outputErrorBudget := contract.Decision.OutputErrorBudget
+663: 	if contract.MulticlassDecision != nil {
+664: 		outputErrorBudget =
+665: 			contract.MulticlassDecision.PerLogitErrorBudget
+666: 	}
+667: 	if policy.SynthesisBudgetMode == SynthesisBudgetGraphFixedTolerance {
+668: 		outputErrorBudget = policy.FixedOutputErrorBudget
+669: 	}
+670: 	unitBudget := outputErrorBudget /
+671: 		contract.Calibration.AggregateSensitivity
+672: 	if !finite(unitBudget) || unitBudget <= 0 {
+673: 		return SynthesizedCandidate{}, fmt.Errorf(
+674: 			"invalid unit error budget %.12g",
+675: 			unitBudget,
+676: 		)
+677: 	}
+678: 
+679: 	precisionBits := 0
+680: 	if unitBudget < 1 {
+681: 		precisionBits = int(math.Ceil(-math.Log2(unitBudget)))
+682: 	}
+683: 
+684: 	scaleBits := precisionBits +
+685: 		policy.ScaleGuardBits
+686: 	scaleBits = maxInt(scaleBits, policy.MinScaleBits)
+687: 	scaleBits = maxInt(scaleBits, minimumScaleBits)
+688: 	if scaleBits > policy.MaxScaleBits {
+689: 		return SynthesizedCandidate{}, fmt.Errorf(
+690: 			"required scale %d exceeds declared maximum %d",
+691: 			scaleBits,
+692: 			policy.MaxScaleBits,
+693: 		)
+694: 	}
+695: 
+696: 	messageBits := magnitudeBits(
+697: 		contract.Calibration.MaxPlaintextOutputAbs,
+698: 	)
+699: 	firstPrimeBits := scaleBits +
+700: 		messageBits +
+701: 		1 +
+702: 		policy.FirstPrimeGuardBits
+703: 	firstPrimeBits = maxInt(firstPrimeBits, policy.MinPrimeBits)
+704: 	if firstPrimeBits > policy.MaxPrimeBits {
+705: 		return SynthesizedCandidate{}, fmt.Errorf(
+706: 			"required first-prime size %d exceeds declared maximum %d",
+707: 			firstPrimeBits,
+708: 			policy.MaxPrimeBits,
+709: 		)
+710: 	}
+711: 
+712: 	qCount := contract.Deployment.RequiredQPrimes +
+713: 		policy.LevelGuard +
+714: 		extraLevels
+715: 	if qCount <= 0 {
+716: 		return SynthesizedCandidate{}, fmt.Errorf(
+717: 			"derived Q-prime count %d is invalid",
+718: 			qCount,
+719: 		)
+720: 	}
+721: 
+722: 	logQ := make([]int, qCount)
+723: 	logQ[0] = firstPrimeBits
+724: 	for index := 1; index < len(logQ); index++ {
+725: 		logQ[index] = scaleBits
+726: 	}
+727: 
+728: 	specialPrimeBits := maxInt(
+729: 		policy.SpecialPrimeBits,
+730: 		firstPrimeBits,
+731: 	)
+732: 	if specialPrimeBits > policy.MaxPrimeBits {
+733: 		return SynthesizedCandidate{}, fmt.Errorf(
+734: 			"required special-prime size %d exceeds declared maximum %d",
+735: 			specialPrimeBits,
+736: 			policy.MaxPrimeBits,
+737: 		)
+738: 	}
+739: 	logP := []int{specialPrimeBits}
+740: 
+741: 	declaredLogQP := sumInts(logQ) + sumInts(logP)
+742: 	logN, _, err := admitLogN(
+743: 		declaredLogQP,
+744: 		contract.Deployment.RequiredSlots,
+745: 		policy,
+746: 	)
+747: 	if err != nil {
+748: 		return SynthesizedCandidate{}, err
+749: 	}
+750: 
+751: 	digestSuffix := strings.TrimPrefix(contractDigest, "sha256:")
+752: 	if len(digestSuffix) > 12 {
+753: 		digestSuffix = digestSuffix[:12]
+754: 	}
+755: 
+756: 	spec := CKKSParameterLiteralSpec{
+757: 		LogN:            logN,
+758: 		LogQ:            logQ,
+759: 		LogP:            logP,
+760: 		LogDefaultScale: scaleBits,
+761: 	}
+762: 
+763: 	security, err := AssessSecurity(
+764: 		spec,
+765: 		contract.Deployment.SecurityBits,
+766: 		policy.SecurityEnvelope,
+767: 	)
+768: 	if err != nil {
+769: 		return SynthesizedCandidate{}, err
+770: 	}
+771: 
+772: 	candidate := SynthesizedCandidate{
+773: 		ID: fmt.Sprintf(
+774: 			"synth_%s_%s_N%d_Q%d_S%d_%s",
+775: 			generationKind,
+776: 			tuner.PathRescale,
+777: 			logN,
+778: 			qCount,
+779: 			scaleBits,
+780: 			digestSuffix,
+781: 		),
+782: 		Path: tuner.PathRescale,
+783: 
+784: 		Parameters: spec,
+785: 		Security:   security,
+786: 
+787: 		RequiredRescaleLevels: contract.Deployment.RescaleLevelsConsumed,
+788: 		LevelGuard:            policy.LevelGuard + extraLevels,
+789: 		PrecisionTargetBits:   precisionBits,
+790: 		MessageMagnitudeBits:  messageBits,
+791: 
+792: 		AnalysisScaleBits:         scaleBits,
+793: 		BackendScaleLiftBits:      0,
+794: 		BackendValidationAttempts: 1,
+795: 
+796: 		SameTierPrecisionGainBits:     0,
+797: 		SameTierStaticCandidatesTried: 1,
+798: 
+799: 		GenerationKind: generationKind,
+800: 		Reason: fmt.Sprintf(
+801: 			"budget=%.6g aggregate_sensitivity=%.6g unit_budget=%.6g precision_bits=%d rescale_levels=%d terminal_scale_exponent=%d q_primes=%d level_guard=%d declared_logQP=%d",
+802: 			outputErrorBudget,
+803: 			contract.Calibration.AggregateSensitivity,
+804: 			unitBudget,
+805: 			precisionBits,
+806: 			contract.Deployment.RescaleLevelsConsumed,
+807: 			contract.Deployment.TerminalScaleExponent,
+808: 			contract.Deployment.RequiredQPrimes,
+809: 			policy.LevelGuard+extraLevels,
+810: 			declaredLogQP,
+811: 		),
+812: 	}
+813: 
+814: 	return candidate, nil
+815: }
+946: func admitLogN(
+947: 	declaredLogQP int,
+948: 	requiredSlots int,
+949: 	policy SynthesisPolicy,
+950: ) (int, SecurityLimit, error) {
+951: 	requiredLogN := ceilLog2(requiredSlots) + 1
+952: 	requiredLogN = maxInt(requiredLogN, policy.MinLogN)
+953: 
+954: 	var selected SecurityLimit
+955: 	found := false
+956: 	for _, limit := range policy.SecurityEnvelope.Limits {
+957: 		if limit.LogN < requiredLogN ||
+958: 			limit.LogN > policy.MaxLogN ||
+959: 			declaredLogQP > limit.MaxLogQPBits {
+960: 			continue
+961: 		}
+962: 		if !found || limit.LogN < selected.LogN {
+963: 			selected = limit
+964: 			found = true
+965: 		}
+966: 	}
+967: 
+968: 	if !found {
+969: 		return 0, SecurityLimit{}, fmt.Errorf(
+970: 			"no admitted ring dimension for declared logQP=%d required_slots=%d within LogN=[%d,%d]",
+971: 			declaredLogQP,
+972: 			requiredSlots,
+973: 			policy.MinLogN,
+974: 			policy.MaxLogN,
+975: 		)
+976: 	}
+977: 	return selected.LogN, selected, nil
+978: }
+979: 
+980: func digestContract(contract WorkloadContract) (string, error) {
+981: 	encoded, err := json.Marshal(contract)
+982: 	if err != nil {
+983: 		return "", fmt.Errorf("marshal workload contract: %w", err)
+984: 	}
+985: 	sum := sha256.Sum256(encoded)
+986: 	return "sha256:" + hex.EncodeToString(sum[:]), nil
+987: }
+988: 
+989: func magnitudeBits(maxAbs float64) int {
+990: 	if maxAbs <= 1 {
+991: 		return 0
+992: 	}
+993: 	return int(math.Ceil(math.Log2(maxAbs)))
+994: }
+995: 
+996: func sumInts(values []int) int {
+997: 	total := 0
+998: 	for _, value := range values {
+999: 		total += value
+1000: 	}
+1001: 	return total
+1002: }

@@ -1,0 +1,33 @@
+{
+  "common_stage_timer_cases": 66,
+  "direct_total_ms": 13754260.638,
+  "finite_total_ms": 167825454.593,
+  "finite_over_direct_case_median": 12.398599026421792,
+  "finite_over_direct_case_iqr": [
+    7.493242059725233,
+    14.95910619899486
+  ],
+  "paired_point_recomputed": 1.000540931232697,
+  "existing_interval_reused": {
+    "raw_pairs": 23454,
+    "cases": 68,
+    "clusters": 16,
+    "estimate": 1.000540931232697,
+    "bootstrap_seed": 20260824,
+    "bootstrap_replicates": 10000,
+    "ci95": [
+      0.9999674747655278,
+      1.0011217812090207
+    ],
+    "identical_parameter_cases": 65,
+    "identical_candidate_id_cases": 63,
+    "superiority_supported": false,
+    "point_matches_frozen": true,
+    "ci_matches_frozen": true
+  },
+  "fastest_executable_different_ids": 23,
+  "fastest_executable_different_parameters_paths": 21,
+  "acceptable_identical_parameters_paths": 65,
+  "acceptable_identical_ids": 63,
+  "identity_discrepancy_with_previous_checked_summary": false
+}

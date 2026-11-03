@@ -1,0 +1,37 @@
+patch_id,page,section,anchor_role,anchor,matched
+P01,2,I. 서론,before,결과에 미치는 영향이 다르기 때문이다.,True
+P01,2,I. 서론,target,예를 들어 평문 점수가 0.5001이고 임곗값이 0.5,True
+P01,2,I. 서론,after,본 논문은 판정 경계까지의 거리인 마진을 입력별,True
+P02,3,§2.2,before,정한 마진 비율,True
+P02,3,§2.2,target,판정 경계에 너무 가까운 입력은 데이터의 작은,True
+P02,3,§2.2,after,포함되지 않는 입력은 경계 입력으로 기록,True
+P03,4,"§2.3, 식 (4), Fig. 2",before,순위 변화에 대한 여유를,True
+P03,4,"§2.3, 식 (4), Fig. 2",target,다중 클래스 과제에서는 평문 최고 점수와 가장,True
+P03,4,"§2.3, 식 (4), Fig. 2",after,MLP-100과 LeNet-5-small에 식 (4)를,True
+P04,5,§3.2,before,전체 CKKS 구성 공간을 모두 평가하기는 어렵,True
+P04,5,§3.2,target,비교 집합 전체를 동일한,True
+P04,5,§3.2,after,각 사례에서는 모든 기준을 만족,True
+P05,6,§4.2,before,분석적 보증은 아니다.,True
+P05,6,§4.2,target,연산별 계산 규칙과,True
+P05,6,§4.2,after,추정한 정밀도에 Table 2의 초기 스케일 하한과,True
+P06,4,"§3.1, Table 2",before,128비트 이상으로 정하였다.,True
+P06,4,"§3.1, Table 2",target,보안 적합성 판정은 Table 2에 명시한,True
+P06,4,"§3.1, Table 2",after,이진 과제에서는,True
+P07,6,§4.3,before,암호화 실행으로 판정 결과와 입력별 오차를 확인한,True
+P07,6,§4.3,target,모든 선택용 입력과 세 키 집합에서 기준을 만족,True
+P07,6,§4.3,after,출력 오차가 한계를 넘으면 스케일 지수,True
+P08,7,"§5.1, Table 4",before,주요 평가의 모델별 구성은 Table 4와 같다.,True
+P08,7,"§5.1, Table 4",target,각 교차검증 분할에서 독립적으로 다시 학습하였다.,True
+P08,7,"§5.1, Table 4",after,"MLP-100,",True
+P09,7,§5.2,before,겹치지 않도록 나누었다.,True
+P09,7,§5.2,target,전처리 파라미터와 판정 임,True
+P09,7,§5.2,after,"MLP-100,",True
+P10,7,"§5.1, Table 5 및 §5.6",before,사례 수와 구성 평가 횟수는 다른 단위다.,True
+P10,7,"§5.1, Table 5 및 §5.6",target,주요 평가와 별개로 모델 본체와 출력부의 통제 조,True
+P10,7,"§5.1, Table 5 및 §5.6",after,5.2 비교 방법과 측정 절차,True
+P11,9,"§5.4–5.5, Table 7",before,이 값은 암호화 추론 시간만 비교,True
+P11,9,"§5.4–5.5, Table 7",target,95% 신뢰구간은 1을 포함,True
+P11,9,"§5.4–5.5, Table 7",after,통계적으로 유의한 차이를,True
+P12,10,§5.7,before,외부 도구 결과는 실행 범위와 출력 형식이 달라,True
+P12,10,§5.7,target,보조 자료로 활용하였다.,True
+P12,10,§5.7,after,HEIR의 동일 다항식 워크,True

@@ -1,0 +1,33 @@
+{
+  "schema_version": "flipguard_v17_multiclass_plaintext_quality_v1",
+  "model_id": "mnist_lenet5_small_square_v1",
+  "model_type": "lenet5_small_square_multiclass",
+  "model_sha256": "sha256:25db361b428ea6640f80478f3608fe6b81b45e984702c4a0d616c735f7d4bba6",
+  "source_sha256": "sha256:fe4410d8dbb50f6db6482b187557c5cb8bccfbcec74eeb6abc47c858f4ffab78",
+  "population": "official_MNIST_test_10000",
+  "samples": 10000,
+  "class_counts": [
+    980,
+    1135,
+    1032,
+    1010,
+    982,
+    892,
+    958,
+    1028,
+    974,
+    1009
+  ],
+  "accuracy": 0.9891,
+  "balanced_accuracy": 0.9888295109137069,
+  "macro_f1": 0.9889637861165234,
+  "top_two_gap_quantiles": {
+    "max": 120.7630802554875,
+    "median": 16.500665240648495,
+    "min": 0.019203927749238403,
+    "p05": 3.9326908933189246,
+    "p25": 10.67767993558947,
+    "p75": 25.34740610580797,
+    "p95": 43.08678832219971
+  }
+}

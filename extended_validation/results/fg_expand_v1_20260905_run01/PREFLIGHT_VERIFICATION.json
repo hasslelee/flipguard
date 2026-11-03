@@ -1,0 +1,39 @@
+{
+  "plumbing_pass": true,
+  "cases": [
+    {
+      "case_id": "spambase__linear_poly3__split0_seed0",
+      "plaintext_max_absolute_difference": 5.551115123125783e-17,
+      "smoke_status": "REJECTED",
+      "smoke_key_repeats": 3,
+      "scientific_rejection_not_exclusion": true
+    },
+    {
+      "case_id": "htru2__linear_poly3__split0_seed0",
+      "plaintext_max_absolute_difference": 5.551115123125783e-17,
+      "smoke_status": "SAFE",
+      "smoke_key_repeats": 3,
+      "scientific_rejection_not_exclusion": true
+    },
+    {
+      "case_id": "spambase__mlp_square_linear_score__split0_seed0",
+      "plaintext_max_absolute_difference": 0.0,
+      "smoke_status": "EMPTY_APPLICABLE_DEVELOPMENT_PAIR",
+      "smoke_key_repeats": 0,
+      "scientific_rejection_not_exclusion": true
+    },
+    {
+      "case_id": "htru2__mlp_square_linear_score__split0_seed0",
+      "plaintext_max_absolute_difference": 2.220446049250313e-16,
+      "smoke_status": "SAFE",
+      "smoke_key_repeats": 3,
+      "scientific_rejection_not_exclusion": true
+    }
+  ],
+  "criteria_changed": false,
+  "independent_scores_accessed": false,
+  "source_amendments": [
+    "SOURCE_AMENDMENT_01.json",
+    "SOURCE_AMENDMENT_02.json"
+  ]
+}

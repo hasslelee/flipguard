@@ -1,0 +1,73 @@
+{
+  "schema_version": 2,
+  "workload_id": "hediff_bank_additional_public_procedure__hediff_bank_mlp_20_256_2_seed20260906__locked_audit",
+  "dataset_id": "hediff_bank_additional_public_procedure",
+  "model_id": "hediff_bank_mlp_20_256_2_seed20260906",
+  "model_type": "hediff_bank_exact_two_logit_square_adapter_v1",
+  "split_id": "locked_audit",
+  "model_artifact": {
+    "path": "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/model.json",
+    "sha256": "sha256:e0624e2ad25e0c8f1be3eede95e3227dab28d2f644876eb8d3c796098569ca9d"
+  },
+  "validation_data": {
+    "path": "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/independent_evaluation.csv",
+    "sha256": "sha256:5a1d38f27414cba07098f7b616af1976bcfe6db3085288a17f71ddbfbf8ec579"
+  },
+  "graph": {
+    "multiplicative_depth": 1,
+    "add_ops": 5632,
+    "mul_ops": 5888,
+    "rot_ops": 0,
+    "rescale_ops": 1,
+    "notes": [
+      "20-256-2 affine/square graph; exact t*t+t=(t+.5)^2-.25; original two logits",
+      "same feature-ciphertext sample-slots and scalar/rescale schedule as journal MLP; three levels, terminal exponent2, Q5"
+    ]
+  },
+  "decision": {
+    "threshold": 0,
+    "margin_floor": 0,
+    "safety_factor": 0,
+    "protected_margin": 0,
+    "output_error_budget": 0,
+    "validation_digest": "",
+    "validation_samples": 0,
+    "certifiable_samples": 0,
+    "ambiguous_samples": 0
+  },
+  "multiclass_decision": {
+    "schema_version": "decision_integrity_contract_v2",
+    "class_count": 2,
+    "tie_break": "lowest_class_index",
+    "bound_mode": "uniform_per_logit_v1",
+    "margin_floor": 0.001,
+    "margin_utilization_cap": 0.5,
+    "protected_top_two_gap": 0.21431725328265616,
+    "per_logit_error_budget": 0.05357931332066404,
+    "validation_digest": "sha256:cd0bbb30cfa162101a8f03cf054df1c55e3280c6cdd6e9d0e060a9e793a27e13",
+    "validation_samples": 32,
+    "certifiable_samples": 32,
+    "ambiguous_samples": 0
+  },
+  "calibration": {
+    "max_input_abs": 1,
+    "max_plaintext_output_abs": 5.0644396057846235,
+    "aggregate_sensitivity": 4748.064647501094,
+    "sensitivity_method": "empirical_interval_dag_sum_v1",
+    "calibration_scope": "configuration_selection:sha256:5c41fed650ad63ceae472155dfefdb63547933839890008acc4bcf5d48575753;underlying_method=empirical_layerwise_linf_roundoff_v1"
+  },
+  "deployment": {
+    "security_bits": 128,
+    "required_slots": 32,
+    "max_encrypted_trials": 4,
+    "validation_key_repeats": 3,
+    "packing_strategy": "feature_ciphertext_sample_slots_v1",
+    "allowed_paths": [
+      "rescale"
+    ],
+    "scale_trace_method": "lattigo_v6_rescale_scale_trace_v1",
+    "rescale_levels_consumed": 3,
+    "terminal_scale_exponent": 2,
+    "required_q_primes": 5
+  }
+}

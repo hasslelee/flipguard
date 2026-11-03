@@ -1,0 +1,40 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/bin/contribution-case",
+    "--mode",
+    "audit",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__linear_poly3__split0_seed0/initial_plan.json",
+    "--candidate",
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/preflight/candidate.json",
+    "--data",
+    "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/preflight/spambase__linear_poly3__split0_seed0/smoke.prepared.csv",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_thesis_v1_20260908_run01/preflight/tabular"
+  ],
+  "exit_code": 0,
+  "wall_seconds": 1.0756228479999663,
+  "charged_native": true,
+  "result_exists": true,
+  "before": {
+    "utc": "2026-09-08T09:33:52.157456+00:00",
+    "available_memory_bytes": 11667898368,
+    "free_disk_bytes": 21454356480,
+    "load": [
+      0.51416015625,
+      0.61669921875,
+      0.71728515625
+    ]
+  },
+  "after": {
+    "utc": "2026-09-08T09:33:53.235825+00:00",
+    "available_memory_bytes": 11627450368,
+    "free_disk_bytes": 21454135296,
+    "load": [
+      0.51416015625,
+      0.61669921875,
+      0.71728515625
+    ]
+  },
+  "status": "COMPLETED"
+}

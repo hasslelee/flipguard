@@ -1,0 +1,718 @@
+{
+  "utc": "2026-09-08T10:11:14.685178+00:00",
+  "scheduled": 36,
+  "result_files": 35,
+  "precondition_nonselection": 1,
+  "new_audit_not_yet_started": true,
+  "selection_records": [
+    {
+      "job": "A2_fashion_seed0_base",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          43,
+          33,
+          33,
+          33,
+          33
+        ],
+        "log_p": [
+          43
+        ],
+        "log_default_scale": 33
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A2_fashion_seed0_delta0",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          43,
+          33,
+          33,
+          33,
+          33
+        ],
+        "log_p": [
+          43
+        ],
+        "log_default_scale": 33
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A2_fashion_seed0_delta0001",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          43,
+          33,
+          33,
+          33,
+          33
+        ],
+        "log_p": [
+          43
+        ],
+        "log_default_scale": 33
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A2_fashion_seed0_delta01",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          39,
+          29,
+          29,
+          29,
+          29
+        ],
+        "log_p": [
+          39
+        ],
+        "log_default_scale": 29
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A2_fashion_seed0_rho025",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          44,
+          34,
+          34,
+          34,
+          34
+        ],
+        "log_p": [
+          44
+        ],
+        "log_default_scale": 34
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A2_fashion_seed0_rho075",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 14,
+        "log_q": [
+          43,
+          33,
+          33,
+          33,
+          33
+        ],
+        "log_p": [
+          43
+        ],
+        "log_default_scale": 33
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A2_spambase__linear_poly3__split0_seed0_base",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    },
+    {
+      "job": "A2_spambase__linear_poly3__split0_seed0_delta0",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    },
+    {
+      "job": "A2_spambase__linear_poly3__split0_seed0_delta0001",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    },
+    {
+      "job": "A2_spambase__linear_poly3__split0_seed0_delta01",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    },
+    {
+      "job": "A2_spambase__linear_poly3__split0_seed0_rho025",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    },
+    {
+      "job": "A2_spambase__linear_poly3__split0_seed0_rho075",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    },
+    {
+      "job": "A2_spambase__mlp_square_linear_score__split0_seed0_base",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A2_spambase__mlp_square_linear_score__split0_seed0_delta0",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A2_spambase__mlp_square_linear_score__split0_seed0_delta0001",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A2_spambase__mlp_square_linear_score__split0_seed0_rho025",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A2_spambase__mlp_square_linear_score__split0_seed0_rho075",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A3_htru2__mlp_square_linear_score__split0_seed0_order0_n16",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A3_htru2__mlp_square_linear_score__split0_seed0_order0_n256",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A3_htru2__mlp_square_linear_score__split0_seed0_order0_n64",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A3_htru2__mlp_square_linear_score__split0_seed0_order1_n16",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A3_htru2__mlp_square_linear_score__split0_seed0_order1_n256",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A3_htru2__mlp_square_linear_score__split0_seed0_order1_n64",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A3_htru2__mlp_square_linear_score__split0_seed0_order2_n16",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A3_htru2__mlp_square_linear_score__split0_seed0_order2_n256",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A3_htru2__mlp_square_linear_score__split0_seed0_order2_n64",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          23,
+          20,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "encrypted_candidates": 1
+    },
+    {
+      "job": "A3_spambase__linear_poly3__split0_seed0_order0_n16",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    },
+    {
+      "job": "A3_spambase__linear_poly3__split0_seed0_order0_n256",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    },
+    {
+      "job": "A3_spambase__linear_poly3__split0_seed0_order0_n64",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    },
+    {
+      "job": "A3_spambase__linear_poly3__split0_seed0_order1_n16",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    },
+    {
+      "job": "A3_spambase__linear_poly3__split0_seed0_order1_n256",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    },
+    {
+      "job": "A3_spambase__linear_poly3__split0_seed0_order1_n64",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    },
+    {
+      "job": "A3_spambase__linear_poly3__split0_seed0_order2_n16",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    },
+    {
+      "job": "A3_spambase__linear_poly3__split0_seed0_order2_n256",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    },
+    {
+      "job": "A3_spambase__linear_poly3__split0_seed0_order2_n64",
+      "outcome": "SELECTED",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          27,
+          24,
+          24,
+          24,
+          24,
+          24,
+          24
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 24
+      },
+      "encrypted_candidates": 2
+    }
+  ]
+}

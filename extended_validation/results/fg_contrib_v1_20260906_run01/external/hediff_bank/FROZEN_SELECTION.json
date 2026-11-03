@@ -1,0 +1,251 @@
+{
+  "utc": "2026-09-06T02:18:57.895707+00:00",
+  "roles": {
+    "B": {
+      "id": "independent_S30_Q5_N13_5a1e3c5aa602",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          36,
+          30,
+          30,
+          30,
+          30
+        ],
+        "log_p": [
+          36
+        ],
+        "log_default_scale": 30
+      },
+      "security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 192,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 22,
+        "admission_status": "PASS",
+        "log_q": 156,
+        "log_p": 36,
+        "log_qp": 192,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 58,
+        "evaluation_key_headroom_bits": 22,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "required_rescale_levels": 3,
+      "level_guard": 0,
+      "precision_target_bits": 30,
+      "message_magnitude_bits": 3,
+      "analysis_scale_bits": 30,
+      "backend_scale_lift_bits": 0,
+      "backend_validation_attempts": 1,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 0,
+      "generation_kind": "independent_explicit_scale_v1",
+      "reason": "graph scale trace and output magnitude only; fixed scale; no decision or sensitivity input"
+    },
+    "C": {
+      "id": "synth_analysis_minimum_rescale_N13_Q5_S20_a833ddef14d5",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          26,
+          20,
+          20,
+          20,
+          20
+        ],
+        "log_p": [
+          30
+        ],
+        "log_default_scale": 20
+      },
+      "security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 136,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 78,
+        "admission_status": "PASS",
+        "log_q": 106,
+        "log_p": 30,
+        "log_qp": 136,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 108,
+        "evaluation_key_headroom_bits": 78,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "required_rescale_levels": 3,
+      "level_guard": 0,
+      "precision_target_bits": 15,
+      "message_magnitude_bits": 3,
+      "analysis_scale_bits": 18,
+      "backend_scale_lift_bits": 2,
+      "backend_validation_attempts": 3,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 1,
+      "generation_kind": "analysis_minimum",
+      "reason": "budget=0.263962 aggregate_sensitivity=4748.06 unit_budget=5.55935e-05 precision_bits=15 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=136 analysis_scale_bits=18 backend_scale_lift_bits=2 backend_validation_attempts=3 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+    },
+    "A": {
+      "id": "independent_S30_Q5_N13_5a1e3c5aa602",
+      "path": "rescale",
+      "parameters": {
+        "log_n": 13,
+        "log_q": [
+          36,
+          30,
+          30,
+          30,
+          30
+        ],
+        "log_p": [
+          36
+        ],
+        "log_default_scale": 30
+      },
+      "security": {
+        "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+        "target_bits": 128,
+        "declared_log_qp": 192,
+        "max_allowed_log_qp": 214,
+        "headroom_bits": 22,
+        "admission_status": "PASS",
+        "log_q": 156,
+        "log_p": 36,
+        "log_qp": 192,
+        "ciphertext_q_admission": "PASS",
+        "evaluation_key_qp_admission": "PASS",
+        "final_admission": "PASS",
+        "ciphertext_headroom_bits": 58,
+        "evaluation_key_headroom_bits": 22,
+        "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+      },
+      "required_rescale_levels": 3,
+      "level_guard": 0,
+      "precision_target_bits": 30,
+      "message_magnitude_bits": 3,
+      "analysis_scale_bits": 30,
+      "backend_scale_lift_bits": 0,
+      "backend_validation_attempts": 1,
+      "same_tier_precision_gain_bits": 0,
+      "same_tier_static_candidates_tried": 0,
+      "generation_kind": "independent_explicit_scale_v1",
+      "reason": "graph scale trace and output magnitude only; fixed scale; no decision or sensitivity input"
+    }
+  },
+  "unique": {
+    "feee1f9d4d7ce5df": {
+      "candidate": {
+        "id": "independent_S30_Q5_N13_5a1e3c5aa602",
+        "path": "rescale",
+        "parameters": {
+          "log_n": 13,
+          "log_q": [
+            36,
+            30,
+            30,
+            30,
+            30
+          ],
+          "log_p": [
+            36
+          ],
+          "log_default_scale": 30
+        },
+        "security": {
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "target_bits": 128,
+          "declared_log_qp": 192,
+          "max_allowed_log_qp": 214,
+          "headroom_bits": 22,
+          "admission_status": "PASS",
+          "log_q": 156,
+          "log_p": 36,
+          "log_qp": 192,
+          "ciphertext_q_admission": "PASS",
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "ciphertext_headroom_bits": 58,
+          "evaluation_key_headroom_bits": 22,
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+        },
+        "required_rescale_levels": 3,
+        "level_guard": 0,
+        "precision_target_bits": 30,
+        "message_magnitude_bits": 3,
+        "analysis_scale_bits": 30,
+        "backend_scale_lift_bits": 0,
+        "backend_validation_attempts": 1,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 0,
+        "generation_kind": "independent_explicit_scale_v1",
+        "reason": "graph scale trace and output magnitude only; fixed scale; no decision or sensitivity input"
+      },
+      "path": "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/candidates/feee1f9d4d7ce5df.json",
+      "roles": [
+        "B",
+        "A"
+      ]
+    },
+    "ac9dc140d8f56b6f": {
+      "candidate": {
+        "id": "synth_analysis_minimum_rescale_N13_Q5_S20_a833ddef14d5",
+        "path": "rescale",
+        "parameters": {
+          "log_n": 13,
+          "log_q": [
+            26,
+            20,
+            20,
+            20,
+            20
+          ],
+          "log_p": [
+            30
+          ],
+          "log_default_scale": 20
+        },
+        "security": {
+          "envelope_id": "security_guidelines_cic2025_table5_2_ternary_128_v2",
+          "target_bits": 128,
+          "declared_log_qp": 136,
+          "max_allowed_log_qp": 214,
+          "headroom_bits": 78,
+          "admission_status": "PASS",
+          "log_q": 106,
+          "log_p": 30,
+          "log_qp": 136,
+          "ciphertext_q_admission": "PASS",
+          "evaluation_key_qp_admission": "PASS",
+          "final_admission": "PASS",
+          "ciphertext_headroom_bits": 108,
+          "evaluation_key_headroom_bits": 78,
+          "admission_reason": "ciphertext Q and evaluation-key QP are within the conservative Table 5.2 cap"
+        },
+        "required_rescale_levels": 3,
+        "level_guard": 0,
+        "precision_target_bits": 15,
+        "message_magnitude_bits": 3,
+        "analysis_scale_bits": 18,
+        "backend_scale_lift_bits": 2,
+        "backend_validation_attempts": 3,
+        "same_tier_precision_gain_bits": 0,
+        "same_tier_static_candidates_tried": 1,
+        "generation_kind": "analysis_minimum",
+        "reason": "budget=0.263962 aggregate_sensitivity=4748.06 unit_budget=5.55935e-05 precision_bits=15 rescale_levels=3 terminal_scale_exponent=2 q_primes=5 level_guard=0 declared_logQP=136 analysis_scale_bits=18 backend_scale_lift_bits=2 backend_validation_attempts=3 same_tier_precision_gain_bits=0 same_tier_static_candidates_tried=1"
+      },
+      "path": "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external/hediff_bank/candidates/ac9dc140d8f56b6f.json",
+      "roles": [
+        "C"
+      ]
+    }
+  },
+  "no_retuning": true
+}

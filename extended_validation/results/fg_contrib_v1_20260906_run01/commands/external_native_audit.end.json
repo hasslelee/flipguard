@@ -1,0 +1,53 @@
+{
+  "command": [
+    "docker",
+    "run",
+    "--cidfile",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/commands/external_native_audit.cid",
+    "--rm",
+    "--network",
+    "none",
+    "--cpus",
+    "4",
+    "--memory",
+    "8g",
+    "--user",
+    "1000:1000",
+    "-v",
+    "/home/ckks2/deciprotect/work/fg_contrib_v1_20260906:/home/ckks2/deciprotect/work/fg_contrib_v1_20260906",
+    "-v",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external:/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/external",
+    "-v",
+    "/home/ckks2/deciprotect/scripts:/home/ckks2/deciprotect/scripts:ro",
+    "-w",
+    "/home/ckks2/deciprotect/work/fg_contrib_v1_20260906",
+    "-e",
+    "PYTHONPATH=/home/ckks2/deciprotect/work/fg_contrib_v1_20260906/external_packages",
+    "-e",
+    "PYTHONDONTWRITEBYTECODE=1",
+    "-e",
+    "OPENBLAS_NUM_THREADS=1",
+    "-e",
+    "OMP_NUM_THREADS=4",
+    "--entrypoint",
+    "python3",
+    "flipguard/mlir16-seal4:audit-v1",
+    "/home/ckks2/deciprotect/scripts/hediff_bank_contrib_v1.py",
+    "audit"
+  ],
+  "exit_code": 0,
+  "status": "PROCESS_COMPLETED",
+  "wall_seconds": 141.5662948620011,
+  "after": {
+    "utc": "2026-09-06T02:21:19.522122+00:00",
+    "load": [
+      3.783203125,
+      2.93359375,
+      2.20556640625
+    ],
+    "mem_available": "10313036 kB",
+    "swap_free": "3839616 kB",
+    "free_disk": 21411659776
+  },
+  "result_exists": false
+}

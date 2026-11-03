@@ -1,0 +1,41 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/bin/contribution-case",
+    "--mode",
+    "generate",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/spambase__linear_poly3__split0_seed0/initial_plan.json",
+    "--scale",
+    "26",
+    "--q-guard",
+    "0",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/cases/spambase__linear_poly3__split0_seed0/diagnostic/S26_Qguard0/generation"
+  ],
+  "exit_code": 0,
+  "status": "PROCESS_COMPLETED",
+  "wall_seconds": 0.035894308995921165,
+  "before": {
+    "utc": "2026-09-05T18:56:54.408449+00:00",
+    "load": [
+      1.97509765625,
+      1.76171875,
+      1.69287109375
+    ],
+    "mem_available": "10455812 kB",
+    "swap_free": "3837480 kB",
+    "free_disk": 23360442368
+  },
+  "after": {
+    "utc": "2026-09-05T18:56:54.455871+00:00",
+    "load": [
+      1.97509765625,
+      1.76171875,
+      1.69287109375
+    ],
+    "mem_available": "10465716 kB",
+    "swap_free": "3837480 kB",
+    "free_disk": 23360421888
+  },
+  "result_exists": true
+}

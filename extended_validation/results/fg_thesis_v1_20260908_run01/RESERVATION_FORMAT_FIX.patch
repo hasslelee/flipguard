@@ -1,0 +1,17 @@
+--- locked_audit.py:reserve
++++ prepare_reserved_corrected.py:reserve_corrected
+@@ -1,4 +1,4 @@
+-def reserve():
++def reserve_corrected():
+     verify_preopen();assert (RUN/'AUDIT_PREOPEN_LOCK.json').exists()
+     if (RUN/'RESERVATION_READY.json').exists():
+         for p,h in r.read(RUN/'RESERVATION_READY.json')['files'].items():assert r.sha(p)==h
+@@ -41,7 +41,7 @@
+         p=out/f'batch_{bi:02d}.csv';rows=[]
+         for rr in reserved[bi*228:(bi+1)*228]:
+             sid=int(rr['source_row_id']);label=int(original[sid]['y']=='yes');x=normalized(sid)
+-            rows.append({'row_id':rr['row_id'],'source_row_id':sid,'label':label,'original_label':label,**{f'x_{j}':repr(v) for j,v in enumerate(x)}})
++            rows.append({'row_id':rr['row_id'],'source_row_id':sid,'label':label,'original_label':label,**{f'x_{j}':repr(float(v)) for j,v in enumerate(x)}})
+         if not p.exists():
+             with p.open('x',newline='') as f:w=csv.DictWriter(f,fields);w.writeheader();w.writerows(rows)
+         else:

@@ -1,0 +1,45 @@
+{
+  "command": [
+    "/home/ckks2/deciprotect/bin/contribution-case",
+    "--mode",
+    "select",
+    "--legacy-plan",
+    "/home/ckks2/deciprotect/results/fg_expand_v2_20260905_run01/cases/seed_0/planning/plan.json",
+    "--role",
+    "B",
+    "--threshold",
+    "0.027530070390810124",
+    "--keyset",
+    "0",
+    "--out",
+    "/home/ckks2/deciprotect/results/fg_contrib_v1_20260906_run01/cases/fashion_seed0/selection/block_0/B40",
+    "--start-scale",
+    "40"
+  ],
+  "exit_code": 0,
+  "status": "PROCESS_COMPLETED",
+  "wall_seconds": 109.69699306000257,
+  "before": {
+    "utc": "2026-09-05T18:03:45.704239+00:00",
+    "load": [
+      1.17724609375,
+      1.3193359375,
+      0.984375
+    ],
+    "mem_available": "10515448 kB",
+    "swap_free": "3837468 kB",
+    "free_disk": 23537057792
+  },
+  "after": {
+    "utc": "2026-09-05T18:05:35.413209+00:00",
+    "load": [
+      1.28857421875,
+      1.36962890625,
+      1.04345703125
+    ],
+    "mem_available": "10272692 kB",
+    "swap_free": "3837464 kB",
+    "free_disk": 23533223936
+  },
+  "result_exists": true
+}

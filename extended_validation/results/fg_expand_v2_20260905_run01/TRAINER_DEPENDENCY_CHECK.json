@@ -1,0 +1,19 @@
+{
+  "command": [
+    "go",
+    "-C",
+    "research/fashion_extension",
+    "list",
+    "-deps",
+    "-f",
+    "{{.ImportPath}}",
+    "./cmd/fashion-train"
+  ],
+  "local_dependency_packages": [
+    "github.com/hasslelee/flipguard/internal/journalmnist",
+    "github.com/hasslelee/flipguard/cmd/fashion-train"
+  ],
+  "planner_packages_in_trainer_import_graph": false,
+  "scope": "current package graph; exact executed trainer binary and critical source hashes separately matched training lock",
+  "status": "PASS"
+}

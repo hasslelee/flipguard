@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "workload_id": "split0_seed0/independent_evaluation/htru2/mlp_square_linear_score",
+  "dataset_id": "htru2",
+  "model_id": "mlp_square_linear_score",
+  "model_type": "mlp_square_linear_score",
+  "split_id": "split0_seed0/independent_evaluation",
+  "model_artifact": {
+    "path": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/model.json",
+    "sha256": "sha256:b6f40035e2ebfabb8aa6460b10a5ce846d0da9fb7a324ad2dad3abb5836c7203"
+  },
+  "validation_data": {
+    "path": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/run/htru2__mlp_square_linear_score__split0_seed0/independent_evaluation.prepared.csv",
+    "sha256": "sha256:8fd2fcc054c075df59ff0ec83ca60b1549c7f33809997dc11a2c717a89e3b2cf"
+  },
+  "source_data": {
+    "path": "/home/ckks2/deciprotect/results/fg_expand_v1_20260905_run01/plaintext/htru2__mlp_square_linear_score__split0_seed0/independent_evaluation.csv",
+    "sha256": "sha256:540df63c82ce874e45d3f70c12b04f619c53f6051663c4ca2201caae07b40ade"
+  },
+  "input_materialization": {
+    "schema_version": "flipguard_tabular_validation_v2",
+    "source_feature_space": "raw",
+    "preprocessing_method": "selected_feature_standardization_v1",
+    "source_replay_verified": true
+  },
+  "graph": {
+    "multiplicative_depth": 1,
+    "add_ops": 37,
+    "mul_ops": 41,
+    "rot_ops": 0,
+    "rescale_ops": 1,
+    "notes": [
+      "derived from the exact tabular plaintext DAG",
+      "rescale count is the maximum multiplicative path depth"
+    ]
+  },
+  "decision": {
+    "threshold": 0.5,
+    "margin_floor": 0.001,
+    "safety_factor": 0.5,
+    "protected_margin": 0.0037917568976099103,
+    "output_error_budget": 0.0018958784488049552,
+    "validation_digest": "sha256:b390adb0949a286c7e6ed4009cdf82ad0d9ca077a4d259e2f56153d31f097698",
+    "validation_samples": 256,
+    "certifiable_samples": 254,
+    "ambiguous_samples": 2
+  },
+  "calibration": {
+    "max_input_abs": 7.548290403154089,
+    "max_plaintext_output_abs": 0.6166616116896145,
+    "aggregate_sensitivity": 9.636182950599302,
+    "sensitivity_method": "empirical_interval_dag_sum_v1",
+    "calibration_scope": "observed_validation_artifact:sha256:8fd2fcc054c075df59ff0ec83ca60b1549c7f33809997dc11a2c717a89e3b2cf"
+  },
+  "deployment": {
+    "security_bits": 128,
+    "required_slots": 1,
+    "max_encrypted_trials": 4,
+    "validation_key_repeats": 3,
+    "packing_strategy": "scalar_replicated_per_ciphertext_v1",
+    "allowed_paths": [
+      "rescale"
+    ],
+    "scale_trace_method": "lattigo_v6_rescale_scale_trace_v1",
+    "rescale_levels_consumed": 3,
+    "terminal_scale_exponent": 3,
+    "required_q_primes": 6
+  }
+}

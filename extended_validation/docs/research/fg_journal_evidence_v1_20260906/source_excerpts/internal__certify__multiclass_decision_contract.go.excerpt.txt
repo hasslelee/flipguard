@@ -1,0 +1,234 @@
+102: func CertifyMulticlassArgmaxBounds(
+103: 	plainLogits []float64,
+104: 	errorBounds []float64,
+105: ) (MulticlassBoundCertificate, error) {
+106: 	if err := validateLogitVector("plaintext", plainLogits); err != nil {
+107: 		return MulticlassBoundCertificate{}, err
+108: 	}
+109: 	if len(errorBounds) != len(plainLogits) {
+110: 		return MulticlassBoundCertificate{}, fmt.Errorf(
+111: 			"error-bound count %d does not match class count %d",
+112: 			len(errorBounds),
+113: 			len(plainLogits),
+114: 		)
+115: 	}
+116: 	for index, bound := range errorBounds {
+117: 		if !isNonNegativeFinite(bound) {
+118: 			return MulticlassBoundCertificate{}, fmt.Errorf(
+119: 				"error bound %d must be finite and non-negative",
+120: 				index,
+121: 			)
+122: 		}
+123: 	}
+124: 	top, runnerUp, gap, tied := topTwoClasses(plainLogits)
+125: 	certificate := MulticlassBoundCertificate{
+126: 		SchemaVersion:   MulticlassDecisionContractSchemaV2,
+127: 		TieBreak:        DeterministicLowestIndexTieBreak,
+128: 		PlainClass:      top,
+129: 		RunnerUp:        runnerUp,
+130: 		TopTwoGap:       gap,
+131: 		PlainTie:        tied,
+132: 		StrictlyProved:  !tied,
+133: 		MinimumGapSlack: math.Inf(1),
+134: 	}
+135: 	if tied {
+136: 		certificate.StrictlyProved = false
+137: 		certificate.MinimumGapSlack = 0
+138: 		// MinimumCap is not applicable to a zero-gap plaintext tie. Keep the
+139: 		// numeric evidence JSON-safe and use PlainTie as the fail-closed state.
+140: 		certificate.MinimumCap = 0
+141: 		return certificate, nil
+142: 	}
+143: 	for classIndex := range plainLogits {
+144: 		if classIndex == top {
+145: 			continue
+146: 		}
+147: 		classGap := plainLogits[top] - plainLogits[classIndex]
+148: 		boundSum := errorBounds[top] + errorBounds[classIndex]
+149: 		slack := classGap - boundSum
+150: 		certificate.MinimumGapSlack = math.Min(
+151: 			certificate.MinimumGapSlack,
+152: 			slack,
+153: 		)
+154: 		certificate.MinimumCap = math.Max(
+155: 			certificate.MinimumCap,
+156: 			boundSum/classGap,
+157: 		)
+158: 		if !(classGap > boundSum) {
+159: 			certificate.StrictlyProved = false
+160: 		}
+161: 	}
+162: 	return certificate, nil
+163: }
+164: 
+185: func AggregateObservedMulticlassCandidate(
+186: 	samples []MulticlassObservedSample,
+187: 	failedRuns int,
+188: 	marginFloor float64,
+189: 	marginUtilizationCap float64,
+190: ) (MulticlassObservedAggregation, error) {
+191: 	if len(samples) == 0 {
+192: 		return MulticlassObservedAggregation{}, fmt.Errorf(
+193: 			"multiclass candidate has no validation samples",
+194: 		)
+195: 	}
+196: 	if failedRuns < 0 {
+197: 		return MulticlassObservedAggregation{}, fmt.Errorf(
+198: 			"failed runs must be non-negative",
+199: 		)
+200: 	}
+201: 	if !isFinite(marginFloor) || marginFloor < 0 {
+202: 		return MulticlassObservedAggregation{}, fmt.Errorf(
+203: 			"margin floor must be finite and non-negative",
+204: 		)
+205: 	}
+206: 	if !isFinite(marginUtilizationCap) ||
+207: 		marginUtilizationCap <= 0 || marginUtilizationCap > 1 {
+208: 		return MulticlassObservedAggregation{}, fmt.Errorf(
+209: 			"margin utilization cap must be in (0, 1]",
+210: 		)
+211: 	}
+212: 
+213: 	successRuns := len(samples[0].ApproxLogits)
+214: 	if successRuns == 0 {
+215: 		return MulticlassObservedAggregation{}, fmt.Errorf(
+216: 			"multiclass candidate has no successful key runs",
+217: 		)
+218: 	}
+219: 	aggregation := MulticlassObservedAggregation{
+220: 		SchemaVersion:        MulticlassDecisionContractSchemaV2,
+221: 		MarginFloor:          marginFloor,
+222: 		MarginUtilizationCap: marginUtilizationCap,
+223: 		SuccessRuns:          successRuns,
+224: 		FailedRuns:           failedRuns,
+225: 		Observations: make(
+226: 			[]MulticlassSampleObservation,
+227: 			0,
+228: 			len(samples)*successRuns,
+229: 		),
+230: 	}
+231: 	seen := make(map[string]struct{}, len(samples))
+232: 	for sampleIndex, sample := range samples {
+233: 		if sample.ID == "" {
+234: 			return MulticlassObservedAggregation{}, fmt.Errorf(
+235: 				"multiclass sample %d has an empty ID",
+236: 				sampleIndex,
+237: 			)
+238: 		}
+239: 		if _, exists := seen[sample.ID]; exists {
+240: 			return MulticlassObservedAggregation{}, fmt.Errorf(
+241: 				"duplicate multiclass sample ID %q",
+242: 				sample.ID,
+243: 			)
+244: 		}
+245: 		seen[sample.ID] = struct{}{}
+246: 		if err := validateLogitVector("plaintext", sample.PlainLogits); err != nil {
+247: 			return MulticlassObservedAggregation{}, fmt.Errorf(
+248: 				"sample %q: %w",
+249: 				sample.ID,
+250: 				err,
+251: 			)
+252: 		}
+253: 		if len(sample.ApproxLogits) != successRuns {
+254: 			return MulticlassObservedAggregation{}, fmt.Errorf(
+255: 				"sample %q has %d key runs; expected %d",
+256: 				sample.ID,
+257: 				len(sample.ApproxLogits),
+258: 				successRuns,
+259: 			)
+260: 		}
+261: 		plainTop, plainRunnerUp, gap, tied := topTwoClasses(
+262: 			sample.PlainLogits,
+263: 		)
+264: 		certifiable := !tied && gap > marginFloor
+265: 		if certifiable {
+266: 			aggregation.VCert++
+267: 		} else {
+268: 			aggregation.VAmb++
+269: 		}
+270: 		for keyRunIndex, approximate := range sample.ApproxLogits {
+271: 			if err := validateLogitVector("CKKS", approximate); err != nil {
+272: 				return MulticlassObservedAggregation{}, fmt.Errorf(
+273: 					"sample %q key run %d: %w",
+274: 					sample.ID,
+275: 					keyRunIndex+1,
+276: 					err,
+277: 				)
+278: 			}
+279: 			if len(approximate) != len(sample.PlainLogits) {
+280: 				return MulticlassObservedAggregation{}, fmt.Errorf(
+281: 					"sample %q key run %d class count %d; expected %d",
+282: 					sample.ID,
+283: 					keyRunIndex+1,
+284: 					len(approximate),
+285: 					len(sample.PlainLogits),
+286: 				)
+287: 			}
+288: 			approxTop, _, _, _ := topTwoClasses(approximate)
+289: 			errors := make([]float64, len(approximate))
+290: 			for classIndex := range approximate {
+291: 				errors[classIndex] = math.Abs(
+292: 					approximate[classIndex] - sample.PlainLogits[classIndex],
+293: 				)
+294: 				aggregation.MaxLogitAbsoluteError = math.Max(
+295: 					aggregation.MaxLogitAbsoluteError,
+296: 					errors[classIndex],
+297: 				)
+298: 			}
+299: 			boundCertificate, err := CertifyMulticlassArgmaxBounds(
+300: 				sample.PlainLogits,
+301: 				errors,
+302: 			)
+303: 			if err != nil {
+304: 				return MulticlassObservedAggregation{}, err
+305: 			}
+306: 			reservePass := false
+307: 			minimumCap := boundCertificate.MinimumCap
+308: 			if certifiable {
+309: 				reservePass = minimumCap < marginUtilizationCap
+310: 				aggregation.MaxCapRequired = math.Max(
+311: 					aggregation.MaxCapRequired,
+312: 					minimumCap,
+313: 				)
+314: 			}
+315: 			flip := approxTop != plainTop
+316: 			violation := certifiable && !reservePass
+317: 			if certifiable && flip {
+318: 				aggregation.ArgmaxFlips++
+319: 			}
+320: 			if violation {
+321: 				aggregation.ReserveViolations++
+322: 			}
+323: 			observation := MulticlassSampleObservation{
+324: 				SampleID: sample.ID,
+325: 				KeyRun:   keyRunIndex + 1,
+326: 				PlainLogits: append(
+327: 					[]float64(nil),
+328: 					sample.PlainLogits...,
+329: 				),
+330: 				CKKSLogits:             append([]float64(nil), approximate...),
+331: 				AbsErrors:              errors,
+332: 				PlainTop1:              plainTop,
+333: 				PlainTop2:              plainRunnerUp,
+334: 				CKKSTop1:               approxTop,
+335: 				TopTwoGap:              gap,
+336: 				PairwiseDecisionBudget: marginUtilizationCap * gap,
+337: 				MinimumCapRequired:     minimumCap,
+338: 				Certifiable:            certifiable,
+339: 				PlainTie:               tied,
+340: 				ArgmaxFlip:             flip,
+341: 				ReservePolicyPass:      reservePass,
+342: 				ReserveViolation:       violation,
+343: 			}
+344: 			aggregation.Observations = append(
+345: 				aggregation.Observations,
+346: 				observation,
+347: 			)
+348: 		}
+349: 	}
+350: 	aggregation.TotalObservations = len(aggregation.Observations)
+351: 	aggregation.CertifiedObservations = aggregation.VCert * successRuns
+352: 	aggregation.AmbiguousObservations = aggregation.VAmb * successRuns
+353: 	switch {
+354: 	case failedRuns > 0:
+355: 		aggregation.Status = StatusFailed

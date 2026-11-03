@@ -1,0 +1,54 @@
+{
+  "B0_profile": "default__rescale",
+  "B1_selection_rule": "argmin mean_total_ms over B2 rows with successful encrypted execution; SAFE/REJECTED is not used for selection",
+  "B2_contract_rule": "same byte-bound model, configuration-selection rows, decision contract, rho, margin floor, and key repeats as B4; only allowed_paths is widened to the two predeclared legacy paths",
+  "B2_paths": [
+    "rescale",
+    "non-rescale"
+  ],
+  "B2_profiles": [
+    "deep_chain_8_scale45",
+    "deep_chain_9_scale45",
+    "short_chain_3",
+    "short_chain_5",
+    "short_chain_6_scale38",
+    "short_chain_6_scale40",
+    "short_chain_6_scale42"
+  ],
+  "B2_rows_per_tabular_case": 14,
+  "B3_generator_id": "flipguard_v17_depth_complete_finite_set_v1",
+  "B3_level_guards": [
+    0,
+    1
+  ],
+  "B3_max_candidates_per_case": 8,
+  "B3_scale_offsets_bits": [
+    0,
+    4,
+    8,
+    12
+  ],
+  "B4_level_repair_primes": 1,
+  "B4_max_encrypted_candidate_evaluations": 4,
+  "B4_repair_scale_bits": 4,
+  "baseline_applicability": {
+    "P4_MLP100": "predecessor-bound seven-profile rescale catalog plus V17 B3/B4",
+    "P5_LeNet5_small": "predecessor-bound seven-profile rescale catalog (7/7 PLAN_UNSUPPORTED) plus V17 B3/B4",
+    "P6_spatial_packed_CNN_lite": "B0-B2 PLAN_UNSUPPORTED_PACKING; V17 B3/B4 evaluated",
+    "depth_ladder": "B3/B4 only; B0-B2 are not depth-complete references",
+    "tabular_P1_P3_and_ablation": "B0-B4 evaluated; statically unsupported B0/B2 rows are never encrypted"
+  },
+  "baselines": {
+    "B0": "fixed default profile; never encrypted when Security-V2-inadmissible",
+    "B1": "minimum observed latency among successfully executed frozen B2 rows without using the decision gate",
+    "B2": "legacy Security-V2 admitted 7 profiles x 2 paths (14 static rows; unsupported rows preserved)",
+    "B3": "graph-derived depth-complete exhaustive finite set",
+    "B4": "FlipGuard bounded first-SAFE optimizer"
+  },
+  "finite_oracle": "B3 fastest SAFE within the frozen generated set",
+  "global_oracle_claim": false,
+  "model_name_lookup": false,
+  "result_independent": true,
+  "schema_version": "flipguard_v17_depth_complete_candidate_space_v1",
+  "security_filter": "Security-V2 admission before encrypted execution"
+}

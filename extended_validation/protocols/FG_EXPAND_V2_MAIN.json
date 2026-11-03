@@ -1,0 +1,95 @@
+{
+  "protocol_id": "FG_EXPAND_V2_MAIN_20260905",
+  "run_id": "fg_expand_v2_20260905_run01",
+  "locked_utc": "2026-09-05T11:08:36.033789+00:00",
+  "parent_checkpoint": "b64fa9c100f4f13789e3012a8e2258a48034f5d0",
+  "preparation_protocol": "protocols/FG_EXPAND_V2_PREP.json",
+  "research_question": "Numerical-accuracy acceptance versus inputwise decision/margin-linked acceptance: selected configurations, held-out decisions, and costs",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "architecture": "unchanged784-100-10 square MLP, original8epoch Adam",
+  "quality": "all three finite, development accuracies .8882/.885/.8824; fixed8epochs not convergence; no seed replacement",
+  "selection": {
+    "inputs": 500,
+    "role": "official train disjoint from training54500 and development5000",
+    "direct": "unchanged DirectPolicyV2 first SAFE, max4, scale+4 or Q+1, rho.5 delta.001, Q/QP128",
+    "candidate_generator": "original V17 multiclass exhaustive command uses BuildV17DepthCompleteFiniteSet; scale0,+4,+8,+12 with Qguard0,+1, identity dedup; not assumed8 without generation",
+    "finite_order": {
+      "seed0": "forward",
+      "seed1": "reverse",
+      "seed2": "rotate left2"
+    },
+    "key_repeats": 3,
+    "numeric_comparators": "development-only FP16 roundtrip RMSE and maxabs thresholds from PREP; all keys pass; fastest finite mean_total_ms; no inputwise agreement required",
+    "minimum_error": "existing finite minimum maxabs diagnostic, selection only",
+    "roles": [
+      "initial",
+      "proposed",
+      "finite_fastest_acceptable",
+      "finite_fastest_executable",
+      "numeric_rmse",
+      "numeric_max_abs"
+    ],
+    "source_dependence": "initial and common finite set inherit margin-based synthesis; numerical comparators isolate acceptance criterion within common range, not end-to-end decision-agnostic prior method"
+  },
+  "audit": {
+    "total_inputs": 10000,
+    "batches": 20,
+    "batch_size": 500,
+    "classes_per_batch": [
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50,
+      50
+    ],
+    "layout": "existing feature ciphertext sample slots; 784input/10output ciphertexts, zero padding N/2-500; noNincreasefor10000",
+    "keys": "3fresh compatible keys PER candidate PER batch; no key reused across batches; 3keyobservations/input but60contexts/candidate, not3globalkeys",
+    "batch_assignment": "classwise official test index sorted, consecutive50 perclass, then sort eachbatch bysourceindex",
+    "order": "batch then seed0/1/2, unique candidate roles cyclic rotation(batch+seed)",
+    "alias_policy": "one audit per identical candidate, explicit roles; alias is not another observation",
+    "retuning": 0,
+    "scope_is_finite_observed_inputs_and_contexts": true
+  },
+  "timing": {
+    "source": "unchanged RunV17PrimaryPairedLatencyKeyset and runV17JournalMNISTBatch; original finalV17 batched MLP path",
+    "inputs": 20,
+    "rows": "i*499//19, i0..19 from audit_batch00, chosen before evaluation",
+    "warmup": 1,
+    "measurement": 6,
+    "fresh_keysets": 3,
+    "arms": "each distinct comparator candidate versus proposed, samecandidatecontrol included once; role aliases share evidence",
+    "order": "original balanced cyclic and reverse per batch",
+    "key_reuse": "within seven warmup/measurement passes, fresh per arm and block",
+    "training_or_other_he_concurrent": false,
+    "selection_timing_is_not_final_timing": true,
+    "outlier_deletion": false,
+    "setup": "reported separately and treated equally for arms",
+    "network": null,
+    "statistical_unit": "one dataset-architecture group, three initialization cases; key/pass/slots not independent datasets; descriptive perseed ratios"
+  },
+  "resource": {
+    "estimated_main_hours": [
+      2,
+      4
+    ],
+    "main_wall_cap_seconds": 21600,
+    "native_call_timeout_seconds": 1800,
+    "address_space_cap_gib": 8,
+    "gomaxprocs": 4,
+    "new_storage_cap_gib": 4,
+    "minimum_free_disk_gib": 8,
+    "basis": "legacy sameMLP500batch18.619s; development18.228s, peak857MiB; finite higherN allowances; actual aliascount not yet used to reduceplannedinputcount"
+  },
+  "stopping": "never success/failure quota; preserve scientific rejections and all seeds; resource cap preserves incomplete jobs; integrity blocks stop; resumable per-key evidence",
+  "large_followup_automatic": false,
+  "risk_guarantee": false
+}

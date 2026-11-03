@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "verified_manifest_files": 63,
+  "manifest_mismatches": [],
+  "raw_all_task_coverage": {
+    "selection": {
+      "inputs": 18385,
+      "eligible": 16081,
+      "boundary": 2304,
+      "protected_flip_events": 0,
+      "protected_error_violations": 0,
+      "boundary_flip_events": 11,
+      "boundary_unique_flips": 8,
+      "all_unique_flips": 8,
+      "cases": 68,
+      "pooled_coverage": 0.8746804460157738,
+      "minimum_coverage": 0.17543859649122806
+    },
+    "separate": {
+      "inputs": 18367,
+      "eligible": 16049,
+      "boundary": 2318,
+      "protected_flip_events": 0,
+      "protected_error_violations": 0,
+      "boundary_flip_events": 21,
+      "boundary_unique_flips": 12,
+      "all_unique_flips": 12,
+      "cases": 68,
+      "pooled_coverage": 0.8737953939129961,
+      "minimum_coverage": 0.20353982300884957
+    }
+  },
+  "not_recomputed_sources": [],
+  "comparison": {
+    "cases": 68,
+    "dataset_model_clusters": 16,
+    "same_final_and_fastest_finite_candidate": 63,
+    "full_evaluations": 89,
+    "finite_evaluations": 537,
+    "minimum_error_baseline_violating_cases": 0
+  },
+  "limits": "Coverage and flips independently recomputed from scalar scores or multiclass logits. Source paths follow the frozen V34 inventory and their individual hashes are recorded. Key repeats are not independent inputs."
+}

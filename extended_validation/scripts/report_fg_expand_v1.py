@@ -1,0 +1,164 @@
+#!/usr/bin/env python3
+"""Render the bounded expansion report from independently checked observations."""
+import json
+from pathlib import Path
+
+ROOT=Path(__file__).resolve().parents[1]
+OUT=ROOT/'docs/research/fg_expand_v1_20260905'
+RUN=ROOT/'results/fg_expand_v1_20260905_run01'
+
+
+def read(p):return json.loads(p.read_text())
+def table(headers,rows):
+    return '\n'.join(['| '+' | '.join(headers)+' |','|'+'|'.join(['---']*len(headers))+'|']+['| '+' | '.join(map(str,r))+' |' for r in rows])+'\n'
+def name(c):return c['dataset']+' '+('선형+3차' if c['model_id']=='linear_poly3' else 'MLP4')
+def param(c):
+    if not c:return '미선택'
+    p=c['parameters'];return f"N=2^{p['log_n']}, Q={p['log_q']}, P={p['log_p']}, scale={p['log_default_scale']}"
+def main():
+    s=read(OUT/'summary.json');assert s['completed_cases']==s['planned_cases']==4
+    cases=s['cases'];manifest=read(RUN/'plaintext/manifest.json');plain={c['case_id']:c for c in manifest['cases']}
+    d=sum(c['direct_trials'] for c in cases);f=sum(c['finite_trials'] for c in cases)
+    applicable=sum(c['audit_roles']['direct']['eligible'] for c in cases)
+    selected_flips=sum(c['audit_roles']['direct']['protected_flip_events'] for c in cases)
+    selected_viol=sum(c['audit_roles']['direct']['protected_error_violations'] for c in cases)
+    selected_boundary_flips=sum(c['audit_roles']['direct']['boundary_flip_events'] for c in cases)
+    initial_flips=sum(c['audit_roles']['initial_criteria_off']['protected_flip_events'] for c in cases)
+    initial_viol=sum(c['audit_roles']['initial_criteria_off']['protected_error_violations'] for c in cases)
+    audit_exec=sum(c['audit_unique_executions'] for c in cases)
+    paired=s['latency_aggregates']['finite_fastest_safe_over_direct']
+    same=sum(c['selected']['candidate_id']==c['finite_fastest_safe']['id'] for c in cases)
+    safe_pairs=sum(c['safe_to_safe_pair_eligible'] for c in cases)
+    resources=[read(RUN/'run'/(c['case_id']+'.resource.json')) for c in cases]
+    elapsed=sum(r['elapsed_seconds'] for r in resources)
+    rss=max(r['maximum_rss_kib'] for r in resources)
+    lines=[f'''# 최종 논문 방법의 첫 확대 검증
+
+최종 검수 PDF의 **평문·CKKS 판정 일치와 입력별 오차 조건에 따른 구성 선택**을 유지하여, Spambase·HTRU2의 기존 지원 모델 네 사례를 실제 암호화로 평가했다. 네 사례에서 구성 선택에 사용하지 않은 1,024 사례–입력 쌍 중 적용 영역은 {applicable}개였고, 선택된 구성의 그 영역에서 판정 변화 {selected_flips}회·오차 위반 {selected_viol}회가 관측됐다. 초기 구성에서는 같은 영역에 판정 변화 {initial_flips}회·오차 위반 {initial_viol}회가 있었다. 모두 키별 관측 수이며, 아래에 고유 입력 수를 따로 적었다. 적용 영역 밖에서는 선택된 구성에도 판정 변화 {selected_boundary_flips}회가 있었다.
+
+구성 평가는 제안 절차 {d}회, 고정 유한 집합 {f}회였다. 이는 **추론 속도 향상률이 아니다**. 수용 가능한 가장 빠른 비교 구성과 선택 구성이 같은 사례는 {same}/4개였다. 대응 추론 시간비(비교/선택)의 네 데이터–모델 묶음 동일 가중 기하평균은 {paired['geometric_mean']:.6f}였다. 평균이 비슷하거나 탐색적 구간이 1을 포함하더라도 동등성·무손해가 증명되는 것은 아니다. 이 첫 묶음은 단일 분할·학습 초기값·VM의 탐색적 확대 검증이다.
+
+Protocol `FG_EXPAND_V1_20260905`, run `fg_expand_v1_20260905_run01`. 네 사례를 모두 마쳤고 다음 대규모 실험은 시작하지 않았다. 기존 68개와 추가 63개 결과는 그대로 보존하고 새 표로 분리했다.
+
+## 1. 기준 PDF·방법·구현
+
+기준 파일은 `/home/ckks2/deciprotect/baseline/journal_final_20260905.pdf`이다. SHA-256은 `0210899a12ff1025db358e1812159ca4af2b5c6095a79e2b7b19200d7e9f3b85`. 사용자가 지정한 Downloads 원본, 기존 동결 manifest와 복사 대응 기록을 함께 확인했다. [출처 기록](PDF_PROVENANCE.json), [12쪽 본문·표·그림·수식·참고문헌 검토와 위치 대응](PDF_METHOD_MAP_KO.md)에 연결했다. 파일명이나 새 해시 하나로 최종본을 추정하지 않았다.
+
+논문 3–6쪽의 판정/오차 조건, 경계 제외, 최초 수용 구성 선택, 최대4후보, scale +4 또는 Q prime +1 조정, rho=.5·delta=.001·임계값 .5와 128bit Q/QP 보안 정책을 유지했다. 복사본의 `tabular_materialize.go::MaterializeTabularValidationWithOptions` → `BuildTabularWorkloadContract` → `synthesis.go::Synthesize` → `executor.go::RunAdaptiveTabularAutotuneWithOptions` → `ExecuteTabularCandidateWithOptions` → `ckksbackend/tabular_inference.go::runTabularTimedInference`가 실제 경로다. 자세한 파일 대응은 방법 문서에 있다.
+
+`research/selection_extension/internal/` 274개 파일 전체는 검증된 기존 복사본과 바이트 단위로 같다. 새 구현은 데이터/분할 연결, 기존 학습 함수 호출, 단계별 저장과 타이머, 독립 재집계다. 과거 결과 검증기에는 완료 보고서를 다시 쓰지 않는 `--check` 옵션만 추가했다. 새 알고리즘·보안 가정·유보/재계산 서비스를 만들지 않았다. 오프라인 선택은 원래 방법대로 평문 기준 점수를 읽으며, 정답률과 암호화 판정 일치를 별개로 평가한다. 단일 프로세스가 키 소유·암호화·계산·복호화를 수행한다.
+
+표형 실행은 한 입력씩 특징별 암호문에 같은 스칼라를 복제한다. Spambase는 선택된 특징16개→입력 암호문16개, HTRU2는 8개→8개다. 독립 sample의 유효 slot은 1이며, 32/256입력을 한 배치에 넣지 않는다. 파라미터별 새 키를 생성하고, 낮은 scale 암호문의 메타데이터만 바꾸는 재계산은 없다. 네트워크·큐·다자간 기능은 구현/측정되지 않았다.
+
+## 2. 기존 자산·검토 결정·관련 연구
+
+[기존 자산 목록](LEGACY_ASSETS_KO.md), [131개 모델 사례와 5개 별도 깊이 조건의 상세 CSV](LEGACY_CASES.csv), [실제 모델·분할·원시 경로](LEGACY_INVENTORY.json)를 작성했다. 다중 클래스·CNN·학습 seed 반복·깊이 분석·최소 오차 비교는 이미 수행한 자산이다. 추가 Banknote MLP+3차 출력의 독립 오차 위반 한 건, 기존 외부 비교의 차단 사유도 보존했다. DP 파일럿의 미수렴 MLP·Wine 유보를 원래 선택 기법의 결과로 혼합하지 않았다.
+
+PDF 7쪽 §5.1은 깊이 조건도 “63개”에 포함되는 듯한 표현이지만 원시 분류는 추가 모델63개와 깊이5조건을 구분한다. 관련 변경은 보류하고, “추가 모델 사례63개와 별도 곱셈 깊이 조건5개”라는 최소 문장 제안만 남겼다. PDF·동결 표·과거 보고서를 고치지 않았다.
+
+[채택·수정·보류·제외 결정과 후속 행렬](DECISIONS_AND_MATRIX_KO.md)을 남겼다. Spambase는 보안 응용 자료와 더 많은 별도 입력, HTRU2는 더 큰 원자료·불균형을 추가한다. DP 운영 모델 대신 원래 스칼라 출력의 지원 구조로 새로 학습했다. 문헌 보강과 외부 컴파일러 설치는 분리했다.
+
+[관련 연구 검토와 삽입 문단](RELATED_WORK_KO.md)은 EVA·HECATE·ELASM·FHE-Agent·HEIR 및 Orion의 확인 판본/원문 위치·평가 입력·정확성 기준·겹치는 범위를 기록한다. CHET 발표본 서지는 확인했지만 전문 접근 실패와 읽은 이전 arXiv 판본을 구분했다. 2026 Scientific Reports의 적응형 파라미터 선택 연구도 검토했으며 보안/정확성 조건이 불명확한 정량 비교는 보류했다. “이전 연구가 모두 판정을 무시했다”는 주장은 채택하지 않았다. 짧은 한국어 문단 두 개를 PDF 4쪽 §2.4에 넣는 안을 제시했으며 원고에는 적용하지 않았다.
+
+## 3. 실제 입력·모델·관측 규모
+
+선택32·개발256·별도256, 나머지 학습의 층화 분할과 seed1701/2701/3701, 학습 seed0을 실행 전에 고정했다. 중복 특징은 일관 레이블의 첫 행만 유지하며 상충 그룹은 제외한다. 전처리·특징 선택·출력 scale은 학습 자료만 사용했다. 별도 평가 점수는 네 비교 역할의 선택을 저장한 뒤에 계산했다. Spambase는 과거 DP 연구에 노출된 자료로서 새 봉인 모집단이 아니다.
+
+| 구분 | 실제 수 / 의미 |
+|---|---|
+| 원자료 | Spambase 4,601행·57특징 → 중복 처리 후4,204; HTRU2 17,898행·8특징 →17,898 |
+| 새 데이터·구조·학습 모델·사례 | 이번 적용 자료2개(그중 HTRU2는 작업공간에서 신규), 기존 구조2종, 새 학습 모델4개, 사례4개 |
+| 선택 입력 | 128 사례–입력 쌍, 고유64입력 |
+| 별도 평가 입력 | 1,024 사례–입력 쌍, 고유512입력; 두 모델이 데이터별 같은256행 공유 |
+| 구성 선택/유한 탐색 | {d}/{f}개 후보 실행, 후보당32입력×3새 키 |
+| 별도 평가 | 실제 고유 후보 실행 {audit_exec}회, 각각256입력×3새 키; 역할 alias 중복 집계 금지 |
+| 후보+별도 평가 원시 관측 | {s['recorded_candidate_key_observations']:,} 입력–키 관측; 고유 입력 수 아님 |
+| 대응 시간 | {s['recorded_timing_key_pass_observations']:,} arm–입력–키–pass 관측; 4사례×4역할×20입력×3키×6pass |
+| 예열 | {s['unrecorded_timing_warmup_input_calls']:,} 입력 호출; 원래 backend가 개별 예열 시간을 저장하지 않음 |
+| 본 실행 키 문맥 | {s['actual_main_key_contexts']}회; 독립 표본 수 아님. 연결 검사3후보×3키는 별도 |
+| 환경·자원 | 6-vCPU VM 1대, 약16GiB, GOMAXPROCS4, native 직렬 실행; 본 실행 합계 {elapsed/60:.2f}분, 최대 native RSS {rss/1024:.1f}MiB |
+
+최대 RSS는 `/usr/bin/time`의 native 프로세스 관측이며 전체 작업공간/학습/OS 메모리가 아니다. 실행 전 예산45–150분, 상한180분·저장2GiB를 변경하지 않았다. 실행 순서·전후 load/memory·프로세스 snapshot을 원시에 남겼다. 데스크톱 활동이 전혀 없던 전용 장비라고 주장하지 않는다.
+
+개발 품질은 다음과 같다. 정답률은 모델의 정답 레이블 예측 성능이며 판정 일치의 대체 지표가 아니다. MLP는 원래1200-epoch 학습 완료이고 수렴 보증은 없다. CKKS 결과를 본 뒤 모델·scale·입력·seed를 교체하지 않았다.
+''']
+    rows=[]
+    for c in cases:
+        q=plain[c['case_id']]['quality']['development']
+        rows.append([name(c),f"{q['accuracy']:.4f}",f"{q['balanced_accuracy']:.4f}",f"{q['auroc']:.4f}",f"{q['score_margin_quantiles']['0.5']:.6g}",f"{c['independent_plaintext_accuracy']:.4f}",len(plain[c['case_id']]['warnings'])])
+    lines.append(table(['사례','개발 정답률','개발 균형 정답률','개발 AUROC','개발 마진 중앙값','별도 정답률','학습 경고 수'],rows))
+    lines.append('''
+## 4. 선택 전후와 별도 입력 결과
+
+초기 비교는 판정 일치와 오차 조건을 **함께** 끈 구성 선택 해석이다. 실행/보안 조건은 끄지 않았다. 두 검사의 개별 인과 효과라고 주장하지 않는다. 유한 집합은 기존 생성기의 최대8개 후보 모두이며, 과거 별도14격자나 사후 유리한 후보를 추가하지 않았다.
+''')
+    lines.append(table(['사례','초기 상태','초기 구성','선택 구성','선택 평가 수','유한 수용/전체'],[[name(c),c['initial']['status'],param(c['initial']),param(c['selected']),c['direct_trials'],f"{sum(t['status']=='SAFE' for t in c['finite'])}/{c['finite_trials']}"] for c in cases]))
+    sp=next(c for c in cases if c['dataset']=='spambase' and c['model_id']=='linear_poly3')
+    a=next(t for t in sp['finite'] if t['parameters']['log_default_scale']==24 and len(t['parameters']['log_q'])==7)
+    b=next(t for t in sp['finite'] if t['parameters']['log_default_scale']==28 and len(t['parameters']['log_q'])==7)
+    lines.append(f"\n유한 후보의 추가 진단: Spambase 선형에서 scale24·N=2^13·Q7 후보는 수용됐지만, scale28·N=2^14·Q7 후보는 최대 출력오차가 더 작아도 ({a['max_observed_error']:.6f} → {b['max_observed_error']:.6f}) 적용 영역의 {b['protected_unique_error_inputs']}입력에서 오차 조건 {b['protected_error_violations']}회 위반으로 거절됐다. 판정 변화는 {b['protected_flip_events']}회다. 전역 최대오차 하나로 입력별 마진에 연결된 수용 결과를 대신할 수 없음을 보여주는 이 후보 집합의 관측이다. 서로 다른 N·Q·새 키가 함께 바뀌었으므로 scale 증가 자체의 인과 효과로 해석하지 않는다. 이 불리한 후보도 원시에 보존했다.\n")
+    lines.append('\n아래 변화/위반은 **고유 사례–입력 수 (3키 합산 관측 수)**다. 같은 입력이 여러 키에서 실패해도 고유 입력은 한 번 센다. 경계 입력은 적용 영역의 성공 분모에 넣지 않는다.\n')
+    rows=[]
+    for c in cases:
+        for arm,title in [('initial_criteria_off','초기'),('direct','선택'),('finite_fastest_safe','유한 최속 수용'),('finite_fastest_executable','유한 최속 실행')]:
+            a=c['audit_roles'][arm]
+            rows.append([name(c),title,a['status'],f"{a['eligible']}/{a['inputs']}",f"{a['protected_unique_flipped_inputs']} ({a['protected_flip_events']})",f"{a['protected_unique_error_inputs']} ({a['protected_error_violations']})",f"{a['boundary_unique_flips']} ({a['boundary_flip_events']})",a['key_disagreement_inputs']])
+    lines.append(table(['사례','역할','별도 평가','적용/전체','적용 내 판정 변화','적용 내 오차 위반','경계 판정 변화','키 간 판정 다른 입력'],rows))
+    lines.append('''
+동일 candidate ID인 역할은 위 표에 의미상 다시 보이지만, 실제 감사 실행/키/관측의 총계에서는 한 번만 센다. `audit_role_bindings.json`과 `candidate_and_audit_results.csv`가 대응한다. 최소 최대오차 후보도 같은 유한 관측에서 진단했으며 `summary.json`에 저장했다. 그것을 위해 후보나 별도 평가를 추가하지 않았다.
+
+## 5. 구성 선택 비용과 추론 비용
+
+선택 비용은 합성+최대4후보 실제 실행의 wall time이다. 후보의 키/환경 준비, 인코딩/암호화, 동형연산, 복호화와 수용 검사·호출 비용을 포함한다. 데이터 materialization은 별도로 기록했다. 유한 탐색 비용도 전체 후보 실행/준비를 포함하며, 선택과 유한 탐색은 순서 고정이므로 그 시간비는 탐색적 설명이다. 선택 실행 수 감소를 동일한 비율의 시간 절약이라고 가정하지 않는다.
+''')
+    lines.append(table(['사례','합성 ms','선택 전체 s','유한 전체 s','선택 내 추론 합 s','선택 기타 s','입력 materialization ms'],[[name(c),f"{c['selection_cost_ms']['synthesis_ms']:.3f}",f"{c['selection_cost_ms']['direct_selection_total_ms']/1000:.3f}",f"{c['selection_cost_ms']['finite_search_total_ms']/1000:.3f}",f"{c['direct_inference_sum_from_stored_means_ms']/1000:.3f}",f"{c['direct_other_selection_wall_ms']/1000:.3f}",f"{c['selection_cost_ms']['selection_materialization_contract_ms']:.3f}"] for c in cases]))
+    lines.append('''
+“선택 내 추론 합”은 저장된 후보 평균×실제 평가 횟수의 합이다. “선택 기타”는 전체 wall에서 그 합을 뺀 잔여이며 **순수 키 생성 시간으로 해석할 수 없다**. 세부 키/환경 준비 비교는 대응 추론 실행의 `setup_ms`를 따로 제시한다.
+
+아래 기본 추론 시간은 PDF와 같이 인코딩·암호화+동형연산+복호화·디코딩이다. 선택/키 준비는 제외한다. 구현은 중간 logit과 최종 score를 모두 복호화하는 기존 경로를 그대로 사용했다. 소량의 함수/타이머 잔여 비용은 기타에 표시한다. 단위 ms, 역할별360개 측정의 산술평균이며 성능비의 기하평균과 구분한다.
+''')
+    rows=[]
+    for c in cases:
+        for arm,title in [('direct','선택'),('finite_fastest_safe','유한 최속 수용'),('initial_criteria_off','초기'),('finite_fastest_executable','유한 최속 실행')]:
+            a=c['timing'][arm]
+            rows.append([name(c),title]+[f"{a[k]:.3f}" for k in ['mean_total_ms','mean_encode_encrypt_ms','mean_eval_only_ms','mean_decrypt_decode_ms','mean_other_inference_ms','mean_setup_ms']]+[f"{a['protected_flip_events']}/{a['protected_error_violations']}"])
+    lines.append(table(['사례','역할','추론 총','인코딩/암호화','동형연산','복호화/디코딩','기타','별도 준비/키문맥','시간 입력 적용 내 변화/위반'],rows))
+    lines.append('''
+각 시간 역할은 동일 입력·모델·보안 조건이며 파라미터에 맞는 새 키를 역할별로 생성해 그 keyset의 pass에서 재사용했다. 같은 literal의 두 역할도 시간 측정은 독립 키를 쓴다. 특정 키를 공유할 수 없는 서로 다른 파라미터를 “동일 암호키”로 보고하지 않는다. 예열1·측정6·새 키묶음3, 20개 결정적 간격 추출 입력과 균형 순서 교대, 이상치 미삭제를 유지했다. 시간 입력의 오차도 원시 점수로 재검사했다.
+
+대응 시간비는 같은 keyset 번호·입력·pass끼리 `비교 시간/선택 시간`을 만든 뒤 로그 평균한다. 데이터–모델 묶음마다 같은 가중치를 주며 이번 묶음 수는4다. 이들 중 같은 데이터의 두 구조는 독립 모집단이 아니므로 아래 bootstrap은 정식 통계적 보증이 아닌 탐색적 요약이다.
+''')
+    lines.append(table(['사례','수용 비교/선택','초기/선택','실행 비교/선택','수용 비교와 구성 동일','별도+시간 정확성 조건'],[[name(c)]+[f"{c['paired_geometric_ratios'][k]:.6f}" for k in ['finite_fastest_safe_over_direct','initial_criteria_off_over_direct','finite_fastest_executable_over_direct']]+[c['selected']['candidate_id']==c['finite_fastest_safe']['id'],c['safe_to_safe_pair_eligible']] for c in cases]))
+    lines.append(table(['비교/선택','묶음 동일 가중 기하평균','탐색적95% bootstrap 구간','해석'],[[key,f"{a['geometric_mean']:.6f}",f"[{a['exploratory_cluster_bootstrap_95_interval'][0]:.6f}, {a['exploratory_cluster_bootstrap_95_interval'][1]:.6f}]",a['interpretation']] for key,a in s['latency_aggregates'].items()]))
+    lines.append(f'''
+수용 비교와 선택 모두의 별도/시간 적용 영역 검사를 통과한 쌍은 {safe_pairs}/4다. 실패한 비교도 표에서 삭제하지 않는다. 초기·최속 실행 구성은 정확성 조건을 무시할 수 있으므로 해당 비율을 판정 보존 방법의 우월성 지표로 사용할 수 없다. 후보 선택 자체에 사용한 시간의 최솟값은 선택 편향을 가질 수 있어 별도의 대응 시간을 측정했다. 유한 집합 밖 전역 최적성도 주장하지 않는다. 직렬화·전송·대기 비용은 측정하지 않았고 실서비스 총지연을 보고하지 않는다.
+
+## 6. 실패·한계·이번 증거가 보강한 범위
+
+- 본 실험 실행 실패와 과학적 거절을 구분한다. 네 native 사례의 종료코드는 모두0이다. 초기/유한 후보의 `REJECTED`는 보존된 실제 결과다. 후보/선택/별도 결과의 상세 상태는 원시와 CSV에 남겼다.
+- 연결 검사에서는 HTRU2 원자료의 CR 줄바꿈 로딩과 원래 출력 CSV 열 이름의 연결 오류를 수정했다. 고정된 Spambase MLP 개발2행에는 적용 입력이 없어 기존 contract가 거절했고, 키를 생성하지 않았다. 실패 파일·log·원래 lock과 두 amendment를 보존했다. 원래 선택32행의 적용 영역은 비어 있지 않았으며 정책·모델을 바꾸지 않고 본 실행했다.
+- Spambase MLP의 작은 마진은 정답률이 괜찮아도 보호 적용 비율이 작을 수 있음을 보여준다. 학습 최대값으로 정하는 출력 scale과 기존 마진 기준의 결합을 공개하며, 별도 평가를 본 뒤 scale이나 delta를 맞추지 않았다.
+- 0회 관측은 이 적용 입력·새 키 반복에서의 결과다. 경계 입력 변화, 표형 스칼라 packing, 원래 지원 그래프, 단일 VM, 단일 split/학습 seed, 유한 후보라는 제한이 남는다. 동일 키·슬롯·pass를 독립 표본 수로 계산하거나 DP의 기존600회 위험 상한을 가져오지 않았다.
+- 최종 PDF §5.3–5.4의 기준 적용 전후 효과는 새로운 자료의 초기 구성까지 **별도 입력으로 실제 평가**하여 보강했다. §5.5의 선택 비용과 선택 품질은 전체 유한 집합/동일 후보 결과와 비용 분리로 보강했다. §5.7의 적용 영역 한계는 경계/작은 마진을 숨기지 않아 더 구체화했다. 영상·깊이·새 백엔드·다중 장비 범위를 새로 검증했다고 주장하지 않는다.
+- 기존68개와 신규4개는 방법은 같지만 데이터·선택 입력수·분할·모델 학습과 실행 시점이 다르다. 비교 정의는 대응시키되 원시 분모와 시간 통계를 합쳐 “72개 모두 성공” 같은 새 주요 수치로 덮어쓰지 않는다.
+
+## 7. 다음 가치가 높은 묶음 하나 — 제안, 미실행
+
+**Fashion-MNIST에서 기존 784→100→10 제곱 MLP를 세 학습 초기값으로 평가하는 묶음**을 제안한다. 기존 MNIST에 다중 클래스/seed 실험이 이미 있지만, 다른 영상 분포와 더 많은 별도 평가 입력은 이번 표형4사례가 채우지 못한 공백이다. 새 연산·부트스트래핑 없이 기존 다중 클래스 출력/packing/수용 조건을 재사용할 수 있는지 데이터 연결부터 확인한다.
+
+공식60,000 train에서 개발·선택을 분리하고 선택500개, 공식10,000 test 중 고정 규칙의 별도1,000개, 학습 seed0/1/2를 **후속 protocol 작성 전에 검토·고정할 제안값**으로 둔다. 세 모델이 같은1,000행을 쓰면 고유1,000입력과3,000 사례–입력 쌍을 구분한다. 전처리·학습 중단/품질 기준은 train/dev에서 결정하고 CKKS 성공을 보고 seed를 교체하지 않는다. 1,000행 packing의 지원/보안/자원과 기존 같은 구조의 비용을 확인한 뒤 유한 예산을 확정해야 한다. 현재 실패에 맞춰 기준을 변경하지 않으며 이번 규격의 완료 조건에 후속 실행을 포함하지 않는다. 현재 턴에서는 다운로드·학습·암호화 실행을 시작하지 않았다.
+
+## 8. 원시 자료·검증·보존
+
+- [원시 결과](../../../results/fg_expand_v1_20260905_run01/)와 `RUN_LOCK.json`·source amendment·`RAW_SHA256SUMS.json`은 protocol/source/model/input/parameter를 연결한다.
+- [독립 재집계 JSON](summary.json), [후보와 별도 평가 CSV](candidate_and_audit_results.csv), [추론 비용 CSV](inference_costs.csv), [실행 명령·측정 경계](REPRODUCTION.md)를 남겼다.
+- [그림](figures/selection_and_cost.pdf)은 적용 영역·판정 변화·선택 비용·대응 추론을 구분한다. 원고에 자동 삽입하지 않았다.
+- [검증 기록](VALIDATION.json), [변경 파일·보존 확인](PRESERVATION.json)을 남겼다. 검증 통과는 수치 개선이나 위험 보장의 증거로 세지 않는다.
+- 변경 범위는 새 복사 실행 영역, 새 protocol/run과 분석·보고 도구, 현재 README/CI/인계/로드맵이다. 이전 로드맵은 `history/`에 보존했다. 원본 FlipGuard·최종 PDF·baseline·archive·과거 protocol/result·완료 보고서는 변경하지 않았다. archive 업로드와 전수 재해시는 수행하지 않았다.
+- 최신 인계는 `docs/project_sync/CHATGPT_HANDOFF.md`와 `RESEARCH_STATE.json`이다. 과거 DP의 재계산/큐가 다시 기본 우선 과제로 선택되지 않도록 현재 목적을 반영했다. 점수나 졸업논문 완성을 임의로 선언하지 않았다.
+''')
+    (OUT/'REPORT_KO.md').write_text('\n'.join(lines))
+    print('Rendered REPORT_KO.md from four completed cases.')
+
+
+if __name__=='__main__':main()

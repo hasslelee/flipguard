@@ -1,0 +1,221 @@
+{
+  "architecture": {
+    "activation": "square",
+    "convolution_filters": 4,
+    "input_shape": [
+      4,
+      4
+    ],
+    "kernel_shape": [
+      2,
+      2
+    ],
+    "linear_head_outputs": 1,
+    "output_shape_before_head": [
+      4,
+      3,
+      3
+    ],
+    "padding": "valid",
+    "stride": 1
+  },
+  "claim_scope": {
+    "does_not_support": [
+      "packed CNN performance",
+      "general LeNet support",
+      "arbitrary CNN architectures",
+      "multiclass encrypted argmax",
+      "universal autotuning"
+    ],
+    "supports": "one scalar-replicated learned MNIST binary CNN-lite graph"
+  },
+  "dataset_id": "mnist_binary01",
+  "dataset_name": "MNIST digit 0 versus digit 1",
+  "decision_threshold": 0.0,
+  "direct_policy_reference": {
+    "policy_digest": "sha256:503240fbf1f0bb1c43c8ed216ae6360771cc3b23ff4224efa84926f470646603",
+    "policy_id": "flipguard_direct_synthesis_policy_v2",
+    "relationship": "frozen_constants_reused_by_predeclared_graph_adapter;model_type_not_added_to_policy_supported_models"
+  },
+  "extraction_policy_digest": "sha256:06c795514837759cfb8a75a0390964f1e3cf252ceda233ee42b2de3023a8bab5",
+  "extraction_policy_id": "mnist_binary01_cnn_lite_export_v1",
+  "graph_adapter_id": "mnist_cnn_lite_scalar_replicated_graph_adapter_v1",
+  "graph_formula": "linear_head(square(valid_conv2x2(mean_pool7x7(image))))",
+  "input_dim": 16,
+  "input_shape": [
+    4,
+    4
+  ],
+  "learned_parameters": {
+    "convolution_filters": [
+      {
+        "bias": 0.7763203824924619,
+        "weights": [
+          [
+            -0.4925967697992933,
+            2.7400136874347023
+          ],
+          [
+            -0.5056232300018301,
+            1.922022860912659
+          ]
+        ]
+      },
+      {
+        "bias": -0.31629445332966105,
+        "weights": [
+          [
+            -2.1210008491634875,
+            -0.4358975220349845
+          ],
+          [
+            2.9273987054805675,
+            2.5410121425626353
+          ]
+        ]
+      },
+      {
+        "bias": 1.3823144506228688,
+        "weights": [
+          [
+            1.4054959725827252,
+            -2.1283059356619485
+          ],
+          [
+            -3.2751993044989574,
+            1.3160225794960303
+          ]
+        ]
+      },
+      {
+        "bias": 0.5703112577567229,
+        "weights": [
+          [
+            -0.4512317294103888,
+            1.5997531617886644
+          ],
+          [
+            2.04621304704165,
+            -0.46462685249143937
+          ]
+        ]
+      }
+    ],
+    "output_bias": 0.009528848521460812,
+    "output_weights": [
+      [
+        [
+          -0.009584066576227486,
+          -0.002404575155015807,
+          -0.017763757792837148
+        ],
+        [
+          -0.00924022053871999,
+          0.005391938049991016,
+          -0.0469525391065544
+        ],
+        [
+          -0.023175114139593625,
+          0.03652127470272429,
+          -0.009520423372142114
+        ]
+      ],
+      [
+        [
+          0.022602935594038278,
+          0.0009629334666866757,
+          -0.036249284306774536
+        ],
+        [
+          0.0018256700984965717,
+          -0.012065030664270627,
+          0.07208716249463948
+        ],
+        [
+          0.006215283937285964,
+          -0.013338210961670467,
+          -0.022202924217068043
+        ]
+      ],
+      [
+        [
+          -0.0014391457048192116,
+          0.010042866205950286,
+          -0.02573753274384457
+        ],
+        [
+          0.03480801841722803,
+          0.04528653523792685,
+          0.0284724125476412
+        ],
+        [
+          -0.026403165771749674,
+          0.026966761281538996,
+          0.01813776838937193
+        ]
+      ],
+      [
+        [
+          -0.01423178397459053,
+          -0.008492423276269583,
+          0.006006081656215491
+        ],
+        [
+          -0.016825004462896708,
+          0.0009500757871105305,
+          -0.005050099435986961
+        ],
+        [
+          0.005710491385982076,
+          -0.013384001582265789,
+          -0.04608872054423646
+        ]
+      ]
+    ]
+  },
+  "model_id": "cnn_lite_square_binary01",
+  "model_type": "cnn_lite_square_binary01",
+  "packing_scope": "scalar_replicated_per_ciphertext_v1",
+  "schema_version": "flipguard_mnist_cnn_lite_holdout_v1",
+  "source_archive": {
+    "original_url": "https://yann.lecun.com/exdb/mnist/",
+    "sha256": "sha256:fe4410d8dbb50f6db6482b187557c5cb8bccfbcec74eeb6abc47c858f4ffab78",
+    "url": "https://www.openml.org/d/554"
+  },
+  "training": {
+    "batch_size": 64,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epochs": 24,
+    "epsilon": 1e-08,
+    "l2_penalty": 0.0001,
+    "learning_rate": 0.01,
+    "model_development_metrics": {
+      "accuracy": 0.996,
+      "correct": 249,
+      "incorrect": 1,
+      "maximum_margin": 0.9376691226614696,
+      "median_margin": 0.18405757237569545,
+      "minimum_margin": 0.003098459015025895,
+      "negative_decisions": 126,
+      "negative_labels": 125,
+      "positive_decisions": 124,
+      "positive_labels": 125,
+      "rows": 250
+    },
+    "model_development_rows": 250,
+    "model_seed": 5065504290027946322,
+    "optimizer": "deterministic_adam_v1",
+    "optimizer_updates": 4584,
+    "raw_training_max_abs_score": 49.25859809230995,
+    "scaled_training_max_abs_score": 0.9999999999999997,
+    "scope": "official_train_digit_0_or_1_excluding_model_development_and_configuration_validation",
+    "score_scale": 0.020301024363828087,
+    "score_scaling": {
+      "source": "training_rows_only",
+      "target_max_abs": 1.0
+    },
+    "shuffle": "splitmix64_fisher_yates_v1",
+    "training_rows": 12165
+  }
+}
