@@ -49,6 +49,8 @@ type TabularTrialResult struct {
 
 	EncryptedSampleEvaluations int                        `json:"encrypted_sample_evaluations,omitempty"`
 	SampleLedger               []TabularSampleObservation `json:"sample_ledger,omitempty"`
+
+	ConstantEncoding ckksbackend.ConstantEncodingMode `json:"constant_encoding,omitempty"`
 }
 
 // TabularCandidateExecutionOptions controls evidence capture without changing
@@ -56,6 +58,10 @@ type TabularTrialResult struct {
 type TabularCandidateExecutionOptions struct {
 	CaptureSampleLedger bool
 	ExecutionScheduleID string
+
+	// ConstantEncoding selects the backend constant-encoding scale. The zero
+	// value keeps the frozen as-run behavior.
+	ConstantEncoding ckksbackend.ConstantEncodingMode
 }
 
 // AdaptiveAutotuneResult is the end-to-end first-party planner result.
@@ -117,6 +123,7 @@ func ExecuteTabularCandidateWithOptions(
 		TrialIndex:          trialIndex,
 		Candidate:           candidate,
 		KeyRepeatsRequested: contract.Deployment.ValidationKeyRepeats,
+		ConstantEncoding:    options.ConstantEncoding,
 	}
 
 	profile, err := candidate.Profile()
@@ -182,6 +189,7 @@ func ExecuteTabularCandidateWithOptions(
 			result.Failure = err.Error()
 			return result, nil
 		}
+		context.ConstantEncoding = options.ConstantEncoding
 
 		records, summary, err :=
 			context.RunCKKSTabularInference(config)

@@ -10,6 +10,10 @@ import (
 type Context struct {
 	Params  ckks.Parameters
 	Profile CKKSProfile
+
+	// ConstantEncoding selects the scale of plaintext constants added to
+	// ciphertexts. The zero value keeps the frozen as-run behavior.
+	ConstantEncoding ConstantEncodingMode
 }
 
 // NewDefaultContext creates a CKKS backend context using the default FlipGuard profile.

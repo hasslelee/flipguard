@@ -493,7 +493,7 @@ func (c Context) evalTimedPolynomialRescale(
 		return ckksTimedPolynomialResult{}, fmt.Errorf("multiply z2 by -0.004: %w", err)
 	}
 
-	linearCoeffPlaintext, err := c.encodeReplicatedPlaintextAtLevel(runtimeState.encoder, 0.197, z2Term.Level())
+	linearCoeffPlaintext, err := c.encodeReplicatedPlaintextForCiphertext(runtimeState.encoder, 0.197, z2Term)
 	if err != nil {
 		return ckksTimedPolynomialResult{}, fmt.Errorf("encode linear coefficient plaintext: %w", err)
 	}
@@ -522,7 +522,7 @@ func (c Context) evalTimedPolynomialRescale(
 		return ckksTimedPolynomialResult{}, fmt.Errorf("rescale Horner output: %w", err)
 	}
 
-	polynomialBiasPlaintext, err := c.encodeReplicatedPlaintextAtLevel(runtimeState.encoder, 0.5, yWithoutBias.Level())
+	polynomialBiasPlaintext, err := c.encodeReplicatedPlaintextForCiphertext(runtimeState.encoder, 0.5, yWithoutBias)
 	if err != nil {
 		return ckksTimedPolynomialResult{}, fmt.Errorf("encode polynomial bias plaintext: %w", err)
 	}

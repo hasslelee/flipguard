@@ -546,7 +546,7 @@ func (c Context) evalTabularWeightedSum(
 	}
 
 	if bias != 0 {
-		biasPlaintext, err := c.encodeReplicatedPlaintextAtLevel(runtimeState.encoder, bias, acc.Level())
+		biasPlaintext, err := c.encodeReplicatedPlaintextForCiphertext(runtimeState.encoder, bias, acc)
 		if err != nil {
 			return nil, fmt.Errorf("encode weighted sum bias plaintext: %w", err)
 		}
@@ -620,7 +620,7 @@ func (c Context) evalTabularAffineOutputScore(
 		return ckksTimedPolynomialResult{}, fmt.Errorf("multiply z by 0.197: %w", err)
 	}
 
-	biasPlaintext, err := c.encodeReplicatedPlaintextAtLevel(runtimeState.encoder, 0.5, linearTerm.Level())
+	biasPlaintext, err := c.encodeReplicatedPlaintextForCiphertext(runtimeState.encoder, 0.5, linearTerm)
 	if err != nil {
 		return ckksTimedPolynomialResult{}, fmt.Errorf("encode affine output bias plaintext: %w", err)
 	}
